@@ -14,9 +14,12 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TextAnnotationConfiguration
+    click TextAnnotationConfiguration href "../TextAnnotationConfiguration"
       TextAnnotationConfiguration : categories
         
       TextAnnotationConfiguration : include_aliases
@@ -45,10 +48,10 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [Boolean](Boolean.md) | If true, then only grounding is performed, and the entire text is used as the... | direct |
-| [sources](sources.md) | 0..* <br/> [String](String.md) |  | direct |
+| [sources](sources.md) | * <br/> [String](String.md) |  | direct |
 | [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) | The maximum number of annotations to return | direct |
-| [token_exclusion_list](token_exclusion_list.md) | 0..* <br/> [String](String.md) | A list of tokens to exclude from the annotation process | direct |
-| [categories](categories.md) | 0..* <br/> [String](String.md) | A list of named entity categories to include | direct |
+| [token_exclusion_list](token_exclusion_list.md) | * <br/> [String](String.md) | A list of tokens to exclude from the annotation process | direct |
+| [categories](categories.md) | * <br/> [String](String.md) | A list of named entity categories to include | direct |
 | [model](model.md) | 0..1 <br/> [String](String.md) | The name of the model to use for annotation | direct |
 | [include_aliases](include_aliases.md) | 0..1 <br/> [Boolean](Boolean.md) | If true, then the aliases (synonyms) of the matched entity are included in th... | direct |
 
@@ -76,13 +79,14 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ann:TextAnnotationConfiguration |
 | native | ann:TextAnnotationConfiguration |
+
+
 
 
 
@@ -116,9 +120,9 @@ attributes:
     name: sources
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     domain_of:
     - TextAnnotationConfiguration
+    multivalued: true
   limit:
     name: limit
     description: The maximum number of annotations to return
@@ -132,17 +136,17 @@ attributes:
     description: A list of tokens to exclude from the annotation process
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     domain_of:
     - TextAnnotationConfiguration
+    multivalued: true
   categories:
     name: categories
     description: A list of named entity categories to include.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     domain_of:
     - TextAnnotationConfiguration
+    multivalued: true
   model:
     name: model
     description: The name of the model to use for annotation. The specifics of this
@@ -191,12 +195,12 @@ attributes:
     name: sources
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     alias: sources
     owner: TextAnnotationConfiguration
     domain_of:
     - TextAnnotationConfiguration
     range: string
+    multivalued: true
   limit:
     name: limit
     description: The maximum number of annotations to return
@@ -212,23 +216,23 @@ attributes:
     description: A list of tokens to exclude from the annotation process
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     alias: token_exclusion_list
     owner: TextAnnotationConfiguration
     domain_of:
     - TextAnnotationConfiguration
     range: string
+    multivalued: true
   categories:
     name: categories
     description: A list of named entity categories to include.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     alias: categories
     owner: TextAnnotationConfiguration
     domain_of:
     - TextAnnotationConfiguration
     range: string
+    multivalued: true
   model:
     name: model
     description: The name of the model to use for annotation. The specifics of this

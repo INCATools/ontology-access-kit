@@ -7,6 +7,8 @@ _The predicate that is inferred_
 
 
 
+
+
 URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/predicate_id)
 
 
@@ -53,6 +55,16 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:predicate_id |
+| native | mappingrules:predicate_id |
 
 
 

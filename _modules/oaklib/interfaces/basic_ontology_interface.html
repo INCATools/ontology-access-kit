@@ -14,7 +14,7 @@
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../../_static/copybutton.js?v=046fa432"></script>
@@ -87,6 +87,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -251,6 +252,8 @@
     <span class="n">_edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_entailed_edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="n">_prefix_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PREFIX_MAP</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
 <div class="viewcode-block" id="BasicOntologyInterface.prefix_map">
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">[docs]</a>
     <span class="k">def</span> <span class="nf">prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
@@ -272,7 +275,9 @@
 
 <span class="sd">        :return: prefix map</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">get_default_prefix_map</span><span class="p">()</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prefix_map</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prefix_map</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">get_default_prefix_map</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prefix_map</span></div>
 
 
 <div class="viewcode-block" id="BasicOntologyInterface.get_prefix_map">
@@ -296,7 +301,7 @@
 <span class="sd">        :return: A converter</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span> <span class="o">=</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="o">.</span><span class="n">from_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span> <span class="o">=</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="o">.</span><span class="n">from_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">(),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span>
 
 <div class="viewcode-block" id="BasicOntologyInterface.set_metamodel_mappings">
@@ -771,7 +776,7 @@
 <span class="sd">        :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class</span>
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> does not implement entities()&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BasicOntologyInterface.all_entity_curies">
@@ -928,7 +933,7 @@
 <span class="sd">        :param predicates: predicates to be considered (default: all)</span>
 <span class="sd">        :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)</span>
 <span class="sd">        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)</span>
-<span class="sd">        :param annotated_roots: use nodes explicitly annotated as root</span>
+<span class="sd">        :param annotated_roots: use nodes explicitly annotated as root (IAO:0000700)</span>
 <span class="sd">        :param id_prefixes: limit search to specific prefixes</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1561,7 +1566,7 @@
 <span class="sd">        :param include_metadata: if true, include metadata</span>
 <span class="sd">        :param include_missing: if true, include curies with no definition</span>
 <span class="sd">        :param lang: language tag</span>
-<span class="sd">        :return: iterator over definition objects</span>
+<span class="sd">        :return: iterator over (id, definition, metadata) tuples</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">include_metadata</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>

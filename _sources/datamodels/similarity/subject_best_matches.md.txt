@@ -2,6 +2,8 @@
 
 # Slot: subject_best_matches
 
+
+
 URI: [sim:subject_best_matches](https://w3id.org/linkml/similarity/subject_best_matches)
 
 
@@ -50,6 +52,16 @@ URI: [sim:subject_best_matches](https://w3id.org/linkml/similarity/subject_best_
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:subject_best_matches |
+| native | sim:subject_best_matches |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [sim:subject_best_matches](https://w3id.org/linkml/similarity/subject_best_
 name: subject_best_matches
 from_schema: https://w3id.org/oak/similarity
 rank: 1000
-multivalued: true
 alias: subject_best_matches
 domain_of:
 - TermSetPairwiseSimilarity
 range: BestMatch
+multivalued: true
 inlined: true
 
 ```

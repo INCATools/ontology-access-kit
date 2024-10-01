@@ -2,6 +2,8 @@
 
 # Slot: predicate
 
+
+
 URI: [omoschema:predicate](https://w3id.org/oak/ontology-metadata/predicate)
 
 
@@ -44,6 +46,16 @@ URI: [omoschema:predicate](https://w3id.org/oak/ontology-metadata/predicate)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:predicate |
+| native | omoschema:predicate |
 
 
 

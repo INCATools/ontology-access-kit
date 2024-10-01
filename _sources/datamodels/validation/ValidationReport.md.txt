@@ -14,14 +14,23 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ValidationReport
+    click ValidationReport href "../ValidationReport"
       Report <|-- ValidationReport
+        click Report href "../Report"
       
       ValidationReport : results
         
-          ValidationReport --> ValidationResult : results
+          
+    
+    
+    ValidationReport --> "*" ValidationResult : results
+    click ValidationResult href "../ValidationResult"
+
         
       
 ```
@@ -40,7 +49,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> [ValidationResult](ValidationResult.md) | collection of results | [Report](Report.md) |
+| [results](results.md) | * <br/> [ValidationResult](ValidationResult.md) | collection of results | [Report](Report.md) |
 
 
 
@@ -70,13 +79,14 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sh:ValidationReport |
 | native | vm:ValidationReport |
+
+
 
 
 
@@ -99,8 +109,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: ValidationResult
 class_uri: sh:ValidationReport
 
@@ -120,8 +128,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: ValidationResult
 attributes:
   results:
@@ -130,12 +136,12 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     slot_uri: sh:result
-    multivalued: true
     alias: results
     owner: ValidationReport
     domain_of:
     - Report
     range: ValidationResult
+    multivalued: true
     inlined: true
     inlined_as_list: true
 class_uri: sh:ValidationReport

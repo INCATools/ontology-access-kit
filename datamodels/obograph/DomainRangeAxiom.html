@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,17 +90,29 @@
 <div class="mermaid">
              classDiagram
     class DomainRangeAxiom
+    click DomainRangeAxiom href &quot;../DomainRangeAxiom&quot;
       Axiom &lt;|-- DomainRangeAxiom
+        click Axiom href &quot;../Axiom&quot;
       
       DomainRangeAxiom : allValuesFromEdges
         
-          DomainRangeAxiom --&gt; Edge : allValuesFromEdges
+          
+    
+    
+    DomainRangeAxiom --&gt; &quot;*&quot; Edge : allValuesFromEdges
+    click Edge href &quot;../Edge&quot;
+
         
       DomainRangeAxiom : domainClassIds
         
       DomainRangeAxiom : meta
         
-          DomainRangeAxiom --&gt; Meta : meta
+          
+    
+    
+    DomainRangeAxiom --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       DomainRangeAxiom : predicateId
         
@@ -134,17 +146,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="domainClassIds.html"><span class="std std-doc">domainClassIds</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rangeClassIds.html"><span class="std std-doc">rangeClassIds</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="allValuesFromEdges.html"><span class="std std-doc">allValuesFromEdges</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
 <td><p>A list of edges that represent subclasses of universal restrictions</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -261,34 +273,34 @@ attributes:
     name: domainClassIds
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: domainClassIds
     owner: DomainRangeAxiom
     domain_of:
     - DomainRangeAxiom
     range: string
+    multivalued: true
   rangeClassIds:
     name: rangeClassIds
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: rangeClassIds
     owner: DomainRangeAxiom
     domain_of:
     - DomainRangeAxiom
     range: string
+    multivalued: true
   allValuesFromEdges:
     name: allValuesFromEdges
     description: A list of edges that represent subclasses of universal restrictions
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: allValuesFromEdges
     owner: DomainRangeAxiom
     domain_of:
     - Graph
     - DomainRangeAxiom
     range: Edge
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

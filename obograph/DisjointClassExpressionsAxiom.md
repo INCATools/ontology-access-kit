@@ -14,30 +14,45 @@ URI: [obographs:DisjointClassExpressionsAxiom](https://github.com/geneontology/o
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class DisjointClassExpressionsAxiom
+    click DisjointClassExpressionsAxiom href "../DisjointClassExpressionsAxiom"
       Axiom <|-- DisjointClassExpressionsAxiom
+        click Axiom href "../Axiom"
       
       DisjointClassExpressionsAxiom : classExpressions
         
-          DisjointClassExpressionsAxiom --> ExistentialRestrictionExpression : classExpressions
+          
+    
+    
+    DisjointClassExpressionsAxiom --> "*" ExistentialRestrictionExpression : classExpressions
+    click ExistentialRestrictionExpression href "../ExistentialRestrictionExpression"
+
         
       DisjointClassExpressionsAxiom : classIds
         
-          DisjointClassExpressionsAxiom --> None : classIds
-        
       DisjointClassExpressionsAxiom : meta
         
-          DisjointClassExpressionsAxiom --> Meta : meta
+          
+    
+    
+    DisjointClassExpressionsAxiom --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       DisjointClassExpressionsAxiom : unionEquivalentTo
         
-          DisjointClassExpressionsAxiom --> None : unionEquivalentTo
-        
       DisjointClassExpressionsAxiom : unionEquivalentToExpression
         
-          DisjointClassExpressionsAxiom --> ExistentialRestrictionExpression : unionEquivalentToExpression
+          
+    
+    
+    DisjointClassExpressionsAxiom --> "0..1" ExistentialRestrictionExpression : unionEquivalentToExpression
+    click ExistentialRestrictionExpression href "../ExistentialRestrictionExpression"
+
         
       
 ```
@@ -56,9 +71,9 @@ URI: [obographs:DisjointClassExpressionsAxiom](https://github.com/geneontology/o
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [classIds](classIds.md) | 0..* <br/> [String](String.md) | The set of named classes that are mutually disjoint | direct |
-| [classExpressions](classExpressions.md) | 0..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of class expressions that are mutually disjoint | direct |
-| [unionEquivalentTo](unionEquivalentTo.md) | 0..1 <br/> [String](String.md) | If present, this equates to an OWL DisjointUnion expression | direct |
+| [classIds](classIds.md) | * <br/> [OboIdentifierString](OboIdentifierString.md) | The set of named classes that are mutually disjoint | direct |
+| [classExpressions](classExpressions.md) | * <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of class expressions that are mutually disjoint | direct |
+| [unionEquivalentTo](unionEquivalentTo.md) | 0..1 <br/> [OboIdentifierString](OboIdentifierString.md) | If present, this equates to an OWL DisjointUnion expression | direct |
 | [unionEquivalentToExpression](unionEquivalentToExpression.md) | 0..1 <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | if present, this class expression is equivalent ot the (disjoint) union of th... | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 
@@ -91,13 +106,14 @@ URI: [obographs:DisjointClassExpressionsAxiom](https://github.com/geneontology/o
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:DisjointClassExpressionsAxiom |
 | native | obographs:DisjointClassExpressionsAxiom |
+
+
 
 
 
@@ -125,9 +141,10 @@ attributes:
     description: The set of named classes that are mutually disjoint.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
+    multivalued: true
   classExpressions:
     name: classExpressions
     description: The set of class expressions that are mutually disjoint.
@@ -135,10 +152,10 @@ attributes:
     - currently restricted to existential restrictions (some values from)
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     domain_of:
     - DisjointClassExpressionsAxiom
     range: ExistentialRestrictionExpression
+    multivalued: true
   unionEquivalentTo:
     name: unionEquivalentTo
     description: If present, this equates to an OWL DisjointUnion expression.
@@ -146,6 +163,7 @@ attributes:
     rank: 1000
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
   unionEquivalentToExpression:
     name: unionEquivalentToExpression
     description: if present, this class expression is equivalent ot the (disjoint)
@@ -177,11 +195,12 @@ attributes:
     description: The set of named classes that are mutually disjoint.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: classIds
     owner: DisjointClassExpressionsAxiom
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
+    multivalued: true
   classExpressions:
     name: classExpressions
     description: The set of class expressions that are mutually disjoint.
@@ -189,12 +208,12 @@ attributes:
     - currently restricted to existential restrictions (some values from)
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: classExpressions
     owner: DisjointClassExpressionsAxiom
     domain_of:
     - DisjointClassExpressionsAxiom
     range: ExistentialRestrictionExpression
+    multivalued: true
   unionEquivalentTo:
     name: unionEquivalentTo
     description: If present, this equates to an OWL DisjointUnion expression.
@@ -204,6 +223,7 @@ attributes:
     owner: DisjointClassExpressionsAxiom
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
   unionEquivalentToExpression:
     name: unionEquivalentToExpression
     description: if present, this class expression is equivalent ot the (disjoint)

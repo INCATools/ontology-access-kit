@@ -2,6 +2,8 @@
 
 # Slot: source
 
+
+
 URI: [mappingrules:source](https://w3id.org/oak/mapping-rules-datamodel/source)
 
 
@@ -44,6 +46,16 @@ URI: [mappingrules:source](https://w3id.org/oak/mapping-rules-datamodel/source)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:source |
+| native | mappingrules:source |
 
 
 

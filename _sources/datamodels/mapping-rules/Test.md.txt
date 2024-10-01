@@ -14,9 +14,12 @@ URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Test
+    click Test href "../Test"
       Test : input
         
       Test : output
@@ -71,13 +74,14 @@ URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:Test |
 | native | mappingrules:Test |
+
+
 
 
 

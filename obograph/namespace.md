@@ -7,6 +7,8 @@ _The namespace associated with a prefix in a prefix declaration._
 
 
 
+
+
 URI: [sh:namespace](https://w3id.org/shacl/namespace)
 
 
@@ -49,6 +51,16 @@ URI: [sh:namespace](https://w3id.org/shacl/namespace)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:namespace |
+| native | obographs:namespace |
 
 
 

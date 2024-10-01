@@ -2,6 +2,8 @@
 
 # Slot: is_complete
 
+
+
 URI: [ontosearch:is_complete](https://w3id.org/oak/search-datamodel/is_complete)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:is_complete](https://w3id.org/oak/search-datamodel/is_complete)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:is_complete |
+| native | ontosearch:is_complete |
 
 
 

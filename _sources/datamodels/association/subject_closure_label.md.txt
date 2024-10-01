@@ -7,6 +7,8 @@ _The set of subjects that are related to the subject of the association via the 
 
 
 
+
+
 URI: [ontoassoc:subject_closure_label](https://w3id.org/oak/association/subject_closure_label)
 
 
@@ -22,8 +24,8 @@ URI: [ontoassoc:subject_closure_label](https://w3id.org/oak/association/subject_
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -57,6 +59,16 @@ URI: [ontoassoc:subject_closure_label](https://w3id.org/oak/association/subject_
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:subject_closure_label |
+| native | ontoassoc:subject_closure_label |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -66,11 +78,11 @@ description: The set of subjects that are related to the subject of the associat
   via the closure predicates
 from_schema: https://w3id.org/oak/association
 rank: 1000
-multivalued: true
 alias: subject_closure_label
 domain_of:
 - PositiveOrNegativeAssociation
 range: string
+multivalued: true
 
 ```
 </details>

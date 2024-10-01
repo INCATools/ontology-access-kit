@@ -7,6 +7,8 @@ _in an OWL restriction expression, the filler is the object of the restriction_
 
 
 
+
+
 URI: [obographs:fillerId](https://github.com/geneontology/obographs/fillerId)
 
 
@@ -54,6 +56,16 @@ URI: [obographs:fillerId](https://github.com/geneontology/obographs/fillerId)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:fillerId |
+| native | obographs:fillerId |
 
 
 

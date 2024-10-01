@@ -7,6 +7,8 @@ _Each match (or lack of match) is placed into exactly one category_
 
 
 
+
+
 URI: [xodiff:category](https://w3id.org/oak/cross-ontology-diff/category)
 
 
@@ -49,6 +51,16 @@ URI: [xodiff:category](https://w3id.org/oak/cross-ontology-diff/category)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:category |
+| native | xodiff:category |
 
 
 

@@ -7,6 +7,8 @@ _if the object (e.g. term) of the old object has been obsoleted, and the object 
 
 
 
+
+
 URI: [ontoassoc:is_migration](https://w3id.org/oak/association/is_migration)
 
 
@@ -53,6 +55,16 @@ URI: [ontoassoc:is_migration](https://w3id.org/oak/association/is_migration)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:is_migration |
+| native | ontoassoc:is_migration |
 
 
 

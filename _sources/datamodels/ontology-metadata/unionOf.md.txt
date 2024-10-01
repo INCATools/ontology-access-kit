@@ -2,6 +2,8 @@
 
 # Slot: unionOf
 
+
+
 URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 
@@ -21,9 +23,9 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
 | [Restriction](Restriction.md) |  |  no  |
-| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
@@ -51,6 +53,16 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:unionOf |
+| native | omoschema:unionOf |
 
 
 

@@ -7,6 +7,8 @@ _If true then some combination of taxon constraints plus ontology lead to contra
 
 
 
+
+
 URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
 
 
@@ -49,6 +51,16 @@ URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:unsatisfiable |
+| native | tc:unsatisfiable |
 
 
 

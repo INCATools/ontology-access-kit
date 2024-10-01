@@ -2,6 +2,8 @@
 
 # Slot: source
 
+
+
 URI: [dcterms:source](http://purl.org/dc/terms/source)
 
 
@@ -21,8 +23,8 @@ URI: [dcterms:source](http://purl.org/dc/terms/source)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 | [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 
@@ -56,6 +58,17 @@ URI: [dcterms:source](http://purl.org/dc/terms/source)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:source |
+| native | omoschema:source |
+| exact | http://purl.org/dc/terms/source, oio:source |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -68,12 +81,12 @@ exact_mappings:
 rank: 1000
 is_a: provenance_property
 slot_uri: dcterms:source
-multivalued: true
 alias: source
 domain_of:
 - Ontology
 - Axiom
 range: string
+multivalued: true
 
 ```
 </details>

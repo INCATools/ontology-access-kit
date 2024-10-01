@@ -2,6 +2,8 @@
 
 # Slot: sameAs
 
+
+
 URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 
 
@@ -50,6 +52,16 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:sameAs |
+| native | omoschema:sameAs |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,9 +75,9 @@ is_a: logical_predicate
 mixins:
 - match_aspect
 slot_uri: owl:sameAs
-multivalued: true
 alias: sameAs
 range: Thing
+multivalued: true
 
 ```
 </details>

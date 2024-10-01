@@ -2,6 +2,8 @@
 
 # Slot: average_score
 
+
+
 URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 
 
@@ -44,6 +46,16 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:average_score |
+| native | sim:average_score |
 
 
 

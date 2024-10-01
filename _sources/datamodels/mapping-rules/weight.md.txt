@@ -7,6 +7,8 @@ _Weighting of the rule. A weight of zero corresponds to 0.5 confidence in the ma
 
 
 
+
+
 URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 
 
@@ -54,6 +56,16 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:weight |
+| native | mappingrules:weight |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: predicate_id
 
+
+
 URI: [sssom:predicate_id](http://w3id.org/sssom/predicate_id)
 
 
@@ -44,6 +46,16 @@ URI: [sssom:predicate_id](http://w3id.org/sssom/predicate_id)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:predicate_id |
+| native | ann:predicate_id |
 
 
 

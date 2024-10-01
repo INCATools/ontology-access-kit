@@ -14,9 +14,12 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ExistentialRestrictionExpression
+    click ExistentialRestrictionExpression href "../ExistentialRestrictionExpression"
       ExistentialRestrictionExpression : fillerId
         
       ExistentialRestrictionExpression : propertyId
@@ -85,13 +88,14 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Restriction |
 | native | obographs:ExistentialRestrictionExpression |
+
+
 
 
 

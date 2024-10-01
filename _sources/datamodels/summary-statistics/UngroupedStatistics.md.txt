@@ -14,14 +14,23 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class UngroupedStatistics
+    click UngroupedStatistics href "../UngroupedStatistics"
       SummaryStatisticsReport <|-- UngroupedStatistics
+        click SummaryStatisticsReport href "../SummaryStatisticsReport"
       
       UngroupedStatistics : agents
         
-          UngroupedStatistics --> Agent : agents
+          
+    
+    
+    UngroupedStatistics --> "*" Agent : agents
+    click Agent href "../Agent"
+
         
       UngroupedStatistics : annotation_property_count
         
@@ -31,17 +40,32 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
         
       UngroupedStatistics : change_summary
         
-          UngroupedStatistics --> ChangeTypeStatistic : change_summary
+          
+    
+    
+    UngroupedStatistics --> "*" ChangeTypeStatistic : change_summary
+    click ChangeTypeStatistic href "../ChangeTypeStatistic"
+
         
       UngroupedStatistics : class_count
         
       UngroupedStatistics : class_count_by_category
         
-          UngroupedStatistics --> FacetedCount : class_count_by_category
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : class_count_by_category
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : class_count_by_subset
         
-          UngroupedStatistics --> FacetedCount : class_count_by_subset
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : class_count_by_subset
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : class_count_with_text_definitions
         
@@ -49,11 +73,21 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
         
       UngroupedStatistics : compared_with
         
-          UngroupedStatistics --> Ontology : compared_with
+          
+    
+    
+    UngroupedStatistics --> "*" Ontology : compared_with
+    click Ontology href "../Ontology"
+
         
       UngroupedStatistics : contributor_summary
         
-          UngroupedStatistics --> ContributorStatistics : contributor_summary
+          
+    
+    
+    UngroupedStatistics --> "*" ContributorStatistics : contributor_summary
+    click ContributorStatistics href "../ContributorStatistics"
+
         
       UngroupedStatistics : datatype_property_count
         
@@ -67,11 +101,21 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
         
       UngroupedStatistics : edge_count_by_predicate
         
-          UngroupedStatistics --> FacetedCount : edge_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : edge_count_by_predicate
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : entailed_edge_count_by_predicate
         
-          UngroupedStatistics --> FacetedCount : entailed_edge_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : entailed_edge_count_by_predicate
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : equivalent_classes_axiom_count
         
@@ -83,15 +127,30 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
         
       UngroupedStatistics : mapping_statement_count_by_object_source
         
-          UngroupedStatistics --> FacetedCount : mapping_statement_count_by_object_source
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : mapping_statement_count_by_object_source
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : mapping_statement_count_by_predicate
         
-          UngroupedStatistics --> FacetedCount : mapping_statement_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : mapping_statement_count_by_predicate
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : mapping_statement_count_subject_by_object_source
         
-          UngroupedStatistics --> FacetedCount : mapping_statement_count_subject_by_object_source
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : mapping_statement_count_subject_by_object_source
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : merged_class_count
         
@@ -105,7 +164,12 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
         
       UngroupedStatistics : ontologies
         
-          UngroupedStatistics --> Ontology : ontologies
+          
+    
+    
+    UngroupedStatistics --> "*" Ontology : ontologies
+    click Ontology href "../Ontology"
+
         
       UngroupedStatistics : ontology_count
         
@@ -123,7 +187,12 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
         
       UngroupedStatistics : synonym_statement_count_by_predicate
         
-          UngroupedStatistics --> FacetedCount : synonym_statement_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --> "*" FacetedCount : synonym_statement_count_by_predicate
+    click FacetedCount href "../FacetedCount"
+
         
       UngroupedStatistics : unsatisfiable_class_count
         
@@ -131,7 +200,12 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
         
       UngroupedStatistics : was_generated_by
         
-          UngroupedStatistics --> SummaryStatisticsCalculationActivity : was_generated_by
+          
+    
+    
+    UngroupedStatistics --> "0..1" SummaryStatisticsCalculationActivity : was_generated_by
+    click SummaryStatisticsCalculationActivity href "../SummaryStatisticsCalculationActivity"
+
         
       
 ```
@@ -174,25 +248,25 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
 | [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of RDF triples in the ontology or subset | direct |
 | [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of subclass axioms in the ontology or subset | direct |
 | [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of equivalent classes axioms in the ontology or subset | direct |
-| [edge_count_by_predicate](edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of edges grouped by predicate in the ontology or subset | direct |
-| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of entailed (includes indirect) edges grouped by predicate in the onto... | direct |
+| [edge_count_by_predicate](edge_count_by_predicate.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of edges grouped by predicate in the ontology or subset | direct |
+| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of entailed (includes indirect) edges grouped by predicate in the onto... | direct |
 | [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of distinct synonym strings in the ontology or subset | direct |
 | [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of synonym statements (assertions) in the ontology or subset | direct |
-| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of synonym statements (assertions) grouped by predicate (scope) in the... | direct |
-| [class_count_by_subset](class_count_by_subset.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of classes grouped by subset (slim, value set) in the ontology or subs... | direct |
-| [class_count_by_category](class_count_by_category.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of classes grouped by category in the ontology or subset | direct |
+| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of synonym statements (assertions) grouped by predicate (scope) in the... | direct |
+| [class_count_by_subset](class_count_by_subset.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of classes grouped by subset (slim, value set) in the ontology or subs... | direct |
+| [class_count_by_category](class_count_by_category.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of classes grouped by category in the ontology or subset | direct |
 | [mapping_count](mapping_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of mappings (including xrefs) in the ontology or subset | direct |
-| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by predicate (e | direct |
-| [mapping_statement_count_by_object_source](mapping_statement_count_by_object_source.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by object_source (prefix of external vocabulary) i... | direct |
-| [mapping_statement_count_subject_by_object_source](mapping_statement_count_subject_by_object_source.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of distinct subject entities grouped by object_source (prefix of exter... | direct |
+| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by predicate (e | direct |
+| [mapping_statement_count_by_object_source](mapping_statement_count_by_object_source.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by object_source (prefix of external vocabulary) i... | direct |
+| [mapping_statement_count_subject_by_object_source](mapping_statement_count_subject_by_object_source.md) | * <br/> [FacetedCount](FacetedCount.md) | Number of distinct subject entities grouped by object_source (prefix of exter... | direct |
 | [ontology_count](ontology_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of ontologies (including imports) for the ontology or subset | direct |
-| [contributor_summary](contributor_summary.md) | 0..* <br/> [ContributorStatistics](ContributorStatistics.md) |  | direct |
-| [change_summary](change_summary.md) | 0..* <br/> [ChangeTypeStatistic](ChangeTypeStatistic.md) | Summary of changes between two versions of an ontology | direct |
-| [id](id.md) | 1..1 <br/> [String](String.md) | Unique handle for this report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [contributor_summary](contributor_summary.md) | * <br/> [ContributorStatistics](ContributorStatistics.md) |  | direct |
+| [change_summary](change_summary.md) | * <br/> [ChangeTypeStatistic](ChangeTypeStatistic.md) | Summary of changes between two versions of an ontology | direct |
+| [id](id.md) | 1 <br/> [String](String.md) | Unique handle for this report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [ontologies](ontologies.md) | * <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [compared_with](compared_with.md) | * <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [agents](agents.md) | 0..* <br/> [Agent](Agent.md) | Agents that contributed to the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [agents](agents.md) | * <br/> [Agent](Agent.md) | Agents that contributed to the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 
 
 
@@ -225,13 +299,14 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | summary_statistics:UngroupedStatistics |
 | native | summary_statistics:UngroupedStatistics |
+
+
 
 
 
@@ -572,11 +647,11 @@ attributes:
     description: Number of edges grouped by predicate in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   entailed_edge_count_by_predicate:
     name: entailed_edge_count_by_predicate
@@ -591,11 +666,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   distinct_synonym_count:
     name: distinct_synonym_count
@@ -641,11 +716,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_subset:
     name: class_count_by_subset
@@ -660,11 +735,11 @@ attributes:
       or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_category:
     name: class_count_by_category
@@ -678,11 +753,11 @@ attributes:
     description: Number of classes grouped by category in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_count:
     name: mapping_count
@@ -711,11 +786,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_by_object_source:
     name: mapping_statement_count_by_object_source
@@ -730,11 +805,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_subject_by_object_source:
     name: mapping_statement_count_subject_by_object_source
@@ -754,11 +829,11 @@ attributes:
     - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   ontology_count:
     name: ontology_count
@@ -777,20 +852,20 @@ attributes:
     name: contributor_summary
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     range: ContributorStatistics
+    multivalued: true
     inlined: true
   change_summary:
     name: change_summary
     description: Summary of changes between two versions of an ontology
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     range: ChangeTypeStatistic
+    multivalued: true
     inlined: true
 
 ```
@@ -1175,13 +1250,13 @@ attributes:
     description: Number of edges grouped by predicate in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: edge_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   entailed_edge_count_by_predicate:
     name: entailed_edge_count_by_predicate
@@ -1196,13 +1271,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: entailed_edge_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   distinct_synonym_count:
     name: distinct_synonym_count
@@ -1252,13 +1327,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: synonym_statement_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_subset:
     name: class_count_by_subset
@@ -1273,13 +1348,13 @@ attributes:
       or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: class_count_by_subset
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_category:
     name: class_count_by_category
@@ -1293,13 +1368,13 @@ attributes:
     description: Number of classes grouped by category in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: class_count_by_category
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_count:
     name: mapping_count
@@ -1330,13 +1405,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: mapping_statement_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_by_object_source:
     name: mapping_statement_count_by_object_source
@@ -1351,13 +1426,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: mapping_statement_count_by_object_source
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_subject_by_object_source:
     name: mapping_statement_count_subject_by_object_source
@@ -1377,13 +1452,13 @@ attributes:
     - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: mapping_statement_count_subject_by_object_source
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   ontology_count:
     name: ontology_count
@@ -1404,24 +1479,24 @@ attributes:
     name: contributor_summary
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: contributor_summary
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     range: ContributorStatistics
+    multivalued: true
     inlined: true
   change_summary:
     name: change_summary
     description: Summary of changes between two versions of an ontology
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: change_summary
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     range: ChangeTypeStatistic
+    multivalued: true
     inlined: true
   id:
     name: id
@@ -1442,12 +1517,12 @@ attributes:
     description: Ontology for which the statistics are computed
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: ontologies
     owner: UngroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   compared_with:
@@ -1455,12 +1530,12 @@ attributes:
     description: For diffs, the ontologies being compared against
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: compared_with
     owner: UngroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   was_generated_by:
@@ -1478,12 +1553,12 @@ attributes:
     description: Agents that contributed to the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: agents
     owner: UngroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Agent
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

@@ -2,6 +2,8 @@
 
 # Slot: predicate
 
+
+
 URI: [mappingrules:predicate](https://w3id.org/oak/mapping-rules-datamodel/predicate)
 
 
@@ -44,6 +46,16 @@ URI: [mappingrules:predicate](https://w3id.org/oak/mapping-rules-datamodel/predi
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:predicate |
+| native | mappingrules:predicate |
 
 
 

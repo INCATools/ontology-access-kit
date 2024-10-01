@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -93,26 +93,49 @@
 <div class="mermaid">
              classDiagram
     class SummaryStatisticsReport
+    click SummaryStatisticsReport href &quot;../SummaryStatisticsReport&quot;
       SummaryStatisticsReport &lt;|-- GroupedStatistics
+        click GroupedStatistics href &quot;../GroupedStatistics&quot;
       SummaryStatisticsReport &lt;|-- UngroupedStatistics
+        click UngroupedStatistics href &quot;../UngroupedStatistics&quot;
       
       SummaryStatisticsReport : agents
         
-          SummaryStatisticsReport --&gt; Agent : agents
+          
+    
+    
+    SummaryStatisticsReport --&gt; &quot;*&quot; Agent : agents
+    click Agent href &quot;../Agent&quot;
+
         
       SummaryStatisticsReport : compared_with
         
-          SummaryStatisticsReport --&gt; Ontology : compared_with
+          
+    
+    
+    SummaryStatisticsReport --&gt; &quot;*&quot; Ontology : compared_with
+    click Ontology href &quot;../Ontology&quot;
+
         
       SummaryStatisticsReport : id
         
       SummaryStatisticsReport : ontologies
         
-          SummaryStatisticsReport --&gt; Ontology : ontologies
+          
+    
+    
+    SummaryStatisticsReport --&gt; &quot;*&quot; Ontology : ontologies
+    click Ontology href &quot;../Ontology&quot;
+
         
       SummaryStatisticsReport : was_generated_by
         
-          SummaryStatisticsReport --&gt; SummaryStatisticsCalculationActivity : was_generated_by
+          
+    
+    
+    SummaryStatisticsReport --&gt; &quot;0..1&quot; SummaryStatisticsCalculationActivity : was_generated_by
+    click SummaryStatisticsCalculationActivity href &quot;../SummaryStatisticsCalculationActivity&quot;
+
         
       
         </div><section id="inheritance">
@@ -138,17 +161,17 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>Unique handle for this report</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ontologies.html"><span class="std std-doc">ontologies</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
 <td><p>Ontology for which the statistics are computed</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="compared_with.html"><span class="std std-doc">compared_with</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
 <td><p>For diffs, the ontologies being compared against</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -158,7 +181,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="agents.html"><span class="std std-doc">agents</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
 <td><p>Agents that contributed to the report</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -220,10 +243,10 @@ attributes:
     description: Ontology for which the statistics are computed
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   compared_with:
@@ -231,10 +254,10 @@ attributes:
     description: For diffs, the ontologies being compared against
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   was_generated_by:
@@ -250,10 +273,10 @@ attributes:
     description: Agents that contributed to the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - SummaryStatisticsReport
     range: Agent
+    multivalued: true
     inlined: true
     inlined_as_list: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -286,12 +309,12 @@ attributes:
     description: Ontology for which the statistics are computed
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: ontologies
     owner: SummaryStatisticsReport
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   compared_with:
@@ -299,12 +322,12 @@ attributes:
     description: For diffs, the ontologies being compared against
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: compared_with
     owner: SummaryStatisticsReport
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   was_generated_by:
@@ -322,12 +345,12 @@ attributes:
     description: Agents that contributed to the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: agents
     owner: SummaryStatisticsReport
     domain_of:
     - SummaryStatisticsReport
     range: Agent
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

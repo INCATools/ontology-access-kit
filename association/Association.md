@@ -14,10 +14,14 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Association
+    click Association href "../Association"
       PositiveOrNegativeAssociation <|-- Association
+        click PositiveOrNegativeAssociation href "../PositiveOrNegativeAssociation"
       
       Association : aggregator_knowledge_source
         
@@ -43,7 +47,12 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
         
       Association : property_values
         
-          Association --> PropertyValue : property_values
+          
+    
+    
+    Association --> "*" PropertyValue : property_values
+    click PropertyValue href "../PropertyValue"
+
         
       Association : publications
         
@@ -77,21 +86,21 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [subject](subject.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The thing which the association is about | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) | Arbitrary key-value pairs with additional information about the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [property_values](property_values.md) | * <br/> [PropertyValue](PropertyValue.md) | Arbitrary key-value pairs with additional information about the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The label of the thing which the association is about | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [predicate_label](predicate_label.md) | 0..1 <br/> [String](String.md) | The label of the type of relationship between the subject and object | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [negated](negated.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the association is negated - i | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [publications](publications.md) | * <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [evidence_type](evidence_type.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of evidence supporting the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [supporting_objects](supporting_objects.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The objects that support the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [supporting_objects](supporting_objects.md) | * <br/> [Uriorcurie](Uriorcurie.md) | The objects that support the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [subject_closure](subject_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [subject_closure_label](subject_closure_label.md) | 0..* <br/> [String](String.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [object_closure](object_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [object_closure_label](object_closure_label.md) | 0..* <br/> [String](String.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [comments](comments.md) | 0..* <br/> [String](String.md) | Comments about the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [subject_closure](subject_closure.md) | * <br/> [Uriorcurie](Uriorcurie.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [subject_closure_label](subject_closure_label.md) | * <br/> [String](String.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [object_closure](object_closure.md) | * <br/> [Uriorcurie](Uriorcurie.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [object_closure_label](object_closure_label.md) | * <br/> [String](String.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [comments](comments.md) | * <br/> [String](String.md) | Comments about the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 
 
 
@@ -125,13 +134,14 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | oa:Annotation |
 | native | ontoassoc:Association |
+
+
 
 
 
@@ -152,8 +162,6 @@ is_a: PositiveOrNegativeAssociation
 slot_usage:
   negated:
     name: negated
-    domain_of:
-    - PositiveOrNegativeAssociation
     equals_expression: 'False'
 class_uri: oa:Annotation
 
@@ -171,8 +179,6 @@ is_a: PositiveOrNegativeAssociation
 slot_usage:
   negated:
     name: negated
-    domain_of:
-    - PositiveOrNegativeAssociation
     equals_expression: 'False'
 attributes:
   subject:
@@ -229,12 +235,12 @@ attributes:
     description: Arbitrary key-value pairs with additional information about the association
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: property_values
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     range: PropertyValue
+    multivalued: true
     inlined: true
   subject_label:
     name: subject_label
@@ -292,13 +298,13 @@ attributes:
     from_schema: https://w3id.org/oak/association
     rank: 1000
     slot_uri: biolink:publications
-    multivalued: true
     alias: publications
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     - AssociationChange
     range: uriorcurie
+    multivalued: true
   evidence_type:
     name: evidence_type
     description: The type of evidence supporting the association
@@ -314,12 +320,12 @@ attributes:
     description: The objects that support the association
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: supporting_objects
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     range: uriorcurie
+    multivalued: true
   primary_knowledge_source:
     name: primary_knowledge_source
     description: The primary knowledge source for the association
@@ -352,60 +358,60 @@ attributes:
       via the closure predicates
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: subject_closure
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     range: uriorcurie
+    multivalued: true
   subject_closure_label:
     name: subject_closure_label
     description: The set of subjects that are related to the subject of the association
       via the closure predicates
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: subject_closure_label
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
+    multivalued: true
   object_closure:
     name: object_closure
     description: The set of objects that are related to the object of the association
       via the closure predicates
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: object_closure
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     range: uriorcurie
+    multivalued: true
   object_closure_label:
     name: object_closure_label
     description: The set of objects that are related to the object of the association
       via the closure predicates
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: object_closure_label
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
+    multivalued: true
   comments:
     name: comments
     description: Comments about the association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     slot_uri: rdfs:comment
-    multivalued: true
     alias: comments
     owner: Association
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
+    multivalued: true
 class_uri: oa:Annotation
 
 ```

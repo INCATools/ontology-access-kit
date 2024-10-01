@@ -2,6 +2,8 @@
 
 # Slot: none_of
 
+
+
 URI: [ontosearch:none_of](https://w3id.org/oak/search-datamodel/none_of)
 
 
@@ -50,6 +52,16 @@ URI: [ontosearch:none_of](https://w3id.org/oak/search-datamodel/none_of)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:none_of |
+| native | ontosearch:none_of |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [ontosearch:none_of](https://w3id.org/oak/search-datamodel/none_of)
 name: none_of
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: none_of
 owner: ComplexQuery
 domain_of:
 - ComplexQuery
 range: ComplexQuery
+multivalued: true
 
 ```
 </details>

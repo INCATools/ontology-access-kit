@@ -7,6 +7,8 @@ _This standard follows oboInOwl in allowing an open ended list of synonym types_
 
 
 
+
+
 URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 
@@ -49,6 +51,16 @@ URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymTy
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:synonymType |
+| native | obographs:synonymType |
 
 
 

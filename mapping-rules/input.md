@@ -7,6 +7,8 @@ _Input string for the rule._
 
 
 
+
+
 URI: [mappingrules:input](https://w3id.org/oak/mapping-rules-datamodel/input)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:input](https://w3id.org/oak/mapping-rules-datamodel/input)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:input |
+| native | mappingrules:input |
 
 
 

@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,17 +90,33 @@
 <div class="mermaid">
              classDiagram
     class GraphDocument
+    click GraphDocument href &quot;../GraphDocument&quot;
       GraphDocument : graphs
         
-          GraphDocument --&gt; Graph : graphs
+          
+    
+    
+    GraphDocument --&gt; &quot;*&quot; Graph : graphs
+    click Graph href &quot;../Graph&quot;
+
         
       GraphDocument : meta
         
-          GraphDocument --&gt; Meta : meta
+          
+    
+    
+    GraphDocument --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       GraphDocument : prefixes
         
-          GraphDocument --&gt; PrefixDeclaration : prefixes
+          
+    
+    
+    GraphDocument --&gt; &quot;*&quot; PrefixDeclaration : prefixes
+    click PrefixDeclaration href &quot;../PrefixDeclaration&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -121,12 +137,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="graphs.html"><span class="std std-doc">graphs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
 <td><p>A list of all graphs (ontologies) in an ontology document</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="prefixes.html"><span class="std std-doc">prefixes</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="PrefixDeclaration.html"><span class="std std-doc">PrefixDeclaration</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="PrefixDeclaration.html"><span class="std std-doc">PrefixDeclaration</span></a></p></td>
 <td><p>A collection of mappings between prefixes and namespaces, used to map CURIEs …</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -221,12 +237,12 @@ attributes:
     description: A list of all graphs (ontologies) in an ontology document.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: graphs
     owner: GraphDocument
     domain_of:
     - GraphDocument
     range: Graph
+    multivalued: true
     inlined: true
     inlined_as_list: true
   prefixes:
@@ -236,13 +252,13 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:declare
-    multivalued: true
     alias: prefixes
     owner: GraphDocument
     domain_of:
     - GraphDocument
     - Graph
     range: PrefixDeclaration
+    multivalued: true
     inlined: true
 
 </pre></div>

@@ -7,6 +7,8 @@ _A definition of an entity_
 
 
 
+
+
 URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 
 
@@ -49,6 +51,16 @@ URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | IAO:0000115 |
+| native | obographs:definition |
 
 
 

@@ -7,6 +7,8 @@ _the human readable name or label of the term_
 
 
 
+
+
 URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
@@ -21,10 +23,10 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [Term](Term.md) | An ontology term |  no  |
 | [PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |  no  |
 | [Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |  no  |
 | [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
-| [Term](Term.md) | An ontology term |  no  |
 
 
 
@@ -52,6 +54,16 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:label |
+| native | tc:label |
 
 
 

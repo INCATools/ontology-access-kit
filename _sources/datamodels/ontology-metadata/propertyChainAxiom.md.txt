@@ -2,6 +2,8 @@
 
 # Slot: propertyChainAxiom
 
+
+
 URI: [owl:propertyChainAxiom](http://www.w3.org/2002/07/owl#propertyChainAxiom)
 
 
@@ -60,6 +62,16 @@ URI: [owl:propertyChainAxiom](http://www.w3.org/2002/07/owl#propertyChainAxiom)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:propertyChainAxiom |
+| native | omoschema:propertyChainAxiom |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -71,11 +83,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:propertyChainAxiom
-multivalued: true
 alias: propertyChainAxiom
 domain_of:
 - ObjectProperty
 range: string
+multivalued: true
 
 ```
 </details>

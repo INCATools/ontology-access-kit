@@ -2,6 +2,8 @@
 
 # Slot: dry_run
 
+
+
 URI: [vm:dry_run](https://w3id.org/linkml/validation-model/dry_run)
 
 
@@ -44,6 +46,16 @@ URI: [vm:dry_run](https://w3id.org/linkml/validation-model/dry_run)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:dry_run |
+| native | vm:dry_run |
 
 
 

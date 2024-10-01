@@ -7,6 +7,8 @@ _Unit tests for each rules._
 
 
 
+
+
 URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:tests |
+| native | mappingrules:tests |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: tests
 description: Unit tests for each rules.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: tests
 owner: Synonymizer
 domain_of:
 - Synonymizer
 range: Test
+multivalued: true
 
 ```
 </details>

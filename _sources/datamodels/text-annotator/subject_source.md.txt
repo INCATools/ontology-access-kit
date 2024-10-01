@@ -2,6 +2,8 @@
 
 # Slot: subject_source
 
+
+
 URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
@@ -45,6 +47,17 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:subject_source |
+| native | ann:subject_source |
+| exact | oa:hasBody |
 
 
 

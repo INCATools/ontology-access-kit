@@ -7,6 +7,8 @@ _Number of distinct synonym strings in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:distinct_synonym_count](https://w3id.org/oaklib/summary_statistics.distinct_synonym_count)
 
 
@@ -60,6 +62,16 @@ URI: [summary_statistics:distinct_synonym_count](https://w3id.org/oaklib/summary
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:distinct_synonym_count |
+| native | summary_statistics:distinct_synonym_count |
 
 
 

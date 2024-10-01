@@ -2,6 +2,8 @@
 
 # Slot: equivalentClass
 
+
+
 URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
@@ -21,9 +23,9 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
 | [Restriction](Restriction.md) |  |  no  |
-| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
@@ -61,6 +63,16 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:equivalentClass |
+| native | omoschema:equivalentClass |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -74,11 +86,11 @@ is_a: logical_predicate
 mixins:
 - match_aspect
 slot_uri: owl:equivalentClass
-multivalued: true
 alias: equivalentClass
 domain_of:
 - ClassExpression
 range: ClassExpression
+multivalued: true
 
 ```
 </details>

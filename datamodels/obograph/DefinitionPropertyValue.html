@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,13 +90,20 @@
 <div class="mermaid">
              classDiagram
     class DefinitionPropertyValue
+    click DefinitionPropertyValue href &quot;../DefinitionPropertyValue&quot;
       PropertyValue &lt;|-- DefinitionPropertyValue
+        click PropertyValue href &quot;../PropertyValue&quot;
       
       DefinitionPropertyValue : lang
         
       DefinitionPropertyValue : meta
         
-          DefinitionPropertyValue --&gt; Meta : meta
+          
+    
+    
+    DefinitionPropertyValue --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       DefinitionPropertyValue : pred
         
@@ -139,7 +146,7 @@
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="XrefString.html"><span class="std std-doc">XrefString</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="XrefString.html"><span class="std std-doc">XrefString</span></a></p></td>
 <td><p>A list of identifiers that support the definition</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 </tr>
@@ -223,8 +230,6 @@ slot_usage:
   val:
     name: val
     description: The textual string representing the definition.
-    domain_of:
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -233,9 +238,6 @@ slot_usage:
       that contributed to the text of the definition, external publications, websites,
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
-    domain_of:
-    - Meta
-    - PropertyValue
     role: supporting identifiers
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -252,8 +254,6 @@ slot_usage:
   val:
     name: val
     description: The textual string representing the definition.
-    domain_of:
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -262,9 +262,6 @@ slot_usage:
       that contributed to the text of the definition, external publications, websites,
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
-    domain_of:
-    - Meta
-    - PropertyValue
     role: supporting identifiers
 attributes:
   pred:
@@ -285,6 +282,8 @@ attributes:
     name: val
     description: The textual string representing the definition.
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val
@@ -301,8 +300,11 @@ attributes:
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
     from_schema: https://github.com/geneontology/obographs
+    exact_mappings:
+    - oio:hasDbXref
+    close_mappings:
+    - rdfs:seeAlso
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: DefinitionPropertyValue
     domain_of:
@@ -310,6 +312,7 @@ attributes:
     - PropertyValue
     role: supporting identifiers
     range: XrefString
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

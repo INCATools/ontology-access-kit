@@ -2,6 +2,10 @@
 
 # Slot: logical_predicate
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:logical_predicate](https://w3id.org/oak/ontology-metadata/logical_predicate)
 
 
@@ -65,6 +69,16 @@ URI: [omoschema:logical_predicate](https://w3id.org/oak/ontology-metadata/logica
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:logical_predicate |
+| native | omoschema:logical_predicate |
 
 
 

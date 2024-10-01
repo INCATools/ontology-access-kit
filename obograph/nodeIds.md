@@ -2,6 +2,8 @@
 
 # Slot: nodeIds
 
+
+
 URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
@@ -50,6 +52,16 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:nodeIds |
+| native | obographs:nodeIds |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 name: nodeIds
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: nodeIds
 domain_of:
 - EquivalentNodesSet
 range: string
+multivalued: true
 
 ```
 </details>

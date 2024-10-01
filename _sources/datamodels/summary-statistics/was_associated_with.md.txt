@@ -7,6 +7,8 @@ _the agent that was associated with the activity_
 
 
 
+
+
 URI: [prov:wasAssociatedWith](http://www.w3.org/ns/prov#wasAssociatedWith)
 
 
@@ -49,6 +51,16 @@ URI: [prov:wasAssociatedWith](http://www.w3.org/ns/prov#wasAssociatedWith)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | prov:wasAssociatedWith |
+| native | summary_statistics:was_associated_with |
 
 
 

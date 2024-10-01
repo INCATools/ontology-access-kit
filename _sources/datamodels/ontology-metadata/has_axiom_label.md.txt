@@ -2,6 +2,8 @@
 
 # Slot: has_axiom_label
 
+
+
 URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 
 
@@ -49,6 +51,16 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | IAO:0010000 |
+| native | omoschema:has_axiom_label |
 
 
 

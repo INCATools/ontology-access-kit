@@ -7,6 +7,8 @@ _holds if the constraint is an evolutionary statement_
 
 
 
+
+
 URI: [tc:evolutionary](https://w3id.org/linkml/taxon_constraints/evolutionary)
 
 
@@ -49,6 +51,16 @@ URI: [tc:evolutionary](https://w3id.org/linkml/taxon_constraints/evolutionary)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:evolutionary |
+| native | tc:evolutionary |
 
 
 

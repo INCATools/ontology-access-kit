@@ -14,26 +14,36 @@ URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obograph
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class LogicalDefinitionAxiom
+    click LogicalDefinitionAxiom href "../LogicalDefinitionAxiom"
       Axiom <|-- LogicalDefinitionAxiom
+        click Axiom href "../Axiom"
       
       LogicalDefinitionAxiom : definedClassId
         
-          LogicalDefinitionAxiom --> None : definedClassId
-        
       LogicalDefinitionAxiom : genusIds
-        
-          LogicalDefinitionAxiom --> None : genusIds
         
       LogicalDefinitionAxiom : meta
         
-          LogicalDefinitionAxiom --> Meta : meta
+          
+    
+    
+    LogicalDefinitionAxiom --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       LogicalDefinitionAxiom : restrictions
         
-          LogicalDefinitionAxiom --> ExistentialRestrictionExpression : restrictions
+          
+    
+    
+    LogicalDefinitionAxiom --> "* _recommended_" ExistentialRestrictionExpression : restrictions
+    click ExistentialRestrictionExpression href "../ExistentialRestrictionExpression"
+
         
       
 ```
@@ -52,9 +62,9 @@ URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obograph
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [definedClassId](definedClassId.md) | 1..1 <br/> [String](String.md) | The class that is defined by this axiom | direct |
-| [genusIds](genusIds.md) | 0..* _recommended_ <br/> [String](String.md) | The set of classes that are the genus of the defined class | direct |
-| [restrictions](restrictions.md) | 0..* _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentiating features of the defined ... | direct |
+| [definedClassId](definedClassId.md) | 1 <br/> [OboIdentifierString](OboIdentifierString.md) | The class that is defined by this axiom | direct |
+| [genusIds](genusIds.md) | * _recommended_ <br/> [OboIdentifierString](OboIdentifierString.md) | The set of classes that are the genus of the defined class | direct |
+| [restrictions](restrictions.md) | * _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentiating features of the defined ... | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 
 
@@ -99,13 +109,14 @@ URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obograph
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:LogicalDefinitionAxiom |
 | native | obographs:LogicalDefinitionAxiom |
+
+
 
 
 
@@ -138,6 +149,7 @@ attributes:
     rank: 1000
     domain_of:
     - LogicalDefinitionAxiom
+    range: OboIdentifierString
     required: true
   genusIds:
     name: genusIds
@@ -148,10 +160,11 @@ attributes:
     see_also:
     - https://github.com/geneontology/obographs/issues/89
     rank: 1000
-    multivalued: true
     domain_of:
     - LogicalDefinitionAxiom
+    range: OboIdentifierString
     recommended: true
+    multivalued: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentiating features of
@@ -165,11 +178,11 @@ attributes:
     - differentia
     rank: 1000
     slot_uri: owl:someValuesFrom
-    multivalued: true
     domain_of:
     - LogicalDefinitionAxiom
     range: ExistentialRestrictionExpression
     recommended: true
+    multivalued: true
 
 ```
 </details>
@@ -199,6 +212,7 @@ attributes:
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
+    range: OboIdentifierString
     required: true
   genusIds:
     name: genusIds
@@ -209,12 +223,13 @@ attributes:
     see_also:
     - https://github.com/geneontology/obographs/issues/89
     rank: 1000
-    multivalued: true
     alias: genusIds
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
+    range: OboIdentifierString
     recommended: true
+    multivalued: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentiating features of
@@ -228,13 +243,13 @@ attributes:
     - differentia
     rank: 1000
     slot_uri: owl:someValuesFrom
-    multivalued: true
     alias: restrictions
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
     range: ExistentialRestrictionExpression
     recommended: true
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

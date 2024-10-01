@@ -7,6 +7,8 @@ _in an OWL restriction expression, this is the predicate_
 
 
 
+
+
 URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 
@@ -49,6 +51,16 @@ URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:propertyId |
+| native | obographs:propertyId |
 
 
 

@@ -14,9 +14,12 @@ URI: [omoschema:ObsoleteAspect](https://w3id.org/oak/ontology-metadata/ObsoleteA
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ObsoleteAspect
+    click ObsoleteAspect href "../ObsoleteAspect"
       
 ```
 
@@ -115,13 +118,14 @@ URI: [omoschema:ObsoleteAspect](https://w3id.org/oak/ontology-metadata/ObsoleteA
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:ObsoleteAspect |
 | native | omoschema:ObsoleteAspect |
+
+
 
 
 

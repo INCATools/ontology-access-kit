@@ -37,3 +37,14 @@ URI: [xsd:time](http://www.w3.org/2001/XMLSchema#time)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:time |
+| native | ontoenrich:time |
+| exact | schema:Time |
+
+
+

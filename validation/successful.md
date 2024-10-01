@@ -2,6 +2,8 @@
 
 # Slot: successful
 
+
+
 URI: [vm:successful](https://w3id.org/linkml/validation-model/successful)
 
 
@@ -44,6 +46,16 @@ URI: [vm:successful](https://w3id.org/linkml/validation-model/successful)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:successful |
+| native | vm:successful |
 
 
 

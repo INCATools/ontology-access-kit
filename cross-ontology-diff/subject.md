@@ -7,6 +7,8 @@ _The child node on left or right side_
 
 
 
+
+
 URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
@@ -54,6 +56,16 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:subject |
+| native | xodiff:subject |
 
 
 

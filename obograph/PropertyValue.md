@@ -16,19 +16,31 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class PropertyValue
+    click PropertyValue href "../PropertyValue"
       PropertyValue <|-- DefinitionPropertyValue
+        click DefinitionPropertyValue href "../DefinitionPropertyValue"
       PropertyValue <|-- BasicPropertyValue
+        click BasicPropertyValue href "../BasicPropertyValue"
       PropertyValue <|-- XrefPropertyValue
+        click XrefPropertyValue href "../XrefPropertyValue"
       PropertyValue <|-- SynonymPropertyValue
+        click SynonymPropertyValue href "../SynonymPropertyValue"
       
       PropertyValue : lang
         
       PropertyValue : meta
         
-          PropertyValue --> Meta : meta
+          
+    
+    
+    PropertyValue --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       PropertyValue : pred
         
@@ -60,7 +72,7 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
 | ---  | --- | --- | --- |
 | [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
 | [val](val.md) | 0..1 <br/> [String](String.md) | the value of a property | direct |
-| [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | direct |
+| [xrefs](xrefs.md) | * <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 | [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | direct |
 | [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | direct |
@@ -98,13 +110,14 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:PropertyValue |
 | native | obographs:PropertyValue |
+
+
 
 
 
@@ -196,13 +209,13 @@ attributes:
     close_mappings:
     - rdfs:seeAlso
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: PropertyValue
     domain_of:
     - Meta
     - PropertyValue
     range: XrefString
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

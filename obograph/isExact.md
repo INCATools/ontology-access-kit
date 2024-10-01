@@ -2,6 +2,8 @@
 
 # Slot: isExact
 
+
+
 URI: [obographs:isExact](https://github.com/geneontology/obographs/isExact)
 
 
@@ -44,6 +46,16 @@ URI: [obographs:isExact](https://github.com/geneontology/obographs/isExact)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:isExact |
+| native | obographs:isExact |
 
 
 

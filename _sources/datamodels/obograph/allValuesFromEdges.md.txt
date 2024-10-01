@@ -7,6 +7,8 @@ _A list of edges that represent subclasses of universal restrictions_
 
 
 
+
+
 URI: [obographs:allValuesFromEdges](https://github.com/geneontology/obographs/allValuesFromEdges)
 
 
@@ -56,6 +58,16 @@ URI: [obographs:allValuesFromEdges](https://github.com/geneontology/obographs/al
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:allValuesFromEdges |
+| native | obographs:allValuesFromEdges |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ name: allValuesFromEdges
 description: A list of edges that represent subclasses of universal restrictions
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: allValuesFromEdges
 domain_of:
 - Graph
 - DomainRangeAxiom
 range: Edge
+multivalued: true
 
 ```
 </details>

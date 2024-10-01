@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,11 +90,18 @@
 <div class="mermaid">
              classDiagram
     class RepairReport
+    click RepairReport href &quot;../RepairReport&quot;
       Report &lt;|-- RepairReport
+        click Report href &quot;../Report&quot;
       
       RepairReport : results
         
-          RepairReport --&gt; RepairOperation : results
+          
+    
+    
+    RepairReport --&gt; &quot;*&quot; RepairOperation : results
+    click RepairOperation href &quot;../RepairOperation&quot;
+
         
       
         </div><section id="inheritance">
@@ -119,7 +126,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="results.html"><span class="std std-doc">results</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="RepairOperation.html"><span class="std std-doc">RepairOperation</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="RepairOperation.html"><span class="std std-doc">RepairOperation</span></a></p></td>
 <td><p>collection of results</p></td>
 <td><p><a class="reference internal" href="Report.html"><span class="std std-doc">Report</span></a></p></td>
 </tr>
@@ -167,8 +174,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: RepairOperation
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -183,8 +188,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: RepairOperation
 attributes:
   results:
@@ -193,12 +196,12 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     slot_uri: sh:result
-    multivalued: true
     alias: results
     owner: RepairReport
     domain_of:
     - Report
     range: RepairOperation
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

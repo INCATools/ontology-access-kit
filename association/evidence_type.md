@@ -7,6 +7,8 @@ _The type of evidence supporting the association_
 
 
 
+
+
 URI: [ontoassoc:evidence_type](https://w3id.org/oak/association/evidence_type)
 
 
@@ -22,8 +24,8 @@ URI: [ontoassoc:evidence_type](https://w3id.org/oak/association/evidence_type)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -51,6 +53,16 @@ URI: [ontoassoc:evidence_type](https://w3id.org/oak/association/evidence_type)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:evidence_type |
+| native | ontoassoc:evidence_type |
 
 
 

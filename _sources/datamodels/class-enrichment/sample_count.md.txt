@@ -7,6 +7,8 @@ _The number of entities in the sample with this class_
 
 
 
+
+
 URI: [ontoenrich:sample_count](https://w3id.org/oak/class-enrichment/sample_count)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:sample_count](https://w3id.org/oak/class-enrichment/sample_coun
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:sample_count |
+| native | ontoenrich:sample_count |
 
 
 

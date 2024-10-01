@@ -7,6 +7,8 @@ _True if the publication is not present in the new association set (and present 
 
 
 
+
+
 URI: [ontoassoc:publication_is_deleted](https://w3id.org/oak/association/publication_is_deleted)
 
 
@@ -53,6 +55,16 @@ URI: [ontoassoc:publication_is_deleted](https://w3id.org/oak/association/publica
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:publication_is_deleted |
+| native | ontoassoc:publication_is_deleted |
 
 
 

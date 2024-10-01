@@ -14,9 +14,12 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Agent
+    click Agent href "../Agent"
       Agent : id
         
       Agent : label
@@ -34,7 +37,7 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [String](String.md) | the unique identifier for the agent | direct |
+| [id](id.md) | 1 <br/> [String](String.md) | the unique identifier for the agent | direct |
 | [label](label.md) | 0..1 <br/> [String](String.md) | the label for the agent | direct |
 
 
@@ -72,13 +75,14 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | prov:Agent |
 | native | summary_statistics:Agent |
+
+
 
 
 

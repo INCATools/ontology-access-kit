@@ -7,6 +7,8 @@ _Type of match for the new synonym generated._
 
 
 
+
+
 URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/qualifier)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/quali
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:qualifier |
+| native | mappingrules:qualifier |
 
 
 

@@ -7,6 +7,8 @@ _A list of synonym property value assertions for an entity_
 
 
 
+
+
 URI: [obographs:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
@@ -55,6 +57,16 @@ URI: [obographs:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:synonyms |
+| native | obographs:synonyms |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,11 +75,11 @@ name: synonyms
 description: A list of synonym property value assertions for an entity
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: synonyms
 domain_of:
 - Meta
 range: SynonymPropertyValue
+multivalued: true
 
 ```
 </details>

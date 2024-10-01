@@ -87,6 +87,8 @@ Name: association
 | [preserve_negated_associations](preserve_negated_associations.md) | If true, then the parser will keep negated associations in the output |
 | [primary_knowledge_source](primary_knowledge_source.md) | The primary knowledge source for the association |
 | [property_values](property_values.md) | Arbitrary key-value pairs with additional information about the association |
+| [proportion_entity1_subjects_in_entity2](proportion_entity1_subjects_in_entity2.md) |  |
+| [proportion_entity2_subjects_in_entity1](proportion_entity2_subjects_in_entity1.md) |  |
 | [proportion_subjects_in_common](proportion_subjects_in_common.md) |  |
 | [publication_is_added](publication_is_added.md) | True if the publication was not present in the old association set (and prese... |
 | [publication_is_deleted](publication_is_deleted.md) | True if the publication is not present in the new association set (and presen... |

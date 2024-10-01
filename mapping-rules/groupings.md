@@ -7,6 +7,8 @@ _all groupings_
 
 
 
+
+
 URI: [mappingrules:groupings](https://w3id.org/oak/mapping-rules-datamodel/groupings)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:groupings](https://w3id.org/oak/mapping-rules-datamodel/group
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:groupings |
+| native | mappingrules:groupings |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: groupings
 description: all groupings
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: groupings
 owner: LexicalIndex
 domain_of:
 - LexicalIndex
 range: LexicalGrouping
+multivalued: true
 inlined: true
 
 ```

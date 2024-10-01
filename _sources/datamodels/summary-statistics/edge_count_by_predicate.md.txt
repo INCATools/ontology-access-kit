@@ -7,6 +7,8 @@ _Number of edges grouped by predicate in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summary_statistics.edge_count_by_predicate)
 
 
@@ -61,6 +63,16 @@ URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summar
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:edge_count_by_predicate |
+| native | summary_statistics:edge_count_by_predicate |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -76,13 +88,13 @@ annotations:
 description: Number of edges grouped by predicate in the ontology or subset
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: edge_count_by_predicate
 owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
+multivalued: true
 inlined: true
 
 ```

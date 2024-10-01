@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,21 +89,42 @@
 <div class="mermaid">
              classDiagram
     class ComplexQuery
+    click ComplexQuery href &quot;../ComplexQuery&quot;
       ComplexQuery : all_of
         
-          ComplexQuery --&gt; ComplexQuery : all_of
+          
+    
+    
+    ComplexQuery --&gt; &quot;*&quot; ComplexQuery : all_of
+    click ComplexQuery href &quot;../ComplexQuery&quot;
+
         
       ComplexQuery : any_of
         
-          ComplexQuery --&gt; ComplexQuery : any_of
+          
+    
+    
+    ComplexQuery --&gt; &quot;*&quot; ComplexQuery : any_of
+    click ComplexQuery href &quot;../ComplexQuery&quot;
+
         
       ComplexQuery : atom
         
-          ComplexQuery --&gt; SearchBaseConfiguration : atom
+          
+    
+    
+    ComplexQuery --&gt; &quot;0..1&quot; SearchBaseConfiguration : atom
+    click SearchBaseConfiguration href &quot;../SearchBaseConfiguration&quot;
+
         
       ComplexQuery : none_of
         
-          ComplexQuery --&gt; ComplexQuery : none_of
+          
+    
+    
+    ComplexQuery --&gt; &quot;*&quot; ComplexQuery : none_of
+    click ComplexQuery href &quot;../ComplexQuery&quot;
+
         
       ComplexQuery : path_to
         
@@ -121,17 +142,17 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="all_of.html"><span class="std std-doc">all_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">ComplexQuery</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">ComplexQuery</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="any_of.html"><span class="std std-doc">any_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">ComplexQuery</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">ComplexQuery</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="none_of.html"><span class="std std-doc">none_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">ComplexQuery</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">ComplexQuery</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -218,26 +239,26 @@ attributes:
     name: all_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   any_of:
     name: any_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   none_of:
     name: none_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   path_to:
     name: path_to
     from_schema: https://w3id.org/oak/search-datamodel
@@ -264,32 +285,32 @@ attributes:
     name: all_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: all_of
     owner: ComplexQuery
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   any_of:
     name: any_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: any_of
     owner: ComplexQuery
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   none_of:
     name: none_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: none_of
     owner: ComplexQuery
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   path_to:
     name: path_to
     from_schema: https://w3id.org/oak/search-datamodel

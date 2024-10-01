@@ -2,6 +2,8 @@
 
 # Slot: is_inferred
 
+
+
 URI: [oio:is_inferred](http://www.geneontology.org/formats/oboInOwl#is_inferred)
 
 
@@ -44,6 +46,16 @@ URI: [oio:is_inferred](http://www.geneontology.org/formats/oboInOwl#is_inferred)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:is_inferred |
+| native | omoschema:is_inferred |
 
 
 

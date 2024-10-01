@@ -7,6 +7,8 @@ _The number of concepts in the intersection divided by the number in the union_
 
 
 
+
+
 URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similarity)
 
 
@@ -54,6 +56,16 @@ URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similar
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:jaccard_similarity |
+| native | sim:jaccard_similarity |
 
 
 

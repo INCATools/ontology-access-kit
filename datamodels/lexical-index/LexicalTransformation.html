@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,15 +90,27 @@
 <div class="mermaid">
              classDiagram
     class LexicalTransformation
+    click LexicalTransformation href &quot;../LexicalTransformation&quot;
       Activity &lt;|-- LexicalTransformation
+        click Activity href &quot;../Activity&quot;
       
       LexicalTransformation : params
         
-          LexicalTransformation --&gt; Any : params
+          
+    
+    
+    LexicalTransformation --&gt; &quot;*&quot; Any : params
+    click Any href &quot;../Any&quot;
+
         
       LexicalTransformation : type
         
-          LexicalTransformation --&gt; TransformationType : type
+          
+    
+    
+    LexicalTransformation --&gt; &quot;0..1&quot; TransformationType : type
+    click TransformationType href &quot;../TransformationType&quot;
+
         
       
         </div><section id="inheritance">
@@ -128,7 +140,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="std std-doc">params</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Any.html"><span class="std std-doc">Any</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Any.html"><span class="std std-doc">Any</span></a></p></td>
 <td><p>Any parameters to be applied to the transformation algorithm</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -207,10 +219,10 @@ attributes:
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     domain_of:
     - LexicalTransformation
     range: Any
+    multivalued: true
     inlined: true
     inlined_as_list: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -240,12 +252,12 @@ attributes:
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: params
     owner: LexicalTransformation
     domain_of:
     - LexicalTransformation
     range: Any
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

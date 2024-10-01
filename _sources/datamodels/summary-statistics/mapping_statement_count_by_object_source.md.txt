@@ -7,6 +7,8 @@ _Number of mappings grouped by object_source (prefix of external vocabulary) in 
 
 
 
+
+
 URI: [summary_statistics:mapping_statement_count_by_object_source](https://w3id.org/oaklib/summary_statistics.mapping_statement_count_by_object_source)
 
 
@@ -61,6 +63,16 @@ URI: [summary_statistics:mapping_statement_count_by_object_source](https://w3id.
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:mapping_statement_count_by_object_source |
+| native | summary_statistics:mapping_statement_count_by_object_source |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -77,13 +89,13 @@ description: Number of mappings grouped by object_source (prefix of external voc
   in the ontology or subset
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: mapping_statement_count_by_object_source
 owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
+multivalued: true
 inlined: true
 
 ```

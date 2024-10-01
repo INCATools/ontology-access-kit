@@ -2,6 +2,8 @@
 
 # Slot: has_exact_synonym
 
+
+
 URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExactSynonym)
 
 
@@ -23,18 +25,18 @@ URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExact
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Image](Image.md) |  |  no  |
 | [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
-| [Property](Property.md) |  |  no  |
-| [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |  no  |
-| [Class](Class.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Property](Property.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -68,6 +70,16 @@ URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExact
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:hasExactSynonym |
+| native | omoschema:has_exact_synonym |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -77,7 +89,6 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: synonym
 slot_uri: oio:hasExactSynonym
-multivalued: true
 alias: has_exact_synonym
 domain_of:
 - HasSynonyms
@@ -85,6 +96,7 @@ domain_of:
 disjoint_with:
 - label
 range: label type
+multivalued: true
 
 ```
 </details>

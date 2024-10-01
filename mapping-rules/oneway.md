@@ -7,6 +7,8 @@ _if true then subject and object can be switched and predicate inverted_
 
 
 
+
+
 URI: [mappingrules:oneway](https://w3id.org/oak/mapping-rules-datamodel/oneway)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:oneway](https://w3id.org/oak/mapping-rules-datamodel/oneway)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:oneway |
+| native | mappingrules:oneway |
 
 
 

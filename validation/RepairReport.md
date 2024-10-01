@@ -14,14 +14,23 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class RepairReport
+    click RepairReport href "../RepairReport"
       Report <|-- RepairReport
+        click Report href "../Report"
       
       RepairReport : results
         
-          RepairReport --> RepairOperation : results
+          
+    
+    
+    RepairReport --> "*" RepairOperation : results
+    click RepairOperation href "../RepairOperation"
+
         
       
 ```
@@ -40,7 +49,7 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> [RepairOperation](RepairOperation.md) | collection of results | [Report](Report.md) |
+| [results](results.md) | * <br/> [RepairOperation](RepairOperation.md) | collection of results | [Report](Report.md) |
 
 
 
@@ -66,13 +75,14 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:RepairReport |
 | native | vm:RepairReport |
+
+
 
 
 
@@ -93,8 +103,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: RepairOperation
 
 ```
@@ -111,8 +119,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: RepairOperation
 attributes:
   results:
@@ -121,12 +127,12 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     slot_uri: sh:result
-    multivalued: true
     alias: results
     owner: RepairReport
     domain_of:
     - Report
     range: RepairOperation
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,11 +90,18 @@
 <div class="mermaid">
              classDiagram
     class UngroupedStatistics
+    click UngroupedStatistics href &quot;../UngroupedStatistics&quot;
       SummaryStatisticsReport &lt;|-- UngroupedStatistics
+        click SummaryStatisticsReport href &quot;../SummaryStatisticsReport&quot;
       
       UngroupedStatistics : agents
         
-          UngroupedStatistics --&gt; Agent : agents
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; Agent : agents
+    click Agent href &quot;../Agent&quot;
+
         
       UngroupedStatistics : annotation_property_count
         
@@ -104,17 +111,32 @@
         
       UngroupedStatistics : change_summary
         
-          UngroupedStatistics --&gt; ChangeTypeStatistic : change_summary
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; ChangeTypeStatistic : change_summary
+    click ChangeTypeStatistic href &quot;../ChangeTypeStatistic&quot;
+
         
       UngroupedStatistics : class_count
         
       UngroupedStatistics : class_count_by_category
         
-          UngroupedStatistics --&gt; FacetedCount : class_count_by_category
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : class_count_by_category
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : class_count_by_subset
         
-          UngroupedStatistics --&gt; FacetedCount : class_count_by_subset
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : class_count_by_subset
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : class_count_with_text_definitions
         
@@ -122,11 +144,21 @@
         
       UngroupedStatistics : compared_with
         
-          UngroupedStatistics --&gt; Ontology : compared_with
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; Ontology : compared_with
+    click Ontology href &quot;../Ontology&quot;
+
         
       UngroupedStatistics : contributor_summary
         
-          UngroupedStatistics --&gt; ContributorStatistics : contributor_summary
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; ContributorStatistics : contributor_summary
+    click ContributorStatistics href &quot;../ContributorStatistics&quot;
+
         
       UngroupedStatistics : datatype_property_count
         
@@ -140,11 +172,21 @@
         
       UngroupedStatistics : edge_count_by_predicate
         
-          UngroupedStatistics --&gt; FacetedCount : edge_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : edge_count_by_predicate
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : entailed_edge_count_by_predicate
         
-          UngroupedStatistics --&gt; FacetedCount : entailed_edge_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : entailed_edge_count_by_predicate
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : equivalent_classes_axiom_count
         
@@ -156,15 +198,30 @@
         
       UngroupedStatistics : mapping_statement_count_by_object_source
         
-          UngroupedStatistics --&gt; FacetedCount : mapping_statement_count_by_object_source
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : mapping_statement_count_by_object_source
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : mapping_statement_count_by_predicate
         
-          UngroupedStatistics --&gt; FacetedCount : mapping_statement_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : mapping_statement_count_by_predicate
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : mapping_statement_count_subject_by_object_source
         
-          UngroupedStatistics --&gt; FacetedCount : mapping_statement_count_subject_by_object_source
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : mapping_statement_count_subject_by_object_source
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : merged_class_count
         
@@ -178,7 +235,12 @@
         
       UngroupedStatistics : ontologies
         
-          UngroupedStatistics --&gt; Ontology : ontologies
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; Ontology : ontologies
+    click Ontology href &quot;../Ontology&quot;
+
         
       UngroupedStatistics : ontology_count
         
@@ -196,7 +258,12 @@
         
       UngroupedStatistics : synonym_statement_count_by_predicate
         
-          UngroupedStatistics --&gt; FacetedCount : synonym_statement_count_by_predicate
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;*&quot; FacetedCount : synonym_statement_count_by_predicate
+    click FacetedCount href &quot;../FacetedCount&quot;
+
         
       UngroupedStatistics : unsatisfiable_class_count
         
@@ -204,7 +271,12 @@
         
       UngroupedStatistics : was_generated_by
         
-          UngroupedStatistics --&gt; SummaryStatisticsCalculationActivity : was_generated_by
+          
+    
+    
+    UngroupedStatistics --&gt; &quot;0..1&quot; SummaryStatisticsCalculationActivity : was_generated_by
+    click SummaryStatisticsCalculationActivity href &quot;../SummaryStatisticsCalculationActivity&quot;
+
         
       
         </div><section id="inheritance">
@@ -349,12 +421,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="edge_count_by_predicate.html"><span class="std std-doc">edge_count_by_predicate</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of edges grouped by predicate in the ontology or subset</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="entailed_edge_count_by_predicate.html"><span class="std std-doc">entailed_edge_count_by_predicate</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of entailed (includes indirect) edges grouped by predicate in the onto…</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -369,17 +441,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="synonym_statement_count_by_predicate.html"><span class="std std-doc">synonym_statement_count_by_predicate</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of synonym statements (assertions) grouped by predicate (scope) in the…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="class_count_by_subset.html"><span class="std std-doc">class_count_by_subset</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of classes grouped by subset (slim, value set) in the ontology or subs…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="class_count_by_category.html"><span class="std std-doc">class_count_by_category</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of classes grouped by category in the ontology or subset</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -389,17 +461,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="mapping_statement_count_by_predicate.html"><span class="std std-doc">mapping_statement_count_by_predicate</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of mappings grouped by predicate (e</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="mapping_statement_count_by_object_source.html"><span class="std std-doc">mapping_statement_count_by_object_source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of mappings grouped by object_source (prefix of external vocabulary) i…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="mapping_statement_count_subject_by_object_source.html"><span class="std std-doc">mapping_statement_count_subject_by_object_source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="FacetedCount.html"><span class="std std-doc">FacetedCount</span></a></p></td>
 <td><p>Number of distinct subject entities grouped by object_source (prefix of exter…</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -409,27 +481,27 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="contributor_summary.html"><span class="std std-doc">contributor_summary</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ContributorStatistics.html"><span class="std std-doc">ContributorStatistics</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ContributorStatistics.html"><span class="std std-doc">ContributorStatistics</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="change_summary.html"><span class="std std-doc">change_summary</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ChangeTypeStatistic.html"><span class="std std-doc">ChangeTypeStatistic</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ChangeTypeStatistic.html"><span class="std std-doc">ChangeTypeStatistic</span></a></p></td>
 <td><p>Summary of changes between two versions of an ontology</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>Unique handle for this report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ontologies.html"><span class="std std-doc">ontologies</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
 <td><p>Ontology for which the statistics are computed</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="compared_with.html"><span class="std std-doc">compared_with</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
 <td><p>For diffs, the ontologies being compared against</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
@@ -439,7 +511,7 @@
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="agents.html"><span class="std std-doc">agents</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
 <td><p>Agents that contributed to the report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
@@ -826,11 +898,11 @@ attributes:
     description: Number of edges grouped by predicate in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   entailed_edge_count_by_predicate:
     name: entailed_edge_count_by_predicate
@@ -845,11 +917,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   distinct_synonym_count:
     name: distinct_synonym_count
@@ -895,11 +967,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_subset:
     name: class_count_by_subset
@@ -914,11 +986,11 @@ attributes:
       or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_category:
     name: class_count_by_category
@@ -932,11 +1004,11 @@ attributes:
     description: Number of classes grouped by category in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_count:
     name: mapping_count
@@ -965,11 +1037,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_by_object_source:
     name: mapping_statement_count_by_object_source
@@ -984,11 +1056,11 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_subject_by_object_source:
     name: mapping_statement_count_subject_by_object_source
@@ -1008,11 +1080,11 @@ attributes:
     - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   ontology_count:
     name: ontology_count
@@ -1031,20 +1103,20 @@ attributes:
     name: contributor_summary
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     range: ContributorStatistics
+    multivalued: true
     inlined: true
   change_summary:
     name: change_summary
     description: Summary of changes between two versions of an ontology
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - UngroupedStatistics
     range: ChangeTypeStatistic
+    multivalued: true
     inlined: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -1427,13 +1499,13 @@ attributes:
     description: Number of edges grouped by predicate in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: edge_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   entailed_edge_count_by_predicate:
     name: entailed_edge_count_by_predicate
@@ -1448,13 +1520,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: entailed_edge_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   distinct_synonym_count:
     name: distinct_synonym_count
@@ -1504,13 +1576,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: synonym_statement_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_subset:
     name: class_count_by_subset
@@ -1525,13 +1597,13 @@ attributes:
       or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: class_count_by_subset
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   class_count_by_category:
     name: class_count_by_category
@@ -1545,13 +1617,13 @@ attributes:
     description: Number of classes grouped by category in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: class_count_by_category
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_count:
     name: mapping_count
@@ -1582,13 +1654,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: mapping_statement_count_by_predicate
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_by_object_source:
     name: mapping_statement_count_by_object_source
@@ -1603,13 +1675,13 @@ attributes:
       in the ontology or subset
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: mapping_statement_count_by_object_source
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   mapping_statement_count_subject_by_object_source:
     name: mapping_statement_count_subject_by_object_source
@@ -1629,13 +1701,13 @@ attributes:
     - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: mapping_statement_count_subject_by_object_source
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     slot_group: metadata_statistic_group
     range: FacetedCount
+    multivalued: true
     inlined: true
   ontology_count:
     name: ontology_count
@@ -1656,24 +1728,24 @@ attributes:
     name: contributor_summary
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: contributor_summary
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     range: ContributorStatistics
+    multivalued: true
     inlined: true
   change_summary:
     name: change_summary
     description: Summary of changes between two versions of an ontology
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: change_summary
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics
     range: ChangeTypeStatistic
+    multivalued: true
     inlined: true
   id:
     name: id
@@ -1694,12 +1766,12 @@ attributes:
     description: Ontology for which the statistics are computed
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: ontologies
     owner: UngroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   compared_with:
@@ -1707,12 +1779,12 @@ attributes:
     description: For diffs, the ontologies being compared against
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: compared_with
     owner: UngroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   was_generated_by:
@@ -1730,12 +1802,12 @@ attributes:
     description: Agents that contributed to the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: agents
     owner: UngroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Agent
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

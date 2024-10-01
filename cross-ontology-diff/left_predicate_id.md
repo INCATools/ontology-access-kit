@@ -7,6 +7,8 @@ _The predicate (relation) of the source/left edge_
 
 
 
+
+
 URI: [xodiff:left_predicate_id](https://w3id.org/oak/cross-ontology-diff/left_predicate_id)
 
 
@@ -55,6 +57,16 @@ URI: [xodiff:left_predicate_id](https://w3id.org/oak/cross-ontology-diff/left_pr
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:left_predicate_id |
+| native | xodiff:left_predicate_id |
 
 
 

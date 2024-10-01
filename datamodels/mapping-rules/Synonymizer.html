@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,6 +90,7 @@
 <div class="mermaid">
              classDiagram
     class Synonymizer
+    click Synonymizer href &quot;../Synonymizer&quot;
       Synonymizer : description
         
       Synonymizer : in_place
@@ -106,7 +107,12 @@
         
       Synonymizer : tests
         
-          Synonymizer --&gt; Test : tests
+          
+    
+    
+    Synonymizer --&gt; &quot;*&quot; Test : tests
+    click Test href &quot;../Test&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -157,7 +163,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="tests.html"><span class="std std-doc">tests</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Test.html"><span class="std std-doc">Test</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Test.html"><span class="std std-doc">Test</span></a></p></td>
 <td><p>Unit tests for each rules</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -289,10 +295,10 @@ attributes:
     description: Unit tests for each rules.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Synonymizer
     range: Test
+    multivalued: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -380,12 +386,12 @@ attributes:
     description: Unit tests for each rules.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
-    multivalued: true
     alias: tests
     owner: Synonymizer
     domain_of:
     - Synonymizer
     range: Test
+    multivalued: true
 
 </pre></div>
 </div>

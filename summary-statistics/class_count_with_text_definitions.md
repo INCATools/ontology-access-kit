@@ -7,6 +7,8 @@ _Number of classes with text definitions in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:class_count_with_text_definitions](https://w3id.org/oaklib/summary_statistics.class_count_with_text_definitions)
 
 
@@ -60,6 +62,16 @@ URI: [summary_statistics:class_count_with_text_definitions](https://w3id.org/oak
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:class_count_with_text_definitions |
+| native | summary_statistics:class_count_with_text_definitions |
 
 
 

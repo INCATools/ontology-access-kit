@@ -2,6 +2,8 @@
 
 # Slot: subClassOf
 
+
+
 URI: [rdfs:subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
 
 
@@ -21,9 +23,9 @@ URI: [rdfs:subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 | [Class](Class.md) |  |  yes  |
 | [Restriction](Restriction.md) |  |  no  |
-| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
@@ -57,6 +59,16 @@ URI: [rdfs:subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:subClassOf |
+| native | omoschema:subClassOf |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -66,11 +78,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: rdfs:subClassOf
-multivalued: true
 alias: subClassOf
 domain_of:
 - ClassExpression
 range: ClassExpression
+multivalued: true
 
 ```
 </details>

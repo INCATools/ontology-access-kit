@@ -7,6 +7,8 @@ _The fold enrichment_
 
 
 
+
+
 URI: [ontoenrich:fold_enrichment](https://w3id.org/oak/class-enrichment/fold_enrichment)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:fold_enrichment](https://w3id.org/oak/class-enrichment/fold_enr
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:fold_enrichment |
+| native | ontoenrich:fold_enrichment |
 
 
 

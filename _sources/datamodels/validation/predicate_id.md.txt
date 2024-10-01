@@ -2,6 +2,8 @@
 
 # Slot: predicate_id
 
+
+
 URI: [vm:predicate_id](https://w3id.org/linkml/validation-model/predicate_id)
 
 
@@ -44,6 +46,16 @@ URI: [vm:predicate_id](https://w3id.org/linkml/validation-model/predicate_id)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:predicate_id |
+| native | vm:predicate_id |
 
 
 

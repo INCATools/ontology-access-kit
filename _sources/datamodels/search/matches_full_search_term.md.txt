@@ -7,6 +7,8 @@ _Does the matched field match the full string_
 
 
 
+
+
 URI: [ontosearch:matches_full_search_term](https://w3id.org/oak/search-datamodel/matches_full_search_term)
 
 
@@ -49,6 +51,16 @@ URI: [ontosearch:matches_full_search_term](https://w3id.org/oak/search-datamodel
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:matches_full_search_term |
+| native | ontosearch:matches_full_search_term |
 
 
 

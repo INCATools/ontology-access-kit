@@ -7,6 +7,8 @@ _The second ontology is arbitrarily designated the right side_
 
 
 
+
+
 URI: [xodiff:right_side](https://w3id.org/oak/cross-ontology-diff/right_side)
 
 
@@ -59,6 +61,16 @@ URI: [xodiff:right_side](https://w3id.org/oak/cross-ontology-diff/right_side)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:right_side |
+| native | xodiff:right_side |
 
 
 

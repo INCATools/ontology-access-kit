@@ -7,6 +7,8 @@ _Synonym scope of the reg-ex rule, e.g. exact, narrow_
 
 
 
+
+
 URI: [mappingrules:match_scope](https://w3id.org/oak/mapping-rules-datamodel/match_scope)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:match_scope](https://w3id.org/oak/mapping-rules-datamodel/mat
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:match_scope |
+| native | mappingrules:match_scope |
 
 
 

@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,6 +90,7 @@
 <div class="mermaid">
              classDiagram
     class ValidationConfiguration
+    click ValidationConfiguration href &quot;../ValidationConfiguration&quot;
       ValidationConfiguration : documentation_objects
         
       ValidationConfiguration : lookup_references
@@ -102,7 +103,12 @@
         
       ValidationConfiguration : type_severity_map
         
-          ValidationConfiguration --&gt; TypeSeverityKeyValue : type_severity_map
+          
+    
+    
+    ValidationConfiguration --&gt; &quot;*&quot; TypeSeverityKeyValue : type_severity_map
+    click TypeSeverityKeyValue href &quot;../TypeSeverityKeyValue&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -123,7 +129,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type_severity_map.html"><span class="std std-doc">type_severity_map</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="TypeSeverityKeyValue.html"><span class="std std-doc">TypeSeverityKeyValue</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="TypeSeverityKeyValue.html"><span class="std std-doc">TypeSeverityKeyValue</span></a></p></td>
 <td><p>Allows overriding of severity of a particular type</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -143,7 +149,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="documentation_objects.html"><span class="std std-doc">documentation_objects</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>paths or URLs to files containing best practice documentation, SOPs, etc</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -221,10 +227,10 @@ attributes:
     description: Allows overriding of severity of a particular type
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
-    multivalued: true
     domain_of:
     - ValidationConfiguration
     range: TypeSeverityKeyValue
+    multivalued: true
     inlined: true
   schema_path:
     name: schema_path
@@ -258,10 +264,10 @@ attributes:
       etc. Primarily for AI agents to read when performing validation.
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
-    multivalued: true
     domain_of:
     - ValidationConfiguration
     range: string
+    multivalued: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -288,12 +294,12 @@ attributes:
     description: Allows overriding of severity of a particular type
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
-    multivalued: true
     alias: type_severity_map
     owner: ValidationConfiguration
     domain_of:
     - ValidationConfiguration
     range: TypeSeverityKeyValue
+    multivalued: true
     inlined: true
   schema_path:
     name: schema_path
@@ -333,12 +339,12 @@ attributes:
       etc. Primarily for AI agents to read when performing validation.
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
-    multivalued: true
     alias: documentation_objects
     owner: ValidationConfiguration
     domain_of:
     - ValidationConfiguration
     range: string
+    multivalued: true
 
 </pre></div>
 </div>

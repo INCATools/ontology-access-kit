@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,11 +90,18 @@
 <div class="mermaid">
              classDiagram
     class EquivalentNodesSet
+    click EquivalentNodesSet href &quot;../EquivalentNodesSet&quot;
       Axiom &lt;|-- EquivalentNodesSet
+        click Axiom href &quot;../Axiom&quot;
       
       EquivalentNodesSet : meta
         
-          EquivalentNodesSet --&gt; Meta : meta
+          
+    
+    
+    EquivalentNodesSet --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       EquivalentNodesSet : nodeIds
         
@@ -128,7 +135,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="nodeIds.html"><span class="std std-doc">nodeIds</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -227,12 +234,12 @@ attributes:
     name: nodeIds
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: nodeIds
     owner: EquivalentNodesSet
     domain_of:
     - EquivalentNodesSet
     range: string
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

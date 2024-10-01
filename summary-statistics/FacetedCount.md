@@ -14,9 +14,12 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class FacetedCount
+    click FacetedCount href "../FacetedCount"
       FacetedCount : facet
         
       FacetedCount : filtered_count
@@ -35,7 +38,7 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [facet](facet.md) | 0..1 <br/> [String](String.md) | the facet used to group the counts | direct |
-| [filtered_count](filtered_count.md) | 1..1 <br/> [Integer](Integer.md) | the number of items in the facet | direct |
+| [filtered_count](filtered_count.md) | 1 <br/> [Integer](Integer.md) | the number of items in the facet | direct |
 
 
 
@@ -80,13 +83,14 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | summary_statistics:FacetedCount |
 | native | summary_statistics:FacetedCount |
+
+
 
 
 

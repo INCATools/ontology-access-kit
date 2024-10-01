@@ -14,16 +14,25 @@ URI: [mappingrules:LexicalTransformationPipeline](https://w3id.org/oak/mapping-r
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class LexicalTransformationPipeline
+    click LexicalTransformationPipeline href "../LexicalTransformationPipeline"
       Activity <|-- LexicalTransformationPipeline
+        click Activity href "../Activity"
       
       LexicalTransformationPipeline : name
         
       LexicalTransformationPipeline : transformations
         
-          LexicalTransformationPipeline --> LexicalTransformation : transformations
+          
+    
+    
+    LexicalTransformationPipeline --> "*" LexicalTransformation : transformations
+    click LexicalTransformation href "../LexicalTransformation"
+
         
       
 ```
@@ -43,7 +52,7 @@ URI: [mappingrules:LexicalTransformationPipeline](https://w3id.org/oak/mapping-r
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
+| [transformations](transformations.md) | * <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
 
 
 
@@ -77,13 +86,14 @@ URI: [mappingrules:LexicalTransformationPipeline](https://w3id.org/oak/mapping-r
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:LexicalTransformationPipeline |
 | native | mappingrules:LexicalTransformationPipeline |
+
+
 
 
 
@@ -115,10 +125,10 @@ attributes:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     domain_of:
     - LexicalTransformationPipeline
     range: LexicalTransformation
+    multivalued: true
 
 ```
 </details>
@@ -148,12 +158,12 @@ attributes:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: transformations
     owner: LexicalTransformationPipeline
     domain_of:
     - LexicalTransformationPipeline
     range: LexicalTransformation
+    multivalued: true
 
 ```
 </details>

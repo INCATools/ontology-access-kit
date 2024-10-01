@@ -9,6 +9,8 @@ _associations and sub-group associations._
 
 
 
+
+
 URI: [rdf:object](rdf:object)
 
 
@@ -51,6 +53,16 @@ URI: [rdf:object](rdf:object)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:object |
+| native | ontoassoc:group_object |
 
 
 

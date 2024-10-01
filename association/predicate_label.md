@@ -7,6 +7,8 @@ _The label of the type of relationship between the subject and object._
 
 
 
+
+
 URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
 
 
@@ -26,8 +28,8 @@ URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -55,6 +57,16 @@ URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:predicate_label |
+| native | ontoassoc:predicate_label |
 
 
 

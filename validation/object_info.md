@@ -2,6 +2,8 @@
 
 # Slot: object_info
 
+
+
 URI: [vm:object_info](https://w3id.org/linkml/validation-model/object_info)
 
 
@@ -44,6 +46,16 @@ URI: [vm:object_info](https://w3id.org/linkml/validation-model/object_info)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:object_info |
+| native | vm:object_info |
 
 
 

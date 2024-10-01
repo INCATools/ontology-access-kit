@@ -7,6 +7,8 @@ _A normalized term that groups ontology elements_
 
 
 
+
+
 URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 
 
@@ -51,6 +53,16 @@ URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:term |
+| native | mappingrules:term |
 
 
 

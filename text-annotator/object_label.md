@@ -2,6 +2,8 @@
 
 # Slot: object_label
 
+
+
 URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
@@ -44,6 +46,17 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:object_label |
+| native | ann:object_label |
+| exact | bpa:annotatedClass.prefLabel |
 
 
 

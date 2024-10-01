@@ -2,6 +2,8 @@
 
 # Slot: problem
 
+
+
 URI: [vm:problem](https://w3id.org/linkml/validation-model/problem)
 
 
@@ -44,6 +46,16 @@ URI: [vm:problem](https://w3id.org/linkml/validation-model/problem)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:problem |
+| native | vm:problem |
 
 
 

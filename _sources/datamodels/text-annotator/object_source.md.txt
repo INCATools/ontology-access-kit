@@ -2,6 +2,8 @@
 
 # Slot: object_source
 
+
+
 URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 
 
@@ -44,6 +46,16 @@ URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:object_source |
+| native | ann:object_source |
 
 
 

@@ -7,6 +7,8 @@ _A description of the term_
 
 
 
+
+
 URI: [tc:description](https://w3id.org/linkml/taxon_constraints/description)
 
 
@@ -49,6 +51,16 @@ URI: [tc:description](https://w3id.org/linkml/taxon_constraints/description)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:description |
+| native | tc:description |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: confidence
 
+
+
 URI: [vm:confidence](https://w3id.org/linkml/validation-model/confidence)
 
 
@@ -44,6 +46,16 @@ URI: [vm:confidence](https://w3id.org/linkml/validation-model/confidence)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:confidence |
+| native | vm:confidence |
 
 
 

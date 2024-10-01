@@ -7,6 +7,8 @@ _The original subject of the association prior to normalization_
 
 
 
+
+
 URI: [biolink:original_subject](https://w3id.org/biolink/vocab/original_subject)
 
 
@@ -40,6 +42,17 @@ URI: [biolink:original_subject](https://w3id.org/biolink/vocab/original_subject)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | biolink:original_subject |
+| native | ontoassoc:original_subject |
+| exact | biolink:original_subject |
 
 
 

@@ -7,6 +7,8 @@ _The term to which the constraint applies_
 
 
 
+
+
 URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
@@ -53,6 +55,16 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:subject |
+| native | tc:subject |
 
 
 

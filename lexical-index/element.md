@@ -2,6 +2,8 @@
 
 # Slot: element
 
+
+
 URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 
 
@@ -44,6 +46,16 @@ URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:element |
+| native | ontolexindex:element |
 
 
 

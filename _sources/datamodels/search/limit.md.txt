@@ -7,6 +7,8 @@ _the maximum number of search results to be returned in one batch_
 
 
 
+
+
 URI: [ontosearch:limit](https://w3id.org/oak/search-datamodel/limit)
 
 
@@ -49,6 +51,16 @@ URI: [ontosearch:limit](https://w3id.org/oak/search-datamodel/limit)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:limit |
+| native | ontosearch:limit |
 
 
 

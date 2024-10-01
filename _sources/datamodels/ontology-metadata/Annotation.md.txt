@@ -14,9 +14,12 @@ URI: [omoschema:Annotation](https://w3id.org/oak/ontology-metadata/Annotation)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Annotation
+    click Annotation href "../Annotation"
       Annotation : object
         
       Annotation : predicate
@@ -68,13 +71,14 @@ URI: [omoschema:Annotation](https://w3id.org/oak/ontology-metadata/Annotation)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:Annotation |
 | native | omoschema:Annotation |
+
+
 
 
 

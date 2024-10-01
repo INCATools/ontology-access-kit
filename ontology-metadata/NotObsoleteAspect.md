@@ -14,9 +14,12 @@ URI: [omoschema:NotObsoleteAspect](https://w3id.org/oak/ontology-metadata/NotObs
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class NotObsoleteAspect
+    click NotObsoleteAspect href "../NotObsoleteAspect"
       
 ```
 
@@ -79,13 +82,14 @@ URI: [omoschema:NotObsoleteAspect](https://w3id.org/oak/ontology-metadata/NotObs
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:NotObsoleteAspect |
 | native | omoschema:NotObsoleteAspect |
+
+
 
 
 

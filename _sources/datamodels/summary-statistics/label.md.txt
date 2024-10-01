@@ -7,6 +7,8 @@ _the label for the agent_
 
 
 
+
+
 URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
@@ -49,6 +51,16 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:label |
+| native | summary_statistics:label |
 
 
 

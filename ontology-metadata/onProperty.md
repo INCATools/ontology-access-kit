@@ -2,6 +2,8 @@
 
 # Slot: onProperty
 
+
+
 URI: [owl:onProperty](http://www.w3.org/2002/07/owl#onProperty)
 
 
@@ -55,6 +57,16 @@ URI: [owl:onProperty](http://www.w3.org/2002/07/owl#onProperty)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:onProperty |
+| native | omoschema:onProperty |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,11 +76,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:onProperty
-multivalued: true
 alias: onProperty
 domain_of:
 - Restriction
 range: PropertyExpression
+multivalued: true
 
 ```
 </details>

@@ -2,6 +2,8 @@
 
 # Slot: prefix
 
+
+
 URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
 
 
@@ -39,6 +41,16 @@ URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:prefix |
+| native | mappingrules:prefix |
 
 
 

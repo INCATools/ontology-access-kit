@@ -7,6 +7,8 @@ _The CURIE of the matched term_
 
 
 
+
+
 URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 
@@ -51,6 +53,16 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:object_id |
+| native | ontosearch:object_id |
 
 
 

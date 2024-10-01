@@ -2,6 +2,8 @@
 
 # Slot: match_subsumer_label
 
+
+
 URI: [sim:match_subsumer_label](https://w3id.org/linkml/similarity/match_subsumer_label)
 
 
@@ -44,6 +46,16 @@ URI: [sim:match_subsumer_label](https://w3id.org/linkml/similarity/match_subsume
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:match_subsumer_label |
+| native | sim:match_subsumer_label |
 
 
 

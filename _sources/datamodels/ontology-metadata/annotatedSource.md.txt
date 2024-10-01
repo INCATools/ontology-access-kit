@@ -2,6 +2,8 @@
 
 # Slot: annotatedSource
 
+
+
 URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
 
 
@@ -53,6 +55,17 @@ URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:annotatedSource |
+| native | omoschema:annotatedSource |
+| exact | rdf:subject |
 
 
 

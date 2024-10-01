@@ -7,6 +7,8 @@ _holds if the constraint is asserted in the source ontology, rather than inferre
 
 
 
+
+
 URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
 
 
@@ -49,6 +51,16 @@ URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:asserted |
+| native | tc:asserted |
 
 
 

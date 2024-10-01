@@ -7,6 +7,8 @@ _The set of objects that are related to the object of the association via the cl
 
 
 
+
+
 URI: [ontoassoc:object_closure](https://w3id.org/oak/association/object_closure)
 
 
@@ -22,8 +24,8 @@ URI: [ontoassoc:object_closure](https://w3id.org/oak/association/object_closure)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -57,6 +59,16 @@ URI: [ontoassoc:object_closure](https://w3id.org/oak/association/object_closure)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:object_closure |
+| native | ontoassoc:object_closure |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -66,11 +78,11 @@ description: The set of objects that are related to the object of the associatio
   via the closure predicates
 from_schema: https://w3id.org/oak/association
 rank: 1000
-multivalued: true
 alias: object_closure
 domain_of:
 - PositiveOrNegativeAssociation
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

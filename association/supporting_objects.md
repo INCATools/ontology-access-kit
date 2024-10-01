@@ -7,6 +7,8 @@ _The objects that support the association_
 
 
 
+
+
 URI: [ontoassoc:supporting_objects](https://w3id.org/oak/association/supporting_objects)
 
 
@@ -22,8 +24,8 @@ URI: [ontoassoc:supporting_objects](https://w3id.org/oak/association/supporting_
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -57,6 +59,16 @@ URI: [ontoassoc:supporting_objects](https://w3id.org/oak/association/supporting_
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:supporting_objects |
+| native | ontoassoc:supporting_objects |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,11 +77,11 @@ name: supporting_objects
 description: The objects that support the association
 from_schema: https://w3id.org/oak/association
 rank: 1000
-multivalued: true
 alias: supporting_objects
 domain_of:
 - PositiveOrNegativeAssociation
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

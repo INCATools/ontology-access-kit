@@ -2,6 +2,8 @@
 
 # Slot: version
 
+
+
 URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
@@ -44,6 +46,16 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:versionInfo |
+| native | obographs:version |
 
 
 

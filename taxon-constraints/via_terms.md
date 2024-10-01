@@ -7,6 +7,8 @@ _For inferred taxon constraints, this is the term or terms that have the taxon c
 
 
 
+
+
 URI: [tc:via_terms](https://w3id.org/linkml/taxon_constraints/via_terms)
 
 
@@ -55,6 +57,16 @@ URI: [tc:via_terms](https://w3id.org/linkml/taxon_constraints/via_terms)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:via_terms |
+| native | tc:via_terms |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: For inferred taxon constraints, this is the term or terms that have
   taxon constraint asserted
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
-multivalued: true
 alias: via_terms
 owner: TaxonConstraint
 domain_of:
 - TaxonConstraint
 range: SubjectTerm
+multivalued: true
 inlined: true
 inlined_as_list: true
 

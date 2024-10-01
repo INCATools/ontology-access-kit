@@ -7,6 +7,8 @@ _Number of datatype properties in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:datatype_property_count](https://w3id.org/oaklib/summary_statistics.datatype_property_count)
 
 
@@ -60,6 +62,16 @@ URI: [summary_statistics:datatype_property_count](https://w3id.org/oaklib/summar
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:datatype_property_count |
+| native | summary_statistics:datatype_property_count |
 
 
 

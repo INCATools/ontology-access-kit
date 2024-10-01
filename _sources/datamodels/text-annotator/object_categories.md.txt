@@ -2,6 +2,8 @@
 
 # Slot: object_categories
 
+
+
 URI: [ann:object_categories](https://w3id.org/linkml/text_annotator/object_categories)
 
 
@@ -50,6 +52,16 @@ URI: [ann:object_categories](https://w3id.org/linkml/text_annotator/object_categ
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:object_categories |
+| native | ann:object_categories |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [ann:object_categories](https://w3id.org/linkml/text_annotator/object_categ
 name: object_categories
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
-multivalued: true
 alias: object_categories
 owner: TextAnnotation
 domain_of:
 - TextAnnotation
 range: string
+multivalued: true
 
 ```
 </details>

@@ -7,6 +7,8 @@ _The primary knowledge source for the association_
 
 
 
+
+
 URI: [biolink:primary_knowledge_source](https://w3id.org/biolink/vocab/primary_knowledge_source)
 
 
@@ -21,11 +23,11 @@ URI: [biolink:primary_knowledge_source](https://w3id.org/biolink/vocab/primary_k
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 | [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |  no  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -53,6 +55,16 @@ URI: [biolink:primary_knowledge_source](https://w3id.org/biolink/vocab/primary_k
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | biolink:primary_knowledge_source |
+| native | ontoassoc:primary_knowledge_source |
 
 
 

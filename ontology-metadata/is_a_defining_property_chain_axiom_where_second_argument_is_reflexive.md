@@ -2,6 +2,8 @@
 
 # Slot: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
 
+
+
 URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 
 
@@ -44,6 +46,16 @@ URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | RO:0002582 |
+| native | omoschema:is_a_defining_property_chain_axiom_where_second_argument_is_reflexive |
 
 
 

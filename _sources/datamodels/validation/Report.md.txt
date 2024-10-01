@@ -16,15 +16,25 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Report
+    click Report href "../Report"
       Report <|-- ValidationReport
+        click ValidationReport href "../ValidationReport"
       Report <|-- RepairReport
+        click RepairReport href "../RepairReport"
       
       Report : results
         
-          Report --> Result : results
+          
+    
+    
+    Report --> "*" Result : results
+    click Result href "../Result"
+
         
       
 ```
@@ -44,7 +54,7 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | direct |
+| [results](results.md) | * <br/> [Result](Result.md) | collection of results | direct |
 
 
 
@@ -70,13 +80,14 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:Report |
 | native | vm:Report |
+
+
 
 
 
@@ -115,12 +126,12 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     slot_uri: sh:result
-    multivalued: true
     alias: results
     owner: Report
     domain_of:
     - Report
     range: Result
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

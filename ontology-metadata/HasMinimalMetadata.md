@@ -14,13 +14,18 @@ URI: [omoschema:HasMinimalMetadata](https://w3id.org/oak/ontology-metadata/HasMi
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class HasMinimalMetadata
+    click HasMinimalMetadata href "../HasMinimalMetadata"
       AnnotationPropertyMixin <|-- HasMinimalMetadata
+        click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       
 
       HasMinimalMetadata <|-- Term
+        click Term href "../Term"
       
       
       HasMinimalMetadata : definition
@@ -45,7 +50,7 @@ URI: [omoschema:HasMinimalMetadata](https://w3id.org/oak/ontology-metadata/HasMi
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
-| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | direct |
+| [definition](definition.md) | * <br/> [NarrativeText](NarrativeText.md) |  | direct |
 
 
 
@@ -78,13 +83,14 @@ URI: [omoschema:HasMinimalMetadata](https://w3id.org/oak/ontology-metadata/HasMi
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:HasMinimalMetadata |
 | native | omoschema:HasMinimalMetadata |
+
+
 
 
 
@@ -136,13 +142,13 @@ attributes:
     rank: 1000
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: false
     alias: label
     owner: HasMinimalMetadata
     domain_of:
     - HasMinimalMetadata
     - Axiom
     range: label type
+    multivalued: false
   definition:
     name: definition
     comments:
@@ -157,12 +163,12 @@ attributes:
     rank: 1000
     is_a: core_property
     slot_uri: IAO:0000115
-    multivalued: true
     alias: definition
     owner: HasMinimalMetadata
     domain_of:
     - HasMinimalMetadata
     range: narrative text
+    multivalued: true
 
 ```
 </details>

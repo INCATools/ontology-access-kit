@@ -2,6 +2,8 @@
 
 # Slot: license
 
+
+
 URI: [dcterms:license](http://purl.org/dc/terms/license)
 
 
@@ -49,6 +51,16 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:license |
+| native | omoschema:license |
 
 
 

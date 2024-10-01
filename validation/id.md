@@ -2,6 +2,8 @@
 
 # Slot: id
 
+
+
 URI: [vm:id](https://w3id.org/linkml/validation-model/id)
 
 
@@ -48,6 +50,16 @@ URI: [vm:id](https://w3id.org/linkml/validation-model/id)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:id |
+| native | vm:id |
 
 
 

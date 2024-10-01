@@ -2,6 +2,8 @@
 
 # Slot: transformations_included_in
 
+
+
 URI: [mappingrules:transformations_included_in](https://w3id.org/oak/mapping-rules-datamodel/transformations_included_in)
 
 
@@ -50,6 +52,16 @@ URI: [mappingrules:transformations_included_in](https://w3id.org/oak/mapping-rul
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:transformations_included_in |
+| native | mappingrules:transformations_included_in |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [mappingrules:transformations_included_in](https://w3id.org/oak/mapping-rul
 name: transformations_included_in
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: transformations_included_in
 owner: Precondition
 domain_of:
 - Precondition
 range: string
+multivalued: true
 
 ```
 </details>

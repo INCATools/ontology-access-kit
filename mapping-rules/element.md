@@ -2,6 +2,8 @@
 
 # Slot: element
 
+
+
 URI: [mappingrules:element](https://w3id.org/oak/mapping-rules-datamodel/element)
 
 
@@ -44,6 +46,16 @@ URI: [mappingrules:element](https://w3id.org/oak/mapping-rules-datamodel/element
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:element |
+| native | mappingrules:element |
 
 
 

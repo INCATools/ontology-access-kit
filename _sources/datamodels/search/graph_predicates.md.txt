@@ -2,6 +2,8 @@
 
 # Slot: graph_predicates
 
+
+
 URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_predicates)
 
 
@@ -50,6 +52,16 @@ URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_p
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:graph_predicates |
+| native | ontosearch:graph_predicates |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_p
 name: graph_predicates
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: graph_predicates
 owner: PathExpression
 domain_of:
 - PathExpression
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

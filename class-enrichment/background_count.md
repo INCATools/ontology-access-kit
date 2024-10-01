@@ -7,6 +7,8 @@ _The background count_
 
 
 
+
+
 URI: [ontoenrich:background_count](https://w3id.org/oak/class-enrichment/background_count)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:background_count](https://w3id.org/oak/class-enrichment/backgro
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:background_count |
+| native | ontoenrich:background_count |
 
 
 

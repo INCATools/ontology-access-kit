@@ -9,10 +9,14 @@ URI: [vm:DefinitionValidationResult](https://w3id.org/linkml/validation-model/De
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class DefinitionValidationResult
+    click DefinitionValidationResult href "../DefinitionValidationResult"
       ValidationResult <|-- DefinitionValidationResult
+        click ValidationResult href "../ValidationResult"
       
       DefinitionValidationResult : definition
         
@@ -22,33 +26,63 @@ URI: [vm:DefinitionValidationResult](https://w3id.org/linkml/validation-model/De
         
       DefinitionValidationResult : instantiates
         
-          DefinitionValidationResult --> Node : instantiates
+          
+    
+    
+    DefinitionValidationResult --> "0..1" Node : instantiates
+    click Node href "../Node"
+
         
       DefinitionValidationResult : object
         
-          DefinitionValidationResult --> Node : object
+          
+    
+    
+    DefinitionValidationResult --> "0..1" Node : object
+    click Node href "../Node"
+
         
       DefinitionValidationResult : object_str
         
       DefinitionValidationResult : predicate
         
-          DefinitionValidationResult --> Node : predicate
+          
+    
+    
+    DefinitionValidationResult --> "0..1" Node : predicate
+    click Node href "../Node"
+
         
       DefinitionValidationResult : proposed_new_definition
         
       DefinitionValidationResult : severity
         
-          DefinitionValidationResult --> severity_options : severity
+          
+    
+    
+    DefinitionValidationResult --> "0..1" SeverityOptions : severity
+    click SeverityOptions href "../SeverityOptions"
+
         
       DefinitionValidationResult : source
         
       DefinitionValidationResult : subject
         
-          DefinitionValidationResult --> Node : subject
+          
+    
+    
+    DefinitionValidationResult --> "1" Node : subject
+    click Node href "../Node"
+
         
       DefinitionValidationResult : type
         
-          DefinitionValidationResult --> ConstraintComponent : type
+          
+    
+    
+    DefinitionValidationResult --> "1" ConstraintComponent : type
+    click ConstraintComponent href "../ConstraintComponent"
+
         
       
 ```
@@ -71,9 +105,9 @@ URI: [vm:DefinitionValidationResult](https://w3id.org/linkml/validation-model/De
 | [definition](definition.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [definition_source](definition_source.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [proposed_new_definition](proposed_new_definition.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | [ValidationResult](ValidationResult.md) |
+| [type](type.md) | 1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | [ValidationResult](ValidationResult.md) |
 | [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | [ValidationResult](ValidationResult.md) |
-| [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
+| [subject](subject.md) | 1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
 | [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | [ValidationResult](ValidationResult.md) |
 | [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
 | [object](object.md) | 0..1 <br/> [Node](Node.md) |  | [ValidationResult](ValidationResult.md) |
@@ -105,13 +139,14 @@ URI: [vm:DefinitionValidationResult](https://w3id.org/linkml/validation-model/De
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:DefinitionValidationResult |
 | native | vm:DefinitionValidationResult |
+
+
 
 
 

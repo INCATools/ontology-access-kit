@@ -2,6 +2,8 @@
 
 # Slot: subject_termset
 
+
+
 URI: [sim:subject_termset](https://w3id.org/linkml/similarity/subject_termset)
 
 
@@ -50,6 +52,16 @@ URI: [sim:subject_termset](https://w3id.org/linkml/similarity/subject_termset)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:subject_termset |
+| native | sim:subject_termset |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [sim:subject_termset](https://w3id.org/linkml/similarity/subject_termset)
 name: subject_termset
 from_schema: https://w3id.org/oak/similarity
 rank: 1000
-multivalued: true
 alias: subject_termset
 domain_of:
 - TermSetPairwiseSimilarity
 range: TermInfo
+multivalued: true
 inlined: true
 
 ```

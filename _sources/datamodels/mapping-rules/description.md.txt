@@ -2,6 +2,8 @@
 
 # Slot: description
 
+
+
 URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/description)
 
 
@@ -38,6 +40,16 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:description |
+| native | mappingrules:description |
 
 
 

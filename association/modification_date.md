@@ -7,6 +7,8 @@ _The date the association was last modified_
 
 
 
+
+
 URI: [ontoassoc:modification_date](https://w3id.org/oak/association/modification_date)
 
 
@@ -45,6 +47,16 @@ URI: [ontoassoc:modification_date](https://w3id.org/oak/association/modification
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:modification_date |
+| native | ontoassoc:modification_date |
 
 
 

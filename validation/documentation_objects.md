@@ -7,6 +7,8 @@ _paths or URLs to files containing best practice documentation, SOPs, etc. Prima
 
 
 
+
+
 URI: [vm:documentation_objects](https://w3id.org/linkml/validation-model/documentation_objects)
 
 
@@ -55,6 +57,16 @@ URI: [vm:documentation_objects](https://w3id.org/linkml/validation-model/documen
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:documentation_objects |
+| native | vm:documentation_objects |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: paths or URLs to files containing best practice documentation, SOPs
   etc. Primarily for AI agents to read when performing validation.
 from_schema: https://w3id.org/linkml/validation_results
 rank: 1000
-multivalued: true
 alias: documentation_objects
 owner: ValidationConfiguration
 domain_of:
 - ValidationConfiguration
 range: string
+multivalued: true
 
 ```
 </details>

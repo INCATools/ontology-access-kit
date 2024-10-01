@@ -7,6 +7,8 @@ _The type of the subject_
 
 
 
+
+
 URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 
@@ -21,9 +23,9 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 | [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 
 
 
@@ -51,6 +53,17 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:instantiates |
+| native | vm:instantiates |
+| exact | sh:sourceShape |
 
 
 

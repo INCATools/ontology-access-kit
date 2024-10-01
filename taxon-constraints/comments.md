@@ -2,6 +2,8 @@
 
 # Slot: comments
 
+
+
 URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 
 
@@ -50,6 +52,16 @@ URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:comments |
+| native | tc:comments |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 name: comments
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
-multivalued: true
 alias: comments
 owner: TaxonConstraint
 domain_of:
 - TaxonConstraint
 range: string
+multivalued: true
 
 ```
 </details>

@@ -14,10 +14,14 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class RepairOperation
+    click RepairOperation href "../RepairOperation"
       Result <|-- RepairOperation
+        click Result href "../Result"
       
       RepairOperation : info
         
@@ -25,7 +29,12 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
         
       RepairOperation : repairs
         
-          RepairOperation --> ValidationResult : repairs
+          
+    
+    
+    RepairOperation --> "0..1" ValidationResult : repairs
+    click ValidationResult href "../ValidationResult"
+
         
       RepairOperation : successful
         
@@ -86,13 +95,14 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:RepairOperation |
 | native | vm:RepairOperation |
+
+
 
 
 

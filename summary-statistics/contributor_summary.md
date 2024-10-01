@@ -2,6 +2,8 @@
 
 # Slot: contributor_summary
 
+
+
 URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_statistics.contributor_summary)
 
 
@@ -50,6 +52,16 @@ URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_st
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:contributor_summary |
+| native | summary_statistics:contributor_summary |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_st
 name: contributor_summary
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: contributor_summary
 owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 range: ContributorStatistics
+multivalued: true
 inlined: true
 
 ```

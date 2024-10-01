@@ -7,6 +7,8 @@ _the contributor_
 
 
 
+
+
 URI: [summary_statistics:contributor_id](https://w3id.org/oaklib/summary_statistics.contributor_id)
 
 
@@ -51,6 +53,16 @@ URI: [summary_statistics:contributor_id](https://w3id.org/oaklib/summary_statist
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:contributor_id |
+| native | summary_statistics:contributor_id |
 
 
 

@@ -7,6 +7,8 @@ _allows overriding the default OMO schema_
 
 
 
+
+
 URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
 
 
@@ -49,6 +51,16 @@ URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:schema_path |
+| native | vm:schema_path |
 
 
 

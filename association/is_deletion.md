@@ -2,6 +2,8 @@
 
 # Slot: is_deletion
 
+
+
 URI: [ontoassoc:is_deletion](https://w3id.org/oak/association/is_deletion)
 
 
@@ -48,6 +50,16 @@ URI: [ontoassoc:is_deletion](https://w3id.org/oak/association/is_deletion)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:is_deletion |
+| native | ontoassoc:is_deletion |
 
 
 

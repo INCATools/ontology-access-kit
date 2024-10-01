@@ -9,11 +9,16 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Restriction
+    click Restriction href "../Restriction"
       ClassExpression <|-- Restriction
+        click ClassExpression href "../ClassExpression"
       AnonymousClassExpression <|-- Restriction
+        click AnonymousClassExpression href "../AnonymousClassExpression"
       
       Restriction : allValuesFrom
         
@@ -25,25 +30,50 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
         
       Restriction : equivalentClass
         
-          Restriction --> ClassExpression : equivalentClass
+          
+    
+    
+    Restriction --> "*" ClassExpression : equivalentClass
+    click ClassExpression href "../ClassExpression"
+
         
       Restriction : intersectionOf
         
-          Restriction --> ClassExpression : intersectionOf
+          
+    
+    
+    Restriction --> "0..1" ClassExpression : intersectionOf
+    click ClassExpression href "../ClassExpression"
+
         
       Restriction : oneOf
         
-          Restriction --> ClassExpression : oneOf
+          
+    
+    
+    Restriction --> "0..1" ClassExpression : oneOf
+    click ClassExpression href "../ClassExpression"
+
         
       Restriction : onProperty
         
-          Restriction --> PropertyExpression : onProperty
+          
+    
+    
+    Restriction --> "*" PropertyExpression : onProperty
+    click PropertyExpression href "../PropertyExpression"
+
         
       Restriction : someValuesFrom
         
       Restriction : subClassOf
         
-          Restriction --> ClassExpression : subClassOf
+          
+    
+    
+    Restriction --> "*" ClassExpression : subClassOf
+    click ClassExpression href "../ClassExpression"
+
         
       Restriction : unionOf
         
@@ -65,13 +95,13 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [onProperty](onProperty.md) | 0..* <br/> [PropertyExpression](PropertyExpression.md) |  | direct |
-| [someValuesFrom](someValuesFrom.md) | 0..* <br/> [String](String.md) |  | direct |
+| [onProperty](onProperty.md) | * <br/> [PropertyExpression](PropertyExpression.md) |  | direct |
+| [someValuesFrom](someValuesFrom.md) | * <br/> [String](String.md) |  | direct |
 | [allValuesFrom](allValuesFrom.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
+| [disjointWith](disjointWith.md) | * <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
+| [equivalentClass](equivalentClass.md) | * <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
 | [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
-| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
+| [subClassOf](subClassOf.md) | * <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
 | [cardinality](cardinality.md) | 0..1 <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
 | [complementOf](complementOf.md) | 0..1 <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
 | [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
@@ -107,13 +137,14 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Restriction |
 | native | omoschema:Restriction |
+
+
 
 
 
@@ -159,12 +190,12 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:onProperty
-    multivalued: true
     alias: onProperty
     owner: Restriction
     domain_of:
     - Restriction
     range: PropertyExpression
+    multivalued: true
   someValuesFrom:
     name: someValuesFrom
     todos:
@@ -173,12 +204,12 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:someValuesFrom
-    multivalued: true
     alias: someValuesFrom
     owner: Restriction
     domain_of:
     - Restriction
     range: string
+    multivalued: true
   allValuesFrom:
     name: allValuesFrom
     todos:
@@ -200,13 +231,13 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
-    multivalued: true
     alias: disjointWith
     owner: Restriction
     domain_of:
     - ClassExpression
     - PropertyExpression
     range: string
+    multivalued: true
   equivalentClass:
     name: equivalentClass
     todos:
@@ -217,12 +248,12 @@ attributes:
     mixins:
     - match_aspect
     slot_uri: owl:equivalentClass
-    multivalued: true
     alias: equivalentClass
     owner: Restriction
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   intersectionOf:
     name: intersectionOf
     todos:
@@ -242,12 +273,12 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdfs:subClassOf
-    multivalued: true
     alias: subClassOf
     owner: Restriction
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   cardinality:
     name: cardinality
     from_schema: https://w3id.org/oak/ontology-metadata

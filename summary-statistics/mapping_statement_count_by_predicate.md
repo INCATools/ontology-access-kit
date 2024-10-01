@@ -7,6 +7,8 @@ _Number of mappings grouped by predicate (e.g. xref, skos predicate) in the onto
 
 
 
+
+
 URI: [summary_statistics:mapping_statement_count_by_predicate](https://w3id.org/oaklib/summary_statistics.mapping_statement_count_by_predicate)
 
 
@@ -61,6 +63,16 @@ URI: [summary_statistics:mapping_statement_count_by_predicate](https://w3id.org/
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:mapping_statement_count_by_predicate |
+| native | summary_statistics:mapping_statement_count_by_predicate |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -77,13 +89,13 @@ description: Number of mappings grouped by predicate (e.g. xref, skos predicate)
   the ontology or subset
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: mapping_statement_count_by_predicate
 owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
+multivalued: true
 inlined: true
 
 ```

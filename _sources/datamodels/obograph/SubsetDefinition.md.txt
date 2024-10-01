@@ -9,9 +9,12 @@ URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetPro
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class SubsetDefinition
+    click SubsetDefinition href "../SubsetDefinition"
       SubsetDefinition : id
         
       SubsetDefinition : lbl
@@ -29,7 +32,7 @@ URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetPro
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
+| [id](id.md) | 1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
 
 
@@ -63,13 +66,14 @@ URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetPro
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | oio:SubsetProperty |
 | native | obographs:SubsetDefinition |
+
+
 
 
 

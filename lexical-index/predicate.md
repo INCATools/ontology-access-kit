@@ -2,6 +2,8 @@
 
 # Slot: predicate
 
+
+
 URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
 
 
@@ -44,6 +46,16 @@ URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:predicate |
+| native | ontolexindex:predicate |
 
 
 

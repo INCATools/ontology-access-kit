@@ -2,6 +2,8 @@
 
 # Slot: range
 
+
+
 URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
 
 
@@ -22,9 +24,9 @@ URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Property](Property.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 
 
@@ -63,6 +65,16 @@ URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:range |
+| native | omoschema:range |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -74,11 +86,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: rdfs:range
-multivalued: true
 alias: range
 domain_of:
 - Property
 range: string
+multivalued: true
 
 ```
 </details>

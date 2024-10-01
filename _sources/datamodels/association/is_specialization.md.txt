@@ -7,6 +7,8 @@ _True if the association was inferred to become more specific (based on closure 
 
 
 
+
+
 URI: [ontoassoc:is_specialization](https://w3id.org/oak/association/is_specialization)
 
 
@@ -53,6 +55,16 @@ URI: [ontoassoc:is_specialization](https://w3id.org/oak/association/is_specializ
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:is_specialization |
+| native | ontoassoc:is_specialization |
 
 
 

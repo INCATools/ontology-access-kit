@@ -2,6 +2,8 @@
 
 # Slot: subject_start
 
+
+
 URI: [ann:subject_start](https://w3id.org/linkml/text_annotator/subject_start)
 
 
@@ -45,6 +47,17 @@ URI: [ann:subject_start](https://w3id.org/linkml/text_annotator/subject_start)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:subject_start |
+| native | ann:subject_start |
+| exact | bpa:from |
 
 
 

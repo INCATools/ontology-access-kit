@@ -7,6 +7,8 @@ _The set of classes that are the genus of the defined class_
 
 
 
+
+
 URI: [obographs:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 
@@ -31,7 +33,7 @@ URI: [obographs:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 ## Properties
 
-* Range: NONE
+* Range: [OboIdentifierString](OboIdentifierString.md)
 
 * Multivalued: True
 
@@ -65,6 +67,16 @@ URI: [obographs:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:genusIds |
+| native | obographs:genusIds |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -77,12 +89,13 @@ from_schema: https://github.com/geneontology/obographs
 see_also:
 - https://github.com/geneontology/obographs/issues/89
 rank: 1000
-multivalued: true
 alias: genusIds
 owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
+range: OboIdentifierString
 recommended: true
+multivalued: true
 
 ```
 </details>

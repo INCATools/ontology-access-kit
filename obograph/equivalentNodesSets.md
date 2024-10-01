@@ -7,6 +7,8 @@ _A list of sets of nodes that form equivalence cliques_
 
 
 
+
+
 URI: [obographs:equivalentNodesSets](https://github.com/geneontology/obographs/equivalentNodesSets)
 
 
@@ -55,6 +57,16 @@ URI: [obographs:equivalentNodesSets](https://github.com/geneontology/obographs/e
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:equivalentNodesSets |
+| native | obographs:equivalentNodesSets |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,11 +75,11 @@ name: equivalentNodesSets
 description: A list of sets of nodes that form equivalence cliques
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: equivalentNodesSets
 domain_of:
 - Graph
 range: EquivalentNodesSet
+multivalued: true
 
 ```
 </details>

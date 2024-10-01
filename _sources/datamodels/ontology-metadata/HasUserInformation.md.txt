@@ -9,13 +9,18 @@ URI: [omoschema:HasUserInformation](https://w3id.org/oak/ontology-metadata/HasUs
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class HasUserInformation
+    click HasUserInformation href "../HasUserInformation"
       AnnotationPropertyMixin <|-- HasUserInformation
+        click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       
 
       HasUserInformation <|-- Term
+        click Term href "../Term"
       
       
       HasUserInformation : comment
@@ -24,7 +29,12 @@ URI: [omoschema:HasUserInformation](https://w3id.org/oak/ontology-metadata/HasUs
         
       HasUserInformation : depicted_by
         
-          HasUserInformation --> Image : depicted_by
+          
+    
+    
+    HasUserInformation --> "*" Image : depicted_by
+    click Image href "../Image"
+
         
       HasUserInformation : example_of_usage
         
@@ -32,13 +42,23 @@ URI: [omoschema:HasUserInformation](https://w3id.org/oak/ontology-metadata/HasUs
         
       HasUserInformation : image
         
-          HasUserInformation --> Thing : image
+          
+    
+    
+    HasUserInformation --> "0..1" Thing : image
+    click Thing href "../Thing"
+
         
       HasUserInformation : page
         
       HasUserInformation : seeAlso
         
-          HasUserInformation --> Thing : seeAlso
+          
+    
+    
+    HasUserInformation --> "*" Thing : seeAlso
+    click Thing href "../Thing"
+
         
       
 ```
@@ -57,14 +77,14 @@ URI: [omoschema:HasUserInformation](https://w3id.org/oak/ontology-metadata/HasUs
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [comment](comment.md) | 0..* <br/> [String](String.md) |  | direct |
-| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
+| [comment](comment.md) | * <br/> [String](String.md) |  | direct |
+| [seeAlso](seeAlso.md) | * <br/> [Thing](Thing.md) |  | direct |
 | [image](image.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
-| [example_of_usage](example_of_usage.md) | 0..* <br/> [String](String.md) |  | direct |
-| [curator_note](curator_note.md) | 0..* <br/> [String](String.md) |  | direct |
+| [example_of_usage](example_of_usage.md) | * <br/> [String](String.md) |  | direct |
+| [curator_note](curator_note.md) | * <br/> [String](String.md) |  | direct |
 | [has_curation_status](has_curation_status.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [depicted_by](depicted_by.md) | 0..* <br/> [Image](Image.md) |  | direct |
-| [page](page.md) | 0..* <br/> [String](String.md) |  | direct |
+| [depicted_by](depicted_by.md) | * <br/> [Image](Image.md) |  | direct |
+| [page](page.md) | * <br/> [String](String.md) |  | direct |
 
 
 
@@ -97,13 +117,14 @@ URI: [omoschema:HasUserInformation](https://w3id.org/oak/ontology-metadata/HasUs
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:HasUserInformation |
 | native | omoschema:HasUserInformation |
+
+
 
 
 
@@ -151,7 +172,6 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
-    multivalued: true
     alias: comment
     owner: HasUserInformation
     domain_of:
@@ -159,6 +179,7 @@ attributes:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   seeAlso:
     name: seeAlso
     todos:
@@ -166,13 +187,13 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: rdfs:seeAlso
-    multivalued: true
     alias: seeAlso
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     - Axiom
     range: Thing
+    multivalued: true
   image:
     name: image
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -194,24 +215,24 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000112
-    multivalued: true
     alias: example_of_usage
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: string
+    multivalued: true
   curator_note:
     name: curator_note
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000232
-    multivalued: true
     alias: curator_note
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: string
+    multivalued: true
   has_curation_status:
     name: has_curation_status
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -229,24 +250,24 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:depicted_by
-    multivalued: true
     alias: depicted_by
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: Image
+    multivalued: true
   page:
     name: page
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:page
-    multivalued: true
     alias: page
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: string
+    multivalued: true
 
 ```
 </details>

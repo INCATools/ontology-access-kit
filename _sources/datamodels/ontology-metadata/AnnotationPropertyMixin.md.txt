@@ -14,16 +14,26 @@ URI: [omoschema:AnnotationPropertyMixin](https://w3id.org/oak/ontology-metadata/
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class AnnotationPropertyMixin
+    click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       AnnotationPropertyMixin <|-- HasMinimalMetadata
+        click HasMinimalMetadata href "../HasMinimalMetadata"
       AnnotationPropertyMixin <|-- HasSynonyms
+        click HasSynonyms href "../HasSynonyms"
       AnnotationPropertyMixin <|-- HasMappings
+        click HasMappings href "../HasMappings"
       AnnotationPropertyMixin <|-- HasProvenance
+        click HasProvenance href "../HasProvenance"
       AnnotationPropertyMixin <|-- HasLifeCycle
+        click HasLifeCycle href "../HasLifeCycle"
       AnnotationPropertyMixin <|-- HasCategory
+        click HasCategory href "../HasCategory"
       AnnotationPropertyMixin <|-- HasUserInformation
+        click HasUserInformation href "../HasUserInformation"
       
       
 ```
@@ -79,13 +89,14 @@ URI: [omoschema:AnnotationPropertyMixin](https://w3id.org/oak/ontology-metadata/
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:AnnotationPropertyMixin |
 | native | omoschema:AnnotationPropertyMixin |
+
+
 
 
 

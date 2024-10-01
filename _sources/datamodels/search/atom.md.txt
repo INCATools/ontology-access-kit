@@ -2,6 +2,8 @@
 
 # Slot: atom
 
+
+
 URI: [ontosearch:atom](https://w3id.org/oak/search-datamodel/atom)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:atom](https://w3id.org/oak/search-datamodel/atom)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:atom |
+| native | ontosearch:atom |
 
 
 

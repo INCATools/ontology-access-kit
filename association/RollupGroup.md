@@ -9,18 +9,31 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class RollupGroup
+    click RollupGroup href "../RollupGroup"
       RollupGroup : associations
         
-          RollupGroup --> Association : associations
+          
+    
+    
+    RollupGroup --> "*" Association : associations
+    click Association href "../Association"
+
         
       RollupGroup : group_object
         
       RollupGroup : sub_groups
         
-          RollupGroup --> RollupGroup : sub_groups
+          
+    
+    
+    RollupGroup --> "*" RollupGroup : sub_groups
+    click RollupGroup href "../RollupGroup"
+
         
       
 ```
@@ -36,8 +49,8 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [group_object](group_object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is the ancestor of the objects in the group's  | direct |
-| [sub_groups](sub_groups.md) | 0..* <br/> [RollupGroup](RollupGroup.md) | Container for groups within a rollup group | direct |
-| [associations](associations.md) | 0..* <br/> [Association](Association.md) | A collection of associations | direct |
+| [sub_groups](sub_groups.md) | * <br/> [RollupGroup](RollupGroup.md) | Container for groups within a rollup group | direct |
+| [associations](associations.md) | * <br/> [Association](Association.md) | A collection of associations | direct |
 
 
 
@@ -70,13 +83,14 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontoassoc:RollupGroup |
 | native | ontoassoc:RollupGroup |
+
+
 
 
 
@@ -124,12 +138,12 @@ attributes:
     description: Container for groups within a rollup group.
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: sub_groups
     owner: RollupGroup
     domain_of:
     - RollupGroup
     range: RollupGroup
+    multivalued: true
     inlined: true
     inlined_as_list: true
   associations:
@@ -137,12 +151,12 @@ attributes:
     description: A collection of associations
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: associations
     owner: RollupGroup
     domain_of:
     - RollupGroup
     range: Association
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

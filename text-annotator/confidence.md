@@ -2,6 +2,8 @@
 
 # Slot: confidence
 
+
+
 URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 
 
@@ -44,6 +46,16 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:confidence |
+| native | ann:confidence |
 
 
 

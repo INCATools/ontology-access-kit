@@ -7,6 +7,8 @@ _A list of subsets to which this entity belongs_
 
 
 
+
+
 URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
@@ -55,6 +57,16 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:inSubset |
+| native | obographs:subsets |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,11 +76,11 @@ description: A list of subsets to which this entity belongs
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: oio:inSubset
-multivalued: true
 alias: subsets
 domain_of:
 - Meta
 range: string
+multivalued: true
 
 ```
 </details>

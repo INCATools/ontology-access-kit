@@ -7,6 +7,8 @@ _force case insensitive matching_
 
 
 
+
+
 URI: [ontosearch:force_case_insensitive](https://w3id.org/oak/search-datamodel/force_case_insensitive)
 
 
@@ -49,6 +51,16 @@ URI: [ontosearch:force_case_insensitive](https://w3id.org/oak/search-datamodel/f
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:force_case_insensitive |
+| native | ontosearch:force_case_insensitive |
 
 
 

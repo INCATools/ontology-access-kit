@@ -14,10 +14,14 @@ URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Taxon
+    click Taxon href "../Taxon"
       Term <|-- Taxon
+        click Term href "../Term"
       
       Taxon : id
         
@@ -40,7 +44,7 @@ URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | [Term](Term.md) |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | [Term](Term.md) |
 | [label](label.md) | 0..1 <br/> [String](String.md) | the human readable name or label of the term | [Term](Term.md) |
 
 
@@ -84,7 +88,6 @@ Instances of this class *should* have identifiers with one of the following pref
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
@@ -92,6 +95,8 @@ Instances of this class *should* have identifiers with one of the following pref
 | self | tc:Taxon |
 | native | tc:Taxon |
 | exact | NCBITaxon:1 |
+
+
 
 
 

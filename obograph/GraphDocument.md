@@ -14,20 +14,38 @@ URI: [obographs:GraphDocument](https://github.com/geneontology/obographs/GraphDo
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class GraphDocument
+    click GraphDocument href "../GraphDocument"
       GraphDocument : graphs
         
-          GraphDocument --> Graph : graphs
+          
+    
+    
+    GraphDocument --> "*" Graph : graphs
+    click Graph href "../Graph"
+
         
       GraphDocument : meta
         
-          GraphDocument --> Meta : meta
+          
+    
+    
+    GraphDocument --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       GraphDocument : prefixes
         
-          GraphDocument --> PrefixDeclaration : prefixes
+          
+    
+    
+    GraphDocument --> "*" PrefixDeclaration : prefixes
+    click PrefixDeclaration href "../PrefixDeclaration"
+
         
       
 ```
@@ -43,8 +61,8 @@ URI: [obographs:GraphDocument](https://github.com/geneontology/obographs/GraphDo
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
-| [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md) | A list of all graphs (ontologies) in an ontology document | direct |
-| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... | direct |
+| [graphs](graphs.md) | * <br/> [Graph](Graph.md) | A list of all graphs (ontologies) in an ontology document | direct |
+| [prefixes](prefixes.md) | * <br/> [PrefixDeclaration](PrefixDeclaration.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... | direct |
 
 
 
@@ -74,13 +92,14 @@ URI: [obographs:GraphDocument](https://github.com/geneontology/obographs/GraphDo
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:GraphDocument |
 | native | obographs:GraphDocument |
+
+
 
 
 
@@ -144,12 +163,12 @@ attributes:
     description: A list of all graphs (ontologies) in an ontology document.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: graphs
     owner: GraphDocument
     domain_of:
     - GraphDocument
     range: Graph
+    multivalued: true
     inlined: true
     inlined_as_list: true
   prefixes:
@@ -159,13 +178,13 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:declare
-    multivalued: true
     alias: prefixes
     owner: GraphDocument
     domain_of:
     - GraphDocument
     - Graph
     range: PrefixDeclaration
+    multivalued: true
     inlined: true
 
 ```

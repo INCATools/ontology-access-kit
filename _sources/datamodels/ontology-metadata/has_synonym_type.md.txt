@@ -2,6 +2,8 @@
 
 # Slot: has_synonym_type
 
+
+
 URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynonymType)
 
 
@@ -50,6 +52,16 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:hasSynonymType |
+| native | omoschema:has_synonym_type |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,11 +70,11 @@ name: has_synonym_type
 from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:hasSynonymType
-multivalued: true
 alias: has_synonym_type
 domain_of:
 - Axiom
 range: AnnotationProperty
+multivalued: true
 
 ```
 </details>

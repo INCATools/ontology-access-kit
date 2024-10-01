@@ -2,6 +2,8 @@
 
 # Slot: closure_information_content_delta
 
+
+
 URI: [ontoassoc:closure_information_content_delta](https://w3id.org/oak/association/closure_information_content_delta)
 
 
@@ -35,6 +37,16 @@ URI: [ontoassoc:closure_information_content_delta](https://w3id.org/oak/associat
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:closure_information_content_delta |
+| native | ontoassoc:closure_information_content_delta |
 
 
 

@@ -7,6 +7,8 @@ _Whether the rule is applied in place or not._
 
 
 
+
+
 URI: [mappingrules:in_place](https://w3id.org/oak/mapping-rules-datamodel/in_place)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:in_place](https://w3id.org/oak/mapping-rules-datamodel/in_pla
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:in_place |
+| native | mappingrules:in_place |
 
 
 

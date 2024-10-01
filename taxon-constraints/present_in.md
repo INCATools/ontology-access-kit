@@ -9,6 +9,8 @@ __
 
 
 
+
+
 URI: [RO:0002175](http://purl.obolibrary.org/obo/RO_0002175)
 
 
@@ -57,6 +59,16 @@ URI: [RO:0002175](http://purl.obolibrary.org/obo/RO_0002175)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | RO:0002175 |
+| native | tc:present_in |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -68,12 +80,12 @@ description: 'The term MAY be in the specified taxon, or a descendant of that ta
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002175
-multivalued: true
 alias: present_in
 owner: SubjectTerm
 domain_of:
 - SubjectTerm
 range: TaxonConstraint
+multivalued: true
 
 ```
 </details>

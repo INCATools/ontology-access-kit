@@ -7,6 +7,8 @@ _The name of the subject (child) of the source/left edge_
 
 
 
+
+
 URI: [xodiff:left_subject_label](https://w3id.org/oak/cross-ontology-diff/left_subject_label)
 
 
@@ -53,6 +55,16 @@ URI: [xodiff:left_subject_label](https://w3id.org/oak/cross-ontology-diff/left_s
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:left_subject_label |
+| native | xodiff:left_subject_label |
 
 
 

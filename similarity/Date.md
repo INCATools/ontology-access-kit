@@ -37,3 +37,14 @@ URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:date |
+| native | sim:date |
+| exact | schema:Date |
+
+
+

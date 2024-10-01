@@ -7,6 +7,8 @@ _The set of restrictions that are the differentiating features of the defined cl
 
 
 
+
+
 URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
@@ -70,6 +72,16 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:someValuesFrom |
+| native | obographs:restrictions |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -86,13 +98,13 @@ aliases:
 - differentia
 rank: 1000
 slot_uri: owl:someValuesFrom
-multivalued: true
 alias: restrictions
 owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
 range: ExistentialRestrictionExpression
 recommended: true
+multivalued: true
 
 ```
 </details>

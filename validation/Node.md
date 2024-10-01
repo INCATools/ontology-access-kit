@@ -9,10 +9,14 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Node
+    click Node href "../Node"
       NamedResource <|-- Node
+        click NamedResource href "../NamedResource"
       
       Node : id
         
@@ -33,7 +37,7 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) |  | [NamedResource](NamedResource.md) |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) |  | [NamedResource](NamedResource.md) |
 
 
 
@@ -77,13 +81,14 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:Node |
 | native | vm:Node |
+
+
 
 
 

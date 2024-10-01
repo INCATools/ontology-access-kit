@@ -7,6 +7,8 @@ _All nodes present in a graph. This includes class nodes as well as supporting n
 
 
 
+
+
 URI: [obographs:nodes](https://github.com/geneontology/obographs/nodes)
 
 
@@ -55,6 +57,16 @@ URI: [obographs:nodes](https://github.com/geneontology/obographs/nodes)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:nodes |
+| native | obographs:nodes |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,11 +77,11 @@ description: All nodes present in a graph. This includes class nodes as well as 
   etc
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: nodes
 domain_of:
 - Graph
 range: Node
+multivalued: true
 inlined: true
 inlined_as_list: true
 

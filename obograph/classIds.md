@@ -7,6 +7,8 @@ _The set of named classes that are mutually disjoint._
 
 
 
+
+
 URI: [obographs:classIds](https://github.com/geneontology/obographs/classIds)
 
 
@@ -31,7 +33,7 @@ URI: [obographs:classIds](https://github.com/geneontology/obographs/classIds)
 
 ## Properties
 
-* Range: NONE
+* Range: [OboIdentifierString](OboIdentifierString.md)
 
 * Multivalued: True
 
@@ -55,6 +57,16 @@ URI: [obographs:classIds](https://github.com/geneontology/obographs/classIds)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:classIds |
+| native | obographs:classIds |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,11 +75,12 @@ name: classIds
 description: The set of named classes that are mutually disjoint.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: classIds
 owner: DisjointClassExpressionsAxiom
 domain_of:
 - DisjointClassExpressionsAxiom
+range: OboIdentifierString
+multivalued: true
 
 ```
 </details>

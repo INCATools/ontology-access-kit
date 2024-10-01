@@ -7,6 +7,8 @@ _true if this is a proposed candidate constraint_
 
 
 
+
+
 URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 
 
@@ -49,6 +51,16 @@ URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:candidate |
+| native | tc:candidate |
 
 
 

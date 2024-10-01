@@ -9,6 +9,8 @@ __
 
 
 
+
+
 URI: [RO:0002161](http://purl.obolibrary.org/obo/RO_0002161)
 
 
@@ -57,6 +59,16 @@ URI: [RO:0002161](http://purl.obolibrary.org/obo/RO_0002161)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | RO:0002161 |
+| native | tc:never_in |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -70,12 +82,12 @@ description: 'Points to a taxon constraint that states the SubjectTerm is NEVER 
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002161
-multivalued: true
 alias: never_in
 owner: SubjectTerm
 domain_of:
 - SubjectTerm
 range: TaxonConstraint
+multivalued: true
 
 ```
 </details>

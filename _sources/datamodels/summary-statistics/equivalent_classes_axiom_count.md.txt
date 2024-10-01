@@ -7,6 +7,8 @@ _Number of equivalent classes axioms in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:equivalent_classes_axiom_count](https://w3id.org/oaklib/summary_statistics.equivalent_classes_axiom_count)
 
 
@@ -54,6 +56,16 @@ URI: [summary_statistics:equivalent_classes_axiom_count](https://w3id.org/oaklib
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:equivalent_classes_axiom_count |
+| native | summary_statistics:equivalent_classes_axiom_count |
 
 
 

@@ -7,6 +7,8 @@ _The type of relationship between the subject and object._
 
 
 
+
+
 URI: [rdf:predicate](rdf:predicate)
 
 
@@ -28,8 +30,8 @@ URI: [rdf:predicate](rdf:predicate)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |  no  |
 
 
@@ -58,6 +60,16 @@ URI: [rdf:predicate](rdf:predicate)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:predicate |
+| native | ontoassoc:predicate |
 
 
 

@@ -7,6 +7,8 @@ _the dot product of two node embeddings divided by the product of their lengths_
 
 
 
+
+
 URI: [sim:cosine_similarity](https://w3id.org/linkml/similarity/cosine_similarity)
 
 
@@ -54,6 +56,16 @@ URI: [sim:cosine_similarity](https://w3id.org/linkml/similarity/cosine_similarit
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:cosine_similarity |
+| native | sim:cosine_similarity |
 
 
 

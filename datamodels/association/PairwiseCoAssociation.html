@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,9 +90,15 @@
 <div class="mermaid">
              classDiagram
     class PairwiseCoAssociation
+    click PairwiseCoAssociation href &quot;../PairwiseCoAssociation&quot;
       PairwiseCoAssociation : associations_for_subjects_in_common
         
-          PairwiseCoAssociation --&gt; Association : associations_for_subjects_in_common
+          
+    
+    
+    PairwiseCoAssociation --&gt; &quot;*&quot; Association : associations_for_subjects_in_common
+    click Association href &quot;../Association&quot;
+
         
       PairwiseCoAssociation : number_subject_unique_to_entity1
         
@@ -106,19 +112,17 @@
         
       PairwiseCoAssociation : object1_label
         
-          PairwiseCoAssociation --&gt; None : object1_label
-        
       PairwiseCoAssociation : object2
         
       PairwiseCoAssociation : object2_label
         
-          PairwiseCoAssociation --&gt; None : object2_label
+      PairwiseCoAssociation : proportion_entity1_subjects_in_entity2
+        
+      PairwiseCoAssociation : proportion_entity2_subjects_in_entity1
         
       PairwiseCoAssociation : proportion_subjects_in_common
         
       PairwiseCoAssociation : subjects_in_common
-        
-          PairwiseCoAssociation --&gt; None : subjects_in_common
         
       
         </div><!-- no inheritance hierarchy -->
@@ -134,12 +138,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="object1.html"><span class="std std-doc">object1</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object2.html"><span class="std std-doc">object2</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -179,12 +183,22 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subjects_in_common.html"><span class="std std-doc">subjects_in_common</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="associations_for_subjects_in_common.html"><span class="std std-doc">associations_for_subjects_in_common</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="proportion_entity1_subjects_in_entity2.html"><span class="std std-doc">proportion_entity1_subjects_in_entity2</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="proportion_entity2_subjects_in_entity1.html"><span class="std std-doc">proportion_entity2_subjects_in_entity1</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -240,6 +254,8 @@ slots:
 - number_subject_unique_to_entity2
 - subjects_in_common
 - associations_for_subjects_in_common
+- proportion_entity1_subjects_in_entity2
+- proportion_entity2_subjects_in_entity1
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -280,6 +296,7 @@ attributes:
     owner: PairwiseCoAssociation
     domain_of:
     - PairwiseCoAssociation
+    range: string
   object2_label:
     name: object2_label
     from_schema: https://w3id.org/oak/association
@@ -288,6 +305,7 @@ attributes:
     owner: PairwiseCoAssociation
     domain_of:
     - PairwiseCoAssociation
+    range: string
   number_subjects_in_common:
     name: number_subjects_in_common
     from_schema: https://w3id.org/oak/association
@@ -337,21 +355,40 @@ attributes:
     name: subjects_in_common
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: subjects_in_common
     owner: PairwiseCoAssociation
     domain_of:
     - PairwiseCoAssociation
+    range: string
+    multivalued: true
   associations_for_subjects_in_common:
     name: associations_for_subjects_in_common
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: associations_for_subjects_in_common
     owner: PairwiseCoAssociation
     domain_of:
     - PairwiseCoAssociation
     range: Association
+    multivalued: true
+  proportion_entity1_subjects_in_entity2:
+    name: proportion_entity1_subjects_in_entity2
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: proportion_entity1_subjects_in_entity2
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: float
+  proportion_entity2_subjects_in_entity1:
+    name: proportion_entity2_subjects_in_entity1
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: proportion_entity2_subjects_in_entity1
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: float
 
 </pre></div>
 </div>

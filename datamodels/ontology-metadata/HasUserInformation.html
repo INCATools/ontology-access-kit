@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,10 +89,13 @@
 <div class="mermaid">
              classDiagram
     class HasUserInformation
+    click HasUserInformation href &quot;../HasUserInformation&quot;
       AnnotationPropertyMixin &lt;|-- HasUserInformation
+        click AnnotationPropertyMixin href &quot;../AnnotationPropertyMixin&quot;
       
 
       HasUserInformation &lt;|-- Term
+        click Term href &quot;../Term&quot;
       
       
       HasUserInformation : comment
@@ -101,7 +104,12 @@
         
       HasUserInformation : depicted_by
         
-          HasUserInformation --&gt; Image : depicted_by
+          
+    
+    
+    HasUserInformation --&gt; &quot;*&quot; Image : depicted_by
+    click Image href &quot;../Image&quot;
+
         
       HasUserInformation : example_of_usage
         
@@ -109,13 +117,23 @@
         
       HasUserInformation : image
         
-          HasUserInformation --&gt; Thing : image
+          
+    
+    
+    HasUserInformation --&gt; &quot;0..1&quot; Thing : image
+    click Thing href &quot;../Thing&quot;
+
         
       HasUserInformation : page
         
       HasUserInformation : seeAlso
         
-          HasUserInformation --&gt; Thing : seeAlso
+          
+    
+    
+    HasUserInformation --&gt; &quot;*&quot; Thing : seeAlso
+    click Thing href &quot;../Thing&quot;
+
         
       
         </div><section id="inheritance">
@@ -140,12 +158,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="std std-doc">comment</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="seeAlso.html"><span class="std std-doc">seeAlso</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -155,12 +173,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="example_of_usage.html"><span class="std std-doc">example_of_usage</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="curator_note.html"><span class="std std-doc">curator_note</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -170,12 +188,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="depicted_by.html"><span class="std std-doc">depicted_by</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Image.html"><span class="std std-doc">Image</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Image.html"><span class="std std-doc">Image</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="page.html"><span class="std std-doc">page</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -263,7 +281,6 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
-    multivalued: true
     alias: comment
     owner: HasUserInformation
     domain_of:
@@ -271,6 +288,7 @@ attributes:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   seeAlso:
     name: seeAlso
     todos:
@@ -278,13 +296,13 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: rdfs:seeAlso
-    multivalued: true
     alias: seeAlso
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     - Axiom
     range: Thing
+    multivalued: true
   image:
     name: image
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -306,24 +324,24 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000112
-    multivalued: true
     alias: example_of_usage
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: string
+    multivalued: true
   curator_note:
     name: curator_note
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000232
-    multivalued: true
     alias: curator_note
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: string
+    multivalued: true
   has_curation_status:
     name: has_curation_status
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -341,24 +359,24 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:depicted_by
-    multivalued: true
     alias: depicted_by
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: Image
+    multivalued: true
   page:
     name: page
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:page
-    multivalued: true
     alias: page
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
     range: string
+    multivalued: true
 
 </pre></div>
 </div>

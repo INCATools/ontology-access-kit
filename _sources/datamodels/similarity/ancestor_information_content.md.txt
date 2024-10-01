@@ -7,6 +7,8 @@ _The IC of the object_
 
 
 
+
+
 URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ancestor_information_content)
 
 
@@ -55,6 +57,16 @@ URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ances
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:ancestor_information_content |
+| native | sim:ancestor_information_content |
 
 
 

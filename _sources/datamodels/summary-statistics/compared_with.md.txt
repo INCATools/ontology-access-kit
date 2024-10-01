@@ -7,6 +7,8 @@ _For diffs, the ontologies being compared against_
 
 
 
+
+
 URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statistics.compared_with)
 
 
@@ -21,9 +23,9 @@ URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statisti
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
-| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
 | [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 
 
@@ -57,6 +59,16 @@ URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statisti
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:compared_with |
+| native | summary_statistics:compared_with |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,12 +77,12 @@ name: compared_with
 description: For diffs, the ontologies being compared against
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: compared_with
 owner: SummaryStatisticsReport
 domain_of:
 - SummaryStatisticsReport
 range: Ontology
+multivalued: true
 inlined: true
 inlined_as_list: true
 

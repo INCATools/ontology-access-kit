@@ -9,10 +9,14 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class HasSpan
+    click HasSpan href "../HasSpan"
       HasSpan <|-- TextAnnotation
+        click TextAnnotation href "../TextAnnotation"
       
       HasSpan : subject_end
         
@@ -24,7 +28,12 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
         
       HasSpan : subject_text_id
         
-          HasSpan --> TextualElement : subject_text_id
+          
+    
+    
+    HasSpan --> "0..1" TextualElement : subject_text_id
+    click TextualElement href "../TextualElement"
+
         
       
 ```
@@ -76,13 +85,14 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ann:HasSpan |
 | native | ann:HasSpan |
+
+
 
 
 

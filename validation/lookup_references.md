@@ -7,6 +7,8 @@ _if true, then look up references used as provenance (axiom annotation). This ma
 
 
 
+
+
 URI: [vm:lookup_references](https://w3id.org/linkml/validation-model/lookup_references)
 
 
@@ -49,6 +51,16 @@ URI: [vm:lookup_references](https://w3id.org/linkml/validation-model/lookup_refe
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:lookup_references |
+| native | vm:lookup_references |
 
 
 

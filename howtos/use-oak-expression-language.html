@@ -15,7 +15,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../_static/copybutton.js?v=046fa432"></script>
@@ -94,7 +94,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#other-operators">Other Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#in">IN</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#filter">FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#query">QUERY</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nr">NR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mrca">MRCA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rand">RAND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sample">SAMPLE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#others">Others</a></li>
 </ul>
 </li>
@@ -259,7 +263,7 @@ in the term list allows you to combine graph querying with other commands.</p>
 <section id="descendants">
 <h3>Descendants<a class="headerlink" href="#descendants" title="Link to this heading"></a></h3>
 <p>To find all descendants of a term, use the <code class="docutils literal notranslate"><span class="pre">.desc</span></code> operator followed by the relationship type(s). For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">search</span> <span class="s1">&#39;.desc//p=i,p nucleus&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">search</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">nucleus</span>
 </pre></div>
 </div>
 <p>This will find all descendants of “nucleus” using the <span class="xref std std-term">is-a</span>  (<code class="docutils literal notranslate"><span class="pre">i</span></code>) and
@@ -352,10 +356,65 @@ and are either parts of “head” or “thorax”.</p>
 <h3>FILTER<a class="headerlink" href="#filter" title="Link to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">.filter</span></code> operator allows you to provide arbitrary python filters.</p>
 </section>
+<section id="query">
+<h3>QUERY<a class="headerlink" href="#query" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">.query</span></code> operator allows you to pass through a query to the underlying store (SPARQL, SQL).</p>
+<p>For example, the <code class="docutils literal notranslate"><span class="pre">sqlite</span></code> backend uses SQL, so you can pass through SQL:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">uberon</span> <span class="n">info</span> <span class="o">.</span><span class="n">query</span> \
+ <span class="s2">&quot;SELECT subject from has_dbxref_statement where value like &#39;ZFA:%&#39;&quot;</span>
+</pre></div>
+</div>
+<p>This is equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">uberon</span> <span class="n">info</span> <span class="n">x</span><span class="o">^</span><span class="n">ZFA</span><span class="p">:</span>
+</pre></div>
+</div>
+</section>
 <section id="nr">
 <h3>NR<a class="headerlink" href="#nr" title="Link to this heading"></a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">.nr</span></code> operator takes a set of terms are returns the non-redundant set of terms
+<p>The <code class="docutils literal notranslate"><span class="pre">.nr</span></code> operator takes a set of terms and returns the non-redundant set of terms
 from that list (parameterized by a predicate or predicates).</p>
+</section>
+<section id="mrca">
+<h3>MRCA<a class="headerlink" href="#mrca" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">.mrca</span></code> operator takes a set of terms are returns the most recent common ancestors (<a class="reference internal" href="../glossary.html#term-MRCA"><span class="xref std std-term">MRCA</span></a>).
+Parameterized by a predicate or predicates.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">uberon</span> <span class="n">info</span> <span class="o">.</span><span class="n">mrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">.</span><span class="n">idfile</span> <span class="n">my_terms</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="rand">
+<h3>RAND<a class="headerlink" href="#rand" title="Link to this heading"></a></h3>
+<p>Pick a random subset of terms. Parameterized by <code class="docutils literal notranslate"><span class="pre">n</span></code> (number of terms).</p>
+<p>Definitions for random terms in the Cell Ontology:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">cl</span> <span class="n">definitions</span> <span class="o">.</span><span class="n">rand</span>
+</pre></div>
+</div>
+<p>For 10 random terms</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">cl</span> <span class="n">definitions</span> <span class="o">.</span><span class="n">rand</span><span class="o">//</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.rand</span></code> operator will sample from all terms in the ontology. This
+could include terms imported and merged from other ontologies. For
+finer-grained control, use the <code class="docutils literal notranslate"><span class="pre">.sample</span></code> operator, which allows the
+combination of a sample operator with the results of evaluating any
+OAK expression.</p>
+</div>
+</section>
+<section id="sample">
+<h3>SAMPLE<a class="headerlink" href="#sample" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">.sample</span></code> operator takes a random sample of terms. It is parameterized by <code class="docutils literal notranslate"><span class="pre">n</span></code> (number of terms
+in sample).</p>
+<p>Definitions for 3 random terms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">obi</span> <span class="n">definitions</span> <span class="o">.</span><span class="n">sample</span><span class="o">//</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span> <span class="n">i</span><span class="o">^</span><span class="n">OBI</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>To compare 3 random terms with 3 other random terms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">cl</span> <span class="n">similarity</span> <span class="o">.</span><span class="n">sample</span><span class="o">//</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span> <span class="n">i</span><span class="o">^</span><span class="n">CL</span><span class="p">:</span> <span class="o">@</span> <span class="o">.</span><span class="n">sample</span><span class="o">//</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span> <span class="n">i</span><span class="o">^</span><span class="n">CL</span><span class="p">:</span>
+</pre></div>
+</div>
 </section>
 <section id="others">
 <h3>Others<a class="headerlink" href="#others" title="Link to this heading"></a></h3>
@@ -363,14 +422,12 @@ from that list (parameterized by a predicate or predicates).</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">.is_obsolete</span></code>: all <span class="xref std std-term">Obsolete</span> terms</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.non_obsolete</span></code>: all non-obsoletes</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.dangling</span></code>: all <span class="xref std std-term">Dangling</span> terms</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">.query</span></code>: pass through a query to the underlying store (SPARQL, SQL)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.child</span></code>: non-transitive version of <code class="docutils literal notranslate"><span class="pre">.desc</span></code>. Also parameterized by predicate.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.parent</span></code>: non-transitive version of <code class="docutils literal notranslate"><span class="pre">.anc</span></code>. Also parameterized by predicate.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.sib</span></code>: all siblings of a term. Also parameterized by predicate.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.all</span></code>: all terms</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.classes</span></code>: all classes</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">.relations</span></code>: all relations</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">.rand</span></code>: random subset of terms. Parameters: <code class="docutils literal notranslate"><span class="pre">n</span></code> (number of terms)</p></li>
 </ul>
 </section>
 </section>

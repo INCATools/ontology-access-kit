@@ -15,7 +15,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../_static/copybutton.js?v=046fa432"></script>
@@ -206,6 +206,9 @@
 </div>
 <p>This will download the pato.db sqlite file once, and cache it.</p>
 <p>PyStow is used to cache the file, and the default location is <code class="docutils literal notranslate"><span class="pre">~/.data/oaklib</span></code>.</p>
+<p>By default, a cached SQLite file will be automatically refreshed (downloaded
+again) if it is older than 7 days. For details on how to alter the behavior of
+the cache, see the <a class="reference internal" href="../cli.html#cache-control"><span class="std std-ref">Cache Control</span></a> section in the CLI documentation.</p>
 </section>
 </section>
 <section id="building-your-own-sqlite-files">

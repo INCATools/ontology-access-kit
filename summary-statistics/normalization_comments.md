@@ -7,6 +7,8 @@ _if contributor name normalization was applied, provide details here_
 
 
 
+
+
 URI: [summary_statistics:normalization_comments](https://w3id.org/oaklib/summary_statistics.normalization_comments)
 
 
@@ -49,6 +51,16 @@ URI: [summary_statistics:normalization_comments](https://w3id.org/oaklib/summary
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:normalization_comments |
+| native | summary_statistics:normalization_comments |
 
 
 

@@ -2,6 +2,10 @@
 
 # Slot: synonym
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 
 
@@ -49,6 +53,16 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | OIO:hasSynonym |
+| native | omoschema:synonym |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -59,9 +73,9 @@ rank: 1000
 is_a: alternative_term
 abstract: true
 slot_uri: OIO:hasSynonym
-multivalued: true
 alias: synonym
 range: label type
+multivalued: true
 
 ```
 </details>

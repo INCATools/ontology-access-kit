@@ -7,6 +7,8 @@ _True for never in constraints that are subsumed by an only in_
 
 
 
+
+
 URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redundant_with_only_in)
 
 
@@ -49,6 +51,16 @@ URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redun
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:redundant_with_only_in |
+| native | tc:redundant_with_only_in |
 
 
 

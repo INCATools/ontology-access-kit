@@ -2,6 +2,8 @@
 
 # Slot: sources
 
+
+
 URI: [tc:sources](https://w3id.org/linkml/taxon_constraints/sources)
 
 
@@ -50,6 +52,16 @@ URI: [tc:sources](https://w3id.org/linkml/taxon_constraints/sources)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:sources |
+| native | tc:sources |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [tc:sources](https://w3id.org/linkml/taxon_constraints/sources)
 name: sources
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
-multivalued: true
 alias: sources
 owner: TaxonConstraint
 domain_of:
 - TaxonConstraint
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

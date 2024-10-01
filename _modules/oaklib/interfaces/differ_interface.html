@@ -14,7 +14,7 @@
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../../_static/copybutton.js?v=046fa432"></script>
@@ -96,9 +96,10 @@
     <span class="n">Change</span><span class="p">,</span>
     <span class="n">ClassCreation</span><span class="p">,</span>
     <span class="n">Edge</span><span class="p">,</span>
-    <span class="n">EdgeChange</span><span class="p">,</span>
-    <span class="n">EdgeCreation</span><span class="p">,</span>
     <span class="n">EdgeDeletion</span><span class="p">,</span>
+    <span class="n">MappingCreation</span><span class="p">,</span>
+    <span class="c1"># MappingReplacement,</span>
+    <span class="n">MappingPredicateChange</span><span class="p">,</span>
     <span class="n">NewSynonym</span><span class="p">,</span>
     <span class="n">NewTextDefinition</span><span class="p">,</span>
     <span class="n">NodeCreation</span><span class="p">,</span>
@@ -111,6 +112,7 @@
     <span class="n">NodeTextDefinitionChange</span><span class="p">,</span>
     <span class="n">NodeUnobsoletion</span><span class="p">,</span>
     <span class="n">PredicateChange</span><span class="p">,</span>
+    <span class="n">RemoveMapping</span><span class="p">,</span>
     <span class="n">RemoveNodeFromSubset</span><span class="p">,</span>
     <span class="n">RemoveSynonym</span><span class="p">,</span>
     <span class="n">RemoveTextDefinition</span><span class="p">,</span>
@@ -367,34 +369,35 @@
             <span class="k">if</span> <span class="n">mappings_added_set</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">mappings_added_set</span><span class="p">:</span>
                     <span class="n">predicate</span><span class="p">,</span> <span class="n">xref</span> <span class="o">=</span> <span class="n">mapping</span>
-                    <span class="n">edge_created</span> <span class="o">=</span> <span class="n">EdgeCreation</span><span class="p">(</span>
+                    <span class="n">mapping_created</span> <span class="o">=</span> <span class="n">MappingCreation</span><span class="p">(</span>
                         <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span>
                         <span class="n">subject</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span>
                         <span class="n">predicate</span><span class="o">=</span><span class="n">predicate</span><span class="p">,</span>
                         <span class="nb">object</span><span class="o">=</span><span class="n">xref</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="k">yield</span> <span class="n">edge_created</span>
+                    <span class="k">yield</span> <span class="n">mapping_created</span>
             <span class="k">if</span> <span class="n">mappings_removed_set</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">mappings_removed_set</span><span class="p">:</span>
                     <span class="n">predicate</span><span class="p">,</span> <span class="n">xref</span> <span class="o">=</span> <span class="n">mapping</span>
-                    <span class="n">deleted_edge</span> <span class="o">=</span> <span class="n">EdgeDeletion</span><span class="p">(</span>
+                    <span class="n">deleted_mapping</span> <span class="o">=</span> <span class="n">RemoveMapping</span><span class="p">(</span>
                         <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span>
-                        <span class="n">subject</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span>
+                        <span class="n">about_node</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span>
                         <span class="n">predicate</span><span class="o">=</span><span class="n">predicate</span><span class="p">,</span>
                         <span class="nb">object</span><span class="o">=</span><span class="n">xref</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="k">yield</span> <span class="n">deleted_edge</span>
+                    <span class="k">yield</span> <span class="n">deleted_mapping</span>
             <span class="k">if</span> <span class="n">mapping_changed_set</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">changes</span> <span class="ow">in</span> <span class="n">mapping_changed_set</span><span class="p">:</span>
                     <span class="nb">object</span><span class="p">,</span> <span class="n">new_predicate</span><span class="p">,</span> <span class="n">old_predicate</span> <span class="o">=</span> <span class="n">changes</span>
-                    <span class="n">edge_change</span> <span class="o">=</span> <span class="n">EdgeChange</span><span class="p">(</span>
+                    <span class="n">mapping_change</span> <span class="o">=</span> <span class="n">MappingPredicateChange</span><span class="p">(</span>
                         <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span>
-                        <span class="n">about_edge</span><span class="o">=</span><span class="n">Edge</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">old_predicate</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="nb">object</span><span class="p">),</span>
+                        <span class="n">about_node</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span>
+                        <span class="nb">object</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span>
                         <span class="n">old_value</span><span class="o">=</span><span class="n">old_predicate</span><span class="p">,</span>
                         <span class="n">new_value</span><span class="o">=</span><span class="n">new_predicate</span><span class="p">,</span>
                     <span class="p">)</span>
 
-                    <span class="k">yield</span> <span class="n">edge_change</span>
+                    <span class="k">yield</span> <span class="n">mapping_change</span>
 
             <span class="c1"># ! Subset changes</span>
             <span class="n">self_subsets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">terms_subsets</span><span class="p">([</span><span class="n">entity</span><span class="p">]))</span>

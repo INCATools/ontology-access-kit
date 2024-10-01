@@ -7,6 +7,8 @@ _The total number of entities in the sample_
 
 
 
+
+
 URI: [ontoenrich:sample_total](https://w3id.org/oak/class-enrichment/sample_total)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:sample_total](https://w3id.org/oak/class-enrichment/sample_tota
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:sample_total |
+| native | ontoenrich:sample_total |
 
 
 

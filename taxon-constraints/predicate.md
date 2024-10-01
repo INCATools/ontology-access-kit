@@ -7,6 +7,8 @@ _The relationship type for the constraint (e.g. in_taxon, never_in taxon)_
 
 
 
+
+
 URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
@@ -53,6 +55,16 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:predicate |
+| native | tc:predicate |
 
 
 

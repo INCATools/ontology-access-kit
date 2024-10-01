@@ -7,6 +7,8 @@ _If true, then the aliases (synonyms) of the matched entity are included in the 
 
 
 
+
+
 URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliases)
 
 
@@ -49,6 +51,16 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:include_aliases |
+| native | ann:include_aliases |
 
 
 

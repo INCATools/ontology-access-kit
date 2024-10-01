@@ -7,6 +7,8 @@ _The object (parent) of the source/left edge_
 
 
 
+
+
 URI: [xodiff:left_object_id](https://w3id.org/oak/cross-ontology-diff/left_object_id)
 
 
@@ -55,6 +57,16 @@ URI: [xodiff:left_object_id](https://w3id.org/oak/cross-ontology-diff/left_objec
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:left_object_id |
+| native | xodiff:left_object_id |
 
 
 

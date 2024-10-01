@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,13 +90,24 @@
 <div class="mermaid">
              classDiagram
     class LexicalIndex
+    click LexicalIndex href &quot;../LexicalIndex&quot;
       LexicalIndex : groupings
         
-          LexicalIndex --&gt; LexicalGrouping : groupings
+          
+    
+    
+    LexicalIndex --&gt; &quot;*&quot; LexicalGrouping : groupings
+    click LexicalGrouping href &quot;../LexicalGrouping&quot;
+
         
       LexicalIndex : pipelines
         
-          LexicalIndex --&gt; LexicalTransformationPipeline : pipelines
+          
+    
+    
+    LexicalIndex --&gt; &quot;*&quot; LexicalTransformationPipeline : pipelines
+    click LexicalTransformationPipeline href &quot;../LexicalTransformationPipeline&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -112,12 +123,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="groupings.html"><span class="std std-doc">groupings</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="LexicalGrouping.html"><span class="std std-doc">LexicalGrouping</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="LexicalGrouping.html"><span class="std std-doc">LexicalGrouping</span></a></p></td>
 <td><p>all groupings</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pipelines.html"><span class="std std-doc">pipelines</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="LexicalTransformationPipeline.html"><span class="std std-doc">LexicalTransformationPipeline</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="LexicalTransformationPipeline.html"><span class="std std-doc">LexicalTransformationPipeline</span></a></p></td>
 <td><p>all pipelines used to build the index</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -167,20 +178,20 @@ attributes:
     description: all groupings
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     domain_of:
     - LexicalIndex
     range: LexicalGrouping
+    multivalued: true
     inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     domain_of:
     - LexicalIndex
     range: LexicalTransformationPipeline
+    multivalued: true
     inlined: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -197,24 +208,24 @@ attributes:
     description: all groupings
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: groupings
     owner: LexicalIndex
     domain_of:
     - LexicalIndex
     range: LexicalGrouping
+    multivalued: true
     inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: pipelines
     owner: LexicalIndex
     domain_of:
     - LexicalIndex
     range: LexicalTransformationPipeline
+    multivalued: true
     inlined: true
 
 </pre></div>

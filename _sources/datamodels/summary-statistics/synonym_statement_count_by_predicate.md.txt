@@ -7,6 +7,8 @@ _Number of synonym statements (assertions) grouped by predicate (scope) in the o
 
 
 
+
+
 URI: [summary_statistics:synonym_statement_count_by_predicate](https://w3id.org/oaklib/summary_statistics.synonym_statement_count_by_predicate)
 
 
@@ -61,6 +63,16 @@ URI: [summary_statistics:synonym_statement_count_by_predicate](https://w3id.org/
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:synonym_statement_count_by_predicate |
+| native | summary_statistics:synonym_statement_count_by_predicate |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -77,13 +89,13 @@ description: Number of synonym statements (assertions) grouped by predicate (sco
   in the ontology or subset
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: synonym_statement_count_by_predicate
 owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
+multivalued: true
 inlined: true
 
 ```

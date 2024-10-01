@@ -14,12 +14,20 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class SummaryStatisticsCalculationActivity
+    click SummaryStatisticsCalculationActivity href "../SummaryStatisticsCalculationActivity"
       SummaryStatisticsCalculationActivity : acted_on_behalf_of
         
-          SummaryStatisticsCalculationActivity --> Agent : acted_on_behalf_of
+          
+    
+    
+    SummaryStatisticsCalculationActivity --> "0..1" Agent : acted_on_behalf_of
+    click Agent href "../Agent"
+
         
       SummaryStatisticsCalculationActivity : ended_at_time
         
@@ -27,7 +35,12 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
         
       SummaryStatisticsCalculationActivity : was_associated_with
         
-          SummaryStatisticsCalculationActivity --> Agent : was_associated_with
+          
+    
+    
+    SummaryStatisticsCalculationActivity --> "0..1" Agent : was_associated_with
+    click Agent href "../Agent"
+
         
       
 ```
@@ -80,13 +93,14 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | summary_statistics:SummaryStatisticsCalculationActivity |
 | native | summary_statistics:SummaryStatisticsCalculationActivity |
+
+
 
 
 

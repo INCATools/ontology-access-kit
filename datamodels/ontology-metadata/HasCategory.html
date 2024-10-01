@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,23 +89,36 @@
 <div class="mermaid">
              classDiagram
     class HasCategory
+    click HasCategory href &quot;../HasCategory&quot;
       AnnotationPropertyMixin &lt;|-- HasCategory
+        click AnnotationPropertyMixin href &quot;../AnnotationPropertyMixin&quot;
       
 
       HasCategory &lt;|-- Term
+        click Term href &quot;../Term&quot;
       
       
       HasCategory : category
         
       HasCategory : conformsTo
         
-          HasCategory --&gt; Thing : conformsTo
+          
+    
+    
+    HasCategory --&gt; &quot;*&quot; Thing : conformsTo
+    click Thing href &quot;../Thing&quot;
+
         
       HasCategory : has_obo_namespace
         
       HasCategory : in_subset
         
-          HasCategory --&gt; Subset : in_subset
+          
+    
+    
+    HasCategory --&gt; &quot;*&quot; Subset : in_subset
+    click Subset href &quot;../Subset&quot;
+
         
       
         </div><section id="inheritance">
@@ -130,7 +143,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="has_obo_namespace.html"><span class="std std-doc">has_obo_namespace</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -140,12 +153,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="in_subset.html"><span class="std std-doc">in_subset</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Subset.html"><span class="std std-doc">Subset</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Subset.html"><span class="std std-doc">Subset</span></a></p></td>
 <td><p>Maps an ontology element to a subset it belongs to</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="conformsTo.html"><span class="std std-doc">conformsTo</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -226,12 +239,12 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasOBONamespace
-    multivalued: true
     alias: has_obo_namespace
     owner: HasCategory
     domain_of:
     - HasCategory
     range: string
+    multivalued: true
   category:
     name: category
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -249,24 +262,24 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:inSubset
-    multivalued: true
     alias: in_subset
     owner: HasCategory
     domain_of:
     - HasCategory
     range: Subset
+    multivalued: true
   conformsTo:
     name: conformsTo
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: dcterms:conformsTo
-    multivalued: true
     alias: conformsTo
     owner: HasCategory
     domain_of:
     - HasCategory
     range: Thing
+    multivalued: true
 
 </pre></div>
 </div>

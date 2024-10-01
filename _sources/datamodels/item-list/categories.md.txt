@@ -7,6 +7,8 @@ _Controlled terms used to categorize an element._
 
 
 
+
+
 URI: [dcterms:subject](http://purl.org/dc/terms/subject)
 
 
@@ -59,6 +61,16 @@ URI: [dcterms:subject](http://purl.org/dc/terms/subject)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:subject |
+| native | itemList:categories |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -72,12 +84,12 @@ from_schema: https://w3id.org/oak/item-list
 rank: 1000
 singular_name: category
 slot_uri: dcterms:subject
-multivalued: true
 alias: categories
 owner: ItemList
 domain_of:
 - ItemList
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

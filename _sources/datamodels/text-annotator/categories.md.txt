@@ -7,6 +7,8 @@ _A list of named entity categories to include._
 
 
 
+
+
 URI: [ann:categories](https://w3id.org/linkml/text_annotator/categories)
 
 
@@ -55,6 +57,16 @@ URI: [ann:categories](https://w3id.org/linkml/text_annotator/categories)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:categories |
+| native | ann:categories |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: categories
 description: A list of named entity categories to include.
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
-multivalued: true
 alias: categories
 owner: TextAnnotationConfiguration
 domain_of:
 - TextAnnotationConfiguration
 range: string
+multivalued: true
 
 ```
 </details>

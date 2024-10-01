@@ -2,6 +2,8 @@
 
 # Slot: subjects_in_common
 
+
+
 URI: [ontoassoc:subjects_in_common](https://w3id.org/oak/association/subjects_in_common)
 
 
@@ -26,7 +28,7 @@ URI: [ontoassoc:subjects_in_common](https://w3id.org/oak/association/subjects_in
 
 ## Properties
 
-* Range: NONE
+* Range: [String](String.md)
 
 * Multivalued: True
 
@@ -50,6 +52,16 @@ URI: [ontoassoc:subjects_in_common](https://w3id.org/oak/association/subjects_in
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:subjects_in_common |
+| native | ontoassoc:subjects_in_common |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,10 +69,11 @@ URI: [ontoassoc:subjects_in_common](https://w3id.org/oak/association/subjects_in
 name: subjects_in_common
 from_schema: https://w3id.org/oak/association
 rank: 1000
-multivalued: true
 alias: subjects_in_common
 domain_of:
 - PairwiseCoAssociation
+range: string
+multivalued: true
 
 ```
 </details>

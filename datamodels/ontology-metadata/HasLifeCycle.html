@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,25 +89,43 @@
 <div class="mermaid">
              classDiagram
     class HasLifeCycle
+    click HasLifeCycle href &quot;../HasLifeCycle&quot;
       AnnotationPropertyMixin &lt;|-- HasLifeCycle
+        click AnnotationPropertyMixin href &quot;../AnnotationPropertyMixin&quot;
       
 
       HasLifeCycle &lt;|-- Term
+        click Term href &quot;../Term&quot;
       
       
       HasLifeCycle : consider
         
-          HasLifeCycle --&gt; Any : consider
+          
+    
+    
+    HasLifeCycle --&gt; &quot;*&quot; Any : consider
+    click Any href &quot;../Any&quot;
+
         
       HasLifeCycle : deprecated
         
       HasLifeCycle : excluded_from_QC_check
         
-          HasLifeCycle --&gt; Thing : excluded_from_QC_check
+          
+    
+    
+    HasLifeCycle --&gt; &quot;0..1&quot; Thing : excluded_from_QC_check
+    click Thing href &quot;../Thing&quot;
+
         
       HasLifeCycle : excluded_subClassOf
         
-          HasLifeCycle --&gt; Class : excluded_subClassOf
+          
+    
+    
+    HasLifeCycle --&gt; &quot;*&quot; Class : excluded_subClassOf
+    click Class href &quot;../Class&quot;
+
         
       HasLifeCycle : excluded_synonym
         
@@ -117,11 +135,21 @@
         
       HasLifeCycle : should_conform_to
         
-          HasLifeCycle --&gt; Thing : should_conform_to
+          
+    
+    
+    HasLifeCycle --&gt; &quot;0..1&quot; Thing : should_conform_to
+    click Thing href &quot;../Thing&quot;
+
         
       HasLifeCycle : term_replaced_by
         
-          HasLifeCycle --&gt; Any : term_replaced_by
+          
+    
+    
+    HasLifeCycle --&gt; &quot;0..1&quot; Any : term_replaced_by
+    click Any href &quot;../Any&quot;
+
         
       
         </div><section id="inheritance">
@@ -161,12 +189,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="consider.html"><span class="std std-doc">consider</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Any.html"><span class="std std-doc">Any</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Any.html"><span class="std std-doc">Any</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_alternative_id.html"><span class="std std-doc">has_alternative_id</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>Relates a live term to a deprecated ID that was merged in</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -176,12 +204,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="excluded_subClassOf.html"><span class="std std-doc">excluded_subClassOf</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Class.html"><span class="std std-doc">Class</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Class.html"><span class="std std-doc">Class</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="excluded_synonym.html"><span class="std std-doc">excluded_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -379,12 +407,12 @@ attributes:
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
     slot_uri: oio:consider
-    multivalued: true
     alias: consider
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: Any
+    multivalued: true
   has_alternative_id:
     name: has_alternative_id
     description: Relates a live term to a deprecated ID that was merged in
@@ -401,12 +429,12 @@ attributes:
     is_a: obsoletion_related_property
     domain: NotObsoleteAspect
     slot_uri: oio:hasAlternativeId
-    multivalued: true
     alias: has_alternative_id
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: uriorcurie
+    multivalued: true
   excluded_from_QC_check:
     name: excluded_from_QC_check
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -422,12 +450,12 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
-    multivalued: true
     alias: excluded_subClassOf
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: Class
+    multivalued: true
   excluded_synonym:
     name: excluded_synonym
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -435,12 +463,12 @@ attributes:
     - skos:hiddenSynonym
     rank: 1000
     is_a: excluded_axiom
-    multivalued: true
     alias: excluded_synonym
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: string
+    multivalued: true
   should_conform_to:
     name: should_conform_to
     from_schema: https://w3id.org/oak/ontology-metadata

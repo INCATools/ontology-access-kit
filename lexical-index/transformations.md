@@ -2,6 +2,8 @@
 
 # Slot: transformations
 
+
+
 URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transformations)
 
 
@@ -50,6 +52,16 @@ URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transform
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:transformations |
+| native | ontolexindex:transformations |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transform
 name: transformations
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-multivalued: true
 alias: transformations
 owner: LexicalTransformationPipeline
 domain_of:
 - LexicalTransformationPipeline
 range: LexicalTransformation
+multivalued: true
 
 ```
 </details>

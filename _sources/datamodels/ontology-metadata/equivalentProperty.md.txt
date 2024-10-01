@@ -2,6 +2,8 @@
 
 # Slot: equivalentProperty
 
+
+
 URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
 
 
@@ -56,6 +58,16 @@ URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:equivalentProperty |
+| native | omoschema:equivalentProperty |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -67,11 +79,11 @@ is_a: logical_predicate
 mixins:
 - match_aspect
 slot_uri: owl:equivalentProperty
-multivalued: true
 alias: equivalentProperty
 domain_of:
 - ObjectProperty
 range: Property
+multivalued: true
 
 ```
 </details>

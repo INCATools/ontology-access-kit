@@ -9,6 +9,8 @@ __
 
 
 
+
+
 URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
 
 
@@ -53,6 +55,16 @@ URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | itemList:elementId |
+| native | itemList:elementId |
 
 
 

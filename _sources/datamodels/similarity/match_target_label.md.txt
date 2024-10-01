@@ -2,6 +2,8 @@
 
 # Slot: match_target_label
 
+
+
 URI: [sim:match_target_label](https://w3id.org/linkml/similarity/match_target_label)
 
 
@@ -44,6 +46,16 @@ URI: [sim:match_target_label](https://w3id.org/linkml/similarity/match_target_la
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:match_target_label |
+| native | sim:match_target_label |
 
 
 

@@ -7,6 +7,8 @@ _A list of comments about the entity_
 
 
 
+
+
 URI: [rdfs:comment](http://www.w3.org/2000/01/rdf-schema#comment)
 
 
@@ -59,6 +61,16 @@ URI: [rdfs:comment](http://www.w3.org/2000/01/rdf-schema#comment)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:comment |
+| native | obographs:comments |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -72,11 +84,11 @@ comments:
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: rdfs:comment
-multivalued: true
 alias: comments
 domain_of:
 - Meta
 range: string
+multivalued: true
 
 ```
 </details>

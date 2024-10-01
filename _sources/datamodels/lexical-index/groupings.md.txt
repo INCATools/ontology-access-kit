@@ -7,6 +7,8 @@ _all groupings_
 
 
 
+
+
 URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 
 
@@ -55,6 +57,16 @@ URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:groupings |
+| native | ontolexindex:groupings |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: groupings
 description: all groupings
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-multivalued: true
 alias: groupings
 owner: LexicalIndex
 domain_of:
 - LexicalIndex
 range: LexicalGrouping
+multivalued: true
 inlined: true
 
 ```

@@ -18,18 +18,31 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Axiom
+    click Axiom href "../Axiom"
       Axiom <|-- DomainRangeAxiom
+        click DomainRangeAxiom href "../DomainRangeAxiom"
       Axiom <|-- EquivalentNodesSet
+        click EquivalentNodesSet href "../EquivalentNodesSet"
       Axiom <|-- LogicalDefinitionAxiom
+        click LogicalDefinitionAxiom href "../LogicalDefinitionAxiom"
       Axiom <|-- DisjointClassExpressionsAxiom
+        click DisjointClassExpressionsAxiom href "../DisjointClassExpressionsAxiom"
       Axiom <|-- PropertyChainAxiom
+        click PropertyChainAxiom href "../PropertyChainAxiom"
       
       Axiom : meta
         
-          Axiom --> Meta : meta
+          
+    
+    
+    Axiom --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       
 ```
@@ -78,13 +91,14 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Axiom |
 | native | obographs:Axiom |
+
+
 
 
 

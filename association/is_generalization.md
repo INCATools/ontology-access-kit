@@ -7,6 +7,8 @@ _True if the association was inferred to become more general (based on closure p
 
 
 
+
+
 URI: [ontoassoc:is_generalization](https://w3id.org/oak/association/is_generalization)
 
 
@@ -53,6 +55,16 @@ URI: [ontoassoc:is_generalization](https://w3id.org/oak/association/is_generaliz
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:is_generalization |
+| native | ontoassoc:is_generalization |
 
 
 

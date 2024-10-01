@@ -2,6 +2,8 @@
 
 # Slot: modified
 
+
+
 URI: [vm:modified](https://w3id.org/linkml/validation-model/modified)
 
 
@@ -44,6 +46,16 @@ URI: [vm:modified](https://w3id.org/linkml/validation-model/modified)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:modified |
+| native | vm:modified |
 
 
 

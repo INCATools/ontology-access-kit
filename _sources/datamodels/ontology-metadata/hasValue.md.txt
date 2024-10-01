@@ -2,6 +2,8 @@
 
 # Slot: hasValue
 
+
+
 URI: [owl:hasValue](http://www.w3.org/2002/07/owl#hasValue)
 
 
@@ -44,6 +46,16 @@ URI: [owl:hasValue](http://www.w3.org/2002/07/owl#hasValue)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:hasValue |
+| native | omoschema:hasValue |
 
 
 

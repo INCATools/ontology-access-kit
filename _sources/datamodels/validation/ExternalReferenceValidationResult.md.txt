@@ -14,10 +14,14 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ExternalReferenceValidationResult
+    click ExternalReferenceValidationResult href "../ExternalReferenceValidationResult"
       ValidationResult <|-- ExternalReferenceValidationResult
+        click ValidationResult href "../ValidationResult"
       
       ExternalReferenceValidationResult : http_response_code
         
@@ -25,35 +29,65 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
         
       ExternalReferenceValidationResult : instantiates
         
-          ExternalReferenceValidationResult --> Node : instantiates
+          
+    
+    
+    ExternalReferenceValidationResult --> "0..1" Node : instantiates
+    click Node href "../Node"
+
         
       ExternalReferenceValidationResult : number_of_attempts
         
       ExternalReferenceValidationResult : object
         
-          ExternalReferenceValidationResult --> Node : object
+          
+    
+    
+    ExternalReferenceValidationResult --> "0..1" Node : object
+    click Node href "../Node"
+
         
       ExternalReferenceValidationResult : object_str
         
       ExternalReferenceValidationResult : predicate
         
-          ExternalReferenceValidationResult --> Node : predicate
+          
+    
+    
+    ExternalReferenceValidationResult --> "0..1" Node : predicate
+    click Node href "../Node"
+
         
       ExternalReferenceValidationResult : severity
         
-          ExternalReferenceValidationResult --> severity_options : severity
+          
+    
+    
+    ExternalReferenceValidationResult --> "0..1" SeverityOptions : severity
+    click SeverityOptions href "../SeverityOptions"
+
         
       ExternalReferenceValidationResult : source
         
       ExternalReferenceValidationResult : subject
         
-          ExternalReferenceValidationResult --> Node : subject
+          
+    
+    
+    ExternalReferenceValidationResult --> "1" Node : subject
+    click Node href "../Node"
+
         
       ExternalReferenceValidationResult : time_checked
         
       ExternalReferenceValidationResult : type
         
-          ExternalReferenceValidationResult --> ConstraintComponent : type
+          
+    
+    
+    ExternalReferenceValidationResult --> "1" ConstraintComponent : type
+    click ConstraintComponent href "../ConstraintComponent"
+
         
       ExternalReferenceValidationResult : url
         
@@ -79,9 +113,9 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 | [time_checked](time_checked.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [number_of_attempts](number_of_attempts.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 | [http_response_code](http_response_code.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
-| [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | [ValidationResult](ValidationResult.md) |
+| [type](type.md) | 1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | [ValidationResult](ValidationResult.md) |
 | [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | [ValidationResult](ValidationResult.md) |
-| [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
+| [subject](subject.md) | 1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
 | [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | [ValidationResult](ValidationResult.md) |
 | [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
 | [object](object.md) | 0..1 <br/> [Node](Node.md) |  | [ValidationResult](ValidationResult.md) |
@@ -113,13 +147,14 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:ExternalReferenceValidationResult |
 | native | vm:ExternalReferenceValidationResult |
+
+
 
 
 

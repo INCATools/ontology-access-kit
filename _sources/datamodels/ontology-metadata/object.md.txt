@@ -2,6 +2,8 @@
 
 # Slot: object
 
+
+
 URI: [omoschema:object](https://w3id.org/oak/ontology-metadata/object)
 
 
@@ -44,6 +46,16 @@ URI: [omoschema:object](https://w3id.org/oak/ontology-metadata/object)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:object |
+| native | omoschema:object |
 
 
 

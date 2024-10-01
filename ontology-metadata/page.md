@@ -2,6 +2,8 @@
 
 # Slot: page
 
+
+
 URI: [foaf:page](http://xmlns.com/foaf/0.1/page)
 
 
@@ -22,17 +24,17 @@ URI: [foaf:page](http://xmlns.com/foaf/0.1/page)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Image](Image.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [HasUserInformation](HasUserInformation.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Property](Property.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [HasUserInformation](HasUserInformation.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -66,6 +68,16 @@ URI: [foaf:page](http://xmlns.com/foaf/0.1/page)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | foaf:page |
+| native | omoschema:page |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -75,11 +87,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: informative_property
 slot_uri: foaf:page
-multivalued: true
 alias: page
 domain_of:
 - HasUserInformation
 range: string
+multivalued: true
 
 ```
 </details>

@@ -37,3 +37,13 @@ URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | shex:nonLiteral |
+| native | ontosearch:nodeidentifier |
+
+
+

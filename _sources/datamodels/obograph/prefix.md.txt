@@ -7,6 +7,8 @@ _The prefix of a prefix declaration._
 
 
 
+
+
 URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 
@@ -55,6 +57,16 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:prefix |
+| native | obographs:prefix |
 
 
 

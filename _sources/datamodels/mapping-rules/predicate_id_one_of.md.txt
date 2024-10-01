@@ -7,6 +7,8 @@ _The predicate to be matched. Multiple values can be provided, it must match at 
 
 
 
+
+
 URI: [mappingrules:predicate_id_one_of](https://w3id.org/oak/mapping-rules-datamodel/predicate_id_one_of)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:predicate_id_one_of](https://w3id.org/oak/mapping-rules-datam
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:predicate_id_one_of |
+| native | mappingrules:predicate_id_one_of |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: The predicate to be matched. Multiple values can be provided, it mu
   match at least one.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: predicate_id_one_of
 owner: Precondition
 domain_of:
 - Precondition
 range: string
+multivalued: true
 
 ```
 </details>

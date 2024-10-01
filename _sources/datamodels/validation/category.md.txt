@@ -7,6 +7,8 @@ _The category of the validation issue_
 
 
 
+
+
 URI: [vm:category](https://w3id.org/linkml/validation-model/category)
 
 
@@ -49,6 +51,16 @@ URI: [vm:category](https://w3id.org/linkml/validation-model/category)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:category |
+| native | vm:category |
 
 
 

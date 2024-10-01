@@ -7,6 +7,8 @@ _the source for the first entity_
 
 
 
+
+
 URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
@@ -49,6 +51,16 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:subject_source |
+| native | sim:subject_source |
 
 
 

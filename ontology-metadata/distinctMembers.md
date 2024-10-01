@@ -2,6 +2,8 @@
 
 # Slot: distinctMembers
 
+
+
 URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 
 
@@ -40,6 +42,16 @@ URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:distinctMembers |
+| native | omoschema:distinctMembers |
 
 
 

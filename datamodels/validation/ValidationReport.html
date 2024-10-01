@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,11 +90,18 @@
 <div class="mermaid">
              classDiagram
     class ValidationReport
+    click ValidationReport href &quot;../ValidationReport&quot;
       Report &lt;|-- ValidationReport
+        click Report href &quot;../Report&quot;
       
       ValidationReport : results
         
-          ValidationReport --&gt; ValidationResult : results
+          
+    
+    
+    ValidationReport --&gt; &quot;*&quot; ValidationResult : results
+    click ValidationResult href &quot;../ValidationResult&quot;
+
         
       
         </div><section id="inheritance">
@@ -119,7 +126,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="results.html"><span class="std std-doc">results</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
 <td><p>collection of results</p></td>
 <td><p><a class="reference internal" href="Report.html"><span class="std std-doc">Report</span></a></p></td>
 </tr>
@@ -175,8 +182,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: ValidationResult
 class_uri: sh:ValidationReport
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -194,8 +199,6 @@ is_a: Report
 slot_usage:
   results:
     name: results
-    domain_of:
-    - Report
     range: ValidationResult
 attributes:
   results:
@@ -204,12 +207,12 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     slot_uri: sh:result
-    multivalued: true
     alias: results
     owner: ValidationReport
     domain_of:
     - Report
     range: ValidationResult
+    multivalued: true
     inlined: true
     inlined_as_list: true
 class_uri: sh:ValidationReport

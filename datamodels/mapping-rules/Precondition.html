@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,6 +90,7 @@
 <div class="mermaid">
              classDiagram
     class Precondition
+    click Precondition href &quot;../Precondition&quot;
       Precondition : mapping_source_one_of
         
       Precondition : object_match_field_one_of
@@ -118,37 +119,37 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="std std-doc">subject_source_one_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The source of the subject to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="std std-doc">object_source_one_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The source of the object to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="std std-doc">mapping_source_one_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The source of the mapping to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="std std-doc">subject_match_field_one_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The field in the subject to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="std std-doc">object_match_field_one_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The field in the object to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="std std-doc">transformations_included_in</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="predicate_id_one_of.html"><span class="std std-doc">predicate_id_one_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The predicate to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -218,61 +219,61 @@ attributes:
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Precondition
+    multivalued: true
   object_source_one_of:
     name: object_source_one_of
     description: The source of the object to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Precondition
+    multivalued: true
   mapping_source_one_of:
     name: mapping_source_one_of
     description: The source of the mapping to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Precondition
+    multivalued: true
   subject_match_field_one_of:
     name: subject_match_field_one_of
     description: The field in the subject to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Precondition
+    multivalued: true
   object_match_field_one_of:
     name: object_match_field_one_of
     description: The field in the object to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Precondition
+    multivalued: true
   transformations_included_in:
     name: transformations_included_in
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Precondition
+    multivalued: true
   predicate_id_one_of:
     name: predicate_id_one_of
     description: The predicate to be matched. Multiple values can be provided, it
       must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Precondition
+    multivalued: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -289,82 +290,82 @@ attributes:
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: subject_source_one_of
     owner: Precondition
     domain_of:
     - Precondition
     range: string
+    multivalued: true
   object_source_one_of:
     name: object_source_one_of
     description: The source of the object to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: object_source_one_of
     owner: Precondition
     domain_of:
     - Precondition
     range: string
+    multivalued: true
   mapping_source_one_of:
     name: mapping_source_one_of
     description: The source of the mapping to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: mapping_source_one_of
     owner: Precondition
     domain_of:
     - Precondition
     range: string
+    multivalued: true
   subject_match_field_one_of:
     name: subject_match_field_one_of
     description: The field in the subject to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: subject_match_field_one_of
     owner: Precondition
     domain_of:
     - Precondition
     range: string
+    multivalued: true
   object_match_field_one_of:
     name: object_match_field_one_of
     description: The field in the object to be matched. Multiple values can be provided,
       it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: object_match_field_one_of
     owner: Precondition
     domain_of:
     - Precondition
     range: string
+    multivalued: true
   transformations_included_in:
     name: transformations_included_in
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: transformations_included_in
     owner: Precondition
     domain_of:
     - Precondition
     range: string
+    multivalued: true
   predicate_id_one_of:
     name: predicate_id_one_of
     description: The predicate to be matched. Multiple values can be provided, it
       must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: predicate_id_one_of
     owner: Precondition
     domain_of:
     - Precondition
     range: string
+    multivalued: true
 
 </pre></div>
 </div>

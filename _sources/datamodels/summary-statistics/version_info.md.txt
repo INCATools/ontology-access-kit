@@ -7,6 +7,8 @@ _the version info of the resource_
 
 
 
+
+
 URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
@@ -49,6 +51,16 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:versionInfo |
+| native | summary_statistics:version_info |
 
 
 

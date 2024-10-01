@@ -2,6 +2,8 @@
 
 # Slot: created_by
 
+
+
 URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
 
@@ -22,18 +24,18 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Image](Image.md) |  |  no  |
 | [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
-| [HasProvenance](HasProvenance.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Property](Property.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -61,6 +63,16 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:created_by |
+| native | omoschema:created_by |
 
 
 

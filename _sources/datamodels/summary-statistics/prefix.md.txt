@@ -7,6 +7,8 @@ _the prefix for the ontology_
 
 
 
+
+
 URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 
@@ -49,6 +51,16 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:prefix |
+| native | summary_statistics:prefix |
 
 
 

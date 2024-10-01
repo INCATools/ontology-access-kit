@@ -2,6 +2,8 @@
 
 # Slot: overlap_coefficient
 
+
+
 URI: [sim:overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coefficient)
 
 
@@ -40,6 +42,16 @@ URI: [sim:overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coeffi
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:overlap_coefficient |
+| native | sim:overlap_coefficient |
 
 
 

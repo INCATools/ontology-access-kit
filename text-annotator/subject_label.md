@@ -7,6 +7,8 @@ _The portion of the subject text that is matched, ranging from subject_start to 
 
 
 
+
+
 URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 
 
@@ -50,6 +52,17 @@ URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:subject_label |
+| native | ann:subject_label |
+| exact | bpa:text |
 
 
 

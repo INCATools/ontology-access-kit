@@ -38,3 +38,13 @@ URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:iri_type |
+| native | omoschema:iri_type |
+
+
+

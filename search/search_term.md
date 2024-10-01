@@ -2,6 +2,8 @@
 
 # Slot: search_term
 
+
+
 URI: [ontosearch:search_term](https://w3id.org/oak/search-datamodel/search_term)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:search_term](https://w3id.org/oak/search-datamodel/search_term)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:search_term |
+| native | ontosearch:search_term |
 
 
 

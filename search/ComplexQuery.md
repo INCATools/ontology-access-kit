@@ -9,24 +9,47 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ComplexQuery
+    click ComplexQuery href "../ComplexQuery"
       ComplexQuery : all_of
         
-          ComplexQuery --> ComplexQuery : all_of
+          
+    
+    
+    ComplexQuery --> "*" ComplexQuery : all_of
+    click ComplexQuery href "../ComplexQuery"
+
         
       ComplexQuery : any_of
         
-          ComplexQuery --> ComplexQuery : any_of
+          
+    
+    
+    ComplexQuery --> "*" ComplexQuery : any_of
+    click ComplexQuery href "../ComplexQuery"
+
         
       ComplexQuery : atom
         
-          ComplexQuery --> SearchBaseConfiguration : atom
+          
+    
+    
+    ComplexQuery --> "0..1" SearchBaseConfiguration : atom
+    click SearchBaseConfiguration href "../SearchBaseConfiguration"
+
         
       ComplexQuery : none_of
         
-          ComplexQuery --> ComplexQuery : none_of
+          
+    
+    
+    ComplexQuery --> "*" ComplexQuery : none_of
+    click ComplexQuery href "../ComplexQuery"
+
         
       ComplexQuery : path_to
         
@@ -43,9 +66,9 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [all_of](all_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
-| [any_of](any_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
-| [none_of](none_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
+| [all_of](all_of.md) | * <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
+| [any_of](any_of.md) | * <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
+| [none_of](none_of.md) | * <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
 | [path_to](path_to.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [atom](atom.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
 
@@ -82,13 +105,14 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontosearch:ComplexQuery |
 | native | ontosearch:ComplexQuery |
+
+
 
 
 
@@ -109,26 +133,26 @@ attributes:
     name: all_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   any_of:
     name: any_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   none_of:
     name: none_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   path_to:
     name: path_to
     from_schema: https://w3id.org/oak/search-datamodel
@@ -157,32 +181,32 @@ attributes:
     name: all_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: all_of
     owner: ComplexQuery
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   any_of:
     name: any_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: any_of
     owner: ComplexQuery
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   none_of:
     name: none_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: none_of
     owner: ComplexQuery
     domain_of:
     - ComplexQuery
     range: ComplexQuery
+    multivalued: true
   path_to:
     name: path_to
     from_schema: https://w3id.org/oak/search-datamodel

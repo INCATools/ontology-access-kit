@@ -2,6 +2,8 @@
 
 # Slot: suggested_predicate
 
+
+
 URI: [vm:suggested_predicate](https://w3id.org/linkml/validation-model/suggested_predicate)
 
 
@@ -44,6 +46,16 @@ URI: [vm:suggested_predicate](https://w3id.org/linkml/validation-model/suggested
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:suggested_predicate |
+| native | vm:suggested_predicate |
 
 
 

@@ -7,6 +7,8 @@ _The source of the object to be matched. Multiple values can be provided, it mus
 
 
 
+
+
 URI: [mappingrules:object_source_one_of](https://w3id.org/oak/mapping-rules-datamodel/object_source_one_of)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:object_source_one_of](https://w3id.org/oak/mapping-rules-data
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:object_source_one_of |
+| native | mappingrules:object_source_one_of |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: The source of the object to be matched. Multiple values can be prov
   it must match at least one.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: object_source_one_of
 owner: Precondition
 domain_of:
 - Precondition
 range: string
+multivalued: true
 
 ```
 </details>

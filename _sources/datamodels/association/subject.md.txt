@@ -7,6 +7,8 @@ _The thing which the association is about._
 
 
 
+
+
 URI: [rdf:subject](rdf:subject)
 
 
@@ -21,10 +23,10 @@ URI: [rdf:subject](rdf:subject)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 | [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -56,6 +58,17 @@ URI: [rdf:subject](rdf:subject)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:subject |
+| native | ontoassoc:subject |
+| exact | oa:hasBody |
 
 
 

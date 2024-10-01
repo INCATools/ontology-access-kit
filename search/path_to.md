@@ -2,6 +2,8 @@
 
 # Slot: path_to
 
+
+
 URI: [ontosearch:path_to](https://w3id.org/oak/search-datamodel/path_to)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:path_to](https://w3id.org/oak/search-datamodel/path_to)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:path_to |
+| native | ontosearch:path_to |
 
 
 

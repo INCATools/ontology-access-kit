@@ -14,9 +14,12 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class AssociationChange
+    click AssociationChange href "../AssociationChange"
       AssociationChange : aggregator_knowledge_source
         
       AssociationChange : closure_delta
@@ -77,7 +80,7 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
 | [new_date](new_date.md) | 0..1 <br/> [String](String.md) | The date of the new association | direct |
 | [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | direct |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | direct |
-| [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | direct |
+| [publications](publications.md) | * <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | direct |
 | [publication_is_added](publication_is_added.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the publication was not present in the old association set (and prese... | direct |
 | [publication_is_deleted](publication_is_deleted.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the publication is not present in the new association set (and presen... | direct |
 | [subject](subject.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The thing which the association is about | direct |
@@ -91,7 +94,7 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
 | [is_specialization](is_specialization.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the association was inferred to become more specific (based on closur... | direct |
 | [is_creation](is_creation.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [is_deletion](is_deletion.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
-| [closure_predicates](closure_predicates.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of predicates used to determine if the new association object is a sp... | direct |
+| [closure_predicates](closure_predicates.md) | * <br/> [Uriorcurie](Uriorcurie.md) | The set of predicates used to determine if the new association object is a sp... | direct |
 | [closure_delta](closure_delta.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 
 
@@ -122,13 +125,14 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontoassoc:AssociationChange |
 | native | ontoassoc:AssociationChange |
+
+
 
 
 
@@ -253,13 +257,13 @@ attributes:
     from_schema: https://w3id.org/oak/association
     rank: 1000
     slot_uri: biolink:publications
-    multivalued: true
     alias: publications
     owner: AssociationChange
     domain_of:
     - PositiveOrNegativeAssociation
     - AssociationChange
     range: uriorcurie
+    multivalued: true
   publication_is_added:
     name: publication_is_added
     description: True if the publication was not present in the old association set
@@ -441,12 +445,12 @@ attributes:
       is a specialization or generalization of the old one.
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: closure_predicates
     owner: AssociationChange
     domain_of:
     - AssociationChange
     range: uriorcurie
+    multivalued: true
   closure_delta:
     name: closure_delta
     from_schema: https://w3id.org/oak/association

@@ -7,6 +7,8 @@ _Reg-ex rule to replace substrings in labels_
 
 
 
+
+
 URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/replacement)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/rep
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:replacement |
+| native | mappingrules:replacement |
 
 
 

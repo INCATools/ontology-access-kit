@@ -2,6 +2,8 @@
 
 # Slot: minQualifiedCardinality
 
+
+
 URI: [owl:minQualifiedCardinality](http://www.w3.org/2002/07/owl#minQualifiedCardinality)
 
 
@@ -40,6 +42,16 @@ URI: [owl:minQualifiedCardinality](http://www.w3.org/2002/07/owl#minQualifiedCar
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:minQualifiedCardinality |
+| native | omoschema:minQualifiedCardinality |
 
 
 

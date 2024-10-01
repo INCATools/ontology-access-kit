@@ -2,6 +2,8 @@
 
 # Slot: defaultLanguage
 
+
+
 URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
@@ -40,6 +42,16 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | protege:defaultLanguage |
+| native | omoschema:defaultLanguage |
 
 
 

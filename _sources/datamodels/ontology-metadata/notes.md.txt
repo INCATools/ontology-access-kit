@@ -2,6 +2,8 @@
 
 # Slot: notes
 
+
+
 URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 
 
@@ -50,6 +52,16 @@ URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:notes |
+| native | omoschema:notes |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -59,11 +71,11 @@ deprecated: deprecated oboInOwl property
 from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:notes
-multivalued: true
 alias: notes
 domain_of:
 - Axiom
 range: string
+multivalued: true
 
 ```
 </details>

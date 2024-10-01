@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,15 +89,23 @@
 <div class="mermaid">
              classDiagram
     class HasProvenance
+    click HasProvenance href &quot;../HasProvenance&quot;
       AnnotationPropertyMixin &lt;|-- HasProvenance
+        click AnnotationPropertyMixin href &quot;../AnnotationPropertyMixin&quot;
       
 
       HasProvenance &lt;|-- Term
+        click Term href &quot;../Term&quot;
       
       
       HasProvenance : contributor
         
-          HasProvenance --&gt; Agent : contributor
+          
+    
+    
+    HasProvenance --&gt; &quot;*&quot; Agent : contributor
+    click Agent href &quot;../Agent&quot;
+
         
       HasProvenance : created
         
@@ -107,7 +115,12 @@
         
       HasProvenance : creator
         
-          HasProvenance --&gt; Agent : creator
+          
+    
+    
+    HasProvenance --&gt; &quot;*&quot; Agent : creator
+    click Agent href &quot;../Agent&quot;
+
         
       HasProvenance : date
         
@@ -117,11 +130,21 @@
         
       HasProvenance : imported_from
         
-          HasProvenance --&gt; NamedIndividual : imported_from
+          
+    
+    
+    HasProvenance --&gt; &quot;*&quot; NamedIndividual : imported_from
+    click NamedIndividual href &quot;../NamedIndividual&quot;
+
         
       HasProvenance : isDefinedBy
         
-          HasProvenance --&gt; Ontology : isDefinedBy
+          
+    
+    
+    HasProvenance --&gt; &quot;0..1&quot; Ontology : isDefinedBy
+    click Ontology href &quot;../Ontology&quot;
+
         
       HasProvenance : ontology_term_requester
         
@@ -157,17 +180,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creation_date.html"><span class="std std-doc">creation_date</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="contributor.html"><span class="std std-doc">contributor</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creator.html"><span class="std std-doc">creator</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -177,7 +200,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="std std-doc">date</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>when the term was updated</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -187,17 +210,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="editor_note.html"><span class="std std-doc">editor_note</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="NarrativeText.html"><span class="std std-doc">NarrativeText</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="NarrativeText.html"><span class="std std-doc">NarrativeText</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_editor.html"><span class="std std-doc">term_editor</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="std std-doc">definition_source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -207,12 +230,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="imported_from.html"><span class="std std-doc">imported_from</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="NamedIndividual.html"><span class="std std-doc">NamedIndividual</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="NamedIndividual.html"><span class="std std-doc">NamedIndividual</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="std std-doc">term_tracker_item</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -321,12 +344,12 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: oio:creation_date
-    multivalued: true
     alias: creation_date
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: string
+    multivalued: true
   contributor:
     name: contributor
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -335,12 +358,12 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:contributor
-    multivalued: true
     alias: contributor
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: Agent
+    multivalued: true
     structured_pattern:
       syntax: &#39;{orcid_regex}&#39;
       interpolated: true
@@ -353,13 +376,13 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:creator
-    multivalued: true
     alias: creator
     owner: HasProvenance
     domain_of:
     - HasProvenance
     - Ontology
     range: Agent
+    multivalued: true
     structured_pattern:
       syntax: &#39;{orcid_regex}&#39;
       interpolated: true
@@ -373,13 +396,13 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:created
-    multivalued: false
     alias: created
     owner: HasProvenance
     domain_of:
     - HasProvenance
     - Ontology
     range: string
+    multivalued: false
   date:
     name: date
     description: when the term was updated
@@ -389,12 +412,12 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:date
-    multivalued: true
     alias: date
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: string
+    multivalued: true
   isDefinedBy:
     name: isDefinedBy
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -414,24 +437,24 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000116
-    multivalued: true
     alias: editor_note
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: narrative text
+    multivalued: true
   term_editor:
     name: term_editor
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000117
-    multivalued: true
     alias: term_editor
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: string
+    multivalued: true
   definition_source:
     name: definition_source
     todos:
@@ -442,12 +465,12 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000119
-    multivalued: true
     alias: definition_source
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: string
+    multivalued: true
   ontology_term_requester:
     name: ontology_term_requester
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -465,12 +488,12 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000412
-    multivalued: true
     alias: imported_from
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: NamedIndividual
+    multivalued: true
   term_tracker_item:
     name: term_tracker_item
     todos:
@@ -479,12 +502,12 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000233
-    multivalued: true
     alias: term_tracker_item
     owner: HasProvenance
     domain_of:
     - HasProvenance
     range: string
+    multivalued: true
 
 </pre></div>
 </div>

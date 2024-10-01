@@ -15,7 +15,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../_static/copybutton.js?v=046fa432"></script>
@@ -68,6 +68,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#a-note-on-entailed-direct-edges">A note on entailed direct edges</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#further-notes-on-owl-and-graph-projection">Further notes on OWL and Graph Projection</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="associations.html">Associations and Curated Annotations</a></li>
@@ -165,7 +166,8 @@ and <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_00
 <p>if you are used to working with OWL and the underlying RDF/OWL representation
 the presentation as simple triads above can be confusing, as these are not actually
 modeled as triples in the ontology, but rather as more complex axioms involving
-constructs like existential restriction. We will return to this later.</p>
+constructs like existential restriction. These axioms are <em>projected</em> onto a graph
+representation. We will return to this topic later.</p>
 </div>
 </section>
 <section id="graph-traversal-and-relation-graph-reasoning">
@@ -515,6 +517,88 @@ and in principle it <em>may</em> be the case that this is not asserted</p>
 which should be <em>pre-classified</em>. This means that all edges that are both <span class="xref std std-term">Direct</span>
 and <a class="reference internal" href="../glossary.html#term-Entailed"><span class="xref std std-term">Entailed</span></a> should also be <a class="reference internal" href="../glossary.html#term-Asserted"><span class="xref std std-term">Asserted</span></a>.</p>
 </section>
+</section>
+<section id="further-notes-on-owl-and-graph-projection">
+<h2>Further notes on OWL and Graph Projection<a class="headerlink" href="#further-notes-on-owl-and-graph-projection" title="Link to this heading"></a></h2>
+<p>Many ontologies use the OWL language to express relationships between entities. The OWL
+representation is not directly a graph, but different kinds of OWL axioms can be <em>projected</em>
+onto graph edges. This kind of projection is common, but lacks standardization.</p>
+<p>Two of the most common patterns in OWL ontologies are:</p>
+<ul class="simple">
+<li><p>SubClassOf between two named classes (e.g. Finger SubClassOf Digit)</p></li>
+<li><p>SubClassOf between a named class and a simple existential restriction (e.g. Digit SubClassOf part-of some Hand)</p></li>
+</ul>
+<p>It’s a de-facto standard that these are both projected to graph edges (the former to an is-a or SubClassOf edge,
+the latter to a part-of edge). This can be seen e.g. in ontology browsers such as the OLS. These two kinds of
+axioms are very common in bio-ontologies. However, there is a lack of standardization in how more complex axioms
+should be mapped to edges, or whether they should be.</p>
+<p>The following table outlines some common patterns and whether these are projected to edges in common tools:</p>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">OWL to Graph Projections</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>OWL Axiom</p></th>
+<th class="head"><p>Graph Projection</p></th>
+<th class="head"><p>SQL Adapter</p></th>
+<th class="head"><p>Relation Graph</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A SubClassOf B</p></td>
+<td><p>rdfs:subClassOf B</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>A SubClassOf R some B</p></td>
+<td><p>A R B</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>A SubClassOf R value B</p></td>
+<td><p>A R B</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>A SubClassOf R only B</p></td>
+<td><p>A R B</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>A SubClassOf R max 0 B</p></td>
+<td><p>A R B</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>I type A</p></td>
+<td><p>I rdf:type A</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>I type R some A</p></td>
+<td><p>I R A</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>I type R value A</p></td>
+<td><p>I R A</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>I Facts: R J</p></td>
+<td><p>I R J</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+</tbody>
+</table>
+<p>See <a class="reference external" href="https://github.com/linkml/owlstar">OWLStar</a> for progress towards a standardization of OWL
+graph projections for property graphs - this also includes proposals for labeling edges with axiom
+types as well as additional semantic information (e.g. cardinality) and annotations.</p>
 </section>
 </section>
 

@@ -7,6 +7,8 @@ _The identifier of a node that represents the class in an OWL equivalence clique
 
 
 
+
+
 URI: [obographs:representativeNodeId](https://github.com/geneontology/obographs/representativeNodeId)
 
 
@@ -49,6 +51,16 @@ URI: [obographs:representativeNodeId](https://github.com/geneontology/obographs/
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:representativeNodeId |
+| native | obographs:representativeNodeId |
 
 
 

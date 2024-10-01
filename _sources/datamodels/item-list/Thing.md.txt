@@ -9,9 +9,12 @@ URI: [schema:Thing](http://schema.org/Thing)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Thing
+    click Thing href "../Thing"
       Thing : description
         
       Thing : id
@@ -37,10 +40,10 @@ URI: [schema:Thing](http://schema.org/Thing)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | The identifier of the item | direct |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | The identifier of the item | direct |
 | [name](name.md) | 0..1 <br/> [String](String.md) | The name of the item | direct |
 | [url](url.md) | 0..1 <br/> [Uri](Uri.md) | A URL for the item | direct |
-| [identifiers](identifiers.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | A list of identifiers for the item | direct |
+| [identifiers](identifiers.md) | * <br/> [Uriorcurie](Uriorcurie.md) | A list of identifiers for the item | direct |
 | [description](description.md) | 0..1 <br/> [String](String.md) | A description of the item | direct |
 | [type](type.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of the item | direct |
 
@@ -75,13 +78,14 @@ URI: [schema:Thing](http://schema.org/Thing)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | schema:Thing |
 | native | itemList:Thing |
+
+
 
 
 
@@ -133,10 +137,10 @@ attributes:
       this would be a list of identifiers for the item, such as HGNC, MGI, etc.
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     domain_of:
     - Thing
     range: uriorcurie
+    multivalued: true
   description:
     name: description
     description: A description of the item
@@ -209,12 +213,12 @@ attributes:
       this would be a list of identifiers for the item, such as HGNC, MGI, etc.
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     alias: identifiers
     owner: Thing
     domain_of:
     - Thing
     range: uriorcurie
+    multivalued: true
   description:
     name: description
     description: A description of the item

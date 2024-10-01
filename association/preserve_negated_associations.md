@@ -9,6 +9,8 @@ _If false, then the parser will remove negated associations from the output._
 
 
 
+
+
 URI: [ontoassoc:preserve_negated_associations](https://w3id.org/oak/association/preserve_negated_associations)
 
 
@@ -55,6 +57,16 @@ URI: [ontoassoc:preserve_negated_associations](https://w3id.org/oak/association/
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:preserve_negated_associations |
+| native | ontoassoc:preserve_negated_associations |
 
 
 

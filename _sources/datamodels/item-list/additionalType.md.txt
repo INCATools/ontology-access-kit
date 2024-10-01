@@ -7,6 +7,8 @@ _An additional type for the item, typically used for adding more specific types 
 
 
 
+
+
 URI: [schema:additionalType](http://schema.org/additionalType)
 
 
@@ -55,6 +57,16 @@ URI: [schema:additionalType](http://schema.org/additionalType)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | schema:additionalType |
+| native | itemList:additionalType |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -69,12 +81,12 @@ description: An additional type for the item, typically used for adding more spe
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 slot_uri: schema:additionalType
-multivalued: true
 alias: additionalType
 owner: ItemList
 domain_of:
 - ItemList
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

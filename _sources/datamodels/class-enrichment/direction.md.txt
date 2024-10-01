@@ -7,6 +7,8 @@ _The direction of the enrichment_
 
 
 
+
+
 URI: [ontoenrich:direction](https://w3id.org/oak/class-enrichment/direction)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:direction](https://w3id.org/oak/class-enrichment/direction)
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:direction |
+| native | ontoenrich:direction |
 
 
 

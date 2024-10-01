@@ -7,6 +7,8 @@ _Any parameters to be applied to the transformation algorithm_
 
 
 
+
+
 URI: [mappingrules:params](https://w3id.org/oak/mapping-rules-datamodel/params)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:params](https://w3id.org/oak/mapping-rules-datamodel/params)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:params |
+| native | mappingrules:params |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: params
 description: Any parameters to be applied to the transformation algorithm
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: params
 owner: LexicalTransformation
 domain_of:
 - LexicalTransformation
 range: Any
+multivalued: true
 inlined: true
 inlined_as_list: true
 

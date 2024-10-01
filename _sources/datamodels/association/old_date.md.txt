@@ -7,6 +7,8 @@ _The date of the old association_
 
 
 
+
+
 URI: [ontoassoc:old_date](https://w3id.org/oak/association/old_date)
 
 
@@ -54,6 +56,16 @@ URI: [ontoassoc:old_date](https://w3id.org/oak/association/old_date)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:old_date |
+| native | ontoassoc:old_date |
 
 
 

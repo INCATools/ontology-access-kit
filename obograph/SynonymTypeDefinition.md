@@ -9,9 +9,12 @@ URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class SynonymTypeDefinition
+    click SynonymTypeDefinition href "../SynonymTypeDefinition"
       SynonymTypeDefinition : id
         
       SynonymTypeDefinition : lbl
@@ -31,7 +34,7 @@ URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
+| [id](id.md) | 1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
 | [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
 
@@ -66,13 +69,14 @@ URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | oio:SynonymType |
 | native | obographs:SynonymTypeDefinition |
+
+
 
 
 

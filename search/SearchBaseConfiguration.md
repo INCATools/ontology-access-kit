@@ -14,9 +14,12 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class SearchBaseConfiguration
+    click SearchBaseConfiguration href "../SearchBaseConfiguration"
       SearchBaseConfiguration : categories
         
       SearchBaseConfiguration : cursor
@@ -35,13 +38,23 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
         
       SearchBaseConfiguration : properties
         
-          SearchBaseConfiguration --> SearchProperty : properties
+          
+    
+    
+    SearchBaseConfiguration --> "*" SearchProperty : properties
+    click SearchProperty href "../SearchProperty"
+
         
       SearchBaseConfiguration : search_terms
         
       SearchBaseConfiguration : syntax
         
-          SearchBaseConfiguration --> SearchTermSyntax : syntax
+          
+    
+    
+    SearchBaseConfiguration --> "0..1" SearchTermSyntax : syntax
+    click SearchTermSyntax href "../SearchTermSyntax"
+
         
       
 ```
@@ -56,16 +69,16 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [search_terms](search_terms.md) | 0..* <br/> [SearchTerm](SearchTerm.md) | An individual search term | direct |
+| [search_terms](search_terms.md) | * <br/> [SearchTerm](SearchTerm.md) | An individual search term | direct |
 | [syntax](syntax.md) | 0..1 <br/> [SearchTermSyntax](SearchTermSyntax.md) | Determines how the search term is interpreted | direct |
-| [properties](properties.md) | 0..* <br/> [SearchProperty](SearchProperty.md) | determines which properties are searched over | direct |
+| [properties](properties.md) | * <br/> [SearchProperty](SearchProperty.md) | determines which properties are searched over | direct |
 | [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) | the maximum number of search results to be returned in one batch | direct |
 | [cursor](cursor.md) | 0..1 <br/> [Integer](Integer.md) | when the number of search results exceed the limit this can be used to iterat... | direct |
 | [is_partial](is_partial.md) | 0..1 <br/> [Boolean](Boolean.md) | allows matches where the search term is a subset of the full span | direct |
 | [is_complete](is_complete.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [is_fuzzy](is_fuzzy.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
-| [categories](categories.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | categories that should be matched | direct |
+| [categories](categories.md) | * <br/> [Uriorcurie](Uriorcurie.md) | categories that should be matched | direct |
 | [force_case_insensitive](force_case_insensitive.md) | 0..1 <br/> [Boolean](Boolean.md) | force case insensitive matching | direct |
 
 
@@ -105,13 +118,14 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontosearch:SearchBaseConfiguration |
 | native | ontosearch:SearchBaseConfiguration |
+
+
 
 
 
@@ -142,10 +156,10 @@ attributes:
     - If multiple terms are provided this is treated as a union query
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchBaseConfiguration
     range: SearchTerm
+    multivalued: true
   syntax:
     name: syntax
     description: Determines how the search term is interpreted
@@ -159,10 +173,10 @@ attributes:
     description: determines which properties are searched over
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchBaseConfiguration
     range: SearchProperty
+    multivalued: true
   limit:
     name: limit
     description: the maximum number of search results to be returned in one batch
@@ -217,10 +231,10 @@ attributes:
     description: categories that should be matched
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchBaseConfiguration
     range: uriorcurie
+    multivalued: true
   force_case_insensitive:
     name: force_case_insensitive
     description: force case insensitive matching
@@ -254,12 +268,12 @@ attributes:
     - If multiple terms are provided this is treated as a union query
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: search_terms
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
     range: SearchTerm
+    multivalued: true
   syntax:
     name: syntax
     description: Determines how the search term is interpreted
@@ -275,12 +289,12 @@ attributes:
     description: determines which properties are searched over
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: properties
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
     range: SearchProperty
+    multivalued: true
   limit:
     name: limit
     description: the maximum number of search results to be returned in one batch
@@ -347,12 +361,12 @@ attributes:
     description: categories that should be matched
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: categories
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
     range: uriorcurie
+    multivalued: true
   force_case_insensitive:
     name: force_case_insensitive
     description: force case insensitive matching

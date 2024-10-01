@@ -7,6 +7,8 @@ _A collection of mappings between prefixes and namespaces, used to map CURIEs (e
 
 
 
+
+
 URI: [sh:declare](https://w3id.org/shacl/declare)
 
 
@@ -21,8 +23,8 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
 | [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |  no  |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
 
 
 
@@ -56,6 +58,16 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:declare |
+| native | obographs:prefixes |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -66,12 +78,12 @@ description: A collection of mappings between prefixes and namespaces, used to m
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: sh:declare
-multivalued: true
 alias: prefixes
 domain_of:
 - GraphDocument
 - Graph
 range: PrefixDeclaration
+multivalued: true
 inlined: true
 
 ```

@@ -37,3 +37,13 @@ URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:string |
+| native | ontosearch:sparqlpath |
+
+
+

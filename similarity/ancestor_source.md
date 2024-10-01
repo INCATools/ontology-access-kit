@@ -2,6 +2,8 @@
 
 # Slot: ancestor_source
 
+
+
 URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 
 
@@ -44,6 +46,16 @@ URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:ancestor_source |
+| native | sim:ancestor_source |
 
 
 

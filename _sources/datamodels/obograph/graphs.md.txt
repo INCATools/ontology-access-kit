@@ -7,6 +7,8 @@ _A list of all graphs (ontologies) in an ontology document._
 
 
 
+
+
 URI: [obographs:graphs](https://github.com/geneontology/obographs/graphs)
 
 
@@ -55,6 +57,16 @@ URI: [obographs:graphs](https://github.com/geneontology/obographs/graphs)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:graphs |
+| native | obographs:graphs |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,11 +75,11 @@ name: graphs
 description: A list of all graphs (ontologies) in an ontology document.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: graphs
 domain_of:
 - GraphDocument
 range: Graph
+multivalued: true
 inlined: true
 inlined_as_list: true
 

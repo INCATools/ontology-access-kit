@@ -7,6 +7,8 @@ _Number of non-deprecated (non-obsoleted) object properties in the ontology or s
 
 
 
+
+
 URI: [summary_statistics:non_deprecated_object_property_count](https://w3id.org/oaklib/summary_statistics.non_deprecated_object_property_count)
 
 
@@ -60,6 +62,16 @@ URI: [summary_statistics:non_deprecated_object_property_count](https://w3id.org/
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:non_deprecated_object_property_count |
+| native | summary_statistics:non_deprecated_object_property_count |
 
 
 

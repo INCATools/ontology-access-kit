@@ -7,6 +7,8 @@ _Output based on the rule._
 
 
 
+
+
 URI: [mappingrules:output](https://w3id.org/oak/mapping-rules-datamodel/output)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:output](https://w3id.org/oak/mapping-rules-datamodel/output)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:output |
+| native | mappingrules:output |
 
 
 

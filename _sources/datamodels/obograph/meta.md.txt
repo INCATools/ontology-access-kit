@@ -7,6 +7,8 @@ _A collection of metadata about either an ontology (graph), an entity, or an axi
 
 
 
+
+
 URI: [obographs:meta](https://github.com/geneontology/obographs/meta)
 
 
@@ -21,21 +23,21 @@ URI: [obographs:meta](https://github.com/geneontology/obographs/meta)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
-| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
-| [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |  no  |
-| [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
-| [Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
-| [EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |  no  |
+| [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |  no  |
 | [Edge](Edge.md) | An edge is a simple typed relationship between two nodes |  no  |
 | [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | An axiom that defines a set of classes or class expressions as being mutually... |  no  |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
 | [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |  no  |
-| [Axiom](Axiom.md) | A generic grouping for any OWL axiom or group of axioms that is not captured ... |  no  |
+| [DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
 | [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |  no  |
 | [PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e |  no  |
-| [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |  no  |
+| [Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
+| [Axiom](Axiom.md) | A generic grouping for any OWL axiom or group of axioms that is not captured ... |  no  |
+| [EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |  no  |
+| [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
+| [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |  no  |
 | [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |  no  |
-| [DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
 
 
 
@@ -68,6 +70,16 @@ URI: [obographs:meta](https://github.com/geneontology/obographs/meta)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:meta |
+| native | obographs:meta |
 
 
 

@@ -14,12 +14,20 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class LexicalGrouping
+    click LexicalGrouping href "../LexicalGrouping"
       LexicalGrouping : relationships
         
-          LexicalGrouping --> RelationshipToTerm : relationships
+          
+    
+    
+    LexicalGrouping --> "*" RelationshipToTerm : relationships
+    click RelationshipToTerm href "../RelationshipToTerm"
+
         
       LexicalGrouping : term
         
@@ -37,7 +45,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [term](term.md) | 0..1 <br/> [String](String.md) | A normalized term that groups ontology elements | direct |
-| [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md) | All ontology elements grouped and their relationship to the normalized term | direct |
+| [relationships](relationships.md) | * <br/> [RelationshipToTerm](RelationshipToTerm.md) | All ontology elements grouped and their relationship to the normalized term | direct |
 
 
 
@@ -70,13 +78,14 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontolexindex:LexicalGrouping |
 | native | ontolexindex:LexicalGrouping |
+
+
 
 
 
@@ -109,10 +118,10 @@ attributes:
       term
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     domain_of:
     - LexicalGrouping
     range: RelationshipToTerm
+    multivalued: true
 
 ```
 </details>
@@ -143,12 +152,12 @@ attributes:
       term
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: relationships
     owner: LexicalGrouping
     domain_of:
     - LexicalGrouping
     range: RelationshipToTerm
+    multivalued: true
 
 ```
 </details>

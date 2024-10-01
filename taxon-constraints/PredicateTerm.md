@@ -14,10 +14,14 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class PredicateTerm
+    click PredicateTerm href "../PredicateTerm"
       Term <|-- PredicateTerm
+        click Term href "../Term"
       
       PredicateTerm : id
         
@@ -40,7 +44,7 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | [Term](Term.md) |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | [Term](Term.md) |
 | [label](label.md) | 0..1 <br/> [String](String.md) | the human readable name or label of the term | [Term](Term.md) |
 
 
@@ -83,13 +87,14 @@ Instances of this class *should* have identifiers with one of the following pref
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | tc:PredicateTerm |
 | native | tc:PredicateTerm |
+
+
 
 
 

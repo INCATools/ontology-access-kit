@@ -62,12 +62,20 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class RelationalDiff
+    click RelationalDiff href "../RelationalDiff"
       RelationalDiff : category
         
-          RelationalDiff --> DiffCategory : category
+          
+    
+    
+    RelationalDiff --> "0..1" DiffCategory : category
+    click DiffCategory href "../DiffCategory"
+
         
       RelationalDiff : left_object_id
         
@@ -87,7 +95,12 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
         
       RelationalDiff : object_mapping_cardinality
         
-          RelationalDiff --> MappingCardinalityEnum : object_mapping_cardinality
+          
+    
+    
+    RelationalDiff --> "0..1" MappingCardinalityEnum : object_mapping_cardinality
+    click MappingCardinalityEnum href "../MappingCardinalityEnum"
+
         
       RelationalDiff : object_mapping_predicate
         
@@ -107,7 +120,12 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
         
       RelationalDiff : subject_mapping_cardinality
         
-          RelationalDiff --> MappingCardinalityEnum : subject_mapping_cardinality
+          
+    
+    
+    RelationalDiff --> "0..1" MappingCardinalityEnum : subject_mapping_cardinality
+    click MappingCardinalityEnum href "../MappingCardinalityEnum"
+
         
       RelationalDiff : subject_mapping_predicate
         
@@ -125,23 +143,23 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [category](category.md) | 0..1 <br/> [DiffCategory](DiffCategory.md) | Each match (or lack of match) is placed into exactly one category | direct |
-| [left_subject_id](left_subject_id.md) | 1..1 <br/> [EntityReference](EntityReference.md) | The subject (child) of the source/left edge | direct |
-| [left_object_id](left_object_id.md) | 1..1 <br/> [EntityReference](EntityReference.md) | The object (parent) of the source/left edge | direct |
-| [left_predicate_id](left_predicate_id.md) | 1..1 <br/> [EntityReference](EntityReference.md) | The predicate (relation) of the source/left edge | direct |
+| [left_subject_id](left_subject_id.md) | 1 <br/> [EntityReference](EntityReference.md) | The subject (child) of the source/left edge | direct |
+| [left_object_id](left_object_id.md) | 1 <br/> [EntityReference](EntityReference.md) | The object (parent) of the source/left edge | direct |
+| [left_predicate_id](left_predicate_id.md) | 1 <br/> [EntityReference](EntityReference.md) | The predicate (relation) of the source/left edge | direct |
 | [left_subject_label](left_subject_label.md) | 0..1 <br/> [Label](Label.md) | The name of the subject (child) of the source/left edge | direct |
 | [left_object_label](left_object_label.md) | 0..1 <br/> [Label](Label.md) | The name of the object (parent) of the source/left edge | direct |
 | [left_predicate_label](left_predicate_label.md) | 0..1 <br/> [Label](Label.md) | The name of the predicate of the source/left edge | direct |
 | [right_subject_id](right_subject_id.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The subject (child) of the matched/right edge, if matchable | direct |
 | [right_object_id](right_object_id.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The object (parent) of the matched/right edge, if matchable | direct |
-| [right_predicate_ids](right_predicate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md) | * If the match type is consistent, then all consistent predicates | direct |
+| [right_predicate_ids](right_predicate_ids.md) | * <br/> [EntityReference](EntityReference.md) | * If the match type is consistent, then all consistent predicates | direct |
 | [right_subject_label](right_subject_label.md) | 0..1 <br/> [Label](Label.md) | The name of the subject (child) of the matched/right edge, if matchable | direct |
 | [right_object_label](right_object_label.md) | 0..1 <br/> [Label](Label.md) | The name of the object (parent) of the matched/right edge, if matchable | direct |
-| [right_predicate_labels](right_predicate_labels.md) | 0..* <br/> [Label](Label.md) | The names corresponding to the right_predicate_ids | direct |
+| [right_predicate_labels](right_predicate_labels.md) | * <br/> [Label](Label.md) | The names corresponding to the right_predicate_ids | direct |
 | [left_subject_is_functional](left_subject_is_functional.md) | 0..1 <br/> [String](String.md) | True if a subject mapping is present, and maps uniquely within the same ontol... | direct |
 | [left_object_is_functional](left_object_is_functional.md) | 0..1 <br/> [String](String.md) | True if an object mapping is present, and maps uniquely within the same ontol... | direct |
 | [subject_mapping_predicate](subject_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_subject_id and right_subject_id | direct |
 | [object_mapping_predicate](object_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_object_id and right_object_id | direct |
-| [right_intermediate_ids](right_intermediate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md) |  | direct |
+| [right_intermediate_ids](right_intermediate_ids.md) | * <br/> [EntityReference](EntityReference.md) |  | direct |
 | [subject_mapping_cardinality](subject_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md) | The mapping cardinality of the subject pair | direct |
 | [object_mapping_cardinality](object_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md) | The mapping cardinality of the object pair | direct |
 
@@ -176,13 +194,14 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | xodiff:RelationalDiff |
 | native | xodiff:RelationalDiff |
+
+
 
 
 
@@ -330,10 +349,10 @@ attributes:
     mixins:
     - right_side
     - predicate
-    multivalued: true
     domain_of:
     - RelationalDiff
     range: EntityReference
+    multivalued: true
   right_subject_label:
     name: right_subject_label
     description: The name of the subject (child) of the matched/right edge, if matchable
@@ -367,10 +386,10 @@ attributes:
     - right_side
     - predicate
     - label
-    multivalued: true
     domain_of:
     - RelationalDiff
     range: Label
+    multivalued: true
   left_subject_is_functional:
     name: left_subject_is_functional
     description: True if a subject mapping is present, and maps uniquely within the
@@ -419,10 +438,10 @@ attributes:
     name: right_intermediate_ids
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
-    multivalued: true
     domain_of:
     - RelationalDiff
     range: EntityReference
+    multivalued: true
   subject_mapping_cardinality:
     name: subject_mapping_cardinality
     description: The mapping cardinality of the subject pair
@@ -599,12 +618,12 @@ attributes:
     mixins:
     - right_side
     - predicate
-    multivalued: true
     alias: right_predicate_ids
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
     range: EntityReference
+    multivalued: true
   right_subject_label:
     name: right_subject_label
     description: The name of the subject (child) of the matched/right edge, if matchable
@@ -642,12 +661,12 @@ attributes:
     - right_side
     - predicate
     - label
-    multivalued: true
     alias: right_predicate_labels
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
     range: Label
+    multivalued: true
   left_subject_is_functional:
     name: left_subject_is_functional
     description: True if a subject mapping is present, and maps uniquely within the
@@ -706,12 +725,12 @@ attributes:
     name: right_intermediate_ids
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
-    multivalued: true
     alias: right_intermediate_ids
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
     range: EntityReference
+    multivalued: true
   subject_mapping_cardinality:
     name: subject_mapping_cardinality
     description: The mapping cardinality of the subject pair

@@ -14,20 +14,34 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class DomainRangeAxiom
+    click DomainRangeAxiom href "../DomainRangeAxiom"
       Axiom <|-- DomainRangeAxiom
+        click Axiom href "../Axiom"
       
       DomainRangeAxiom : allValuesFromEdges
         
-          DomainRangeAxiom --> Edge : allValuesFromEdges
+          
+    
+    
+    DomainRangeAxiom --> "*" Edge : allValuesFromEdges
+    click Edge href "../Edge"
+
         
       DomainRangeAxiom : domainClassIds
         
       DomainRangeAxiom : meta
         
-          DomainRangeAxiom --> Meta : meta
+          
+    
+    
+    DomainRangeAxiom --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       DomainRangeAxiom : predicateId
         
@@ -51,9 +65,9 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [predicateId](predicateId.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [domainClassIds](domainClassIds.md) | 0..* <br/> [String](String.md) |  | direct |
-| [rangeClassIds](rangeClassIds.md) | 0..* <br/> [String](String.md) |  | direct |
-| [allValuesFromEdges](allValuesFromEdges.md) | 0..* <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
+| [domainClassIds](domainClassIds.md) | * <br/> [String](String.md) |  | direct |
+| [rangeClassIds](rangeClassIds.md) | * <br/> [String](String.md) |  | direct |
+| [allValuesFromEdges](allValuesFromEdges.md) | * <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 
 
@@ -91,13 +105,14 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:DomainRangeAxiom |
 | native | obographs:DomainRangeAxiom |
+
+
 
 
 
@@ -159,34 +174,34 @@ attributes:
     name: domainClassIds
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: domainClassIds
     owner: DomainRangeAxiom
     domain_of:
     - DomainRangeAxiom
     range: string
+    multivalued: true
   rangeClassIds:
     name: rangeClassIds
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: rangeClassIds
     owner: DomainRangeAxiom
     domain_of:
     - DomainRangeAxiom
     range: string
+    multivalued: true
   allValuesFromEdges:
     name: allValuesFromEdges
     description: A list of edges that represent subclasses of universal restrictions
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: allValuesFromEdges
     owner: DomainRangeAxiom
     domain_of:
     - Graph
     - DomainRangeAxiom
     range: Edge
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

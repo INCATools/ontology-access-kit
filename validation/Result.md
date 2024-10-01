@@ -16,12 +16,18 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Result
+    click Result href "../Result"
       Result <|-- ValidationResult
+        click ValidationResult href "../ValidationResult"
       Result <|-- MappingValidationResult
+        click MappingValidationResult href "../MappingValidationResult"
       Result <|-- RepairOperation
+        click RepairOperation href "../RepairOperation"
       
       
 ```
@@ -74,13 +80,14 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:Result |
 | native | vm:Result |
+
+
 
 
 

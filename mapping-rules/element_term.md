@@ -7,6 +7,8 @@ _the original term used in the element_
 
 
 
+
+
 URI: [mappingrules:element_term](https://w3id.org/oak/mapping-rules-datamodel/element_term)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:element_term](https://w3id.org/oak/mapping-rules-datamodel/el
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:element_term |
+| native | mappingrules:element_term |
 
 
 

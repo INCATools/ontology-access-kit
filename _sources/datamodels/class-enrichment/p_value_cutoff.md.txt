@@ -7,6 +7,8 @@ _p-value cutoff for enrichment_
 
 
 
+
+
 URI: [ontoenrich:p_value_cutoff](https://w3id.org/oak/class-enrichment/p_value_cutoff)
 
 
@@ -51,6 +53,16 @@ URI: [ontoenrich:p_value_cutoff](https://w3id.org/oak/class-enrichment/p_value_c
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:p_value_cutoff |
+| native | ontoenrich:p_value_cutoff |
 
 
 

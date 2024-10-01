@@ -14,12 +14,20 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TypeSeverityKeyValue
+    click TypeSeverityKeyValue href "../TypeSeverityKeyValue"
       TypeSeverityKeyValue : severity
         
-          TypeSeverityKeyValue --> severity_options : severity
+          
+    
+    
+    TypeSeverityKeyValue --> "0..1" SeverityOptions : severity
+    click SeverityOptions href "../SeverityOptions"
+
         
       TypeSeverityKeyValue : type
         
@@ -70,13 +78,14 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:TypeSeverityKeyValue |
 | native | vm:TypeSeverityKeyValue |
+
+
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: cursor
 
+
+
 URI: [ontosearch:cursor](https://w3id.org/oak/search-datamodel/cursor)
 
 
@@ -38,6 +40,16 @@ URI: [ontosearch:cursor](https://w3id.org/oak/search-datamodel/cursor)
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:cursor |
+| native | ontosearch:cursor |
 
 
 

@@ -7,6 +7,8 @@ _Container for groups within a rollup group._
 
 
 
+
+
 URI: [ontoassoc:sub_groups](https://w3id.org/oak/association/sub_groups)
 
 
@@ -55,6 +57,16 @@ URI: [ontoassoc:sub_groups](https://w3id.org/oak/association/sub_groups)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:sub_groups |
+| native | ontoassoc:sub_groups |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,11 +75,11 @@ name: sub_groups
 description: Container for groups within a rollup group.
 from_schema: https://w3id.org/oak/association
 rank: 1000
-multivalued: true
 alias: sub_groups
 domain_of:
 - RollupGroup
 range: RollupGroup
+multivalued: true
 inlined: true
 inlined_as_list: true
 

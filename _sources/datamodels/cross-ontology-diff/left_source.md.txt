@@ -7,6 +7,8 @@ _Ontology source for left entities_
 
 
 
+
+
 URI: [xodiff:left_source](https://w3id.org/oak/cross-ontology-diff/left_source)
 
 
@@ -49,6 +51,16 @@ URI: [xodiff:left_source](https://w3id.org/oak/cross-ontology-diff/left_source)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:left_source |
+| native | xodiff:left_source |
 
 
 

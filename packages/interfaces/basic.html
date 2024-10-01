@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -120,7 +120,7 @@
 <span id="id1"></span><h1>Basic Ontology Interface<a class="headerlink" href="#basic-ontology-interface" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.basic_ontology_interface.</span></span><span class="sig-name descname"><span class="pre">BasicOntologyInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.basic_ontology_interface.</span></span><span class="sig-name descname"><span class="pre">BasicOntologyInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_prefix_map:</span> <span class="pre">~typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="Link to this definition"></a></dt>
 <dd><p>Basic lookup operations on ontologies.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;tests/input/go-nucleus.db&#39;</span><span class="p">)</span>
@@ -311,7 +311,7 @@ the default OAKlib prefix map (see <code class="xref py py-data docutils literal
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
 <li><p><strong>strict</strong> – (Default is False) if True, exceptions will be raised if curie cannot be expanded</p></li>
 </ul>
 </dd>
@@ -639,7 +639,7 @@ relationship: has_part GO:0005773 ! vacuole
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ontology</strong> – </p>
+<dd class="field-odd"><p><strong>ontology</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>iterator</p>
@@ -661,7 +661,7 @@ relationship: has_part GO:0005773 ! vacuole
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ontology</strong> – </p>
+<dd class="field-odd"><p><strong>ontology</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -744,7 +744,7 @@ relationship: has_part GO:0005773 ! vacuole
 <p>See <cite>Section 8.3&lt;https://www.w3.org/TR/owl2-primer/#Entity_Declarations&gt;</cite> of the OWL 2 Primer</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>entities</strong> – </p>
+<dd class="field-odd"><p><strong>entities</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>iterator</p>
@@ -768,7 +768,7 @@ see <cite>Section 8.3&lt;https://www.w3.org/TR/owl2-primer/#Entity_Declarations&
 the OWL primer</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>entity</strong> – </p>
+<dd class="field-odd"><p><strong>entity</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>CURIE</p>
@@ -788,7 +788,7 @@ the OWL primer</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>entity</strong> – </p>
+<dd class="field-odd"><p><strong>entity</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -807,7 +807,7 @@ in practice this may not be explicitly stated. In this case, implementations
 may choose to use heuristic measures, including using the ontology prefix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>entities</strong> – </p>
+<dd class="field-odd"><p><strong>entities</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>iterator</p>
@@ -858,7 +858,7 @@ optionally constraining to a given set of entity CURIE prefixes</p>
 <li><p><strong>predicates</strong> – predicates to be considered (default: all)</p></li>
 <li><p><strong>ignore_owl_thing</strong> – do not consider artificial/trivial owl:Thing when calculating (default=True)</p></li>
 <li><p><strong>filter_obsoletes</strong> – do not include obsolete/deprecated nodes in results (default=True)</p></li>
-<li><p><strong>annotated_roots</strong> – use nodes explicitly annotated as root</p></li>
+<li><p><strong>annotated_roots</strong> – use nodes explicitly annotated as root (IAO:0000700)</p></li>
 <li><p><strong>id_prefixes</strong> – limit search to specific prefixes</p></li>
 </ul>
 </dd>
@@ -904,9 +904,9 @@ predicate list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>predicates</strong> – </p></li>
-<li><p><strong>ignore_owl_nothing</strong> – </p></li>
-<li><p><strong>filter_obsoletes</strong> – </p></li>
+<li><p><strong>predicates</strong></p></li>
+<li><p><strong>ignore_owl_nothing</strong></p></li>
+<li><p><strong>filter_obsoletes</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1060,7 +1060,7 @@ explicitly language tagged, it is still returned</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
 <li><p><strong>lang</strong> – [None] language tag</p></li>
 </ul>
 </dd>
@@ -1146,9 +1146,9 @@ because it matches the <span class="xref std std-ref">default_language</span>.</
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
-<li><p><strong>label</strong> – </p></li>
-<li><p><strong>lang</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
+<li><p><strong>label</strong></p></li>
+<li><p><strong>lang</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1165,7 +1165,7 @@ because it matches the <span class="xref std std-ref">default_language</span>.</
 may share a label</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>label</strong> – </p>
+<dd class="field-odd"><p><strong>label</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -1199,7 +1199,7 @@ the test ontology has no comments for this CURIE, and <code class="docutils lite
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curies</strong> – </p></li>
+<li><p><strong>curies</strong></p></li>
 <li><p><strong>allow_none</strong> – [True] if False, only yield entities with comments</p></li>
 <li><p><strong>lang</strong> – [None] language tag</p></li>
 </ul>
@@ -1230,7 +1230,7 @@ the test ontology has no comments for this CURIE, and <code class="docutils lite
 <li><p><strong>objects</strong> – constrain search to these objects (i.e incoming edges)</p></li>
 <li><p><strong>include_tbox</strong> – if true, include class-class relationships (default True)</p></li>
 <li><p><strong>include_abox</strong> – if true, include instance-instance/class relationships (default True)</p></li>
-<li><p><strong>include_entailed</strong> – </p></li>
+<li><p><strong>include_entailed</strong></p></li>
 <li><p><strong>exclude_blank</strong> – do not include blank nodes/anonymous expressions</p></li>
 </ul>
 </dd>
@@ -1260,7 +1260,7 @@ the test ontology has no comments for this CURIE, and <code class="docutils lite
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>relationships</strong> – collection of subject-predicate-object tuples</p></li>
-<li><p><strong>kwargs</strong> – </p></li>
+<li><p><strong>kwargs</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1281,7 +1281,7 @@ this will return part-of parents for GO, as well as is-a</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
 <li><p><strong>isa_only</strong> – restrict hierarchical parents to isa only</p></li>
 </ul>
 </dd>
@@ -1321,7 +1321,7 @@ are the ‘parents’ or fillers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
 <li><p><strong>predicates</strong> – if None, do not filter</p></li>
 </ul>
 </dd>
@@ -1338,7 +1338,7 @@ are the ‘parents’ or fillers</p>
 <p>See :ref:outgoing_relationship_map:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
+<dd class="field-odd"><p><strong>curie</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -1353,7 +1353,7 @@ are the ‘parents’ or fillers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
 <li><p><strong>predicates</strong> – if None, do not filter</p></li>
 </ul>
 </dd>
@@ -1424,7 +1424,7 @@ are the ‘parents’ or fillers</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>iterator over definition objects</p>
+<dd class="field-even"><p>iterator over (id, definition, metadata) tuples</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1477,7 +1477,7 @@ are the ‘parents’ or fillers</p>
 <p>This lumps together all synonym categories (scopes)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
+<dd class="field-odd"><p><strong>curie</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -1503,7 +1503,7 @@ are the ‘parents’ or fillers</p>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
+<dd class="field-odd"><p><strong>curie</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -1528,7 +1528,7 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 <p>This is a simplified version of the metadata model in many ontologies</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
+<dd class="field-odd"><p><strong>curie</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -1542,7 +1542,7 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 <dd><p>Retrieve metadata statements (entity annotations) for a collection of entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>curies</strong> – </p>
+<dd class="field-odd"><p><strong>curies</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -1558,8 +1558,8 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
-<li><p><strong>metadata_map</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
+<li><p><strong>metadata_map</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1575,11 +1575,11 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
-<li><p><strong>label</strong> – </p></li>
-<li><p><strong>relationships</strong> – </p></li>
-<li><p><strong>replace</strong> – </p></li>
-<li><p><strong>kwargs</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
+<li><p><strong>label</strong></p></li>
+<li><p><strong>relationships</strong></p></li>
+<li><p><strong>replace</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1595,8 +1595,8 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
-<li><p><strong>kwargs</strong> – </p></li>
+<li><p><strong>curie</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1616,9 +1616,9 @@ SPARQL backends to support SPARQL queries.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>query</strong> – </p></li>
-<li><p><strong>syntax</strong> – </p></li>
-<li><p><strong>kwargs</strong> – </p></li>
+<li><p><strong>query</strong></p></li>
+<li><p><strong>syntax</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1644,7 +1644,7 @@ SPARQL backends to support SPARQL queries.</p>
 <dd><p>Clones the ontology interface to a new resource.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>resource</strong> – </p>
+<dd class="field-odd"><p><strong>resource</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>

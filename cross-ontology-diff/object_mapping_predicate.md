@@ -7,6 +7,8 @@ _The mapping predicate that holds between left_object_id and right_object_id_
 
 
 
+
+
 URI: [xodiff:object_mapping_predicate](https://w3id.org/oak/cross-ontology-diff/object_mapping_predicate)
 
 
@@ -53,6 +55,16 @@ URI: [xodiff:object_mapping_predicate](https://w3id.org/oak/cross-ontology-diff/
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:object_mapping_predicate |
+| native | xodiff:object_mapping_predicate |
 
 
 

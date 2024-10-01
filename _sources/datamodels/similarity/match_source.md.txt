@@ -2,6 +2,8 @@
 
 # Slot: match_source
 
+
+
 URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
 
 
@@ -50,6 +52,16 @@ URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:match_source |
+| native | sim:match_source |
 
 
 

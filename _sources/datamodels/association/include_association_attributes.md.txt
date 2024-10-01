@@ -9,6 +9,8 @@ _This may result in slower parsing_
 
 
 
+
+
 URI: [ontoassoc:include_association_attributes](https://w3id.org/oak/association/include_association_attributes)
 
 
@@ -51,6 +53,16 @@ URI: [ontoassoc:include_association_attributes](https://w3id.org/oak/association
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:include_association_attributes |
+| native | ontoassoc:include_association_attributes |
 
 
 

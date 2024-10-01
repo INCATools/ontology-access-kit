@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -120,7 +120,7 @@
 <span id="id1"></span><h1>Association Provider Interface<a class="headerlink" href="#association-provider-interface" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.association_provider_interface.AssociationProviderInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.association_provider_interface.</span></span><span class="sig-name descname"><span class="pre">AssociationProviderInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_association_index:</span> <span class="pre">~oaklib.utilities.associations.association_index.AssociationIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalizers:</span> <span class="pre">~typing.List[~oaklib.interfaces.association_provider_interface.EntityNormalizer]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/association_provider_interface.html#AssociationProviderInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.association_provider_interface.AssociationProviderInterface" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.association_provider_interface.</span></span><span class="sig-name descname"><span class="pre">AssociationProviderInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_prefix_map:</span> <span class="pre">~typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_association_index:</span> <span class="pre">~oaklib.utilities.associations.association_index.AssociationIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalizers:</span> <span class="pre">~typing.List[~oaklib.interfaces.association_provider_interface.EntityNormalizer]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/association_provider_interface.html#AssociationProviderInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.association_provider_interface.AssociationProviderInterface" title="Link to this definition"></a></dt>
 <dd><p>An ontology provider that provides associations.</p>
 <p>Associations (also known as annotations) connect data elements or entities to
 an ontology class. Examples of associations include:</p>
@@ -205,7 +205,7 @@ ontologies like GO, Uberon, CL, ENVO.</p>
 <li><p><strong>predicate_closure_predicates</strong> – predicates is treated as descendant via these predicates</p></li>
 <li><p><strong>object_closure_predicates</strong> – object is treated as descendant via these predicates</p></li>
 <li><p><strong>add_closure_fields</strong> – add subject and object closure fields to the association</p></li>
-<li><p><strong>include_modified</strong> – </p></li>
+<li><p><strong>include_modified</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -263,7 +263,7 @@ ontologies like GO, Uberon, CL, ENVO.</p>
 <li><p><strong>include_similarity_object</strong> – include the similarity object in the result</p></li>
 <li><p><strong>method</strong> – similarity method to use</p></li>
 <li><p><strong>limit</strong> – max number of results to return</p></li>
-<li><p><strong>kwargs</strong> – </p></li>
+<li><p><strong>kwargs</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -294,10 +294,10 @@ ontologies like GO, Uberon, CL, ENVO.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curies1</strong> – </p></li>
-<li><p><strong>curies2</strong> – </p></li>
-<li><p><strong>inputs_are_subjects</strong> – </p></li>
-<li><p><strong>kwargs</strong> – </p></li>
+<li><p><strong>curies1</strong></p></li>
+<li><p><strong>curies2</strong></p></li>
+<li><p><strong>inputs_are_subjects</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -313,8 +313,8 @@ ontologies like GO, Uberon, CL, ENVO.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>associations</strong> – </p></li>
-<li><p><strong>normalizers</strong> – </p></li>
+<li><p><strong>associations</strong></p></li>
+<li><p><strong>normalizers</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -330,16 +330,16 @@ ontologies like GO, Uberon, CL, ENVO.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>subjects</strong> – </p></li>
-<li><p><strong>predicates</strong> – </p></li>
-<li><p><strong>property_filter</strong> – </p></li>
-<li><p><strong>subject_closure_predicates</strong> – </p></li>
-<li><p><strong>predicate_closure_predicates</strong> – </p></li>
-<li><p><strong>object_closure_predicates</strong> – </p></li>
-<li><p><strong>include_modified</strong> – </p></li>
-<li><p><strong>group_by</strong> – </p></li>
-<li><p><strong>limit</strong> – </p></li>
-<li><p><strong>kwargs</strong> – </p></li>
+<li><p><strong>subjects</strong></p></li>
+<li><p><strong>predicates</strong></p></li>
+<li><p><strong>property_filter</strong></p></li>
+<li><p><strong>subject_closure_predicates</strong></p></li>
+<li><p><strong>predicate_closure_predicates</strong></p></li>
+<li><p><strong>object_closure_predicates</strong></p></li>
+<li><p><strong>include_modified</strong></p></li>
+<li><p><strong>group_by</strong></p></li>
+<li><p><strong>limit</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -420,8 +420,8 @@ If subjects is empty, this is calculated for all subjects in the association set
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>associations</strong> – </p></li>
-<li><p><strong>normalizers</strong> – </p></li>
+<li><p><strong>associations</strong></p></li>
+<li><p><strong>normalizers</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -437,8 +437,8 @@ If subjects is empty, this is calculated for all subjects in the association set
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>association</strong> – </p></li>
-<li><p><strong>normalizers</strong> – </p></li>
+<li><p><strong>association</strong></p></li>
+<li><p><strong>normalizers</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

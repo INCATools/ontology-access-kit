@@ -7,6 +7,8 @@ _if set then truncate results such that no more than this number of results are 
 
 
 
+
+
 URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/max_number_results_per_type)
 
 
@@ -49,6 +51,16 @@ URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/m
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:max_number_results_per_type |
+| native | vm:max_number_results_per_type |
 
 
 

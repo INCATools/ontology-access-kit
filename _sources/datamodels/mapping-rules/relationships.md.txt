@@ -7,6 +7,8 @@ _All ontology elements grouped and their relationship to the normalized term_
 
 
 
+
+
 URI: [mappingrules:relationships](https://w3id.org/oak/mapping-rules-datamodel/relationships)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:relationships](https://w3id.org/oak/mapping-rules-datamodel/r
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:relationships |
+| native | mappingrules:relationships |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: All ontology elements grouped and their relationship to the normali
   term
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: relationships
 owner: LexicalGrouping
 domain_of:
 - LexicalGrouping
 range: RelationshipToTerm
+multivalued: true
 
 ```
 </details>

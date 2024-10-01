@@ -2,6 +2,8 @@
 
 # Slot: present_in_ancestor_of
 
+
+
 URI: [tc:present_in_ancestor_of](https://w3id.org/linkml/taxon_constraints/present_in_ancestor_of)
 
 
@@ -50,6 +52,16 @@ URI: [tc:present_in_ancestor_of](https://w3id.org/linkml/taxon_constraints/prese
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:present_in_ancestor_of |
+| native | tc:present_in_ancestor_of |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [tc:present_in_ancestor_of](https://w3id.org/linkml/taxon_constraints/prese
 name: present_in_ancestor_of
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
-multivalued: true
 alias: present_in_ancestor_of
 owner: SubjectTerm
 domain_of:
 - SubjectTerm
 range: TaxonConstraint
+multivalued: true
 
 ```
 </details>

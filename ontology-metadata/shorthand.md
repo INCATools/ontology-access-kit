@@ -2,6 +2,8 @@
 
 # Slot: shorthand
 
+
+
 URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 
 
@@ -53,6 +55,16 @@ URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:shorthand |
+| native | omoschema:shorthand |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -62,12 +74,12 @@ deprecated: deprecated oboInOwl property
 from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:shorthand
-multivalued: true
 alias: shorthand
 domain_of:
 - AnnotationProperty
 - ObjectProperty
 range: string
+multivalued: true
 
 ```
 </details>

@@ -7,6 +7,8 @@ _the object of an edge_
 
 
 
+
+
 URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 
@@ -57,6 +59,16 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:object |
+| native | obographs:obj |
 
 
 

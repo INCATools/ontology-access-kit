@@ -2,6 +2,8 @@
 
 # Slot: deprecated
 
+
+
 URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 
@@ -44,6 +46,16 @@ URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:deprecated |
+| native | obographs:deprecated |
 
 
 

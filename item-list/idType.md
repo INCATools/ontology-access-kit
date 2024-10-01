@@ -7,6 +7,8 @@ _The type of the identifier. For example, if the id is a symbol, this would be '
 
 
 
+
+
 URI: [itemList:idType](https://w3id.org/linkml/item-list/idType)
 
 
@@ -58,6 +60,16 @@ URI: [itemList:idType](https://w3id.org/linkml/item-list/idType)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | itemList:idType |
+| native | itemList:idType |
 
 
 

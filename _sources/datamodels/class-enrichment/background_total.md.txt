@@ -7,6 +7,8 @@ _The background total_
 
 
 
+
+
 URI: [ontoenrich:background_total](https://w3id.org/oak/class-enrichment/background_total)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:background_total](https://w3id.org/oak/class-enrichment/backgro
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:background_total |
+| native | ontoenrich:background_total |
 
 
 

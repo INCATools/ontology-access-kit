@@ -7,6 +7,8 @@ _Keywords or tags used to describe the element_
 
 
 
+
+
 URI: [schema:keywords](http://schema.org/keywords)
 
 
@@ -55,6 +57,16 @@ URI: [schema:keywords](http://schema.org/keywords)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | schema:keywords |
+| native | itemList:keywords |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,12 +77,12 @@ from_schema: https://w3id.org/oak/item-list
 rank: 1000
 singular_name: keyword
 slot_uri: schema:keywords
-multivalued: true
 alias: keywords
 owner: ItemList
 domain_of:
 - ItemList
 range: string
+multivalued: true
 
 ```
 </details>

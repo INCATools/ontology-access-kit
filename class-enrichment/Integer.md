@@ -36,3 +36,14 @@ URI: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:integer |
+| native | ontoenrich:integer |
+| exact | schema:Integer |
+
+
+

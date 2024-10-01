@@ -2,6 +2,10 @@
 
 # Slot: shortcut_annotation_property
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:shortcut_annotation_property](https://w3id.org/oak/ontology-metadata/shortcut_annotation_property)
 
 
@@ -40,6 +44,16 @@ URI: [omoschema:shortcut_annotation_property](https://w3id.org/oak/ontology-meta
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:shortcut_annotation_property |
+| native | omoschema:shortcut_annotation_property |
 
 
 

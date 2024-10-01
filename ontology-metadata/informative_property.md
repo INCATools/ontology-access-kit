@@ -2,6 +2,10 @@
 
 # Slot: informative_property
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:informative_property](https://w3id.org/oak/ontology-metadata/informative_property)
 
 
@@ -52,6 +56,16 @@ URI: [omoschema:informative_property](https://w3id.org/oak/ontology-metadata/inf
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:informative_property |
+| native | omoschema:informative_property |
 
 
 

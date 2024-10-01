@@ -7,6 +7,8 @@ _The type of validation result. SHACL validation vocabulary is recommended for c
 
 
 
+
+
 URI: [sh:sourceConstraintComponent](http://www.w3.org/ns/shacl#sourceConstraintComponent)
 
 
@@ -22,9 +24,9 @@ URI: [sh:sourceConstraintComponent](http://www.w3.org/ns/shacl#sourceConstraintC
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
-| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
-| [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ... |  no  |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ... |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 
 
 
@@ -54,6 +56,16 @@ URI: [sh:sourceConstraintComponent](http://www.w3.org/ns/shacl#sourceConstraintC
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:sourceConstraintComponent |
+| native | vm:type |
 
 
 

@@ -9,10 +9,14 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ConstraintComponent
+    click ConstraintComponent href "../ConstraintComponent"
       NamedResource <|-- ConstraintComponent
+        click NamedResource href "../NamedResource"
       
       ConstraintComponent : id
         
@@ -33,7 +37,7 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) |  | [NamedResource](NamedResource.md) |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) |  | [NamedResource](NamedResource.md) |
 
 
 
@@ -68,13 +72,14 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:ConstraintComponent |
 | native | vm:ConstraintComponent |
+
+
 
 
 

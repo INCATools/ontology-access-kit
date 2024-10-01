@@ -7,6 +7,8 @@ _The class id_
 
 
 
+
+
 URI: [ontoenrich:class_id](https://w3id.org/oak/class-enrichment/class_id)
 
 
@@ -51,6 +53,16 @@ URI: [ontoenrich:class_id](https://w3id.org/oak/class-enrichment/class_id)
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:class_id |
+| native | ontoenrich:class_id |
 
 
 

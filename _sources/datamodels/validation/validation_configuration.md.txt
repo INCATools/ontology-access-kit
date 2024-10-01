@@ -7,6 +7,8 @@ _repair configurations include validation configurations_
 
 
 
+
+
 URI: [vm:validation_configuration](https://w3id.org/linkml/validation-model/validation_configuration)
 
 
@@ -49,6 +51,16 @@ URI: [vm:validation_configuration](https://w3id.org/linkml/validation-model/vali
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:validation_configuration |
+| native | vm:validation_configuration |
 
 
 

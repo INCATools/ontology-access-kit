@@ -2,6 +2,8 @@
 
 # Slot: imports
 
+
+
 URI: [owl:imports](http://www.w3.org/2002/07/owl#imports)
 
 
@@ -44,6 +46,16 @@ URI: [owl:imports](http://www.w3.org/2002/07/owl#imports)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:imports |
+| native | omoschema:imports |
 
 
 

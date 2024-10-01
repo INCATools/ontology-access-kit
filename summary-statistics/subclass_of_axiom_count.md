@@ -7,6 +7,8 @@ _Number of subclass axioms in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:subclass_of_axiom_count](https://w3id.org/oaklib/summary_statistics.subclass_of_axiom_count)
 
 
@@ -54,6 +56,16 @@ URI: [summary_statistics:subclass_of_axiom_count](https://w3id.org/oaklib/summar
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:subclass_of_axiom_count |
+| native | summary_statistics:subclass_of_axiom_count |
 
 
 

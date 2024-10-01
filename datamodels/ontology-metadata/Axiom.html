@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,21 +90,42 @@
 <div class="mermaid">
              classDiagram
     class Axiom
+    click Axiom href &quot;../Axiom&quot;
       Axiom : annotatedProperty
         
-          Axiom --&gt; AnnotationProperty : annotatedProperty
+          
+    
+    
+    Axiom --&gt; &quot;0..1&quot; AnnotationProperty : annotatedProperty
+    click AnnotationProperty href &quot;../AnnotationProperty&quot;
+
         
       Axiom : annotatedSource
         
-          Axiom --&gt; NamedObject : annotatedSource
+          
+    
+    
+    Axiom --&gt; &quot;0..1&quot; NamedObject : annotatedSource
+    click NamedObject href &quot;../NamedObject&quot;
+
         
       Axiom : annotatedTarget
         
-          Axiom --&gt; Any : annotatedTarget
+          
+    
+    
+    Axiom --&gt; &quot;0..1&quot; Any : annotatedTarget
+    click Any href &quot;../Any&quot;
+
         
       Axiom : annotations
         
-          Axiom --&gt; Annotation : annotations
+          
+    
+    
+    Axiom --&gt; &quot;*&quot; Annotation : annotations
+    click Annotation href &quot;../Annotation&quot;
+
         
       Axiom : comment
         
@@ -120,13 +141,23 @@
         
       Axiom : has_axiom_label
         
-          Axiom --&gt; Thing : has_axiom_label
+          
+    
+    
+    Axiom --&gt; &quot;0..1&quot; Thing : has_axiom_label
+    click Thing href &quot;../Thing&quot;
+
         
       Axiom : has_exact_synonym
         
       Axiom : has_synonym_type
         
-          Axiom --&gt; AnnotationProperty : has_synonym_type
+          
+    
+    
+    Axiom --&gt; &quot;*&quot; AnnotationProperty : has_synonym_type
+    click AnnotationProperty href &quot;../AnnotationProperty&quot;
+
         
       Axiom : is_a_defining_property_chain_axiom
         
@@ -140,7 +171,12 @@
         
       Axiom : seeAlso
         
-          Axiom --&gt; Thing : seeAlso
+          
+    
+    
+    Axiom --&gt; &quot;*&quot; Thing : seeAlso
+    click Thing href &quot;../Thing&quot;
+
         
       Axiom : source
         
@@ -175,12 +211,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="annotations.html"><span class="std std-doc">annotations</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Annotation.html"><span class="std std-doc">Annotation</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Annotation.html"><span class="std std-doc">Annotation</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -190,7 +226,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="notes.html"><span class="std std-doc">notes</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -230,27 +266,27 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="external_ontology.html"><span class="std std-doc">external_ontology</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="database_cross_reference.html"><span class="std std-doc">database_cross_reference</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="CURIELiteral.html"><span class="std std-doc">CURIELiteral</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="CURIELiteral.html"><span class="std std-doc">CURIELiteral</span></a></p></td>
 <td><p>Uses to indicate the source of an axiom</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_exact_synonym.html"><span class="std std-doc">has_exact_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_synonym_type.html"><span class="std std-doc">has_synonym_type</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="AnnotationProperty.html"><span class="std std-doc">AnnotationProperty</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="AnnotationProperty.html"><span class="std std-doc">AnnotationProperty</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="std std-doc">comment</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -260,7 +296,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="seeAlso.html"><span class="std std-doc">seeAlso</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -339,9 +375,6 @@ slot_usage:
     - go permitted profile
     exact_mappings:
     - dcterms:source
-    domain_of:
-    - HasMappings
-    - Axiom
 class_uri: owl:Axiom
 represents_relationship: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -363,9 +396,6 @@ slot_usage:
     - go permitted profile
     exact_mappings:
     - dcterms:source
-    domain_of:
-    - HasMappings
-    - Axiom
 attributes:
   annotatedProperty:
     name: annotatedProperty
@@ -417,12 +447,12 @@ attributes:
     name: annotations
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
-    multivalued: true
     alias: annotations
     owner: Axiom
     domain_of:
     - Axiom
     range: Annotation
+    multivalued: true
   source:
     name: source
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -432,13 +462,13 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:source
-    multivalued: true
     alias: source
     owner: Axiom
     domain_of:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   is_inferred:
     name: is_inferred
     deprecated: deprecated oboInOwl property
@@ -456,12 +486,12 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:notes
-    multivalued: true
     alias: notes
     owner: Axiom
     domain_of:
     - Axiom
     range: string
+    multivalued: true
   url:
     name: url
     deprecated: deprecated oboInOwl property
@@ -546,12 +576,12 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:external_ontology
-    multivalued: true
     alias: external_ontology
     owner: Axiom
     domain_of:
     - Axiom
     range: string
+    multivalued: true
   database_cross_reference:
     name: database_cross_reference
     description: Uses to indicate the source of an axiom
@@ -563,20 +593,19 @@ attributes:
     rank: 1000
     is_a: match
     slot_uri: oio:hasDbXref
-    multivalued: true
     alias: database_cross_reference
     owner: Axiom
     domain_of:
     - HasMappings
     - Axiom
     range: CURIELiteral
+    multivalued: true
   has_exact_synonym:
     name: has_exact_synonym
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasExactSynonym
-    multivalued: true
     alias: has_exact_synonym
     owner: Axiom
     domain_of:
@@ -585,17 +614,18 @@ attributes:
     disjoint_with:
     - label
     range: label type
+    multivalued: true
   has_synonym_type:
     name: has_synonym_type
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasSynonymType
-    multivalued: true
     alias: has_synonym_type
     owner: Axiom
     domain_of:
     - Axiom
     range: AnnotationProperty
+    multivalued: true
   comment:
     name: comment
     comments:
@@ -604,7 +634,6 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
-    multivalued: true
     alias: comment
     owner: Axiom
     domain_of:
@@ -612,6 +641,7 @@ attributes:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   label:
     name: label
     comments:
@@ -628,13 +658,13 @@ attributes:
     rank: 1000
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: false
     alias: label
     owner: Axiom
     domain_of:
     - HasMinimalMetadata
     - Axiom
     range: label type
+    multivalued: false
   seeAlso:
     name: seeAlso
     todos:
@@ -642,13 +672,13 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: rdfs:seeAlso
-    multivalued: true
     alias: seeAlso
     owner: Axiom
     domain_of:
     - HasUserInformation
     - Axiom
     range: Thing
+    multivalued: true
 class_uri: owl:Axiom
 represents_relationship: true
 

@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,7 +90,9 @@
 <div class="mermaid">
              classDiagram
     class SubjectTerm
+    click SubjectTerm href &quot;../SubjectTerm&quot;
       Term &lt;|-- SubjectTerm
+        click Term href &quot;../Term&quot;
       
       SubjectTerm : description
         
@@ -100,19 +102,39 @@
         
       SubjectTerm : never_in
         
-          SubjectTerm --&gt; TaxonConstraint : never_in
+          
+    
+    
+    SubjectTerm --&gt; &quot;*&quot; TaxonConstraint : never_in
+    click TaxonConstraint href &quot;../TaxonConstraint&quot;
+
         
       SubjectTerm : only_in
         
-          SubjectTerm --&gt; TaxonConstraint : only_in
+          
+    
+    
+    SubjectTerm --&gt; &quot;*&quot; TaxonConstraint : only_in
+    click TaxonConstraint href &quot;../TaxonConstraint&quot;
+
         
       SubjectTerm : present_in
         
-          SubjectTerm --&gt; TaxonConstraint : present_in
+          
+    
+    
+    SubjectTerm --&gt; &quot;*&quot; TaxonConstraint : present_in
+    click TaxonConstraint href &quot;../TaxonConstraint&quot;
+
         
       SubjectTerm : present_in_ancestor_of
         
-          SubjectTerm --&gt; TaxonConstraint : present_in_ancestor_of
+          
+    
+    
+    SubjectTerm --&gt; &quot;*&quot; TaxonConstraint : present_in_ancestor_of
+    click TaxonConstraint href &quot;../TaxonConstraint&quot;
+
         
       SubjectTerm : unsatisfiable
         
@@ -149,27 +171,27 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="only_in.html"><span class="std std-doc">only_in</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
 <td><p>Points to a taxon constraint that states the SubjectTerm is ONLY found in a t…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="never_in.html"><span class="std std-doc">never_in</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
 <td><p>Points to a taxon constraint that states the SubjectTerm is NEVER found in a …</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="present_in.html"><span class="std std-doc">present_in</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
 <td><p>The term MAY be in the specified taxon, or a descendant of that taxon</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="present_in_ancestor_of.html"><span class="std std-doc">present_in_ancestor_of</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="TaxonConstraint.html"><span class="std std-doc">TaxonConstraint</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>the OBO CURIE for the term</p></td>
 <td><p><a class="reference internal" href="Term.html"><span class="std std-doc">Term</span></a></p></td>
 </tr>
@@ -273,10 +295,10 @@ comments:
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002160
-multivalued: true
 domain_of:
 - SubjectTerm
 range: TaxonConstraint
+multivalued: true
 </pre></div>
 </div>
 <p>never_in:
@@ -288,10 +310,10 @@ NOT be in the specified taxon, or a descendant of that taxon</p>
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002161
-multivalued: true
 domain_of:
 - SubjectTerm
 range: TaxonConstraint
+multivalued: true
 </pre></div>
 </div>
 <p>present_in:
@@ -302,20 +324,20 @@ taxon</p>
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002175
-multivalued: true
 domain_of:
 - SubjectTerm
 range: TaxonConstraint
+multivalued: true
 </pre></div>
 </div>
 <p>present_in_ancestor_of:
 name: present_in_ancestor_of
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
-multivalued: true
 domain_of:
 - SubjectTerm
-range: TaxonConstraint</p>
+range: TaxonConstraint
+multivalued: true</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -362,12 +384,12 @@ attributes:
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002160
-    multivalued: true
     alias: only_in
     owner: SubjectTerm
     domain_of:
     - SubjectTerm
     range: TaxonConstraint
+    multivalued: true
   never_in:
     name: never_in
     description: &#39;Points to a taxon constraint that states the SubjectTerm is NEVER
@@ -378,12 +400,12 @@ attributes:
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002161
-    multivalued: true
     alias: never_in
     owner: SubjectTerm
     domain_of:
     - SubjectTerm
     range: TaxonConstraint
+    multivalued: true
   present_in:
     name: present_in
     description: &#39;The term MAY be in the specified taxon, or a descendant of that
@@ -393,22 +415,22 @@ attributes:
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002175
-    multivalued: true
     alias: present_in
     owner: SubjectTerm
     domain_of:
     - SubjectTerm
     range: TaxonConstraint
+    multivalued: true
   present_in_ancestor_of:
     name: present_in_ancestor_of
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: present_in_ancestor_of
     owner: SubjectTerm
     domain_of:
     - SubjectTerm
     range: TaxonConstraint
+    multivalued: true
   id:
     name: id
     description: the OBO CURIE for the term

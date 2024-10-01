@@ -7,6 +7,8 @@ _The object (e.g. term) on the old association_
 
 
 
+
+
 URI: [ontoassoc:old_object](https://w3id.org/oak/association/old_object)
 
 
@@ -54,6 +56,16 @@ URI: [ontoassoc:old_object](https://w3id.org/oak/association/old_object)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:old_object |
+| native | ontoassoc:old_object |
 
 
 

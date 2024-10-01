@@ -7,6 +7,8 @@ _The class that is defined by this axiom_
 
 
 
+
+
 URI: [obographs:definedClassId](https://github.com/geneontology/obographs/definedClassId)
 
 
@@ -31,7 +33,7 @@ URI: [obographs:definedClassId](https://github.com/geneontology/obographs/define
 
 ## Properties
 
-* Range: NONE
+* Range: [OboIdentifierString](OboIdentifierString.md)
 
 * Required: True
 
@@ -55,6 +57,16 @@ URI: [obographs:definedClassId](https://github.com/geneontology/obographs/define
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:definedClassId |
+| native | obographs:definedClassId |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -67,6 +79,7 @@ alias: definedClassId
 owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
+range: OboIdentifierString
 required: true
 
 ```

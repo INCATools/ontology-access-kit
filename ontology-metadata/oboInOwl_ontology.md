@@ -2,6 +2,8 @@
 
 # Slot: oboInOwl_ontology
 
+
+
 URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
 
 
@@ -35,6 +37,16 @@ URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:ontology |
+| native | omoschema:oboInOwl_ontology |
 
 
 

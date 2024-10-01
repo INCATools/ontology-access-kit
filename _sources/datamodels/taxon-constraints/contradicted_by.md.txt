@@ -7,6 +7,8 @@ _If the taxon constraint conflicts with another,  then this is the set of taxon 
 
 
 
+
+
 URI: [tc:contradicted_by](https://w3id.org/linkml/taxon_constraints/contradicted_by)
 
 
@@ -55,6 +57,16 @@ URI: [tc:contradicted_by](https://w3id.org/linkml/taxon_constraints/contradicted
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:contradicted_by |
+| native | tc:contradicted_by |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: If the taxon constraint conflicts with another,  then this is the s
   of taxon constraints that it is redundant with
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
-multivalued: true
 alias: contradicted_by
 owner: TaxonConstraint
 domain_of:
 - TaxonConstraint
 range: TaxonConstraint
+multivalued: true
 
 ```
 </details>

@@ -7,6 +7,8 @@ _Number of entities whose type could not be determined in the ontology or subset
 
 
 
+
+
 URI: [summary_statistics:untyped_entity_count](https://w3id.org/oaklib/summary_statistics.untyped_entity_count)
 
 
@@ -54,6 +56,16 @@ URI: [summary_statistics:untyped_entity_count](https://w3id.org/oaklib/summary_s
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:untyped_entity_count |
+| native | summary_statistics:untyped_entity_count |
 
 
 

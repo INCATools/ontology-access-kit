@@ -2,6 +2,8 @@
 
 # Slot: is_creation
 
+
+
 URI: [ontoassoc:is_creation](https://w3id.org/oak/association/is_creation)
 
 
@@ -48,6 +50,16 @@ URI: [ontoassoc:is_creation](https://w3id.org/oak/association/is_creation)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:is_creation |
+| native | ontoassoc:is_creation |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: number_subjects_in_union
 
+
+
 URI: [ontoassoc:number_subjects_in_union](https://w3id.org/oak/association/number_subjects_in_union)
 
 
@@ -44,6 +46,16 @@ URI: [ontoassoc:number_subjects_in_union](https://w3id.org/oak/association/numbe
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:number_subjects_in_union |
+| native | ontoassoc:number_subjects_in_union |
 
 
 

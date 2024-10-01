@@ -7,6 +7,8 @@ _The ontology or other source that contains the matched term_
 
 
 
+
+
 URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 
 
@@ -49,6 +51,16 @@ URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:object_source |
+| native | ontosearch:object_source |
 
 
 

@@ -7,6 +7,8 @@ _the most recent common ancestor of the two compared entities. If there are mult
 
 
 
+
+
 URI: [sim:ancestor_id](https://w3id.org/linkml/similarity/ancestor_id)
 
 
@@ -53,6 +55,16 @@ URI: [sim:ancestor_id](https://w3id.org/linkml/similarity/ancestor_id)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:ancestor_id |
+| native | sim:ancestor_id |
 
 
 

@@ -14,18 +14,31 @@ URI: [ontosearch:PathExpression](https://w3id.org/oak/search-datamodel/PathExpre
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class PathExpression
+    click PathExpression href "../PathExpression"
       PathExpression : graph_predicates
         
       PathExpression : search_term
         
-          PathExpression --> SearchBaseConfiguration : search_term
+          
+    
+    
+    PathExpression --> "0..1" SearchBaseConfiguration : search_term
+    click SearchBaseConfiguration href "../SearchBaseConfiguration"
+
         
       PathExpression : traversal
         
-          PathExpression --> GraphFunction : traversal
+          
+    
+    
+    PathExpression --> "0..1" GraphFunction : traversal
+    click GraphFunction href "../GraphFunction"
+
         
       
 ```
@@ -41,7 +54,7 @@ URI: [ontosearch:PathExpression](https://w3id.org/oak/search-datamodel/PathExpre
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [traversal](traversal.md) | 0..1 <br/> [GraphFunction](GraphFunction.md) |  | direct |
-| [graph_predicates](graph_predicates.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [graph_predicates](graph_predicates.md) | * <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 | [search_term](search_term.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
 
 
@@ -68,13 +81,14 @@ URI: [ontosearch:PathExpression](https://w3id.org/oak/search-datamodel/PathExpre
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontosearch:PathExpression |
 | native | ontosearch:PathExpression |
+
+
 
 
 
@@ -103,10 +117,10 @@ attributes:
     name: graph_predicates
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - PathExpression
     range: uriorcurie
+    multivalued: true
   search_term:
     name: search_term
     from_schema: https://w3id.org/oak/search-datamodel
@@ -139,12 +153,12 @@ attributes:
     name: graph_predicates
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: graph_predicates
     owner: PathExpression
     domain_of:
     - PathExpression
     range: uriorcurie
+    multivalued: true
   search_term:
     name: search_term
     from_schema: https://w3id.org/oak/search-datamodel

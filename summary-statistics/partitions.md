@@ -7,6 +7,8 @@ _statistics grouped by a particular property_
 
 
 
+
+
 URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.partitions)
 
 
@@ -59,6 +61,16 @@ URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:partitions |
+| native | summary_statistics:partitions |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -69,12 +81,12 @@ comments:
 - For example, GO stats may be broken out by MF/BP/CC
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: partitions
 owner: GroupedStatistics
 domain_of:
 - GroupedStatistics
 range: UngroupedStatistics
+multivalued: true
 inlined: true
 
 ```

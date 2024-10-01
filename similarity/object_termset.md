@@ -2,6 +2,8 @@
 
 # Slot: object_termset
 
+
+
 URI: [sim:object_termset](https://w3id.org/linkml/similarity/object_termset)
 
 
@@ -50,6 +52,16 @@ URI: [sim:object_termset](https://w3id.org/linkml/similarity/object_termset)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:object_termset |
+| native | sim:object_termset |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [sim:object_termset](https://w3id.org/linkml/similarity/object_termset)
 name: object_termset
 from_schema: https://w3id.org/oak/similarity
 rank: 1000
-multivalued: true
 alias: object_termset
 domain_of:
 - TermSetPairwiseSimilarity
 range: TermInfo
+multivalued: true
 inlined: true
 
 ```

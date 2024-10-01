@@ -2,6 +2,8 @@
 
 # Slot: suggested_modifications
 
+
+
 URI: [vm:suggested_modifications](https://w3id.org/linkml/validation-model/suggested_modifications)
 
 
@@ -44,6 +46,16 @@ URI: [vm:suggested_modifications](https://w3id.org/linkml/validation-model/sugge
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:suggested_modifications |
+| native | vm:suggested_modifications |
 
 
 

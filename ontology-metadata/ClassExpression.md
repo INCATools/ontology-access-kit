@@ -9,14 +9,20 @@ URI: [omoschema:ClassExpression](https://w3id.org/oak/ontology-metadata/ClassExp
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ClassExpression
+    click ClassExpression href "../ClassExpression"
       Expression <|-- ClassExpression
+        click Expression href "../Expression"
       
 
       ClassExpression <|-- Class
+        click Class href "../Class"
       ClassExpression <|-- Restriction
+        click Restriction href "../Restriction"
       
       
       ClassExpression : cardinality
@@ -27,19 +33,39 @@ URI: [omoschema:ClassExpression](https://w3id.org/oak/ontology-metadata/ClassExp
         
       ClassExpression : equivalentClass
         
-          ClassExpression --> ClassExpression : equivalentClass
+          
+    
+    
+    ClassExpression --> "*" ClassExpression : equivalentClass
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : intersectionOf
         
-          ClassExpression --> ClassExpression : intersectionOf
+          
+    
+    
+    ClassExpression --> "0..1" ClassExpression : intersectionOf
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : oneOf
         
-          ClassExpression --> ClassExpression : oneOf
+          
+    
+    
+    ClassExpression --> "0..1" ClassExpression : oneOf
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : subClassOf
         
-          ClassExpression --> ClassExpression : subClassOf
+          
+    
+    
+    ClassExpression --> "*" ClassExpression : subClassOf
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : unionOf
         
@@ -60,10 +86,10 @@ URI: [omoschema:ClassExpression](https://w3id.org/oak/ontology-metadata/ClassExp
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | direct |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [disjointWith](disjointWith.md) | * <br/> [String](String.md) |  | direct |
+| [equivalentClass](equivalentClass.md) | * <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
-| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [subClassOf](subClassOf.md) | * <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [cardinality](cardinality.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [complementOf](complementOf.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
@@ -118,13 +144,14 @@ URI: [omoschema:ClassExpression](https://w3id.org/oak/ontology-metadata/ClassExp
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:ClassExpression |
 | native | omoschema:ClassExpression |
+
+
 
 
 
@@ -172,13 +199,13 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
-    multivalued: true
     alias: disjointWith
     owner: ClassExpression
     domain_of:
     - ClassExpression
     - PropertyExpression
     range: string
+    multivalued: true
   equivalentClass:
     name: equivalentClass
     todos:
@@ -189,12 +216,12 @@ attributes:
     mixins:
     - match_aspect
     slot_uri: owl:equivalentClass
-    multivalued: true
     alias: equivalentClass
     owner: ClassExpression
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   intersectionOf:
     name: intersectionOf
     todos:
@@ -214,12 +241,12 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdfs:subClassOf
-    multivalued: true
     alias: subClassOf
     owner: ClassExpression
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   cardinality:
     name: cardinality
     from_schema: https://w3id.org/oak/ontology-metadata

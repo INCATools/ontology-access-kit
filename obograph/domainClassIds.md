@@ -2,6 +2,8 @@
 
 # Slot: domainClassIds
 
+
+
 URI: [obographs:domainClassIds](https://github.com/geneontology/obographs/domainClassIds)
 
 
@@ -50,6 +52,16 @@ URI: [obographs:domainClassIds](https://github.com/geneontology/obographs/domain
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:domainClassIds |
+| native | obographs:domainClassIds |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [obographs:domainClassIds](https://github.com/geneontology/obographs/domain
 name: domainClassIds
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: domainClassIds
 domain_of:
 - DomainRangeAxiom
 range: string
+multivalued: true
 
 ```
 </details>

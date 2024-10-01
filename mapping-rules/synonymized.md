@@ -2,6 +2,8 @@
 
 # Slot: synonymized
 
+
+
 URI: [mappingrules:synonymized](https://w3id.org/oak/mapping-rules-datamodel/synonymized)
 
 
@@ -44,6 +46,16 @@ URI: [mappingrules:synonymized](https://w3id.org/oak/mapping-rules-datamodel/syn
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:synonymized |
+| native | mappingrules:synonymized |
 
 
 

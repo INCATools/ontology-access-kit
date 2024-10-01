@@ -7,6 +7,8 @@ _the entity matches_
 
 
 
+
+
 URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 
 
@@ -49,6 +51,16 @@ URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:match_target |
+| native | sim:match_target |
 
 
 

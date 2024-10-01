@@ -7,6 +7,8 @@ _determines which properties are searched over_
 
 
 
+
+
 URI: [ontosearch:properties](https://w3id.org/oak/search-datamodel/properties)
 
 
@@ -55,6 +57,16 @@ URI: [ontosearch:properties](https://w3id.org/oak/search-datamodel/properties)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:properties |
+| native | ontosearch:properties |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: properties
 description: determines which properties are searched over
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: properties
 owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: SearchProperty
+multivalued: true
 
 ```
 </details>

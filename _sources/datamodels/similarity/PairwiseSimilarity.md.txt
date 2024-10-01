@@ -16,11 +16,16 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class PairwiseSimilarity
+    click PairwiseSimilarity href "../PairwiseSimilarity"
       PairwiseSimilarity <|-- TermPairwiseSimilarity
+        click TermPairwiseSimilarity href "../TermPairwiseSimilarity"
       PairwiseSimilarity <|-- TermSetPairwiseSimilarity
+        click TermSetPairwiseSimilarity href "../TermSetPairwiseSimilarity"
       
       
 ```
@@ -65,13 +70,14 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sim:PairwiseSimilarity |
 | native | sim:PairwiseSimilarity |
+
+
 
 
 

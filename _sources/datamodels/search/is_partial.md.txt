@@ -7,6 +7,8 @@ _allows matches where the search term is a subset of the full span_
 
 
 
+
+
 URI: [ontosearch:is_partial](https://w3id.org/oak/search-datamodel/is_partial)
 
 
@@ -49,6 +51,16 @@ URI: [ontosearch:is_partial](https://w3id.org/oak/search-datamodel/is_partial)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:is_partial |
+| native | ontosearch:is_partial |
 
 
 

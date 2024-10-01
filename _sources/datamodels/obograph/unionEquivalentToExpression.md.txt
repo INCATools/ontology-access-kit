@@ -7,6 +7,8 @@ _if present, this class expression is equivalent ot the (disjoint) union of the 
 
 
 
+
+
 URI: [obographs:unionEquivalentToExpression](https://github.com/geneontology/obographs/unionEquivalentToExpression)
 
 
@@ -49,6 +51,16 @@ URI: [obographs:unionEquivalentToExpression](https://github.com/geneontology/obo
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:unionEquivalentToExpression |
+| native | obographs:unionEquivalentToExpression |
 
 
 

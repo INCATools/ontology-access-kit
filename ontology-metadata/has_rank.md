@@ -2,6 +2,8 @@
 
 # Slot: has_rank
 
+
+
 URI: [omoschema:has_rank](https://w3id.org/oak/ontology-metadata/has_rank)
 
 
@@ -44,6 +46,17 @@ URI: [omoschema:has_rank](https://w3id.org/oak/ontology-metadata/has_rank)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:has_rank |
+| native | omoschema:has_rank |
+| exact | obo:ncbitaxon/subsets/taxslim#has_rank |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: is_metadata_tag
 
+
+
 URI: [oio:is_metadata_tag](http://www.geneontology.org/formats/oboInOwl#is_metadata_tag)
 
 
@@ -17,9 +19,9 @@ URI: [oio:is_metadata_tag](http://www.geneontology.org/formats/oboInOwl#is_metad
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Property](Property.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 
 
@@ -48,6 +50,16 @@ URI: [oio:is_metadata_tag](http://www.geneontology.org/formats/oboInOwl#is_metad
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:is_metadata_tag |
+| native | omoschema:is_metadata_tag |
 
 
 

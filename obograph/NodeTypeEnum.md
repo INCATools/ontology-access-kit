@@ -41,6 +41,8 @@ URI: [NodeTypeEnum](NodeTypeEnum.md)
 
 
 
+
+
 ## LinkML Source
 
 <details>

@@ -2,6 +2,8 @@
 
 # Slot: allValuesFrom
 
+
+
 URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 
 
@@ -53,6 +55,16 @@ URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:allValuesFrom |
+| native | omoschema:allValuesFrom |
 
 
 

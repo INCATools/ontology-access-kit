@@ -2,6 +2,8 @@
 
 # Slot: maxQualifiedCardinality
 
+
+
 URI: [owl:maxQualifiedCardinality](http://www.w3.org/2002/07/owl#maxQualifiedCardinality)
 
 
@@ -40,6 +42,16 @@ URI: [owl:maxQualifiedCardinality](http://www.w3.org/2002/07/owl#maxQualifiedCar
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:maxQualifiedCardinality |
+| native | omoschema:maxQualifiedCardinality |
 
 
 

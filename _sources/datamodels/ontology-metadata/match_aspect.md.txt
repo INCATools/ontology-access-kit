@@ -2,6 +2,8 @@
 
 # Slot: match_aspect
 
+
+
 URI: [omoschema:match_aspect](https://w3id.org/oak/ontology-metadata/match_aspect)
 
 
@@ -47,6 +49,16 @@ URI: [omoschema:match_aspect](https://w3id.org/oak/ontology-metadata/match_aspec
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:match_aspect |
+| native | omoschema:match_aspect |
 
 
 

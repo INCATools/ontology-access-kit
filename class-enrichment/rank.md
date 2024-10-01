@@ -7,6 +7,8 @@ _The rank of this result_
 
 
 
+
+
 URI: [ontoenrich:rank](https://w3id.org/oak/class-enrichment/rank)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:rank](https://w3id.org/oak/class-enrichment/rank)
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:rank |
+| native | ontoenrich:rank |
 
 
 

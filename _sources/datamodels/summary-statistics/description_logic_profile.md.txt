@@ -7,6 +7,8 @@ _Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summary_statistics.description_logic_profile)
 
 
@@ -49,6 +51,16 @@ URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summ
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:description_logic_profile |
+| native | summary_statistics:description_logic_profile |
 
 
 

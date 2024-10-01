@@ -2,6 +2,8 @@
 
 # Slot: metric
 
+
+
 URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
 
 
@@ -44,6 +46,16 @@ URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:metric |
+| native | sim:metric |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: synonymTypeDefinitions
 
+
+
 URI: [obographs:synonymTypeDefinitions](https://github.com/geneontology/obographs/synonymTypeDefinitions)
 
 
@@ -50,6 +52,16 @@ URI: [obographs:synonymTypeDefinitions](https://github.com/geneontology/obograph
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:synonymTypeDefinitions |
+| native | obographs:synonymTypeDefinitions |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [obographs:synonymTypeDefinitions](https://github.com/geneontology/obograph
 name: synonymTypeDefinitions
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: synonymTypeDefinitions
 domain_of:
 - Graph
 range: SynonymTypeDefinition
+multivalued: true
 inlined: true
 
 ```

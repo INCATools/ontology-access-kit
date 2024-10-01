@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,29 +90,56 @@
 <div class="mermaid">
              classDiagram
     class GroupedStatistics
+    click GroupedStatistics href &quot;../GroupedStatistics&quot;
       SummaryStatisticsReport &lt;|-- GroupedStatistics
+        click SummaryStatisticsReport href &quot;../SummaryStatisticsReport&quot;
       
       GroupedStatistics : agents
         
-          GroupedStatistics --&gt; Agent : agents
+          
+    
+    
+    GroupedStatistics --&gt; &quot;*&quot; Agent : agents
+    click Agent href &quot;../Agent&quot;
+
         
       GroupedStatistics : compared_with
         
-          GroupedStatistics --&gt; Ontology : compared_with
+          
+    
+    
+    GroupedStatistics --&gt; &quot;*&quot; Ontology : compared_with
+    click Ontology href &quot;../Ontology&quot;
+
         
       GroupedStatistics : id
         
       GroupedStatistics : ontologies
         
-          GroupedStatistics --&gt; Ontology : ontologies
+          
+    
+    
+    GroupedStatistics --&gt; &quot;*&quot; Ontology : ontologies
+    click Ontology href &quot;../Ontology&quot;
+
         
       GroupedStatistics : partitions
         
-          GroupedStatistics --&gt; UngroupedStatistics : partitions
+          
+    
+    
+    GroupedStatistics --&gt; &quot;*&quot; UngroupedStatistics : partitions
+    click UngroupedStatistics href &quot;../UngroupedStatistics&quot;
+
         
       GroupedStatistics : was_generated_by
         
-          GroupedStatistics --&gt; SummaryStatisticsCalculationActivity : was_generated_by
+          
+    
+    
+    GroupedStatistics --&gt; &quot;0..1&quot; SummaryStatisticsCalculationActivity : was_generated_by
+    click SummaryStatisticsCalculationActivity href &quot;../SummaryStatisticsCalculationActivity&quot;
+
         
       
         </div><section id="inheritance">
@@ -137,22 +164,22 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="partitions.html"><span class="std std-doc">partitions</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="UngroupedStatistics.html"><span class="std std-doc">UngroupedStatistics</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="UngroupedStatistics.html"><span class="std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p>statistics grouped by a particular property</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>Unique handle for this report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ontologies.html"><span class="std std-doc">ontologies</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
 <td><p>Ontology for which the statistics are computed</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="compared_with.html"><span class="std std-doc">compared_with</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Ontology.html"><span class="std std-doc">Ontology</span></a></p></td>
 <td><p>For diffs, the ontologies being compared against</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
@@ -162,7 +189,7 @@
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="agents.html"><span class="std std-doc">agents</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
 <td><p>Agents that contributed to the report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
@@ -215,10 +242,10 @@ attributes:
     - For example, GO stats may be broken out by MF/BP/CC
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - GroupedStatistics
     range: UngroupedStatistics
+    multivalued: true
     inlined: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -238,12 +265,12 @@ attributes:
     - For example, GO stats may be broken out by MF/BP/CC
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: partitions
     owner: GroupedStatistics
     domain_of:
     - GroupedStatistics
     range: UngroupedStatistics
+    multivalued: true
     inlined: true
   id:
     name: id
@@ -264,12 +291,12 @@ attributes:
     description: Ontology for which the statistics are computed
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: ontologies
     owner: GroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   compared_with:
@@ -277,12 +304,12 @@ attributes:
     description: For diffs, the ontologies being compared against
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: compared_with
     owner: GroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   was_generated_by:
@@ -300,12 +327,12 @@ attributes:
     description: Agents that contributed to the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: agents
     owner: GroupedStatistics
     domain_of:
     - SummaryStatisticsReport
     range: Agent
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

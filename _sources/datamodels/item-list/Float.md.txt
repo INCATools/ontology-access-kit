@@ -36,3 +36,14 @@ URI: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:float |
+| native | itemList:float |
+| exact | schema:Float |
+
+
+

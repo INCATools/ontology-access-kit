@@ -2,6 +2,8 @@
 
 # Slot: consider
 
+
+
 URI: [oio:consider](http://www.geneontology.org/formats/oboInOwl#consider)
 
 
@@ -22,17 +24,17 @@ URI: [oio:consider](http://www.geneontology.org/formats/oboInOwl#consider)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Image](Image.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [HasLifeCycle](HasLifeCycle.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Property](Property.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -70,6 +72,16 @@ URI: [oio:consider](http://www.geneontology.org/formats/oboInOwl#consider)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:consider |
+| native | omoschema:consider |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -84,11 +96,11 @@ rank: 1000
 is_a: obsoletion_related_property
 domain: ObsoleteAspect
 slot_uri: oio:consider
-multivalued: true
 alias: consider
 domain_of:
 - HasLifeCycle
 range: Any
+multivalued: true
 
 ```
 </details>

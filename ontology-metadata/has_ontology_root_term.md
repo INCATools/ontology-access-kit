@@ -2,6 +2,8 @@
 
 # Slot: has_ontology_root_term
 
+
+
 URI: [IAO:0000700](http://purl.obolibrary.org/obo/IAO_0000700)
 
 
@@ -55,6 +57,16 @@ URI: [IAO:0000700](http://purl.obolibrary.org/obo/IAO_0000700)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | IAO:0000700 |
+| native | omoschema:has_ontology_root_term |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,11 +76,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: informative_property
 slot_uri: IAO:0000700
-multivalued: true
 alias: has_ontology_root_term
 domain_of:
 - Ontology
 range: Class
+multivalued: true
 
 ```
 </details>

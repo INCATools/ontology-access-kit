@@ -14,9 +14,12 @@ URI: [ontoenrich:ClassEnrichmentConfiguration](https://w3id.org/oak/class-enrich
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ClassEnrichmentConfiguration
+    click ClassEnrichmentConfiguration href "../ClassEnrichmentConfiguration"
       ClassEnrichmentConfiguration : p_value_cutoff
         
       
@@ -32,7 +35,7 @@ URI: [ontoenrich:ClassEnrichmentConfiguration](https://w3id.org/oak/class-enrich
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [p_value_cutoff](p_value_cutoff.md) | 1..1 <br/> [Float](Float.md) | p-value cutoff for enrichment | direct |
+| [p_value_cutoff](p_value_cutoff.md) | 1 <br/> [Float](Float.md) | p-value cutoff for enrichment | direct |
 
 
 
@@ -58,13 +61,14 @@ URI: [ontoenrich:ClassEnrichmentConfiguration](https://w3id.org/oak/class-enrich
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontoenrich:ClassEnrichmentConfiguration |
 | native | ontoenrich:ClassEnrichmentConfiguration |
+
+
 
 
 

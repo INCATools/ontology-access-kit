@@ -2,6 +2,8 @@
 
 # Slot: matches_whole_text
 
+
+
 URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_whole_text)
 
 
@@ -16,8 +18,8 @@ URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_who
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 | [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 
@@ -38,6 +40,16 @@ URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_who
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:matches_whole_text |
+| native | ann:matches_whole_text |
 
 
 

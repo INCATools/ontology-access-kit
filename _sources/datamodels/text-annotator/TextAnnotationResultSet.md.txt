@@ -14,12 +14,20 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TextAnnotationResultSet
+    click TextAnnotationResultSet href "../TextAnnotationResultSet"
       TextAnnotationResultSet : annotations
         
-          TextAnnotationResultSet --> TextAnnotation : annotations
+          
+    
+    
+    TextAnnotationResultSet --> "*" TextAnnotation : annotations
+    click TextAnnotation href "../TextAnnotation"
+
         
       
 ```
@@ -34,7 +42,7 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [annotations](annotations.md) | 0..* <br/> [TextAnnotation](TextAnnotation.md) | all annotations | direct |
+| [annotations](annotations.md) | * <br/> [TextAnnotation](TextAnnotation.md) | all annotations | direct |
 
 
 
@@ -60,13 +68,14 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ann:TextAnnotationResultSet |
 | native | ann:TextAnnotationResultSet |
+
+
 
 
 
@@ -89,10 +98,10 @@ attributes:
     description: all annotations
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     domain_of:
     - TextAnnotationResultSet
     range: TextAnnotation
+    multivalued: true
     inlined: true
 
 ```
@@ -111,12 +120,12 @@ attributes:
     description: all annotations
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     alias: annotations
     owner: TextAnnotationResultSet
     domain_of:
     - TextAnnotationResultSet
     range: TextAnnotation
+    multivalued: true
     inlined: true
 
 ```

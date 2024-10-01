@@ -2,6 +2,8 @@
 
 # Slot: minCardinality
 
+
+
 URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 
 
@@ -40,6 +42,16 @@ URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:minCardinality |
+| native | omoschema:minCardinality |
 
 
 

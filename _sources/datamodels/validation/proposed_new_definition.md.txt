@@ -2,6 +2,8 @@
 
 # Slot: proposed_new_definition
 
+
+
 URI: [vm:proposed_new_definition](https://w3id.org/linkml/validation-model/proposed_new_definition)
 
 
@@ -44,6 +46,16 @@ URI: [vm:proposed_new_definition](https://w3id.org/linkml/validation-model/propo
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:proposed_new_definition |
+| native | vm:proposed_new_definition |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: subject_info
 
+
+
 URI: [vm:subject_info](https://w3id.org/linkml/validation-model/subject_info)
 
 
@@ -44,6 +46,16 @@ URI: [vm:subject_info](https://w3id.org/linkml/validation-model/subject_info)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:subject_info |
+| native | vm:subject_info |
 
 
 

@@ -7,6 +7,8 @@ _Number of distinct subsets (slims, value sets) in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:subset_count](https://w3id.org/oaklib/summary_statistics.subset_count)
 
 
@@ -54,6 +56,16 @@ URI: [summary_statistics:subset_count](https://w3id.org/oaklib/summary_statistic
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:subset_count |
+| native | summary_statistics:subset_count |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: results
 
+
+
 URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
 
 
@@ -50,6 +52,16 @@ URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:results |
+| native | ontosearch:results |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
 name: results
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: results
 owner: SearchResultSet
 domain_of:
 - SearchResultSet
 range: SearchResult
+multivalued: true
 
 ```
 </details>

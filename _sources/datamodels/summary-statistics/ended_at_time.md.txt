@@ -7,6 +7,8 @@ _the time at which the activity ended_
 
 
 
+
+
 URI: [prov:endedAtTime](http://www.w3.org/ns/prov#endedAtTime)
 
 
@@ -49,6 +51,16 @@ URI: [prov:endedAtTime](http://www.w3.org/ns/prov#endedAtTime)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | prov:endedAtTime |
+| native | summary_statistics:ended_at_time |
 
 
 

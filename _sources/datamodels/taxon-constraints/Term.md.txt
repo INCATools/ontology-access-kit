@@ -16,12 +16,18 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Term
+    click Term href "../Term"
       Term <|-- SubjectTerm
+        click SubjectTerm href "../SubjectTerm"
       Term <|-- Taxon
+        click Taxon href "../Taxon"
       Term <|-- PredicateTerm
+        click PredicateTerm href "../PredicateTerm"
       
       Term : id
         
@@ -46,7 +52,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | direct |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | direct |
 | [label](label.md) | 0..1 <br/> [String](String.md) | the human readable name or label of the term | direct |
 
 
@@ -73,13 +79,14 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Class |
 | native | tc:Term |
+
+
 
 
 

@@ -7,6 +7,8 @@ _Version IRI or version string of the source of the object term._
 
 
 
+
+
 URI: [sssom:object_source_version](http://w3id.org/sssom/object_source_version)
 
 
@@ -49,6 +51,16 @@ URI: [sssom:object_source_version](http://w3id.org/sssom/object_source_version)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:object_source_version |
+| native | ontosearch:object_source_version |
 
 
 

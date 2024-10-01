@@ -2,6 +2,8 @@
 
 # Slot: onClass
 
+
+
 URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 
 
@@ -40,6 +42,16 @@ URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:onClass |
+| native | omoschema:onClass |
 
 
 

@@ -7,6 +7,8 @@ _The type of the item._
 
 
 
+
+
 URI: [itemList:type](https://w3id.org/linkml/item-list/type)
 
 
@@ -57,6 +59,16 @@ URI: [itemList:type](https://w3id.org/linkml/item-list/type)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | itemList:type |
+| native | itemList:type |
 
 
 

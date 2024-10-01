@@ -2,6 +2,8 @@
 
 # Slot: proportion_subjects_in_common
 
+
+
 URI: [ontoassoc:proportion_subjects_in_common](https://w3id.org/oak/association/proportion_subjects_in_common)
 
 
@@ -44,6 +46,16 @@ URI: [ontoassoc:proportion_subjects_in_common](https://w3id.org/oak/association/
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:proportion_subjects_in_common |
+| native | ontoassoc:proportion_subjects_in_common |
 
 
 

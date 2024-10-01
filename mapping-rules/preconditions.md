@@ -7,6 +7,8 @@ _all of the criteria that must be true before a rule is fired_
 
 
 
+
+
 URI: [sh:condition](https://w3id.org/shacl/condition)
 
 
@@ -49,6 +51,16 @@ URI: [sh:condition](https://w3id.org/shacl/condition)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:condition |
+| native | mappingrules:preconditions |
 
 
 

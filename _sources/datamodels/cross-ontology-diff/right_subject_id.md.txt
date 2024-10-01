@@ -7,6 +7,8 @@ _The subject (child) of the matched/right edge, if matchable_
 
 
 
+
+
 URI: [xodiff:right_subject_id](https://w3id.org/oak/cross-ontology-diff/right_subject_id)
 
 
@@ -53,6 +55,16 @@ URI: [xodiff:right_subject_id](https://w3id.org/oak/cross-ontology-diff/right_su
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:right_subject_id |
+| native | xodiff:right_subject_id |
 
 
 

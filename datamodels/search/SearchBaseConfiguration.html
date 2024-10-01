@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,6 +90,7 @@
 <div class="mermaid">
              classDiagram
     class SearchBaseConfiguration
+    click SearchBaseConfiguration href &quot;../SearchBaseConfiguration&quot;
       SearchBaseConfiguration : categories
         
       SearchBaseConfiguration : cursor
@@ -108,13 +109,23 @@
         
       SearchBaseConfiguration : properties
         
-          SearchBaseConfiguration --&gt; SearchProperty : properties
+          
+    
+    
+    SearchBaseConfiguration --&gt; &quot;*&quot; SearchProperty : properties
+    click SearchProperty href &quot;../SearchProperty&quot;
+
         
       SearchBaseConfiguration : search_terms
         
       SearchBaseConfiguration : syntax
         
-          SearchBaseConfiguration --&gt; SearchTermSyntax : syntax
+          
+    
+    
+    SearchBaseConfiguration --&gt; &quot;0..1&quot; SearchTermSyntax : syntax
+    click SearchTermSyntax href &quot;../SearchTermSyntax&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -130,7 +141,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="search_terms.html"><span class="std std-doc">search_terms</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="SearchTerm.html"><span class="std std-doc">SearchTerm</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="SearchTerm.html"><span class="std std-doc">SearchTerm</span></a></p></td>
 <td><p>An individual search term</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -140,7 +151,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="properties.html"><span class="std std-doc">properties</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="SearchProperty.html"><span class="std std-doc">SearchProperty</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="SearchProperty.html"><span class="std std-doc">SearchProperty</span></a></p></td>
 <td><p>determines which properties are searched over</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -175,7 +186,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="std std-doc">categories</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>categories that should be matched</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -273,10 +284,10 @@ attributes:
     - If multiple terms are provided this is treated as a union query
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchBaseConfiguration
     range: SearchTerm
+    multivalued: true
   syntax:
     name: syntax
     description: Determines how the search term is interpreted
@@ -290,10 +301,10 @@ attributes:
     description: determines which properties are searched over
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchBaseConfiguration
     range: SearchProperty
+    multivalued: true
   limit:
     name: limit
     description: the maximum number of search results to be returned in one batch
@@ -348,10 +359,10 @@ attributes:
     description: categories that should be matched
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchBaseConfiguration
     range: uriorcurie
+    multivalued: true
   force_case_insensitive:
     name: force_case_insensitive
     description: force case insensitive matching
@@ -383,12 +394,12 @@ attributes:
     - If multiple terms are provided this is treated as a union query
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: search_terms
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
     range: SearchTerm
+    multivalued: true
   syntax:
     name: syntax
     description: Determines how the search term is interpreted
@@ -404,12 +415,12 @@ attributes:
     description: determines which properties are searched over
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: properties
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
     range: SearchProperty
+    multivalued: true
   limit:
     name: limit
     description: the maximum number of search results to be returned in one batch
@@ -476,12 +487,12 @@ attributes:
     description: categories that should be matched
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: categories
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
     range: uriorcurie
+    multivalued: true
   force_case_insensitive:
     name: force_case_insensitive
     description: force case insensitive matching

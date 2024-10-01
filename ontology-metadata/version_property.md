@@ -2,6 +2,10 @@
 
 # Slot: version_property
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:version_property](https://w3id.org/oak/ontology-metadata/version_property)
 
 
@@ -41,6 +45,16 @@ URI: [omoschema:version_property](https://w3id.org/oak/ontology-metadata/version
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:version_property |
+| native | omoschema:version_property |
 
 
 

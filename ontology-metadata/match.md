@@ -2,6 +2,10 @@
 
 # Slot: match
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:match](https://w3id.org/oak/ontology-metadata/match)
 
 
@@ -44,6 +48,16 @@ URI: [omoschema:match](https://w3id.org/oak/ontology-metadata/match)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:match |
+| native | omoschema:match |
 
 
 

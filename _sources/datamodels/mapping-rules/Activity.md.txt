@@ -16,11 +16,16 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Activity
+    click Activity href "../Activity"
       Activity <|-- LexicalTransformationPipeline
+        click LexicalTransformationPipeline href "../LexicalTransformationPipeline"
       Activity <|-- LexicalTransformation
+        click LexicalTransformation href "../LexicalTransformation"
       
       
 ```
@@ -65,13 +70,14 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | prov:Activity |
 | native | mappingrules:Activity |
+
+
 
 
 

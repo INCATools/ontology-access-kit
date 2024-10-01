@@ -14,9 +14,12 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class SearchResult
+    click SearchResult href "../SearchResult"
       SearchResult : matches_full_search_term
         
       SearchResult : object_id
@@ -47,7 +50,7 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [rank](rank.md) | 0..1 <br/> [Integer](Integer.md) | For relevancy-ranked results, this indicates the relevancy, with low numbers ... | direct |
-| [object_id](object_id.md) | 1..1 <br/> [String](String.md) | The CURIE of the matched term | direct |
+| [object_id](object_id.md) | 1 <br/> [String](String.md) | The CURIE of the matched term | direct |
 | [object_label](object_label.md) | 0..1 _recommended_ <br/> [String](String.md) | The label/name of the matched term | direct |
 | [object_source](object_source.md) | 0..1 <br/> [String](String.md) | The ontology or other source that contains the matched term | direct |
 | [object_source_version](object_source_version.md) | 0..1 <br/> [String](String.md) | Version IRI or version string of the source of the object term | direct |
@@ -86,13 +89,14 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontosearch:SearchResult |
 | native | ontosearch:SearchResult |
+
+
 
 
 

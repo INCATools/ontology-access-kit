@@ -2,6 +2,8 @@
 
 # Slot: union_count
 
+
+
 URI: [sim:union_count](https://w3id.org/linkml/similarity/union_count)
 
 
@@ -40,6 +42,16 @@ URI: [sim:union_count](https://w3id.org/linkml/similarity/union_count)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:union_count |
+| native | sim:union_count |
 
 
 

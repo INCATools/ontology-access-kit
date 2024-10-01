@@ -7,6 +7,8 @@ _If the association diff is a change in predicate, this is the predicate on the 
 
 
 
+
+
 URI: [ontoassoc:new_predicate](https://w3id.org/oak/association/new_predicate)
 
 
@@ -54,6 +56,16 @@ URI: [ontoassoc:new_predicate](https://w3id.org/oak/association/new_predicate)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:new_predicate |
+| native | ontoassoc:new_predicate |
 
 
 

@@ -7,6 +7,8 @@ _The position of the item in the list_
 
 
 
+
+
 URI: [schema:position](http://schema.org/position)
 
 
@@ -49,6 +51,16 @@ URI: [schema:position](http://schema.org/position)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | schema:position |
+| native | itemList:position |
 
 
 

@@ -14,14 +14,22 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class RepairConfiguration
+    click RepairConfiguration href "../RepairConfiguration"
       RepairConfiguration : dry_run
         
       RepairConfiguration : validation_configuration
         
-          RepairConfiguration --> ValidationConfiguration : validation_configuration
+          
+    
+    
+    RepairConfiguration --> "0..1" ValidationConfiguration : validation_configuration
+    click ValidationConfiguration href "../ValidationConfiguration"
+
         
       
 ```
@@ -63,13 +71,14 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:RepairConfiguration |
 | native | vm:RepairConfiguration |
+
+
 
 
 

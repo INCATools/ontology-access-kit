@@ -7,6 +7,8 @@ _Maps to exactly one thing_
 
 
 
+
+
 URI: [xodiff:is_functional](https://w3id.org/oak/cross-ontology-diff/is_functional)
 
 
@@ -50,6 +52,16 @@ URI: [xodiff:is_functional](https://w3id.org/oak/cross-ontology-diff/is_function
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:is_functional |
+| native | xodiff:is_functional |
 
 
 

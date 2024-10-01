@@ -7,6 +7,8 @@ _The first ontology is arbitrarily designated the left side_
 
 
 
+
+
 URI: [xodiff:left_side](https://w3id.org/oak/cross-ontology-diff/left_side)
 
 
@@ -61,6 +63,16 @@ URI: [xodiff:left_side](https://w3id.org/oak/cross-ontology-diff/left_side)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:left_side |
+| native | xodiff:left_side |
 
 
 

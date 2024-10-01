@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -114,9 +114,15 @@
 <div class="mermaid">
              classDiagram
     class RelationalDiff
+    click RelationalDiff href &quot;../RelationalDiff&quot;
       RelationalDiff : category
         
-          RelationalDiff --&gt; DiffCategory : category
+          
+    
+    
+    RelationalDiff --&gt; &quot;0..1&quot; DiffCategory : category
+    click DiffCategory href &quot;../DiffCategory&quot;
+
         
       RelationalDiff : left_object_id
         
@@ -136,7 +142,12 @@
         
       RelationalDiff : object_mapping_cardinality
         
-          RelationalDiff --&gt; MappingCardinalityEnum : object_mapping_cardinality
+          
+    
+    
+    RelationalDiff --&gt; &quot;0..1&quot; MappingCardinalityEnum : object_mapping_cardinality
+    click MappingCardinalityEnum href &quot;../MappingCardinalityEnum&quot;
+
         
       RelationalDiff : object_mapping_predicate
         
@@ -156,7 +167,12 @@
         
       RelationalDiff : subject_mapping_cardinality
         
-          RelationalDiff --&gt; MappingCardinalityEnum : subject_mapping_cardinality
+          
+    
+    
+    RelationalDiff --&gt; &quot;0..1&quot; MappingCardinalityEnum : subject_mapping_cardinality
+    click MappingCardinalityEnum href &quot;../MappingCardinalityEnum&quot;
+
         
       RelationalDiff : subject_mapping_predicate
         
@@ -179,17 +195,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_subject_id.html"><span class="std std-doc">left_subject_id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
 <td><p>The subject (child) of the source/left edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_object_id.html"><span class="std std-doc">left_object_id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
 <td><p>The object (parent) of the source/left edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_predicate_id.html"><span class="std std-doc">left_predicate_id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
 <td><p>The predicate (relation) of the source/left edge</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -219,7 +235,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_predicate_ids.html"><span class="std std-doc">right_predicate_ids</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
 <td><p>* If the match type is consistent, then all consistent predicates</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -234,7 +250,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="right_predicate_labels.html"><span class="std std-doc">right_predicate_labels</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Label.html"><span class="std std-doc">Label</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Label.html"><span class="std std-doc">Label</span></a></p></td>
 <td><p>The names corresponding to the right_predicate_ids</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -259,7 +275,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_intermediate_ids.html"><span class="std std-doc">right_intermediate_ids</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="EntityReference.html"><span class="std std-doc">EntityReference</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -462,10 +478,10 @@ rank: 1000
 mixins:
 - right_side
 - predicate
-multivalued: true
 domain_of:
 - RelationalDiff
 range: EntityReference
+multivalued: true
 </pre></div>
 </div>
 <p>right_subject_label:
@@ -501,10 +517,10 @@ mixins:
 - right_side
 - predicate
 - label
-multivalued: true
 domain_of:
 - RelationalDiff
 range: Label
+multivalued: true
 left_subject_is_functional:
 name: left_subject_is_functional
 description: True if a subject mapping is present, and maps uniquely within the
@@ -553,10 +569,10 @@ right_intermediate_ids:
 name: right_intermediate_ids
 from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
-multivalued: true
 domain_of:
 - RelationalDiff
 range: EntityReference
+multivalued: true
 subject_mapping_cardinality:
 name: subject_mapping_cardinality
 description: The mapping cardinality of the subject pair
@@ -731,12 +747,12 @@ attributes:
     mixins:
     - right_side
     - predicate
-    multivalued: true
     alias: right_predicate_ids
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
     range: EntityReference
+    multivalued: true
   right_subject_label:
     name: right_subject_label
     description: The name of the subject (child) of the matched/right edge, if matchable
@@ -774,12 +790,12 @@ attributes:
     - right_side
     - predicate
     - label
-    multivalued: true
     alias: right_predicate_labels
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
     range: Label
+    multivalued: true
   left_subject_is_functional:
     name: left_subject_is_functional
     description: True if a subject mapping is present, and maps uniquely within the
@@ -838,12 +854,12 @@ attributes:
     name: right_intermediate_ids
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
-    multivalued: true
     alias: right_intermediate_ids
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
     range: EntityReference
+    multivalued: true
   subject_mapping_cardinality:
     name: subject_mapping_cardinality
     description: The mapping cardinality of the subject pair

@@ -7,6 +7,8 @@ _If the taxon constraint is redundant, then this is the set of taxon constraints
 
 
 
+
+
 URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_with)
 
 
@@ -55,6 +57,16 @@ URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_wit
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:redundant_with |
+| native | tc:redundant_with |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: If the taxon constraint is redundant, then this is the set of taxon
   that it is redundant with
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
-multivalued: true
 alias: redundant_with
 owner: TaxonConstraint
 domain_of:
 - TaxonConstraint
 range: TaxonConstraint
+multivalued: true
 
 ```
 </details>

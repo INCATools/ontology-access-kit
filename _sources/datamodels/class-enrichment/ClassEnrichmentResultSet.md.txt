@@ -14,12 +14,20 @@ URI: [ontoenrich:ClassEnrichmentResultSet](https://w3id.org/oak/class-enrichment
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ClassEnrichmentResultSet
+    click ClassEnrichmentResultSet href "../ClassEnrichmentResultSet"
       ClassEnrichmentResultSet : results
         
-          ClassEnrichmentResultSet --> ClassEnrichmentResult : results
+          
+    
+    
+    ClassEnrichmentResultSet --> "*" ClassEnrichmentResult : results
+    click ClassEnrichmentResult href "../ClassEnrichmentResult"
+
         
       
 ```
@@ -34,7 +42,7 @@ URI: [ontoenrich:ClassEnrichmentResultSet](https://w3id.org/oak/class-enrichment
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> [ClassEnrichmentResult](ClassEnrichmentResult.md) | The enrichment results | direct |
+| [results](results.md) | * <br/> [ClassEnrichmentResult](ClassEnrichmentResult.md) | The enrichment results | direct |
 
 
 
@@ -60,13 +68,14 @@ URI: [ontoenrich:ClassEnrichmentResultSet](https://w3id.org/oak/class-enrichment
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontoenrich:ClassEnrichmentResultSet |
 | native | ontoenrich:ClassEnrichmentResultSet |
+
+
 
 
 
@@ -89,10 +98,10 @@ attributes:
     description: The enrichment results
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
-    multivalued: true
     domain_of:
     - ClassEnrichmentResultSet
     range: ClassEnrichmentResult
+    multivalued: true
 
 ```
 </details>
@@ -110,12 +119,12 @@ attributes:
     description: The enrichment results
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
-    multivalued: true
     alias: results
     owner: ClassEnrichmentResultSet
     domain_of:
     - ClassEnrichmentResultSet
     range: ClassEnrichmentResult
+    multivalued: true
 
 ```
 </details>

@@ -7,6 +7,8 @@ _The class label_
 
 
 
+
+
 URI: [ontoenrich:class_label](https://w3id.org/oak/class-enrichment/class_label)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:class_label](https://w3id.org/oak/class-enrichment/class_label)
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:class_label |
+| native | ontoenrich:class_label |
 
 
 

@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,13 +90,20 @@
 <div class="mermaid">
              classDiagram
     class XrefPropertyValue
+    click XrefPropertyValue href &quot;../XrefPropertyValue&quot;
       PropertyValue &lt;|-- XrefPropertyValue
+        click PropertyValue href &quot;../PropertyValue&quot;
       
       XrefPropertyValue : lang
         
       XrefPropertyValue : meta
         
-          XrefPropertyValue --&gt; Meta : meta
+          
+    
+    
+    XrefPropertyValue --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       XrefPropertyValue : pred
         
@@ -139,7 +146,7 @@
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="XrefString.html"><span class="std std-doc">XrefString</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="XrefString.html"><span class="std std-doc">XrefString</span></a></p></td>
 <td><p>A list of cross references to other entities represented in other ontologies,…</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 </tr>
@@ -223,8 +230,6 @@ slot_usage:
   val:
     name: val
     description: The textual representation of the external reference, e.g. "PMID:12345"
-    domain_of:
-    - PropertyValue
     role: xref
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -241,8 +246,6 @@ slot_usage:
   val:
     name: val
     description: The textual representation of the external reference, e.g. &quot;PMID:12345&quot;
-    domain_of:
-    - PropertyValue
     role: xref
 attributes:
   pred:
@@ -263,6 +266,8 @@ attributes:
     name: val
     description: The textual representation of the external reference, e.g. &quot;PMID:12345&quot;
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val
@@ -282,13 +287,13 @@ attributes:
     close_mappings:
     - rdfs:seeAlso
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: XrefPropertyValue
     domain_of:
     - Meta
     - PropertyValue
     range: XrefString
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

@@ -7,6 +7,8 @@ _A collection of associations_
 
 
 
+
+
 URI: [ontoassoc:associations](https://w3id.org/oak/association/associations)
 
 
@@ -55,6 +57,16 @@ URI: [ontoassoc:associations](https://w3id.org/oak/association/associations)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:associations |
+| native | ontoassoc:associations |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,11 +75,11 @@ name: associations
 description: A collection of associations
 from_schema: https://w3id.org/oak/association
 rank: 1000
-multivalued: true
 alias: associations
 domain_of:
 - RollupGroup
 range: Association
+multivalued: true
 inlined: true
 inlined_as_list: true
 

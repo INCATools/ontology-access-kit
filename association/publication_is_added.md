@@ -7,6 +7,8 @@ _True if the publication was not present in the old association set (and present
 
 
 
+
+
 URI: [ontoassoc:publication_is_added](https://w3id.org/oak/association/publication_is_added)
 
 
@@ -53,6 +55,16 @@ URI: [ontoassoc:publication_is_added](https://w3id.org/oak/association/publicati
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:publication_is_added |
+| native | ontoassoc:publication_is_added |
 
 
 

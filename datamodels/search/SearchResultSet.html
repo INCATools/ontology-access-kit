@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,9 +89,15 @@
 <div class="mermaid">
              classDiagram
     class SearchResultSet
+    click SearchResultSet href &quot;../SearchResultSet&quot;
       SearchResultSet : configuration
         
-          SearchResultSet --&gt; SearchBaseConfiguration : configuration
+          
+    
+    
+    SearchResultSet --&gt; &quot;0..1&quot; SearchBaseConfiguration : configuration
+    click SearchBaseConfiguration href &quot;../SearchBaseConfiguration&quot;
+
         
       SearchResultSet : cursor
         
@@ -99,7 +105,12 @@
         
       SearchResultSet : results
         
-          SearchResultSet --&gt; SearchResult : results
+          
+    
+    
+    SearchResultSet --&gt; &quot;*&quot; SearchResult : results
+    click SearchResult href &quot;../SearchResult&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -120,7 +131,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="results.html"><span class="std std-doc">results</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="SearchResult.html"><span class="std std-doc">SearchResult</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="SearchResult.html"><span class="std std-doc">SearchResult</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -185,10 +196,10 @@ attributes:
     name: results
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchResultSet
     range: SearchResult
+    multivalued: true
   result_count:
     name: result_count
     from_schema: https://w3id.org/oak/search-datamodel
@@ -225,12 +236,12 @@ attributes:
     name: results
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: results
     owner: SearchResultSet
     domain_of:
     - SearchResultSet
     range: SearchResult
+    multivalued: true
   result_count:
     name: result_count
     from_schema: https://w3id.org/oak/search-datamodel

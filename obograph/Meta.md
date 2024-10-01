@@ -14,18 +14,31 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Meta
+    click Meta href "../Meta"
       Meta : basicPropertyValues
         
-          Meta --> BasicPropertyValue : basicPropertyValues
+          
+    
+    
+    Meta --> "*" BasicPropertyValue : basicPropertyValues
+    click BasicPropertyValue href "../BasicPropertyValue"
+
         
       Meta : comments
         
       Meta : definition
         
-          Meta --> DefinitionPropertyValue : definition
+          
+    
+    
+    Meta --> "0..1" DefinitionPropertyValue : definition
+    click DefinitionPropertyValue href "../DefinitionPropertyValue"
+
         
       Meta : deprecated
         
@@ -33,13 +46,23 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
         
       Meta : synonyms
         
-          Meta --> SynonymPropertyValue : synonyms
+          
+    
+    
+    Meta --> "*" SynonymPropertyValue : synonyms
+    click SynonymPropertyValue href "../SynonymPropertyValue"
+
         
       Meta : version
         
       Meta : xrefs
         
-          Meta --> XrefPropertyValue : xrefs
+          
+    
+    
+    Meta --> "*" XrefPropertyValue : xrefs
+    click XrefPropertyValue href "../XrefPropertyValue"
+
         
       
 ```
@@ -54,13 +77,13 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subsets](subsets.md) | 0..* <br/> [String](String.md) | A list of subsets to which this entity belongs | direct |
+| [subsets](subsets.md) | * <br/> [String](String.md) | A list of subsets to which this entity belongs | direct |
 | [version](version.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [comments](comments.md) | 0..* <br/> [String](String.md) | A list of comments about the entity | direct |
+| [comments](comments.md) | * <br/> [String](String.md) | A list of comments about the entity | direct |
 | [definition](definition.md) | 0..1 <br/> [DefinitionPropertyValue](DefinitionPropertyValue.md) | A definition of an entity | direct |
-| [xrefs](xrefs.md) | 0..* <br/> [XrefPropertyValue](XrefPropertyValue.md) | A list of cross references to other entities represented in other ontologies,... | direct |
-| [synonyms](synonyms.md) | 0..* <br/> [SynonymPropertyValue](SynonymPropertyValue.md) | A list of synonym property value assertions for an entity | direct |
-| [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> [BasicPropertyValue](BasicPropertyValue.md) | A list of open-ended property values that does not correspond to those predef... | direct |
+| [xrefs](xrefs.md) | * <br/> [XrefPropertyValue](XrefPropertyValue.md) | A list of cross references to other entities represented in other ontologies,... | direct |
+| [synonyms](synonyms.md) | * <br/> [SynonymPropertyValue](SynonymPropertyValue.md) | A list of synonym property value assertions for an entity | direct |
+| [basicPropertyValues](basicPropertyValues.md) | * <br/> [BasicPropertyValue](BasicPropertyValue.md) | A list of open-ended property values that does not correspond to those predef... | direct |
 | [deprecated](deprecated.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 
 
@@ -113,13 +136,14 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:Meta |
 | native | obographs:Meta |
+
+
 
 
 
@@ -152,11 +176,8 @@ slots:
 slot_usage:
   xrefs:
     name: xrefs
-    multivalued: true
-    domain_of:
-    - Meta
-    - PropertyValue
     range: XrefPropertyValue
+    multivalued: true
 
 ```
 </details>
@@ -175,11 +196,8 @@ aliases:
 slot_usage:
   xrefs:
     name: xrefs
-    multivalued: true
-    domain_of:
-    - Meta
-    - PropertyValue
     range: XrefPropertyValue
+    multivalued: true
 attributes:
   subsets:
     name: subsets
@@ -187,12 +205,12 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: oio:inSubset
-    multivalued: true
     alias: subsets
     owner: Meta
     domain_of:
     - Meta
     range: string
+    multivalued: true
   version:
     name: version
     from_schema: https://github.com/geneontology/obographs
@@ -213,12 +231,12 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: rdfs:comment
-    multivalued: true
     alias: comments
     owner: Meta
     domain_of:
     - Meta
     range: string
+    multivalued: true
   definition:
     name: definition
     description: A definition of an entity
@@ -236,37 +254,41 @@ attributes:
       ontologies, vocabularies, databases, or websites. The semantics of xrefs are
       intentionally weak, and most closely align with rdfs:seeAlso
     from_schema: https://github.com/geneontology/obographs
+    exact_mappings:
+    - oio:hasDbXref
+    close_mappings:
+    - rdfs:seeAlso
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: Meta
     domain_of:
     - Meta
     - PropertyValue
     range: XrefPropertyValue
+    multivalued: true
   synonyms:
     name: synonyms
     description: A list of synonym property value assertions for an entity
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: synonyms
     owner: Meta
     domain_of:
     - Meta
     range: SynonymPropertyValue
+    multivalued: true
   basicPropertyValues:
     name: basicPropertyValues
     description: A list of open-ended property values that does not correspond to
       those predefined in this standard, i.e xref, synonyms, definition
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: basicPropertyValues
     owner: Meta
     domain_of:
     - Meta
     range: BasicPropertyValue
+    multivalued: true
   deprecated:
     name: deprecated
     from_schema: https://github.com/geneontology/obographs

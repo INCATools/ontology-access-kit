@@ -7,6 +7,8 @@ _Relates a live term to a deprecated ID that was merged in_
 
 
 
+
+
 URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlternativeId)
 
 
@@ -27,17 +29,17 @@ URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlte
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Image](Image.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [HasLifeCycle](HasLifeCycle.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Property](Property.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -79,6 +81,16 @@ URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlte
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:hasAlternativeId |
+| native | omoschema:has_alternative_id |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -97,11 +109,11 @@ rank: 1000
 is_a: obsoletion_related_property
 domain: NotObsoleteAspect
 slot_uri: oio:hasAlternativeId
-multivalued: true
 alias: has_alternative_id
 domain_of:
 - HasLifeCycle
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

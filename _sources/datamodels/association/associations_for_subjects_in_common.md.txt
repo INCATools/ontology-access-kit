@@ -2,6 +2,8 @@
 
 # Slot: associations_for_subjects_in_common
 
+
+
 URI: [ontoassoc:associations_for_subjects_in_common](https://w3id.org/oak/association/associations_for_subjects_in_common)
 
 
@@ -50,6 +52,16 @@ URI: [ontoassoc:associations_for_subjects_in_common](https://w3id.org/oak/associ
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:associations_for_subjects_in_common |
+| native | ontoassoc:associations_for_subjects_in_common |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [ontoassoc:associations_for_subjects_in_common](https://w3id.org/oak/associ
 name: associations_for_subjects_in_common
 from_schema: https://w3id.org/oak/association
 rank: 1000
-multivalued: true
 alias: associations_for_subjects_in_common
 domain_of:
 - PairwiseCoAssociation
 range: Association
+multivalued: true
 
 ```
 </details>

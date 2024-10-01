@@ -2,6 +2,8 @@
 
 # Slot: url
 
+
+
 URI: [vm:url](https://w3id.org/linkml/validation-model/url)
 
 
@@ -44,6 +46,16 @@ URI: [vm:url](https://w3id.org/linkml/validation-model/url)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:url |
+| native | vm:url |
 
 
 

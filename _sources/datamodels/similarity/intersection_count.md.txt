@@ -2,6 +2,8 @@
 
 # Slot: intersection_count
 
+
+
 URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_count)
 
 
@@ -40,6 +42,16 @@ URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_co
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:intersection_count |
+| native | sim:intersection_count |
 
 
 

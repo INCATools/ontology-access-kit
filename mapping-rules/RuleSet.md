@@ -14,14 +14,22 @@ URI: [mappingrules:RuleSet](https://w3id.org/oak/mapping-rules-datamodel/RuleSet
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class RuleSet
+    click RuleSet href "../RuleSet"
       RuleSet : prefix
         
       RuleSet : rules
         
-          RuleSet --> Synonymizer : rules
+          
+    
+    
+    RuleSet --> "*" Synonymizer : rules
+    click Synonymizer href "../Synonymizer"
+
         
       
 ```
@@ -36,7 +44,7 @@ URI: [mappingrules:RuleSet](https://w3id.org/oak/mapping-rules-datamodel/RuleSet
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [rules](rules.md) | 0..* <br/> [Synonymizer](Synonymizer.md) | A list of rules for generating synonyms or alternate lexical elements | direct |
+| [rules](rules.md) | * <br/> [Synonymizer](Synonymizer.md) | A list of rules for generating synonyms or alternate lexical elements | direct |
 | [prefix](prefix.md) | 0..1 <br/> [String](String.md) | The prefix that qualifies for the rule | direct |
 
 
@@ -63,13 +71,14 @@ URI: [mappingrules:RuleSet](https://w3id.org/oak/mapping-rules-datamodel/RuleSet
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:RuleSet |
 | native | mappingrules:RuleSet |
+
+
 
 
 
@@ -91,11 +100,11 @@ attributes:
     name: rules
     description: A list of rules for generating synonyms or alternate lexical elements.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
-    multivalued: true
     domain_of:
     - MappingRuleCollection
     - RuleSet
     range: Synonymizer
+    multivalued: true
   prefix:
     name: prefix
     description: The prefix that qualifies for the rule.
@@ -122,13 +131,13 @@ attributes:
     name: rules
     description: A list of rules for generating synonyms or alternate lexical elements.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
-    multivalued: true
     alias: rules
     owner: RuleSet
     domain_of:
     - MappingRuleCollection
     - RuleSet
     range: Synonymizer
+    multivalued: true
   prefix:
     name: prefix
     description: The prefix that qualifies for the rule.

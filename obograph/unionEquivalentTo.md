@@ -7,6 +7,8 @@ _If present, this equates to an OWL DisjointUnion expression._
 
 
 
+
+
 URI: [obographs:unionEquivalentTo](https://github.com/geneontology/obographs/unionEquivalentTo)
 
 
@@ -31,7 +33,7 @@ URI: [obographs:unionEquivalentTo](https://github.com/geneontology/obographs/uni
 
 ## Properties
 
-* Range: NONE
+* Range: [OboIdentifierString](OboIdentifierString.md)
 
 
 
@@ -53,6 +55,16 @@ URI: [obographs:unionEquivalentTo](https://github.com/geneontology/obographs/uni
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:unionEquivalentTo |
+| native | obographs:unionEquivalentTo |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,6 +77,7 @@ alias: unionEquivalentTo
 owner: DisjointClassExpressionsAxiom
 domain_of:
 - DisjointClassExpressionsAxiom
+range: OboIdentifierString
 
 ```
 </details>

@@ -7,6 +7,8 @@ _Number of classes grouped by category in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:class_count_by_category](https://w3id.org/oaklib/summary_statistics.class_count_by_category)
 
 
@@ -61,6 +63,16 @@ URI: [summary_statistics:class_count_by_category](https://w3id.org/oaklib/summar
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:class_count_by_category |
+| native | summary_statistics:class_count_by_category |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -76,13 +88,13 @@ annotations:
 description: Number of classes grouped by category in the ontology or subset
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: class_count_by_category
 owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
+multivalued: true
 inlined: true
 
 ```

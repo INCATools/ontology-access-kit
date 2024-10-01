@@ -14,9 +14,12 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class PropertyValue
+    click PropertyValue href "../PropertyValue"
       PropertyValue : object
         
       PropertyValue : predicate
@@ -70,13 +73,14 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontoassoc:PropertyValue |
 | native | ontoassoc:PropertyValue |
+
+
 
 
 

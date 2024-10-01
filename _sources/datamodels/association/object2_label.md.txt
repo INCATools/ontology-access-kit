@@ -2,6 +2,8 @@
 
 # Slot: object2_label
 
+
+
 URI: [ontoassoc:object2_label](https://w3id.org/oak/association/object2_label)
 
 
@@ -26,7 +28,7 @@ URI: [ontoassoc:object2_label](https://w3id.org/oak/association/object2_label)
 
 ## Properties
 
-* Range: NONE
+* Range: [String](String.md)
 
 
 
@@ -48,6 +50,16 @@ URI: [ontoassoc:object2_label](https://w3id.org/oak/association/object2_label)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:object2_label |
+| native | ontoassoc:object2_label |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,6 +70,7 @@ rank: 1000
 alias: object2_label
 domain_of:
 - PairwiseCoAssociation
+range: string
 
 ```
 </details>

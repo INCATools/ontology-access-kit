@@ -2,6 +2,10 @@
 
 # Slot: reification_predicate
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:reification_predicate](https://w3id.org/oak/ontology-metadata/reification_predicate)
 
 
@@ -42,6 +46,16 @@ URI: [omoschema:reification_predicate](https://w3id.org/oak/ontology-metadata/re
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:reification_predicate |
+| native | omoschema:reification_predicate |
 
 
 

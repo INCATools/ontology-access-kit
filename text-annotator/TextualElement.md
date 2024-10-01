@@ -9,9 +9,12 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TextualElement
+    click TextualElement href "../TextualElement"
       TextualElement : id
         
       TextualElement : parent_document
@@ -33,7 +36,7 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 | [text](text.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [source_text](source_text.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [parent_document](parent_document.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
@@ -70,13 +73,14 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ann:TextualElement |
 | native | ann:TextualElement |
+
+
 
 
 

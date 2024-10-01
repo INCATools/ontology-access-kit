@@ -2,6 +2,10 @@
 
 # Slot: provenance_property
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:provenance_property](https://w3id.org/oak/ontology-metadata/provenance_property)
 
 
@@ -55,6 +59,16 @@ URI: [omoschema:provenance_property](https://w3id.org/oak/ontology-metadata/prov
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:provenance_property |
+| native | omoschema:provenance_property |
 
 
 

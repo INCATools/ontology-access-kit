@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,7 +90,9 @@
 <div class="mermaid">
              classDiagram
     class SynonymPropertyValue
+    click SynonymPropertyValue href &quot;../SynonymPropertyValue&quot;
       PropertyValue &lt;|-- SynonymPropertyValue
+        click PropertyValue href &quot;../PropertyValue&quot;
       
       SynonymPropertyValue : isExact
         
@@ -98,11 +100,21 @@
         
       SynonymPropertyValue : meta
         
-          SynonymPropertyValue --&gt; Meta : meta
+          
+    
+    
+    SynonymPropertyValue --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       SynonymPropertyValue : pred
         
-          SynonymPropertyValue --&gt; ScopeEnum : pred
+          
+    
+    
+    SynonymPropertyValue --&gt; &quot;0..1&quot; ScopeEnum : pred
+    click ScopeEnum href &quot;../ScopeEnum&quot;
+
         
       SynonymPropertyValue : synonymType
         
@@ -155,7 +167,7 @@
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="XrefString.html"><span class="std std-doc">XrefString</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="XrefString.html"><span class="std std-doc">XrefString</span></a></p></td>
 <td><p>A list of cross references to other entities represented in other ontologies,…</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 </tr>
@@ -241,17 +253,10 @@ slots:
 slot_usage:
   pred:
     name: pred
-    domain_of:
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
     description: The textual string representing the synonym.
-    domain_of:
-    - PropertyValue
     role: synonym text
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -266,17 +271,10 @@ is_a: PropertyValue
 slot_usage:
   pred:
     name: pred
-    domain_of:
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
     description: The textual string representing the synonym.
-    domain_of:
-    - PropertyValue
     role: synonym text
 attributes:
   synonymType:
@@ -318,6 +316,8 @@ attributes:
     name: val
     description: The textual string representing the synonym.
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val
@@ -337,13 +337,13 @@ attributes:
     close_mappings:
     - rdfs:seeAlso
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: SynonymPropertyValue
     domain_of:
     - Meta
     - PropertyValue
     range: XrefString
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

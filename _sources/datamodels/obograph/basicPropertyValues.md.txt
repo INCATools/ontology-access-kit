@@ -7,6 +7,8 @@ _A list of open-ended property values that does not correspond to those predefin
 
 
 
+
+
 URI: [obographs:basicPropertyValues](https://github.com/geneontology/obographs/basicPropertyValues)
 
 
@@ -55,6 +57,16 @@ URI: [obographs:basicPropertyValues](https://github.com/geneontology/obographs/b
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:basicPropertyValues |
+| native | obographs:basicPropertyValues |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,11 +76,11 @@ description: A list of open-ended property values that does not correspond to th
   predefined in this standard, i.e xref, synonyms, definition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: basicPropertyValues
 domain_of:
 - Meta
 range: BasicPropertyValue
+multivalued: true
 
 ```
 </details>

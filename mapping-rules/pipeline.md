@@ -2,6 +2,8 @@
 
 # Slot: pipeline
 
+
+
 URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeline)
 
 
@@ -50,6 +52,16 @@ URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeli
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:pipeline |
+| native | mappingrules:pipeline |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeli
 name: pipeline
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: pipeline
 owner: RelationshipToTerm
 domain_of:
 - RelationshipToTerm
 range: LexicalTransformationPipeline
+multivalued: true
 
 ```
 </details>

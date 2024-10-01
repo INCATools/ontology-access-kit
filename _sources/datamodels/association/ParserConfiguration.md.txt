@@ -14,9 +14,12 @@ URI: [ontoassoc:ParserConfiguration](https://w3id.org/oak/association/ParserConf
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ParserConfiguration
+    click ParserConfiguration href "../ParserConfiguration"
       ParserConfiguration : aggregator_knowledge_source
         
       ParserConfiguration : include_association_attributes
@@ -67,13 +70,14 @@ URI: [ontoassoc:ParserConfiguration](https://w3id.org/oak/association/ParserConf
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontoassoc:ParserConfiguration |
 | native | ontoassoc:ParserConfiguration |
+
+
 
 
 

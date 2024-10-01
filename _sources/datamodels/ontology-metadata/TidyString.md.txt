@@ -33,3 +33,13 @@ URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:tidy_string |
+| native | omoschema:tidy_string |
+
+
+

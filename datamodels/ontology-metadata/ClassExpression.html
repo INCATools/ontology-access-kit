@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,11 +89,15 @@
 <div class="mermaid">
              classDiagram
     class ClassExpression
+    click ClassExpression href &quot;../ClassExpression&quot;
       Expression &lt;|-- ClassExpression
+        click Expression href &quot;../Expression&quot;
       
 
       ClassExpression &lt;|-- Class
+        click Class href &quot;../Class&quot;
       ClassExpression &lt;|-- Restriction
+        click Restriction href &quot;../Restriction&quot;
       
       
       ClassExpression : cardinality
@@ -104,19 +108,39 @@
         
       ClassExpression : equivalentClass
         
-          ClassExpression --&gt; ClassExpression : equivalentClass
+          
+    
+    
+    ClassExpression --&gt; &quot;*&quot; ClassExpression : equivalentClass
+    click ClassExpression href &quot;../ClassExpression&quot;
+
         
       ClassExpression : intersectionOf
         
-          ClassExpression --&gt; ClassExpression : intersectionOf
+          
+    
+    
+    ClassExpression --&gt; &quot;0..1&quot; ClassExpression : intersectionOf
+    click ClassExpression href &quot;../ClassExpression&quot;
+
         
       ClassExpression : oneOf
         
-          ClassExpression --&gt; ClassExpression : oneOf
+          
+    
+    
+    ClassExpression --&gt; &quot;0..1&quot; ClassExpression : oneOf
+    click ClassExpression href &quot;../ClassExpression&quot;
+
         
       ClassExpression : subClassOf
         
-          ClassExpression --&gt; ClassExpression : subClassOf
+          
+    
+    
+    ClassExpression --&gt; &quot;*&quot; ClassExpression : subClassOf
+    click ClassExpression href &quot;../ClassExpression&quot;
+
         
       ClassExpression : unionOf
         
@@ -143,12 +167,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="disjointWith.html"><span class="std std-doc">disjointWith</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="equivalentClass.html"><span class="std std-doc">equivalentClass</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">ClassExpression</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">ClassExpression</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -158,7 +182,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subClassOf.html"><span class="std std-doc">subClassOf</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">ClassExpression</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">ClassExpression</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -338,13 +362,13 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
-    multivalued: true
     alias: disjointWith
     owner: ClassExpression
     domain_of:
     - ClassExpression
     - PropertyExpression
     range: string
+    multivalued: true
   equivalentClass:
     name: equivalentClass
     todos:
@@ -355,12 +379,12 @@ attributes:
     mixins:
     - match_aspect
     slot_uri: owl:equivalentClass
-    multivalued: true
     alias: equivalentClass
     owner: ClassExpression
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   intersectionOf:
     name: intersectionOf
     todos:
@@ -380,12 +404,12 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdfs:subClassOf
-    multivalued: true
     alias: subClassOf
     owner: ClassExpression
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   cardinality:
     name: cardinality
     from_schema: https://w3id.org/oak/ontology-metadata

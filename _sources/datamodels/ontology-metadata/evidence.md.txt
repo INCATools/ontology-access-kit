@@ -2,6 +2,8 @@
 
 # Slot: evidence
 
+
+
 URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 
 
@@ -44,6 +46,16 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:evidence |
+| native | omoschema:evidence |
 
 
 

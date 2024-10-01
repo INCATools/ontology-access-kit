@@ -7,6 +7,8 @@ _The entities in the list, represented as a simple list_
 
 
 
+
+
 URI: [schema:itemListElement](http://schema.org/itemListElement)
 
 
@@ -55,6 +57,16 @@ URI: [schema:itemListElement](http://schema.org/itemListElement)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | schema:itemListElement |
+| native | itemList:itemListElements |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,12 +77,12 @@ from_schema: https://w3id.org/oak/item-list
 rank: 1000
 singular_name: itemListElement
 slot_uri: schema:itemListElement
-multivalued: true
 alias: itemListElements
 owner: ItemList
 domain_of:
 - ItemList
 range: ListItem
+multivalued: true
 inlined: false
 
 ```

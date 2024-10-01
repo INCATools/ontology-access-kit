@@ -7,6 +7,8 @@ _for AI agents, this allows passing through of additional info to the prompt_
 
 
 
+
+
 URI: [vm:prompt_info](https://w3id.org/linkml/validation-model/prompt_info)
 
 
@@ -49,6 +51,16 @@ URI: [vm:prompt_info](https://w3id.org/linkml/validation-model/prompt_info)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:prompt_info |
+| native | vm:prompt_info |
 
 
 

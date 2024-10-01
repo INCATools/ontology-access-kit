@@ -7,6 +7,8 @@ _The mapping cardinality of the subject pair_
 
 
 
+
+
 URI: [xodiff:subject_mapping_cardinality](https://w3id.org/oak/cross-ontology-diff/subject_mapping_cardinality)
 
 
@@ -49,6 +51,16 @@ URI: [xodiff:subject_mapping_cardinality](https://w3id.org/oak/cross-ontology-di
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:subject_mapping_cardinality |
+| native | xodiff:subject_mapping_cardinality |
 
 
 

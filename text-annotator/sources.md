@@ -2,6 +2,8 @@
 
 # Slot: sources
 
+
+
 URI: [ann:sources](https://w3id.org/linkml/text_annotator/sources)
 
 
@@ -50,6 +52,16 @@ URI: [ann:sources](https://w3id.org/linkml/text_annotator/sources)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:sources |
+| native | ann:sources |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [ann:sources](https://w3id.org/linkml/text_annotator/sources)
 name: sources
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
-multivalued: true
 alias: sources
 owner: TextAnnotationConfiguration
 domain_of:
 - TextAnnotationConfiguration
 range: string
+multivalued: true
 
 ```
 </details>

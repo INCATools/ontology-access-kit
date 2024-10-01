@@ -14,9 +14,12 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ChangeTypeStatistic
+    click ChangeTypeStatistic href "../ChangeTypeStatistic"
       ChangeTypeStatistic : facet
         
       ChangeTypeStatistic : filtered_count
@@ -35,7 +38,7 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [facet](facet.md) | 0..1 <br/> [String](String.md) | the facet used to group the counts | direct |
-| [filtered_count](filtered_count.md) | 1..1 <br/> [Integer](Integer.md) | the number of items in the facet | direct |
+| [filtered_count](filtered_count.md) | 1 <br/> [Integer](Integer.md) | the number of items in the facet | direct |
 
 
 
@@ -68,13 +71,14 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | summary_statistics:ChangeTypeStatistic |
 | native | summary_statistics:ChangeTypeStatistic |
+
+
 
 
 

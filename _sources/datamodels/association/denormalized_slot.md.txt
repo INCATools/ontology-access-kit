@@ -7,6 +7,8 @@ _denormalized slots are for models that follow a denormalized data model_
 
 
 
+
+
 URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized_slot)
 
 
@@ -31,7 +33,7 @@ URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized
 
 ## Properties
 
-* Range: NONE
+* Range: [String](String.md)
 
 * Mixin: True
 
@@ -55,6 +57,16 @@ URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:denormalized_slot |
+| native | ontoassoc:denormalized_slot |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,6 +77,7 @@ from_schema: https://w3id.org/oak/association
 rank: 1000
 mixin: true
 alias: denormalized_slot
+range: string
 
 ```
 </details>

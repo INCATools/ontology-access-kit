@@ -2,6 +2,8 @@
 
 # Slot: NCIT_term_type
 
+
+
 URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 
 
@@ -35,6 +37,16 @@ URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | NCIT:P383 |
+| native | omoschema:NCIT_term_type |
 
 
 

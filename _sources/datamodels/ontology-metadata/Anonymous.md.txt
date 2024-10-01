@@ -16,10 +16,14 @@ URI: [omoschema:Anonymous](https://w3id.org/oak/ontology-metadata/Anonymous)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Anonymous
+    click Anonymous href "../Anonymous"
       Anonymous <|-- AnonymousClassExpression
+        click AnonymousClassExpression href "../AnonymousClassExpression"
       
       
 ```
@@ -63,13 +67,14 @@ URI: [omoschema:Anonymous](https://w3id.org/oak/ontology-metadata/Anonymous)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:Anonymous |
 | native | omoschema:Anonymous |
+
+
 
 
 

@@ -14,10 +14,14 @@ URI: [vm:MappingValidationResult](https://w3id.org/linkml/validation-model/Mappi
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class MappingValidationResult
+    click MappingValidationResult href "../MappingValidationResult"
       Result <|-- MappingValidationResult
+        click Result href "../Result"
       
       MappingValidationResult : category
         
@@ -94,13 +98,14 @@ URI: [vm:MappingValidationResult](https://w3id.org/linkml/validation-model/Mappi
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:MappingValidationResult |
 | native | vm:MappingValidationResult |
+
+
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: source
 
+
+
 URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 
 
@@ -16,9 +18,9 @@ URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 | [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 
 
 
@@ -46,6 +48,16 @@ URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:source |
+| native | vm:source |
 
 
 

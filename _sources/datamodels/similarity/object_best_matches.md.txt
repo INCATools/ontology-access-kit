@@ -2,6 +2,8 @@
 
 # Slot: object_best_matches
 
+
+
 URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_matches)
 
 
@@ -50,6 +52,16 @@ URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_ma
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:object_best_matches |
+| native | sim:object_best_matches |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_ma
 name: object_best_matches
 from_schema: https://w3id.org/oak/similarity
 rank: 1000
-multivalued: true
 alias: object_best_matches
 domain_of:
 - TermSetPairwiseSimilarity
 range: BestMatch
+multivalued: true
 inlined: true
 
 ```

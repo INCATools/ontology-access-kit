@@ -2,6 +2,8 @@
 
 # Slot: right_intermediate_ids
 
+
+
 URI: [xodiff:right_intermediate_ids](https://w3id.org/oak/cross-ontology-diff/right_intermediate_ids)
 
 
@@ -50,6 +52,16 @@ URI: [xodiff:right_intermediate_ids](https://w3id.org/oak/cross-ontology-diff/ri
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:right_intermediate_ids |
+| native | xodiff:right_intermediate_ids |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [xodiff:right_intermediate_ids](https://w3id.org/oak/cross-ontology-diff/ri
 name: right_intermediate_ids
 from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
-multivalued: true
 alias: right_intermediate_ids
 owner: RelationalDiff
 domain_of:
 - RelationalDiff
 range: EntityReference
+multivalued: true
 
 ```
 </details>

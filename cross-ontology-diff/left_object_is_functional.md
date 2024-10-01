@@ -7,6 +7,8 @@ _True if an object mapping is present, and maps uniquely within the same ontolog
 
 
 
+
+
 URI: [xodiff:left_object_is_functional](https://w3id.org/oak/cross-ontology-diff/left_object_is_functional)
 
 
@@ -53,6 +55,16 @@ URI: [xodiff:left_object_is_functional](https://w3id.org/oak/cross-ontology-diff
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:left_object_is_functional |
+| native | xodiff:left_object_is_functional |
 
 
 

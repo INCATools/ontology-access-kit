@@ -2,6 +2,8 @@
 
 # Slot: best_score
 
+
+
 URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 
 
@@ -44,6 +46,16 @@ URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:best_score |
+| native | sim:best_score |
 
 
 

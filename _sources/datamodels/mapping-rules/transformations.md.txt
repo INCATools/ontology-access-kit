@@ -2,6 +2,8 @@
 
 # Slot: transformations
 
+
+
 URI: [mappingrules:transformations](https://w3id.org/oak/mapping-rules-datamodel/transformations)
 
 
@@ -50,6 +52,16 @@ URI: [mappingrules:transformations](https://w3id.org/oak/mapping-rules-datamodel
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:transformations |
+| native | mappingrules:transformations |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [mappingrules:transformations](https://w3id.org/oak/mapping-rules-datamodel
 name: transformations
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: transformations
 owner: LexicalTransformationPipeline
 domain_of:
 - LexicalTransformationPipeline
 range: LexicalTransformation
+multivalued: true
 
 ```
 </details>

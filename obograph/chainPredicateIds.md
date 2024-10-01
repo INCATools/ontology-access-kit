@@ -7,6 +7,8 @@ _A list of identifiers of predicates that form the precedent clause of a propert
 
 
 
+
+
 URI: [obographs:chainPredicateIds](https://github.com/geneontology/obographs/chainPredicateIds)
 
 
@@ -55,6 +57,16 @@ URI: [obographs:chainPredicateIds](https://github.com/geneontology/obographs/cha
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:chainPredicateIds |
+| native | obographs:chainPredicateIds |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,11 +76,11 @@ description: A list of identifiers of predicates that form the precedent clause 
   a property chain rule
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: chainPredicateIds
 domain_of:
 - PropertyChainAxiom
 range: string
+multivalued: true
 
 ```
 </details>

@@ -7,6 +7,8 @@ _additional information about the issue_
 
 
 
+
+
 URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 
 
@@ -21,11 +23,11 @@ URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
-| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
-| [MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
 | [RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
+| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 
 
 
@@ -53,6 +55,16 @@ URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:resultMessage |
+| native | vm:info |
 
 
 

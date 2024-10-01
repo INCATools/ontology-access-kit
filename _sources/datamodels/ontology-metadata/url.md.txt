@@ -2,6 +2,8 @@
 
 # Slot: url
 
+
+
 URI: [oio:url](http://www.geneontology.org/formats/oboInOwl#url)
 
 
@@ -44,6 +46,16 @@ URI: [oio:url](http://www.geneontology.org/formats/oboInOwl#url)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:url |
+| native | omoschema:url |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: traversal
 
+
+
 URI: [ontosearch:traversal](https://w3id.org/oak/search-datamodel/traversal)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:traversal](https://w3id.org/oak/search-datamodel/traversal)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:traversal |
+| native | ontosearch:traversal |
 
 
 

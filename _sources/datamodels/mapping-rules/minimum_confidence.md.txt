@@ -2,6 +2,8 @@
 
 # Slot: minimum_confidence
 
+
+
 URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamodel/minimum_confidence)
 
 
@@ -44,6 +46,16 @@ URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamo
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:minimum_confidence |
+| native | mappingrules:minimum_confidence |
 
 
 

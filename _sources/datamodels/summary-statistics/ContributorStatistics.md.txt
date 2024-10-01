@@ -14,9 +14,12 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ContributorStatistics
+    click ContributorStatistics href "../ContributorStatistics"
       ContributorStatistics : contributor_id
         
       ContributorStatistics : contributor_name
@@ -25,7 +28,12 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
         
       ContributorStatistics : role_counts
         
-          ContributorStatistics --> FacetedCount : role_counts
+          
+    
+    
+    ContributorStatistics --> "*" FacetedCount : role_counts
+    click FacetedCount href "../FacetedCount"
+
         
       
 ```
@@ -40,10 +48,10 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [contributor_id](contributor_id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the contributor | direct |
+| [contributor_id](contributor_id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | the contributor | direct |
 | [contributor_name](contributor_name.md) | 0..1 <br/> [String](String.md) | the name of the contributor | direct |
 | [normalization_comments](normalization_comments.md) | 0..1 <br/> [String](String.md) | if contributor name normalization was applied, provide details here | direct |
-| [role_counts](role_counts.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+| [role_counts](role_counts.md) | * <br/> [FacetedCount](FacetedCount.md) |  | direct |
 
 
 
@@ -76,13 +84,14 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | summary_statistics:ContributorStatistics |
 | native | summary_statistics:ContributorStatistics |
+
+
 
 
 
@@ -130,10 +139,10 @@ attributes:
     name: role_counts
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - ContributorStatistics
     range: FacetedCount
+    multivalued: true
     inlined: true
 
 ```
@@ -183,12 +192,12 @@ attributes:
     name: role_counts
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: role_counts
     owner: ContributorStatistics
     domain_of:
     - ContributorStatistics
     range: FacetedCount
+    multivalued: true
     inlined: true
 
 ```

@@ -9,6 +9,8 @@ __
 
 
 
+
+
 URI: [RO:0002160](http://purl.obolibrary.org/obo/RO_0002160)
 
 
@@ -61,6 +63,16 @@ URI: [RO:0002160](http://purl.obolibrary.org/obo/RO_0002160)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | RO:0002160 |
+| native | tc:only_in |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -76,12 +88,12 @@ comments:
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002160
-multivalued: true
 alias: only_in
 owner: SubjectTerm
 domain_of:
 - SubjectTerm
 range: TaxonConstraint
+multivalued: true
 
 ```
 </details>

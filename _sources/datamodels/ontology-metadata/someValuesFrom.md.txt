@@ -2,6 +2,8 @@
 
 # Slot: someValuesFrom
 
+
+
 URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
@@ -59,6 +61,16 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:someValuesFrom |
+| native | omoschema:someValuesFrom |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -70,11 +82,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:someValuesFrom
-multivalued: true
 alias: someValuesFrom
 domain_of:
 - Restriction
 range: string
+multivalued: true
 
 ```
 </details>

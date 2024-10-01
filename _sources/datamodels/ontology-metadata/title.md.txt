@@ -2,6 +2,8 @@
 
 # Slot: title
 
+
+
 URI: [dcterms:title](http://purl.org/dc/terms/title)
 
 
@@ -44,6 +46,16 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:title |
+| native | omoschema:title |
 
 
 

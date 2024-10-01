@@ -2,6 +2,8 @@
 
 # Slot: annotatedProperty
 
+
+
 URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 
 
@@ -49,6 +51,17 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:annotatedProperty |
+| native | omoschema:annotatedProperty |
+| exact | rdf:predicate |
 
 
 

@@ -7,6 +7,8 @@ _The probability, as estimated by model-based approaches_
 
 
 
+
+
 URI: [ontoenrich:probability](https://w3id.org/oak/class-enrichment/probability)
 
 
@@ -53,6 +55,16 @@ URI: [ontoenrich:probability](https://w3id.org/oak/class-enrichment/probability)
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:probability |
+| native | ontoenrich:probability |
 
 
 

@@ -7,6 +7,8 @@ _all pipelines used to build the index_
 
 
 
+
+
 URI: [mappingrules:pipelines](https://w3id.org/oak/mapping-rules-datamodel/pipelines)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:pipelines](https://w3id.org/oak/mapping-rules-datamodel/pipel
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:pipelines |
+| native | mappingrules:pipelines |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: pipelines
 description: all pipelines used to build the index
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: pipelines
 owner: LexicalIndex
 domain_of:
 - LexicalIndex
 range: LexicalTransformationPipeline
+multivalued: true
 inlined: true
 
 ```

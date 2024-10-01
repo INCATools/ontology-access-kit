@@ -2,6 +2,8 @@
 
 # Slot: dice_similarity
 
+
+
 URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 
@@ -49,6 +51,16 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:dice_similarity |
+| native | sim:dice_similarity |
 
 
 

@@ -7,6 +7,8 @@ _A list of identifiers for the item. For example, if the id is a symbol, this wo
 
 
 
+
+
 URI: [itemList:identifiers](https://w3id.org/linkml/item-list/identifiers)
 
 
@@ -55,6 +57,16 @@ URI: [itemList:identifiers](https://w3id.org/linkml/item-list/identifiers)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | itemList:identifiers |
+| native | itemList:identifiers |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: A list of identifiers for the item. For example, if the id is a sym
   this would be a list of identifiers for the item, such as HGNC, MGI, etc.
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
-multivalued: true
 alias: identifiers
 owner: Thing
 domain_of:
 - Thing
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

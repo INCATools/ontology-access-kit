@@ -7,6 +7,8 @@ _Ontology for which the statistics are computed_
 
 
 
+
+
 URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.ontologies)
 
 
@@ -21,9 +23,9 @@ URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
-| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
 | [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 
 
@@ -57,6 +59,16 @@ URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:ontologies |
+| native | summary_statistics:ontologies |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -65,12 +77,12 @@ name: ontologies
 description: Ontology for which the statistics are computed
 from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
-multivalued: true
 alias: ontologies
 owner: SummaryStatisticsReport
 domain_of:
 - SummaryStatisticsReport
 range: Ontology
+multivalued: true
 inlined: true
 inlined_as_list: true
 

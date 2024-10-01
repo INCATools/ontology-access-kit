@@ -2,6 +2,8 @@
 
 # Slot: filtered_count
 
+
+
 URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statistics.filtered_count)
 
 
@@ -16,8 +18,8 @@ URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statist
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff |  no  |
 | [FacetedCount](FacetedCount.md) | Counts broken down by a facet |  no  |
+| [ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff |  no  |
 
 
 
@@ -38,6 +40,16 @@ URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statist
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:filtered_count |
+| native | summary_statistics:filtered_count |
 
 
 

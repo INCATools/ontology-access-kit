@@ -14,14 +14,20 @@ URI: [omoschema:NamedObject](https://w3id.org/oak/ontology-metadata/NamedObject)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class NamedObject
+    click NamedObject href "../NamedObject"
       Thing <|-- NamedObject
+        click Thing href "../Thing"
       
 
       NamedObject <|-- Ontology
+        click Ontology href "../Ontology"
       NamedObject <|-- Term
+        click Term href "../Term"
       
       
       NamedObject : id
@@ -47,8 +53,8 @@ URI: [omoschema:NamedObject](https://w3id.org/oak/ontology-metadata/NamedObject)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | this maps to the URI in RDF | direct |
-| [type](type.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | [Thing](Thing.md) |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | this maps to the URI in RDF | direct |
+| [type](type.md) | * <br/> [Uriorcurie](Uriorcurie.md) |  | [Thing](Thing.md) |
 
 
 
@@ -88,13 +94,14 @@ URI: [omoschema:NamedObject](https://w3id.org/oak/ontology-metadata/NamedObject)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:NamedObject |
 | native | omoschema:NamedObject |
+
+
 
 
 
@@ -154,13 +161,13 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type
-    multivalued: true
     designates_type: true
     alias: type
     owner: NamedObject
     domain_of:
     - Thing
     range: uriorcurie
+    multivalued: true
 
 ```
 </details>

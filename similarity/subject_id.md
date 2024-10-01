@@ -7,6 +7,8 @@ _The first of the two entities being compared_
 
 
 
+
+
 URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 
 
@@ -51,6 +53,16 @@ URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:subject_id |
+| native | sim:subject_id |
 
 
 

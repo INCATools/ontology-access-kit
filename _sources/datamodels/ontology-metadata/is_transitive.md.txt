@@ -2,6 +2,8 @@
 
 # Slot: is_transitive
 
+
+
 URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transitive)
 
 
@@ -45,6 +47,16 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:is_transitive |
+| native | omoschema:is_transitive |
 
 
 

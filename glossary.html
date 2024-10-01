@@ -15,7 +15,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="_static/copybutton.js?v=046fa432"></script>
@@ -321,8 +321,9 @@ represented as collections of <span class="xref std std-term">Axioms</span>.
 The most common projection is the <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> mapping, but this results in a structure that is
 not well suited to graph operations due to the use of <span class="xref std std-term">Blank Nodes</span> to represent OWL
 expressions.
-OAK makes use of a simple projection where OWL existential axioms are mapped to <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edges</span></a>,
-similar to <a class="reference internal" href="#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a>.</p>
+OAK makes use of a simple projection where common constructs such as OWL existential axioms are mapped
+to <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edges</span></a>, similar to <a class="reference internal" href="#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a>. OAK also projects some axiom types that are
+not yet projected in relation graph, such as those between individuals.</p>
 <ul class="simple">
 <li><p>See also <a class="reference internal" href="guide/relationships-and-graphs.html#relationships-and-graphs"><span class="std std-ref">Relationships and Graphs</span></a> in the Guide.</p></li>
 </ul>

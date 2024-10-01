@@ -7,6 +7,8 @@ _left or right side_
 
 
 
+
+
 URI: [xodiff:side](https://w3id.org/oak/cross-ontology-diff/side)
 
 
@@ -54,6 +56,16 @@ URI: [xodiff:side](https://w3id.org/oak/cross-ontology-diff/side)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:side |
+| native | xodiff:side |
 
 
 

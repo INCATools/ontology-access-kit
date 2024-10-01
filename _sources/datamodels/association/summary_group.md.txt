@@ -7,6 +7,8 @@ _The field used to group an association diff summary_
 
 
 
+
+
 URI: [ontoassoc:summary_group](https://w3id.org/oak/association/summary_group)
 
 
@@ -49,6 +51,16 @@ URI: [ontoassoc:summary_group](https://w3id.org/oak/association/summary_group)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:summary_group |
+| native | ontoassoc:summary_group |
 
 
 

@@ -7,6 +7,8 @@ _True if this is redundant within the set of constraints of the same type (never
 
 
 
+
+
 URI: [tc:redundant](https://w3id.org/linkml/taxon_constraints/redundant)
 
 
@@ -49,6 +51,16 @@ URI: [tc:redundant](https://w3id.org/linkml/taxon_constraints/redundant)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:redundant |
+| native | tc:redundant |
 
 
 

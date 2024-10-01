@@ -2,6 +2,8 @@
 
 # Slot: date_retrieved
 
+
+
 URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retrieved)
 
 
@@ -49,6 +51,16 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:date_retrieved |
+| native | omoschema:date_retrieved |
 
 
 

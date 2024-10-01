@@ -9,11 +9,16 @@ URI: [omoschema:Expression](https://w3id.org/oak/ontology-metadata/Expression)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Expression
+    click Expression href "../Expression"
       Expression <|-- ClassExpression
+        click ClassExpression href "../ClassExpression"
       Expression <|-- PropertyExpression
+        click PropertyExpression href "../PropertyExpression"
       
       
 ```
@@ -64,13 +69,14 @@ URI: [omoschema:Expression](https://w3id.org/oak/ontology-metadata/Expression)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:Expression |
 | native | omoschema:Expression |
+
+
 
 
 

@@ -7,6 +7,8 @@ _The object (parent) of the matched/right edge, if matchable_
 
 
 
+
+
 URI: [xodiff:right_object_id](https://w3id.org/oak/cross-ontology-diff/right_object_id)
 
 
@@ -53,6 +55,16 @@ URI: [xodiff:right_object_id](https://w3id.org/oak/cross-ontology-diff/right_obj
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:right_object_id |
+| native | xodiff:right_object_id |
 
 
 

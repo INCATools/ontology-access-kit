@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,21 +90,37 @@
 <div class="mermaid">
              classDiagram
     class MappingRule
+    click MappingRule href &quot;../MappingRule&quot;
       MappingRule : description
         
       MappingRule : oneway
         
       MappingRule : postconditions
         
-          MappingRule --&gt; Postcondition : postconditions
+          
+    
+    
+    MappingRule --&gt; &quot;0..1&quot; Postcondition : postconditions
+    click Postcondition href &quot;../Postcondition&quot;
+
         
       MappingRule : preconditions
         
-          MappingRule --&gt; Precondition : preconditions
+          
+    
+    
+    MappingRule --&gt; &quot;0..1&quot; Precondition : preconditions
+    click Precondition href &quot;../Precondition&quot;
+
         
       MappingRule : synonymizer
         
-          MappingRule --&gt; Synonymizer : synonymizer
+          
+    
+    
+    MappingRule --&gt; &quot;0..1&quot; Synonymizer : synonymizer
+    click Synonymizer href &quot;../Synonymizer&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->

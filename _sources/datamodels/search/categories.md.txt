@@ -7,6 +7,8 @@ _categories that should be matched_
 
 
 
+
+
 URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 
 
@@ -55,6 +57,16 @@ URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:categories |
+| native | ontosearch:categories |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: categories
 description: categories that should be matched
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: categories
 owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

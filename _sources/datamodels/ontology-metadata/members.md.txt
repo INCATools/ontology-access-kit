@@ -2,6 +2,8 @@
 
 # Slot: members
 
+
+
 URI: [owl:members](http://www.w3.org/2002/07/owl#members)
 
 
@@ -40,6 +42,16 @@ URI: [owl:members](http://www.w3.org/2002/07/owl#members)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:members |
+| native | omoschema:members |
 
 
 

@@ -7,6 +7,8 @@ _A normalized term that groups ontology elements_
 
 
 
+
+
 URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 
 
@@ -51,6 +53,16 @@ URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:term |
+| native | ontolexindex:term |
 
 
 

@@ -41,3 +41,13 @@ URI: [shex:iri](http://www.w3.org/ns/shex#iri)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | shex:iri |
+| native | ontosearch:objectidentifier |
+
+
+

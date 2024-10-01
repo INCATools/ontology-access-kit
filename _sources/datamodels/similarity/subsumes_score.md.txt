@@ -2,6 +2,8 @@
 
 # Slot: subsumes_score
 
+
+
 URI: [sim:subsumes_score](https://w3id.org/linkml/similarity/subsumes_score)
 
 
@@ -40,6 +42,16 @@ URI: [sim:subsumes_score](https://w3id.org/linkml/similarity/subsumes_score)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:subsumes_score |
+| native | sim:subsumes_score |
 
 
 

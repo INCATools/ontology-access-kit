@@ -7,6 +7,8 @@ _The previous item in the list_
 
 
 
+
+
 URI: [schema:previousItem](http://schema.org/previousItem)
 
 
@@ -49,6 +51,16 @@ URI: [schema:previousItem](http://schema.org/previousItem)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | schema:previousItem |
+| native | itemList:previousItem |
 
 
 

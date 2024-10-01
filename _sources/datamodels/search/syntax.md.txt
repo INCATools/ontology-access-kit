@@ -7,6 +7,8 @@ _Determines how the search term is interpreted_
 
 
 
+
+
 URI: [ontosearch:syntax](https://w3id.org/oak/search-datamodel/syntax)
 
 
@@ -49,6 +51,16 @@ URI: [ontosearch:syntax](https://w3id.org/oak/search-datamodel/syntax)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:syntax |
+| native | ontosearch:syntax |
 
 
 

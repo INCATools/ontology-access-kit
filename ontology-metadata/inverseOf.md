@@ -2,6 +2,8 @@
 
 # Slot: inverseOf
 
+
+
 URI: [owl:inverseOf](http://www.w3.org/2002/07/owl#inverseOf)
 
 
@@ -54,6 +56,16 @@ URI: [owl:inverseOf](http://www.w3.org/2002/07/owl#inverseOf)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:inverseOf |
+| native | omoschema:inverseOf |
 
 
 

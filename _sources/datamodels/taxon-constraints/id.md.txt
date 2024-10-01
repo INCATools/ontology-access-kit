@@ -7,6 +7,8 @@ _the OBO CURIE for the term_
 
 
 
+
+
 URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 
 
@@ -21,10 +23,10 @@ URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [Term](Term.md) | An ontology term |  no  |
 | [PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |  no  |
 | [Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |  no  |
 | [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
-| [Term](Term.md) | An ontology term |  no  |
 
 
 
@@ -54,6 +56,16 @@ URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 
 
 * from schema: https://w3id.org/oak/taxon_constraints
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:id |
+| native | tc:id |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: itemLists
 
+
+
 URI: [itemList:itemLists](https://w3id.org/linkml/item-list/itemLists)
 
 
@@ -50,6 +52,16 @@ URI: [itemList:itemLists](https://w3id.org/linkml/item-list/itemLists)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | itemList:itemLists |
+| native | itemList:itemLists |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [itemList:itemLists](https://w3id.org/linkml/item-list/itemLists)
 name: itemLists
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
-multivalued: true
 alias: itemLists
 owner: ItemListCollection
 domain_of:
 - ItemListCollection
 range: ItemList
+multivalued: true
 inlined: true
 
 ```

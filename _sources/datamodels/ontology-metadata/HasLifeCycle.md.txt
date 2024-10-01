@@ -9,28 +9,48 @@ URI: [omoschema:HasLifeCycle](https://w3id.org/oak/ontology-metadata/HasLifeCycl
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class HasLifeCycle
+    click HasLifeCycle href "../HasLifeCycle"
       AnnotationPropertyMixin <|-- HasLifeCycle
+        click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       
 
       HasLifeCycle <|-- Term
+        click Term href "../Term"
       
       
       HasLifeCycle : consider
         
-          HasLifeCycle --> Any : consider
+          
+    
+    
+    HasLifeCycle --> "*" Any : consider
+    click Any href "../Any"
+
         
       HasLifeCycle : deprecated
         
       HasLifeCycle : excluded_from_QC_check
         
-          HasLifeCycle --> Thing : excluded_from_QC_check
+          
+    
+    
+    HasLifeCycle --> "0..1" Thing : excluded_from_QC_check
+    click Thing href "../Thing"
+
         
       HasLifeCycle : excluded_subClassOf
         
-          HasLifeCycle --> Class : excluded_subClassOf
+          
+    
+    
+    HasLifeCycle --> "*" Class : excluded_subClassOf
+    click Class href "../Class"
+
         
       HasLifeCycle : excluded_synonym
         
@@ -40,11 +60,21 @@ URI: [omoschema:HasLifeCycle](https://w3id.org/oak/ontology-metadata/HasLifeCycl
         
       HasLifeCycle : should_conform_to
         
-          HasLifeCycle --> Thing : should_conform_to
+          
+    
+    
+    HasLifeCycle --> "0..1" Thing : should_conform_to
+    click Thing href "../Thing"
+
         
       HasLifeCycle : term_replaced_by
         
-          HasLifeCycle --> Any : term_replaced_by
+          
+    
+    
+    HasLifeCycle --> "0..1" Any : term_replaced_by
+    click Any href "../Any"
+
         
       
 ```
@@ -66,11 +96,11 @@ URI: [omoschema:HasLifeCycle](https://w3id.org/oak/ontology-metadata/HasLifeCycl
 | [deprecated](deprecated.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md) |  | direct |
-| [consider](consider.md) | 0..* <br/> [Any](Any.md) |  | direct |
-| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | Relates a live term to a deprecated ID that was merged in | direct |
+| [consider](consider.md) | * <br/> [Any](Any.md) |  | direct |
+| [has_alternative_id](has_alternative_id.md) | * <br/> [Uriorcurie](Uriorcurie.md) | Relates a live term to a deprecated ID that was merged in | direct |
 | [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
-| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md) |  | direct |
-| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [String](String.md) |  | direct |
+| [excluded_subClassOf](excluded_subClassOf.md) | * <br/> [Class](Class.md) |  | direct |
+| [excluded_synonym](excluded_synonym.md) | * <br/> [String](String.md) |  | direct |
 | [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
 
 
@@ -104,13 +134,14 @@ URI: [omoschema:HasLifeCycle](https://w3id.org/oak/ontology-metadata/HasLifeCycl
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | omoschema:HasLifeCycle |
 | native | omoschema:HasLifeCycle |
+
+
 
 
 
@@ -263,12 +294,12 @@ attributes:
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
     slot_uri: oio:consider
-    multivalued: true
     alias: consider
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: Any
+    multivalued: true
   has_alternative_id:
     name: has_alternative_id
     description: Relates a live term to a deprecated ID that was merged in
@@ -285,12 +316,12 @@ attributes:
     is_a: obsoletion_related_property
     domain: NotObsoleteAspect
     slot_uri: oio:hasAlternativeId
-    multivalued: true
     alias: has_alternative_id
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: uriorcurie
+    multivalued: true
   excluded_from_QC_check:
     name: excluded_from_QC_check
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -306,12 +337,12 @@ attributes:
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
-    multivalued: true
     alias: excluded_subClassOf
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: Class
+    multivalued: true
   excluded_synonym:
     name: excluded_synonym
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -319,12 +350,12 @@ attributes:
     - skos:hiddenSynonym
     rank: 1000
     is_a: excluded_axiom
-    multivalued: true
     alias: excluded_synonym
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: string
+    multivalued: true
   should_conform_to:
     name: should_conform_to
     from_schema: https://w3id.org/oak/ontology-metadata

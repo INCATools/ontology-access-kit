@@ -7,6 +7,8 @@ _The false discovery rate_
 
 
 
+
+
 URI: [ontoenrich:false_discovery_rate](https://w3id.org/oak/class-enrichment/false_discovery_rate)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:false_discovery_rate](https://w3id.org/oak/class-enrichment/fal
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:false_discovery_rate |
+| native | ontoenrich:false_discovery_rate |
 
 
 

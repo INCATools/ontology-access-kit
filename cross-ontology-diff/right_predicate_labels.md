@@ -7,6 +7,8 @@ _The names corresponding to the right_predicate_ids_
 
 
 
+
+
 URI: [xodiff:right_predicate_labels](https://w3id.org/oak/cross-ontology-diff/right_predicate_labels)
 
 
@@ -59,6 +61,16 @@ URI: [xodiff:right_predicate_labels](https://w3id.org/oak/cross-ontology-diff/ri
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:right_predicate_labels |
+| native | xodiff:right_predicate_labels |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -71,12 +83,12 @@ mixins:
 - right_side
 - predicate
 - label
-multivalued: true
 alias: right_predicate_labels
 owner: RelationalDiff
 domain_of:
 - RelationalDiff
 range: Label
+multivalued: true
 
 ```
 </details>

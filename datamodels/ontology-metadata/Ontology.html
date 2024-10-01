@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,7 +90,9 @@
 <div class="mermaid">
              classDiagram
     class Ontology
+    click Ontology href &quot;../Ontology&quot;
       NamedObject &lt;|-- Ontology
+        click NamedObject href &quot;../NamedObject&quot;
       
       Ontology : comment
         
@@ -98,11 +100,21 @@
         
       Ontology : creator
         
-          Ontology --&gt; Agent : creator
+          
+    
+    
+    Ontology --&gt; &quot;*&quot; Agent : creator
+    click Agent href &quot;../Agent&quot;
+
         
       Ontology : has_ontology_root_term
         
-          Ontology --&gt; Class : has_ontology_root_term
+          
+    
+    
+    Ontology --&gt; &quot;*&quot; Class : has_ontology_root_term
+    click Class href &quot;../Class&quot;
+
         
       Ontology : id
         
@@ -110,7 +122,12 @@
         
       Ontology : license
         
-          Ontology --&gt; Thing : license
+          
+    
+    
+    Ontology --&gt; &quot;1&quot; Thing : license
+    click Thing href &quot;../Thing&quot;
+
         
       Ontology : source
         
@@ -149,42 +166,42 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="title.html"><span class="std std-doc">title</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="NarrativeText.html"><span class="std std-doc">NarrativeText</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="NarrativeText.html"><span class="std std-doc">NarrativeText</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_ontology_root_term.html"><span class="std std-doc">has_ontology_root_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Class.html"><span class="std std-doc">Class</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Class.html"><span class="std std-doc">Class</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="license.html"><span class="std std-doc">license</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="versionIRI.html"><span class="std std-doc">versionIRI</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="versionInfo.html"><span class="std std-doc">versionInfo</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="std std-doc">comment</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creator.html"><span class="std std-doc">creator</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Agent.html"><span class="std std-doc">Agent</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -199,12 +216,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>this maps to the URI in RDF</p></td>
 <td><p><a class="reference internal" href="NamedObject.html"><span class="std std-doc">NamedObject</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
 </tr>
@@ -337,23 +354,15 @@ slots:
 slot_usage:
   title:
     name: title
-    domain_of:
-    - Ontology
     required: true
   license:
     name: license
-    domain_of:
-    - Ontology
     required: true
   versionIRI:
     name: versionIRI
-    domain_of:
-    - Ontology
     required: true
   versionInfo:
     name: versionInfo
-    domain_of:
-    - Ontology
     required: true
 class_uri: owl:Ontology
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -369,23 +378,15 @@ is_a: NamedObject
 slot_usage:
   title:
     name: title
-    domain_of:
-    - Ontology
     required: true
   license:
     name: license
-    domain_of:
-    - Ontology
     required: true
   versionIRI:
     name: versionIRI
-    domain_of:
-    - Ontology
     required: true
   versionInfo:
     name: versionInfo
-    domain_of:
-    - Ontology
     required: true
 attributes:
   title:
@@ -405,12 +406,12 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000700
-    multivalued: true
     alias: has_ontology_root_term
     owner: Ontology
     domain_of:
     - Ontology
     range: Class
+    multivalued: true
   license:
     name: license
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -432,13 +433,13 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:source
-    multivalued: true
     alias: source
     owner: Ontology
     domain_of:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   versionIRI:
     name: versionIRI
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -454,6 +455,8 @@ attributes:
   versionInfo:
     name: versionInfo
     from_schema: https://w3id.org/oak/ontology-metadata
+    close_mappings:
+    - pav:version
     rank: 1000
     is_a: version_property
     slot_uri: owl:versionInfo
@@ -471,7 +474,6 @@ attributes:
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
-    multivalued: true
     alias: comment
     owner: Ontology
     domain_of:
@@ -479,6 +481,7 @@ attributes:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   creator:
     name: creator
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -487,13 +490,13 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:creator
-    multivalued: true
     alias: creator
     owner: Ontology
     domain_of:
     - HasProvenance
     - Ontology
     range: Agent
+    multivalued: true
     structured_pattern:
       syntax: &#39;{orcid_regex}&#39;
       interpolated: true
@@ -507,13 +510,13 @@ attributes:
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:created
-    multivalued: false
     alias: created
     owner: Ontology
     domain_of:
     - HasProvenance
     - Ontology
     range: string
+    multivalued: false
   imports:
     name: imports
     from_schema: https://w3id.org/oak/ontology-metadata
@@ -543,13 +546,13 @@ attributes:
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type
-    multivalued: true
     designates_type: true
     alias: type
     owner: Ontology
     domain_of:
     - Thing
     range: uriorcurie
+    multivalued: true
 class_uri: owl:Ontology
 
 </pre></div>

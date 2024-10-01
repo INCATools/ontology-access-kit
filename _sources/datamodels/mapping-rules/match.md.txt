@@ -7,6 +7,8 @@ _Reg-ex rule to match substrings in labels._
 
 
 
+
+
 URI: [mappingrules:match](https://w3id.org/oak/mapping-rules-datamodel/match)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:match](https://w3id.org/oak/mapping-rules-datamodel/match)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:match |
+| native | mappingrules:match |
 
 
 

@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,9 +90,15 @@
 <div class="mermaid">
              classDiagram
     class ClassEnrichmentResultSet
+    click ClassEnrichmentResultSet href &quot;../ClassEnrichmentResultSet&quot;
       ClassEnrichmentResultSet : results
         
-          ClassEnrichmentResultSet --&gt; ClassEnrichmentResult : results
+          
+    
+    
+    ClassEnrichmentResultSet --&gt; &quot;*&quot; ClassEnrichmentResult : results
+    click ClassEnrichmentResult href &quot;../ClassEnrichmentResult&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -108,7 +114,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="results.html"><span class="std std-doc">results</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ClassEnrichmentResult.html"><span class="std std-doc">ClassEnrichmentResult</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ClassEnrichmentResult.html"><span class="std std-doc">ClassEnrichmentResult</span></a></p></td>
 <td><p>The enrichment results</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -158,10 +164,10 @@ attributes:
     description: The enrichment results
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
-    multivalued: true
     domain_of:
     - ClassEnrichmentResultSet
     range: ClassEnrichmentResult
+    multivalued: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -177,12 +183,12 @@ attributes:
     description: The enrichment results
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
-    multivalued: true
     alias: results
     owner: ClassEnrichmentResultSet
     domain_of:
     - ClassEnrichmentResultSet
     range: ClassEnrichmentResult
+    multivalued: true
 
 </pre></div>
 </div>

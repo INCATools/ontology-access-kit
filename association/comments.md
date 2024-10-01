@@ -7,6 +7,8 @@ _Comments about the association_
 
 
 
+
+
 URI: [rdfs:comment](rdfs:comment)
 
 
@@ -22,8 +24,8 @@ URI: [rdfs:comment](rdfs:comment)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 
@@ -57,6 +59,16 @@ URI: [rdfs:comment](rdfs:comment)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:comment |
+| native | ontoassoc:comments |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -66,11 +78,11 @@ description: Comments about the association
 from_schema: https://w3id.org/oak/association
 rank: 1000
 slot_uri: rdfs:comment
-multivalued: true
 alias: comments
 domain_of:
 - PositiveOrNegativeAssociation
 range: string
+multivalued: true
 
 ```
 </details>

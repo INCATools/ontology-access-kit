@@ -2,6 +2,8 @@
 
 # Slot: is_fuzzy
 
+
+
 URI: [ontosearch:is_fuzzy](https://w3id.org/oak/search-datamodel/is_fuzzy)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:is_fuzzy](https://w3id.org/oak/search-datamodel/is_fuzzy)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:is_fuzzy |
+| native | ontosearch:is_fuzzy |
 
 
 

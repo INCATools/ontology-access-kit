@@ -7,6 +7,8 @@ _This term is more general than a previously reported result_
 
 
 
+
+
 URI: [ontoenrich:ancestor_of_more_informative_result](https://w3id.org/oak/class-enrichment/ancestor_of_more_informative_result)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:ancestor_of_more_informative_result](https://w3id.org/oak/class
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:ancestor_of_more_informative_result |
+| native | ontoenrich:ancestor_of_more_informative_result |
 
 
 

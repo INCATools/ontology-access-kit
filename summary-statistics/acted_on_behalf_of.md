@@ -7,6 +7,8 @@ _the agent that the activity acted on behalf of_
 
 
 
+
+
 URI: [prov:actedOnBehalfOf](http://www.w3.org/ns/prov#actedOnBehalfOf)
 
 
@@ -49,6 +51,16 @@ URI: [prov:actedOnBehalfOf](http://www.w3.org/ns/prov#actedOnBehalfOf)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | prov:actedOnBehalfOf |
+| native | summary_statistics:acted_on_behalf_of |
 
 
 

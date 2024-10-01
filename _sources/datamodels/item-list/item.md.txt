@@ -7,6 +7,8 @@ _The item represented by the list item_
 
 
 
+
+
 URI: [schema:item](http://schema.org/item)
 
 
@@ -49,6 +51,16 @@ URI: [schema:item](http://schema.org/item)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | schema:item |
+| native | itemList:item |
 
 
 

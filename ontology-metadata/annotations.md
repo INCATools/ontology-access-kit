@@ -2,6 +2,8 @@
 
 # Slot: annotations
 
+
+
 URI: [omoschema:annotations](https://w3id.org/oak/ontology-metadata/annotations)
 
 
@@ -50,6 +52,16 @@ URI: [omoschema:annotations](https://w3id.org/oak/ontology-metadata/annotations)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:annotations |
+| native | omoschema:annotations |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [omoschema:annotations](https://w3id.org/oak/ontology-metadata/annotations)
 name: annotations
 from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
-multivalued: true
 alias: annotations
 domain_of:
 - Axiom
 range: Annotation
+multivalued: true
 
 ```
 </details>

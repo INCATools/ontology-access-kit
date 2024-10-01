@@ -36,3 +36,14 @@ URI: [xsd:double](http://www.w3.org/2001/XMLSchema#double)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:double |
+| native | itemList:double |
+| close | schema:Float |
+
+
+

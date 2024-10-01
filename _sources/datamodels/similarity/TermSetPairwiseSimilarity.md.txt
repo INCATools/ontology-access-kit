@@ -14,10 +14,14 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TermSetPairwiseSimilarity
+    click TermSetPairwiseSimilarity href "../TermSetPairwiseSimilarity"
       PairwiseSimilarity <|-- TermSetPairwiseSimilarity
+        click PairwiseSimilarity href "../PairwiseSimilarity"
       
       TermSetPairwiseSimilarity : average_score
         
@@ -27,19 +31,39 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
         
       TermSetPairwiseSimilarity : object_best_matches
         
-          TermSetPairwiseSimilarity --> BestMatch : object_best_matches
+          
+    
+    
+    TermSetPairwiseSimilarity --> "*" BestMatch : object_best_matches
+    click BestMatch href "../BestMatch"
+
         
       TermSetPairwiseSimilarity : object_termset
         
-          TermSetPairwiseSimilarity --> TermInfo : object_termset
+          
+    
+    
+    TermSetPairwiseSimilarity --> "*" TermInfo : object_termset
+    click TermInfo href "../TermInfo"
+
         
       TermSetPairwiseSimilarity : subject_best_matches
         
-          TermSetPairwiseSimilarity --> BestMatch : subject_best_matches
+          
+    
+    
+    TermSetPairwiseSimilarity --> "*" BestMatch : subject_best_matches
+    click BestMatch href "../BestMatch"
+
         
       TermSetPairwiseSimilarity : subject_termset
         
-          TermSetPairwiseSimilarity --> TermInfo : subject_termset
+          
+    
+    
+    TermSetPairwiseSimilarity --> "*" TermInfo : subject_termset
+    click TermInfo href "../TermInfo"
+
         
       
 ```
@@ -58,10 +82,10 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_termset](subject_termset.md) | 0..* <br/> [TermInfo](TermInfo.md) |  | direct |
-| [object_termset](object_termset.md) | 0..* <br/> [TermInfo](TermInfo.md) |  | direct |
-| [subject_best_matches](subject_best_matches.md) | 0..* <br/> [BestMatch](BestMatch.md) |  | direct |
-| [object_best_matches](object_best_matches.md) | 0..* <br/> [BestMatch](BestMatch.md) |  | direct |
+| [subject_termset](subject_termset.md) | * <br/> [TermInfo](TermInfo.md) |  | direct |
+| [object_termset](object_termset.md) | * <br/> [TermInfo](TermInfo.md) |  | direct |
+| [subject_best_matches](subject_best_matches.md) | * <br/> [BestMatch](BestMatch.md) |  | direct |
+| [object_best_matches](object_best_matches.md) | * <br/> [BestMatch](BestMatch.md) |  | direct |
 | [average_score](average_score.md) | 0..1 <br/> [Float](Float.md) |  | direct |
 | [best_score](best_score.md) | 0..1 <br/> [Float](Float.md) |  | direct |
 | [metric](metric.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
@@ -90,13 +114,14 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sim:TermSetPairwiseSimilarity |
 | native | sim:TermSetPairwiseSimilarity |
+
+
 
 
 
@@ -139,45 +164,45 @@ attributes:
     name: subject_termset
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
-    multivalued: true
     alias: subject_termset
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: TermInfo
+    multivalued: true
     inlined: true
   object_termset:
     name: object_termset
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
-    multivalued: true
     alias: object_termset
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: TermInfo
+    multivalued: true
     inlined: true
   subject_best_matches:
     name: subject_best_matches
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
-    multivalued: true
     alias: subject_best_matches
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: BestMatch
+    multivalued: true
     inlined: true
   object_best_matches:
     name: object_best_matches
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
-    multivalued: true
     alias: object_best_matches
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: BestMatch
+    multivalued: true
     inlined: true
   average_score:
     name: average_score

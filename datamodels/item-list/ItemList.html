@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,6 +90,7 @@
 <div class="mermaid">
              classDiagram
     class ItemList
+    click ItemList href &quot;../ItemList&quot;
       ItemList : additionalType
         
       ItemList : categories
@@ -100,11 +101,21 @@
         
       ItemList : itemListElements
         
-          ItemList --&gt; ListItem : itemListElements
+          
+    
+    
+    ItemList --&gt; &quot;*&quot; ListItem : itemListElements
+    click ListItem href &quot;../ListItem&quot;
+
         
       ItemList : itemMetadataMap
         
-          ItemList --&gt; ListItem : itemMetadataMap
+          
+    
+    
+    ItemList --&gt; &quot;*&quot; ListItem : itemMetadataMap
+    click ListItem href &quot;../ListItem&quot;
+
         
       ItemList : keywords
         
@@ -112,7 +123,12 @@
         
       ItemList : numberOfItems
         
-          ItemList --&gt; ItemListOrderType : numberOfItems
+          
+    
+    
+    ItemList --&gt; &quot;0..1&quot; ItemListOrderType : numberOfItems
+    click ItemListOrderType href &quot;../ItemListOrderType&quot;
+
         
       ItemList : wasGeneratedBy
         
@@ -145,7 +161,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="itemListElements.html"><span class="std std-doc">itemListElements</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ListItem.html"><span class="std std-doc">ListItem</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ListItem.html"><span class="std std-doc">ListItem</span></a></p></td>
 <td><p>The entities in the list, represented as a simple list</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -155,27 +171,27 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="itemMetadataMap.html"><span class="std std-doc">itemMetadataMap</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ListItem.html"><span class="std std-doc">ListItem</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ListItem.html"><span class="std std-doc">ListItem</span></a></p></td>
 <td><p>The entities in the list, represented as a map keyed by item id</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="categories.html"><span class="std std-doc">categories</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>Controlled terms used to categorize an element</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="keywords.html"><span class="std std-doc">keywords</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>Keywords or tags used to describe the element</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="additionalType.html"><span class="std std-doc">additionalType</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>An additional type for the item, typically used for adding more specific type…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="wasGeneratedBy.html"><span class="std std-doc">wasGeneratedBy</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The provenance of the list, for example a script that generated the list</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -296,10 +312,10 @@ attributes:
     rank: 1000
     singular_name: itemListElement
     slot_uri: schema:itemListElement
-    multivalued: true
     domain_of:
     - ItemList
     range: ListItem
+    multivalued: true
     inlined: false
   numberOfItems:
     name: numberOfItems
@@ -315,10 +331,10 @@ attributes:
     description: The entities in the list, represented as a map keyed by item id
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     domain_of:
     - ItemList
     range: ListItem
+    multivalued: true
     inlined: true
   categories:
     name: categories
@@ -330,10 +346,10 @@ attributes:
     rank: 1000
     singular_name: category
     slot_uri: dcterms:subject
-    multivalued: true
     domain_of:
     - ItemList
     range: uriorcurie
+    multivalued: true
   keywords:
     name: keywords
     description: Keywords or tags used to describe the element
@@ -341,10 +357,10 @@ attributes:
     rank: 1000
     singular_name: keyword
     slot_uri: schema:keywords
-    multivalued: true
     domain_of:
     - ItemList
     range: string
+    multivalued: true
   additionalType:
     name: additionalType
     description: An additional type for the item, typically used for adding more specific
@@ -356,10 +372,10 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: schema:additionalType
-    multivalued: true
     domain_of:
     - ItemList
     range: uriorcurie
+    multivalued: true
   wasGeneratedBy:
     name: wasGeneratedBy
     description: The provenance of the list, for example a script that generated the
@@ -367,10 +383,10 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: prov:wasGeneratedBy
-    multivalued: true
     domain_of:
     - ItemList
     range: uriorcurie
+    multivalued: true
 class_uri: schema:ItemList
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -436,12 +452,12 @@ attributes:
     rank: 1000
     singular_name: itemListElement
     slot_uri: schema:itemListElement
-    multivalued: true
     alias: itemListElements
     owner: ItemList
     domain_of:
     - ItemList
     range: ListItem
+    multivalued: true
     inlined: false
   numberOfItems:
     name: numberOfItems
@@ -459,12 +475,12 @@ attributes:
     description: The entities in the list, represented as a map keyed by item id
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     alias: itemMetadataMap
     owner: ItemList
     domain_of:
     - ItemList
     range: ListItem
+    multivalued: true
     inlined: true
   categories:
     name: categories
@@ -476,12 +492,12 @@ attributes:
     rank: 1000
     singular_name: category
     slot_uri: dcterms:subject
-    multivalued: true
     alias: categories
     owner: ItemList
     domain_of:
     - ItemList
     range: uriorcurie
+    multivalued: true
   keywords:
     name: keywords
     description: Keywords or tags used to describe the element
@@ -489,12 +505,12 @@ attributes:
     rank: 1000
     singular_name: keyword
     slot_uri: schema:keywords
-    multivalued: true
     alias: keywords
     owner: ItemList
     domain_of:
     - ItemList
     range: string
+    multivalued: true
   additionalType:
     name: additionalType
     description: An additional type for the item, typically used for adding more specific
@@ -506,12 +522,12 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: schema:additionalType
-    multivalued: true
     alias: additionalType
     owner: ItemList
     domain_of:
     - ItemList
     range: uriorcurie
+    multivalued: true
   wasGeneratedBy:
     name: wasGeneratedBy
     description: The provenance of the list, for example a script that generated the
@@ -519,12 +535,12 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: prov:wasGeneratedBy
-    multivalued: true
     alias: wasGeneratedBy
     owner: ItemList
     domain_of:
     - ItemList
     range: uriorcurie
+    multivalued: true
 class_uri: schema:ItemList
 
 </pre></div>

@@ -2,6 +2,8 @@
 
 # Slot: changeNote
 
+
+
 URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 
 
@@ -46,6 +48,16 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | skos:changeNote |
+| native | omoschema:changeNote |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,9 +69,9 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: informative_property
 slot_uri: skos:changeNote
-multivalued: true
 alias: changeNote
 range: string
+multivalued: true
 
 ```
 </details>

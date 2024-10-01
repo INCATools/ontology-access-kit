@@ -7,6 +7,8 @@ _The adjusted p-value_
 
 
 
+
+
 URI: [ontoenrich:p_value_adjusted](https://w3id.org/oak/class-enrichment/p_value_adjusted)
 
 
@@ -49,6 +51,16 @@ URI: [ontoenrich:p_value_adjusted](https://w3id.org/oak/class-enrichment/p_value
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:p_value_adjusted |
+| native | ontoenrich:p_value_adjusted |
 
 
 

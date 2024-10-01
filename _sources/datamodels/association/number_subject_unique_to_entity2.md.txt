@@ -2,6 +2,8 @@
 
 # Slot: number_subject_unique_to_entity2
 
+
+
 URI: [ontoassoc:number_subject_unique_to_entity2](https://w3id.org/oak/association/number_subject_unique_to_entity2)
 
 
@@ -44,6 +46,16 @@ URI: [ontoassoc:number_subject_unique_to_entity2](https://w3id.org/oak/associati
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:number_subject_unique_to_entity2 |
+| native | ontoassoc:number_subject_unique_to_entity2 |
 
 
 

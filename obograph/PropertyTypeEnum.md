@@ -47,6 +47,8 @@ URI: [PropertyTypeEnum](PropertyTypeEnum.md)
 
 
 
+
+
 ## LinkML Source
 
 <details>

@@ -2,6 +2,8 @@
 
 # Slot: class_statistic_group
 
+
+
 URI: [summary_statistics:class_statistic_group](https://w3id.org/oaklib/summary_statistics.class_statistic_group)
 
 
@@ -41,6 +43,16 @@ URI: [summary_statistics:class_statistic_group](https://w3id.org/oaklib/summary_
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:class_statistic_group |
+| native | summary_statistics:class_statistic_group |
 
 
 

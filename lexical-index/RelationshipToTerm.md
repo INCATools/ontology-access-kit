@@ -14,16 +14,24 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class RelationshipToTerm
+    click RelationshipToTerm href "../RelationshipToTerm"
       RelationshipToTerm : element
         
       RelationshipToTerm : element_term
         
       RelationshipToTerm : pipeline
         
-          RelationshipToTerm --> LexicalTransformationPipeline : pipeline
+          
+    
+    
+    RelationshipToTerm --> "*" LexicalTransformationPipeline : pipeline
+    click LexicalTransformationPipeline href "../LexicalTransformationPipeline"
+
         
       RelationshipToTerm : predicate
         
@@ -48,7 +56,7 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 | [element](element.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 | [element_term](element_term.md) | 0..1 <br/> [String](String.md) | the original term used in the element | direct |
 | [source](source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
-| [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |  | direct |
+| [pipeline](pipeline.md) | * <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |  | direct |
 | [synonymized](synonymized.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 
 
@@ -82,13 +90,14 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontolexindex:RelationshipToTerm |
 | native | ontolexindex:RelationshipToTerm |
+
+
 
 
 
@@ -138,10 +147,10 @@ attributes:
     name: pipeline
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     domain_of:
     - RelationshipToTerm
     range: LexicalTransformationPipeline
+    multivalued: true
   synonymized:
     name: synonymized
     from_schema: https://w3id.org/oak/lexical-index
@@ -202,12 +211,12 @@ attributes:
     name: pipeline
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: pipeline
     owner: RelationshipToTerm
     domain_of:
     - RelationshipToTerm
     range: LexicalTransformationPipeline
+    multivalued: true
   synonymized:
     name: synonymized
     from_schema: https://w3id.org/oak/lexical-index

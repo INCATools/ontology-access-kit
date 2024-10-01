@@ -2,6 +2,8 @@
 
 # Slot: subject_end
 
+
+
 URI: [ann:subject_end](https://w3id.org/linkml/text_annotator/subject_end)
 
 
@@ -45,6 +47,17 @@ URI: [ann:subject_end](https://w3id.org/linkml/text_annotator/subject_end)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:subject_end |
+| native | ann:subject_end |
+| exact | bpa:to |
 
 
 

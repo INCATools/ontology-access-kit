@@ -7,6 +7,10 @@ _Abstract base slot for different kinds of scores_
 
 
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [sim:score](https://w3id.org/linkml/similarity/score)
 
 
@@ -63,6 +67,16 @@ URI: [sim:score](https://w3id.org/linkml/similarity/score)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:score |
+| native | sim:score |
 
 
 

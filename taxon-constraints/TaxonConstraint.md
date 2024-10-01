@@ -14,9 +14,12 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TaxonConstraint
+    click TaxonConstraint href "../TaxonConstraint"
       TaxonConstraint : asserted
         
       TaxonConstraint : candidate
@@ -25,23 +28,43 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
         
       TaxonConstraint : contradicted_by
         
-          TaxonConstraint --> TaxonConstraint : contradicted_by
+          
+    
+    
+    TaxonConstraint --> "*" TaxonConstraint : contradicted_by
+    click TaxonConstraint href "../TaxonConstraint"
+
         
       TaxonConstraint : evolutionary
         
       TaxonConstraint : predicate
         
-          TaxonConstraint --> PredicateTerm : predicate
+          
+    
+    
+    TaxonConstraint --> "0..1" PredicateTerm : predicate
+    click PredicateTerm href "../PredicateTerm"
+
         
       TaxonConstraint : predicates
         
-          TaxonConstraint --> PredicateTerm : predicates
+          
+    
+    
+    TaxonConstraint --> "*" PredicateTerm : predicates
+    click PredicateTerm href "../PredicateTerm"
+
         
       TaxonConstraint : redundant
         
       TaxonConstraint : redundant_with
         
-          TaxonConstraint --> TaxonConstraint : redundant_with
+          
+    
+    
+    TaxonConstraint --> "*" TaxonConstraint : redundant_with
+    click TaxonConstraint href "../TaxonConstraint"
+
         
       TaxonConstraint : redundant_with_only_in
         
@@ -49,15 +72,30 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
         
       TaxonConstraint : subject
         
-          TaxonConstraint --> SubjectTerm : subject
+          
+    
+    
+    TaxonConstraint --> "0..1" SubjectTerm : subject
+    click SubjectTerm href "../SubjectTerm"
+
         
       TaxonConstraint : taxon
         
-          TaxonConstraint --> Taxon : taxon
+          
+    
+    
+    TaxonConstraint --> "0..1" Taxon : taxon
+    click Taxon href "../Taxon"
+
         
       TaxonConstraint : via_terms
         
-          TaxonConstraint --> SubjectTerm : via_terms
+          
+    
+    
+    TaxonConstraint --> "*" SubjectTerm : via_terms
+    click SubjectTerm href "../SubjectTerm"
+
         
       
 ```
@@ -79,12 +117,12 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 | [redundant](redundant.md) | 0..1 <br/> [Boolean](Boolean.md) | True if this is redundant within the set of constraints of the same type (nev... | direct |
 | [redundant_with_only_in](redundant_with_only_in.md) | 0..1 <br/> [Boolean](Boolean.md) | True for never in constraints that are subsumed by an only in | direct |
 | [taxon](taxon.md) | 0..1 <br/> [Taxon](Taxon.md) | The taxon which this constraint is about | direct |
-| [redundant_with](redundant_with.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | If the taxon constraint is redundant, then this is the set of taxon constrain... | direct |
-| [contradicted_by](contradicted_by.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | If the taxon constraint conflicts with another,  then this is the set of taxo... | direct |
-| [via_terms](via_terms.md) | 0..* <br/> [SubjectTerm](SubjectTerm.md) | For inferred taxon constraints, this is the term or terms that have the taxon... | direct |
-| [predicates](predicates.md) | 0..* <br/> [PredicateTerm](PredicateTerm.md) | The predicates that connect the subject term to the via_terms | direct |
-| [sources](sources.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
-| [comments](comments.md) | 0..* <br/> [String](String.md) |  | direct |
+| [redundant_with](redundant_with.md) | * <br/> [TaxonConstraint](TaxonConstraint.md) | If the taxon constraint is redundant, then this is the set of taxon constrain... | direct |
+| [contradicted_by](contradicted_by.md) | * <br/> [TaxonConstraint](TaxonConstraint.md) | If the taxon constraint conflicts with another,  then this is the set of taxo... | direct |
+| [via_terms](via_terms.md) | * <br/> [SubjectTerm](SubjectTerm.md) | For inferred taxon constraints, this is the term or terms that have the taxon... | direct |
+| [predicates](predicates.md) | * <br/> [PredicateTerm](PredicateTerm.md) | The predicates that connect the subject term to the via_terms | direct |
+| [sources](sources.md) | * <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [comments](comments.md) | * <br/> [String](String.md) |  | direct |
 | [candidate](candidate.md) | 0..1 <br/> [Boolean](Boolean.md) | true if this is a proposed candidate constraint | direct |
 
 
@@ -123,13 +161,14 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | rdf:Statement |
 | native | tc:TaxonConstraint |
+
+
 
 
 
@@ -221,30 +260,30 @@ attributes:
       constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   contradicted_by:
     name: contradicted_by
     description: If the taxon constraint conflicts with another,  then this is the
       set of taxon constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   via_terms:
     name: via_terms
     description: For inferred taxon constraints, this is the term or terms that have
       the taxon constraint asserted
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: SubjectTerm
+    multivalued: true
     inlined: true
     inlined_as_list: true
   predicates:
@@ -252,26 +291,26 @@ attributes:
     description: The predicates that connect the subject term to the via_terms.
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: PredicateTerm
+    multivalued: true
   sources:
     name: sources
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: uriorcurie
+    multivalued: true
   comments:
     name: comments
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: string
+    multivalued: true
   candidate:
     name: candidate
     description: true if this is a proposed candidate constraint
@@ -381,36 +420,36 @@ attributes:
       constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: redundant_with
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   contradicted_by:
     name: contradicted_by
     description: If the taxon constraint conflicts with another,  then this is the
       set of taxon constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: contradicted_by
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   via_terms:
     name: via_terms
     description: For inferred taxon constraints, this is the term or terms that have
       the taxon constraint asserted
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: via_terms
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: SubjectTerm
+    multivalued: true
     inlined: true
     inlined_as_list: true
   predicates:
@@ -418,32 +457,32 @@ attributes:
     description: The predicates that connect the subject term to the via_terms.
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: predicates
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: PredicateTerm
+    multivalued: true
   sources:
     name: sources
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: sources
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: uriorcurie
+    multivalued: true
   comments:
     name: comments
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: comments
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: string
+    multivalued: true
   candidate:
     name: candidate
     description: true if this is a proposed candidate constraint

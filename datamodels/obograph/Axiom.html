@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -94,15 +94,26 @@
 <div class="mermaid">
              classDiagram
     class Axiom
+    click Axiom href &quot;../Axiom&quot;
       Axiom &lt;|-- DomainRangeAxiom
+        click DomainRangeAxiom href &quot;../DomainRangeAxiom&quot;
       Axiom &lt;|-- EquivalentNodesSet
+        click EquivalentNodesSet href &quot;../EquivalentNodesSet&quot;
       Axiom &lt;|-- LogicalDefinitionAxiom
+        click LogicalDefinitionAxiom href &quot;../LogicalDefinitionAxiom&quot;
       Axiom &lt;|-- DisjointClassExpressionsAxiom
+        click DisjointClassExpressionsAxiom href &quot;../DisjointClassExpressionsAxiom&quot;
       Axiom &lt;|-- PropertyChainAxiom
+        click PropertyChainAxiom href &quot;../PropertyChainAxiom&quot;
       
       Axiom : meta
         
-          Axiom --&gt; Meta : meta
+          
+    
+    
+    Axiom --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       
         </div><section id="inheritance">

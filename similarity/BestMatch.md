@@ -9,9 +9,12 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class BestMatch
+    click BestMatch href "../BestMatch"
       BestMatch : match_source
         
       BestMatch : match_source_label
@@ -28,7 +31,12 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
         
       BestMatch : similarity
         
-          BestMatch --> TermPairwiseSimilarity : similarity
+          
+    
+    
+    BestMatch --> "1" TermPairwiseSimilarity : similarity
+    click TermPairwiseSimilarity href "../TermPairwiseSimilarity"
+
         
       
 ```
@@ -43,14 +51,14 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [match_source](match_source.md) | 1..1 <br/> [String](String.md) |  | direct |
+| [match_source](match_source.md) | 1 <br/> [String](String.md) |  | direct |
 | [match_source_label](match_source_label.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [match_target](match_target.md) | 0..1 <br/> [String](String.md) | the entity matches | direct |
 | [match_target_label](match_target_label.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [score](score.md) | 1..1 <br/> [Float](Float.md) |  | direct |
+| [score](score.md) | 1 <br/> [Float](Float.md) |  | direct |
 | [match_subsumer](match_subsumer.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 | [match_subsumer_label](match_subsumer_label.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [similarity](similarity.md) | 1..1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md) |  | direct |
+| [similarity](similarity.md) | 1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md) |  | direct |
 
 
 
@@ -84,13 +92,14 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sim:BestMatch |
 | native | sim:BestMatch |
+
+
 
 
 

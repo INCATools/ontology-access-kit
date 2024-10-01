@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,6 +90,7 @@
 <div class="mermaid">
              classDiagram
     class TaxonConstraint
+    click TaxonConstraint href &quot;../TaxonConstraint&quot;
       TaxonConstraint : asserted
         
       TaxonConstraint : candidate
@@ -98,23 +99,43 @@
         
       TaxonConstraint : contradicted_by
         
-          TaxonConstraint --&gt; TaxonConstraint : contradicted_by
+          
+    
+    
+    TaxonConstraint --&gt; &quot;*&quot; TaxonConstraint : contradicted_by
+    click TaxonConstraint href &quot;../TaxonConstraint&quot;
+
         
       TaxonConstraint : evolutionary
         
       TaxonConstraint : predicate
         
-          TaxonConstraint --&gt; PredicateTerm : predicate
+          
+    
+    
+    TaxonConstraint --&gt; &quot;0..1&quot; PredicateTerm : predicate
+    click PredicateTerm href &quot;../PredicateTerm&quot;
+
         
       TaxonConstraint : predicates
         
-          TaxonConstraint --&gt; PredicateTerm : predicates
+          
+    
+    
+    TaxonConstraint --&gt; &quot;*&quot; PredicateTerm : predicates
+    click PredicateTerm href &quot;../PredicateTerm&quot;
+
         
       TaxonConstraint : redundant
         
       TaxonConstraint : redundant_with
         
-          TaxonConstraint --&gt; TaxonConstraint : redundant_with
+          
+    
+    
+    TaxonConstraint --&gt; &quot;*&quot; TaxonConstraint : redundant_with
+    click TaxonConstraint href &quot;../TaxonConstraint&quot;
+
         
       TaxonConstraint : redundant_with_only_in
         
@@ -122,15 +143,30 @@
         
       TaxonConstraint : subject
         
-          TaxonConstraint --&gt; SubjectTerm : subject
+          
+    
+    
+    TaxonConstraint --&gt; &quot;0..1&quot; SubjectTerm : subject
+    click SubjectTerm href &quot;../SubjectTerm&quot;
+
         
       TaxonConstraint : taxon
         
-          TaxonConstraint --&gt; Taxon : taxon
+          
+    
+    
+    TaxonConstraint --&gt; &quot;0..1&quot; Taxon : taxon
+    click Taxon href &quot;../Taxon&quot;
+
         
       TaxonConstraint : via_terms
         
-          TaxonConstraint --&gt; SubjectTerm : via_terms
+          
+    
+    
+    TaxonConstraint --&gt; &quot;*&quot; SubjectTerm : via_terms
+    click SubjectTerm href &quot;../SubjectTerm&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -181,32 +217,32 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="redundant_with.html"><span class="std std-doc">redundant_with</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">TaxonConstraint</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">TaxonConstraint</span></a></p></td>
 <td><p>If the taxon constraint is redundant, then this is the set of taxon constrain…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="contradicted_by.html"><span class="std std-doc">contradicted_by</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">TaxonConstraint</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">TaxonConstraint</span></a></p></td>
 <td><p>If the taxon constraint conflicts with another,  then this is the set of taxo…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="via_terms.html"><span class="std std-doc">via_terms</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="SubjectTerm.html"><span class="std std-doc">SubjectTerm</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="SubjectTerm.html"><span class="std std-doc">SubjectTerm</span></a></p></td>
 <td><p>For inferred taxon constraints, this is the term or terms that have the taxon…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="predicates.html"><span class="std std-doc">predicates</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="PredicateTerm.html"><span class="std std-doc">PredicateTerm</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="PredicateTerm.html"><span class="std std-doc">PredicateTerm</span></a></p></td>
 <td><p>The predicates that connect the subject term to the via_terms</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sources.html"><span class="std std-doc">sources</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comments.html"><span class="std std-doc">comments</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -374,30 +410,30 @@ attributes:
       constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   contradicted_by:
     name: contradicted_by
     description: If the taxon constraint conflicts with another,  then this is the
       set of taxon constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   via_terms:
     name: via_terms
     description: For inferred taxon constraints, this is the term or terms that have
       the taxon constraint asserted
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: SubjectTerm
+    multivalued: true
     inlined: true
     inlined_as_list: true
   predicates:
@@ -405,26 +441,26 @@ attributes:
     description: The predicates that connect the subject term to the via_terms.
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: PredicateTerm
+    multivalued: true
   sources:
     name: sources
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: uriorcurie
+    multivalued: true
   comments:
     name: comments
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     domain_of:
     - TaxonConstraint
     range: string
+    multivalued: true
   candidate:
     name: candidate
     description: true if this is a proposed candidate constraint
@@ -532,36 +568,36 @@ attributes:
       constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: redundant_with
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   contradicted_by:
     name: contradicted_by
     description: If the taxon constraint conflicts with another,  then this is the
       set of taxon constraints that it is redundant with
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: contradicted_by
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: TaxonConstraint
+    multivalued: true
   via_terms:
     name: via_terms
     description: For inferred taxon constraints, this is the term or terms that have
       the taxon constraint asserted
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: via_terms
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: SubjectTerm
+    multivalued: true
     inlined: true
     inlined_as_list: true
   predicates:
@@ -569,32 +605,32 @@ attributes:
     description: The predicates that connect the subject term to the via_terms.
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: predicates
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: PredicateTerm
+    multivalued: true
   sources:
     name: sources
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: sources
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: uriorcurie
+    multivalued: true
   comments:
     name: comments
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
-    multivalued: true
     alias: comments
     owner: TaxonConstraint
     domain_of:
     - TaxonConstraint
     range: string
+    multivalued: true
   candidate:
     name: candidate
     description: true if this is a proposed candidate constraint

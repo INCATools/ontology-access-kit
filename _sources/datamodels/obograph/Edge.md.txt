@@ -14,12 +14,20 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Edge
+    click Edge href "../Edge"
       Edge : meta
         
-          Edge --> Meta : meta
+          
+    
+    
+    Edge --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       Edge : obj
         
@@ -78,13 +86,14 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:Edge |
 | native | obographs:Edge |
+
+
 
 
 

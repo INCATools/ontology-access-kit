@@ -2,6 +2,8 @@
 
 # Slot: include_obsoletes_in_results
 
+
+
 URI: [ontosearch:include_obsoletes_in_results](https://w3id.org/oak/search-datamodel/include_obsoletes_in_results)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:include_obsoletes_in_results](https://w3id.org/oak/search-datam
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:include_obsoletes_in_results |
+| native | ontosearch:include_obsoletes_in_results |
 
 
 

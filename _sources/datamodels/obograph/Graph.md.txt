@@ -14,24 +14,47 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Graph
+    click Graph href "../Graph"
       Graph : allValuesFromEdges
         
-          Graph --> Edge : allValuesFromEdges
+          
+    
+    
+    Graph --> "*" Edge : allValuesFromEdges
+    click Edge href "../Edge"
+
         
       Graph : domainRangeAxioms
         
-          Graph --> DomainRangeAxiom : domainRangeAxioms
+          
+    
+    
+    Graph --> "*" DomainRangeAxiom : domainRangeAxioms
+    click DomainRangeAxiom href "../DomainRangeAxiom"
+
         
       Graph : edges
         
-          Graph --> Edge : edges
+          
+    
+    
+    Graph --> "*" Edge : edges
+    click Edge href "../Edge"
+
         
       Graph : equivalentNodesSets
         
-          Graph --> EquivalentNodesSet : equivalentNodesSets
+          
+    
+    
+    Graph --> "*" EquivalentNodesSet : equivalentNodesSets
+    click EquivalentNodesSet href "../EquivalentNodesSet"
+
         
       Graph : id
         
@@ -39,31 +62,66 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
         
       Graph : logicalDefinitionAxioms
         
-          Graph --> LogicalDefinitionAxiom : logicalDefinitionAxioms
+          
+    
+    
+    Graph --> "*" LogicalDefinitionAxiom : logicalDefinitionAxioms
+    click LogicalDefinitionAxiom href "../LogicalDefinitionAxiom"
+
         
       Graph : meta
         
-          Graph --> Meta : meta
+          
+    
+    
+    Graph --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       Graph : nodes
         
-          Graph --> Node : nodes
+          
+    
+    
+    Graph --> "*" Node : nodes
+    click Node href "../Node"
+
         
       Graph : prefixes
         
-          Graph --> PrefixDeclaration : prefixes
+          
+    
+    
+    Graph --> "*" PrefixDeclaration : prefixes
+    click PrefixDeclaration href "../PrefixDeclaration"
+
         
       Graph : propertyChainAxioms
         
-          Graph --> PropertyChainAxiom : propertyChainAxioms
+          
+    
+    
+    Graph --> "*" PropertyChainAxiom : propertyChainAxioms
+    click PropertyChainAxiom href "../PropertyChainAxiom"
+
         
       Graph : subsetDefinitions
         
-          Graph --> SubsetDefinition : subsetDefinitions
+          
+    
+    
+    Graph --> "*" SubsetDefinition : subsetDefinitions
+    click SubsetDefinition href "../SubsetDefinition"
+
         
       Graph : synonymTypeDefinitions
         
-          Graph --> SynonymTypeDefinition : synonymTypeDefinitions
+          
+    
+    
+    Graph --> "*" SynonymTypeDefinition : synonymTypeDefinitions
+    click SynonymTypeDefinition href "../SynonymTypeDefinition"
+
         
       
 ```
@@ -78,19 +136,19 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
+| [id](id.md) | 1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
-| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... | direct |
-| [subsetDefinitions](subsetDefinitions.md) | 0..* <br/> [SubsetDefinition](SubsetDefinition.md) |  | direct |
-| [synonymTypeDefinitions](synonymTypeDefinitions.md) | 0..* <br/> [SynonymTypeDefinition](SynonymTypeDefinition.md) |  | direct |
+| [prefixes](prefixes.md) | * <br/> [PrefixDeclaration](PrefixDeclaration.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... | direct |
+| [subsetDefinitions](subsetDefinitions.md) | * <br/> [SubsetDefinition](SubsetDefinition.md) |  | direct |
+| [synonymTypeDefinitions](synonymTypeDefinitions.md) | * <br/> [SynonymTypeDefinition](SynonymTypeDefinition.md) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
-| [nodes](nodes.md) | 0..* <br/> [Node](Node.md) | All nodes present in a graph | direct |
-| [edges](edges.md) | 0..* <br/> [Edge](Edge.md) | All edges present in a graph | direct |
-| [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> [EquivalentNodesSet](EquivalentNodesSet.md) | A list of sets of nodes that form equivalence cliques | direct |
-| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | A list of logical definition axioms that define the meaning of a class in ter... | direct |
-| [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> [DomainRangeAxiom](DomainRangeAxiom.md) | A list of axioms that define the domain and range of a property | direct |
-| [allValuesFromEdges](allValuesFromEdges.md) | 0..* <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
-| [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> [PropertyChainAxiom](PropertyChainAxiom.md) | A list of axioms that define an OWL property chain | direct |
+| [nodes](nodes.md) | * <br/> [Node](Node.md) | All nodes present in a graph | direct |
+| [edges](edges.md) | * <br/> [Edge](Edge.md) | All edges present in a graph | direct |
+| [equivalentNodesSets](equivalentNodesSets.md) | * <br/> [EquivalentNodesSet](EquivalentNodesSet.md) | A list of sets of nodes that form equivalence cliques | direct |
+| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | * <br/> [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | A list of logical definition axioms that define the meaning of a class in ter... | direct |
+| [domainRangeAxioms](domainRangeAxioms.md) | * <br/> [DomainRangeAxiom](DomainRangeAxiom.md) | A list of axioms that define the domain and range of a property | direct |
+| [allValuesFromEdges](allValuesFromEdges.md) | * <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
+| [propertyChainAxioms](propertyChainAxioms.md) | * <br/> [PropertyChainAxiom](PropertyChainAxiom.md) | A list of axioms that define an OWL property chain | direct |
 
 
 
@@ -123,13 +181,14 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Ontology |
 | native | obographs:Graph |
+
+
 
 
 
@@ -219,35 +278,35 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:declare
-    multivalued: true
     alias: prefixes
     owner: Graph
     domain_of:
     - GraphDocument
     - Graph
     range: PrefixDeclaration
+    multivalued: true
     inlined: true
   subsetDefinitions:
     name: subsetDefinitions
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: subsetDefinitions
     owner: Graph
     domain_of:
     - Graph
     range: SubsetDefinition
+    multivalued: true
     inlined: true
   synonymTypeDefinitions:
     name: synonymTypeDefinitions
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: synonymTypeDefinitions
     owner: Graph
     domain_of:
     - Graph
     range: SynonymTypeDefinition
+    multivalued: true
     inlined: true
   meta:
     name: meta
@@ -274,12 +333,12 @@ attributes:
       annotation properties, etc
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: nodes
     owner: Graph
     domain_of:
     - Graph
     range: Node
+    multivalued: true
     inlined: true
     inlined_as_list: true
   edges:
@@ -291,12 +350,12 @@ attributes:
       and a simple existential axiom (d) ObjectPropertyAssertions
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: edges
     owner: Graph
     domain_of:
     - Graph
     range: Edge
+    multivalued: true
     inlined: true
     inlined_as_list: true
   equivalentNodesSets:
@@ -304,24 +363,24 @@ attributes:
     description: A list of sets of nodes that form equivalence cliques
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: equivalentNodesSets
     owner: Graph
     domain_of:
     - Graph
     range: EquivalentNodesSet
+    multivalued: true
   logicalDefinitionAxioms:
     name: logicalDefinitionAxioms
     description: A list of logical definition axioms that define the meaning of a
       class in terms of other classes.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: logicalDefinitionAxioms
     owner: Graph
     domain_of:
     - Graph
     range: LogicalDefinitionAxiom
+    multivalued: true
     inlined: true
     inlined_as_list: true
   domainRangeAxioms:
@@ -329,35 +388,35 @@ attributes:
     description: A list of axioms that define the domain and range of a property
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: domainRangeAxioms
     owner: Graph
     domain_of:
     - Graph
     range: DomainRangeAxiom
+    multivalued: true
   allValuesFromEdges:
     name: allValuesFromEdges
     description: A list of edges that represent subclasses of universal restrictions
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: allValuesFromEdges
     owner: Graph
     domain_of:
     - Graph
     - DomainRangeAxiom
     range: Edge
+    multivalued: true
   propertyChainAxioms:
     name: propertyChainAxioms
     description: A list of axioms that define an OWL property chain
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: propertyChainAxioms
     owner: Graph
     domain_of:
     - Graph
     range: PropertyChainAxiom
+    multivalued: true
 class_uri: owl:Ontology
 
 ```

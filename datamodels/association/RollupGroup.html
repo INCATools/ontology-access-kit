@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -89,15 +89,26 @@
 <div class="mermaid">
              classDiagram
     class RollupGroup
+    click RollupGroup href &quot;../RollupGroup&quot;
       RollupGroup : associations
         
-          RollupGroup --&gt; Association : associations
+          
+    
+    
+    RollupGroup --&gt; &quot;*&quot; Association : associations
+    click Association href &quot;../Association&quot;
+
         
       RollupGroup : group_object
         
       RollupGroup : sub_groups
         
-          RollupGroup --&gt; RollupGroup : sub_groups
+          
+    
+    
+    RollupGroup --&gt; &quot;*&quot; RollupGroup : sub_groups
+    click RollupGroup href &quot;../RollupGroup&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -118,12 +129,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sub_groups.html"><span class="std std-doc">sub_groups</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="std std-doc">RollupGroup</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="#"><span class="std std-doc">RollupGroup</span></a></p></td>
 <td><p>Container for groups within a rollup group</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="associations.html"><span class="std std-doc">associations</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
 <td><p>A collection of associations</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -215,12 +226,12 @@ attributes:
     description: Container for groups within a rollup group.
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: sub_groups
     owner: RollupGroup
     domain_of:
     - RollupGroup
     range: RollupGroup
+    multivalued: true
     inlined: true
     inlined_as_list: true
   associations:
@@ -228,12 +239,12 @@ attributes:
     description: A collection of associations
     from_schema: https://w3id.org/oak/association
     rank: 1000
-    multivalued: true
     alias: associations
     owner: RollupGroup
     domain_of:
     - RollupGroup
     range: Association
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

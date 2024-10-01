@@ -7,6 +7,8 @@ _The IC of the object_
 
 
 
+
+
 URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_information_content)
 
 
@@ -55,6 +57,16 @@ URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:object_information_content |
+| native | sim:object_information_content |
 
 
 

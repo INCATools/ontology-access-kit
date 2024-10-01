@@ -7,6 +7,8 @@ _A mixin for any paired slot that pertains to an association diff_
 
 
 
+
+
 URI: [ontoassoc:diff_slot](https://w3id.org/oak/association/diff_slot)
 
 
@@ -42,7 +44,7 @@ URI: [ontoassoc:diff_slot](https://w3id.org/oak/association/diff_slot)
 
 ## Properties
 
-* Range: NONE
+* Range: [String](String.md)
 
 * Mixin: True
 
@@ -66,6 +68,16 @@ URI: [ontoassoc:diff_slot](https://w3id.org/oak/association/diff_slot)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:diff_slot |
+| native | ontoassoc:diff_slot |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -76,6 +88,7 @@ from_schema: https://w3id.org/oak/association
 rank: 1000
 mixin: true
 alias: diff_slot
+range: string
 
 ```
 </details>

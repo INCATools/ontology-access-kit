@@ -7,6 +7,8 @@ _The maximum number of annotations to return_
 
 
 
+
+
 URI: [ann:limit](https://w3id.org/linkml/text_annotator/limit)
 
 
@@ -49,6 +51,16 @@ URI: [ann:limit](https://w3id.org/linkml/text_annotator/limit)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:limit |
+| native | ann:limit |
 
 
 

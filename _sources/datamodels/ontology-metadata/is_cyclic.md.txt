@@ -2,6 +2,8 @@
 
 # Slot: is_cyclic
 
+
+
 URI: [oio:is_cyclic](http://www.geneontology.org/formats/oboInOwl#is_cyclic)
 
 
@@ -45,6 +47,16 @@ URI: [oio:is_cyclic](http://www.geneontology.org/formats/oboInOwl#is_cyclic)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:is_cyclic |
+| native | omoschema:is_cyclic |
 
 
 

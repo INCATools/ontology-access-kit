@@ -37,3 +37,13 @@ URI: [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | linkml:DateOrDatetime |
+| native | summary_statistics:date_or_datetime |
+
+
+

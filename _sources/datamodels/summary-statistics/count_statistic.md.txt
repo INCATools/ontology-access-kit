@@ -2,6 +2,8 @@
 
 # Slot: count_statistic
 
+
+
 URI: [summary_statistics:count_statistic](https://w3id.org/oaklib/summary_statistics.count_statistic)
 
 
@@ -66,6 +68,16 @@ URI: [summary_statistics:count_statistic](https://w3id.org/oaklib/summary_statis
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:count_statistic |
+| native | summary_statistics:count_statistic |
 
 
 

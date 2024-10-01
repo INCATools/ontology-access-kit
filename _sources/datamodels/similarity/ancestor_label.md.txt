@@ -7,6 +7,8 @@ _the name or label of the ancestor concept_
 
 
 
+
+
 URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 
 
@@ -49,6 +51,16 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:ancestor_label |
+| native | sim:ancestor_label |
 
 
 

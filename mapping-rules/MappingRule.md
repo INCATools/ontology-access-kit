@@ -14,24 +14,42 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class MappingRule
+    click MappingRule href "../MappingRule"
       MappingRule : description
         
       MappingRule : oneway
         
       MappingRule : postconditions
         
-          MappingRule --> Postcondition : postconditions
+          
+    
+    
+    MappingRule --> "0..1" Postcondition : postconditions
+    click Postcondition href "../Postcondition"
+
         
       MappingRule : preconditions
         
-          MappingRule --> Precondition : preconditions
+          
+    
+    
+    MappingRule --> "0..1" Precondition : preconditions
+    click Precondition href "../Precondition"
+
         
       MappingRule : synonymizer
         
-          MappingRule --> Synonymizer : synonymizer
+          
+    
+    
+    MappingRule --> "0..1" Synonymizer : synonymizer
+    click Synonymizer href "../Synonymizer"
+
         
       
 ```
@@ -83,13 +101,14 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:MappingRule |
 | native | mappingrules:MappingRule |
+
+
 
 
 

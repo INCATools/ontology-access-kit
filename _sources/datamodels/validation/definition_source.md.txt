@@ -2,6 +2,8 @@
 
 # Slot: definition_source
 
+
+
 URI: [vm:definition_source](https://w3id.org/linkml/validation-model/definition_source)
 
 
@@ -44,6 +46,16 @@ URI: [vm:definition_source](https://w3id.org/linkml/validation-model/definition_
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:definition_source |
+| native | vm:definition_source |
 
 
 

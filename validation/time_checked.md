@@ -2,6 +2,8 @@
 
 # Slot: time_checked
 
+
+
 URI: [vm:time_checked](https://w3id.org/linkml/validation-model/time_checked)
 
 
@@ -44,6 +46,16 @@ URI: [vm:time_checked](https://w3id.org/linkml/validation-model/time_checked)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:time_checked |
+| native | vm:time_checked |
 
 
 

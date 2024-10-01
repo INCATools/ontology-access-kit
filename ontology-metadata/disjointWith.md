@@ -2,6 +2,8 @@
 
 # Slot: disjointWith
 
+
+
 URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 
@@ -21,12 +23,12 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [PropertyExpression](PropertyExpression.md) |  |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Restriction](Restriction.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
+| [PropertyExpression](PropertyExpression.md) |  |  no  |
 | [ClassExpression](ClassExpression.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -64,6 +66,16 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:disjointWith |
+| native | omoschema:disjointWith |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -75,12 +87,12 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:disjointWith
-multivalued: true
 alias: disjointWith
 domain_of:
 - ClassExpression
 - PropertyExpression
 range: string
+multivalued: true
 
 ```
 </details>

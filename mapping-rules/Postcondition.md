@@ -9,9 +9,12 @@ URI: [mappingrules:Postcondition](https://w3id.org/oak/mapping-rules-datamodel/P
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Postcondition
+    click Postcondition href "../Postcondition"
       Postcondition : predicate_id
         
       Postcondition : weight
@@ -63,13 +66,14 @@ URI: [mappingrules:Postcondition](https://w3id.org/oak/mapping-rules-datamodel/P
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:Postcondition |
 | native | mappingrules:Postcondition |
+
+
 
 
 

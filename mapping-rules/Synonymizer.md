@@ -14,9 +14,12 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Synonymizer
+    click Synonymizer href "../Synonymizer"
       Synonymizer : description
         
       Synonymizer : in_place
@@ -33,7 +36,12 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
         
       Synonymizer : tests
         
-          Synonymizer --> Test : tests
+          
+    
+    
+    Synonymizer --> "*" Test : tests
+    click Test href "../Test"
+
         
       
 ```
@@ -55,7 +63,7 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 | [qualifier](qualifier.md) | 0..1 <br/> [String](String.md) | Type of match for the new synonym generated | direct |
 | [prefix](prefix.md) | 0..1 <br/> [String](String.md) | The rule applies to nodes of a specific prefix | direct |
 | [in_place](in_place.md) | 0..1 <br/> [Boolean](Boolean.md) | Whether the rule is applied in place or not | direct |
-| [tests](tests.md) | 0..* <br/> [Test](Test.md) | Unit tests for each rules | direct |
+| [tests](tests.md) | * <br/> [Test](Test.md) | Unit tests for each rules | direct |
 
 
 
@@ -89,13 +97,14 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:Synonymizer |
 | native | mappingrules:Synonymizer |
+
+
 
 
 
@@ -176,10 +185,10 @@ attributes:
     description: Unit tests for each rules.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - Synonymizer
     range: Test
+    multivalued: true
 
 ```
 </details>
@@ -269,12 +278,12 @@ attributes:
     description: Unit tests for each rules.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
-    multivalued: true
     alias: tests
     owner: Synonymizer
     domain_of:
     - Synonymizer
     range: Test
+    multivalued: true
 
 ```
 </details>

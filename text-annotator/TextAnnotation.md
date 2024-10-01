@@ -14,10 +14,14 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TextAnnotation
+    click TextAnnotation href "../TextAnnotation"
       HasSpan <|-- TextAnnotation
+        click HasSpan href "../HasSpan"
       
       TextAnnotation : confidence
         
@@ -53,7 +57,12 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
         
       TextAnnotation : subject_text_id
         
-          TextAnnotation --> TextualElement : subject_text_id
+          
+    
+    
+    TextAnnotation --> "0..1" TextualElement : subject_text_id
+    click TextualElement href "../TextualElement"
+
         
       
 ```
@@ -74,7 +83,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [predicate_id](predicate_id.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [object_id](object_id.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [object_label](object_label.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [object_categories](object_categories.md) | 0..* <br/> [String](String.md) |  | direct |
+| [object_categories](object_categories.md) | * <br/> [String](String.md) |  | direct |
 | [object_source](object_source.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [confidence](confidence.md) | 0..1 <br/> [Float](Float.md) |  | direct |
 | [match_string](match_string.md) | 0..1 <br/> [String](String.md) |  | direct |
@@ -82,7 +91,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [match_type](match_type.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [info](info.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [object_aliases](object_aliases.md) | 0..* <br/> [String](String.md) |  | direct |
+| [object_aliases](object_aliases.md) | * <br/> [String](String.md) |  | direct |
 | [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
 | [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
 | [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
@@ -120,13 +129,14 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | oa:Annotation |
 | native | ann:TextAnnotation |
+
+
 
 
 
@@ -175,9 +185,9 @@ attributes:
     name: object_categories
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     domain_of:
     - TextAnnotation
+    multivalued: true
   object_source:
     name: object_source
     from_schema: https://w3id.org/oak/text_annotator
@@ -230,9 +240,9 @@ attributes:
     name: object_aliases
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     domain_of:
     - TextAnnotation
+    multivalued: true
 class_uri: oa:Annotation
 
 ```
@@ -286,12 +296,12 @@ attributes:
     name: object_categories
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     alias: object_categories
     owner: TextAnnotation
     domain_of:
     - TextAnnotation
     range: string
+    multivalued: true
   object_source:
     name: object_source
     from_schema: https://w3id.org/oak/text_annotator
@@ -362,12 +372,12 @@ attributes:
     name: object_aliases
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
-    multivalued: true
     alias: object_aliases
     owner: TextAnnotation
     domain_of:
     - TextAnnotation
     range: string
+    multivalued: true
   subject_start:
     name: subject_start
     from_schema: https://w3id.org/oak/text_annotator

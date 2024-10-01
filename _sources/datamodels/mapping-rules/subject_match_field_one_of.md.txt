@@ -7,6 +7,8 @@ _The field in the subject to be matched. Multiple values can be provided, it mus
 
 
 
+
+
 URI: [mappingrules:subject_match_field_one_of](https://w3id.org/oak/mapping-rules-datamodel/subject_match_field_one_of)
 
 
@@ -55,6 +57,16 @@ URI: [mappingrules:subject_match_field_one_of](https://w3id.org/oak/mapping-rule
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:subject_match_field_one_of |
+| native | mappingrules:subject_match_field_one_of |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: The field in the subject to be matched. Multiple values can be prov
   it must match at least one.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: subject_match_field_one_of
 owner: Precondition
 domain_of:
 - Precondition
 range: string
+multivalued: true
 
 ```
 </details>

@@ -14,9 +14,12 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ContributorRole
+    click ContributorRole href "../ContributorRole"
       ContributorRole : id
         
       
@@ -32,7 +35,7 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the unique identifier for the role | direct |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | the unique identifier for the role | direct |
 
 
 
@@ -58,13 +61,14 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sh:ContributorRole |
 | native | summary_statistics:ContributorRole |
+
+
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: synonymized
 
+
+
 URI: [ontolexindex:synonymized](https://w3id.org/oak/lexical-index/synonymized)
 
 
@@ -44,6 +46,16 @@ URI: [ontolexindex:synonymized](https://w3id.org/oak/lexical-index/synonymized)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:synonymized |
+| native | ontolexindex:synonymized |
 
 
 

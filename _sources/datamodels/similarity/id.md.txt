@@ -2,6 +2,8 @@
 
 # Slot: id
 
+
+
 URI: [sim:id](https://w3id.org/linkml/similarity/id)
 
 
@@ -46,6 +48,16 @@ URI: [sim:id](https://w3id.org/linkml/similarity/id)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:id |
+| native | sim:id |
 
 
 

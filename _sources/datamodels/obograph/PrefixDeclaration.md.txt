@@ -14,9 +14,12 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class PrefixDeclaration
+    click PrefixDeclaration href "../PrefixDeclaration"
       PrefixDeclaration : namespace
         
       PrefixDeclaration : prefix
@@ -69,13 +72,14 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sh:PrefixDeclaration |
 | native | obographs:PrefixDeclaration |
+
+
 
 
 

@@ -7,6 +7,8 @@ _The type of transformation_
 
 
 
+
+
 URI: [mappingrules:type](https://w3id.org/oak/mapping-rules-datamodel/type)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:type](https://w3id.org/oak/mapping-rules-datamodel/type)
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:type |
+| native | mappingrules:type |
 
 
 

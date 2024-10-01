@@ -14,9 +14,12 @@ URI: [ontoenrich:ClassEnrichmentResult](https://w3id.org/oak/class-enrichment/Cl
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ClassEnrichmentResult
+    click ClassEnrichmentResult href "../ClassEnrichmentResult"
       ClassEnrichmentResult : ancestor_of_more_informative_result
         
       ClassEnrichmentResult : background_count
@@ -60,7 +63,7 @@ URI: [ontoenrich:ClassEnrichmentResult](https://w3id.org/oak/class-enrichment/Cl
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [class_id](class_id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | The class id | direct |
+| [class_id](class_id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | The class id | direct |
 | [class_label](class_label.md) | 0..1 <br/> [String](String.md) | The class label | direct |
 | [rank](rank.md) | 0..1 <br/> [Integer](Integer.md) | The rank of this result | direct |
 | [p_value](p_value.md) | 0..1 <br/> [Float](Float.md) | The p-value | direct |
@@ -107,13 +110,14 @@ URI: [ontoenrich:ClassEnrichmentResult](https://w3id.org/oak/class-enrichment/Cl
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontoenrich:ClassEnrichmentResult |
 | native | ontoenrich:ClassEnrichmentResult |
+
+
 
 
 

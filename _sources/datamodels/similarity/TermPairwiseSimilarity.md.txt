@@ -14,10 +14,14 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class TermPairwiseSimilarity
+    click TermPairwiseSimilarity href "../TermPairwiseSimilarity"
       PairwiseSimilarity <|-- TermPairwiseSimilarity
+        click PairwiseSimilarity href "../PairwiseSimilarity"
       
       TermPairwiseSimilarity : ancestor_id
         
@@ -68,7 +72,7 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_id](subject_id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | The first of the two entities being compared | direct |
+| [subject_id](subject_id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | The first of the two entities being compared | direct |
 | [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | the label or name for the first entity | direct |
 | [subject_source](subject_source.md) | 0..1 <br/> [String](String.md) | the source for the first entity | direct |
 | [object_id](object_id.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The second of the two entities being compared | direct |
@@ -116,13 +120,14 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sim:TermPairwiseSimilarity |
 | native | sim:TermPairwiseSimilarity |
+
+
 
 
 

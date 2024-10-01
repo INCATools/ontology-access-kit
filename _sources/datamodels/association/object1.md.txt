@@ -2,6 +2,8 @@
 
 # Slot: object1
 
+
+
 URI: [ontoassoc:object1](https://w3id.org/oak/association/object1)
 
 
@@ -51,6 +53,16 @@ URI: [ontoassoc:object1](https://w3id.org/oak/association/object1)
 
 
 * from schema: https://w3id.org/oak/association
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoassoc:object1 |
+| native | ontoassoc:object1 |
 
 
 

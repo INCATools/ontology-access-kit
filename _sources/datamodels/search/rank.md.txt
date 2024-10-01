@@ -7,6 +7,8 @@ _For relevancy-ranked results, this indicates the relevancy, with low numbers be
 
 
 
+
+
 URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
 
 
@@ -49,6 +51,16 @@ URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:rank |
+| native | ontosearch:rank |
 
 
 

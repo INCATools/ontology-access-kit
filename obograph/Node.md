@@ -14,20 +14,33 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class Node
+    click Node href "../Node"
       Node : id
         
       Node : lbl
         
       Node : meta
         
-          Node --> Meta : meta
+          
+    
+    
+    Node --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       Node : propertyType
         
-          Node --> PropertyTypeEnum : propertyType
+          
+    
+    
+    Node --> "0..1" PropertyTypeEnum : propertyType
+    click PropertyTypeEnum href "../PropertyTypeEnum"
+
         
       Node : type
         
@@ -44,7 +57,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
+| [id](id.md) | 1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
 | [type](type.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [propertyType](propertyType.md) | 0..1 <br/> [PropertyTypeEnum](PropertyTypeEnum.md) |  | direct |
@@ -81,13 +94,14 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | rdf:Resource |
 | native | obographs:Node |
+
+
 
 
 

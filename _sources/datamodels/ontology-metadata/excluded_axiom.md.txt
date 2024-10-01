@@ -2,6 +2,10 @@
 
 # Slot: excluded_axiom
 
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
 URI: [omoschema:excluded_axiom](https://w3id.org/oak/ontology-metadata/excluded_axiom)
 
 
@@ -43,6 +47,16 @@ URI: [omoschema:excluded_axiom](https://w3id.org/oak/ontology-metadata/excluded_
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:excluded_axiom |
+| native | omoschema:excluded_axiom |
 
 
 

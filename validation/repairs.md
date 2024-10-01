@@ -2,6 +2,8 @@
 
 # Slot: repairs
 
+
+
 URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
 
 
@@ -44,6 +46,16 @@ URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:repairs |
+| native | vm:repairs |
 
 
 

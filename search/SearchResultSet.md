@@ -9,12 +9,20 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class SearchResultSet
+    click SearchResultSet href "../SearchResultSet"
       SearchResultSet : configuration
         
-          SearchResultSet --> SearchBaseConfiguration : configuration
+          
+    
+    
+    SearchResultSet --> "0..1" SearchBaseConfiguration : configuration
+    click SearchBaseConfiguration href "../SearchBaseConfiguration"
+
         
       SearchResultSet : cursor
         
@@ -22,7 +30,12 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
         
       SearchResultSet : results
         
-          SearchResultSet --> SearchResult : results
+          
+    
+    
+    SearchResultSet --> "*" SearchResult : results
+    click SearchResult href "../SearchResult"
+
         
       
 ```
@@ -38,7 +51,7 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [configuration](configuration.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
-| [results](results.md) | 0..* <br/> [SearchResult](SearchResult.md) |  | direct |
+| [results](results.md) | * <br/> [SearchResult](SearchResult.md) |  | direct |
 | [result_count](result_count.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 | [cursor](cursor.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 
@@ -66,13 +79,14 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontosearch:SearchResultSet |
 | native | ontosearch:SearchResultSet |
+
+
 
 
 
@@ -100,10 +114,10 @@ attributes:
     name: results
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - SearchResultSet
     range: SearchResult
+    multivalued: true
   result_count:
     name: result_count
     from_schema: https://w3id.org/oak/search-datamodel
@@ -142,12 +156,12 @@ attributes:
     name: results
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
-    multivalued: true
     alias: results
     owner: SearchResultSet
     domain_of:
     - SearchResultSet
     range: SearchResult
+    multivalued: true
   result_count:
     name: result_count
     from_schema: https://w3id.org/oak/search-datamodel

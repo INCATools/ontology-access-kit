@@ -2,6 +2,8 @@
 
 # Slot: definition_source
 
+
+
 URI: [IAO:0000119](http://purl.obolibrary.org/obo/IAO_0000119)
 
 
@@ -22,17 +24,17 @@ URI: [IAO:0000119](http://purl.obolibrary.org/obo/IAO_0000119)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Property](Property.md) |  |  no  |
 | [Image](Image.md) |  |  no  |
 | [HasProvenance](HasProvenance.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -70,6 +72,16 @@ URI: [IAO:0000119](http://purl.obolibrary.org/obo/IAO_0000119)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | IAO:0000119 |
+| native | omoschema:definition_source |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -83,11 +95,11 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: provenance_property
 slot_uri: IAO:0000119
-multivalued: true
 alias: definition_source
 domain_of:
 - HasProvenance
 range: string
+multivalued: true
 
 ```
 </details>

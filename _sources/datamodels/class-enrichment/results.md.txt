@@ -7,6 +7,8 @@ _The enrichment results_
 
 
 
+
+
 URI: [ontoenrich:results](https://w3id.org/oak/class-enrichment/results)
 
 
@@ -55,6 +57,16 @@ URI: [ontoenrich:results](https://w3id.org/oak/class-enrichment/results)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontoenrich:results |
+| native | ontoenrich:results |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: results
 description: The enrichment results
 from_schema: https://w3id.org/oak/class-enrichment
 rank: 1000
-multivalued: true
 alias: results
 owner: ClassEnrichmentResultSet
 domain_of:
 - ClassEnrichmentResultSet
 range: ClassEnrichmentResult
+multivalued: true
 
 ```
 </details>

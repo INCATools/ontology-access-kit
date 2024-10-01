@@ -2,6 +2,8 @@
 
 # Slot: temporal_interpretation
 
+
+
 URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 
 
@@ -45,6 +47,16 @@ URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | RO:0001900 |
+| native | omoschema:temporal_interpretation |
 
 
 

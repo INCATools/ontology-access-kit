@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,10 +90,13 @@
 <div class="mermaid">
              classDiagram
     class HasSynonyms
+    click HasSynonyms href &quot;../HasSynonyms&quot;
       AnnotationPropertyMixin &lt;|-- HasSynonyms
+        click AnnotationPropertyMixin href &quot;../AnnotationPropertyMixin&quot;
       
 
       HasSynonyms &lt;|-- Term
+        click Term href &quot;../Term&quot;
       
       
       HasSynonyms : alternative_term
@@ -137,47 +140,47 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="has_exact_synonym.html"><span class="std std-doc">has_exact_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_narrow_synonym.html"><span class="std std-doc">has_narrow_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_broad_synonym.html"><span class="std std-doc">has_broad_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_related_synonym.html"><span class="std std-doc">has_related_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="LabelType.html"><span class="std std-doc">LabelType</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="alternative_term.html"><span class="std std-doc">alternative_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ISA_alternative_term.html"><span class="std std-doc">ISA_alternative_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="IEDB_alternative_term.html"><span class="std std-doc">IEDB_alternative_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="editor_preferred_term.html"><span class="std std-doc">editor_preferred_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="OBO_foundry_unique_label.html"><span class="std std-doc">OBO_foundry_unique_label</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -281,7 +284,6 @@ attributes:
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasExactSynonym
-    multivalued: true
     alias: has_exact_synonym
     owner: HasSynonyms
     domain_of:
@@ -290,41 +292,42 @@ attributes:
     disjoint_with:
     - label
     range: label type
+    multivalued: true
   has_narrow_synonym:
     name: has_narrow_synonym
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasNarrowSynonym
-    multivalued: true
     alias: has_narrow_synonym
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: label type
+    multivalued: true
   has_broad_synonym:
     name: has_broad_synonym
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasBroadSynonym
-    multivalued: true
     alias: has_broad_synonym
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: label type
+    multivalued: true
   has_related_synonym:
     name: has_related_synonym
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasRelatedSynonym
-    multivalued: true
     alias: has_related_synonym
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: label type
+    multivalued: true
   alternative_term:
     name: alternative_term
     in_subset:
@@ -334,36 +337,36 @@ attributes:
     - skos:altLabel
     rank: 1000
     slot_uri: IAO:0000118
-    multivalued: true
     alias: alternative_term
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: string
+    multivalued: true
   ISA_alternative_term:
     name: ISA_alternative_term
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: OBI:0001847
-    multivalued: true
     alias: ISA_alternative_term
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: string
+    multivalued: true
   IEDB_alternative_term:
     name: IEDB_alternative_term
     from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: OBI:9991118
-    multivalued: true
     alias: IEDB_alternative_term
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: string
+    multivalued: true
   editor_preferred_term:
     name: editor_preferred_term
     in_subset:
@@ -372,12 +375,12 @@ attributes:
     rank: 1000
     is_a: alternative_term
     slot_uri: IAO:0000111
-    multivalued: true
     alias: editor_preferred_term
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: string
+    multivalued: true
   OBO_foundry_unique_label:
     name: OBO_foundry_unique_label
     todos:
@@ -386,12 +389,12 @@ attributes:
     rank: 1000
     is_a: alternative_term
     slot_uri: IAO:0000589
-    multivalued: true
     alias: OBO_foundry_unique_label
     owner: HasSynonyms
     domain_of:
     - HasSynonyms
     range: string
+    multivalued: true
 
 </pre></div>
 </div>

@@ -14,14 +14,22 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class MappingRuleCollection
+    click MappingRuleCollection href "../MappingRuleCollection"
       MappingRuleCollection : minimum_confidence
         
       MappingRuleCollection : rules
         
-          MappingRuleCollection --> MappingRule : rules
+          
+    
+    
+    MappingRuleCollection --> "*" MappingRule : rules
+    click MappingRule href "../MappingRule"
+
         
       
 ```
@@ -36,7 +44,7 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md) | all rules | direct |
+| [rules](rules.md) | * <br/> [MappingRule](MappingRule.md) | all rules | direct |
 | [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [Float](Float.md) |  | direct |
 
 
@@ -63,13 +71,14 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:MappingRuleCollection |
 | native | mappingrules:MappingRuleCollection |
+
+
 
 
 
@@ -92,11 +101,11 @@ attributes:
     description: all rules
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     domain_of:
     - MappingRuleCollection
     - RuleSet
     range: MappingRule
+    multivalued: true
     inlined: true
   minimum_confidence:
     name: minimum_confidence
@@ -123,13 +132,13 @@ attributes:
     description: all rules
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    multivalued: true
     alias: rules
     owner: MappingRuleCollection
     domain_of:
     - MappingRuleCollection
     - RuleSet
     range: MappingRule
+    multivalued: true
     inlined: true
   minimum_confidence:
     name: minimum_confidence

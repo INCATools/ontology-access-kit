@@ -7,6 +7,8 @@ _The provenance of the list, for example a script that generated the list_
 
 
 
+
+
 URI: [prov:wasGeneratedBy](http://www.w3.org/ns/prov#wasGeneratedBy)
 
 
@@ -55,6 +57,16 @@ URI: [prov:wasGeneratedBy](http://www.w3.org/ns/prov#wasGeneratedBy)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | prov:wasGeneratedBy |
+| native | itemList:wasGeneratedBy |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -64,12 +76,12 @@ description: The provenance of the list, for example a script that generated the
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 slot_uri: prov:wasGeneratedBy
-multivalued: true
 alias: wasGeneratedBy
 owner: ItemList
 domain_of:
 - ItemList
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

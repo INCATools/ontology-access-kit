@@ -7,6 +7,8 @@ _The p-value_
 
 
 
+
+
 URI: [OBI:0000175](http://purl.obolibrary.org/obo/OBI_0000175)
 
 
@@ -49,6 +51,16 @@ URI: [OBI:0000175](http://purl.obolibrary.org/obo/OBI_0000175)
 
 
 * from schema: https://w3id.org/oak/class-enrichment
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | OBI:0000175 |
+| native | ontoenrich:p_value |
 
 
 

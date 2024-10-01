@@ -2,6 +2,8 @@
 
 # Slot: info
 
+
+
 URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 
 
@@ -44,6 +46,16 @@ URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:info |
+| native | ann:info |
 
 
 

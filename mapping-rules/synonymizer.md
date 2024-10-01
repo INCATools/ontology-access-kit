@@ -7,6 +7,8 @@ _Normalizing rules to labels._
 
 
 
+
+
 URI: [mappingrules:synonymizer](https://w3id.org/oak/mapping-rules-datamodel/synonymizer)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:synonymizer](https://w3id.org/oak/mapping-rules-datamodel/syn
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:synonymizer |
+| native | mappingrules:synonymizer |
 
 
 

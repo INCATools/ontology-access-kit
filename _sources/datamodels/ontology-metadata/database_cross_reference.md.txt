@@ -2,6 +2,8 @@
 
 # Slot: database_cross_reference
 
+
+
 URI: [oio:hasDbXref](http://www.geneontology.org/formats/oboInOwl#hasDbXref)
 
 
@@ -22,18 +24,18 @@ URI: [oio:hasDbXref](http://www.geneontology.org/formats/oboInOwl#hasDbXref)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Image](Image.md) |  |  no  |
 | [Axiom](Axiom.md) | A logical or non-logical statement |  yes  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [Property](Property.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
 | [HasMappings](HasMappings.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -67,6 +69,16 @@ URI: [oio:hasDbXref](http://www.geneontology.org/formats/oboInOwl#hasDbXref)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:hasDbXref |
+| native | omoschema:database_cross_reference |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -76,12 +88,12 @@ from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: match
 slot_uri: oio:hasDbXref
-multivalued: true
 alias: database_cross_reference
 domain_of:
 - HasMappings
 - Axiom
 range: CURIELiteral
+multivalued: true
 
 ```
 </details>

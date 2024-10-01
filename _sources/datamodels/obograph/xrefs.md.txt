@@ -7,6 +7,8 @@ _A list of cross references to other entities represented in other ontologies, v
 
 
 
+
+
 URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 
@@ -21,11 +23,11 @@ URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  yes  |
 | [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
+| [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |  no  |
 | [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
 | [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |  yes  |
-| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  yes  |
-| [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |  no  |
 | [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |  no  |
 
 
@@ -60,6 +62,18 @@ URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:xrefs |
+| native | obographs:xrefs |
+| exact | oio:hasDbXref |
+| close | rdfs:seeAlso |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -74,12 +88,12 @@ exact_mappings:
 close_mappings:
 - rdfs:seeAlso
 rank: 1000
-multivalued: true
 alias: xrefs
 domain_of:
 - Meta
 - PropertyValue
 range: XrefString
+multivalued: true
 
 ```
 </details>

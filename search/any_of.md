@@ -2,6 +2,8 @@
 
 # Slot: any_of
 
+
+
 URI: [ontosearch:any_of](https://w3id.org/oak/search-datamodel/any_of)
 
 
@@ -50,6 +52,16 @@ URI: [ontosearch:any_of](https://w3id.org/oak/search-datamodel/any_of)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:any_of |
+| native | ontosearch:any_of |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,12 +69,12 @@ URI: [ontosearch:any_of](https://w3id.org/oak/search-datamodel/any_of)
 name: any_of
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: any_of
 owner: ComplexQuery
 domain_of:
 - ComplexQuery
 range: ComplexQuery
+multivalued: true
 
 ```
 </details>

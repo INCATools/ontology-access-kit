@@ -2,6 +2,8 @@
 
 # Slot: propertyType
 
+
+
 URI: [obographs:propertyType](https://github.com/geneontology/obographs/propertyType)
 
 
@@ -44,6 +46,16 @@ URI: [obographs:propertyType](https://github.com/geneontology/obographs/property
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:propertyType |
+| native | obographs:propertyType |
 
 
 

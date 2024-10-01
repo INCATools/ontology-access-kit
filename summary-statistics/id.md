@@ -2,6 +2,8 @@
 
 # Slot: id
 
+
+
 URI: [summary_statistics:id](https://w3id.org/oaklib/summary_statistics.id)
 
 
@@ -16,12 +18,12 @@ URI: [summary_statistics:id](https://w3id.org/oaklib/summary_statistics.id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
-| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
-| [ContributorRole](ContributorRole.md) | A role that a contributor can have |  no  |
 | [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 | [Agent](Agent.md) | An agent |  no  |
 | [Ontology](Ontology.md) | An ontology |  no  |
+| [ContributorRole](ContributorRole.md) | A role that a contributor can have |  no  |
+| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 
 
@@ -42,6 +44,16 @@ URI: [summary_statistics:id](https://w3id.org/oaklib/summary_statistics.id)
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:id |
+| native | summary_statistics:id |
 
 
 

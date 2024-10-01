@@ -2,6 +2,8 @@
 
 # Slot: match_string
 
+
+
 URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 
 
@@ -44,6 +46,16 @@ URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:match_string |
+| native | ann:match_string |
 
 
 

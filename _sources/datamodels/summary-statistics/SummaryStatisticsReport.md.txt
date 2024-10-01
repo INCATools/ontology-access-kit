@@ -16,29 +16,54 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class SummaryStatisticsReport
+    click SummaryStatisticsReport href "../SummaryStatisticsReport"
       SummaryStatisticsReport <|-- GroupedStatistics
+        click GroupedStatistics href "../GroupedStatistics"
       SummaryStatisticsReport <|-- UngroupedStatistics
+        click UngroupedStatistics href "../UngroupedStatistics"
       
       SummaryStatisticsReport : agents
         
-          SummaryStatisticsReport --> Agent : agents
+          
+    
+    
+    SummaryStatisticsReport --> "*" Agent : agents
+    click Agent href "../Agent"
+
         
       SummaryStatisticsReport : compared_with
         
-          SummaryStatisticsReport --> Ontology : compared_with
+          
+    
+    
+    SummaryStatisticsReport --> "*" Ontology : compared_with
+    click Ontology href "../Ontology"
+
         
       SummaryStatisticsReport : id
         
       SummaryStatisticsReport : ontologies
         
-          SummaryStatisticsReport --> Ontology : ontologies
+          
+    
+    
+    SummaryStatisticsReport --> "*" Ontology : ontologies
+    click Ontology href "../Ontology"
+
         
       SummaryStatisticsReport : was_generated_by
         
-          SummaryStatisticsReport --> SummaryStatisticsCalculationActivity : was_generated_by
+          
+    
+    
+    SummaryStatisticsReport --> "0..1" SummaryStatisticsCalculationActivity : was_generated_by
+    click SummaryStatisticsCalculationActivity href "../SummaryStatisticsCalculationActivity"
+
         
       
 ```
@@ -58,11 +83,11 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [String](String.md) | Unique handle for this report | direct |
-| [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | direct |
-| [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | direct |
+| [id](id.md) | 1 <br/> [String](String.md) | Unique handle for this report | direct |
+| [ontologies](ontologies.md) | * <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | direct |
+| [compared_with](compared_with.md) | * <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | direct |
 | [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | direct |
-| [agents](agents.md) | 0..* <br/> [Agent](Agent.md) | Agents that contributed to the report | direct |
+| [agents](agents.md) | * <br/> [Agent](Agent.md) | Agents that contributed to the report | direct |
 
 
 
@@ -88,13 +113,14 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | summary_statistics:SummaryStatisticsReport |
 | native | summary_statistics:SummaryStatisticsReport |
+
+
 
 
 
@@ -129,10 +155,10 @@ attributes:
     description: Ontology for which the statistics are computed
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   compared_with:
@@ -140,10 +166,10 @@ attributes:
     description: For diffs, the ontologies being compared against
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   was_generated_by:
@@ -159,10 +185,10 @@ attributes:
     description: Agents that contributed to the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     domain_of:
     - SummaryStatisticsReport
     range: Agent
+    multivalued: true
     inlined: true
     inlined_as_list: true
 
@@ -197,12 +223,12 @@ attributes:
     description: Ontology for which the statistics are computed
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: ontologies
     owner: SummaryStatisticsReport
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   compared_with:
@@ -210,12 +236,12 @@ attributes:
     description: For diffs, the ontologies being compared against
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: compared_with
     owner: SummaryStatisticsReport
     domain_of:
     - SummaryStatisticsReport
     range: Ontology
+    multivalued: true
     inlined: true
     inlined_as_list: true
   was_generated_by:
@@ -233,12 +259,12 @@ attributes:
     description: Agents that contributed to the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
-    multivalued: true
     alias: agents
     owner: SummaryStatisticsReport
     domain_of:
     - SummaryStatisticsReport
     range: Agent
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

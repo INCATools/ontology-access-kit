@@ -11,6 +11,8 @@ _* If the match type is OtherRelationship, then all predicates that form a path 
 
 
 
+
+
 URI: [xodiff:right_predicate_ids](https://w3id.org/oak/cross-ontology-diff/right_predicate_ids)
 
 
@@ -63,6 +65,16 @@ URI: [xodiff:right_predicate_ids](https://w3id.org/oak/cross-ontology-diff/right
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:right_predicate_ids |
+| native | xodiff:right_predicate_ids |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -79,12 +91,12 @@ rank: 1000
 mixins:
 - right_side
 - predicate
-multivalued: true
 alias: right_predicate_ids
 owner: RelationalDiff
 domain_of:
 - RelationalDiff
 range: EntityReference
+multivalued: true
 
 ```
 </details>

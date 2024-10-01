@@ -7,6 +7,8 @@ _the title of the resource_
 
 
 
+
+
 URI: [dcterms:title](http://purl.org/dc/terms/title)
 
 
@@ -49,6 +51,16 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:title |
+| native | summary_statistics:title |
 
 
 

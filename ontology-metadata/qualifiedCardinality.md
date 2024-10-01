@@ -2,6 +2,8 @@
 
 # Slot: qualifiedCardinality
 
+
+
 URI: [owl:qualifiedCardinality](http://www.w3.org/2002/07/owl#qualifiedCardinality)
 
 
@@ -40,6 +42,16 @@ URI: [owl:qualifiedCardinality](http://www.w3.org/2002/07/owl#qualifiedCardinali
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:qualifiedCardinality |
+| native | omoschema:qualifiedCardinality |
 
 
 

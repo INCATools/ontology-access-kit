@@ -2,6 +2,8 @@
 
 # Slot: disconnected_from
 
+
+
 URI: [omoschema:disconnected_from](https://w3id.org/oak/ontology-metadata/disconnected_from)
 
 
@@ -49,6 +51,16 @@ URI: [omoschema:disconnected_from](https://w3id.org/oak/ontology-metadata/discon
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:disconnected_from |
+| native | omoschema:disconnected_from |
 
 
 

@@ -7,6 +7,8 @@ _A URL for the item_
 
 
 
+
+
 URI: [itemList:url](https://w3id.org/linkml/item-list/url)
 
 
@@ -49,6 +51,16 @@ URI: [itemList:url](https://w3id.org/linkml/item-list/url)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | itemList:url |
+| native | itemList:url |
 
 
 

@@ -14,45 +14,81 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ValidationResult
+    click ValidationResult href "../ValidationResult"
       Result <|-- ValidationResult
+        click Result href "../Result"
       
 
       ValidationResult <|-- DefinitionValidationResult
+        click DefinitionValidationResult href "../DefinitionValidationResult"
       ValidationResult <|-- ExternalReferenceValidationResult
+        click ExternalReferenceValidationResult href "../ExternalReferenceValidationResult"
       
       
       ValidationResult : info
         
       ValidationResult : instantiates
         
-          ValidationResult --> Node : instantiates
+          
+    
+    
+    ValidationResult --> "0..1" Node : instantiates
+    click Node href "../Node"
+
         
       ValidationResult : object
         
-          ValidationResult --> Node : object
+          
+    
+    
+    ValidationResult --> "0..1" Node : object
+    click Node href "../Node"
+
         
       ValidationResult : object_str
         
       ValidationResult : predicate
         
-          ValidationResult --> Node : predicate
+          
+    
+    
+    ValidationResult --> "0..1" Node : predicate
+    click Node href "../Node"
+
         
       ValidationResult : severity
         
-          ValidationResult --> severity_options : severity
+          
+    
+    
+    ValidationResult --> "0..1" SeverityOptions : severity
+    click SeverityOptions href "../SeverityOptions"
+
         
       ValidationResult : source
         
       ValidationResult : subject
         
-          ValidationResult --> Node : subject
+          
+    
+    
+    ValidationResult --> "1" Node : subject
+    click Node href "../Node"
+
         
       ValidationResult : type
         
-          ValidationResult --> ConstraintComponent : type
+          
+    
+    
+    ValidationResult --> "1" ConstraintComponent : type
+    click ConstraintComponent href "../ConstraintComponent"
+
         
       
 ```
@@ -73,9 +109,9 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | direct |
+| [type](type.md) | 1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | direct |
 | [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | direct |
-| [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | direct |
+| [subject](subject.md) | 1 <br/> [Node](Node.md) | The instance which the result is about | direct |
 | [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | direct |
 | [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | direct |
 | [object](object.md) | 0..1 <br/> [Node](Node.md) |  | direct |
@@ -115,13 +151,14 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sh:ValidationResult |
 | native | vm:ValidationResult |
+
+
 
 
 

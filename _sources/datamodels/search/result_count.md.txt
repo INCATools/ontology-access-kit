@@ -2,6 +2,8 @@
 
 # Slot: result_count
 
+
+
 URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_count)
 
 
@@ -44,6 +46,16 @@ URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_coun
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:result_count |
+| native | ontosearch:result_count |
 
 
 

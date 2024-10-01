@@ -2,6 +2,8 @@
 
 # Slot: description
 
+
+
 URI: [itemList:description](https://w3id.org/linkml/item-list/description)
 
 
@@ -16,8 +18,8 @@ URI: [itemList:description](https://w3id.org/linkml/item-list/description)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Thing](Thing.md) |  |  no  |
 | [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [Thing](Thing.md) |  |  no  |
 
 
 
@@ -38,6 +40,16 @@ URI: [itemList:description](https://w3id.org/linkml/item-list/description)
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | itemList:description |
+| native | itemList:description |
 
 
 

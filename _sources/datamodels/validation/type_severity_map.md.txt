@@ -7,6 +7,8 @@ _Allows overriding of severity of a particular type_
 
 
 
+
+
 URI: [vm:type_severity_map](https://w3id.org/linkml/validation-model/type_severity_map)
 
 
@@ -55,6 +57,16 @@ URI: [vm:type_severity_map](https://w3id.org/linkml/validation-model/type_severi
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:type_severity_map |
+| native | vm:type_severity_map |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -63,12 +75,12 @@ name: type_severity_map
 description: Allows overriding of severity of a particular type
 from_schema: https://w3id.org/linkml/validation_results
 rank: 1000
-multivalued: true
 alias: type_severity_map
 owner: ValidationConfiguration
 domain_of:
 - ValidationConfiguration
 range: TypeSeverityKeyValue
+multivalued: true
 inlined: true
 
 ```

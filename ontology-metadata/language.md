@@ -2,6 +2,8 @@
 
 # Slot: language
 
+
+
 URI: [dcterms:language](http://purl.org/dc/terms/language)
 
 
@@ -40,6 +42,17 @@ URI: [dcterms:language](http://purl.org/dc/terms/language)
 
 
 * from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:language |
+| native | omoschema:language |
+| exact | dce:language |
 
 
 

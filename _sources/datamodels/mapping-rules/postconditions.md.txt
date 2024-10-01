@@ -7,6 +7,8 @@ _conditions that apply if preconditions match_
 
 
 
+
+
 URI: [mappingrules:postconditions](https://w3id.org/oak/mapping-rules-datamodel/postconditions)
 
 
@@ -49,6 +51,16 @@ URI: [mappingrules:postconditions](https://w3id.org/oak/mapping-rules-datamodel/
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:postconditions |
+| native | mappingrules:postconditions |
 
 
 

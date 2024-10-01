@@ -7,6 +7,8 @@ _a description of the resource_
 
 
 
+
+
 URI: [dcterms:description](http://purl.org/dc/terms/description)
 
 
@@ -49,6 +51,16 @@ URI: [dcterms:description](http://purl.org/dc/terms/description)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:description |
+| native | summary_statistics:description |
 
 
 

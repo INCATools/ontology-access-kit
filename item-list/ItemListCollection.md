@@ -14,12 +14,20 @@ URI: [itemList:ItemListCollection](https://w3id.org/linkml/item-list/ItemListCol
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ItemListCollection
+    click ItemListCollection href "../ItemListCollection"
       ItemListCollection : itemLists
         
-          ItemListCollection --> ItemList : itemLists
+          
+    
+    
+    ItemListCollection --> "*" ItemList : itemLists
+    click ItemList href "../ItemList"
+
         
       
 ```
@@ -34,7 +42,7 @@ URI: [itemList:ItemListCollection](https://w3id.org/linkml/item-list/ItemListCol
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [itemLists](itemLists.md) | 0..* <br/> [ItemList](ItemList.md) |  | direct |
+| [itemLists](itemLists.md) | * <br/> [ItemList](ItemList.md) |  | direct |
 
 
 
@@ -69,13 +77,14 @@ URI: [itemList:ItemListCollection](https://w3id.org/linkml/item-list/ItemListCol
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | itemList:ItemListCollection |
 | native | itemList:ItemListCollection |
+
+
 
 
 
@@ -101,10 +110,10 @@ attributes:
     name: itemLists
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     domain_of:
     - ItemListCollection
     range: ItemList
+    multivalued: true
     inlined: true
 
 ```
@@ -126,12 +135,12 @@ attributes:
     name: itemLists
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     alias: itemLists
     owner: ItemListCollection
     domain_of:
     - ItemListCollection
     range: ItemList
+    multivalued: true
     inlined: true
 
 ```

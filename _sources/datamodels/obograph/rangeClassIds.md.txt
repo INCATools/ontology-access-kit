@@ -2,6 +2,8 @@
 
 # Slot: rangeClassIds
 
+
+
 URI: [obographs:rangeClassIds](https://github.com/geneontology/obographs/rangeClassIds)
 
 
@@ -50,6 +52,16 @@ URI: [obographs:rangeClassIds](https://github.com/geneontology/obographs/rangeCl
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:rangeClassIds |
+| native | obographs:rangeClassIds |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [obographs:rangeClassIds](https://github.com/geneontology/obographs/rangeCl
 name: rangeClassIds
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: rangeClassIds
 domain_of:
 - DomainRangeAxiom
 range: string
+multivalued: true
 
 ```
 </details>

@@ -7,6 +7,8 @@ _The order of the items in the list_
 
 
 
+
+
 URI: [schema:numberOfItems](http://schema.org/numberOfItems)
 
 
@@ -49,6 +51,16 @@ URI: [schema:numberOfItems](http://schema.org/numberOfItems)
 
 
 * from schema: https://w3id.org/oak/item-list
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | schema:numberOfItems |
+| native | itemList:numberOfItems |
 
 
 

@@ -2,6 +2,8 @@
 
 # Slot: type
 
+
+
 URI: [obographs:type](https://github.com/geneontology/obographs/type)
 
 
@@ -44,6 +46,16 @@ URI: [obographs:type](https://github.com/geneontology/obographs/type)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:type |
+| native | obographs:type |
 
 
 

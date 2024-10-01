@@ -7,6 +7,8 @@ _Number of object properties (relations) in the ontology or subset_
 
 
 
+
+
 URI: [summary_statistics:object_property_count](https://w3id.org/oaklib/summary_statistics.object_property_count)
 
 
@@ -60,6 +62,16 @@ URI: [summary_statistics:object_property_count](https://w3id.org/oaklib/summary_
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:object_property_count |
+| native | summary_statistics:object_property_count |
 
 
 

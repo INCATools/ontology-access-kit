@@ -7,6 +7,8 @@ _A list of logical disjointness axioms that specify that a class or class expres
 
 
 
+
+
 URI: [obographs:disjointClassExpressionsAxioms](https://github.com/geneontology/obographs/disjointClassExpressionsAxioms)
 
 
@@ -46,6 +48,16 @@ URI: [obographs:disjointClassExpressionsAxioms](https://github.com/geneontology/
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:disjointClassExpressionsAxioms |
+| native | obographs:disjointClassExpressionsAxioms |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -55,9 +67,9 @@ description: A list of logical disjointness axioms that specify that a class or 
   expression is disjoint from other classes or class expressions.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: disjointClassExpressionsAxioms
 range: DisjointClassExpressionsAxiom
+multivalued: true
 inlined_as_list: true
 
 ```

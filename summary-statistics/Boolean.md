@@ -37,3 +37,14 @@ URI: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:boolean |
+| native | summary_statistics:boolean |
+| exact | schema:Boolean |
+
+
+

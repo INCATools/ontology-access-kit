@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,27 +90,40 @@
 <div class="mermaid">
              classDiagram
     class DisjointClassExpressionsAxiom
+    click DisjointClassExpressionsAxiom href &quot;../DisjointClassExpressionsAxiom&quot;
       Axiom &lt;|-- DisjointClassExpressionsAxiom
+        click Axiom href &quot;../Axiom&quot;
       
       DisjointClassExpressionsAxiom : classExpressions
         
-          DisjointClassExpressionsAxiom --&gt; ExistentialRestrictionExpression : classExpressions
+          
+    
+    
+    DisjointClassExpressionsAxiom --&gt; &quot;*&quot; ExistentialRestrictionExpression : classExpressions
+    click ExistentialRestrictionExpression href &quot;../ExistentialRestrictionExpression&quot;
+
         
       DisjointClassExpressionsAxiom : classIds
         
-          DisjointClassExpressionsAxiom --&gt; None : classIds
-        
       DisjointClassExpressionsAxiom : meta
         
-          DisjointClassExpressionsAxiom --&gt; Meta : meta
+          
+    
+    
+    DisjointClassExpressionsAxiom --&gt; &quot;0..1&quot; Meta : meta
+    click Meta href &quot;../Meta&quot;
+
         
       DisjointClassExpressionsAxiom : unionEquivalentTo
         
-          DisjointClassExpressionsAxiom --&gt; None : unionEquivalentTo
-        
       DisjointClassExpressionsAxiom : unionEquivalentToExpression
         
-          DisjointClassExpressionsAxiom --&gt; ExistentialRestrictionExpression : unionEquivalentToExpression
+          
+    
+    
+    DisjointClassExpressionsAxiom --&gt; &quot;0..1&quot; ExistentialRestrictionExpression : unionEquivalentToExpression
+    click ExistentialRestrictionExpression href &quot;../ExistentialRestrictionExpression&quot;
+
         
       
         </div><section id="inheritance">
@@ -135,17 +148,17 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="classIds.html"><span class="std std-doc">classIds</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="OboIdentifierString.html"><span class="std std-doc">OboIdentifierString</span></a></p></td>
 <td><p>The set of named classes that are mutually disjoint</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="classExpressions.html"><span class="std std-doc">classExpressions</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="std std-doc">ExistentialRestrictionExpression</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="std std-doc">ExistentialRestrictionExpression</span></a></p></td>
 <td><p>The set of class expressions that are mutually disjoint</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="unionEquivalentTo.html"><span class="std std-doc">unionEquivalentTo</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="OboIdentifierString.html"><span class="std std-doc">OboIdentifierString</span></a></p></td>
 <td><p>If present, this equates to an OWL DisjointUnion expression</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -216,9 +229,10 @@ attributes:
     description: The set of named classes that are mutually disjoint.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
+    multivalued: true
   classExpressions:
     name: classExpressions
     description: The set of class expressions that are mutually disjoint.
@@ -226,10 +240,10 @@ attributes:
     - currently restricted to existential restrictions (some values from)
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     domain_of:
     - DisjointClassExpressionsAxiom
     range: ExistentialRestrictionExpression
+    multivalued: true
   unionEquivalentTo:
     name: unionEquivalentTo
     description: If present, this equates to an OWL DisjointUnion expression.
@@ -237,6 +251,7 @@ attributes:
     rank: 1000
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
   unionEquivalentToExpression:
     name: unionEquivalentToExpression
     description: if present, this class expression is equivalent ot the (disjoint)
@@ -266,11 +281,12 @@ attributes:
     description: The set of named classes that are mutually disjoint.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: classIds
     owner: DisjointClassExpressionsAxiom
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
+    multivalued: true
   classExpressions:
     name: classExpressions
     description: The set of class expressions that are mutually disjoint.
@@ -278,12 +294,12 @@ attributes:
     - currently restricted to existential restrictions (some values from)
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: classExpressions
     owner: DisjointClassExpressionsAxiom
     domain_of:
     - DisjointClassExpressionsAxiom
     range: ExistentialRestrictionExpression
+    multivalued: true
   unionEquivalentTo:
     name: unionEquivalentTo
     description: If present, this equates to an OWL DisjointUnion expression.
@@ -293,6 +309,7 @@ attributes:
     owner: DisjointClassExpressionsAxiom
     domain_of:
     - DisjointClassExpressionsAxiom
+    range: OboIdentifierString
   unionEquivalentToExpression:
     name: unionEquivalentToExpression
     description: if present, this class expression is equivalent ot the (disjoint)

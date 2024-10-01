@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
@@ -90,9 +90,15 @@
 <div class="mermaid">
              classDiagram
     class ItemListCollection
+    click ItemListCollection href &quot;../ItemListCollection&quot;
       ItemListCollection : itemLists
         
-          ItemListCollection --&gt; ItemList : itemLists
+          
+    
+    
+    ItemListCollection --&gt; &quot;*&quot; ItemList : itemLists
+    click ItemList href &quot;../ItemList&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -108,7 +114,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="itemLists.html"><span class="std std-doc">itemLists</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="ItemList.html"><span class="std std-doc">ItemList</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="ItemList.html"><span class="std std-doc">ItemList</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -173,10 +179,10 @@ attributes:
     name: itemLists
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     domain_of:
     - ItemListCollection
     range: ItemList
+    multivalued: true
     inlined: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -196,12 +202,12 @@ attributes:
     name: itemLists
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
-    multivalued: true
     alias: itemLists
     owner: ItemListCollection
     domain_of:
     - ItemListCollection
     range: ItemList
+    multivalued: true
     inlined: true
 
 </pre></div>

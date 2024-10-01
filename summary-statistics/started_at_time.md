@@ -7,6 +7,8 @@ _the time at which the activity started_
 
 
 
+
+
 URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
 
 
@@ -49,6 +51,16 @@ URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | prov:startedAtTime |
+| native | summary_statistics:started_at_time |
 
 
 

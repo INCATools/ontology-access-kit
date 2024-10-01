@@ -2,6 +2,8 @@
 
 # Slot: subsetDefinitions
 
+
+
 URI: [obographs:subsetDefinitions](https://github.com/geneontology/obographs/subsetDefinitions)
 
 
@@ -50,6 +52,16 @@ URI: [obographs:subsetDefinitions](https://github.com/geneontology/obographs/sub
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:subsetDefinitions |
+| native | obographs:subsetDefinitions |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -57,11 +69,11 @@ URI: [obographs:subsetDefinitions](https://github.com/geneontology/obographs/sub
 name: subsetDefinitions
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: subsetDefinitions
 domain_of:
 - Graph
 range: SubsetDefinition
+multivalued: true
 inlined: true
 
 ```

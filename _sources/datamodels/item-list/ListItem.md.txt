@@ -14,22 +14,35 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 
 
 
+
+
 ```{mermaid}
  classDiagram
     class ListItem
+    click ListItem href "../ListItem"
       ListItem : elementId
         
       ListItem : idType
         
       ListItem : item
         
-          ListItem --> Thing : item
+          
+    
+    
+    ListItem --> "0..1" Thing : item
+    click Thing href "../Thing"
+
         
       ListItem : position
         
       ListItem : previousItem
         
-          ListItem --> ListItem : previousItem
+          
+    
+    
+    ListItem --> "0..1" ListItem : previousItem
+    click ListItem href "../ListItem"
+
         
       
 ```
@@ -83,13 +96,14 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | schema:ListItem |
 | native | itemList:ListItem |
+
+
 
 
 
