@@ -11,7 +11,7 @@ from pystow.utils import base_from_gzip_name, name_from_url
 
 from oaklib.datamodels.vocabulary import APP_NAME
 
-_durations = {'d': 1, 'w': 7, 'm': 30, 'y': 365}
+_durations = {"d": 1, "w": 7, "m": 30, "y": 365}
 _logger = logging.getLogger(__name__)
 
 
@@ -141,18 +141,18 @@ class CachePolicy(object):
         """
 
         value = value.lower()
-        if value == 'refresh':
+        if value == "refresh":
             return cls.REFRESH
-        elif value == 'no-refresh':
+        elif value == "no-refresh":
             return cls.NO_REFRESH
-        elif value in ['reset', 'clear']:
+        elif value in ["reset", "clear"]:
             return cls.RESET
         else:
-            if m := re.match('^([0-9]+)([sdwmy])?', value):
+            if m := re.match("^([0-9]+)([sdwmy])?", value):
                 num, qual = m.groups()
                 if not qual:
-                    qual = 'd'
-                if qual == 's':
+                    qual = "d"
+                if qual == "s":
                     return cls(int(num))
                 else:
                     return cls(timedelta(days=int(num) * _durations[qual]).total_seconds())
@@ -204,7 +204,7 @@ class CachePolicy(object):
             from click import ParamType
 
             class CachePolicyParamType(ParamType):
-                name = 'cache-policy'
+                name = "cache-policy"
 
                 def convert(self, value, param, ctx):
                     if isinstance(value, cls):
@@ -236,7 +236,7 @@ class FileCache(object):
         """
 
         self._module = module
-        self._default_policy = CachePolicy.from_string('1w')
+        self._default_policy = CachePolicy.from_string("1w")
         self._forced_policy = None
         self._policies = []
         self._config_file = os.path.join(user_config_dir(APP_NAME), "cache.conf")
@@ -380,12 +380,16 @@ class FileCache(object):
                 items = line.split("=", maxsplit=1)
                 pattern = items[0].strip()
                 if len(items) != 2:
-                    _logger.warning(f"{filename}({n}): Ignoring missing caching policy for {pattern}")
+                    _logger.warning(
+                        f"{filename}({n}): Ignoring missing caching policy for {pattern}"
+                    )
                     continue
 
                 policy = CachePolicy.from_string(items[1].strip())
                 if policy is None:
-                    _logger.warning(f"{filename}({n}): Ignoring invalid caching policy for {pattern}")
+                    _logger.warning(
+                        f"{filename}({n}): Ignoring invalid caching policy for {pattern}"
+                    )
                     continue
 
                 if pattern in ["default", "*"]:

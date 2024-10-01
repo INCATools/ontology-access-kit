@@ -781,7 +781,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: predicates to be considered (default: all)
         :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
-        :param annotated_roots: use nodes explicitly annotated as root
+        :param annotated_roots: use nodes explicitly annotated as root (IAO:0000700)
         :param id_prefixes: limit search to specific prefixes
         :return:
         """

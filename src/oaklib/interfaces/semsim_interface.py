@@ -19,7 +19,10 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.obograph_utils import as_digraph
-from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
+from oaklib.utilities.semsim.similarity_utils import (
+    load_information_content_map,
+    setwise_jaccard_similarity,
+)
 
 
 class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
@@ -174,6 +177,24 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     ) -> Iterable[CURIE]:
         raise NotImplementedError
 
+    def load_information_content_scores(self, source: str) -> None:
+        """
+        Load term information content values from file
+
+        :param source:
+        :return:
+        """
+        self.cached_information_content_map = load_information_content_map(source)
+
+    def set_information_content_scores(self, scores: Iterable[Tuple[CURIE, float]]) -> None:
+        """
+        Load term information content values from file
+
+        :param source:
+        :return:
+        """
+        self.cached_information_content_map = dict(scores)
+
     def get_information_content(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Optional[float]:
@@ -262,7 +283,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                     if curie not in self.cached_information_content_map:
                         self.cached_information_content_map[curie] = 0.0
         if self.cached_information_content_map is not None:
-            logging.info("Using cached IC map")
+            logging.debug("Using cached IC map")
             for curie in curies:
                 if curie in self.cached_information_content_map:
                     yield curie, self.cached_information_content_map[curie]
@@ -324,7 +345,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         )
         if OWL_THING in cas:
             cas.remove(OWL_THING)
-        logging.info(f"Retrieving IC for {len(cas)} common ancestors")
+        logging.debug(f"Retrieving IC for {len(cas)} common ancestors")
         ics = {
             a: ic
             for a, ic in self.information_content_scores(cas, object_closure_predicates=predicates)
@@ -339,11 +360,13 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         if min_ancestor_information_content is not None:
             if max_ic < min_ancestor_information_content:
                 return None
-        logging.info(f"MRCA = {anc} with {max_ic}")
+        logging.debug(f"MRCA = {anc} with {max_ic}")
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
             ancestor_id=anc,
+            subject_information_content=ics.get(subject, self.get_information_content(subject)),
+            object_information_content=ics.get(object, self.get_information_content(object)),
             ancestor_information_content=max_ic,
             jaccard_similarity=jaccard_similarity,
         )

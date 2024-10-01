@@ -1,0 +1,47 @@
+Prefix: ex: <http://example.org/>
+Prefix: : <http://example.org/>
+Ontology: <http://example.org/>
+
+## 
+Individual: I
+  Types: A
+
+Class: A
+  SubClassOf: B
+
+Class: B
+  SubClassOf: P some CTestSome
+  SubClassOf: P only CTestOnly
+  SubClassOf: P exactly 1 CTestExactly1
+  SubClassOf: P exactly 0 CTestExactly0
+  SubClassOf: P min 1 CTestExactly0
+  SubClassOf: P value ITestValue
+  EquivalentTo: CTestEquiv
+
+Individual: J
+  Facts: P I2
+  Types: CTestType, P some CTestTypeSome, P value ITestValue
+
+Individual: I2
+  Types: I2C
+
+Class: I2C
+
+Class: CTestSome
+Class: CTestOnly
+Class: CTestExactly1
+Class: CTestExactly0
+Class: CTestEquiv
+Class: CTestType
+Class: CTestTypeSome
+
+Individual: ITestValue
+  Types: ITestValueC
+
+Class: ITestValueC
+
+ObjectProperty: P
+  Characteristics: Transitive
+ 
+
+

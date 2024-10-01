@@ -123,6 +123,14 @@ class SemSimianImplementation(
 
         return self.semsimian_object_cache[predicates]
 
+    def load_information_content_scores(self, source: str) -> None:
+        """
+        Load information content from a source.
+
+        :param source: The source of information content.
+        """
+        self.custom_ic_map_path = source
+
     def pairwise_similarity(
         self,
         subject: CURIE,

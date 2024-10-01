@@ -70,7 +70,8 @@ We can make this more human readable:
     if you are used to working with OWL and the underlying RDF/OWL representation
     the presentation as simple triads above can be confusing, as these are not actually
     modeled as triples in the ontology, but rather as more complex axioms involving
-    constructs like existential restriction. We will return to this later.
+    constructs like existential restriction. These axioms are *projected* onto a graph
+    representation. We will return to this topic later.
 
 Graph Traversal and Relation Graph Reasoning
 --------------------------------------------
@@ -442,3 +443,40 @@ and in principle it *may* be the case that this is not asserted
 However, OAK is designed for working with *released* versions of ontologies,
 which should be *pre-classified*. This means that all edges that are both :term:`Direct`
 and :term:`Entailed` should also be :term:`Asserted`.
+
+Further notes on OWL and Graph Projection
+-----------------------------------------
+
+Many ontologies use the OWL language to express relationships between entities. The OWL
+representation is not directly a graph, but different kinds of OWL axioms can be *projected*
+onto graph edges. This kind of projection is common, but lacks standardization.
+
+Two of the most common patterns in OWL ontologies are:
+
+- SubClassOf between two named classes (e.g. Finger SubClassOf Digit)
+- SubClassOf between a named class and a simple existential restriction (e.g. Digit SubClassOf part-of some Hand)
+
+It's a de-facto standard that these are both projected to graph edges (the former to an is-a or SubClassOf edge,
+the latter to a part-of edge). This can be seen e.g. in ontology browsers such as the OLS. These two kinds of
+axioms are very common in bio-ontologies. However, there is a lack of standardization in how more complex axioms
+should be mapped to edges, or whether they should be.
+
+The following table outlines some common patterns and whether these are projected to edges in common tools:
+
+.. csv-table:: OWL to Graph Projections
+   :header: OWL Axiom, Graph Projection, SQL Adapter, Relation Graph
+   :widths: 20, 20, 20, 20
+
+    A SubClassOf B, rdfs:subClassOf B, Yes, Yes
+    A SubClassOf R some B, A R B, Yes, Yes
+    A SubClassOf R value B, A R B, Yes, No
+    A SubClassOf R only B, A R B, No, No
+    A SubClassOf R max 0 B, A R B, No, No
+    I type A, I rdf:type A, Yes, No
+    I type R some A, I R A, Yes, No
+    I type R value A, I R A, Yes, No
+    I Facts: R J, I R J, Yes, No
+
+See `OWLStar <https://github.com/linkml/owlstar>`_ for progress towards a standardization of OWL
+graph projections for property graphs - this also includes proposals for labeling edges with axiom
+types as well as additional semantic information (e.g. cardinality) and annotations.

@@ -195,6 +195,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             rels,
         )
 
+    def test_graph_projections(self):
+        path = INPUT_DIR / "graph_projection.db"
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(path)}"))
+        self.compliance_tester.test_graph_projections(oi)
+
     def test_all_nodes(self):
         for curie in self.oi.entities():
             logging.info(curie)
@@ -643,7 +648,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
                     best_score = score
                 if match == gene:
                     found = True
-                    self.assertAlmostEquals(best_score, score)
+                    self.assertAlmostEqual(best_score, score)
             self.assertTrue(found)
 
     def test_association_counts(self):

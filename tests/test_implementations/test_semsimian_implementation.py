@@ -170,7 +170,7 @@ class TestSemSimianImplementation(unittest.TestCase):
             raise AssertionError("SemanticSimilarityInterface not implemented")
         entities = [VACUOLE, ENDOMEMBRANE_SYSTEM]
 
-        sim = (adapter.all_by_all_pairwise_similarity(entities, entities, predicates=self.predicates))
+        sim = adapter.all_by_all_pairwise_similarity(entities, entities, predicates=self.predicates)
 
         for s in sim:
             self.assertIsNotNone(s)

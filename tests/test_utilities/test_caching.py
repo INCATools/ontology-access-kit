@@ -18,8 +18,8 @@ class TestCachePolicy(unittest.TestCase):
 
         now = time.time()
         self.assertTrue(policy.refresh(now))
-        self.assertTrue(policy.refresh(now + 86400)) # 1 day in the future
-        self.assertTrue(policy.refresh(now - 86400)) # 1 day in the past
+        self.assertTrue(policy.refresh(now + 86400))  # 1 day in the future
+        self.assertTrue(policy.refresh(now - 86400))  # 1 day in the past
 
     def test_never_refresh_policy(self):
         policy = CachePolicy.from_string("no-refresh")
@@ -54,15 +54,15 @@ class TestCachePolicy(unittest.TestCase):
         self.assertTrue(policy.refresh(now - 86400))
 
     def test_refresh_after_1day_policy(self):
-        policy = CachePolicy.from_string('1d')
+        policy = CachePolicy.from_string("1d")
 
         self.assertFalse(policy.always_refresh)
         self.assertFalse(policy.never_refresh)
         self.assertFalse(policy.reset)
 
         now = time.time()
-        self.assertTrue(policy.refresh(now - 90000)) # 25 hours in the past
-        self.assertFalse(policy.refresh(now - 82800)) # 23 hours in the past
+        self.assertTrue(policy.refresh(now - 90000))  # 25 hours in the past
+        self.assertFalse(policy.refresh(now - 82800))  # 23 hours in the past
 
     def test_refresh_file(self):
         now = time.time()
@@ -76,8 +76,8 @@ class TestCachePolicy(unittest.TestCase):
         self.assertTrue(CachePolicy.REFRESH.refresh_file(path))
         self.assertTrue(CachePolicy.RESET.refresh_file(path))
         self.assertFalse(CachePolicy.NO_REFRESH.refresh_file(path))
-        self.assertTrue(CachePolicy.from_string('2d').refresh_file(path))
-        self.assertFalse(CachePolicy.from_string('4d').refresh_file(path))
+        self.assertTrue(CachePolicy.from_string("2d").refresh_file(path))
+        self.assertFalse(CachePolicy.from_string("4d").refresh_file(path))
 
         os.unlink(path)
 
@@ -94,10 +94,11 @@ class TestCachePolicy(unittest.TestCase):
 
         self.assertIsNone(CachePolicy.from_string("bogus"))
 
+
 class TestFileCache(unittest.TestCase):
 
     def test_parse_cache_configuration(self):
-        cache = FileCache(None) # we don't need a Pystow module here
+        cache = FileCache(None)  # we don't need a Pystow module here
 
         with self.assertLogs() as log:
             cache._get_configuration("tests/input/cache.conf")
