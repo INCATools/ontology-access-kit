@@ -16,7 +16,7 @@ URI: [obographs:GraphDocument](https://github.com/geneontology/obographs/GraphDo
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class GraphDocument
     click GraphDocument href "../GraphDocument"

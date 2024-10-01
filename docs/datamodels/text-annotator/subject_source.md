@@ -1,4 +1,8 @@
+
+
 # Slot: subject_source
+
+
 
 URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
@@ -9,12 +13,14 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasSpan](HasSpan.md) | 
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [HasSpan](HasSpan.md) |  |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -24,8 +30,6 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -43,6 +47,17 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:subject_source |
+| native | ann:subject_source |
+| exact | oa:hasBody |
 
 
 

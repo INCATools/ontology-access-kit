@@ -1,4 +1,8 @@
+
+
 # Slot: minimum_confidence
+
+
 
 URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamodel/minimum_confidence)
 
@@ -9,11 +13,13 @@ URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamo
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamo
 ## Properties
 
 * Range: [Float](Float.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamo
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:minimum_confidence |
+| native | mappingrules:minimum_confidence |
 
 
 

@@ -1,7 +1,10 @@
 # Type: Date
 
 
+
+
 _a date (year, month and day) in an idealized calendar_
+
 
 
 URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
@@ -30,7 +33,18 @@ URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:date |
+| native | omoschema:date |
+| close | pav:authoredOn |
 
 
 

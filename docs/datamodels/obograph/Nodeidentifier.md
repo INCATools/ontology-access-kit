@@ -1,7 +1,10 @@
 # Type: Nodeidentifier
 
 
+
+
 _A URI, CURIE or BNODE that represents a node in a model._
+
 
 
 URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
@@ -31,6 +34,16 @@ URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | shex:nonLiteral |
+| native | obographs:nodeidentifier |
 
 
 

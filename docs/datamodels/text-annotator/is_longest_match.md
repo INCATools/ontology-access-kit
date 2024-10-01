@@ -1,4 +1,8 @@
+
+
 # Slot: is_longest_match
+
+
 
 URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_match)
 
@@ -9,11 +13,13 @@ URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_ma
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_ma
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_ma
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:is_longest_match |
+| native | ann:is_longest_match |
 
 
 

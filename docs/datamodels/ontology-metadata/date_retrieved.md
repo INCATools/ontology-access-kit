@@ -1,4 +1,8 @@
+
+
 # Slot: date_retrieved
+
+
 
 URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retrieved)
 
@@ -14,11 +18,13 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -46,7 +50,17 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:date_retrieved |
+| native | omoschema:date_retrieved |
 
 
 
@@ -56,7 +70,7 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 <details>
 ```yaml
 name: date_retrieved
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: provenance_property
 slot_uri: oio:date_retrieved

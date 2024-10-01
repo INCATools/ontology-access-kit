@@ -1,7 +1,10 @@
 # Type: Boolean
 
 
+
+
 _A binary (true or false) value_
+
 
 
 URI: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
@@ -30,7 +33,18 @@ URI: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:boolean |
+| native | omoschema:boolean |
+| exact | schema:Boolean |
 
 
 

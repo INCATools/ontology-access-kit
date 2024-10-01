@@ -1,4 +1,8 @@
+
+
 # Slot: created_by
+
+
 
 URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
@@ -14,23 +18,25 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasProvenance](HasProvenance.md) | 
-[Axiom](Axiom.md) | A logical or non-logical statement
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+
 
 
 
@@ -40,8 +46,6 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -58,7 +62,17 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:created_by |
+| native | omoschema:created_by |
 
 
 
@@ -69,7 +83,7 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 ```yaml
 name: created_by
 deprecated: proposed obsoleted by OMO group 2022-04-12
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 deprecated_element_has_exact_replacement: creator
 rank: 1000
 is_a: provenance_property

@@ -1,5 +1,12 @@
+
+
 # Slot: postconditions
+
+
 _conditions that apply if preconditions match_
+
+
+
 
 
 URI: [mappingrules:postconditions](https://w3id.org/oak/mapping-rules-datamodel/postconditions)
@@ -11,11 +18,13 @@ URI: [mappingrules:postconditions](https://w3id.org/oak/mapping-rules-datamodel/
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [mappingrules:postconditions](https://w3id.org/oak/mapping-rules-datamodel/
 ## Properties
 
 * Range: [Postcondition](Postcondition.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [mappingrules:postconditions](https://w3id.org/oak/mapping-rules-datamodel/
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:postconditions |
+| native | mappingrules:postconditions |
 
 
 

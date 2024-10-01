@@ -1,6 +1,12 @@
+
+
 # Slot: shortcut_annotation_property
 
-URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/omo/schema/shortcut_annotation_property)
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
+URI: [omoschema:shortcut_annotation_property](https://w3id.org/oak/ontology-metadata/shortcut_annotation_property)
 
 
 
@@ -16,11 +22,11 @@ URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/omo
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -37,7 +43,17 @@ URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/omo
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:shortcut_annotation_property |
+| native | omoschema:shortcut_annotation_property |
 
 
 
@@ -47,7 +63,7 @@ URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/omo
 <details>
 ```yaml
 name: shortcut_annotation_property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: shortcut_annotation_property

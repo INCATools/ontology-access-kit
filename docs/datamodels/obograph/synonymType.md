@@ -1,5 +1,12 @@
+
+
 # Slot: synonymType
+
+
 _This standard follows oboInOwl in allowing an open ended list of synonym types_
+
+
+
 
 
 URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymType)
@@ -11,11 +18,13 @@ URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymTy
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymTy
 ## Properties
 
 * Range: [SynonymTypeIdentifierString](SynonymTypeIdentifierString.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymTy
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:synonymType |
+| native | obographs:synonymType |
 
 
 

@@ -1,19 +1,28 @@
+
+
 # Class: ClassExpression
 
 
 
-URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/ClassExpression)
+URI: [omoschema:ClassExpression](https://w3id.org/oak/ontology-metadata/ClassExpression)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class ClassExpression
+    click ClassExpression href "../ClassExpression"
       Expression <|-- ClassExpression
+        click Expression href "../Expression"
       
 
       ClassExpression <|-- Class
+        click Class href "../Class"
       ClassExpression <|-- Restriction
+        click Restriction href "../Restriction"
       
       
       ClassExpression : cardinality
@@ -24,19 +33,39 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
         
       ClassExpression : equivalentClass
         
-          ClassExpression ..> ClassExpression : equivalentClass
+          
+    
+    
+    ClassExpression --> "*" ClassExpression : equivalentClass
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : intersectionOf
         
-          ClassExpression ..> ClassExpression : intersectionOf
+          
+    
+    
+    ClassExpression --> "0..1" ClassExpression : intersectionOf
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : oneOf
         
-          ClassExpression ..> ClassExpression : oneOf
+          
+    
+    
+    ClassExpression --> "0..1" ClassExpression : oneOf
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : subClassOf
         
-          ClassExpression ..> ClassExpression : subClassOf
+          
+    
+    
+    ClassExpression --> "*" ClassExpression : subClassOf
+    click ClassExpression href "../ClassExpression"
+
         
       ClassExpression : unionOf
         
@@ -57,10 +86,10 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | direct |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [disjointWith](disjointWith.md) | * <br/> [String](String.md) |  | direct |
+| [equivalentClass](equivalentClass.md) | * <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
-| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [subClassOf](subClassOf.md) | * <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [cardinality](cardinality.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [complementOf](complementOf.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
@@ -110,8 +139,7 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -127,6 +155,8 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -136,8 +166,7 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 <details>
 ```yaml
 name: ClassExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Expression
 mixin: true
 slots:
@@ -158,8 +187,7 @@ slots:
 <details>
 ```yaml
 name: ClassExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Expression
 mixin: true
 attributes:
@@ -167,38 +195,38 @@ attributes:
     name: disjointWith
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
-    multivalued: true
     alias: disjointWith
     owner: ClassExpression
     domain_of:
     - ClassExpression
     - PropertyExpression
     range: string
+    multivalued: true
   equivalentClass:
     name: equivalentClass
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     mixins:
     - match_aspect
     slot_uri: owl:equivalentClass
-    multivalued: true
     alias: equivalentClass
     owner: ClassExpression
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   intersectionOf:
     name: intersectionOf
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:intersectionOf
@@ -209,19 +237,19 @@ attributes:
     range: ClassExpression
   subClassOf:
     name: subClassOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdfs:subClassOf
-    multivalued: true
     alias: subClassOf
     owner: ClassExpression
     domain_of:
     - ClassExpression
     range: ClassExpression
+    multivalued: true
   cardinality:
     name: cardinality
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:cardinality
@@ -234,7 +262,7 @@ attributes:
     name: complementOf
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:complementOf
@@ -245,7 +273,7 @@ attributes:
     range: string
   oneOf:
     name: oneOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:oneOf
@@ -256,7 +284,7 @@ attributes:
     range: ClassExpression
   unionOf:
     name: unionOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:unionOf

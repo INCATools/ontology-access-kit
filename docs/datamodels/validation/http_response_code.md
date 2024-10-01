@@ -1,4 +1,8 @@
+
+
 # Slot: http_response_code
+
+
 
 URI: [vm:http_response_code](https://w3id.org/linkml/validation-model/http_response_code)
 
@@ -9,11 +13,13 @@ URI: [vm:http_response_code](https://w3id.org/linkml/validation-model/http_respo
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [vm:http_response_code](https://w3id.org/linkml/validation-model/http_respo
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [vm:http_response_code](https://w3id.org/linkml/validation-model/http_respo
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:http_response_code |
+| native | vm:http_response_code |
 
 
 

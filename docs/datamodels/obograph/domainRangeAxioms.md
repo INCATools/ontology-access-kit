@@ -1,5 +1,12 @@
+
+
 # Slot: domainRangeAxioms
+
+
 _A list of axioms that define the domain and range of a property_
+
+
+
 
 
 URI: [obographs:domainRangeAxioms](https://github.com/geneontology/obographs/domainRangeAxioms)
@@ -11,11 +18,13 @@ URI: [obographs:domainRangeAxioms](https://github.com/geneontology/obographs/dom
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [obographs:domainRangeAxioms](https://github.com/geneontology/obographs/dom
 ## Properties
 
 * Range: [DomainRangeAxiom](DomainRangeAxiom.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [obographs:domainRangeAxioms](https://github.com/geneontology/obographs/dom
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:domainRangeAxioms |
+| native | obographs:domainRangeAxioms |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,11 +75,11 @@ name: domainRangeAxioms
 description: A list of axioms that define the domain and range of a property
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: domainRangeAxioms
 domain_of:
 - Graph
 range: DomainRangeAxiom
+multivalued: true
 
 ```
 </details>

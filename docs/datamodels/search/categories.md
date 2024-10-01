@@ -1,5 +1,12 @@
+
+
 # Slot: categories
+
+
 _categories that should be matched_
+
+
+
 
 
 URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
@@ -11,11 +18,13 @@ URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:categories |
+| native | ontosearch:categories |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,12 +75,12 @@ name: categories
 description: categories that should be matched
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: categories
 owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

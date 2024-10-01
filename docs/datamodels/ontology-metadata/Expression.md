@@ -1,16 +1,24 @@
+
+
 # Class: Expression
 
 
 
-URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression)
+URI: [omoschema:Expression](https://w3id.org/oak/ontology-metadata/Expression)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class Expression
+    click Expression href "../Expression"
       Expression <|-- ClassExpression
+        click ClassExpression href "../ClassExpression"
       Expression <|-- PropertyExpression
+        click PropertyExpression href "../PropertyExpression"
       
       
 ```
@@ -56,8 +64,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -73,6 +80,8 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -82,8 +91,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression
 <details>
 ```yaml
 name: Expression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```
@@ -94,8 +102,7 @@ mixin: true
 <details>
 ```yaml
 name: Expression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```

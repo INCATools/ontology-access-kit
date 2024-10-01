@@ -1,4 +1,8 @@
+
+
 # Slot: is_transitive
+
+
 
 URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transitive)
 
@@ -9,12 +13,14 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -24,8 +30,6 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 
@@ -42,7 +46,17 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:is_transitive |
+| native | omoschema:is_transitive |
 
 
 
@@ -53,7 +67,7 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 ```yaml
 name: is_transitive
 deprecated: deprecated oboInOwl property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 deprecated_element_has_exact_replacement: TransitiveProperty
 rank: 1000
 slot_uri: oio:is_transitive

@@ -1,7 +1,10 @@
 # Type: Uriorcurie
 
 
+
+
 _a URI or a CURIE_
+
 
 
 URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
@@ -31,6 +34,16 @@ URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:anyURI |
+| native | vm:uriorcurie |
 
 
 

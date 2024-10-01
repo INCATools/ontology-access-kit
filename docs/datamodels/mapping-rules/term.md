@@ -1,5 +1,12 @@
+
+
 # Slot: term
+
+
 _A normalized term that groups ontology elements_
+
+
+
 
 
 URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
@@ -11,11 +18,13 @@ URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |  no  |
+
 
 
 
@@ -26,7 +35,7 @@ URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 
 * Range: [String](String.md)
 
-
+* Required: True
 
 
 
@@ -48,6 +57,16 @@ URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:term |
+| native | mappingrules:term |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -62,6 +81,7 @@ owner: LexicalGrouping
 domain_of:
 - LexicalGrouping
 range: string
+required: true
 
 ```
 </details>

@@ -1,7 +1,10 @@
 # Type: Uriorcurie
 
 
+
+
 _a URI or a CURIE_
+
 
 
 URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
@@ -30,7 +33,17 @@ URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:anyURI |
+| native | omoschema:uriorcurie |
 
 
 

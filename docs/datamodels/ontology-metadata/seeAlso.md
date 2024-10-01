@@ -1,4 +1,8 @@
+
+
 # Slot: seeAlso
+
+
 
 URI: [rdfs:seeAlso](http://www.w3.org/2000/01/rdf-schema#seeAlso)
 
@@ -9,23 +13,25 @@ URI: [rdfs:seeAlso](http://www.w3.org/2000/01/rdf-schema#seeAlso)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasUserInformation](HasUserInformation.md) | 
-[Axiom](Axiom.md) | A logical or non-logical statement
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+| [HasUserInformation](HasUserInformation.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -35,10 +41,8 @@ URI: [rdfs:seeAlso](http://www.w3.org/2000/01/rdf-schema#seeAlso)
 ## Properties
 
 * Range: [Thing](Thing.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -59,7 +63,17 @@ URI: [rdfs:seeAlso](http://www.w3.org/2000/01/rdf-schema#seeAlso)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:seeAlso |
+| native | omoschema:seeAlso |
 
 
 
@@ -71,15 +85,15 @@ URI: [rdfs:seeAlso](http://www.w3.org/2000/01/rdf-schema#seeAlso)
 name: seeAlso
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: rdfs:seeAlso
-multivalued: true
 alias: seeAlso
 domain_of:
 - HasUserInformation
 - Axiom
 range: Thing
+multivalued: true
 
 ```
 </details>

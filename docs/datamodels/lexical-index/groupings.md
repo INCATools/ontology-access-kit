@@ -1,5 +1,12 @@
+
+
 # Slot: groupings
+
+
 _all groupings_
+
+
+
 
 
 URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
@@ -11,11 +18,13 @@ URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 ## Properties
 
 * Range: [LexicalGrouping](LexicalGrouping.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:groupings |
+| native | ontolexindex:groupings |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,12 +75,12 @@ name: groupings
 description: all groupings
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-multivalued: true
 alias: groupings
 owner: LexicalIndex
 domain_of:
 - LexicalIndex
 range: LexicalGrouping
+multivalued: true
 inlined: true
 
 ```

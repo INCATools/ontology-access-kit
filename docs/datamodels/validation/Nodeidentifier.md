@@ -1,7 +1,10 @@
 # Type: Nodeidentifier
 
 
+
+
 _A URI, CURIE or BNODE that represents a node in a model._
+
 
 
 URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
@@ -31,6 +34,16 @@ URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | shex:nonLiteral |
+| native | vm:nodeidentifier |
 
 
 

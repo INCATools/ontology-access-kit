@@ -1,4 +1,8 @@
+
+
 # Slot: versionIRI
+
+
 
 URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 
@@ -14,11 +18,13 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An OWL ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Ontology](Ontology.md) | An OWL ontology |  yes  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 
@@ -46,7 +50,17 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:versionIRI |
+| native | omoschema:versionIRI |
 
 
 
@@ -56,7 +70,7 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 <details>
 ```yaml
 name: versionIRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: version_property
 slot_uri: owl:versionIRI

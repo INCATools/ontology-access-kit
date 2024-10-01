@@ -26,6 +26,7 @@ prefixes:
 imports:
   - linkml:types
 default_prefix: ontoassoc
+default_range: string
 
 classes:
 

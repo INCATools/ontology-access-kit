@@ -1,5 +1,12 @@
+
+
 # Slot: id
+
+
 _The unique identifier of the entity_
+
+
+
 
 
 URI: [obographs:id](https://github.com/geneontology/obographs/id)
@@ -11,14 +18,16 @@ URI: [obographs:id](https://github.com/geneontology/obographs/id)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
-[Node](Node.md) | A node is a class, property, or other entity in an ontology
-[SubsetDefinition](SubsetDefinition.md) | 
-[SynonymTypeDefinition](SynonymTypeDefinition.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SubsetDefinition](SubsetDefinition.md) |  |  no  |
+| [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |  no  |
+| [Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+
 
 
 
@@ -29,7 +38,7 @@ URI: [obographs:id](https://github.com/geneontology/obographs/id)
 
 * Range: [OboIdentifierString](OboIdentifierString.md)
 
-
+* Required: True
 
 
 
@@ -55,6 +64,16 @@ URI: [obographs:id](https://github.com/geneontology/obographs/id)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:id |
+| native | obographs:id |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -73,6 +92,7 @@ domain_of:
 - SubsetDefinition
 - SynonymTypeDefinition
 range: OboIdentifierString
+required: true
 
 ```
 </details>

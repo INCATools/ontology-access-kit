@@ -1,5 +1,12 @@
+
+
 # Slot: instantiates
+
+
 _The type of the subject_
+
+
+
 
 
 URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
@@ -11,12 +18,15 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
+
 
 
 
@@ -26,8 +36,6 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 ## Properties
 
 * Range: [Node](Node.md)
-
-
 
 
 
@@ -45,6 +53,17 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:instantiates |
+| native | vm:instantiates |
+| exact | sh:sourceShape |
 
 
 

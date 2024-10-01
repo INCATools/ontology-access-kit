@@ -1,5 +1,12 @@
+
+
 # Slot: xrefs
+
+
 _A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso_
+
+
+
 
 
 URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
@@ -11,16 +18,18 @@ URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
-[PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec...
-[DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of...
-[BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d...
-[XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ...
-[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  yes  |
+| [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |  yes  |
+| [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |  no  |
+| [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |  no  |
+| [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
+
 
 
 
@@ -30,10 +39,8 @@ URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 ## Properties
 
 * Range: [XrefString](XrefString.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -55,6 +62,18 @@ URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:xrefs |
+| native | obographs:xrefs |
+| exact | oio:hasDbXref |
+| close | rdfs:seeAlso |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -69,12 +88,12 @@ exact_mappings:
 close_mappings:
 - rdfs:seeAlso
 rank: 1000
-multivalued: true
 alias: xrefs
 domain_of:
 - Meta
 - PropertyValue
 range: XrefString
+multivalued: true
 
 ```
 </details>

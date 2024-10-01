@@ -1,5 +1,10 @@
+
+
 # Class: LexicalTransformationPipeline
+
+
 _A collection of atomic lexical transformations that are applied in serial fashion_
+
 
 
 
@@ -8,16 +13,26 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class LexicalTransformationPipeline
+    click LexicalTransformationPipeline href "../LexicalTransformationPipeline"
       Activity <|-- LexicalTransformationPipeline
+        click Activity href "../Activity"
       
       LexicalTransformationPipeline : name
         
       LexicalTransformationPipeline : transformations
         
-          LexicalTransformationPipeline ..> LexicalTransformation : transformations
+          
+    
+    
+    LexicalTransformationPipeline --> "*" LexicalTransformation : transformations
+    click LexicalTransformation href "../LexicalTransformation"
+
         
       
 ```
@@ -37,7 +52,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
+| [transformations](transformations.md) | * <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
 
 
 
@@ -71,13 +86,14 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontolexindex:LexicalTransformationPipeline |
 | native | ontolexindex:LexicalTransformationPipeline |
+
+
 
 
 
@@ -95,7 +111,6 @@ name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 is_a: Activity
 attributes:
   name:
@@ -103,12 +118,17 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    domain_of:
+    - LexicalTransformationPipeline
+    required: true
   transformations:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
+    domain_of:
+    - LexicalTransformationPipeline
     range: LexicalTransformation
+    multivalued: true
 
 ```
 </details>
@@ -121,7 +141,6 @@ name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 is_a: Activity
 attributes:
   name:
@@ -134,16 +153,17 @@ attributes:
     domain_of:
     - LexicalTransformationPipeline
     range: string
+    required: true
   transformations:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: transformations
     owner: LexicalTransformationPipeline
     domain_of:
     - LexicalTransformationPipeline
     range: LexicalTransformation
+    multivalued: true
 
 ```
 </details>

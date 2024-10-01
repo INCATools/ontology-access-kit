@@ -1,4 +1,8 @@
+
+
 # Slot: license
+
+
 
 URI: [dcterms:license](http://purl.org/dc/terms/license)
 
@@ -14,11 +18,13 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An OWL ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Ontology](Ontology.md) | An OWL ontology |  yes  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 
@@ -46,7 +50,17 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:license |
+| native | omoschema:license |
 
 
 
@@ -56,7 +70,7 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 <details>
 ```yaml
 name: license
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: informative_property
 slot_uri: dcterms:license

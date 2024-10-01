@@ -1,4 +1,8 @@
+
+
 # Slot: individual_statistic_group
+
+
 
 URI: [summary_statistics:individual_statistic_group](https://w3id.org/oaklib/summary_statistics.individual_statistic_group)
 
@@ -11,11 +15,11 @@ URI: [summary_statistics:individual_statistic_group](https://w3id.org/oaklib/sum
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -33,6 +37,16 @@ URI: [summary_statistics:individual_statistic_group](https://w3id.org/oaklib/sum
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:individual_statistic_group |
+| native | summary_statistics:individual_statistic_group |
 
 
 

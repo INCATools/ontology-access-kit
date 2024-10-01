@@ -20,7 +20,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Axiom
     click Axiom href "../Axiom"

@@ -16,7 +16,7 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class XrefPropertyValue
     click XrefPropertyValue href "../XrefPropertyValue"
@@ -127,8 +127,6 @@ slot_usage:
   val:
     name: val
     description: The textual representation of the external reference, e.g. "PMID:12345"
-    domain_of:
-    - PropertyValue
     role: xref
 
 ```
@@ -147,8 +145,6 @@ slot_usage:
   val:
     name: val
     description: The textual representation of the external reference, e.g. "PMID:12345"
-    domain_of:
-    - PropertyValue
     role: xref
 attributes:
   pred:
@@ -169,6 +165,8 @@ attributes:
     name: val
     description: The textual representation of the external reference, e.g. "PMID:12345"
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val

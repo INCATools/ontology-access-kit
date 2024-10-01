@@ -1,4 +1,8 @@
+
+
 # Slot: result_count
+
+
 
 URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_count)
 
@@ -9,11 +13,13 @@ URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_coun
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResultSet](SearchResultSet.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchResultSet](SearchResultSet.md) |  |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_coun
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_coun
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:result_count |
+| native | ontosearch:result_count |
 
 
 

@@ -1,5 +1,12 @@
+
+
 # Slot: severity
+
+
 _the severity of the issue_
+
+
+
 
 
 URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
@@ -11,13 +18,16 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
-[TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ...
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ... |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
+| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
+
 
 
 
@@ -27,8 +37,6 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 ## Properties
 
 * Range: [SeverityOptions](SeverityOptions.md)
-
-
 
 
 
@@ -46,6 +54,16 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:resultSeverity |
+| native | vm:severity |
 
 
 

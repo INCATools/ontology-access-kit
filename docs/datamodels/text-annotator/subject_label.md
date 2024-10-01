@@ -1,5 +1,12 @@
+
+
 # Slot: subject_label
+
+
 _The portion of the subject text that is matched, ranging from subject_start to subject_end_
+
+
+
 
 
 URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
@@ -11,12 +18,14 @@ URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasSpan](HasSpan.md) | 
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [HasSpan](HasSpan.md) |  |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -26,8 +35,6 @@ URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -45,6 +52,17 @@ URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:subject_label |
+| native | ann:subject_label |
+| exact | bpa:text |
 
 
 

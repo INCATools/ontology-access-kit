@@ -1,5 +1,12 @@
+
+
 # Slot: object_match_field
+
+
 _The field/property in which the match was found_
+
+
+
 
 
 URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
@@ -11,11 +18,13 @@ URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResult](SearchResult.md) | An individual search result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:object_match_field |
+| native | ontosearch:object_match_field |
 
 
 

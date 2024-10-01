@@ -1,6 +1,12 @@
+
+
 # Slot: match
 
-URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
+URI: [omoschema:match](https://w3id.org/oak/ontology-metadata/match)
 
 
 
@@ -20,11 +26,11 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -41,7 +47,17 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:match |
+| native | omoschema:match |
 
 
 
@@ -51,7 +67,7 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 <details>
 ```yaml
 name: match
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 mixins:

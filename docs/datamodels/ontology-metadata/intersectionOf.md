@@ -1,4 +1,8 @@
+
+
 # Slot: intersectionOf
+
+
 
 URI: [owl:intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
 
@@ -14,13 +18,15 @@ URI: [owl:intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[Class](Class.md) | 
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Restriction](Restriction.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+
 
 
 
@@ -30,8 +36,6 @@ URI: [owl:intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
-
-
 
 
 
@@ -52,7 +56,17 @@ URI: [owl:intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:intersectionOf |
+| native | omoschema:intersectionOf |
 
 
 
@@ -64,7 +78,7 @@ URI: [owl:intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
 name: intersectionOf
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:intersectionOf

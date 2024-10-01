@@ -1,4 +1,8 @@
+
+
 # Slot: ancestor_source
+
+
 
 URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 
@@ -9,11 +13,13 @@ URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:ancestor_source |
+| native | sim:ancestor_source |
 
 
 

@@ -16,7 +16,7 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class SynonymPropertyValue
     click SynonymPropertyValue href "../SynonymPropertyValue"
@@ -142,17 +142,10 @@ slots:
 slot_usage:
   pred:
     name: pred
-    domain_of:
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
     description: The textual string representing the synonym.
-    domain_of:
-    - PropertyValue
     role: synonym text
 
 ```
@@ -169,17 +162,10 @@ is_a: PropertyValue
 slot_usage:
   pred:
     name: pred
-    domain_of:
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
     description: The textual string representing the synonym.
-    domain_of:
-    - PropertyValue
     role: synonym text
 attributes:
   synonymType:
@@ -221,6 +207,8 @@ attributes:
     name: val
     description: The textual string representing the synonym.
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val

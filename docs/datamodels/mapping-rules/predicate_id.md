@@ -1,4 +1,13 @@
+
+
 # Slot: predicate_id
+
+
+_The predicate that is inferred_
+
+
+
+
 
 URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/predicate_id)
 
@@ -9,11 +18,13 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Postcondition](Postcondition.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Postcondition](Postcondition.md) |  |  no  |
+
 
 
 
@@ -23,8 +34,6 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -50,11 +59,22 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:predicate_id |
+| native | mappingrules:predicate_id |
+
+
+
+
 ## LinkML Source
 
 <details>
 ```yaml
 name: predicate_id
+description: The predicate that is inferred
 comments:
 - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
   narrow

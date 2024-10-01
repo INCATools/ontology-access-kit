@@ -1,6 +1,12 @@
+
+
 # Slot: excluded_axiom
 
-URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/excluded_axiom)
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
+URI: [omoschema:excluded_axiom](https://w3id.org/oak/ontology-metadata/excluded_axiom)
 
 
 
@@ -19,11 +25,11 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/exclud
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -40,7 +46,17 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/exclud
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:excluded_axiom |
+| native | omoschema:excluded_axiom |
 
 
 
@@ -50,7 +66,7 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/exclud
 <details>
 ```yaml
 name: excluded_axiom
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: excluded_axiom

@@ -1,4 +1,8 @@
+
+
 # Slot: has_exact_synonym
+
+
 
 URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExactSynonym)
 
@@ -15,23 +19,25 @@ URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExact
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms
-[Axiom](Axiom.md) | A logical or non-logical statement
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |  no  |
+| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -41,10 +47,8 @@ URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExact
 ## Properties
 
 * Range: [LabelType](LabelType.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -61,7 +65,17 @@ URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExact
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:hasExactSynonym |
+| native | omoschema:has_exact_synonym |
 
 
 
@@ -71,11 +85,10 @@ URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExact
 <details>
 ```yaml
 name: has_exact_synonym
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: synonym
 slot_uri: oio:hasExactSynonym
-multivalued: true
 alias: has_exact_synonym
 domain_of:
 - HasSynonyms
@@ -83,6 +96,7 @@ domain_of:
 disjoint_with:
 - label
 range: label type
+multivalued: true
 
 ```
 </details>

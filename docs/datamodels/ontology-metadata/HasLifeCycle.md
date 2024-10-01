@@ -1,33 +1,56 @@
+
+
 # Class: HasLifeCycle
 
 
 
-URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeCycle)
+URI: [omoschema:HasLifeCycle](https://w3id.org/oak/ontology-metadata/HasLifeCycle)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class HasLifeCycle
+    click HasLifeCycle href "../HasLifeCycle"
       AnnotationPropertyMixin <|-- HasLifeCycle
+        click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       
 
       HasLifeCycle <|-- Term
+        click Term href "../Term"
       
       
       HasLifeCycle : consider
         
-          HasLifeCycle ..> Any : consider
+          
+    
+    
+    HasLifeCycle --> "*" Any : consider
+    click Any href "../Any"
+
         
       HasLifeCycle : deprecated
         
       HasLifeCycle : excluded_from_QC_check
         
-          HasLifeCycle ..> Thing : excluded_from_QC_check
+          
+    
+    
+    HasLifeCycle --> "0..1" Thing : excluded_from_QC_check
+    click Thing href "../Thing"
+
         
       HasLifeCycle : excluded_subClassOf
         
-          HasLifeCycle ..> Class : excluded_subClassOf
+          
+    
+    
+    HasLifeCycle --> "*" Class : excluded_subClassOf
+    click Class href "../Class"
+
         
       HasLifeCycle : excluded_synonym
         
@@ -37,11 +60,21 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
         
       HasLifeCycle : should_conform_to
         
-          HasLifeCycle ..> Thing : should_conform_to
+          
+    
+    
+    HasLifeCycle --> "0..1" Thing : should_conform_to
+    click Thing href "../Thing"
+
         
       HasLifeCycle : term_replaced_by
         
-          HasLifeCycle ..> Any : term_replaced_by
+          
+    
+    
+    HasLifeCycle --> "0..1" Any : term_replaced_by
+    click Any href "../Any"
+
         
       
 ```
@@ -63,11 +96,11 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 | [deprecated](deprecated.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md) |  | direct |
-| [consider](consider.md) | 0..* <br/> [Any](Any.md) |  | direct |
-| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | Relates a live term to a deprecated ID that was merged in | direct |
+| [consider](consider.md) | * <br/> [Any](Any.md) |  | direct |
+| [has_alternative_id](has_alternative_id.md) | * <br/> [Uriorcurie](Uriorcurie.md) | Relates a live term to a deprecated ID that was merged in | direct |
 | [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
-| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md) |  | direct |
-| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [String](String.md) |  | direct |
+| [excluded_subClassOf](excluded_subClassOf.md) | * <br/> [Class](Class.md) |  | direct |
+| [excluded_synonym](excluded_synonym.md) | * <br/> [String](String.md) |  | direct |
 | [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
 
 
@@ -96,8 +129,7 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -113,6 +145,8 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -122,8 +156,7 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 <details>
 ```yaml
 name: HasLifeCycle
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -192,8 +225,7 @@ rules:
 <details>
 ```yaml
 name: HasLifeCycle
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -203,7 +235,7 @@ attributes:
     - allotrope permitted profile
     - go permitted profile
     - obi permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     aliases:
     - is obsolete
     rank: 1000
@@ -221,7 +253,7 @@ attributes:
     - restrict range
     comments:
     - '{''RULE'': ''subject must be deprecated''}'
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
@@ -239,7 +271,7 @@ attributes:
     - go permitted profile
     - obi permitted profile
     - allotrope permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - dcterms:isReplacedBy
     rank: 1000
@@ -257,17 +289,17 @@ attributes:
     - '{''RULE'': ''subject must be deprecated''}'
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
     slot_uri: oio:consider
-    multivalued: true
     alias: consider
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: Any
+    multivalued: true
   has_alternative_id:
     name: has_alternative_id
     description: Relates a live term to a deprecated ID that was merged in
@@ -277,22 +309,22 @@ attributes:
     - '{''RULE'': ''object must NOT be deprecated''}'
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     see_also:
     - https://github.com/owlcs/owlapi/issues/317
     rank: 1000
     is_a: obsoletion_related_property
     domain: NotObsoleteAspect
     slot_uri: oio:hasAlternativeId
-    multivalued: true
     alias: has_alternative_id
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: uriorcurie
+    multivalued: true
   excluded_from_QC_check:
     name: excluded_from_QC_check
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     alias: excluded_from_QC_check
@@ -302,31 +334,31 @@ attributes:
     range: Thing
   excluded_subClassOf:
     name: excluded_subClassOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
-    multivalued: true
     alias: excluded_subClassOf
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: Class
+    multivalued: true
   excluded_synonym:
     name: excluded_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:hiddenSynonym
     rank: 1000
     is_a: excluded_axiom
-    multivalued: true
     alias: excluded_synonym
     owner: HasLifeCycle
     domain_of:
     - HasLifeCycle
     range: string
+    multivalued: true
   should_conform_to:
     name: should_conform_to
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     alias: should_conform_to

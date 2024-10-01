@@ -1,5 +1,12 @@
+
+
 # Slot: subject_id
+
+
 _The first of the two entities being compared_
+
+
+
 
 
 URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
@@ -11,11 +18,13 @@ URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Required: True
-
-
-
 
 
 
@@ -46,6 +53,16 @@ URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:subject_id |
+| native | sim:subject_id |
 
 
 

@@ -1,5 +1,12 @@
+
+
 # Slot: results
+
+
 _collection of results_
+
+
+
 
 
 URI: [sh:result](http://www.w3.org/ns/shacl#result)
@@ -11,13 +18,15 @@ URI: [sh:result](http://www.w3.org/ns/shacl#result)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Report](Report.md) | A report object that is a holder to multiple report results
-[ValidationReport](ValidationReport.md) | A report that consists of validation results
-[RepairReport](RepairReport.md) | A report that consists of repair operation results
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Report](Report.md) | A report object that is a holder to multiple report results |  no  |
+| [ValidationReport](ValidationReport.md) | A report that consists of validation results |  yes  |
+| [RepairReport](RepairReport.md) | A report that consists of repair operation results |  yes  |
+
 
 
 
@@ -27,10 +36,8 @@ URI: [sh:result](http://www.w3.org/ns/shacl#result)
 ## Properties
 
 * Range: [Result](Result.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -52,6 +59,16 @@ URI: [sh:result](http://www.w3.org/ns/shacl#result)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:result |
+| native | vm:results |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -61,11 +78,11 @@ description: collection of results
 from_schema: https://w3id.org/linkml/validation_results
 rank: 1000
 slot_uri: sh:result
-multivalued: true
 alias: results
 domain_of:
 - Report
 range: Result
+multivalued: true
 inlined: true
 inlined_as_list: true
 

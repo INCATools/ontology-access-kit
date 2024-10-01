@@ -1,7 +1,10 @@
 # Type: Integer
 
 
+
+
 _An integer_
+
 
 
 URI: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
@@ -29,7 +32,18 @@ URI: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:integer |
+| native | omoschema:integer |
+| exact | schema:Integer |
 
 
 

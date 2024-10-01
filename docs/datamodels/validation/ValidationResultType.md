@@ -2,7 +2,7 @@
 
 
 
-URI: [ValidationResultType](ValidationResultType)
+URI: [ValidationResultType](ValidationResultType.md)
 
 ## Permissible Values
 
@@ -38,6 +38,8 @@ URI: [ValidationResultType](ValidationResultType)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
 
 
 

@@ -1,5 +1,10 @@
+
+
 # Class: PropertyChainAxiom
+
+
 _An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn_
+
 
 
 
@@ -8,16 +13,26 @@ URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/Pr
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class PropertyChainAxiom
+    click PropertyChainAxiom href "../PropertyChainAxiom"
       Axiom <|-- PropertyChainAxiom
+        click Axiom href "../Axiom"
       
       PropertyChainAxiom : chainPredicateIds
         
       PropertyChainAxiom : meta
         
-          PropertyChainAxiom ..> Meta : meta
+          
+    
+    
+    PropertyChainAxiom --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       PropertyChainAxiom : predicateId
         
@@ -39,7 +54,7 @@ URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/Pr
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [predicateId](predicateId.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [chainPredicateIds](chainPredicateIds.md) | 0..* <br/> [String](String.md) | A list of identifiers of predicates that form the precedent clause of a prope... | direct |
+| [chainPredicateIds](chainPredicateIds.md) | * <br/> [String](String.md) | A list of identifiers of predicates that form the precedent clause of a prope... | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 
 
@@ -73,13 +88,14 @@ URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/Pr
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:PropertyChainAxiom |
 | native | obographs:PropertyChainAxiom |
+
+
 
 
 
@@ -97,7 +113,6 @@ name: PropertyChainAxiom
 description: An axiom that represents an OWL property chain, e.g. R <- R1 o ... o
   Rn
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 slots:
 - predicateId
@@ -114,7 +129,6 @@ name: PropertyChainAxiom
 description: An axiom that represents an OWL property chain, e.g. R <- R1 o ... o
   Rn
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 attributes:
   predicateId:
@@ -133,12 +147,12 @@ attributes:
       of a property chain rule
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: chainPredicateIds
     owner: PropertyChainAxiom
     domain_of:
     - PropertyChainAxiom
     range: string
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

@@ -1,4 +1,8 @@
+
+
 # Slot: cursor
+
+
 
 URI: [ontosearch:cursor](https://w3id.org/oak/search-datamodel/cursor)
 
@@ -9,12 +13,14 @@ URI: [ontosearch:cursor](https://w3id.org/oak/search-datamodel/cursor)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
-[SearchResultSet](SearchResultSet.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchResultSet](SearchResultSet.md) |  |  no  |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -29,13 +35,21 @@ URI: [ontosearch:cursor](https://w3id.org/oak/search-datamodel/cursor)
 
 
 
-
-
 ## Identifier and Mapping Information
 
 
 
 
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:cursor |
+| native | ontosearch:cursor |
 
 
 

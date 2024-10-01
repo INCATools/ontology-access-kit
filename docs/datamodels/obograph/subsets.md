@@ -1,5 +1,12 @@
+
+
 # Slot: subsets
+
+
 _A list of subsets to which this entity belongs_
+
+
+
 
 
 URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
@@ -11,11 +18,13 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:inSubset |
+| native | obographs:subsets |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -59,11 +76,11 @@ description: A list of subsets to which this entity belongs
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: oio:inSubset
-multivalued: true
 alias: subsets
 domain_of:
 - Meta
 range: string
+multivalued: true
 
 ```
 </details>

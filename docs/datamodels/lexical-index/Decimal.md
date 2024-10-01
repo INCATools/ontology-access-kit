@@ -1,7 +1,10 @@
 # Type: Decimal
 
 
+
+
 _A real number with arbitrary precision that conforms to the xsd:decimal specification_
+
 
 
 URI: [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal)
@@ -30,6 +33,17 @@ URI: [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:decimal |
+| native | ontolexindex:decimal |
+| broad | schema:Number |
 
 
 

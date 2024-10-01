@@ -1,7 +1,10 @@
 # Type: Decimal
 
 
+
+
 _A real number with arbitrary precision that conforms to the xsd:decimal specification_
+
 
 
 URI: [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal)
@@ -29,7 +32,18 @@ URI: [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:decimal |
+| native | omoschema:decimal |
+| broad | schema:Number |
 
 
 

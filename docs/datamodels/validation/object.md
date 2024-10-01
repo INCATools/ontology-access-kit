@@ -1,4 +1,8 @@
+
+
 # Slot: object
+
+
 
 URI: [sh:value](http://www.w3.org/ns/shacl#value)
 
@@ -9,12 +13,15 @@ URI: [sh:value](http://www.w3.org/ns/shacl#value)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
+
 
 
 
@@ -24,8 +31,6 @@ URI: [sh:value](http://www.w3.org/ns/shacl#value)
 ## Properties
 
 * Range: [Node](Node.md)
-
-
 
 
 
@@ -43,6 +48,16 @@ URI: [sh:value](http://www.w3.org/ns/shacl#value)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sh:value |
+| native | vm:object |
 
 
 

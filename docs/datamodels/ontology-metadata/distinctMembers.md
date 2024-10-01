@@ -1,4 +1,8 @@
+
+
 # Slot: distinctMembers
+
+
 
 URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 
@@ -16,11 +20,11 @@ URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 
 
 
+
+
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 
@@ -37,7 +41,17 @@ URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:distinctMembers |
+| native | omoschema:distinctMembers |
 
 
 
@@ -47,7 +61,7 @@ URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 <details>
 ```yaml
 name: distinctMembers
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:distinctMembers

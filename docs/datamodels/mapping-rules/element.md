@@ -1,4 +1,8 @@
+
+
 # Slot: element
+
+
 
 URI: [mappingrules:element](https://w3id.org/oak/mapping-rules-datamodel/element)
 
@@ -9,11 +13,13 @@ URI: [mappingrules:element](https://w3id.org/oak/mapping-rules-datamodel/element
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [mappingrules:element](https://w3id.org/oak/mapping-rules-datamodel/element
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [mappingrules:element](https://w3id.org/oak/mapping-rules-datamodel/element
 
 
 * from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:element |
+| native | mappingrules:element |
 
 
 

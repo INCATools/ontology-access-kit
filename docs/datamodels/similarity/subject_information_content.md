@@ -1,5 +1,12 @@
+
+
 # Slot: subject_information_content
+
+
 _The IC of the subject_
+
+
+
 
 
 URI: [sim:subject_information_content](https://w3id.org/linkml/similarity/subject_information_content)
@@ -17,11 +24,13 @@ URI: [sim:subject_information_content](https://w3id.org/linkml/similarity/subjec
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -31,8 +40,6 @@ URI: [sim:subject_information_content](https://w3id.org/linkml/similarity/subjec
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [sim:subject_information_content](https://w3id.org/linkml/similarity/subjec
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:subject_information_content |
+| native | sim:subject_information_content |
 
 
 

@@ -1,5 +1,12 @@
+
+
 # Slot: individual_count
+
+
 _Number of individuals (named and anonymous) in the ontology or subset_
+
+
+
 
 
 URI: [summary_statistics:individual_count](https://w3id.org/oaklib/summary_statistics.individual_count)
@@ -16,11 +23,13 @@ URI: [summary_statistics:individual_count](https://w3id.org/oaklib/summary_stati
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +39,6 @@ URI: [summary_statistics:individual_count](https://w3id.org/oaklib/summary_stati
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 
@@ -55,6 +62,16 @@ URI: [summary_statistics:individual_count](https://w3id.org/oaklib/summary_stati
 
 
 * from schema: https://w3id.org/oak/summary_statistics
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | summary_statistics:individual_count |
+| native | summary_statistics:individual_count |
 
 
 

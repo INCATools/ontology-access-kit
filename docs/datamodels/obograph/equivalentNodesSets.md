@@ -1,5 +1,12 @@
+
+
 # Slot: equivalentNodesSets
+
+
 _A list of sets of nodes that form equivalence cliques_
+
+
+
 
 
 URI: [obographs:equivalentNodesSets](https://github.com/geneontology/obographs/equivalentNodesSets)
@@ -11,11 +18,13 @@ URI: [obographs:equivalentNodesSets](https://github.com/geneontology/obographs/e
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [obographs:equivalentNodesSets](https://github.com/geneontology/obographs/e
 ## Properties
 
 * Range: [EquivalentNodesSet](EquivalentNodesSet.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [obographs:equivalentNodesSets](https://github.com/geneontology/obographs/e
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:equivalentNodesSets |
+| native | obographs:equivalentNodesSets |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,11 +75,11 @@ name: equivalentNodesSets
 description: A list of sets of nodes that form equivalence cliques
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: equivalentNodesSets
 domain_of:
 - Graph
 range: EquivalentNodesSet
+multivalued: true
 
 ```
 </details>

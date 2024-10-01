@@ -1,4 +1,13 @@
+
+
 # Slot: mapping_source_one_of
+
+
+_The source of the mapping to be matched. Multiple values can be provided, it must match at least one._
+
+
+
+
 
 URI: [mappingrules:mapping_source_one_of](https://w3id.org/oak/mapping-rules-datamodel/mapping_source_one_of)
 
@@ -9,11 +18,13 @@ URI: [mappingrules:mapping_source_one_of](https://w3id.org/oak/mapping-rules-dat
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |  no  |
+
 
 
 
@@ -23,10 +34,8 @@ URI: [mappingrules:mapping_source_one_of](https://w3id.org/oak/mapping-rules-dat
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -48,19 +57,31 @@ URI: [mappingrules:mapping_source_one_of](https://w3id.org/oak/mapping-rules-dat
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:mapping_source_one_of |
+| native | mappingrules:mapping_source_one_of |
+
+
+
+
 ## LinkML Source
 
 <details>
 ```yaml
 name: mapping_source_one_of
+description: The source of the mapping to be matched. Multiple values can be provided,
+  it must match at least one.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-multivalued: true
 alias: mapping_source_one_of
 owner: Precondition
 domain_of:
 - Precondition
 range: string
+multivalued: true
 
 ```
 </details>

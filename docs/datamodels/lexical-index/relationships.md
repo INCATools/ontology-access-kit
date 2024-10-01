@@ -1,5 +1,12 @@
+
+
 # Slot: relationships
+
+
 _All ontology elements grouped and their relationship to the normalized term_
+
+
+
 
 
 URI: [ontolexindex:relationships](https://w3id.org/oak/lexical-index/relationships)
@@ -11,11 +18,13 @@ URI: [ontolexindex:relationships](https://w3id.org/oak/lexical-index/relationshi
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [ontolexindex:relationships](https://w3id.org/oak/lexical-index/relationshi
 ## Properties
 
 * Range: [RelationshipToTerm](RelationshipToTerm.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [ontolexindex:relationships](https://w3id.org/oak/lexical-index/relationshi
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:relationships |
+| native | ontolexindex:relationships |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -59,12 +76,12 @@ description: All ontology elements grouped and their relationship to the normali
   term
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-multivalued: true
 alias: relationships
 owner: LexicalGrouping
 domain_of:
 - LexicalGrouping
 range: RelationshipToTerm
+multivalued: true
 
 ```
 </details>

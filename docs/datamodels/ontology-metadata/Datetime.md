@@ -1,7 +1,10 @@
 # Type: Datetime
 
 
+
+
 _The combination of a date and time_
+
 
 
 URI: [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime)
@@ -30,7 +33,18 @@ URI: [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:dateTime |
+| native | omoschema:datetime |
+| exact | schema:DateTime |
 
 
 

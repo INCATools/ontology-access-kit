@@ -1,4 +1,8 @@
+
+
 # Slot: changeNote
+
+
 
 URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 
@@ -16,13 +20,13 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -39,7 +43,17 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | skos:changeNote |
+| native | omoschema:changeNote |
 
 
 
@@ -51,13 +65,13 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 name: changeNote
 in_subset:
 - allotrope permitted profile
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: informative_property
 slot_uri: skos:changeNote
-multivalued: true
 alias: changeNote
 range: string
+multivalued: true
 
 ```
 </details>

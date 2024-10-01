@@ -2,7 +2,8 @@
 
 Schema for ontology metadata
 
-URI: http://purl.obolibrary.org/obo/omo/schema
+URI: https://w3id.org/oak/ontology-metadata
+
 Name: Ontology-Metadata
 
 
@@ -11,39 +12,40 @@ Name: Ontology-Metadata
 
 | Class | Description |
 | --- | --- |
-| [Agent](Agent.md) |  |
 | [Annotation](Annotation.md) | A reified property-object pair |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |
 | [AnnotationPropertyMixin](AnnotationPropertyMixin.md) | Groups all annotation property bundles |
-| [Anonymous](Anonymous.md) | Abstract root class for all anonymous (non-named; lacking an identifier) expr... |
-| [AnonymousClassExpression](AnonymousClassExpression.md) |  |
-| [Any](Any.md) |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HasCategory](HasCategory.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HasLifeCycle](HasLifeCycle.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HasMappings](HasMappings.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HasProvenance](HasProvenance.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HasUserInformation](HasUserInformation.md) | None |
+| [Anonymous](Anonymous.md) | Abstract root class for all anonymous (non-named; lacking an identifier) expressions |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[AnonymousClassExpression](AnonymousClassExpression.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Restriction](Restriction.md) | None |
+| [Any](Any.md) | None |
 | [Axiom](Axiom.md) | A logical or non-logical statement |
-| [Class](Class.md) |  |
-| [ClassExpression](ClassExpression.md) |  |
-| [Expression](Expression.md) |  |
-| [HasCategory](HasCategory.md) |  |
-| [HasLifeCycle](HasLifeCycle.md) |  |
-| [HasMappings](HasMappings.md) |  |
-| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |
-| [HasProvenance](HasProvenance.md) |  |
-| [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |
-| [HasUserInformation](HasUserInformation.md) |  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |
-| [Image](Image.md) |  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |
-| [NamedObject](NamedObject.md) | Anything with an IRI |
+| [Expression](Expression.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ClassExpression](ClassExpression.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[PropertyExpression](PropertyExpression.md) | None |
 | [NotObsoleteAspect](NotObsoleteAspect.md) | Auto-classifies anything that is not obsolete |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |
 | [ObsoleteAspect](ObsoleteAspect.md) | Auto-classifies anything that is obsolete |
-| [Ontology](Ontology.md) | An OWL ontology |
-| [Property](Property.md) |  |
-| [PropertyExpression](PropertyExpression.md) |  |
-| [Restriction](Restriction.md) |  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
-| [Thing](Thing.md) |  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |
+| [Thing](Thing.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NamedObject](NamedObject.md) | Anything with an IRI |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Ontology](Ontology.md) | An OWL ontology |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Class](Class.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NamedIndividual](NamedIndividual.md) | An instance that has a IRI |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Agent](Agent.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HomoSapiens](HomoSapiens.md) | An individual human being |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Image](Image.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Property](Property.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Subset](Subset.md) | A collection of terms grouped for some purpose |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |
+
 
 
 ## Slots
@@ -203,11 +205,14 @@ Name: Ontology-Metadata
 | [Float](Float.md) | A real number that conforms to the xsd:float specification |
 | [Integer](Integer.md) | An integer |
 | [IriType](IriType.md) | An IRI |
+| [Jsonpath](Jsonpath.md) | A string encoding a JSON Path |
+| [Jsonpointer](Jsonpointer.md) | A string encoding a JSON Pointer |
 | [LabelType](LabelType.md) | A string that provides a human-readable name for an entity |
 | [NarrativeText](NarrativeText.md) | A string that provides a human-readable description of something |
 | [Ncname](Ncname.md) | Prefix part of CURIE |
 | [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
 | [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [Sparqlpath](Sparqlpath.md) | A string encoding a SPARQL Property Path |
 | [String](String.md) | A character string |
 | [TidyString](TidyString.md) |  |
 | [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |

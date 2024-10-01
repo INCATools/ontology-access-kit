@@ -1,5 +1,12 @@
+
+
 # Slot: annotations
+
+
 _all annotations_
+
+
+
 
 
 URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
@@ -11,11 +18,13 @@ URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
 ## Properties
 
 * Range: [TextAnnotation](TextAnnotation.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:annotations |
+| native | ann:annotations |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,12 +75,12 @@ name: annotations
 description: all annotations
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
-multivalued: true
 alias: annotations
 owner: TextAnnotationResultSet
 domain_of:
 - TextAnnotationResultSet
 range: TextAnnotation
+multivalued: true
 inlined: true
 
 ```

@@ -1,4 +1,8 @@
+
+
 # Slot: oneOf
+
+
 
 URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
@@ -14,13 +18,15 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[Class](Class.md) | 
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Restriction](Restriction.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+
 
 
 
@@ -30,8 +36,6 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
-
-
 
 
 
@@ -48,7 +52,17 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:oneOf |
+| native | omoschema:oneOf |
 
 
 
@@ -58,7 +72,7 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 <details>
 ```yaml
 name: oneOf
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:oneOf

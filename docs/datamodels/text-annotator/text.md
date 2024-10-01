@@ -1,4 +1,8 @@
+
+
 # Slot: text
+
+
 
 URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 
@@ -9,11 +13,13 @@ URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextualElement](TextualElement.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TextualElement](TextualElement.md) |  |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:text |
+| native | ann:text |
 
 
 

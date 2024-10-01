@@ -1,4 +1,8 @@
+
+
 # Slot: notes
+
+
 
 URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 
@@ -9,11 +13,13 @@ URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -43,7 +47,17 @@ URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:notes |
+| native | omoschema:notes |
 
 
 
@@ -54,14 +68,14 @@ URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 ```yaml
 name: notes
 deprecated: deprecated oboInOwl property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:notes
-multivalued: true
 alias: notes
 domain_of:
 - Axiom
 range: string
+multivalued: true
 
 ```
 </details>

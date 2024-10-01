@@ -1,5 +1,10 @@
+
+
 # Class: SearchResult
+
+
 _An individual search result_
+
 
 
 
@@ -8,9 +13,13 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class SearchResult
+    click SearchResult href "../SearchResult"
       SearchResult : matches_full_search_term
         
       SearchResult : object_id
@@ -41,7 +50,7 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [rank](rank.md) | 0..1 <br/> [Integer](Integer.md) | For relevancy-ranked results, this indicates the relevancy, with low numbers ... | direct |
-| [object_id](object_id.md) | 1..1 <br/> [String](String.md) | The CURIE of the matched term | direct |
+| [object_id](object_id.md) | 1 <br/> [String](String.md) | The CURIE of the matched term | direct |
 | [object_label](object_label.md) | 0..1 _recommended_ <br/> [String](String.md) | The label/name of the matched term | direct |
 | [object_source](object_source.md) | 0..1 <br/> [String](String.md) | The ontology or other source that contains the matched term | direct |
 | [object_source_version](object_source_version.md) | 0..1 <br/> [String](String.md) | Version IRI or version string of the source of the object term | direct |
@@ -80,13 +89,14 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontosearch:SearchResult |
 | native | ontosearch:SearchResult |
+
+
 
 
 
@@ -103,7 +113,6 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 name: SearchResult
 description: An individual search result
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   rank:
     name: rank
@@ -111,6 +120,8 @@ attributes:
       low numbers being the most relevant
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchResult
     range: integer
   object_id:
     name: object_id
@@ -118,6 +129,8 @@ attributes:
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_id
+    domain_of:
+    - SearchResult
     required: true
   object_label:
     name: object_label
@@ -125,6 +138,8 @@ attributes:
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_label
+    domain_of:
+    - SearchResult
     recommended: true
   object_source:
     name: object_source
@@ -132,29 +147,39 @@ attributes:
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_source
+    domain_of:
+    - SearchResult
   object_source_version:
     name: object_source_version
     description: Version IRI or version string of the source of the object term.
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_source_version
+    domain_of:
+    - SearchResult
   object_match_field:
     name: object_match_field
     description: The field/property in which the match was found
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_match_field
+    domain_of:
+    - SearchResult
   matches_full_search_term:
     name: matches_full_search_term
     description: Does the matched field match the full string
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchResult
     range: boolean
   snippet:
     name: snippet
     description: shows how the field was matched
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchResult
 
 ```
 </details>
@@ -166,7 +191,6 @@ attributes:
 name: SearchResult
 description: An individual search result
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   rank:
     name: rank

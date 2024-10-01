@@ -1,4 +1,8 @@
+
+
 # Slot: sameAs
+
+
 
 URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 
@@ -16,13 +20,13 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 
 
 
+
+
 ## Properties
 
 * Range: [Thing](Thing.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -43,7 +47,17 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:sameAs |
+| native | omoschema:sameAs |
 
 
 
@@ -55,15 +69,15 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 name: sameAs
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 mixins:
 - match_aspect
 slot_uri: owl:sameAs
-multivalued: true
 alias: sameAs
 range: Thing
+multivalued: true
 
 ```
 </details>

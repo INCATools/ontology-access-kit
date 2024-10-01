@@ -1,4 +1,8 @@
+
+
 # Slot: dice_similarity
+
+
 
 URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
@@ -14,11 +18,13 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 ## Properties
 
 * Range: [ZeroToOne](ZeroToOne.md)
-
-
 
 
 
@@ -47,6 +51,16 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:dice_similarity |
+| native | sim:dice_similarity |
 
 
 

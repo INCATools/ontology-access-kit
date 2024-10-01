@@ -1,4 +1,8 @@
+
+
 # Slot: element
+
+
 
 URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 
@@ -9,11 +13,13 @@ URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:element |
+| native | ontolexindex:element |
 
 
 

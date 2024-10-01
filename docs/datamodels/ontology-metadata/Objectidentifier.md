@@ -1,7 +1,10 @@
 # Type: Objectidentifier
 
 
+
+
 _A URI or CURIE that represents an object in the model._
+
 
 
 URI: [shex:iri](http://www.w3.org/ns/shex#iri)
@@ -34,7 +37,17 @@ URI: [shex:iri](http://www.w3.org/ns/shex#iri)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | shex:iri |
+| native | omoschema:objectidentifier |
 
 
 

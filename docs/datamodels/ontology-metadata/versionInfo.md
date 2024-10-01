@@ -1,4 +1,8 @@
+
+
 # Slot: versionInfo
+
+
 
 URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
@@ -14,11 +18,13 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An OWL ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Ontology](Ontology.md) | An OWL ontology |  yes  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -46,7 +50,18 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:versionInfo |
+| native | omoschema:versionInfo |
+| close | pav:version |
 
 
 
@@ -56,7 +71,7 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 <details>
 ```yaml
 name: versionInfo
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 close_mappings:
 - pav:version
 rank: 1000

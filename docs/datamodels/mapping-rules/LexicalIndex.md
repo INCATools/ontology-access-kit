@@ -1,5 +1,10 @@
+
+
 # Class: LexicalIndex
+
+
 _An index over an ontology keyed by lexical unit_
+
 
 
 
@@ -8,16 +13,30 @@ URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/Le
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class LexicalIndex
+    click LexicalIndex href "../LexicalIndex"
       LexicalIndex : groupings
         
-          LexicalIndex ..> LexicalGrouping : groupings
+          
+    
+    
+    LexicalIndex --> "*" LexicalGrouping : groupings
+    click LexicalGrouping href "../LexicalGrouping"
+
         
       LexicalIndex : pipelines
         
-          LexicalIndex ..> LexicalTransformationPipeline : pipelines
+          
+    
+    
+    LexicalIndex --> "*" LexicalTransformationPipeline : pipelines
+    click LexicalTransformationPipeline href "../LexicalTransformationPipeline"
+
         
       
 ```
@@ -32,8 +51,8 @@ URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/Le
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [groupings](groupings.md) | 0..* <br/> [LexicalGrouping](LexicalGrouping.md) | all groupings | direct |
-| [pipelines](pipelines.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | all pipelines used to build the index | direct |
+| [groupings](groupings.md) | * <br/> [LexicalGrouping](LexicalGrouping.md) | all groupings | direct |
+| [pipelines](pipelines.md) | * <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | all pipelines used to build the index | direct |
 
 
 
@@ -59,13 +78,14 @@ URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/Le
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:LexicalIndex |
 | native | mappingrules:LexicalIndex |
+
+
 
 
 
@@ -82,23 +102,26 @@ URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/Le
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
+    domain_of:
+    - LexicalIndex
     range: LexicalGrouping
+    multivalued: true
     inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
+    domain_of:
+    - LexicalIndex
     range: LexicalTransformationPipeline
+    multivalued: true
     inlined: true
 
 ```
@@ -111,31 +134,30 @@ attributes:
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: groupings
     owner: LexicalIndex
     domain_of:
     - LexicalIndex
     range: LexicalGrouping
+    multivalued: true
     inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: pipelines
     owner: LexicalIndex
     domain_of:
     - LexicalIndex
     range: LexicalTransformationPipeline
+    multivalued: true
     inlined: true
 
 ```

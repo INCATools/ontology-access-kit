@@ -1,5 +1,12 @@
+
+
 # Slot: pred
+
+
 _the predicate of an edge_
+
+
+
 
 
 URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
@@ -11,17 +18,19 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Edge](Edge.md) | An edge is a simple typed relationship between two nodes
-[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
-[PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec...
-[SynonymTypeDefinition](SynonymTypeDefinition.md) | 
-[DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of...
-[BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d...
-[XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |  no  |
+| [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |  no  |
+| [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |  no  |
+| [Edge](Edge.md) | An edge is a simple typed relationship between two nodes |  no  |
+| [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |  no  |
+| [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  yes  |
+
 
 
 
@@ -31,8 +40,6 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:predicate |
+| native | obographs:pred |
 
 
 

@@ -1,10 +1,13 @@
 # Enum: TransformationType
 
 
+
+
 _A controlled datamodels of the types of transformation that can be applied to_
 
 
-URI: [TransformationType](TransformationType)
+
+URI: [TransformationType](TransformationType.md)
 
 ## Permissible Values
 
@@ -38,6 +41,8 @@ URI: [TransformationType](TransformationType)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
 
 
 

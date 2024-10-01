@@ -3,6 +3,7 @@
 A datamodel for representing semantic similarity between terms or lists of terms.
 
 URI: https://w3id.org/oak/similarity
+
 Name: similarity
 
 
@@ -11,11 +12,12 @@ Name: similarity
 
 | Class | Description |
 | --- | --- |
-| [BestMatch](BestMatch.md) |  |
+| [BestMatch](BestMatch.md) | None |
 | [PairwiseSimilarity](PairwiseSimilarity.md) | Abstract grouping for representing individual pairwise similarities |
-| [TermInfo](TermInfo.md) |  |
-| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |
-| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |
+| [TermInfo](TermInfo.md) | None |
+
 
 
 ## Slots
@@ -28,6 +30,7 @@ Name: similarity
 | [ancestor_source](ancestor_source.md) |  |
 | [average_score](average_score.md) |  |
 | [best_score](best_score.md) |  |
+| [cosine_similarity](cosine_similarity.md) | the dot product of two node embeddings divided by the product of their length... |
 | [dice_similarity](dice_similarity.md) |  |
 | [id](id.md) |  |
 | [information_content](information_content.md) | The IC is the negative log of the probability of the concept |
@@ -82,11 +85,14 @@ Name: similarity
 | [Float](Float.md) | A real number that conforms to the xsd:float specification |
 | [Integer](Integer.md) | An integer |
 | [ItemCount](ItemCount.md) |  |
+| [Jsonpath](Jsonpath.md) | A string encoding a JSON Path |
+| [Jsonpointer](Jsonpointer.md) | A string encoding a JSON Pointer |
 | [Ncname](Ncname.md) | Prefix part of CURIE |
 | [NegativeLogValue](NegativeLogValue.md) |  |
 | [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
 | [NonNegativeFloat](NonNegativeFloat.md) |  |
 | [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [Sparqlpath](Sparqlpath.md) | A string encoding a SPARQL Property Path |
 | [String](String.md) | A character string |
 | [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
 | [Uri](Uri.md) | a complete URI |

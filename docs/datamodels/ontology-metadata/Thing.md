@@ -1,3 +1,5 @@
+
+
 # Class: Thing
 
 
@@ -8,10 +10,15 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class Thing
+    click Thing href "../Thing"
       Thing <|-- NamedObject
+        click NamedObject href "../NamedObject"
       
       Thing : type
         
@@ -32,7 +39,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [type](type.md) | * <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 
 
 
@@ -147,8 +154,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -164,6 +170,8 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -173,8 +181,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 <details>
 ```yaml
 name: Thing
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 abstract: true
 slots:
 - type
@@ -188,23 +195,22 @@ class_uri: owl:Thing
 <details>
 ```yaml
 name: Thing
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 abstract: true
 attributes:
   type:
     name: type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type
-    multivalued: true
     designates_type: true
     alias: type
     owner: Thing
     domain_of:
     - Thing
     range: uriorcurie
+    multivalued: true
 class_uri: owl:Thing
 
 ```

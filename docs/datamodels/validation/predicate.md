@@ -1,5 +1,12 @@
+
+
 # Slot: predicate
+
+
 _The predicate or property of the subject which the result is about_
+
+
+
 
 
 URI: [vm:predicate](https://w3id.org/linkml/validation-model/predicate)
@@ -11,12 +18,15 @@ URI: [vm:predicate](https://w3id.org/linkml/validation-model/predicate)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
+
 
 
 
@@ -26,8 +36,6 @@ URI: [vm:predicate](https://w3id.org/linkml/validation-model/predicate)
 ## Properties
 
 * Range: [Node](Node.md)
-
-
 
 
 
@@ -45,6 +53,17 @@ URI: [vm:predicate](https://w3id.org/linkml/validation-model/predicate)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:predicate |
+| native | vm:predicate |
+| related | sh:resultPath |
 
 
 

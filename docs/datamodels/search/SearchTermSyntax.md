@@ -2,7 +2,7 @@
 
 
 
-URI: [SearchTermSyntax](SearchTermSyntax)
+URI: [SearchTermSyntax](SearchTermSyntax.md)
 
 ## Permissible Values
 
@@ -40,6 +40,8 @@ URI: [SearchTermSyntax](SearchTermSyntax)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
 
 
 
