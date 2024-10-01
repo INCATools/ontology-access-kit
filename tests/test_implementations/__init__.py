@@ -727,7 +727,7 @@ class ComplianceTester:
         :return:
         """
         test = self.test
-        expected = [
+        cases = [
             (True, "B", "P", "CTestSome", "some", "tbox", True),
             (True, "B", "P", "ITestValue", "value", "abox", True),
             (True, "B", OWL_EQUIVALENT_CLASS, "CTestEquiv", "equiv", "tbox", True),
@@ -743,7 +743,7 @@ class ComplianceTester:
         all_tbox_relations = list(oi.relationships(include_tbox=True, include_abox=False))
         all_abox_relations = list(oi.relationships(include_tbox=False, include_abox=True))
         all_entailed_relations = list(oi.relationships(include_entailed=True))
-        for expected, s, p, o, projection, typ, direct in expected:
+        for expected, s, p, o, projection, typ, direct in cases:
             if supported is not None and projection is not None and projection not in supported:
                 continue
             s = "ex:" + s
