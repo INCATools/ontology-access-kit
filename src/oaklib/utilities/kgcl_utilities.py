@@ -5,7 +5,7 @@ import sys
 import uuid
 from io import TextIOWrapper
 from pathlib import Path
-from typing import Iterator, List, Optional, TextIO, Union
+from typing import Iterator, List, Optional, TextIO, Union, Callable
 
 import kgcl_schema.datamodel.kgcl as kgcl
 import kgcl_schema.grammar.parser as kgcl_parser
@@ -70,6 +70,49 @@ def parse_kgcl_files(
     for change in changes:
         # tidy_change_object(change)
         yield change
+
+
+CURIE_SLOTS = {
+    "subject": "subject_type",
+    "object": "object_type",
+    "predicate": "predicate_type",
+    "about_node": "about_node_representation",
+}
+
+
+def substitute_curies_for_labels(changes: Union[List[kgcl.Change], kgcl.Change], label_function: Callable):
+    if isinstance(changes, list):
+        for change in changes:
+            substitute_curies_for_labels(change, label_function)
+        return
+    change = changes
+    for k, v in vars(change).items():
+        if k in CURIE_SLOTS:
+            new_v = label_function(v)
+            if new_v:
+                new_v = f"'{new_v}'"
+                setattr(change, k, new_v)
+                setattr(change, CURIE_SLOTS[k], "label")
+
+def substitute_labels_for_curies(changes: Union[List[kgcl.Change], kgcl.Change], curie_function: Callable):
+    if isinstance(changes, list):
+        for change in changes:
+            substitute_labels_for_curies(change, curie_function)
+        return
+    change = changes
+    for k, v in vars(change).items():
+        if k in CURIE_SLOTS:
+            k_type = CURIE_SLOTS[k]
+            try:
+                k_type_value = getattr(change, k_type)
+            except AttributeError:
+                continue
+            if k_type_value == "label" or k_type_value == "literal":
+                new_v = curie_function(v)
+                if new_v:
+                    setattr(change, k, new_v)
+                    setattr(change, CURIE_SLOTS[k], "curie")
+
 
 
 def write_kgcl(

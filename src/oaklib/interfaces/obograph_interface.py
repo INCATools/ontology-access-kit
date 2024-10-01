@@ -206,7 +206,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         return g
 
     def ancestor_graph(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None, **kwargs,
     ) -> Graph:
         """
         Return a graph object that consists of all the nodes specified in the start_curies list,
@@ -231,7 +231,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         logging.info(
             f"Computing ancestor graph for {start_curies} / {predicates} using graph walking"
         )
-        g = self._graph(walk_up(self, start_curies, predicates=predicates))
+        g = self._graph(walk_up(self, start_curies, predicates=predicates, **kwargs))
         if self.transitive_query_cache is not None:
             self.transitive_query_cache[key] = g
         return g

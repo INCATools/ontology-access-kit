@@ -35,6 +35,7 @@ from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from pydantic import BaseModel
+from pyshex.shape_expressions_language.p3_terminology import predicates
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -186,6 +187,7 @@ from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMe
 from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
 from oaklib.utilities.validation.lint_utils import lint_ontology
 from oaklib.utilities.validation.rule_runner import RuleRunner
+from oaklib.utilities.subsets.subset_validator import SubsetValidationConfig
 
 OBO_FORMAT = "obo"
 RDF_FORMAT = "rdf"
@@ -2585,12 +2587,7 @@ def similarity(
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     if information_content_file:
-        if isinstance(impl, SemSimianImplementation):
-            impl.custom_ic_map_path = information_content_file
-        else:
-            impl.cached_information_content_map = load_information_content_map(
-                information_content_file
-            )
+        impl.load_information_content_scores(information_content_file)
     set1it = None
     set2it = None
     if not (set1_file or set2_file):
@@ -2672,17 +2669,8 @@ def termset_similarity(
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
-    # TODO: @cmungall - one possibility in future is to relieve client of the need for
-    # out of band knowledge about impl details. The generic SemSim interface could have
-    # a load_ic_map method, with the generic impl being to directly load, and the semsimian
-    # impl passing the path through.
     if information_content_file:
-        if isinstance(impl, SemSimianImplementation):
-            impl.custom_ic_map_path = information_content_file
-        else:
-            impl.cached_information_content_map = load_information_content_map(
-                information_content_file
-            )
+        impl.load_information_content_scores(information_content_file)
     terms = list(terms)
     ix = terms.index("@")
     set1 = list(query_terms_iterator(terms[0:ix], impl))
@@ -3608,17 +3596,16 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.output = output
-    if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        prefixes = list(has_prefix) if has_prefix else None
-        for curie in impl.roots(
-            actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes
-        ):
-            writer.emit(dict(id=curie, label=impl.label(curie)))
-            # print(f"{curie} ! {impl.label(curie)}")
-        writer.finish()
-    else:
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    prefixes = list(has_prefix) if has_prefix else None
+    for curie in impl.roots(
+        actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes
+    ):
+        writer.emit(dict(id=curie, label=impl.label(curie)))
+    writer.finish()
+
 
 
 @main.command()
@@ -5421,6 +5408,133 @@ def validate_synonyms(
     ):
         writer.emit_obj(result)
     writer.finish()
+
+
+@main.command()
+@autolabel_option
+@output_type_option
+@adapter_mapping_option
+@predicates_option
+@click.option(
+    "--exclude-query",
+    "-X",
+    help="A query to exclude certain terms",
+)
+@click.option(
+    "--information-content-file",
+    help="File containing information content for each term",
+)
+@click.option(
+    "--information-content-adapter",
+    help="Adapter to use for information content scores",
+)
+@click.option(
+    "--config-yaml"
+)
+@output_option
+@configuration_file_option
+@click.argument("terms", nargs=-1)
+def validate_subset(
+    terms,
+    autolabel,
+    predicates,
+    adapter_mapping,
+    information_content_file,
+    information_content_adapter,
+    exclude_query,
+    config_yaml,
+    output: str,
+    output_type: str,
+    configuration_file: str,
+):
+    """
+    Validates term subsets.
+
+    The default metrics used for evaluation involve calculating the degree of overlap between members of the
+    subset. Subsets in general should partition the ontology into sets that overlap as little as possible.
+
+    Different overlap metrics can be plugged in, see the information-content methods for more details.
+
+    The simplest way to run this is to pass in a list of terms via a subset query
+
+        runoak -i po.db validate-subset p i,p  .in Tomato
+
+    You can also calculate IC scores for each term and pass them in via a file:
+
+        runoak -i amigo:NCBITaxon:9606 information-content -o human-ic.tsv
+
+   Then
+
+        runoak -i go.db validate-subset p i,p  .in goslim_generic --information-content-file human-ic.tsv
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, SemanticSimilarityInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if information_content_file:
+        impl.load_information_content_scores(information_content_file)
+    configs = []
+    if config_yaml:
+        main_config = yaml.safe_load(open(config_yaml))
+        # assume GO schema for now
+        subsets_objs = main_config.get("subsets")
+        for subset in subsets_objs:
+            if subset.get("status") == "obsolete":
+                continue
+            if "ExclusionList" in subset.get("role", []):
+                continue
+            taxa = subset.get("taxa")
+            if taxa:
+                taxa_ids = [x["id"] for x in taxa]
+            else:
+                taxa_ids = ["NCBITaxon:1"]
+            for taxa_id in taxa_ids:
+                config = SubsetValidationConfig(
+                    subset_name=subset["id"],
+                    ic_score_adapter_name=f"amigo:{taxa_id}"
+                )
+                configs.append(config)
+                logging.info(f"Loaded config for {subset['id']} with {taxa_id}")
+    else:
+        if terms:
+            entities = list(query_terms_iterator(terms, impl))
+        else:
+            raise ValueError("No terms provided")
+
+        config = SubsetValidationConfig(
+            subset_terms=entities,
+        )
+        configs = [config]
+    for config in configs:
+        if information_content_adapter:
+            config.ic_score_adapter_name = information_content_adapter
+        actual_predicates =  _process_predicates_arg(predicates)
+        if actual_predicates:
+            config.predicates = actual_predicates
+        if exclude_query:
+            config.exclude_terms = list(query_terms_iterator(exclude_query.split(" "), impl))
+        import oaklib.utilities.subsets.subset_validator as subset_validator
+        try:
+            result = subset_validator.validate_subset(impl, config)
+        except Exception as e:
+            logging.error(e)
+            continue
+        if isinstance(writer, StreamingCsvWriter):
+            # denormalize
+            obj = result.model_dump()
+            for k in ["overall", "sibling_pairs", "ancestor_pairs", "leaf_pairs"]:
+                v = obj.get(k)
+                del obj[k]
+                for k2, v2 in v.items():
+                    obj[f"{k}_{k2}"] = v2
+            writer.emit_obj(obj)
+        else:
+            writer.emit_obj(result)
+    writer.finish()
+
 
 
 @main.command()

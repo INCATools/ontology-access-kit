@@ -501,7 +501,7 @@ class AmiGOImplementation(
             if term == "bioentity":
                 n_bioentities = count
         if n_bioentities is None:
-            raise ValueError("No bioentities found")
+            raise ValueError(f"No bioentities found in query {fq}")
         kwargs = {}
         # if curies:
         #    kwargs["facet.query"] = [_fq_element(ISA_PARTOF_CLOSURE, curie) for curie in curies]

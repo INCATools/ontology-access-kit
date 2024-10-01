@@ -244,8 +244,9 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     The most common projection is the :term:`RDF` mapping, but this results in a structure that is
     not well suited to graph operations due to the use of :term:`Blank Nodes` to represent OWL
     expressions.
-    OAK makes use of a simple projection where OWL existential axioms are mapped to :term:`Edges<Edge>`,
-    similar to :term:`Relation Graph`.
+    OAK makes use of a simple projection where common constructs such as OWL existential axioms are mapped
+    to :term:`Edges<Edge>`, similar to :term:`Relation Graph`. OAK also projects some axiom types that are
+    not yet projected in relation graph, such as those between individuals.
 
     - See also :ref:`relationships_and_graphs` in the Guide.
 

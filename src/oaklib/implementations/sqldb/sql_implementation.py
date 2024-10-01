@@ -55,9 +55,9 @@ from semsql.sqla.semsql import (  # HasMappingStatement,
     RdfTypeStatement,
     Statements,
     TermAssociation,
-    TransitivePropertyNode,
+    TransitivePropertyNode, OwlHasValue,
 )
-from sqlalchemy import and_, create_engine, delete, distinct, func, insert, text, update
+from sqlalchemy import and_, create_engine, delete, distinct, func, insert, text, update, select
 from sqlalchemy.orm import aliased, sessionmaker
 from sssom_schema import Mapping
 
@@ -993,6 +993,10 @@ class SqlImplementation(
                 if exclude_blank and (_is_blank(s) or _is_blank(o)):
                     continue
                 yield s, p, o
+            for s, p, o in self._subclass_of_has_value_relationships(subjects, predicates, objects):
+                if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                    continue
+                yield s, p, o
             for s, p, o in self._object_property_assertion_relationships(
                 subjects, predicates, objects
             ):
@@ -1054,6 +1058,34 @@ class SqlImplementation(
                 logging.warning(f"Invalid triple for S:{row.subject} P:{row.predicate}")
                 continue
             yield row.subject, row.predicate, row.object
+
+
+    def _subclass_of_has_value_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        sc = aliased(RdfsSubclassOfStatement)
+        hv = aliased(OwlHasValue)
+        stmt = select(sc.subject, hv.on_property, hv.filler).join(hv, sc.object == hv.id)
+        if subjects:
+            stmt = stmt.where(sc.subject.in_(tuple(subjects)))
+        if predicates:
+            predicates = set(predicates).difference(
+                {IS_A, RDF_TYPE, SUBPROPERTY_OF, RDFS_DOMAIN, RDFS_RANGE, INVERSE_OF}
+            )
+            if not predicates:
+                return
+            stmt = stmt.where(hv.on_property.in_(tuple(predicates)))
+        if objects:
+            stmt = stmt.where(hv.filler.in_(tuple(objects)))
+
+        logging.debug(f"Abox HasValue query: {stmt}")
+
+        result = self.session.execute(stmt)
+        for row in result:
+            yield row.subject, row.on_property, row.filler
 
     def _rdf_type_relationships(
         self,

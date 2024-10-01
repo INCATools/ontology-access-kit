@@ -10,13 +10,14 @@ import tempfile
 import unittest
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, List
+from typing import Callable, List, Optional
 
 import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from sssom.constants import OWL_EQUIVALENT_CLASS
 
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels import obograph
@@ -51,7 +52,7 @@ from oaklib.datamodels.vocabulary import (
     RDFS_RANGE,
     SUBPROPERTY_OF,
     TERM_REPLACED_BY,
-    TERM_TRACKER_ITEM,
+    TERM_TRACKER_ITEM, RDF_TYPE,
 )
 from oaklib.interfaces import (
     MappingProviderInterface,
@@ -715,6 +716,58 @@ class ComplianceTester:
             for s1, s2 in [(c1, c2), (c2, c1)]:
                 rels = oi.outgoing_relationship_map(s1)
                 test.assertCountEqual(rels[EQUIVALENT_CLASS], [s2])
+
+    def test_graph_projections(self, oi: BasicOntologyInterface, supported: Optional[List] = None):
+        """
+        Tests projections of OWL axioms into graph
+
+        :param oi:
+        :param supported: if not None, only test for these projections
+        :return:
+        """
+        test = self.test
+        expected = [
+            (True, "B", "P", "CTestSome", "some", "tbox", True),
+            (True, "B", "P", "ITestValue", "value", "abox", True),
+            (True, "B", OWL_EQUIVALENT_CLASS, "CTestEquiv", "equiv", "tbox", True),
+            (True, "I", RDF_TYPE, "A", "type", "abox", True),
+            (True, "J", "P", "I2", "fact", "abox", True),
+            # (True, "J", "P", "CTestTypeSome", "fact-some", "abox", True), # TODO
+            (True, "A", "P", "CTestSome", "some", "tbox", False),
+            # abox not supported in RG
+            # (True, "I", "P", "CTestSome", "some", "abox", False),
+            (False, "B", "P", "CTestExactly0", None, None, True),
+        ]
+        all_relations = list(oi.relationships())
+        all_tbox_relations = list(oi.relationships(include_tbox=True, include_abox=False))
+        all_abox_relations = list(oi.relationships(include_tbox=False, include_abox=True))
+        all_entailed_relations = list(oi.relationships(include_entailed=True))
+        for expected, s, p, o, projection, typ, direct in expected:
+            if supported is not None and projection is not None and projection not in supported:
+                continue
+            s = "ex:" + s
+            p = "ex:" + p if ":" not in p else p
+            o = "ex:" + o
+            if direct:
+                if expected:
+                    test.assertIn((s, p, o), all_relations)
+                else:
+                    test.assertNotIn((s, p, o), all_relations)
+                if typ == "tbox":
+                    if expected:
+                        test.assertIn((s, p, o), all_tbox_relations)
+                    else:
+                        test.assertNotIn((s, p, o), all_tbox_relations)
+                if typ == "abox":
+                    if expected:
+                        test.assertIn((s, p, o), all_abox_relations)
+                    else:
+                        test.assertNotIn((s, p, o), all_abox_relations)
+            if expected:
+                test.assertIn((s, p, o), all_entailed_relations)
+            else:
+                test.assertNotIn((s, p, o), all_entailed_relations)
+
 
     def test_logical_definitions(self, oi: OboGraphInterface):
         test = self.test
