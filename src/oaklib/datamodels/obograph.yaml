@@ -569,8 +569,10 @@ classes:
       definedClassId:
         description: The class that is defined by this axiom
         required: true
+        range: OboIdentifierString
       genusIds:
         description: The set of classes that are the genus of the defined class
+        range: OboIdentifierString
         comments:
           - typically, this will be a single class
         multivalued: true
@@ -603,6 +605,7 @@ classes:
         description: >-
           The set of named classes that are mutually disjoint.
         multivalued: true
+        range: OboIdentifierString
       classExpressions:
         description: >-
           The set of class expressions that are mutually disjoint.
@@ -613,6 +616,7 @@ classes:
       unionEquivalentTo:
         description: >-
           If present, this equates to an OWL DisjointUnion expression.
+        range: OboIdentifierString
       unionEquivalentToExpression:
         range: ExistentialRestrictionExpression
         description: >-
