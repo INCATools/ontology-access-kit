@@ -6,7 +6,7 @@ Relationships and Graphs
 One of the main uses of an ontology is to precisely state the :term:`Relationships<Relationship>` between different entities or concepts.
 
 In OAK, classes in ontologies can be related to one another via different *relationship types*, also known as :term:`Predicates<Predicate>`. These
-may come from a relationship type ontology such as :term:`RO`, or they may be a "builtin" construct in :term:`RDF` or :term:`OWL`
+may come from a relationship type ontology such as :term:`RO`, or they may be a "built-in" construct in :term:`RDF` or :term:`OWL`
 such as ``rdfs:subClassOf``.
 
 These can be thought of as a :term:`Graph` of concepts and relationships. This is a common idiom

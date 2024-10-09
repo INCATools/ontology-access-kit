@@ -145,10 +145,10 @@ If we query for the ZFA ID we see the complete set of ZFA mappings for that term
 
 So ZFA bundles mappings to TAO.
 
-At the time of writing ZFA, does bundle mappings to CL.
+At the time of writing, ZFA does bundle mappings to CL.
 
-In future OAK may have easier ways to query a union of ontologies, and in the future OBO ontologies
-may redistribute reciprocal mappings, but for now it helps to know how each ontology handles mappings to
+In the future, OAK may have easier ways to query a union of ontologies, and OBO ontologies may
+redistribute reciprocal mappings, but for now it helps to know how each ontology handles mappings to
 use these effectively.
 
 Support for SSSOM
@@ -166,7 +166,7 @@ Generating Mappings
 
 OAK also includes a functionality for *generating* mappings, via the `lexmatch` command.
 
-See the `Lexmatch tutorial <https://oboacademy.github.io/obook/tutorial/lexmatch-tutorial/>`_. on OBO Academy.
+See the `Lexmatch tutorial <https://oboacademy.github.io/obook/tutorial/lexmatch-tutorial/>`_ on OBO Academy.
 
 Further reading
 ---------------
