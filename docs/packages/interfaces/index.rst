@@ -50,6 +50,6 @@ The most common operations are found in the :ref:`basic_ontology_interface`
 
 .. note::
 
-    Some interfaces may not be "pure" interfaces is that they may provide
+    Some interfaces may not be "pure" interfaces, in that they may provide
     a default implementation, which may or may not be overridden by an
     implementation
