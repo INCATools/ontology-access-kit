@@ -6,7 +6,7 @@ Part 8: Applying Changes to Ontologies
 .. warning::
 
     Apply changes is an experimental feature. This documentation is provided for alpha testers
-    to try out existing functionality. Currently on a fraction of the KGCL specification is
+    to try out existing functionality. Currently only a fraction of the KGCL specification is
     implemented.
 
 OAK allows various kinds of changes to be applied to ontologies, including:
@@ -94,5 +94,3 @@ To make edits and export to a new file:
     runoak  -i go-edit.obo set-obsolete nucleus -o go-edit-out.obo -O obo
 
 This will apply the obsoletion changes in memory and then save results to a separate obo file.
-
-

@@ -25,8 +25,8 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 | --- | --- | --- |
 | [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |  no  |
 | [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
-| [Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
 | [SubsetDefinition](SubsetDefinition.md) |  |  no  |
+| [Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
 
 
 
