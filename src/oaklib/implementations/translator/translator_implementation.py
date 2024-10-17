@@ -57,12 +57,12 @@ Mappings:
         #   sssom: https://w3id.org/sssom/
         # license: https://w3id.org/sssom/license/unspecified
         # mapping_set_id: https://w3id.org/sssom/mappings/6b8c0caf-98d7-4c08-b499-8922be3405db
-        subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_source	object_source
-        CHEBI:16947	citrate(3-)	skos:exactMatch	CAS:126-44-3		semapv:ManualMappingCuration	CHEBI	CAS
-        CHEBI:16947	citrate(3-)	skos:exactMatch	CHEBI:16947	citrate(3-)	semapv:ManualMappingCuration	CHEBI	CHEBI
-        CHEBI:16947	citrate(3-)	skos:exactMatch	INCHIKEY:KRKNYBCHXYNGOX-UHFFFAOYSA-K		semapv:ManualMappingCuration	CHEBI	INCHIKEY
-        CHEBI:16947	citrate(3-)	skos:exactMatch	PUBCHEM.COMPOUND:31348	Citrate	semapv:ManualMappingCuration	CHEBI	PUBCHEM.COMPOUND
-        CHEBI:16947	citrate(3-)	skos:exactMatch	UNII:664CCH53PI	CITRATE ION	semapv:ManualMappingCuration	CHEBI	UNII
+        subject_id	subject_label	predicate_id	object_id
+        CHEBI:16947	citrate(3-)	skos:exactMatch	CAS:126-44-3
+        CHEBI:16947	citrate(3-)	skos:exactMatch	CHEBI:16947
+        CHEBI:16947	citrate(3-)	skos:exactMatch	INCHIKEY:KRKNYBCHXYNGOX-UHFFFAOYSA-K
+        CHEBI:16947	citrate(3-)	skos:exactMatch	PUBCHEM.COMPOUND:31348
+        CHEBI:16947	citrate(3-)	skos:exactMatch	UNII:664CCH53PI
 
 Term categories:
 
