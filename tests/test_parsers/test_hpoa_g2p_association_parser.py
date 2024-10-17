@@ -22,7 +22,7 @@ class HpoaG2PAssociationParserTest(unittest.TestCase):
             self.assertIn(
                 Association(
                     subject="NCBIGene:8195",
-                    subject_label="CLPP",
+                    subject_label="MKKS",
                     predicate=None,
                     object="HP:0000175",
                     property_values=[],
