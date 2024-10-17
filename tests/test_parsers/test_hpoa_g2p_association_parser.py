@@ -21,7 +21,11 @@ class HpoaG2PAssociationParserTest(unittest.TestCase):
                 logging.info(association)
             self.assertIn(
                 Association(
-                    subject="NCBIGene:8195", predicate=None, object="HP:0000175", property_values=[]
+                    subject="NCBIGene:8195",
+                    subject_label="CLPP",
+                    predicate=None,
+                    object="HP:0000175",
+                    property_values=[],
                 ),
                 assocs,
             )
