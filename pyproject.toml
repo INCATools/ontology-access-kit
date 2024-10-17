@@ -94,7 +94,7 @@ reverse_relative = true
 [tool.codespell]
 skip = '.git,*.pdf,*.svg,poetry.lock,*.obo,*.ttl,*.ofn,*.gaf,*.tsv,*.json,input'
 ignore-regex = '(^\s*"image/\S+": ".*|[a-z]*\.\.\.)'
-ignore-words-list = 'ptd,ot,nd,ser,oger,gard,te,fo,fof,bu,ue,ois,processus,infarction,infarctions,assertIn,morpholgy'
+ignore-words-list = 'ptd,ot,nd,ser,oger,gard,te,fo,fof,bu,ue,ois,processus,infarction,infarctions,assertIn,morpholgy,formate,HDA'
 
 [tool.ruff]
 lint.extend-ignore = [
