@@ -85,7 +85,7 @@ Term categories:
 
 import logging
 from dataclasses import dataclass
-from typing import Iterable, List, Mapping, Optional, Union, Tuple, Iterator, Dict
+from typing import Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import requests
 import sssom_schema.datamodel.sssom_schema as sssom
@@ -100,10 +100,10 @@ from oaklib.datamodels.vocabulary import (
     SKOS_EXACT_MATCH,
 )
 from oaklib.interfaces import SearchInterface
-from oaklib.interfaces.basic_ontology_interface import ALIAS_MAP, LANGUAGE_TAG, RELATIONSHIP
+from oaklib.interfaces.basic_ontology_interface import ALIAS_MAP, LANGUAGE_TAG
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-from oaklib.types import CURIE, CATEGORY_CURIE, PRED_CURIE
+from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE
 
 __all__ = [
     "TranslatorImplementation",
@@ -145,13 +145,13 @@ class TranslatorImplementation(
                 yield curie, t
 
     def information_content_scores(
-            self,
-            curies: Optional[Iterable[CURIE]] = None,
-            predicates: List[PRED_CURIE] = None,
-            object_closure_predicates: List[PRED_CURIE] = None,
-            use_associations: bool = None,
-            term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
-            **kwargs,
+        self,
+        curies: Optional[Iterable[CURIE]] = None,
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+        term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
         if isinstance(curies, CURIE):
             curies = [curies]
@@ -170,7 +170,6 @@ class TranslatorImplementation(
             ic = data.get("information_content", None)
             if ic is not None:
                 yield curie, ic
-
 
     def sssom_mappings(
         self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None

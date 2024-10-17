@@ -1181,7 +1181,6 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
         writer.emit(metadata)
 
 
-
 @main.command()
 @output_option
 @output_type_option

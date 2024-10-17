@@ -185,7 +185,6 @@ class AmiGOImplementation(
         logger.info(f"Endpoint: {self._endpoint} Source: {self._source}")
         self._solr = pysolr.Solr(self._endpoint)
 
-
     def go_adapter(self) -> OboGraphInterface:
         if not self._go_adapter:
             from oaklib import get_adapter

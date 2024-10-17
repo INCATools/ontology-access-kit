@@ -110,6 +110,7 @@ class OntoPortalImplementationBase(
         if submission_url:
             logging.info(submission_url)
             from requests import HTTPError
+
             try:
                 results = self._get_json(f"{submission_url}/metrics")
                 for k, v in results.items():
@@ -117,8 +118,10 @@ class OntoPortalImplementationBase(
                         if not k.startswith("@"):
                             m[k] = v
             except HTTPError as e:
-                logging.error(f"Could not fetch metrics for ontology {ontology} via {submission_url}\n"
-                              f"Exception: {e}")
+                logging.error(
+                    f"Could not fetch metrics for ontology {ontology} via {submission_url}\n"
+                    f"Exception: {e}"
+                )
         return m
 
     def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
