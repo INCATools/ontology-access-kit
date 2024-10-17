@@ -1,16 +1,91 @@
 """
 Adapter for NCATS Biomedical Translator endpoints (experimental).
 
-.. warning ::
+Provides wrappers for
 
-    this is currently highly incomplete.
-    Only NodeNormalizer API implemented so far
+- Node Normalization
+- Name Resolution
+
+Examples:
+
+Name resolution:
+
+    .. code-block:: bash
+
+        runoak -i translator: info "citrate"
+        CHEBI:16947 ! citrate(3-)
+        CHEBI:31602 ! FENTANYL CITRATE
+        CHEBI:30769 ! Citric acid
+        CHEBI:64733 ! Potassium citrate
+        CHEBI:131391 ! Magnesium citrate
+        UNII:LXN6S3999X ! MAROPITANT CITRATE
+        CHEBI:190513 ! Calcium citrate
+        CHEBI:71197 ! TOFACITINIB CITRATE
+        CHEBI:9139 ! Sildenafil
+        CHEBI:3752 ! Clomifene
+
+
+Aliases:
+
+    .. code-block:: bash
+
+        runoak -i translator: aliases "CHEBI:16947"
+        curie	pred	alias
+        CHEBI:16947	oio:hasRelatedSynonym	cit
+        CHEBI:16947	oio:hasRelatedSynonym	Citrate
+        CHEBI:16947	oio:hasRelatedSynonym	citrate
+        CHEBI:16947	oio:hasRelatedSynonym	cit(3-)
+        CHEBI:16947	oio:hasRelatedSynonym	citrate(3-)
+        ...
+
+Mappings:
+
+    .. code-block:: bash
+
+        runoak -i translator: mappings "CHEBI:16947" -O sssom
+        # curie_map:
+        #   CAS: http://w3id.org/sssom/unknown_prefix/cas/
+        #   CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+        #   INCHIKEY: http://w3id.org/sssom/unknown_prefix/inchikey/
+        #   PUBCHEM.COMPOUND: http://w3id.org/sssom/unknown_prefix/pubchem.compound/
+        #   UNII: http://w3id.org/sssom/unknown_prefix/unii/
+        #   owl: http://www.w3.org/2002/07/owl#
+        #   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+        #   rdfs: http://www.w3.org/2000/01/rdf-schema#
+        #   semapv: https://w3id.org/semapv/vocab/
+        #   skos: http://www.w3.org/2004/02/skos/core#
+        #   sssom: https://w3id.org/sssom/
+        # license: https://w3id.org/sssom/license/unspecified
+        # mapping_set_id: https://w3id.org/sssom/mappings/6b8c0caf-98d7-4c08-b499-8922be3405db
+        subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_source	object_source
+        CHEBI:16947	citrate(3-)	skos:exactMatch	CAS:126-44-3		semapv:ManualMappingCuration	CHEBI	CAS
+        CHEBI:16947	citrate(3-)	skos:exactMatch	CHEBI:16947	citrate(3-)	semapv:ManualMappingCuration	CHEBI	CHEBI
+        CHEBI:16947	citrate(3-)	skos:exactMatch	INCHIKEY:KRKNYBCHXYNGOX-UHFFFAOYSA-K		semapv:ManualMappingCuration	CHEBI	INCHIKEY
+        CHEBI:16947	citrate(3-)	skos:exactMatch	PUBCHEM.COMPOUND:31348	Citrate	semapv:ManualMappingCuration	CHEBI	PUBCHEM.COMPOUND
+        CHEBI:16947	citrate(3-)	skos:exactMatch	UNII:664CCH53PI	CITRATE ION	semapv:ManualMappingCuration	CHEBI	UNII
+
+Term categories:
+
+    .. code-block:: bash
+
+        runoak -i translator: term-categories PUBCHEM.COMPOUND:31348
+        curie	subset
+        PUBCHEM.COMPOUND:31348	biolink:SmallMolecule
+        PUBCHEM.COMPOUND:31348	biolink:MolecularEntity
+        PUBCHEM.COMPOUND:31348	biolink:ChemicalEntity
+        PUBCHEM.COMPOUND:31348	biolink:PhysicalEssence
+        PUBCHEM.COMPOUND:31348	biolink:ChemicalOrDrugOrTreatment
+        PUBCHEM.COMPOUND:31348	biolink:ChemicalEntityOrGeneOrGeneProduct
+        PUBCHEM.COMPOUND:31348	biolink:ChemicalEntityOrProteinOrPolypeptide
+        PUBCHEM.COMPOUND:31348	biolink:NamedThing
+        PUBCHEM.COMPOUND:31348	biolink:PhysicalEssenceOrOccurrent
+
 
 """
 
 import logging
 from dataclasses import dataclass
-from typing import Iterable, List, Mapping, Optional, Union
+from typing import Iterable, List, Mapping, Optional, Union, Tuple, Iterator, Dict
 
 import requests
 import sssom_schema.datamodel.sssom_schema as sssom
@@ -25,9 +100,10 @@ from oaklib.datamodels.vocabulary import (
     SKOS_EXACT_MATCH,
 )
 from oaklib.interfaces import SearchInterface
-from oaklib.interfaces.basic_ontology_interface import ALIAS_MAP, LANGUAGE_TAG
+from oaklib.interfaces.basic_ontology_interface import ALIAS_MAP, LANGUAGE_TAG, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
-from oaklib.types import CURIE
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.types import CURIE, CATEGORY_CURIE, PRED_CURIE
 
 __all__ = [
     "TranslatorImplementation",
@@ -36,19 +112,65 @@ __all__ = [
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 NODE_NORMALIZER_ENDPOINT = "https://nodenormalization-sri.renci.org/1.4/get_normalized_nodes"
-NAME_NORMALIZER_ENDPOINT = "https://name-resolution-sri.renci.org"
+NAME_RESOLUTION_ENDPOINT = "https://name-resolution-sri.renci.org"
+ARS_SUBMIT_ENDPOINT = "https://ars-prod.transltr.io/ars/api/submit"
 
 
 @dataclass
 class TranslatorImplementation(
     MappingProviderInterface,
     SearchInterface,
+    SemanticSimilarityInterface,
 ):
     """
-    Wraps Translator endpoints.
-
-    TODO: implement other endpoints
+    Wraps Translator SRI endpoints.
     """
+
+    def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
+        if isinstance(curies, CURIE):
+            curies = [curies]
+        else:
+            curies = list(curies)
+        r = requests.get(
+            NODE_NORMALIZER_ENDPOINT,
+            params={"curie": curies, "conflate": "false"},
+            timeout=TIMEOUT_SECONDS,
+        )
+        results = r.json()
+        if "detail" in results:
+            if results["detail"] == "Not found.":
+                return
+        for curie, data in results.items():
+            for t in data.get("type", []):
+                yield curie, t
+
+    def information_content_scores(
+            self,
+            curies: Optional[Iterable[CURIE]] = None,
+            predicates: List[PRED_CURIE] = None,
+            object_closure_predicates: List[PRED_CURIE] = None,
+            use_associations: bool = None,
+            term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+            **kwargs,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        if isinstance(curies, CURIE):
+            curies = [curies]
+        else:
+            curies = list(curies)
+        r = requests.get(
+            NODE_NORMALIZER_ENDPOINT,
+            params={"curie": curies, "conflate": "false"},
+            timeout=TIMEOUT_SECONDS,
+        )
+        results = r.json()
+        if "detail" in results:
+            if results["detail"] == "Not found.":
+                return
+        for curie, data in results.items():
+            ic = data.get("information_content", None)
+            if ic is not None:
+                yield curie, ic
+
 
     def sssom_mappings(
         self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
@@ -120,7 +242,7 @@ class TranslatorImplementation(
         self, search_term: str, config: Optional[SearchConfiguration] = None
     ) -> Iterable[CURIE]:
         r = requests.get(
-            f"{NAME_NORMALIZER_ENDPOINT}/lookup",
+            f"{NAME_RESOLUTION_ENDPOINT}/lookup",
             params={"string": search_term, "autocomplete": "true"},
             timeout=TIMEOUT_SECONDS,
         )
@@ -137,7 +259,7 @@ class TranslatorImplementation(
         if self.property_cache.contains(curie, RDFS_LABEL):
             return self.property_cache.get(curie, RDFS_LABEL)
         r = requests.get(
-            f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup",
+            f"{NAME_RESOLUTION_ENDPOINT}/reverse_lookup",
             params={"curies": curie},
             timeout=TIMEOUT_SECONDS,
         )
@@ -149,7 +271,7 @@ class TranslatorImplementation(
 
     def entity_aliases(self, curie: CURIE) -> List[str]:
         r = requests.get(
-            f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup",
+            f"{NAME_RESOLUTION_ENDPOINT}/reverse_lookup",
             params={"curies": curie},
             timeout=TIMEOUT_SECONDS,
         )
@@ -161,3 +283,49 @@ class TranslatorImplementation(
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         return {HAS_RELATED_SYNONYM: self.entity_aliases(curie)}
+
+    # def relationships(
+    #         self,
+    #         subjects: Iterable[CURIE] = None,
+    #         predicates: Iterable[PRED_CURIE] = None,
+    #         objects: Iterable[CURIE] = None,
+    #         include_tbox: bool = True,
+    #         include_abox: bool = True,
+    #         include_entailed: bool = False,
+    #         exclude_blank: bool = True,
+    # ) -> Iterator[RELATIONSHIP]:
+    #     query = {
+    #         "message": {
+    #             "query_graph": {
+    #                 "edges": {
+    #                     "e00": {
+    #                         "subject": "n00",
+    #                         "object": "n01",
+    #                         "predicates": ["biolink:entity_negatively_regulates_entity"]
+    #                     },
+    #                     "e01": {
+    #                         "subject": "n01",
+    #                         "object": "n02",
+    #                         "predicates": ["biolink:related_to"]
+    #                     }
+    #                 },
+    #                 "nodes": {
+    #                     "n00": {
+    #                         "ids": ["PUBCHEM.COMPOUND:644073"],
+    #                         "categories": ["biolink:ChemicalEntity"]
+    #                     },
+    #                     "n01": {
+    #                         "categories": ["biolink:BiologicalProcessOrActivity", "biolink:Gene", "biolink:Pathway"]
+    #                     },
+    #                     "n02": {
+    #                         "ids": ["HP:0000217"],
+    #                         "categories": ["biolink:DiseaseOrPhenotypicFeature"]
+    #                     }
+    #                 }
+    #             }
+    #         }
+    #     }
+    #     r = requests.post(ARS_SUBMIT_ENDPOINT, json=query, timeout=TIMEOUT_SECONDS)
+    #     pk = r.get('pk')
+    #     import yaml
+    #     print(yaml.dump(r.json()))

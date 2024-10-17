@@ -3,7 +3,8 @@
 import json
 import logging
 import math
-from dataclasses import dataclass
+import re
+from dataclasses import dataclass, field
 from time import sleep
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
@@ -157,6 +158,10 @@ class AmiGOImplementation(
 
     On the command line:
 
+    .. code-block:: bash
+
+        runoak -i amigo:NCBITaxon:9606 associations -p i,p GO:0098794
+
 
 
     """
@@ -164,10 +169,22 @@ class AmiGOImplementation(
     _solr: pysolr.Solr = None
     _source: str = None
     _go_adapter: OboGraphInterface = None
+    _endpoint: str = field(default=AMIGO_ENDPOINT)
 
     def __post_init__(self):
-        self._source = self.resource.slug
-        self._solr = pysolr.Solr(AMIGO_ENDPOINT)
+        slug = self.resource.slug
+        if slug:
+            logger.info(f"Slug: {slug}")
+            # e.g. amigo:{https://golr-staging.geneontology.io/solr/}:NCBITaxon:9606
+            matches = re.match(r"^\{(\S+)\}:(.*)$", slug)
+            if matches:
+                logger.info(f"Looks like a specific endpoint is specified in {slug}")
+                self._endpoint = matches.group(1)
+                slug = matches.group(2)
+        self._source = slug
+        logger.info(f"Endpoint: {self._endpoint} Source: {self._source}")
+        self._solr = pysolr.Solr(self._endpoint)
+
 
     def go_adapter(self) -> OboGraphInterface:
         if not self._go_adapter:

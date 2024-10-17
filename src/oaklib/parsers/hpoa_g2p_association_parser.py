@@ -14,5 +14,6 @@ class HpoaG2PAssociationParser(XafAssociationParser):
 
     subject_prefix = "NCBIGene"
     subject_column: ColumnReference = field(default_factory=lambda: ColumnReference(0))
+    subject_label_column: ColumnReference = field(default_factory=lambda: ColumnReference(1))
     predicate_column: ColumnReference = None
     object_column: ColumnReference = field(default_factory=lambda: ColumnReference(2))

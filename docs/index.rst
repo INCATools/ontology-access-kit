@@ -14,7 +14,7 @@ Ontology Access Kit (OAK) Documentation
    cli
    datamodels/index
    howtos/index
-   notebooks
+   examples/index
    glossary
    faq/index
 
