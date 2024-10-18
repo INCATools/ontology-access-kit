@@ -26,6 +26,15 @@ jobs:
     - name: Install dependencies
       run: poetry install --no-interaction
 
+    - name: Install dependencies for nbsphinx
+      run: |
+        sudo apt update
+        sudo apt install -y pandoc
+        
+    - name: Run Pandoc
+      run: |
+        pandoc --version
+
     - name: Build source and wheel archives
       run: |
         poetry version $(git describe --tags --abbrev=0)
