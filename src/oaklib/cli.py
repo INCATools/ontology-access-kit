@@ -1065,7 +1065,11 @@ def ontologies(output: str):
 
     This command is more meaningful when the input is a multi-ontology endpoint, e.g
 
-        runoak -i ubergraph ontologies
+        runoak -i ubergraph: ontologies
+
+    Or
+
+        runoak -i bioportal: ontologies
 
     In future this command will be expanded to allow showing more metadata about each ontology
 
@@ -1161,20 +1165,20 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
         writer = StreamingCsvWriter(output)
     else:
         raise ValueError(f"No such format: {output_type}")
-    if isinstance(impl, BasicOntologyInterface):
-        if len(ontologies) == 0:
-            if all:
-                ontologies = list(impl.ontologies())
-            else:
-                raise ValueError("Must pass one or more ontologies OR --all")
-        else:
-            if all:
-                raise ValueError("--all should not be used in combination with an explicit lis")
-        for ont in list(ontologies):
-            metadata = impl.ontology_metadata_map(ont)
-            writer.emit(metadata)
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if len(ontologies) == 0:
+        if all:
+            ontologies = list(impl.ontologies())
+        else:
+            raise ValueError("Must pass one or more ontologies OR --all")
+    else:
+        if all:
+            raise ValueError("--all should not be used in combination with an explicit list")
+    for ont in list(ontologies):
+        logging.info(f"Looking up {ont}")
+        metadata = impl.ontology_metadata_map(ont)
+        writer.emit(metadata)
 
 
 @main.command()
@@ -5461,6 +5465,12 @@ def validate_subset(
 
          runoak -i go.db validate-subset p i,p  .in goslim_generic --information-content-file human-ic.tsv
 
+    This command also understand the GO subset metadata format. You can use this as configuration for
+    validating multiple subsets:
+
+        runoak -i go.db validate-subset --config-yaml go_subsets_metadata.yaml -X "i^BFO:" -O yaml
+
+    The taxon field is used to validate each subset according to its appropriate context
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)

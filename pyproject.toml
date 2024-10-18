@@ -57,6 +57,7 @@ myst-parser = ">=1.0.0"
 linkml = ">=1.8.0"
 sphinxcontrib-mermaid = "^0.8.1"
 sphinx-copybutton = "0.5.1"
+nbsphinx = "*"
 coverage = "^6.3.2"
 tox = "*"
 
@@ -93,7 +94,7 @@ reverse_relative = true
 [tool.codespell]
 skip = '.git,*.pdf,*.svg,poetry.lock,*.obo,*.ttl,*.ofn,*.gaf,*.tsv,*.json,input'
 ignore-regex = '(^\s*"image/\S+": ".*|[a-z]*\.\.\.)'
-ignore-words-list = 'ptd,ot,nd,ser,oger,gard,te,fo,fof,bu,ue,ois,processus,infarction,infarctions,assertIn,morpholgy'
+ignore-words-list = 'ptd,ot,nd,ser,oger,gard,te,fo,fof,bu,ue,ois,processus,infarction,infarctions,assertIn,morpholgy,formate,HDA'
 
 [tool.ruff]
 lint.extend-ignore = [
