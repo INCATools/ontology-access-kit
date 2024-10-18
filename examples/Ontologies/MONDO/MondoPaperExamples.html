@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annotate &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Annotate</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/MONDO/MondoPaperExamples.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">reset</span> -f
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sssom.io</span> <span class="kn">import</span> <span class="n">parse_sssom_table</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;demo.tsv&quot;</span>
+</pre></div>
+</div>
+</div>
+<section id="Annotate">
+<h1>Annotate<a class="headerlink" href="#Annotate" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:mondo<span class="w"> </span>annotate<span class="w"> </span><span class="s2">&quot;Marfan syndrome&quot;</span><span class="w"> </span>--matches-whole-text
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+object_id: MONDO:0007947
+object_label: Marfan syndrome
+matches_whole_text: true
+subject_start: 1
+subject_end: 15
+subject_label: Marfan syndrome
+
+---
+object_id: MONDO:0007947
+object_label: Marfan syndrome
+matches_whole_text: true
+subject_start: 1
+subject_end: 15
+subject_label: Marfan syndrome
+</pre></div></div>
+</div>
+</section>
+<section id="Lexmatch">
+<h1>Lexmatch<a class="headerlink" href="#Lexmatch" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="err">!</span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">mondo</span> <span class="o">-</span><span class="n">a</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">doid</span> <span class="n">lexmatch</span> <span class="n">i</span><span class="o">^</span><span class="n">MONDO</span><span class="p">:</span> <span class="o">@</span>  <span class="n">i</span><span class="o">^</span><span class="n">DOID</span><span class="p">:</span> <span class="o">-</span><span class="n">o</span> <span class="p">{</span><span class="n">fn</span><span class="p">}</span>
+<span class="c1"># !head demo.tsv</span>
+<span class="n">msdf</span> <span class="o">=</span> <span class="n">parse_sssom_table</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+<span class="n">msdf</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 48.1 s, sys: 1.01 s, total: 49.1 s
+Wall time: 4min 41s
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>mapping_tool</th>
+      <th>confidence</th>
+      <th>subject_match_field</th>
+      <th>object_match_field</th>
+      <th>match_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MONDO:0000001</td>
+      <td>disease or disorder</td>
+      <td>skos:closeMatch</td>
+      <td>DOID:4</td>
+      <td>disease</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasDbXref</td>
+      <td>oio:hasDbXref</td>
+      <td>mesh:d004194</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MONDO:0000001</td>
+      <td>disease or disorder</td>
+      <td>skos:closeMatch</td>
+      <td>DOID:4</td>
+      <td>disease</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>disease</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MONDO:0000004</td>
+      <td>adrenocortical insufficiency</td>
+      <td>skos:closeMatch</td>
+      <td>DOID:10493</td>
+      <td>adrenal cortical hypofunction</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>adrenal cortical insufficiency</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MONDO:0000004</td>
+      <td>adrenocortical insufficiency</td>
+      <td>skos:closeMatch</td>
+      <td>DOID:10493</td>
+      <td>adrenal cortical hypofunction</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>corticoadrenal insufficiency</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MONDO:0000004</td>
+      <td>adrenocortical insufficiency</td>
+      <td>skos:closeMatch</td>
+      <td>DOID:10493</td>
+      <td>adrenal cortical hypofunction</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>adrenal cortical hypofunction</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Relationships">
+<h1>Relationships<a class="headerlink" href="#Relationships" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:mondo<span class="w"> </span>relationships<span class="w">  </span><span class="s2">&quot;Marfan syndrome&quot;</span><span class="w"> </span>-o<span class="w"> </span><span class="o">{</span>fn<span class="o">}</span>
+<span class="c1"># !head demo.tsv</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>predicate</th>
+      <th>predicate_label</th>
+      <th>object</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MONDO:0007947</td>
+      <td>Marfan syndrome</td>
+      <td>RO:0004003</td>
+      <td>has material basis in germline mutation in</td>
+      <td>&lt;http://identifiers.org/hgnc/3603&gt;</td>
+      <td>FBN1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MONDO:0007947</td>
+      <td>Marfan syndrome</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>MONDO:0000426</td>
+      <td>autosomal dominant disease</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MONDO:0007947</td>
+      <td>Marfan syndrome</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>MONDO:0002254</td>
+      <td>syndromic disease</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MONDO:0007947</td>
+      <td>Marfan syndrome</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>MONDO:0017310</td>
+      <td>Marfan and Marfan-related disorder</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MONDO:0007947</td>
+      <td>Marfan syndrome</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>MONDO:0800091</td>
+      <td>overgrowth or tall stature syndrome with skele...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># RO:0004003 =&gt; &quot;has material basis in germline mutation in&quot;</span>
+<span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:mondo<span class="w"> </span>relationships<span class="w">  </span>--predicates<span class="w"> </span>RO:0004003<span class="w"> </span>-o<span class="w"> </span><span class="o">{</span>fn<span class="o">}</span>
+<span class="c1"># !head demo.tsv</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>predicate</th>
+      <th>predicate_label</th>
+      <th>object</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MONDO:0000208</td>
+      <td>microcephaly, short stature, and impaired gluc...</td>
+      <td>RO:0004003</td>
+      <td>has material basis in germline mutation in</td>
+      <td>&lt;http://identifiers.org/hgnc/28403&gt;</td>
+      <td>TRMT10A</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MONDO:0000510</td>
+      <td>synucleinopathy</td>
+      <td>RO:0004003</td>
+      <td>has material basis in germline mutation in</td>
+      <td>&lt;http://identifiers.org/hgnc/11138&gt;</td>
+      <td>SNCA</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MONDO:0000764</td>
+      <td>epithelial-stromal TGFBI dystrophy</td>
+      <td>RO:0004003</td>
+      <td>has material basis in germline mutation in</td>
+      <td>&lt;http://identifiers.org/hgnc/11771&gt;</td>
+      <td>TGFBI</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MONDO:0000902</td>
+      <td>agenesis of the corpus callosum with periphera...</td>
+      <td>RO:0004003</td>
+      <td>has material basis in germline mutation in</td>
+      <td>&lt;http://identifiers.org/hgnc/10914&gt;</td>
+      <td>SLC12A6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MONDO:0000908</td>
+      <td>arrhythmogenic right ventricular dysplasia 13</td>
+      <td>RO:0004003</td>
+      <td>has material basis in germline mutation in</td>
+      <td>&lt;http://identifiers.org/hgnc/2511&gt;</td>
+      <td>CTNNA3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Fill-table">
+<h1>Fill table<a class="headerlink" href="#Fill-table" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># Create an incomplete table</span>
+<span class="n">table</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;MONDO:0007947&quot;</span><span class="p">,</span> <span class="s2">&quot;MONDO:0000510&quot;</span><span class="p">],</span>
+        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">],</span>
+        <span class="s1">&#39;definition&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">],</span>
+        <span class="s1">&#39;mappings&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">],</span>
+        <span class="s1">&#39;ancestors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">]</span>
+        <span class="p">}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">table</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>definition</th>
+      <th>mappings</th>
+      <th>ancestors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MONDO:0007947</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MONDO:0000510</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fill it through OAK</span>
+<span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:mondo<span class="w"> </span>fill-table<span class="w"> </span><span class="o">{</span>fn<span class="o">}</span><span class="w"> </span>-o<span class="w"> </span><span class="o">{</span>fn<span class="o">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>definition</th>
+      <th>mappings</th>
+      <th>ancestors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MONDO:0007947</td>
+      <td>Marfan syndrome</td>
+      <td>A disorder of the connective tissue. Connectiv...</td>
+      <td>DOID:14323|GARD:0006975|ICD9:759.82|MESH:D0083...</td>
+      <td>MONDO:0007947|BFO:0000001|BFO:0000002|BFO:0000...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MONDO:0000510</td>
+      <td>synucleinopathy</td>
+      <td>A neurodegenerative disease that is characteri...</td>
+      <td>DOID:0050890|MESH:D000080874|UMLS:C5191670|DOI...</td>
+      <td>MONDO:0000510|BFO:0000001|BFO:0000002|BFO:0000...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

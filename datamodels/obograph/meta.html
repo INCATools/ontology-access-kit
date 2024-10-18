@@ -19,6 +19,7 @@
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
@@ -54,7 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
@@ -98,64 +99,64 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="GraphDocument.html"><span class="std std-doc">GraphDocument</span></a></p></td>
-<td><p>A graph document is a collection of graphs together with a set of prefixes th…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
-<td><p>A node is a class, property, or other entity in an ontology</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="std std-doc">PropertyChainAxiom</span></a></p></td>
-<td><p>An axiom that represents an OWL property chain, e</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
-<td><p>A graph is a collection of nodes and edges and other axioms that represents a…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
-<td><p>An edge is a simple typed relationship between two nodes</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about the textual definition of…</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="std std-doc">EquivalentNodesSet</span></a></p></td>
+<td><p>A clique of nodes that are all mutually equivalent</p></td>
 <td><p>no</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="std std-doc">XrefPropertyValue</span></a></p></td>
 <td><p>A property value that represents an assertion about an external reference to …</p></td>
 <td><p>no</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="std std-doc">DomainRangeAxiom</span></a></p></td>
-<td><p>This groups potentially multiple axioms that constrain the usage of a propert…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="DisjointClassExpressionsAxiom.html"><span class="std std-doc">DisjointClassExpressionsAxiom</span></a></p></td>
-<td><p>An axiom that defines a set of classes or class expressions as being mutually…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="std std-doc">EquivalentNodesSet</span></a></p></td>
-<td><p>A clique of nodes that are all mutually equivalent</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
+<td><p>A graph is a collection of nodes and edges and other axioms that represents a…</p></td>
 <td><p>no</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="std std-doc">BasicPropertyValue</span></a></p></td>
 <td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
 <td><p>no</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
-<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="DisjointClassExpressionsAxiom.html"><span class="std std-doc">DisjointClassExpressionsAxiom</span></a></p></td>
+<td><p>An axiom that defines a set of classes or class expressions as being mutually…</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="GraphDocument.html"><span class="std std-doc">GraphDocument</span></a></p></td>
+<td><p>A graph document is a collection of graphs together with a set of prefixes th…</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="std std-doc">SynonymPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="std std-doc">DefinitionPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about the textual definition of…</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
+<td><p>A node is a class, property, or other entity in an ontology</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="std std-doc">PropertyChainAxiom</span></a></p></td>
+<td><p>An axiom that represents an OWL property chain, e</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="std std-doc">LogicalDefinitionAxiom</span></a></p></td>
+<td><p>An axiom that defines a class in terms of a genus or set of genus classes and…</p></td>
 <td><p>no</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Axiom.html"><span class="std std-doc">Axiom</span></a></p></td>
 <td><p>A generic grouping for any OWL axiom or group of axioms that is not captured …</p></td>
 <td><p>no</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="std std-doc">LogicalDefinitionAxiom</span></a></p></td>
-<td><p>An axiom that defines a class in terms of a genus or set of genus classes and…</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
+<td><p>An edge is a simple typed relationship between two nodes</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="std std-doc">DomainRangeAxiom</span></a></p></td>
+<td><p>This groups potentially multiple axioms that constrain the usage of a propert…</p></td>
 <td><p>no</p></td>
 </tr>
 </tbody>

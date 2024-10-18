@@ -1,0 +1,4631 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exploration of MAxO &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="MONDO Examples" href="../MONDO/index.html" />
+    <link rel="prev" title="MAXO Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">MAXO Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Exploration of MAxO</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">MAXO Examples</a></li>
+      <li class="breadcrumb-item active">Exploration of MAxO</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/MAXO/MAXO-CLI-Examples.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Exploration-of-MAxO">
+<h1>Exploration of MAxO<a class="headerlink" href="#Exploration-of-MAxO" title="Link to this heading"></a></h1>
+<p>The Medical Action Ontology (MAxO) (<a class="reference external" href="https://obofoundry.org/ontology/maxo">https://obofoundry.org/ontology/maxo</a>) is an ontology of medical procedures, interventions, therapies, and treatments for disease with an emphasis on rare disease (RD).</p>
+<p>This notebooks shows an exploration of the contents of MAxO. It focuses on the ontology content, but as annotations are added we will include these.</p>
+<section id="Setup">
+<h2>Setup<a class="headerlink" href="#Setup" title="Link to this heading"></a></h2>
+<p>We will use the sqlite version of MAxO. In this notebook we will set up an alias for convenience.</p>
+<p>Note on the command line the syntax is different, for unix systems:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">maxo</span><span class="o">=</span><span class="s2">&quot;runoak -i sqlite:obo:maxo&quot;</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> maxo runoak -i sqlite:obo:maxo
+</pre></div>
+</div>
+</div>
+<p>Let’s start by getting some basic metadata about the ontology.</p>
+<p><strong>NOTE</strong> the first time you run this there may be a lag while the pre-made sqlite database for maxo is downloaded</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">ontology</span><span class="o">-</span><span class="n">metadata</span> <span class="o">--</span><span class="nb">all</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dce:creator:
+- Leigh Carmody
+- Peter Robinson
+dce:description:
+- An ontology to represent medically relevant actions, procedures, therapies, interventions,
+  and recommendations.
+dce:title:
+- Medical Action Ontology
+dcterms:license:
+- &lt;https://creativecommons.org/licenses/by/4.0/&gt;
+id:
+- obo:maxo.owl
+owl:versionIRI:
+- obo:maxo/releases/2022-12-19/maxo.owl
+owl:versionInfo:
+- &#39;2022-12-19&#39;
+rdf:type:
+- owl:Ontology
+rdfs:isDefinedBy:
+- http://purl.obolibrary.org/obo/obo.owl
+schema:url:
+- http://purl.obolibrary.org/obo/maxo.owl
+sh:prefix:
+- obo
+</pre></div></div>
+</div>
+</section>
+<section id="Root-terms">
+<h2>Root terms<a class="headerlink" href="#Root-terms" title="Link to this heading"></a></h2>
+<p>We will query for roots (all terms without an is-a parent)</p>
+<p>This reveals a few dangling classes that should be cleared up</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">roots</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id      label
+BFO:0000001     entity
+CARO:0000003    None
+CARO:0000006    None
+CARO:0001001    None
+CARO:0001010    None
+CARO:0010000    None
+CL:0000000      cell
+CL:0017500      neutrophillic cytoplasm
+CL:0017502      acidophilic cytoplasm
+CL:0017503      basophilic cytoplasm
+CL:0017504      polychromatophilic cytoplasm
+CL:0017505      increased nucleus size
+HP:0000001      All
+MAXO:0000001    medical action
+NCBITaxon:110815        None
+NCBITaxon:147099        None
+NCBITaxon:147554        None
+NCBITaxon:189497        None
+NCBITaxon:3176  None
+NCBITaxon:3312  None
+NCBITaxon:33630 None
+NCBITaxon:33682 None
+NCBITaxon:3378  None
+NCBITaxon:38254 None
+NCBITaxon:4891  None
+NCBITaxon:4895  None
+NCBITaxon:4896  None
+NCBITaxon:4932  None
+NCBITaxon:5782  None
+NCBITaxon:Union_0000023 None
+SO:0000110      sequence_feature
+</pre></div></div>
+</div>
+<section id="Roots-in-the-MAXO-id-space">
+<h3>Roots in the MAXO id space<a class="headerlink" href="#Roots-in-the-MAXO-id-space" title="Link to this heading"></a></h3>
+<p>As can be seen above there is a single root node in the MAXO namespace</p>
+<p>We can also query for MAXO-roots, i.e classes in MAXO that have no MAXO is-a parent:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">roots</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="o">--</span><span class="n">has</span><span class="o">-</span><span class="n">prefix</span> <span class="n">MAXO</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Visualization">
+<h2>Visualization<a class="headerlink" href="#Visualization" title="Link to this heading"></a></h2>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">viz</span></code> command to see the full ancestry for any term or set of terms or term query.</p>
+<p>For now, we will restrict to is-a parents (<code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">i</span></code>):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="s1">&#39;biopsy of thymus&#39;</span> <span class="s1">&#39;biopsy of thyroid gland&#39;</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">maxo</span><span class="o">-</span><span class="n">biopsy</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/MAXO/output/maxo-biopsy.png" /></p>
+<p><strong>TODO</strong>: add explanation of why BFO processes show up</p>
+</section>
+<section id="Upper-level">
+<h2>Upper level<a class="headerlink" href="#Upper-level" title="Link to this heading"></a></h2>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">tree</span></code> command to explore the upper level:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">tree</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000001</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000058</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000002</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000003</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000013</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000017</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000021</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0001014</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] **MAXO:0000001 ! medical action**
+    * [i] **MAXO:0000002 ! therapeutic procedure**
+        * [i] **MAXO:0000058 ! pharmacotherapy**
+    * [i] **MAXO:0000003 ! diagnostic procedure**
+    * [i] **MAXO:0000013 ! complementary and alternative medical therapy**
+    * [i] **MAXO:0000017 ! preventative therapeutics**
+    * [i] **MAXO:0000021 ! palliative care**
+    * [i] **MAXO:0001014 ! medical action avoidance**
+</pre></div></div>
+</div>
+</section>
+<section id="Summary-Statistics">
+<h2>Summary Statistics<a class="headerlink" href="#Summary-Statistics" title="Link to this heading"></a></h2>
+<p>We can get summary statistics using the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> command.</p>
+<p>Note that like many ontologies, MAXO comes “bundled” with other ontologies, so it’s important to pass in <code class="docutils literal notranslate"><span class="pre">--has-prefix</span></code> to restrict summary statistics only to things in the MAXO space.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">statistics</span> <span class="o">--</span><span class="n">has</span><span class="o">-</span><span class="n">prefix</span> <span class="n">MAXO</span> <span class="o">&gt;</span> <span class="n">output</span><span class="o">/</span><span class="n">maxo</span><span class="o">-</span><span class="n">stats</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</div>
+<p>This generates a YAML object (download from <a class="reference external" href="output/maxo-stats.yaml">output/maxo-stats.yaml</a>).</p>
+<p>let’s take a look at the output. It’s quite large so we’ll use the unix <code class="docutils literal notranslate"><span class="pre">head</span></code> command:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head<span class="w"> </span>-25<span class="w"> </span>output/maxo-stats.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+annotation_property_count: 0
+class_count: 1440
+class_count_with_text_definitions: 1374
+class_count_without_text_definitions: 66
+contributor_summary:
+  &lt;http://orcid.org/0000-0001-7941-2961&gt;:
+    contributor_id: &lt;http://orcid.org/0000-0001-7941-2961&gt;
+    role_counts:
+      oio:created_by:
+        facet: oio:created_by
+        filtered_count: 822
+  &lt;http://orcid.org/0000-0002-7463-6306&gt;:
+    contributor_id: &lt;http://orcid.org/0000-0002-7463-6306&gt;
+    role_counts:
+      oio:created_by:
+        facet: oio:created_by
+        filtered_count: 3
+  http://orcid.org/0000-0001-7941-2961:
+    contributor_id: http://orcid.org/0000-0001-7941-2961
+    contributor_name: http://orcid.org/0000-0001-7941-2961
+    role_counts:
+      oio:created_by:
+        facet: oio:created_by
+        filtered_count: 491
+  http://orcid.org/0000-0001-7941-29610:
+</pre></div></div>
+</div>
+<p>Note that the main stats are buried further down.</p>
+<p>You can get the same thing in JSON. There is a cached copy you can view on <a class="reference external" href="https://jsonblob.com/1069350711447535616">https://jsonblob.com/1069350711447535616</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">statistics</span> <span class="o">--</span><span class="n">has</span><span class="o">-</span><span class="n">prefix</span> <span class="n">MAXO</span> <span class="o">-</span><span class="n">O</span> <span class="n">json</span> <span class="o">&gt;</span> <span class="n">output</span><span class="o">/</span><span class="n">maxo</span><span class="o">-</span><span class="n">stats</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+</div>
+<p>The YAML and JSON view is best for seeing the more complete granular results, but for many purposes a tabular view is better.</p>
+<p>We can do that with <code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">csv</span></code> (the <code class="docutils literal notranslate"><span class="pre">-O</span></code> is short for <code class="docutils literal notranslate"><span class="pre">--output-type</span></code>, which is available for more OAK commands)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">statistics</span> <span class="o">--</span><span class="n">has</span><span class="o">-</span><span class="n">prefix</span> <span class="n">MAXO</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">maxo</span><span class="o">-</span><span class="n">stats</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<p>Download: <a class="reference external" href="output/maxo-stats.tsv">output/maxo-stats.tsv</a></p>
+<p>You can then browse the output using whatever method you prefer, e.g. load into excel.</p>
+<p>In a Jupyter notebook, pandas dataframes are a convenient way to explore tabular data:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/maxo-stats.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>compared_with</th>
+      <th>agents</th>
+      <th>class_count</th>
+      <th>deprecated_class_count</th>
+      <th>non_deprecated_class_count</th>
+      <th>class_count_with_text_definitions</th>
+      <th>class_count_without_text_definitions</th>
+      <th>object_property_count</th>
+      <th>annotation_property_count</th>
+      <th>named_individual_count</th>
+      <th>subset_count</th>
+      <th>rdf_triple_count</th>
+      <th>subclass_of_axiom_count</th>
+      <th>equivalent_classes_axiom_count</th>
+      <th>entailed_edge_count_by_predicate</th>
+      <th>distinct_synonym_count</th>
+      <th>synonym_statement_count</th>
+      <th>class_count_by_category</th>
+      <th>contributor_summary</th>
+      <th>change_summary</th>
+      <th>merged_class_query</th>
+      <th>deprecated_property_count</th>
+      <th>edge_count_by_predicate_BFO:0000051</th>
+      <th>edge_count_by_predicate_MAXO:0000521</th>
+      <th>edge_count_by_predicate_MAXO:0000864</th>
+      <th>edge_count_by_predicate_MAXO:0001015</th>
+      <th>edge_count_by_predicate_MAXO:0001027</th>
+      <th>edge_count_by_predicate_RO:0002233</th>
+      <th>edge_count_by_predicate_rdfs:subClassOf</th>
+      <th>synonym_statement_count_by_predicate_hasBroadSynonym</th>
+      <th>synonym_statement_count_by_predicate_hasExactSynonym</th>
+      <th>synonym_statement_count_by_predicate_hasNarrowSynonym</th>
+      <th>synonym_statement_count_by_predicate_hasRelatedSynonym</th>
+      <th>mapping_statement_count_by_predicate_hasDbXref</th>
+      <th>mapping_statement_count_by_object_source_OGMS</th>
+      <th>mapping_statement_count_by_object_source_NCIT</th>
+      <th>mapping_statement_count_by_object_source_OAE</th>
+      <th>mapping_statement_count_by_object_source_SIO</th>
+      <th>mapping_statement_count_by_object_source_ERO</th>
+      <th>mapping_statement_count_by_object_source_NCRO</th>
+      <th>mapping_statement_count_by_object_source_SCDO</th>
+      <th>mapping_statement_count_by_object_source_OMIT</th>
+      <th>mapping_statement_count_by_object_source_CHEBI</th>
+      <th>mapping_statement_count_by_object_source_MeSH</th>
+      <th>mapping_statement_count_by_object_source_OBI</th>
+      <th>mapping_statement_count_by_object_source_IDO</th>
+      <th>mapping_statement_count_by_object_source_VO</th>
+      <th>mapping_statement_count_by_object_source_https</th>
+      <th>mapping_statement_count_by_object_source_PMID</th>
+      <th>mapping_statement_count_by_object_source_NCIt</th>
+      <th>mapping_statement_count_by_object_source_UMLS_CUI</th>
+      <th>mapping_statement_count_by_object_source_CMO</th>
+      <th>mapping_statement_count_by_object_source_NCBIBook</th>
+      <th>mapping_statement_count_by_object_source_MMO</th>
+      <th>mapping_statement_count_by_object_source_VSO</th>
+      <th>mapping_statement_count_by_object_source_http</th>
+      <th>mapping_statement_count_by_object_source_EFO</th>
+      <th>mapping_statement_count_by_object_source_IDOMAL</th>
+      <th>mapping_statement_count_subject_by_object_source_OGMS</th>
+      <th>mapping_statement_count_subject_by_object_source_NCIT</th>
+      <th>mapping_statement_count_subject_by_object_source_OAE</th>
+      <th>mapping_statement_count_subject_by_object_source_SIO</th>
+      <th>mapping_statement_count_subject_by_object_source_ERO</th>
+      <th>mapping_statement_count_subject_by_object_source_NCRO</th>
+      <th>mapping_statement_count_subject_by_object_source_SCDO</th>
+      <th>mapping_statement_count_subject_by_object_source_OMIT</th>
+      <th>mapping_statement_count_subject_by_object_source_CHEBI</th>
+      <th>mapping_statement_count_subject_by_object_source_MeSH</th>
+      <th>mapping_statement_count_subject_by_object_source_OBI</th>
+      <th>mapping_statement_count_subject_by_object_source_IDO</th>
+      <th>mapping_statement_count_subject_by_object_source_VO</th>
+      <th>mapping_statement_count_subject_by_object_source_https</th>
+      <th>mapping_statement_count_subject_by_object_source_PMID</th>
+      <th>mapping_statement_count_subject_by_object_source_NCIt</th>
+      <th>mapping_statement_count_subject_by_object_source_UMLS_CUI</th>
+      <th>mapping_statement_count_subject_by_object_source_CMO</th>
+      <th>mapping_statement_count_subject_by_object_source_NCBIBook</th>
+      <th>mapping_statement_count_subject_by_object_source_MMO</th>
+      <th>mapping_statement_count_subject_by_object_source_VSO</th>
+      <th>mapping_statement_count_subject_by_object_source_http</th>
+      <th>mapping_statement_count_subject_by_object_source_EFO</th>
+      <th>mapping_statement_count_subject_by_object_source_IDOMAL</th>
+      <th>was_generated_by_started_at_time</th>
+      <th>was_generated_by_was_associated_with</th>
+      <th>was_generated_by_acted_on_behalf_of</th>
+      <th>ontologies_id</th>
+      <th>ontologies_version</th>
+      <th>ontologies_version_info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AllOntologies</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>1440</td>
+      <td>53</td>
+      <td>1387</td>
+      <td>1374</td>
+      <td>66</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>15642</td>
+      <td>2842</td>
+      <td>584</td>
+      <td>{}</td>
+      <td>4391</td>
+      <td>4391</td>
+      <td>{}</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8</td>
+      <td>20</td>
+      <td>134</td>
+      <td>9</td>
+      <td>76</td>
+      <td>441</td>
+      <td>2154</td>
+      <td>25</td>
+      <td>4250</td>
+      <td>97</td>
+      <td>19</td>
+      <td>554</td>
+      <td>8</td>
+      <td>330</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>5</td>
+      <td>5</td>
+      <td>134</td>
+      <td>20</td>
+      <td>15</td>
+      <td>1</td>
+      <td>4</td>
+      <td>3</td>
+      <td>11</td>
+      <td>1</td>
+      <td>1</td>
+      <td>6</td>
+      <td>5</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>8</td>
+      <td>321</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>5</td>
+      <td>5</td>
+      <td>133</td>
+      <td>20</td>
+      <td>15</td>
+      <td>1</td>
+      <td>4</td>
+      <td>3</td>
+      <td>11</td>
+      <td>1</td>
+      <td>1</td>
+      <td>6</td>
+      <td>5</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2023-01-29T12:44:00.348450</td>
+      <td>OAK</td>
+      <td>cjm</td>
+      <td>obo:maxo.owl</td>
+      <td>obo:maxo/releases/2022-12-19/maxo.owl</td>
+      <td>2022-12-19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>the default TSV output for most OAK commands follows a TidyData format, with one row per item.</p>
+<p>Let’s unpivot this for easy viewing, using pandas <code class="docutils literal notranslate"><span class="pre">melt</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">melt</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>variable</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>id</td>
+      <td>AllOntologies</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>compared_with</td>
+      <td>[]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>agents</td>
+      <td>[]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>class_count</td>
+      <td>1440</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>deprecated_class_count</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>non_deprecated_class_count</td>
+      <td>1387</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>class_count_with_text_definitions</td>
+      <td>1374</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>class_count_without_text_definitions</td>
+      <td>66</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>object_property_count</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>annotation_property_count</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>named_individual_count</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>subset_count</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>rdf_triple_count</td>
+      <td>15642</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>subclass_of_axiom_count</td>
+      <td>2842</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>equivalent_classes_axiom_count</td>
+      <td>584</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>entailed_edge_count_by_predicate</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>distinct_synonym_count</td>
+      <td>4391</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>synonym_statement_count</td>
+      <td>4391</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>class_count_by_category</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>contributor_summary</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>change_summary</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>merged_class_query</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>deprecated_property_count</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>edge_count_by_predicate_BFO:0000051</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>edge_count_by_predicate_MAXO:0000521</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>edge_count_by_predicate_MAXO:0000864</td>
+      <td>134</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>edge_count_by_predicate_MAXO:0001015</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>edge_count_by_predicate_MAXO:0001027</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>edge_count_by_predicate_RO:0002233</td>
+      <td>441</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>edge_count_by_predicate_rdfs:subClassOf</td>
+      <td>2154</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>synonym_statement_count_by_predicate_hasBroadS...</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>synonym_statement_count_by_predicate_hasExactS...</td>
+      <td>4250</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>synonym_statement_count_by_predicate_hasNarrow...</td>
+      <td>97</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>synonym_statement_count_by_predicate_hasRelate...</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>mapping_statement_count_by_predicate_hasDbXref</td>
+      <td>554</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>mapping_statement_count_by_object_source_OGMS</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>mapping_statement_count_by_object_source_NCIT</td>
+      <td>330</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>mapping_statement_count_by_object_source_OAE</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>mapping_statement_count_by_object_source_SIO</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>mapping_statement_count_by_object_source_ERO</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>mapping_statement_count_by_object_source_NCRO</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>mapping_statement_count_by_object_source_SCDO</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>mapping_statement_count_by_object_source_OMIT</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>mapping_statement_count_by_object_source_CHEBI</td>
+      <td>134</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>mapping_statement_count_by_object_source_MeSH</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>mapping_statement_count_by_object_source_OBI</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>mapping_statement_count_by_object_source_IDO</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>mapping_statement_count_by_object_source_VO</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>mapping_statement_count_by_object_source_https</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>mapping_statement_count_by_object_source_PMID</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>mapping_statement_count_by_object_source_NCIt</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>mapping_statement_count_by_object_source_UMLS_CUI</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>mapping_statement_count_by_object_source_CMO</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>mapping_statement_count_by_object_source_NCBIBook</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>mapping_statement_count_by_object_source_MMO</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>mapping_statement_count_by_object_source_VSO</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>mapping_statement_count_by_object_source_http</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>mapping_statement_count_by_object_source_EFO</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>mapping_statement_count_by_object_source_IDOMAL</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>321</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>133</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>mapping_statement_count_subject_by_object_sour...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>was_generated_by_started_at_time</td>
+      <td>2023-01-29T12:44:00.348450</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>was_generated_by_was_associated_with</td>
+      <td>OAK</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>was_generated_by_acted_on_behalf_of</td>
+      <td>cjm</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>ontologies_id</td>
+      <td>obo:maxo.owl</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>ontologies_version</td>
+      <td>obo:maxo/releases/2022-12-19/maxo.owl</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>ontologies_version_info</td>
+      <td>2022-12-19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Note that the original YAML report included many “nested” summaries, where counts were broken down by a facet - e.g. edge counts:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">edge_count_by_predicate</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">BFO:0000051</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">facet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BFO:0000051</span>
+<span class="w">    </span><span class="nt">filtered_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">  </span><span class="nt">MAXO:0000521</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">facet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MAXO:0000521</span>
+<span class="w">    </span><span class="nt">filtered_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">  </span><span class="nt">MAXO:0000864</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">facet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MAXO:0000864</span>
+<span class="w">    </span><span class="nt">filtered_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">134</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+<p>These get flattened (“denormalized”) in the conversion to TSV, creating a new column for each facet, but this isn’t done for all objects since this would make too wide a table (e.g. the contributor report, some ontologies may have 100s of contributors).</p>
+<p>E.g.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>edge_count_by_predicate_BFO:0000051</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p>edge_count_by_predicate_MAXO:0000521</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>edge_count_by_predicate_MAXO:0000864</p></td>
+<td><p>134</p></td>
+</tr>
+</tbody>
+</table>
+<p>The fields names may be verbose but they are intended to be unambiguous. One problem with ontology stats reporting is that there is often built in ambiguity; e.g what does “number of terms” mean?</p>
+<ul class="simple">
+<li><p>number of classes</p></li>
+<li><p>number of classes plus relations (object properties?)</p></li>
+<li><p>are obsolete classes included? what about merged classes?</p></li>
+</ul>
+<p>If you want to look up documentation for any of these fields, just prefix with <code class="docutils literal notranslate"><span class="pre">https://incatools.github.io/ontology-access-kit/datamodels/summary-statistics/</span></code></p>
+<p>E.g. <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/summary-statistics/non_deprecated_class_count.html">https://incatools.github.io/ontology-access-kit/datamodels/summary-statistics/non_deprecated_class_count.html</a></p>
+<p>(in future these elements may have their own w3id URIs)</p>
+<p>Note this only works for “non-denormalized” fields - to interpret “edge_count_by_predicate_BFO:0000051” you must split this into the base statistic <code class="docutils literal notranslate"><span class="pre">edge_count_by_predicate</span></code> and the entity (BFO:0000051, aka has-part). Or you can simply look at the native normalized YAML output.</p>
+</section>
+<section id="Summarizing-by-branches">
+<h2>Summarizing by branches<a class="headerlink" href="#Summarizing-by-branches" title="Link to this heading"></a></h2>
+<p>We can pass in a list of branches:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">statistics</span> <span class="o">--</span><span class="n">has</span><span class="o">-</span><span class="n">prefix</span> <span class="n">MAXO</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">maxo</span><span class="o">-</span><span class="n">stats</span><span class="o">-</span><span class="n">roots</span><span class="o">.</span><span class="n">tsv</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000001</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000058</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000002</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000003</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000013</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000017</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0000021</span> <span class="n">MAXO</span><span class="p">:</span><span class="mi">0001014</span>
+</pre></div>
+</div>
+</div>
+<p>You can download this: <a class="reference external" href="output/maxo-stats-roots.tsv">output/maxo-stats-roots.tsv</a> and use excel etc to view.</p>
+<p>Or see <a class="reference external" href="https://docs.google.com/spreadsheets/d/1sKP7hhsY9YAVKEnLBqM6Zef_O80uOj6QPEvCuPYhrow/edit?usp=sharing">this google sheet</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/maxo-stats-roots.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>compared_with</th>
+      <th>agents</th>
+      <th>class_count</th>
+      <th>deprecated_class_count</th>
+      <th>non_deprecated_class_count</th>
+      <th>class_count_with_text_definitions</th>
+      <th>class_count_without_text_definitions</th>
+      <th>object_property_count</th>
+      <th>annotation_property_count</th>
+      <th>named_individual_count</th>
+      <th>subset_count</th>
+      <th>rdf_triple_count</th>
+      <th>subclass_of_axiom_count</th>
+      <th>equivalent_classes_axiom_count</th>
+      <th>entailed_edge_count_by_predicate</th>
+      <th>distinct_synonym_count</th>
+      <th>synonym_statement_count</th>
+      <th>class_count_by_category</th>
+      <th>contributor_summary</th>
+      <th>change_summary</th>
+      <th>merged_class_query</th>
+      <th>deprecated_property_count</th>
+      <th>edge_count_by_predicate_BFO:0000051</th>
+      <th>edge_count_by_predicate_MAXO:0000521</th>
+      <th>edge_count_by_predicate_MAXO:0000864</th>
+      <th>edge_count_by_predicate_MAXO:0001015</th>
+      <th>edge_count_by_predicate_MAXO:0001027</th>
+      <th>edge_count_by_predicate_RO:0002233</th>
+      <th>edge_count_by_predicate_rdfs:subClassOf</th>
+      <th>synonym_statement_count_by_predicate_hasBroadSynonym</th>
+      <th>synonym_statement_count_by_predicate_hasExactSynonym</th>
+      <th>synonym_statement_count_by_predicate_hasNarrowSynonym</th>
+      <th>synonym_statement_count_by_predicate_hasRelatedSynonym</th>
+      <th>mapping_statement_count_by_predicate_hasDbXref</th>
+      <th>mapping_statement_count_by_object_source_OGMS</th>
+      <th>mapping_statement_count_by_object_source_NCIT</th>
+      <th>mapping_statement_count_by_object_source_OAE</th>
+      <th>mapping_statement_count_by_object_source_SIO</th>
+      <th>mapping_statement_count_by_object_source_ERO</th>
+      <th>mapping_statement_count_by_object_source_NCRO</th>
+      <th>mapping_statement_count_by_object_source_SCDO</th>
+      <th>mapping_statement_count_by_object_source_OMIT</th>
+      <th>mapping_statement_count_by_object_source_CHEBI</th>
+      <th>mapping_statement_count_by_object_source_MeSH</th>
+      <th>mapping_statement_count_by_object_source_OBI</th>
+      <th>mapping_statement_count_by_object_source_IDO</th>
+      <th>mapping_statement_count_by_object_source_VO</th>
+      <th>mapping_statement_count_by_object_source_https</th>
+      <th>mapping_statement_count_by_object_source_PMID</th>
+      <th>mapping_statement_count_by_object_source_NCIt</th>
+      <th>mapping_statement_count_by_object_source_UMLS_CUI</th>
+      <th>mapping_statement_count_by_object_source_CMO</th>
+      <th>mapping_statement_count_by_object_source_NCBIBook</th>
+      <th>mapping_statement_count_by_object_source_MMO</th>
+      <th>mapping_statement_count_by_object_source_VSO</th>
+      <th>mapping_statement_count_by_object_source_http</th>
+      <th>mapping_statement_count_by_object_source_EFO</th>
+      <th>mapping_statement_count_by_object_source_IDOMAL</th>
+      <th>mapping_statement_count_subject_by_object_source_OGMS</th>
+      <th>mapping_statement_count_subject_by_object_source_NCIT</th>
+      <th>mapping_statement_count_subject_by_object_source_OAE</th>
+      <th>mapping_statement_count_subject_by_object_source_SIO</th>
+      <th>mapping_statement_count_subject_by_object_source_ERO</th>
+      <th>mapping_statement_count_subject_by_object_source_NCRO</th>
+      <th>mapping_statement_count_subject_by_object_source_SCDO</th>
+      <th>mapping_statement_count_subject_by_object_source_OMIT</th>
+      <th>mapping_statement_count_subject_by_object_source_CHEBI</th>
+      <th>mapping_statement_count_subject_by_object_source_MeSH</th>
+      <th>mapping_statement_count_subject_by_object_source_OBI</th>
+      <th>mapping_statement_count_subject_by_object_source_IDO</th>
+      <th>mapping_statement_count_subject_by_object_source_VO</th>
+      <th>mapping_statement_count_subject_by_object_source_https</th>
+      <th>mapping_statement_count_subject_by_object_source_PMID</th>
+      <th>mapping_statement_count_subject_by_object_source_NCIt</th>
+      <th>mapping_statement_count_subject_by_object_source_UMLS_CUI</th>
+      <th>mapping_statement_count_subject_by_object_source_CMO</th>
+      <th>mapping_statement_count_subject_by_object_source_NCBIBook</th>
+      <th>mapping_statement_count_subject_by_object_source_MMO</th>
+      <th>mapping_statement_count_subject_by_object_source_VSO</th>
+      <th>mapping_statement_count_subject_by_object_source_http</th>
+      <th>mapping_statement_count_subject_by_object_source_EFO</th>
+      <th>mapping_statement_count_subject_by_object_source_IDOMAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>medical action</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>1387</td>
+      <td>0</td>
+      <td>1387</td>
+      <td>1374</td>
+      <td>13</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>15355</td>
+      <td>2789</td>
+      <td>584</td>
+      <td>{}</td>
+      <td>4385</td>
+      <td>4385</td>
+      <td>{}</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.0</td>
+      <td>20.0</td>
+      <td>134.0</td>
+      <td>9.0</td>
+      <td>76.0</td>
+      <td>441.0</td>
+      <td>2101</td>
+      <td>25.0</td>
+      <td>4246</td>
+      <td>97.0</td>
+      <td>17.0</td>
+      <td>553.0</td>
+      <td>8.0</td>
+      <td>329.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>134.0</td>
+      <td>19.0</td>
+      <td>15.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>3.0</td>
+      <td>11.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>8.0</td>
+      <td>320.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>133.0</td>
+      <td>19.0</td>
+      <td>15.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>3.0</td>
+      <td>11.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>pharmacotherapy</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>256</td>
+      <td>0</td>
+      <td>256</td>
+      <td>248</td>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3772</td>
+      <td>556</td>
+      <td>134</td>
+      <td>{}</td>
+      <td>1553</td>
+      <td>1553</td>
+      <td>{}</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td></td>
+      <td></td>
+      <td>134.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>422</td>
+      <td>12.0</td>
+      <td>1515</td>
+      <td>19.0</td>
+      <td>7.0</td>
+      <td>196.0</td>
+      <td>1.0</td>
+      <td>57.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td>134.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td>56.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td>133.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>therapeutic procedure</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>898</td>
+      <td>0</td>
+      <td>898</td>
+      <td>885</td>
+      <td>13</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>10555</td>
+      <td>1853</td>
+      <td>394</td>
+      <td>{}</td>
+      <td>3363</td>
+      <td>3363</td>
+      <td>{}</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td></td>
+      <td>9.0</td>
+      <td>134.0</td>
+      <td></td>
+      <td>76.0</td>
+      <td>260.0</td>
+      <td>1374</td>
+      <td>24.0</td>
+      <td>3262</td>
+      <td>65.0</td>
+      <td>12.0</td>
+      <td>386.0</td>
+      <td>6.0</td>
+      <td>203.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>134.0</td>
+      <td>19.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td>3.0</td>
+      <td>6.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td>6.0</td>
+      <td>195.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>133.0</td>
+      <td>19.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td>3.0</td>
+      <td>6.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>diagnostic procedure</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>556</td>
+      <td>0</td>
+      <td>556</td>
+      <td>556</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5888</td>
+      <td>1140</td>
+      <td>254</td>
+      <td>{}</td>
+      <td>1492</td>
+      <td>1492</td>
+      <td>{}</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>246.0</td>
+      <td>886</td>
+      <td>2.0</td>
+      <td>1452</td>
+      <td>32.0</td>
+      <td>6.0</td>
+      <td>180.0</td>
+      <td>1.0</td>
+      <td>151.0</td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>12.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>5.0</td>
+      <td></td>
+      <td></td>
+      <td>6.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td>150.0</td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>12.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>5.0</td>
+      <td></td>
+      <td></td>
+      <td>6.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>complementary and alternative medical therapy</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>6</td>
+      <td>0</td>
+      <td>6</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>53</td>
+      <td>6</td>
+      <td>0</td>
+      <td>{}</td>
+      <td>9</td>
+      <td>9</td>
+      <td>{}</td>
+      <td>{'&lt;http://orcid.org/0000-0001-7941-2961&gt;': Con...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>6</td>
+      <td></td>
+      <td>7</td>
+      <td>2.0</td>
+      <td></td>
+      <td>8.0</td>
+      <td></td>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>preventative therapeutics</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>22</td>
+      <td>0</td>
+      <td>22</td>
+      <td>22</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>206</td>
+      <td>34</td>
+      <td>1</td>
+      <td>{}</td>
+      <td>46</td>
+      <td>46</td>
+      <td>{}</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td></td>
+      <td>11.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>23</td>
+      <td></td>
+      <td>46</td>
+      <td></td>
+      <td></td>
+      <td>14.0</td>
+      <td></td>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>palliative care</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>6</td>
+      <td>0</td>
+      <td>6</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>59</td>
+      <td>8</td>
+      <td>0</td>
+      <td>{}</td>
+      <td>15</td>
+      <td>15</td>
+      <td>{}</td>
+      <td>{'&lt;http://orcid.org/0000-0001-7941-2961&gt;': Con...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>8</td>
+      <td></td>
+      <td>7</td>
+      <td>8.0</td>
+      <td></td>
+      <td>6.0</td>
+      <td></td>
+      <td>5.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>medical action avoidance</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>9</td>
+      <td>0</td>
+      <td>9</td>
+      <td>9</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>81</td>
+      <td>18</td>
+      <td>0</td>
+      <td>{}</td>
+      <td>18</td>
+      <td>18</td>
+      <td>{}</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>9.0</td>
+      <td></td>
+      <td></td>
+      <td>9</td>
+      <td></td>
+      <td>18</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Here each row is a branch (note that numbers are cumulative, so numbers for a parent include numbers for children, even if there is a separate row for that child).</p>
+<p>Note that you will never see deprecated classes when using this option, if the deprecated classes are not in the hierarchy (as is conventional for OBO ontologies)</p>
+<p>We may prefer to view the transposed form:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">convert_dtypes</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>id</th>
+      <td>medical action</td>
+      <td>pharmacotherapy</td>
+      <td>therapeutic procedure</td>
+      <td>diagnostic procedure</td>
+      <td>complementary and alternative medical therapy</td>
+      <td>preventative therapeutics</td>
+      <td>palliative care</td>
+      <td>medical action avoidance</td>
+    </tr>
+    <tr>
+      <th>compared_with</th>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+    </tr>
+    <tr>
+      <th>agents</th>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[]</td>
+    </tr>
+    <tr>
+      <th>class_count</th>
+      <td>1387</td>
+      <td>256</td>
+      <td>898</td>
+      <td>556</td>
+      <td>6</td>
+      <td>22</td>
+      <td>6</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>deprecated_class_count</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>non_deprecated_class_count</th>
+      <td>1387</td>
+      <td>256</td>
+      <td>898</td>
+      <td>556</td>
+      <td>6</td>
+      <td>22</td>
+      <td>6</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>class_count_with_text_definitions</th>
+      <td>1374</td>
+      <td>248</td>
+      <td>885</td>
+      <td>556</td>
+      <td>6</td>
+      <td>22</td>
+      <td>6</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>class_count_without_text_definitions</th>
+      <td>13</td>
+      <td>8</td>
+      <td>13</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>object_property_count</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>annotation_property_count</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>named_individual_count</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>subset_count</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>rdf_triple_count</th>
+      <td>15355</td>
+      <td>3772</td>
+      <td>10555</td>
+      <td>5888</td>
+      <td>53</td>
+      <td>206</td>
+      <td>59</td>
+      <td>81</td>
+    </tr>
+    <tr>
+      <th>subclass_of_axiom_count</th>
+      <td>2789</td>
+      <td>556</td>
+      <td>1853</td>
+      <td>1140</td>
+      <td>6</td>
+      <td>34</td>
+      <td>8</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>equivalent_classes_axiom_count</th>
+      <td>584</td>
+      <td>134</td>
+      <td>394</td>
+      <td>254</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>entailed_edge_count_by_predicate</th>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>distinct_synonym_count</th>
+      <td>4385</td>
+      <td>1553</td>
+      <td>3363</td>
+      <td>1492</td>
+      <td>9</td>
+      <td>46</td>
+      <td>15</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>synonym_statement_count</th>
+      <td>4385</td>
+      <td>1553</td>
+      <td>3363</td>
+      <td>1492</td>
+      <td>9</td>
+      <td>46</td>
+      <td>15</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>class_count_by_category</th>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>contributor_summary</th>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{'&lt;http://orcid.org/0000-0001-7941-2961&gt;': Con...</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+      <td>{'&lt;http://orcid.org/0000-0001-7941-2961&gt;': Con...</td>
+      <td>{'http://orcid.org/0000-0001-7941-2961': Contr...</td>
+    </tr>
+    <tr>
+      <th>change_summary</th>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>merged_class_query</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>deprecated_property_count</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>edge_count_by_predicate_BFO:0000051</th>
+      <td>8.0</td>
+      <td></td>
+      <td></td>
+      <td>8.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>edge_count_by_predicate_MAXO:0000521</th>
+      <td>20.0</td>
+      <td></td>
+      <td>9.0</td>
+      <td></td>
+      <td></td>
+      <td>11.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>edge_count_by_predicate_MAXO:0000864</th>
+      <td>134.0</td>
+      <td>134.0</td>
+      <td>134.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>edge_count_by_predicate_MAXO:0001015</th>
+      <td>9.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>9.0</td>
+    </tr>
+    <tr>
+      <th>edge_count_by_predicate_MAXO:0001027</th>
+      <td>76.0</td>
+      <td></td>
+      <td>76.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>edge_count_by_predicate_RO:0002233</th>
+      <td>441.0</td>
+      <td></td>
+      <td>260.0</td>
+      <td>246.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>edge_count_by_predicate_rdfs:subClassOf</th>
+      <td>2101</td>
+      <td>422</td>
+      <td>1374</td>
+      <td>886</td>
+      <td>6</td>
+      <td>23</td>
+      <td>8</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>synonym_statement_count_by_predicate_hasBroadSynonym</th>
+      <td>25.0</td>
+      <td>12.0</td>
+      <td>24.0</td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>synonym_statement_count_by_predicate_hasExactSynonym</th>
+      <td>4246</td>
+      <td>1515</td>
+      <td>3262</td>
+      <td>1452</td>
+      <td>7</td>
+      <td>46</td>
+      <td>7</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>synonym_statement_count_by_predicate_hasNarrowSynonym</th>
+      <td>97.0</td>
+      <td>19.0</td>
+      <td>65.0</td>
+      <td>32.0</td>
+      <td>2.0</td>
+      <td></td>
+      <td>8.0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>synonym_statement_count_by_predicate_hasRelatedSynonym</th>
+      <td>17.0</td>
+      <td>7.0</td>
+      <td>12.0</td>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_predicate_hasDbXref</th>
+      <td>553.0</td>
+      <td>196.0</td>
+      <td>386.0</td>
+      <td>180.0</td>
+      <td>8.0</td>
+      <td>14.0</td>
+      <td>6.0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_OGMS</th>
+      <td>8.0</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_NCIT</th>
+      <td>329.0</td>
+      <td>57.0</td>
+      <td>203.0</td>
+      <td>151.0</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_OAE</th>
+      <td>2.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_SIO</th>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_ERO</th>
+      <td>4.0</td>
+      <td></td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_NCRO</th>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_SCDO</th>
+      <td>5.0</td>
+      <td></td>
+      <td>3.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_OMIT</th>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_CHEBI</th>
+      <td>134.0</td>
+      <td>134.0</td>
+      <td>134.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_MeSH</th>
+      <td>19.0</td>
+      <td></td>
+      <td>19.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_OBI</th>
+      <td>15.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td>12.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_IDO</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_VO</th>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_https</th>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_PMID</th>
+      <td>11.0</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_NCIt</th>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_UMLS_CUI</th>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_CMO</th>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_NCBIBook</th>
+      <td>5.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_MMO</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_VSO</th>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_http</th>
+      <td>2.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_EFO</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_by_object_source_IDOMAL</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_OGMS</th>
+      <td>8.0</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_NCIT</th>
+      <td>320.0</td>
+      <td>56.0</td>
+      <td>195.0</td>
+      <td>150.0</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>4.0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_OAE</th>
+      <td>2.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_SIO</th>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_ERO</th>
+      <td>4.0</td>
+      <td></td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_NCRO</th>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_SCDO</th>
+      <td>5.0</td>
+      <td></td>
+      <td>3.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_OMIT</th>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_CHEBI</th>
+      <td>133.0</td>
+      <td>133.0</td>
+      <td>133.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_MeSH</th>
+      <td>19.0</td>
+      <td></td>
+      <td>19.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_OBI</th>
+      <td>15.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td>12.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_IDO</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_VO</th>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_https</th>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_PMID</th>
+      <td>11.0</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_NCIt</th>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_UMLS_CUI</th>
+      <td>1.0</td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_CMO</th>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td>6.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_NCBIBook</th>
+      <td>5.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_MMO</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_VSO</th>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td>4.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_http</th>
+      <td>2.0</td>
+      <td></td>
+      <td>2.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_EFO</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>mapping_statement_count_subject_by_object_source_IDOMAL</th>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.0</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Note that the categories are not disjoint - some terms can be in more than one branch, and “medical action” covers everything.</p>
+</section>
+<section id="Exploring-mappings">
+<h2>Exploring mappings<a class="headerlink" href="#Exploring-mappings" title="Link to this heading"></a></h2>
+<p>Next let’s use OAK to query mappings in MAXO. There are a lot, so for exploration purposes let’s fetch this for all terms that have the string “biopsy” in them:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">mappings</span> <span class="n">l</span><span class="o">~</span><span class="n">biopsy</span> <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id      subject_label   predicate_id    object_id       object_label    mapping_justification   subject_source  object_source
+MAXO:0000332    biopsy of anus  oio:hasDbXref   NCIT:C51586             semapv:UnspecifiedMatching      MAXO    NCIT
+MAXO:0001269    clinical biopsy oio:hasDbXref   OBI:0002650     biopsy  semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001269    clinical biopsy oio:hasDbXref   OBI:0002650     biopsy  semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001270    clinical computed tomography assisted biopsy    oio:hasDbXref   OBI:0002652     computed tomography assisted biopsy     semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001270    clinical computed tomography assisted biopsy    oio:hasDbXref   OBI:0002652     computed tomography assisted biopsy     semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001271    clinical core needle biopsy     oio:hasDbXref   OBI:0002656     core needle biopsy      semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001271    clinical core needle biopsy     oio:hasDbXref   OBI:0002656     core needle biopsy      semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001272    clinical fine needle aspiration biopsy  oio:hasDbXref   OBI:0002655     fine needle aspiration biopsy   semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001272    clinical fine needle aspiration biopsy  oio:hasDbXref   OBI:0002655     fine needle aspiration biopsy   semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001273    clinical image guided biopsy    oio:hasDbXref   OBI:0002651     image guided biopsy     semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001273    clinical image guided biopsy    oio:hasDbXref   OBI:0002651     image guided biopsy     semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001274    clinical needle biopsy  oio:hasDbXref   OBI:0002654     needle biopsy   semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001274    clinical needle biopsy  oio:hasDbXref   OBI:0002654     needle biopsy   semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001275    clinical surgical biopsy        oio:hasDbXref   OBI:0002657     surgical biopsy semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001275    clinical surgical biopsy        oio:hasDbXref   OBI:0002657     surgical biopsy semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001276    clinical ultrasound-guided needle biopsy        oio:hasDbXref   OBI:0002653     ultrasound-guided needle biopsy semapv:UnspecifiedMatching      MAXO    OBI
+MAXO:0001276    clinical ultrasound-guided needle biopsy        oio:hasDbXref   OBI:0002653     ultrasound-guided needle biopsy semapv:UnspecifiedMatching      MAXO    OBI
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="n">mappings</span> <span class="n">l</span><span class="o">~</span><span class="n">biopsy</span> <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">maxo</span><span class="o">-</span><span class="n">biopsy</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/maxo-biopsy.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>subject_source</th>
+      <th>object_source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MAXO:0000332</td>
+      <td>biopsy of anus</td>
+      <td>oio:hasDbXref</td>
+      <td>NCIT:C51586</td>
+      <td></td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>NCIT</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MAXO:0001269</td>
+      <td>clinical biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002650</td>
+      <td>biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MAXO:0001269</td>
+      <td>clinical biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002650</td>
+      <td>biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MAXO:0001270</td>
+      <td>clinical computed tomography assisted biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002652</td>
+      <td>computed tomography assisted biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MAXO:0001270</td>
+      <td>clinical computed tomography assisted biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002652</td>
+      <td>computed tomography assisted biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>MAXO:0001271</td>
+      <td>clinical core needle biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002656</td>
+      <td>core needle biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>MAXO:0001271</td>
+      <td>clinical core needle biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002656</td>
+      <td>core needle biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>MAXO:0001272</td>
+      <td>clinical fine needle aspiration biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002655</td>
+      <td>fine needle aspiration biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>MAXO:0001272</td>
+      <td>clinical fine needle aspiration biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002655</td>
+      <td>fine needle aspiration biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>MAXO:0001273</td>
+      <td>clinical image guided biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002651</td>
+      <td>image guided biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>MAXO:0001273</td>
+      <td>clinical image guided biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002651</td>
+      <td>image guided biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>MAXO:0001274</td>
+      <td>clinical needle biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002654</td>
+      <td>needle biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>MAXO:0001274</td>
+      <td>clinical needle biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002654</td>
+      <td>needle biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>MAXO:0001275</td>
+      <td>clinical surgical biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002657</td>
+      <td>surgical biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>MAXO:0001275</td>
+      <td>clinical surgical biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002657</td>
+      <td>surgical biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>MAXO:0001276</td>
+      <td>clinical ultrasound-guided needle biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002653</td>
+      <td>ultrasound-guided needle biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>MAXO:0001276</td>
+      <td>clinical ultrasound-guided needle biopsy</td>
+      <td>oio:hasDbXref</td>
+      <td>OBI:0002653</td>
+      <td>ultrasound-guided needle biopsy</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>MAXO</td>
+      <td>OBI</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxo</span> <span class="o">-</span><span class="n">a</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">ncit</span> <span class="n">lexmatch</span> <span class="n">l</span><span class="o">~</span><span class="n">biopsy</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">maxo</span><span class="o">-</span><span class="n">lexmatch</span><span class="o">-</span><span class="n">ncit</span><span class="o">-</span><span class="n">biopsy</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:Skipping &lt;urn:swrl#A&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#B&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#C&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#D&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#d&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#e&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#eff&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#in&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#p&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#w&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#z&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#p&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#q&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#u&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#z&gt; as it is not a valid CURIE
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/maxo-lexmatch-ncit-biopsy.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>mapping_tool</th>
+      <th>confidence</th>
+      <th>subject_match_field</th>
+      <th>object_match_field</th>
+      <th>match_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MAXO:0000332</td>
+      <td>biopsy of anus</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51586</td>
+      <td>Biopsy of Anus</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of anus</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MAXO:0000332</td>
+      <td>biopsy of anus</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51586</td>
+      <td>Biopsy of Anus</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of anus</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MAXO:0000336</td>
+      <td>biopsy of bone marrow</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C15193</td>
+      <td>Bone Marrow Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of bone marrow</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MAXO:0000336</td>
+      <td>biopsy of bone marrow</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C15193</td>
+      <td>Bone Marrow Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>bone marrow biopsy</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MAXO:0000336</td>
+      <td>biopsy of bone marrow</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C15193</td>
+      <td>Bone Marrow Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>bone marrow biopsy</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>MAXO:0000336</td>
+      <td>biopsy of bone marrow</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C15193</td>
+      <td>Bone Marrow Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>bone marrow biopsy</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>MAXO:0000338</td>
+      <td>biopsy of brain</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51766</td>
+      <td>Biopsy of Brain</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of brain</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>MAXO:0000338</td>
+      <td>biopsy of brain</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51766</td>
+      <td>Biopsy of Brain</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of brain</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>MAXO:0000338</td>
+      <td>biopsy of brain</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51766</td>
+      <td>Biopsy of Brain</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>brain biopsy</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>MAXO:0000340</td>
+      <td>biopsy of breast</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51698</td>
+      <td>Biopsy of Breast</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of breast</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>MAXO:0000340</td>
+      <td>biopsy of breast</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51698</td>
+      <td>Biopsy of Breast</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>breast biopsy</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>MAXO:0000340</td>
+      <td>biopsy of breast</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51698</td>
+      <td>Biopsy of Breast</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of breast</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>MAXO:0000341</td>
+      <td>biopsy of bronchus</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51782</td>
+      <td>Bronchial Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of bronchus</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>MAXO:0000350</td>
+      <td>biopsy of colon</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51678</td>
+      <td>Biopsy of Colon</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of colon</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>MAXO:0000350</td>
+      <td>biopsy of colon</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51678</td>
+      <td>Biopsy of Colon</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of colon</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>MAXO:0000355</td>
+      <td>biopsy of duodenum</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51683</td>
+      <td>Biopsy of Duodenum</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of duodenum</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>MAXO:0000355</td>
+      <td>biopsy of duodenum</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51683</td>
+      <td>Biopsy of Duodenum</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of duodenum</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>MAXO:0000359</td>
+      <td>biopsy of esophagus</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51686</td>
+      <td>Esophageal Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of esophagus</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>MAXO:0000366</td>
+      <td>biopsy of heart</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51794</td>
+      <td>Biopsy of Heart</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of heart</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>MAXO:0000366</td>
+      <td>biopsy of heart</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51794</td>
+      <td>Biopsy of Heart</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of heart</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>MAXO:0000373</td>
+      <td>biopsy of larynx</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51663</td>
+      <td>Biopsy of Larynx</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of larynx</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>MAXO:0000373</td>
+      <td>biopsy of larynx</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51663</td>
+      <td>Biopsy of Larynx</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of larynx</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>MAXO:0000375</td>
+      <td>biopsy of lip</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51653</td>
+      <td>Biopsy of Lip</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of lip</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>MAXO:0000375</td>
+      <td>biopsy of lip</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51653</td>
+      <td>Biopsy of Lip</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of lip</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>MAXO:0000376</td>
+      <td>biopsy of liver</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51677</td>
+      <td>Liver Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of liver</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>MAXO:0000376</td>
+      <td>biopsy of liver</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51677</td>
+      <td>Liver Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>liver biopsy</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>MAXO:0000376</td>
+      <td>biopsy of liver</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51677</td>
+      <td>Liver Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>liver biopsy</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>MAXO:0000380</td>
+      <td>biopsy of lung</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51748</td>
+      <td>Lung Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of lung</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>MAXO:0000380</td>
+      <td>biopsy of lung</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51748</td>
+      <td>Lung Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>lung biopsy</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>MAXO:0000380</td>
+      <td>biopsy of lung</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51748</td>
+      <td>Lung Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>lung biopsy</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>MAXO:0000380</td>
+      <td>biopsy of lung</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51748</td>
+      <td>Lung Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>lung biopsy</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>MAXO:0000381</td>
+      <td>biopsy of lymph node</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51900</td>
+      <td>Lymph Node Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of lymph node</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>MAXO:0000381</td>
+      <td>biopsy of lymph node</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51900</td>
+      <td>Lymph Node Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>lymph node biopsy</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>MAXO:0000381</td>
+      <td>biopsy of lymph node</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51900</td>
+      <td>Lymph Node Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>lymph node biopsy</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>MAXO:0000385</td>
+      <td>biopsy of mouth</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51895</td>
+      <td>Muscle Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>muscle biopsy</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>MAXO:0000385</td>
+      <td>biopsy of mouth</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51895</td>
+      <td>Muscle Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>muscle biopsy</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>MAXO:0000385</td>
+      <td>biopsy of mouth</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51650</td>
+      <td>Biopsy of Mouth</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of mouth</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>MAXO:0000385</td>
+      <td>biopsy of mouth</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51650</td>
+      <td>Biopsy of Mouth</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of mouth</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>MAXO:0000386</td>
+      <td>biopsy of muscle</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51895</td>
+      <td>Muscle Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of muscle</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>MAXO:0000389</td>
+      <td>biopsy of nasopharynx</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51768</td>
+      <td>Biopsy of Nasopharynx</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of nasopharynx</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>MAXO:0000389</td>
+      <td>biopsy of nasopharynx</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51768</td>
+      <td>Biopsy of Nasopharynx</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of nasopharynx</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>MAXO:0000392</td>
+      <td>biopsy of pancreas</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51671</td>
+      <td>Biopsy of Pancreas</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of pancreas</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>MAXO:0000392</td>
+      <td>biopsy of pancreas</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51671</td>
+      <td>Biopsy of Pancreas</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of pancreas</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>MAXO:0000395</td>
+      <td>biopsy of peritoneum</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51627</td>
+      <td>Biopsy of Peritoneum</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of peritoneum</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>MAXO:0000395</td>
+      <td>biopsy of peritoneum</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51627</td>
+      <td>Biopsy of Peritoneum</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of peritoneum</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>MAXO:0000397</td>
+      <td>biopsy of pleura</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51897</td>
+      <td>Pleural Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of pleura</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>MAXO:0000398</td>
+      <td>biopsy of rectum</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51693</td>
+      <td>Rectal Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of rectum</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>MAXO:0000403</td>
+      <td>biopsy of small intestine</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51600</td>
+      <td>Biopsy of Small Intestine</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of small intestine</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>MAXO:0000403</td>
+      <td>biopsy of small intestine</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51600</td>
+      <td>Biopsy of Small Intestine</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of small intestine</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>MAXO:0000406</td>
+      <td>biopsy of stomach</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51685</td>
+      <td>Gastric Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of stomach</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>MAXO:0000409</td>
+      <td>biopsy of testis</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51894</td>
+      <td>Biopsy of Testis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of testis</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>MAXO:0000409</td>
+      <td>biopsy of testis</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51894</td>
+      <td>Biopsy of Testis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of testis</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>MAXO:0000411</td>
+      <td>biopsy of thyroid gland</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51613</td>
+      <td>Biopsy of Thyroid Gland</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of thyroid gland</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>MAXO:0000411</td>
+      <td>biopsy of thyroid gland</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51613</td>
+      <td>Biopsy of Thyroid Gland</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of thyroid gland</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>MAXO:0000412</td>
+      <td>biopsy of tongue</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51930</td>
+      <td>Biopsy of Tongue</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of tongue</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>MAXO:0000412</td>
+      <td>biopsy of tongue</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51930</td>
+      <td>Biopsy of Tongue</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of tongue</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>MAXO:0000414</td>
+      <td>biopsy of trachea</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51631</td>
+      <td>Biopsy of Trachea</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of trachea</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>MAXO:0000414</td>
+      <td>biopsy of trachea</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51631</td>
+      <td>Biopsy of Trachea</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of trachea</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>MAXO:0000418</td>
+      <td>biopsy of urethra</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51640</td>
+      <td>Biopsy of Urethra</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of urethra</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>MAXO:0000418</td>
+      <td>biopsy of urethra</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51640</td>
+      <td>Biopsy of Urethra</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy of urethra</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>MAXO:0000423</td>
+      <td>biopsy of skin</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51692</td>
+      <td>Skin Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of skin</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>MAXO:0000423</td>
+      <td>biopsy of skin</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51692</td>
+      <td>Skin Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>skin biopsy</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>MAXO:0000423</td>
+      <td>biopsy of skin</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51692</td>
+      <td>Skin Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>skin biopsy</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>MAXO:0000755</td>
+      <td>liquid biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C135727</td>
+      <td>Liquid Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>liquid biopsy</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>MAXO:0000755</td>
+      <td>liquid biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C135727</td>
+      <td>Liquid Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>liquid biopsy</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>MAXO:0001121</td>
+      <td>biopsy of kidney</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51699</td>
+      <td>Kidney Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy of kidney</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>MAXO:0001121</td>
+      <td>biopsy of kidney</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51699</td>
+      <td>Kidney Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>kidney biopsy</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>MAXO:0001121</td>
+      <td>biopsy of kidney</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C51699</td>
+      <td>Kidney Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>kidney biopsy</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>NCIT:C137909</td>
+      <td>Computed Tomography Assisted Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002652</td>
+      <td>computed tomography assisted biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>computed tomography assisted biopsy</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>NCIT:C137909</td>
+      <td>Computed Tomography Assisted Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002652</td>
+      <td>computed tomography assisted biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>computed tomography assisted biopsy</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>NCIT:C15189</td>
+      <td>Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002650</td>
+      <td>biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>biopsy</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>NCIT:C15189</td>
+      <td>Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002650</td>
+      <td>biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>biopsy</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>NCIT:C15189</td>
+      <td>Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002650</td>
+      <td>biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>biopsy</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>NCIT:C15189</td>
+      <td>Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002650</td>
+      <td>biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>biopsy</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>NCIT:C15190</td>
+      <td>Needle Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C15680</td>
+      <td>Core Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>needle biopsy</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>NCIT:C15190</td>
+      <td>Needle Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002654</td>
+      <td>needle biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>needle biopsy</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>NCIT:C15190</td>
+      <td>Needle Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002654</td>
+      <td>needle biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>needle biopsy</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>NCIT:C15190</td>
+      <td>Needle Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002654</td>
+      <td>needle biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>needle biopsy</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>NCIT:C15190</td>
+      <td>Needle Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C15680</td>
+      <td>Core Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>needle biopsy</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>NCIT:C15190</td>
+      <td>Needle Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C15680</td>
+      <td>Core Biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>needle biopsy</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>NCIT:C15385</td>
+      <td>Excisional Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002657</td>
+      <td>surgical biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>surgical biopsy</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>NCIT:C15652</td>
+      <td>Image Guided Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002651</td>
+      <td>image guided biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>image guided biopsy</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>NCIT:C15652</td>
+      <td>Image Guided Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002651</td>
+      <td>image guided biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>image guided biopsy</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>NCIT:C15680</td>
+      <td>Core Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002654</td>
+      <td>needle biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>needle biopsy</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>NCIT:C15680</td>
+      <td>Core Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002656</td>
+      <td>core needle biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>core needle biopsy</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>NCIT:C15680</td>
+      <td>Core Biopsy</td>
+      <td>skos:closeMatch</td>
+      <td>OBI:0002656</td>
+      <td>core needle biopsy</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>core needle biopsy</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>NCIT:C174241</td>
+      <td>EWS Biopsy/Surgical Procedures Table</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C177402</td>
+      <td>GCT Biopsy/Surgical Procedures Table</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy/surgical procedures table</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>NCIT:C174241</td>
+      <td>EWS Biopsy/Surgical Procedures Table</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C179482</td>
+      <td>OS Biopsy/Surgical Procedures Table</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy/surgical procedures table</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>NCIT:C174241</td>
+      <td>EWS Biopsy/Surgical Procedures Table</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C186321</td>
+      <td>HL Biopsy/Surgical Procedures Table</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy/surgical procedures table</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>NCIT:C177402</td>
+      <td>GCT Biopsy/Surgical Procedures Table</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C179482</td>
+      <td>OS Biopsy/Surgical Procedures Table</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy/surgical procedures table</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>NCIT:C177402</td>
+      <td>GCT Biopsy/Surgical Procedures Table</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C186321</td>
+      <td>HL Biopsy/Surgical Procedures Table</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy/surgical procedures table</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>NCIT:C179482</td>
+      <td>OS Biopsy/Surgical Procedures Table</td>
+      <td>skos:closeMatch</td>
+      <td>NCIT:C186321</td>
+      <td>HL Biopsy/Surgical Procedures Table</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>oio:hasExactSynonym</td>
+      <td>biopsy/surgical procedures table</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="MAXO Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../MONDO/index.html" class="btn btn-neutral float-right" title="MONDO Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

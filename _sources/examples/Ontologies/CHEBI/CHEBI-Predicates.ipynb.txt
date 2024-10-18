@@ -1,0 +1,984 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "ef5b9100",
+   "metadata": {},
+   "source": [
+    "# CHEBI Predicates\n",
+    "\n",
+    "This notebook is intended as an explanatory guide to the importance of edge types (predicates) in ontologies.\n",
+    "\n",
+    "## Citric acid and its ion forms\n",
+    "\n",
+    "For this guide, we are going to look at citric acid and it's conjugate forms such as citrate(3-). These\n",
+    "chemical entities are very similar and in fact are readily interchangeable in cells.\n",
+    "\n",
+    "Biologists and biochemists may talk of \"citric acid\" and \"citrate\" interchangeably.\n",
+    "\n",
+    "We can see the corresponding CHEBI entries:\n",
+    "\n",
+    "## Citric acid\n",
+    "\n",
+    "[CHEBI:30769](http://purl.obolibrary.org/obo/CHEBI_30769)\n",
+    "\n",
+    "![img](https://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=30769)\n",
+    "\n",
+    "## Citrate(3-)\n",
+    "\n",
+    "[CHEBI:16947](http://purl.obolibrary.org/obo/CHEBI_16947)\n",
+    "\n",
+    "![img](https://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=16947)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5756306d",
+   "metadata": {},
+   "source": [
+    "## Accessing CHEBI through OAK\n",
+    "\n",
+    "There are different ways to access CHEBI, we will use the [sqlite adapter](https://incatools.github.io/ontology-access-kit/implementations/sqldb.html). See also [part 7](https://incatools.github.io/ontology-access-kit/intro/tutorial07.html) of the tutorial.\n",
+    "\n",
+    "We will use the selector `sqlite:obo:chebi` to access CHEBI.\n",
+    "\n",
+    "We will be using the command line interface via Jupyter for this tutortial, but the equivalent operations can be done via Python.\n",
+    "\n",
+    "First we will set up a Jupyter alias."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "3bdfdc01",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%alias chebi runoak -i sqlite:obo:chebi"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "42c30d49",
+   "metadata": {},
+   "source": [
+    "If we wanted to do the equivalen on the command line, we would do:\n",
+    "\n",
+    "```bash\n",
+    "alias chebi=\"runoak -i sqlite:obo:chebi\"\n",
+    "```\n",
+    "\n",
+    "### Basic lookup\n",
+    "\n",
+    "Next we will do some basic lookup. The first time you run this may take some time,\n",
+    "as the sqlite file is downloaded. Subsequent operations will be faster."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "f6468023",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CHEBI:30769 ! citric acid\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "chebi info \"citric acid\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0dc792dc",
+   "metadata": {},
+   "source": [
+    "### Term metadata\n",
+    "\n",
+    "To check we have the right term, let's look at all of the CHEBI metadata, including mappings and chemical\n",
+    "formulae:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "a54bf0e2",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "IAO:0000115: A tricarboxylic acid that is propane-1,2,3-tricarboxylic acid bearing\r\n",
+      "  a hydroxy substituent at position 2. It is an important metabolite in the pathway\r\n",
+      "  of all aerobic organisms.\r\n",
+      "id: CHEBI:30769\r\n",
+      "obo:chebi/charge: '0'\r\n",
+      "obo:chebi/formula: C6H8O7\r\n",
+      "obo:chebi/inchi: InChI=1S/C6H8O7/c7-3(8)1-6(13,5(11)12)2-4(9)10/h13H,1-2H2,(H,7,8)(H,9,10)(H,11,12)\r\n",
+      "obo:chebi/inchikey: KRKNYBCHXYNGOX-UHFFFAOYSA-N\r\n",
+      "obo:chebi/mass: '192.123'\r\n",
+      "obo:chebi/monoisotopicmass: '192.02700'\r\n",
+      "obo:chebi/smiles: OC(=O)CC(O)(CC(O)=O)C(O)=O\r\n",
+      "oio:hasAlternativeId:\r\n",
+      "- CHEBI:23322\r\n",
+      "- CHEBI:3727\r\n",
+      "- CHEBI:41523\r\n",
+      "oio:hasDbXref:\r\n",
+      "- BPDB:1359\r\n",
+      "- Beilstein:782061\r\n",
+      "- CAS:77-92-9\r\n",
+      "- DrugBank:DB04272\r\n",
+      "- Drug_Central:666\r\n",
+      "- Gmelin:4240\r\n",
+      "- HMDB:HMDB0000094\r\n",
+      "- KEGG:C00158\r\n",
+      "- KEGG:D00037\r\n",
+      "- KNApSAcK:C00007619\r\n",
+      "- MetaCyc:CIT\r\n",
+      "- PDBeChem:CIT\r\n",
+      "- PMID:11762832\r\n",
+      "- PMID:11782123\r\n",
+      "- PMID:11857437\r\n",
+      "- PMID:14537820\r\n",
+      "- PMID:15311880\r\n",
+      "- PMID:15934243\r\n",
+      "- PMID:16232627\r\n",
+      "- PMID:17190852\r\n",
+      "- PMID:17357118\r\n",
+      "- PMID:17604395\r\n",
+      "- PMID:18298573\r\n",
+      "- PMID:18960216\r\n",
+      "- PMID:19288211\r\n",
+      "- PMID:22115968\r\n",
+      "- PMID:22192423\r\n",
+      "- PMID:22264346\r\n",
+      "- PMID:22373571\r\n",
+      "- PMID:22509852\r\n",
+      "- Reaxys:782061\r\n",
+      "- Wikipedia:Citric_Acid\r\n",
+      "oio:hasExactSynonym:\r\n",
+      "- 2-hydroxypropane-1,2,3-tricarboxylic acid\r\n",
+      "- CITRIC ACID\r\n",
+      "- Citric acid\r\n",
+      "oio:hasOBONamespace: chebi_ontology\r\n",
+      "oio:hasRelatedSynonym:\r\n",
+      "- 2-Hydroxy-1,2,3-propanetricarboxylic acid\r\n",
+      "- 2-Hydroxytricarballylic acid\r\n",
+      "- 3-Carboxy-3-hydroxypentane-1,5-dioic acid\r\n",
+      "- Citronensaeure\r\n",
+      "- E330\r\n",
+      "- H3cit\r\n",
+      "oio:id: CHEBI:30769\r\n",
+      "oio:inSubset: obo:chebi#3_STAR\r\n",
+      "rdfs:label: citric acid\r\n",
+      "\r\n",
+      "---\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "chebi term-metadata \"citric acid\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "41a24993",
+   "metadata": {},
+   "source": [
+    "We can do the same thing for the same chemical in a different protonation state, `citrate(3-)`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "ebf64216",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "IAO:0000115: A tricarboxylic acid trianion, obtained by deprotonation of the three\r\n",
+      "  carboxy groups of citric acid.\r\n",
+      "id: CHEBI:16947\r\n",
+      "obo:chebi/charge: '-3'\r\n",
+      "obo:chebi/formula: C6H5O7\r\n",
+      "obo:chebi/inchi: InChI=1S/C6H8O7/c7-3(8)1-6(13,5(11)12)2-4(9)10/h13H,1-2H2,(H,7,8)(H,9,10)(H,11,12)/p-3\r\n",
+      "obo:chebi/inchikey: KRKNYBCHXYNGOX-UHFFFAOYSA-K\r\n",
+      "obo:chebi/mass: '189.09970'\r\n",
+      "obo:chebi/monoisotopicmass: '189.00517'\r\n",
+      "obo:chebi/smiles: OC(CC([O-])=O)(CC([O-])=O)C([O-])=O\r\n",
+      "oio:hasAlternativeId:\r\n",
+      "- CHEBI:13999\r\n",
+      "- CHEBI:23321\r\n",
+      "- CHEBI:42563\r\n",
+      "oio:hasDbXref:\r\n",
+      "- Beilstein:1884707\r\n",
+      "- CAS:126-44-3\r\n",
+      "- Gmelin:4239\r\n",
+      "- KEGG:C00158\r\n",
+      "- PDBeChem:FLC\r\n",
+      "- Reaxys:1884707\r\n",
+      "oio:hasExactSynonym: 2-hydroxypropane-1,2,3-tricarboxylate\r\n",
+      "oio:hasOBONamespace: chebi_ontology\r\n",
+      "oio:hasRelatedSynonym:\r\n",
+      "- 2-hydroxy-1,2,3-propanetricarboxylate\r\n",
+      "- 2-hydroxy-1,2,3-propanetricarboxylate(3-)\r\n",
+      "- 2-hydroxy-1,2,3-propanetricarboxylic acid, ion(3-)\r\n",
+      "- 2-hydroxytricarballylate\r\n",
+      "- CITRATE ANION\r\n",
+      "- cit\r\n",
+      "- cit(3-)\r\n",
+      "- citrate\r\n",
+      "oio:id: CHEBI:16947\r\n",
+      "oio:inSubset: obo:chebi#3_STAR\r\n",
+      "rdfs:label: citrate(3-)\r\n",
+      "\r\n",
+      "---\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "chebi term-metadata \"citrate(3-)\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0c0eb139",
+   "metadata": {},
+   "source": [
+    "## Computing similarity\n",
+    "\n",
+    "There are various ways to measure [chemical similarity](https://en.wikipedia.org/wiki/Chemical_similarity).\n",
+    "\n",
+    "Here we are using an ontology library, not a chemical library like RDKit, so we can measure similarity with\n",
+    "respect to their shared parentage.\n",
+    "\n",
+    "We will use the [similarity](https://incatools.github.io/ontology-access-kit/cli.html#runoak-similarity) command that measures semantic similarity.\n",
+    "\n",
+    "Like many OAK operations, it is [parameterized by a predicates option](https://incatools.github.io/ontology-access-kit/cli.html#predicates). For example:\n",
+    "\n",
+    "- `--predicates rdfs:subClassOf`\n",
+    "\n",
+    "This can be shortened to:\n",
+    "\n",
+    "- `-p i`\n",
+    "\n",
+    "This instructs OAK to use only the is-a relationship when computing parentage.\n",
+    "\n",
+    "__Note that many libraries don't provide any option here, and only allow is-a relationships__\n",
+    "\n",
+    "The similarity command takes two term lists separated by `@` - here we just want to do a simple pairwise comparison, we specify one term either side:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "dd05c290",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ancestor_id: CHEBI:37577\r\n",
+      "ancestor_information_content: 1.792616548579986\r\n",
+      "ancestor_label: heteroatomic molecular entity\r\n",
+      "jaccard_similarity: 0.25\r\n",
+      "object_id: CHEBI:30769\r\n",
+      "object_label: citric acid\r\n",
+      "phenodigm_score: 0.6694431545284457\r\n",
+      "subject_id: CHEBI:16947\r\n",
+      "subject_label: citrate(3-)\r\n",
+      "\r\n",
+      "---\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "chebi similarity -p i \"citrate(3-)\" @ \"citric acid\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2b403d45",
+   "metadata": {},
+   "source": [
+    "What is this telling us?\n",
+    "\n",
+    "- the jaccard similarity is 0.25, which is very low\n",
+    "- the most recent common ancestor is the very general and abstract sounding `heteroatomic molecular entity`, which has a low information content of 1.8\n",
+    "\n",
+    "Why is the score so low?\n",
+    "\n",
+    "Remember at the start of this guide we looked at the chemical structures, which are almost identical. And biologically these are interchangeable. Why is the similarity so low?\n",
+    "\n",
+    "Investigating ontological oddities is one of the strengths of OAK. We can take a number of different approaches,\n",
+    "but the easiest is to start by just visualizing the terms and their ancestors:\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "d4addb4a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "chebi viz -p i \"citrate(3-)\" \"citric acid\" -o output/citrate.png"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9a265fe0",
+   "metadata": {},
+   "source": [
+    "![img](output/citrate.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "019f0bc1",
+   "metadata": {},
+   "source": [
+    "As can be seen, the is-a graphs of these two terms are almost completely separated. You have to go all the way up to `heteroatomic molecular entity` to find the common ancestor, just like the similarity output told us.\n",
+    "\n",
+    "## So what's going on?\n",
+    "\n",
+    "So what's going on here? is there something missing from CHEBI?\n",
+    "\n",
+    "In fact, CHEBI is like this by design, and we see the same pattern/template repeated for all acids.\n",
+    "\n",
+    "But all is not lost, CHEBI has other relationships we can use here.\n",
+    "\n",
+    "Which leads us to one of the main lessons when using ontologies:\n",
+    "\n",
+    "## Always make use of the full range of edge types\n",
+    "\n",
+    "CHEBI has many other edge types we can use here.\n",
+    "\n",
+    "Currently OAK doesn't have a quick way of summarizing edge statistics, but we can do this easily with\n",
+    "a SQL query on the sqlite database we downloaded earlier, querying the [Edge](https://incatools.github.io/semantic-sql/Edge/) table:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "1788a887",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "BFO:0000051|3947\n",
+      "RO:0000087|42533\n",
+      "obo:chebi#has_functional_parent|18459\n",
+      "obo:chebi#has_parent_hydride|1752\n",
+      "obo:chebi#is_conjugate_acid_of|8340\n",
+      "obo:chebi#is_conjugate_base_of|8340\n",
+      "obo:chebi#is_enantiomer_of|2700\n",
+      "obo:chebi#is_substituent_group_from|1279\n",
+      "obo:chebi#is_tautomer_of|1846\n",
+      "rdfs:subClassOf|235113\n"
+     ]
+    }
+   ],
+   "source": [
+    "!echo \"SELECT predicate, count(*) FROM edge GROUP BY predicate;\"  | sqlite3 $HOME/.data/oaklib/chebi.db"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6f3c12d7",
+   "metadata": {},
+   "source": [
+    "CHEBI mostly uses it's own relationship types, and a few from RO, we can query what these are:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "5c02ecb5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "BFO:0000051 ! has part\r\n",
+      "RO:0000087 ! has role\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "chebi info BFO:0000051 RO:0000087"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f07ef1bb",
+   "metadata": {},
+   "source": [
+    "Next let's try again, using the viz command, but this time adding a different predicate.\n",
+    "\n",
+    "We can specify a list of predicates separated by `,` with the `--predicates` option on most commands:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "f3775d2b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "chebi viz -p \"i,obo:chebi#is_conjugate_acid_of\" \"citrate(3-)\" \"citric acid\" -o output/citrate-conj-acid-of.png"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9f5bd700",
+   "metadata": {},
+   "source": [
+    "![img](output/citrate-conj-acid-of.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "50802245",
+   "metadata": {},
+   "source": [
+    "This time the terms are much closer together. However, they are not \"next\" to each other,\n",
+    "which brings us to another lesson:\n",
+    "\n",
+    "## Number of hops is often meaningless with ontologies\n",
+    "\n",
+    "A common metric with graph operations is counting number of hops. However, for *knowledge* graphs, this metric\n",
+    "can be misleading or meaningless. It may be tempting to do something like \"weighting\" predicates but this is\n",
+    "always ad-hoc.\n",
+    "\n",
+    "With ontologies, predicates have *meaning* and we want this to be take into account.\n",
+    "\n",
+    "## Calculating similarity using all predicates\n",
+    "\n",
+    "In OAK the __default is usually to use all predicates__\n",
+    "\n",
+    "Thus if we simply ask for the *overall* similarity between citric acid and the 3- form, i.e via:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "11c4f99b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ancestor_id: CHEBI:133748\r\n",
+      "ancestor_information_content: 12.881018338799942\r\n",
+      "ancestor_label: citrate anion\r\n",
+      "jaccard_similarity: 0.6526315789473685\r\n",
+      "object_id: CHEBI:30769\r\n",
+      "object_label: citric acid\r\n",
+      "phenodigm_score: 2.899406721538221\r\n",
+      "subject_id: CHEBI:16947\r\n",
+      "subject_label: citrate(3-)\r\n",
+      "\r\n",
+      "---\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "chebi similarity \"citrate(3-)\" @ \"citric acid\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "28cf8a4a",
+   "metadata": {},
+   "source": [
+    "This is much better than before, reflecting the true biochemical similarity between these.\n",
+    "\n",
+    "- The jaccard similarity is 0.65, still not great\n",
+    "- the MRCA is the more meaningful `citrate anion` which has a higher IC of 12.88\n",
+    "\n",
+    "So how did OAK calculate this?\n",
+    "\n",
+    "Here OAK made use of all edge types in the CHEBI *relation graph*. This is in contrast to many methods that\n",
+    "*only* make use of is-a relationships. This might be a good baked in assumption if you are *only* doing\n",
+    "similarity on HPO (but even then it can be limiting).\n",
+    "\n",
+    "For other ontologies, we need to make use of other predicates.\n",
+    "\n",
+    "At this stage you may be thinking: \"Ah! All ontologies are DAGs, so OAK is using the CHEBI DAG here!\"\n",
+    "\n",
+    "This brings us to our next point\n",
+    "\n",
+    "## Ontologies are not DAGs\n",
+    "\n",
+    "This is a common misconception. Ontologies are not DAGs, no matter what you may have previously heard.\n",
+    "\n",
+    "And in general **avoid baking in assumptions generalized from a few cases when it comes to ontologies**\n",
+    "\n",
+    "Often ontologies will be released in a form that is guaranteed to be a DAG _because so many tools mistakenly assume an ontology is a DAG_. But if you are using one of these dumbed down forms of an ontology you are missing useful information.\n",
+    "\n",
+    "Let's take a look at CHEBI again. This time we will use two different relationship types (predicates), and exclude is-a:\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "6fbdd976",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "chebi viz CHEBI:16947 CHEBI:30769 -p \"obo:chebi#is_conjugate_acid_of,obo:chebi#is_conjugate_base_of\" -o output/citrate-not-a-dag.png"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "605e3260",
+   "metadata": {},
+   "source": [
+    "![img](output/citrate-not-a-dag.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "db124291",
+   "metadata": {},
+   "source": [
+    "This is definitely **not a DAG**.\n",
+    "\n",
+    "In fact there is no reason to assume that for an ontology or a *knowledge* graph the structure will be a DAG. A lot of relationships in real life are inherently cyclic, and this definitely holds for chemistry, we have cyclic structures and cyclic relationships, and chemicals cycle through these different protonation states.\n",
+    "\n",
+    "\n",
+    "## So how do we handle these?\n",
+    "\n",
+    "At this point you might be thinking it makes no sense to use measures like semantic similarity over cyclic graphs. Or that it may be necessary to include ad-hoc measures like maximum distance. _But this isn't the case_\n",
+    "\n",
+    "Because ontology graphs are _existential graphs_ over concepts, where the existence of the subject depends on the existence of the object, you can still use algorithms designed with concepts of \"ancestors\" and \"descendants\". The overall structure of the relation graph will still (in general) follow a pattern of narrowing down to more general concepts.\n",
+    "\n",
+    "There are two broad approaches:\n",
+    "\n",
+    "1. naive graph walking, with cycle checks\n",
+    "2. use the *relation graph*\n",
+    "\n",
+    "The first is trivial to implement, just implement traversal as you normally would, but remove the assumption of acyclicity.\n",
+    "\n",
+    "The OAK sqlite adapter uses the 2nd approach, making use of *relation graph*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1a51d724",
+   "metadata": {},
+   "source": [
+    "## Relation Graph\n",
+    "\n",
+    "Relation graph is a tool for calculating the *closure* of ontology relationships. Unlike naive graph walking, it takes into account the semantics of the ontology and of predicates *as intended by the producers of these ontologies*\n",
+    "\n",
+    "More formally, RG materializes the *entailment* of all SubClassOf axioms, including those axioms that have existential restrictions on the right hand side.\n",
+    "\n",
+    "Relation graph can be obtained and installed [from its github repo](https://github.com/balhoff/relation-graph).\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "c253b1eb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "relation-graph\r\n",
+      "Usage: relation-graph [options]\r\n",
+      "  --usage  <bool>\r\n",
+      "        Print usage and exit\r\n",
+      "  --help | -h  <bool>\r\n",
+      "        Print help message and exit\r\n",
+      "  --ontology-file  <filename>\r\n",
+      "        Input OWL ontology\r\n",
+      "  --output-file  <filename>\r\n",
+      "        File to stream output triples to.\r\n",
+      "  --mode  <RDF|OWL>\r\n",
+      "        Configure style of triples to be output. RDF mode is the default; each existential relation is collapsed to a single direct triple.\r\n",
+      "  --property  <IRI>\r\n",
+      "        Property to restrict output relations to. Provide option multiple times for multiple properties.\r\n",
+      "  --properties-file  <filename>\r\n",
+      "        File containing line-separated property IRIs to restrict output relations to.\r\n",
+      "  --output-subclasses  <bool>\r\n",
+      "        Include entailed rdfs:subClassOf or owl:equivalentClass relations in output (default false)\r\n",
+      "  --reflexive-subclasses  <bool>\r\n",
+      "        When outputting rdfs:subClassOf, include relations to self for every class (default true)\r\n",
+      "  --equivalence-as-subclass  <bool>\r\n",
+      "        When outputting equivalent classes, output reciprocal rdfs:subClassOf triples instead of owl:equivalentClass triples (default true)\r\n",
+      "  --output-classes  <bool>\r\n",
+      "        Output any triples where classes are subjects (default true)\r\n",
+      "  --output-individuals  <bool>\r\n",
+      "        Output triples where individuals are subjects, with classes as objects (default false)\r\n",
+      "  --disable-owl-nothing  <bool>\r\n",
+      "        Disable inference of unsatisfiable classes by the whelk reasoner (default false)\r\n",
+      "  --verbose  <bool>\r\n",
+      "        Set log level to INFO\r\n",
+      "\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!relation-graph --help"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0de4afab",
+   "metadata": {},
+   "source": [
+    "## SemSQL Builds have relation-graph pre-computed\n",
+    "\n",
+    "If you access an ontology via the sqlite method, it will make use of an ontology loaded\n",
+    "in using the SemSQL schema, which has relation-graph precomputed.\n",
+    "\n",
+    "We can take a look first at the CL"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "b25f97fe",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%alias cl runoak -i sqlite:obo:cl"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "67e54e5b",
+   "metadata": {},
+   "source": [
+    "The OAK `relationships` command will query all relationships (by default \"outgoing\") for an entity.\n",
+    "\n",
+    "If you pass in `--include-entailed` it will include entailed (inferred by reasoner) relationships,\n",
+    "here coming from RG:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "c6394e2d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "cl relationships --include-entailed astrocyte > output/astrocyte-rg.tsv"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dbc8467e",
+   "metadata": {},
+   "source": [
+    "The size of a RG can be large so we will explore it with pandas:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "b8a665d6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>subject</th>\n",
+       "      <th>predicate</th>\n",
+       "      <th>object</th>\n",
+       "      <th>subject_label</th>\n",
+       "      <th>predicate_label</th>\n",
+       "      <th>object_label</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>BFO:0000050</td>\n",
+       "      <td>BFO:0000002</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>part of</td>\n",
+       "      <td>continuant</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>BFO:0000050</td>\n",
+       "      <td>BFO:0000004</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>part of</td>\n",
+       "      <td>independent continuant</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>BFO:0000050</td>\n",
+       "      <td>BFO:0000040</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>part of</td>\n",
+       "      <td>material entity</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>BFO:0000050</td>\n",
+       "      <td>CARO:0000000</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>part of</td>\n",
+       "      <td>anatomical entity</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>BFO:0000050</td>\n",
+       "      <td>CARO:0000006</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>part of</td>\n",
+       "      <td>material anatomical entity</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>299</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>rdfs:subClassOf</td>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>None</td>\n",
+       "      <td>astrocyte</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>300</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>rdfs:subClassOf</td>\n",
+       "      <td>CL:0000255</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>None</td>\n",
+       "      <td>eukaryotic cell</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>301</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>rdfs:subClassOf</td>\n",
+       "      <td>CL:0000548</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>None</td>\n",
+       "      <td>animal cell</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>302</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>rdfs:subClassOf</td>\n",
+       "      <td>CL:0002319</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>None</td>\n",
+       "      <td>neural cell</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>303</th>\n",
+       "      <td>CL:0000127</td>\n",
+       "      <td>rdfs:subClassOf</td>\n",
+       "      <td>CL:0002371</td>\n",
+       "      <td>astrocyte</td>\n",
+       "      <td>None</td>\n",
+       "      <td>somatic cell</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>304 rows × 6 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        subject        predicate        object subject_label predicate_label  \\\n",
+       "0    CL:0000127      BFO:0000050   BFO:0000002     astrocyte         part of   \n",
+       "1    CL:0000127      BFO:0000050   BFO:0000004     astrocyte         part of   \n",
+       "2    CL:0000127      BFO:0000050   BFO:0000040     astrocyte         part of   \n",
+       "3    CL:0000127      BFO:0000050  CARO:0000000     astrocyte         part of   \n",
+       "4    CL:0000127      BFO:0000050  CARO:0000006     astrocyte         part of   \n",
+       "..          ...              ...           ...           ...             ...   \n",
+       "299  CL:0000127  rdfs:subClassOf    CL:0000127     astrocyte            None   \n",
+       "300  CL:0000127  rdfs:subClassOf    CL:0000255     astrocyte            None   \n",
+       "301  CL:0000127  rdfs:subClassOf    CL:0000548     astrocyte            None   \n",
+       "302  CL:0000127  rdfs:subClassOf    CL:0002319     astrocyte            None   \n",
+       "303  CL:0000127  rdfs:subClassOf    CL:0002371     astrocyte            None   \n",
+       "\n",
+       "                   object_label  \n",
+       "0                    continuant  \n",
+       "1        independent continuant  \n",
+       "2               material entity  \n",
+       "3             anatomical entity  \n",
+       "4    material anatomical entity  \n",
+       "..                          ...  \n",
+       "299                   astrocyte  \n",
+       "300             eukaryotic cell  \n",
+       "301                 animal cell  \n",
+       "302                 neural cell  \n",
+       "303                somatic cell  \n",
+       "\n",
+       "[304 rows x 6 columns]"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "df = pd.read_csv(\"output/astrocyte-rg.tsv\", sep=\"\\t\")\n",
+    "df"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "20adf386",
+   "metadata": {},
+   "source": [
+    "These are all **guaranteed correct** (according to the semantics of classes and object properties in the ontology)\n",
+    "\n",
+    "They are not guaranteed *useful*. There are many trivial edges, eg.\n",
+    "\n",
+    "- every astrocyte is part of *some* material entity\n",
+    "- every astrocyte is a subtype of a continuant\n",
+    "\n",
+    "But these less useful ones will \"fall out in the wash\" when we use them in methods like semantic similarity"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ec74f3a9",
+   "metadata": {},
+   "source": [
+    "We can query the EntailedEdge table more directly:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "7f9ce93f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "UBERON:0001612|BFO:0000050|UBERON:0000477\r\n",
+      "UBERON:0001612|BFO:0000050|UBERON:0010000\r\n",
+      "UBERON:0001612|BFO:0000050|UBERON:0000055\r\n",
+      "UBERON:0001612|BFO:0000050|UBERON:0003509\r\n",
+      "UBERON:0001612|BFO:0000050|UBERON:0001637\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!echo \"SELECT * FROM entailed_edge WHERE predicate='BFO:0000050' AND object LIKE 'UBERON:%' LIMIT 5\"  | sqlite3 $HOME/.data/oaklib/cl.db"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "46ce1a50",
+   "metadata": {},
+   "source": [
+    "## OAK uses Relation Graph in semantic similarity\n",
+    "\n",
+    "The OAK SQL backend will use RG when calculating semantic similarity.\n",
+    "\n",
+    "- there is no need to worry whether the structure is a DAG or a tree\n",
+    "- no need to implement \"hops\" or ad-hoc mechanisms\n",
+    "\n",
+    "All semantic similarity measures then become trivial operations on RG, parameterizable by a *semantic* predicate\n",
+    "\n",
+    "- Jaccard is simply the intersection of common ancestors in the RG divided by the union of ancestors\n",
+    "- MRCA, IC etc work as expected"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5524dcb5",
+   "metadata": {},
+   "source": [
+    "## Relation Graph is only as good as its inputs\n",
+    "\n",
+    "_Garbage in, Garbage out_\n",
+    "\n",
+    "- if ontologies include false axioms, RG will give false results\n",
+    "- if ontologies are incomplete, RG will give incomplete answers\n",
+    "\n",
+    "Usually for most ontologies we care about in a project like Monarch, we have decent QC in place, and in general\n",
+    "most methods should be resilient to this."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c6e2ca80",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

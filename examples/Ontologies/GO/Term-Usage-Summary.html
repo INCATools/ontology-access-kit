@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Term Usage Summary for GO &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Term Usage Summary for GO</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/GO/Term-Usage-Summary.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Term-Usage-Summary-for-GO">
+<h1>Term Usage Summary for GO<a class="headerlink" href="#Term-Usage-Summary-for-GO" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+
+<span class="n">go</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+<span class="n">amigo</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;amigo:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">evidence_codes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;IBA&quot;</span><span class="p">,</span> <span class="s2">&quot;IEA&quot;</span><span class="p">,</span> <span class="s2">&quot;All&quot;</span><span class="p">]</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">evidence_code</span> <span class="ow">in</span> <span class="n">evidence_codes</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Summary for evidence code: </span><span class="si">{</span><span class="n">evidence_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">evidence_code</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="k">else</span> <span class="p">{</span><span class="s2">&quot;evidence_type&quot;</span><span class="p">:</span> <span class="n">evidence_code</span><span class="p">}</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]</span>
+    <span class="n">term_counts</span> <span class="o">=</span> <span class="n">amigo</span><span class="o">.</span><span class="n">association_counts</span><span class="p">(</span><span class="n">object_closure_predicates</span><span class="o">=</span><span class="n">preds</span><span class="p">,</span> <span class="n">property_filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">min_facet_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">limit</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">term</span><span class="p">,</span> <span class="n">evidence_code</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="k">for</span> <span class="n">term</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">term_counts</span> <span class="k">if</span> <span class="n">term</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">)]</span>
+    <span class="n">term_counts</span> <span class="o">=</span> <span class="n">amigo</span><span class="o">.</span><span class="n">association_counts</span><span class="p">(</span><span class="n">property_filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">min_facet_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">limit</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">term</span><span class="p">,</span> <span class="n">evidence_code</span><span class="o">+</span><span class="s2">&quot;_direct&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="k">for</span> <span class="n">term</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">term_counts</span><span class="p">]</span>
+<span class="n">melted_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;term&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">])</span>
+<span class="n">melted_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Summary for evidence code: IBA
+Summary for evidence code: IEA
+Summary for evidence code: All
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>term</th>
+      <th>code</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0000002</td>
+      <td>IBA</td>
+      <td>759</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0000003</td>
+      <td>IBA</td>
+      <td>16743</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0000006</td>
+      <td>IBA</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0000007</td>
+      <td>IBA</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0000009</td>
+      <td>IBA</td>
+      <td>178</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>129808</th>
+      <td>GO:2001307</td>
+      <td>All_direct</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>129809</th>
+      <td>GO:2001310</td>
+      <td>All_direct</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>129810</th>
+      <td>GO:2001311</td>
+      <td>All_direct</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>129811</th>
+      <td>GO:2001315</td>
+      <td>All_direct</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>129812</th>
+      <td>GO:2001317</td>
+      <td>All_direct</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+<p>129813 rows × 3 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pivoted_df</span> <span class="o">=</span> <span class="n">melted_df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;term&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">pivoted_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>code</th>
+      <th>All</th>
+      <th>All_direct</th>
+      <th>IBA</th>
+      <th>IBA_direct</th>
+      <th>IEA</th>
+      <th>IEA_direct</th>
+    </tr>
+    <tr>
+      <th>term</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>GO:0000001</th>
+      <td>145</td>
+      <td>145</td>
+      <td>0</td>
+      <td>0</td>
+      <td>102</td>
+      <td>102</td>
+    </tr>
+    <tr>
+      <th>GO:0000002</th>
+      <td>1473</td>
+      <td>564</td>
+      <td>759</td>
+      <td>168</td>
+      <td>411</td>
+      <td>279</td>
+    </tr>
+    <tr>
+      <th>GO:0000003</th>
+      <td>46815</td>
+      <td>302</td>
+      <td>16743</td>
+      <td>158</td>
+      <td>9892</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>GO:0000006</th>
+      <td>16</td>
+      <td>16</td>
+      <td>5</td>
+      <td>5</td>
+      <td>6</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>GO:0000007</th>
+      <td>14</td>
+      <td>14</td>
+      <td>8</td>
+      <td>8</td>
+      <td>5</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>GO:2001311</th>
+      <td>36</td>
+      <td>36</td>
+      <td>21</td>
+      <td>21</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>GO:2001313</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>GO:2001315</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>GO:2001316</th>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>GO:2001317</th>
+      <td>3</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>32150 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">roots</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GO:0008150&quot;</span><span class="p">,</span> <span class="s2">&quot;GO:0005575&quot;</span><span class="p">,</span> <span class="s2">&quot;GO:0003674&quot;</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isa_partof_leafs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">leafs</span><span class="p">(</span><span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">],</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isa_leafs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">leafs</span><span class="p">(</span><span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">REGULATES</span><span class="p">,</span> <span class="n">NEGATIVELY_REGULATES</span><span class="p">,</span> <span class="n">POSITIVELY_REGULATES</span>
+
+<span class="n">all_leafs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">leafs</span><span class="p">(</span><span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">,</span> <span class="n">REGULATES</span><span class="p">,</span> <span class="n">NEGATIVELY_REGULATES</span><span class="p">,</span> <span class="n">POSITIVELY_REGULATES</span><span class="p">],</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span><span class="p">:</span>
+    <span class="n">root_label</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing root: </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">root_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">go</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;term&quot;</span><span class="p">:</span> <span class="n">term</span><span class="p">,</span>
+            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">go</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term</span><span class="p">),</span>
+            <span class="s2">&quot;group:&quot;</span><span class="p">:</span> <span class="n">root_label</span><span class="p">,</span>
+            <span class="s2">&quot;isa_partof_leaf&quot;</span><span class="p">:</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">leafs</span><span class="p">,</span>
+            <span class="s2">&quot;isa_leaf&quot;</span><span class="p">:</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">isa_leafs</span><span class="p">,</span>
+            <span class="s2">&quot;full_leaf&quot;</span><span class="p">:</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">all_leafs</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing root: GO:0008150 biological_process
+Processing root: GO:0005575 cellular_component
+Processing root: GO:0003674 molecular_function
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">terms_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
+<span class="n">terms_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>term</th>
+      <th>label</th>
+      <th>group:</th>
+      <th>isa_partof_leaf</th>
+      <th>isa_leaf</th>
+      <th>full_leaf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0075032</td>
+      <td>negative regulation of formation of symbiont g...</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0010032</td>
+      <td>meiotic chromosome condensation</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0070458</td>
+      <td>cellular detoxification of nitrogen compound</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0060235</td>
+      <td>lens induction in camera-type eye</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:2000261</td>
+      <td>negative regulation of blood coagulation, comm...</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>42893</th>
+      <td>GO:0052814</td>
+      <td>medium-chain-aldehyde dehydrogenase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>42894</th>
+      <td>GO:0052587</td>
+      <td>diacetyl reductase ((R)-acetoin forming) activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>42895</th>
+      <td>GO:0102645</td>
+      <td>17(E)-cheilanthenediol synthase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>42896</th>
+      <td>GO:0047999</td>
+      <td>hyponitrite reductase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>42897</th>
+      <td>GO:0102974</td>
+      <td>hydroxyversicolorone reductase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p>42898 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">terms_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pivoted_df</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;term&quot;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s2">&quot;term&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>term</th>
+      <th>label</th>
+      <th>group:</th>
+      <th>isa_partof_leaf</th>
+      <th>isa_leaf</th>
+      <th>full_leaf</th>
+      <th>All</th>
+      <th>All_direct</th>
+      <th>IBA</th>
+      <th>IBA_direct</th>
+      <th>IEA</th>
+      <th>IEA_direct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0075032</td>
+      <td>negative regulation of formation of symbiont g...</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0010032</td>
+      <td>meiotic chromosome condensation</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>340</td>
+      <td>340</td>
+      <td>291</td>
+      <td>291</td>
+      <td>22</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0070458</td>
+      <td>cellular detoxification of nitrogen compound</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>43</td>
+      <td>43</td>
+      <td>0</td>
+      <td>0</td>
+      <td>21</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0060235</td>
+      <td>lens induction in camera-type eye</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>29</td>
+      <td>29</td>
+      <td>0</td>
+      <td>0</td>
+      <td>15</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:2000261</td>
+      <td>negative regulation of blood coagulation, comm...</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>42893</th>
+      <td>GO:0052814</td>
+      <td>medium-chain-aldehyde dehydrogenase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>10</td>
+      <td>10</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>42894</th>
+      <td>GO:0052587</td>
+      <td>diacetyl reductase ((R)-acetoin forming) activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>42895</th>
+      <td>GO:0102645</td>
+      <td>17(E)-cheilanthenediol synthase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>42896</th>
+      <td>GO:0047999</td>
+      <td>hyponitrite reductase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>42897</th>
+      <td>GO:0102974</td>
+      <td>hydroxyversicolorone reductase activity</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>42898 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort df by group then term</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;group:&quot;</span><span class="p">,</span> <span class="s2">&quot;term&quot;</span><span class="p">])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>term</th>
+      <th>label</th>
+      <th>group:</th>
+      <th>isa_partof_leaf</th>
+      <th>isa_leaf</th>
+      <th>full_leaf</th>
+      <th>All</th>
+      <th>All_direct</th>
+      <th>IBA</th>
+      <th>IBA_direct</th>
+      <th>IEA</th>
+      <th>IEA_direct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5134</th>
+      <td>GO:0000001</td>
+      <td>mitochondrion inheritance</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>145</td>
+      <td>145</td>
+      <td>0</td>
+      <td>0</td>
+      <td>102</td>
+      <td>102</td>
+    </tr>
+    <tr>
+      <th>12729</th>
+      <td>GO:0000002</td>
+      <td>mitochondrial genome maintenance</td>
+      <td>biological_process</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>1473</td>
+      <td>564</td>
+      <td>759</td>
+      <td>168</td>
+      <td>411</td>
+      <td>279</td>
+    </tr>
+    <tr>
+      <th>18901</th>
+      <td>GO:0000003</td>
+      <td>reproduction</td>
+      <td>biological_process</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>46815</td>
+      <td>302</td>
+      <td>16743</td>
+      <td>158</td>
+      <td>9892</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>24355</th>
+      <td>GO:0000011</td>
+      <td>vacuole inheritance</td>
+      <td>biological_process</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>203</td>
+      <td>203</td>
+      <td>22</td>
+      <td>22</td>
+      <td>141</td>
+      <td>141</td>
+    </tr>
+    <tr>
+      <th>17370</th>
+      <td>GO:0000012</td>
+      <td>single strand break repair</td>
+      <td>biological_process</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>189</td>
+      <td>189</td>
+      <td>97</td>
+      <td>97</td>
+      <td>44</td>
+      <td>44</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>39756</th>
+      <td>GO:2001083</td>
+      <td>alpha-D-glucan binding</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>31732</th>
+      <td>GO:2001084</td>
+      <td>L-arabinofuranose binding</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>38649</th>
+      <td>GO:2001085</td>
+      <td>arabinogalactan binding</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>33826</th>
+      <td>GO:2001147</td>
+      <td>camalexin binding</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>40133</th>
+      <td>GO:2001227</td>
+      <td>quercitrin binding</td>
+      <td>molecular_function</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>42898 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;output/go-term-usage-summary.tsv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

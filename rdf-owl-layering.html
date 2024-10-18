@@ -19,6 +19,7 @@
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
@@ -54,7 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq/index.html">FAQ</a></li>
 </ul>
@@ -179,7 +180,7 @@ But the goal is to make the commonly used constructs easy and intuitive to acces
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>myontology.db<span class="w"> </span>obsoletes
 </pre></div>
 </div>
-<p>In python, this is provided in the <span class="xref std std-ref">BasicOntologyInterface</span>:</p>
+<p>In python, this is provided in the <a class="reference internal" href="examples/Developers-Tutorial.html#BasicOntologyInterface"><span class="std std-ref">BasicOntologyInterface</span></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_implentation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;myontology.db&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">ont</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
@@ -205,7 +206,7 @@ are not yet fully standardized within OMO:</p>
 </div></blockquote>
 </li>
 </ul>
-<p>In OAK, this can be retrieved like any other metadata using the entity_metadata methods from <span class="xref std std-ref">BasicOntologyInterface</span>.</p>
+<p>In OAK, this can be retrieved like any other metadata using the entity_metadata methods from <a class="reference internal" href="examples/Developers-Tutorial.html#BasicOntologyInterface"><span class="std std-ref">BasicOntologyInterface</span></a>.</p>
 <p>On the command line:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>entity_metadata<span class="w"> </span>GO:0000005
 </pre></div>

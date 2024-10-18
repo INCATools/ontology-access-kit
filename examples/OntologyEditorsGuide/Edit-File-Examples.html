@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command line OAK usage for ontology editors (Alpha) &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Command line OAK usage for ontology editors (Alpha)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/OntologyEditorsGuide/Edit-File-Examples.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Command-line-OAK-usage-for-ontology-editors-(Alpha)">
+<h1>Command line OAK usage for ontology editors (Alpha)<a class="headerlink" href="#Command-line-OAK-usage-for-ontology-editors-(Alpha)" title="Link to this heading"></a></h1>
+<section id="Background-(read-this-carefully)">
+<h2>Background (read this carefully)<a class="headerlink" href="#Background-(read-this-carefully)" title="Link to this heading"></a></h2>
+<p>This guide is for usage of OAK on the command line with the <em>-edit</em> version of ontologies.</p>
+<p>In general, most users should <strong>never</strong> use the edit version. The exception is if you are part of the development team for that ontology, you may want to:</p>
+<ul class="simple">
+<li><p>do quick ad-hoc queries of the edit version</p></li>
+<li><p>apply automated changes with KGCL</p></li>
+</ul>
+<p><strong>If this doesn’t apply to you then this guide probably isn’t for you!</strong> See some of the other notebooks for examples of working with the release versions of ontologies.</p>
+<p>In general, these kinds of operations are typically done with ROBOT, possibly with ad-hoc SPARQL queries. But for certain kinds of operations, OAK may provide some advantages.</p>
+<p>Another thing to bear in mind is that conventions for edit files differ, not least in which format they use. OAK has different adaptors for different formats, <em>and these may vary in how complete they are</em>.</p>
+<p>At this time, this guide is primarily for editors of:</p>
+<ul class="simple">
+<li><p>mondo</p></li>
+<li><p>go</p></li>
+<li><p>uberon</p></li>
+<li><p>other ontologies that use .obo for the edit version</p></li>
+</ul>
+<p>If this doesn’t cover you, don’t worry, we will expand this guide later, but as yet the support for functional syntax in OAK is incomplete.</p>
+<p>Currently this guide is best used by a combination of a non-technical ontology editor working with someone moderately technical (who need not have domain knowledge). The technical person can help with running commands on the command line and how to automate certain kinds of tasks, with the editor guiding.</p>
+<p>At least one person should have gone through <a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial01.html">part 1 of the tutorial</a></p>
+<p>Note this guide doesn’t require any python coding - it’s all via the command line</p>
+</section>
+<section id="Local-edit-files">
+<h2>Local edit files<a class="headerlink" href="#Local-edit-files" title="Link to this heading"></a></h2>
+<p>We assume that you have your project checked out and you are in <code class="docutils literal notranslate"><span class="pre">src/ontology</span></code> (if you don’t know what that means, then this guide likely isn’t for you - try some other notebooks in this repo!)</p>
+<p>But for demo purposes we will download a copy:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget<span class="w"> </span>https://raw.githubusercontent.com/geneontology/go-ontology/master/src/ontology/go-edit.obo<span class="w"> </span>-O<span class="w"> </span>input/go-edit.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2022-09-12 14:40:56--  https://raw.githubusercontent.com/geneontology/go-ontology/master/src/ontology/go-edit.obo
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.110.133, 185.199.109.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 32434161 (31M) [text/plain]
+Saving to: ‘input/go-edit.obo’
+
+input/go-edit.obo   100%[===================&gt;]  30.93M  12.9MB/s    in 2.4s
+
+2022-09-12 14:40:59 (12.9 MB/s) - ‘input/go-edit.obo’ saved [32434161/32434161]
+
+</pre></div></div>
+</div>
+<section id="Aliases">
+<h3>Aliases<a class="headerlink" href="#Aliases" title="Link to this heading"></a></h3>
+<p>Next we will set up an alias to avoid repetitive typing</p>
+<p>Note the <code class="docutils literal notranslate"><span class="pre">%alias</span></code> syntax is just in the context of a Jupyter notebook, and the path will only work for this notebook</p>
+<p>On your command line, just type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>goedit<span class="w"> </span>-i<span class="w"> </span>simpleobo:<span class="nv">$HOME</span>/repos/go-ontology/src/ontology/go-edit.obo
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>mondoedit<span class="w"> </span>-i<span class="w"> </span>simpleobo:<span class="nv">$HOME</span>/repos/mondo/src/ontology/mondo-edit.obo
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>uberonedit<span class="w"> </span>-i<span class="w"> </span>simpleobo:<span class="nv">$HOME</span>/repos/uberon/src/ontology/uberon-edit.obo
+</pre></div>
+</div>
+<p>This assumes you have a top level repo <code class="docutils literal notranslate"><span class="pre">repos</span></code> - change this accordingly</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">simpleobo</span></code> tells OAK to use the simple obo parser. this is slower than pronto but more forgiving of issues with imports.</p>
+<p>Note: some of this tutorial will work with ontologies with other source formats, but you can expect this to be only partially completed. For now, obo is best supported, but this is temporary.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> goedit runoak -i simpleobo:input/go-edit.obo
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">info</span> <span class="n">nucleus</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0005634 ! nucleus
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">tree</span> <span class="n">nucleus</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] GO:0043229 ! intracellular organelle
+    * [i] GO:0043231 ! intracellular membrane-bounded organelle
+        * [i] **GO:0005634 ! nucleus**
+</pre></div></div>
+</div>
+<p><strong>important</strong></p>
+<p>note how the root of the tree appears to be “intracellular organelle”</p>
+<p>This is because OAK assumes a <em>relaxed graph</em> (whether obo or owl). We can see the <em>structure</em> of the obo file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043229</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">intracellular organelle</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cellular_component</span>
+<span class="nt">def</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Organized</span><span class="nv"> </span><span class="s">structure</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">distinctive</span><span class="nv"> </span><span class="s">morphology</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">function,</span><span class="nv"> </span><span class="s">occurring</span><span class="nv"> </span><span class="s">within</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">cell.</span><span class="nv"> </span><span class="s">Includes</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">nucleus,</span><span class="nv"> </span><span class="s">mitochondria,</span><span class="nv"> </span><span class="s">plastids,</span><span class="nv"> </span><span class="s">vacuoles,</span><span class="nv"> </span><span class="s">vesicles,</span><span class="nv"> </span><span class="s">ribosomes</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">cytoskeleton.</span><span class="nv"> </span><span class="s">Excludes</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">plasma</span><span class="nv"> </span><span class="s">membrane.&quot;</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">GOC</span><span class="p p-Indicator">:</span><span class="nv">go_curators</span><span class="p p-Indicator">]</span>
+<span class="nt">subset</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">goslim_pir</span>
+<span class="nt">intersection_of</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043226 ! organelle</span>
+<span class="nt">intersection_of</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">part_of GO:0005622 ! intracellular anatomical structure</span>
+</pre></div>
+</div>
+<p>We <em>intentionally</em> don’t assert an is-a in the editors file, we let the reasoner work it out.</p>
+<p>In future we may include a simple <em>structural reasoner</em> to OAK, equivalent to the structural reasoner in Protege, that would <a class="reference external" href="https://robot.obolibrary.org/relax">relax</a> the equivalence axiom to a SubClassOf.</p>
+<p>However, looking at these relaxed structures can be misleading. For Protege editors we <strong>always emphasize always looking at the reasoned view</strong> with the reasoner synchronized.</p>
+<p>For now, it may be less misleading to show the actual structure of the asserted edit file. If you want to look at the reasoner view, run robot reason on the edit file and use that as the input into OAK (with conversion to sqlite for speed).</p>
+<p><a class="reference external" href="https://github.com/INCATools/semantic-sql/issues/41">In future this reasoning step may be performed more dynamically in OAK</a> but for now, keep this limitation in mind.</p>
+</section>
+</section>
+<section id="Querying-logical-definitions">
+<h2>Querying logical definitions<a class="headerlink" href="#Querying-logical-definitions" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="n">GO</span><span class="p">:</span><span class="mi">0043229</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+definedClassId: GO:0043229
+genusIds:
+- GO:0043226
+restrictions:
+- fillerId: part_of
+  propertyId: GO:0005622
+
+---
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="n">GO</span><span class="p">:</span><span class="mi">0043229</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+</pre></div></div>
+</div>
+</section>
+<section id="Applying-changes">
+<h2>Applying changes<a class="headerlink" href="#Applying-changes" title="Link to this heading"></a></h2>
+<p>Next we will try applying some changes, using the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-apply">apply</a> command</p>
+<p>These changes will be specified using the KGCL language. You can also pass these changes in as CSVs or YAML files conforming to the KGCL data model but for now we will restrict to KGCL DSL.</p>
+<p>First let’s try the rename command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">apply</span> <span class="s2">&quot;rename GO:0005634 from &#39;nucleus&#39; to &#39;nuclear compartment&#39;&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="nb">input</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">modified</span><span class="o">.</span><span class="n">obo</span>
+</pre></div>
+</div>
+</div>
+<p>Note that we are specifying a path <a class="reference external" href="input/go-edit-modified.obo">input/go-edit-modified.obo</a> (this link will only work if you are running the notebook locally).</p>
+<p>As a sanity check, let’s use the unix diff command to see if our apply command had any effect. We will use the <code class="docutils literal notranslate"><span class="pre">-u</span></code> option to see the diff as it would look in a GitHub PR</p>
+<p><strong>if you don’t know what that means or you aren’t accustomed to looking at obo format diffs, this guide isn’t for you</strong></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>diff<span class="w"> </span>-u<span class="w"> </span>input/go-edit.obo<span class="w"> </span>input/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- input/go-edit.obo   2022-09-12 14:40:59.000000000 -0700
++++ input/go-edit-modified.obo  2022-09-12 17:18:31.000000000 -0700
+@@ -53301,7 +53301,7 @@
+
+ [Term]
+ id: GO:0005634
+-name: nucleus
++name: nuclear compartment
+ namespace: cellular_component
+ def: &#34;A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell&#39;s chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.&#34; [GOC:go_curators]
+ subset: goslim_agr
+</pre></div></div>
+</div>
+<p>Looks like our change too effect, great!</p>
+<p>Next let’s set up another alias. We are going to be working with this <code class="docutils literal notranslate"><span class="pre">go-edit-modified.obo</span></code> file, to avoid messing up the original obo file – this is just a convenience for working with the notebook and may not be something you do in your own workflow:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> goedit2 runoak -i simpleobo:input/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<p>Let’s not try more changes. Let’s put nucleus back, but as a synonym:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit2</span> <span class="n">apply</span> <span class="s2">&quot;create synonym &#39;nucleus&#39; for GO:0043229&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:--autosave not passed, changes are NOT saved
+</pre></div></div>
+</div>
+<p>uh-oh, what does that mean?</p>
+<p>It means that we didn’t specify an output file or that changes should be saved in place, so our change had no material affect. This probably isn’t what we want.</p>
+<p>But OAK follows best practice command line tooling and will avoid doing things like modifying input files <strong>unless you specifically ask it to</strong>, which we can with the <code class="docutils literal notranslate"><span class="pre">--overwrite</span></code> global option, that will save in place.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit2</span> <span class="o">--</span><span class="n">overwrite</span> <span class="n">apply</span> <span class="s2">&quot;create exact synonym &#39;nucleus&#39; for GO:0043229&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Note this is a <em>global</em> option so it comes before the <code class="docutils literal notranslate"><span class="pre">apply</span></code> subcommand.</p>
+<p>Our changes will be saved in place, and remember <code class="docutils literal notranslate"><span class="pre">goedit2</span></code> is aliased to use go-edit-<em>modified</em>.obo</p>
+<p>Let’s look at cumulative changes from the original:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>diff<span class="w"> </span>-u<span class="w"> </span>input/go-edit.obo<span class="w"> </span>input/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- input/go-edit.obo   2022-09-12 14:40:59.000000000 -0700
++++ input/go-edit-modified.obo  2022-09-12 17:18:45.000000000 -0700
+@@ -53301,7 +53301,7 @@
+
+ [Term]
+ id: GO:0005634
+-name: nucleus
++name: nuclear compartment
+ namespace: cellular_component
+ def: &#34;A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell&#39;s chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.&#34; [GOC:go_curators]
+ subset: goslim_agr
+@@ -241775,6 +241775,7 @@
+ subset: goslim_pir
+ intersection_of: GO:0043226 ! organelle
+ intersection_of: part_of GO:0005622 ! intracellular anatomical structure
++synonym: &#34;nucleus&#34; EXACT []
+
+ [Term]
+ id: GO:0043230
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit2</span> <span class="o">--</span><span class="n">autosave</span> <span class="n">apply</span> <span class="s2">&quot;change relationship between vacuole and cytoplasm from part_of to is_a&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>diff<span class="w"> </span>-u<span class="w"> </span>input/go-edit.obo<span class="w"> </span>input/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- input/go-edit.obo   2022-09-12 14:40:59.000000000 -0700
++++ input/go-edit-modified.obo  2022-09-12 17:18:52.000000000 -0700
+@@ -53301,7 +53301,7 @@
+
+ [Term]
+ id: GO:0005634
+-name: nucleus
++name: nuclear compartment
+ namespace: cellular_component
+ def: &#34;A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell&#39;s chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.&#34; [GOC:go_curators]
+ subset: goslim_agr
+@@ -54683,7 +54683,7 @@
+ synonym: &#34;vacuolar carboxypeptidase Y&#34; RELATED []
+ xref: Wikipedia:Vacuole
+ is_a: GO:0043231 ! intracellular membrane-bounded organelle
+-relationship: part_of GO:0005737 ! cytoplasm
++is_a: GO:0005737
+
+ [Term]
+ id: GO:0005774
+@@ -241775,6 +241775,7 @@
+ subset: goslim_pir
+ intersection_of: GO:0043226 ! organelle
+ intersection_of: part_of GO:0005622 ! intracellular anatomical structure
++synonym: &#34;nucleus&#34; EXACT []
+
+ [Term]
+ id: GO:0043230
+</pre></div></div>
+</div>
+</section>
+<section id="Performing-KGCL-Diffs">
+<h2>Performing KGCL Diffs<a class="headerlink" href="#Performing-KGCL-Diffs" title="Link to this heading"></a></h2>
+<p>So far we have performed diffing using the unix diff command. It’s never a bad idea to look at these diffs, as they reflect differences at the level of how the file is stored, and you will need to interpret these diffs to properly evaluate PRs.</p>
+<p>However, it is better to look at diffs at the right level of abstraction, such as KGCL.</p>
+<p>In OAK, the same language/data model is used for diffs as it is for applying changes!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">diff</span> <span class="o">-</span><span class="n">X</span> <span class="n">simpleobo</span><span class="p">:</span><span class="nb">input</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">modified</span><span class="o">.</span><span class="n">obo</span> <span class="o">-</span><span class="n">O</span> <span class="n">kgcl</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ERROR:root:Cannot render: RemoveSynonym(id=&#39;x&#39;, type=None, was_generated_by=None, see_also=None, pull_request=None, creator=None, change_date=None, contributor=None, has_undo=None, old_value=&#39;nucleus&#39;, new_value=None, old_value_type=None, new_value_type=None, new_language=None, old_language=None, new_datatype=None, old_datatype=None, about_node=&#39;GO:0005634&#39;, about_node_representation=None, language=None)
+</pre></div></div>
+</div>
+<p><strong>TEMPORARY ISSUE</strong> for now, rendering the change in KGCL syntax doesn’t always work, so we instead use the data model</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">diff</span> <span class="o">-</span><span class="n">X</span> <span class="n">simpleobo</span><span class="p">:</span><span class="nb">input</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">modified</span><span class="o">.</span><span class="n">obo</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[
+{
+  &#34;id&#34;: &#34;x&#34;,
+  &#34;old_value&#34;: &#34;nucleus&#34;,
+  &#34;about_node&#34;: &#34;GO:0005634&#34;,
+  &#34;@type&#34;: &#34;RemoveSynonym&#34;
+}
+]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO - check why move is not there</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">diff</span> <span class="o">-</span><span class="n">X</span> <span class="n">simpleobo</span><span class="p">:</span><span class="nb">input</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">modified</span><span class="o">.</span><span class="n">obo</span> <span class="o">-</span><span class="n">o</span> <span class="nb">input</span><span class="o">/</span><span class="n">change</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>input/change.json
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[
+{
+  &#34;id&#34;: &#34;x&#34;,
+  &#34;old_value&#34;: &#34;nucleus&#34;,
+  &#34;new_value&#34;: &#34;nuclear compartment&#34;,
+  &#34;about_node&#34;: &#34;GO:0005634&#34;,
+  &#34;@type&#34;: &#34;NodeRename&#34;
+}
+,
+{
+  &#34;id&#34;: &#34;x&#34;,
+  &#34;old_value&#34;: &#34;rdfs:subClassOf&#34;,
+  &#34;new_value&#34;: &#34;rdfs:subClassOf&#34;,
+  &#34;about_edge&#34;: {
+    &#34;subject&#34;: &#34;GO:0005634&#34;,
+    &#34;predicate&#34;: &#34;rdfs:subClassOf&#34;,
+    &#34;object&#34;: &#34;GO:0043231&#34;
+  },
+  &#34;@type&#34;: &#34;PredicateChange&#34;
+}
+,
+{
+  &#34;id&#34;: &#34;x&#34;,
+  &#34;old_value&#34;: &#34;BFO:0000050&#34;,
+  &#34;new_value&#34;: &#34;rdfs:subClassOf&#34;,
+  &#34;about_edge&#34;: {
+    &#34;subject&#34;: &#34;GO:0005773&#34;,
+    &#34;predicate&#34;: &#34;BFO:0000050&#34;,
+    &#34;object&#34;: &#34;GO:0005737&#34;
+  },
+  &#34;@type&#34;: &#34;PredicateChange&#34;
+}
+,
+{
+  &#34;id&#34;: &#34;x&#34;,
+  &#34;old_value&#34;: &#34;rdfs:subClassOf&#34;,
+  &#34;new_value&#34;: &#34;rdfs:subClassOf&#34;,
+  &#34;about_edge&#34;: {
+    &#34;subject&#34;: &#34;GO:0005773&#34;,
+    &#34;predicate&#34;: &#34;rdfs:subClassOf&#34;,
+    &#34;object&#34;: &#34;GO:0043231&#34;
+  },
+  &#34;@type&#34;: &#34;PredicateChange&#34;
+}
+,
+{
+  &#34;id&#34;: &#34;x&#34;,
+  &#34;new_value&#34;: &#34;nucleus&#34;,
+  &#34;about_node&#34;: &#34;GO:0043229&#34;,
+  &#34;@type&#34;: &#34;NewSynonym&#34;
+}
+]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">goedit</span> <span class="n">apply</span> <span class="o">--</span><span class="n">change</span><span class="o">-</span><span class="n">file</span> <span class="nb">input</span><span class="o">/</span><span class="n">change</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">o</span> <span class="nb">input</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">sanity</span><span class="o">-</span><span class="n">check</span><span class="o">.</span><span class="n">obo</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

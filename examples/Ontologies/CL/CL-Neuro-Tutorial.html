@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neuro-CL tutorial &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Dissecting cell types for anatomical structures - Lung Epithelial Cells (advanced)" href="Lung-Epithelial-Cell-Types.html" />
+    <link rel="prev" title="CL Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">CL Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Neuro-CL tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Lung-Epithelial-Cell-Types.html">Dissecting cell types for anatomical structures - Lung Epithelial Cells (advanced)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">CL Examples</a></li>
+      <li class="breadcrumb-item active">Neuro-CL tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/CL/CL-Neuro-Tutorial.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Neuro-CL-tutorial">
+<h1>Neuro-CL tutorial<a class="headerlink" href="#Neuro-CL-tutorial" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>author: Chris Mungall</p></li>
+<li><p>created: 2022-09-9</p></li>
+</ul>
+<p>This tutorial walks through the neuro-relevant subset of the <a class="reference external" href="https://obofoundry.org/ontology/cl">Cell Ontology</a> (CL), the goals are:</p>
+<ul class="simple">
+<li><p>to help understand the structure of CL</p>
+<ul>
+<li><p>to show how CL uses relationships like <em>has-soma-location</em></p></li>
+<li><p>to show how CL relates to Uberon and other ontologies</p></li>
+</ul>
+</li>
+<li><p>to show how to do advanced OAK queries and visualization (CLI and programmatic) on CL</p></li>
+<li><p>demonstrate rudimentary text annotation</p></li>
+</ul>
+<p>Running this notebook locally or on mybinder requires <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/releases/tag/v0.1.41">0.1.41</a> or higher</p>
+<section id="Create-an-alias">
+<h2>Create an alias<a class="headerlink" href="#Create-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set a bash alias.</p>
+<p>The first time you run this, a copy of cl.db is downloaded from S3, which may include a delay - for subsequent invocations, the cached copy will be used</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> cl runoak -i sqlite:obo:cl
+</pre></div>
+</div>
+</div>
+<section id="Basic-lookup-queries">
+<h3>Basic lookup queries<a class="headerlink" href="#Basic-lookup-queries" title="Link to this heading"></a></h3>
+<p>Let’s check it’s working. We will use the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-info">info</a> command:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="n">neuron</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000540 ! neuron
+</pre></div></div>
+</div>
+<p>Next we will try a <a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial01.html#search">simple lexical search</a>.</p>
+<p>Here <code class="docutils literal notranslate"><span class="pre">l</span></code> means use labels and <code class="docutils literal notranslate"><span class="pre">~</span></code> means inexact (partial) matches.</p>
+<p>We will do a simple lexical search for GABAergic cortical interneurons:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="s2">&quot;l~GABAergic cortical interneuron&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000617 ! GABAergic neuron
+CL:0010011 ! cerebral cortex GABAergic interneuron
+CL:0011005 ! GABAergic interneuron
+CL:4023007 ! L2/3 bipolar vip GABAergic cortical interneuron (Mmus)
+CL:4023010 ! alpha7 GABAergic cortical interneuron (Mmus)
+CL:4023011 ! lamp5 GABAergic cortical interneuron
+CL:4023014 ! L5 vip cortical GABAergic interneuron (Mmus)
+CL:4023015 ! sncg GABAergic cortical interneuron
+CL:4023016 ! vip GABAergic cortical interneuron
+CL:4023017 ! sst GABAergic cortical interneuron
+CL:4023018 ! pvalb GABAergic cortical interneuron
+CL:4023019 ! L5/6 cck, vip cortical GABAergic interneuron (Mmus)
+CL:4023022 ! canopy lamp5 GABAergic cortical interneuron (Mmus)
+CL:4023023 ! L5,6 neurogliaform lamp5 GABAergic cortical interneuron (Mmus)
+CL:4023024 ! neurogliaform lamp5 GABAergic cortical interneuron (Mmus)
+CL:4023025 ! long-range projecting sst GABAergic cortical interneuron (Mmus)
+CL:4023027 ! L5 T-Martinotti sst GABAergic cortical interneuron (Mmus)
+CL:4023028 ! L5 non-Martinotti sst GABAergic cortical interneuron (Mmus)
+CL:4023030 ! L2/3/5 fan Martinotti sst GABAergic cortical interneuron (Mmus)
+CL:4023031 ! L4 sst GABAergic cortical interneuron (Mmus)
+CL:4023034 ! obsolete L2/3 pvalb-like sst GABAergic cortical interneuron (Mus musculus)
+CL:4023036 ! chandelier pvalb GABAergic cortical interneuron
+CL:4023065 ! meis2 expressing cortical GABAergic cell
+CL:4023067 ! obsolete Martinotti morphology L2/3 pvalb-like sst GABAergic cortical interneuron (Mus musculus)
+CL:4023069 ! medial ganglionic eminence derived GABAergic cortical interneuron
+CL:4023070 ! caudal ganglionic eminence derived GABAergic cortical interneuron
+CL:4023071 ! L5/6 cck cortical GABAergic interneuron (Mmus)
+CL:4023075 ! L6 tyrosine hydroxylase sst GABAergic cortical interneuron (Mmus)
+CL:4023078 ! obsolete basket morphology L2/3 pvalb-like sst GABAergic cortical interneuron (Mus musculus)
+CL:4023106 ! obsolete meis2 expressing cortical GABAergic cell (Callithrix jacchus)
+CL:4023118 ! L5/6 non-Martinotti sst GABAergic cortical interneuron (Mmus)
+CL:4023121 ! sst chodl GABAergic cortical interneuron
+CL:4023122 ! oxytocin receptor sst GABAergic cortical interneuron
+GO:0021853 ! cerebral cortex GABAergic interneuron migration
+GO:0021892 ! cerebral cortex GABAergic interneuron differentiation
+GO:0021894 ! cerebral cortex GABAergic interneuron development
+GO:0032228 ! regulation of synaptic transmission, GABAergic
+GO:0032229 ! negative regulation of synaptic transmission, GABAergic
+GO:0032230 ! positive regulation of synaptic transmission, GABAergic
+GO:0051932 ! synaptic transmission, GABAergic
+GO:0097154 ! GABAergic neuron differentiation
+</pre></div></div>
+</div>
+<p>Of course, there are more reliable ways to do this query than relying on string matching, but string searches can be useful for initial exploration.</p>
+<p>Note there are some GO terms in the matches. This is because the release version of CL includes portions of other ontologies like GO.</p>
+</section>
+</section>
+<section id="Exploring-the-structure-of-CL">
+<h2>Exploring the structure of CL<a class="headerlink" href="#Exploring-the-structure-of-CL" title="Link to this heading"></a></h2>
+<p>Next we will try exploring the graph structure of CL (see the glossary for <a class="reference external" href="https://incatools.github.io/ontology-access-kit/glossary.html#term-Graph">what we mean by graph structure</a>).</p>
+<p>Here we are using the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-relationships">relationships</a> command:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">relationships</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023014</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+
+
+
+</pre></div></div>
+</div>
+<p>The output is a tab-separated table of relationships emanating from <em>L5 vip cortical GABAergic interneuron (Mmus)</em>.</p>
+<p>This doesn’t look very pretty in the Jupyter interface. We will write a helper function here (of course, if running on the command line you could do other things to show the table).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;output/tmp.tsv&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;helper function to turn most recent TSV output into a dataframe&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">relationships</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023014</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">tmp</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>subject_label</th>
+      <th>predicate_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:4023014</td>
+      <td>RO:0002100</td>
+      <td>UBERON:0005394</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>has soma location</td>
+      <td>cortical layer V</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:4023014</td>
+      <td>RO:0002162</td>
+      <td>NCBITaxon:10090</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>in taxon</td>
+      <td>Mus musculus</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:4023014</td>
+      <td>RO:0002292</td>
+      <td>PR:P32648</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>expresses</td>
+      <td>VIP peptides (mouse)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:4023014</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:4023016</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>None</td>
+      <td>vip GABAergic cortical interneuron</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>This view is more readable. We can see that there are 4 edges for which the subject matches our query. <em>Edges can point to nodes outside CL</em>.</p>
+<p>Each edge can be read as a sentence - e.g.</p>
+<ul class="simple">
+<li><p>L5 vip cortical GABAergic interneuron (Mmus) <em>has soma location</em> cortical layer V”</p></li>
+</ul>
+<section id="Linking-neurons-to-Uberon">
+<h3>Linking neurons to Uberon<a class="headerlink" href="#Linking-neurons-to-Uberon" title="Link to this heading"></a></h3>
+<p>When connecting cell types to anatomy in Uberon, CL uses has-some-location rather than the stronger part-of. This is because as a general rule we can’t make entire neurons part of specific regions, if those neurons have projections that overlap other areas.</p>
+<p>For more background, see:</p>
+<ul class="simple">
+<li><p>A strategy for building neuroanatomy ontologies, Osumi-Sutherland et al <a class="reference external" href="https://doi.org/10.1093/bioinformatics/bts113">https://doi.org/10.1093/bioinformatics/bts113</a></p></li>
+</ul>
+</section>
+<section id="Transcriptomic-classification-of-neurons">
+<h3>Transcriptomic classification of neurons<a class="headerlink" href="#Transcriptomic-classification-of-neurons" title="Link to this heading"></a></h3>
+<p>Note that many newer cell types in CL may be types uncovered by RNAseq experiments and clustering. When these are captured in CL, we often link the cell type to a marker protein or gene via an <em>expresses</em> relationship.</p>
+</section>
+<section id="Relationship-query-directionality">
+<h3>Relationship query directionality<a class="headerlink" href="#Relationship-query-directionality" title="Link to this heading"></a></h3>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> commands is in the “up” direction, i.e the query is matched to the edge subject.</p>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">--direction</span></code> to get the “down” direction edges (i.e. the query is matched to the edge object), or “both”.</p>
+<p>Let’s try this with a more general <strong>vip GABAergic cortical interneuron</strong></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">relationships</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023016</span> <span class="o">--</span><span class="n">direction</span> <span class="n">both</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">tmp</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>subject_label</th>
+      <th>predicate_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:4023016</td>
+      <td>RO:0002292</td>
+      <td>PR:000017299</td>
+      <td>vip GABAergic cortical interneuron</td>
+      <td>expresses</td>
+      <td>VIP peptides</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:4023016</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0010011</td>
+      <td>vip GABAergic cortical interneuron</td>
+      <td>None</td>
+      <td>cerebral cortex GABAergic interneuron</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:4023007</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:4023016</td>
+      <td>L2/3 bipolar vip GABAergic cortical interneuro...</td>
+      <td>None</td>
+      <td>vip GABAergic cortical interneuron</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:4023014</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:4023016</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>None</td>
+      <td>vip GABAergic cortical interneuron</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:4023019</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:4023016</td>
+      <td>L5/6 cck, vip cortical GABAergic interneuron (...</td>
+      <td>None</td>
+      <td>vip GABAergic cortical interneuron</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Querying-ancestors">
+<h3>Querying ancestors<a class="headerlink" href="#Querying-ancestors" title="Link to this heading"></a></h3>
+<p>We will try finding all ancestors of CL:4023014</p>
+<p><strong>IMPORTANT</strong> in OAK, all graph commands are parameterized by predicate lists. Consult the OAK docs if you don’t understand what this means!</p>
+<p>To find all is-a ancestors (i.e. ancestors following SubClassOf between named classes) we use <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">i</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">ancestors</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023014</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000002 ! continuant
+BFO:0000004 ! independent continuant
+BFO:0000040 ! material entity
+CARO:0000000 ! anatomical entity
+CARO:0030000 ! biological entity
+CL:0000000 ! cell
+CL:0000003 ! native cell
+CL:0000099 ! interneuron
+CL:0000117 ! CNS neuron (sensu Vertebrata)
+CL:0000151 ! secretory cell
+CL:0000161 ! acid secreting cell
+CL:0000211 ! electrically active cell
+CL:0000255 ! eukaryotic cell
+CL:0000393 ! electrically responsive cell
+CL:0000402 ! CNS interneuron
+CL:0000404 ! electrically signaling cell
+CL:0000498 ! inhibitory interneuron
+CL:0000540 ! neuron
+CL:0000548 ! animal cell
+CL:0000617 ! GABAergic neuron
+CL:0002319 ! neural cell
+CL:0002371 ! somatic cell
+CL:0008031 ! cortical interneuron
+CL:0010011 ! cerebral cortex GABAergic interneuron
+CL:0010012 ! cerebral cortex neuron
+CL:0011005 ! GABAergic interneuron
+CL:0012001 ! neuron of the forebrain
+CL:2000029 ! central nervous system neuron
+CL:4023014 ! L5 vip cortical GABAergic interneuron (Mmus)
+CL:4023016 ! vip GABAergic cortical interneuron
+</pre></div></div>
+</div>
+<p>We can also show this as a table in Jupyter:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">ancestors</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023014</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">tmp</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>BFO:0000002</td>
+      <td>continuant</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>BFO:0000004</td>
+      <td>independent continuant</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>BFO:0000040</td>
+      <td>material entity</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CARO:0000000</td>
+      <td>anatomical entity</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CARO:0030000</td>
+      <td>biological entity</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CL:0000000</td>
+      <td>cell</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CL:0000003</td>
+      <td>native cell</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>CL:0000099</td>
+      <td>interneuron</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CL:0000117</td>
+      <td>CNS neuron (sensu Vertebrata)</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>CL:0000151</td>
+      <td>secretory cell</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>CL:0000161</td>
+      <td>acid secreting cell</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>CL:0000211</td>
+      <td>electrically active cell</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CL:0000255</td>
+      <td>eukaryotic cell</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CL:0000393</td>
+      <td>electrically responsive cell</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>CL:0000402</td>
+      <td>CNS interneuron</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>CL:0000404</td>
+      <td>electrically signaling cell</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>CL:0000498</td>
+      <td>inhibitory interneuron</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>CL:0000540</td>
+      <td>neuron</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>CL:0000548</td>
+      <td>animal cell</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>CL:0000617</td>
+      <td>GABAergic neuron</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>CL:0002319</td>
+      <td>neural cell</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>CL:0002371</td>
+      <td>somatic cell</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>CL:0008031</td>
+      <td>cortical interneuron</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CL:0010011</td>
+      <td>cerebral cortex GABAergic interneuron</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>CL:0010012</td>
+      <td>cerebral cortex neuron</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CL:0011005</td>
+      <td>GABAergic interneuron</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>CL:0012001</td>
+      <td>neuron of the forebrain</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>CL:2000029</td>
+      <td>central nervous system neuron</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>CL:4023014</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CL:4023016</td>
+      <td>vip GABAergic cortical interneuron</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Visualization">
+<h2>Visualization<a class="headerlink" href="#Visualization" title="Link to this heading"></a></h2>
+<p>Next we will generate a visualization from this using the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-viz">viz</a> command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023014</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">CL_4023014</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/CL/output/sim.png" /></p>
+<section id="Other-relationships">
+<h3>Other relationships<a class="headerlink" href="#Other-relationships" title="Link to this heading"></a></h3>
+<p>The above visualization only shows the is-a structure of the ontology, we are missing other useful structural information.</p>
+<p>All OAK graphy commands are parameterized, let’s include both part-of (for traversing within Uberon) and has-soma-location:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">RO</span><span class="p">:</span><span class="mi">0002100</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023014</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">CL_4023014_with_uberon</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p>The graph:</p>
+<p><img alt="img" src="examples/Ontologies/CL/output/sim.png" /></p>
+<p>This graph is a lot richer - and we are only seeing a subset of connections! In fact CL connects to NCBITaxon for taxon constraints, PRO for gene expression, GO for functional classification, …</p>
+<p>Note we are using the default OAK stylesheet which colors CL in grey, UBERON in yellow, etc. For more info on visualization and stylesheets see <a class="reference external" href="https://github.com/INCATools/obographviz/">OboGraphViz</a></p>
+</section>
+</section>
+<section id="Relation-graph-tables">
+<h2>Relation graph tables<a class="headerlink" href="#Relation-graph-tables" title="Link to this heading"></a></h2>
+<p>Now we have seen graphs incorporating transitive closures of certain edge types, let’s return to the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> command.</p>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">--include-entailed</span></code> option to include entailed relations that have been computed using <a class="reference external" href="https://github.com/balhoff/relation-graph">relation-graph</a></p>
+<p>(note: this option won’t work with all OAK adapters - for example, if you are using OAK to connect to an obo file or a remote sparql endpoint that doesn’t support relation-graph. We recommend using either the sqlite backend, as in this tutorial, or ubergraph)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">relationships</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023014</span> <span class="o">--</span><span class="n">include</span><span class="o">-</span><span class="n">entailed</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">tmp</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>subject_label</th>
+      <th>predicate_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:4023014</td>
+      <td>BFO:0000050</td>
+      <td>BFO:0000002</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>part of</td>
+      <td>continuant</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:4023014</td>
+      <td>BFO:0000050</td>
+      <td>BFO:0000004</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>part of</td>
+      <td>independent continuant</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:4023014</td>
+      <td>BFO:0000050</td>
+      <td>BFO:0000040</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>part of</td>
+      <td>material entity</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:4023014</td>
+      <td>BFO:0000050</td>
+      <td>CARO:0000000</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>part of</td>
+      <td>anatomical entity</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:4023014</td>
+      <td>BFO:0000050</td>
+      <td>CARO:0000006</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>part of</td>
+      <td>material anatomical entity</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>655</th>
+      <td>CL:4023014</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0011005</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>None</td>
+      <td>GABAergic interneuron</td>
+    </tr>
+    <tr>
+      <th>656</th>
+      <td>CL:4023014</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0012001</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>None</td>
+      <td>neuron of the forebrain</td>
+    </tr>
+    <tr>
+      <th>657</th>
+      <td>CL:4023014</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:2000029</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>None</td>
+      <td>central nervous system neuron</td>
+    </tr>
+    <tr>
+      <th>658</th>
+      <td>CL:4023014</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:4023014</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>None</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+    </tr>
+    <tr>
+      <th>659</th>
+      <td>CL:4023014</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:4023016</td>
+      <td>L5 vip cortical GABAergic interneuron (Mmus)</td>
+      <td>None</td>
+      <td>vip GABAergic cortical interneuron</td>
+    </tr>
+  </tbody>
+</table>
+<p>660 rows × 6 columns</p>
+</div></div>
+</div>
+<p>660 entailed relationships is quite a lot!</p>
+<p>Note a lot of these are quite trivial: every <strong>L5 vip cortical GABAergic interneuron (Mmus)</strong> is a <em>part of</em> SOME <em>material entity</em>. Duh!</p>
+<p>It’s not expected that a typical user would inspect these large computed tables. Instead they are to be used “behind the scenes” in databases and applications - for example a gene expression database could use this table to answer questions like <em>what genes are expressed in the forebrain</em> by joining a direct <em>expresses</em> table with the relation-graph closure table, filtering on relationships like part-of or has-soma-location, or the weaker <em>overlaps</em>.</p>
+<p>Let’s see what such queries might yield. First we will find the RO relationship for “overlaps”:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="n">overlaps</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+RO:0002131 ! overlaps
+</pre></div></div>
+</div>
+<p>(remember, part of RO is distributed with CL).</p>
+<p>Next we will filter our entailed relationships, and we will query “down”wards, i.e. we are asking <em>what overlaps the amygdala</em>?</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">relationships</span> <span class="o">-</span><span class="n">p</span> <span class="n">RO</span><span class="p">:</span><span class="mi">0002131</span> <span class="s2">&quot;olfactory bulb&quot;</span> <span class="o">--</span><span class="n">direction</span> <span class="n">down</span> <span class="o">--</span><span class="n">include</span><span class="o">-</span><span class="n">entailed</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">tmp</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>subject_label</th>
+      <th>predicate_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:1001435</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>periglomerular cell</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:1001434</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb interneuron</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>UBERON:0004001</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb layer</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000626</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory granule cell</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>UBERON:0009950</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb plexiform layer</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>UBERON:0005377</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb glomerular layer</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>UBERON:0005376</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb external plexiform layer</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>UBERON:0004186</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb mitral cell layer</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CL:1001502</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>mitral cell</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>CL:1001503</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb tufted cell</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>UBERON:0034730</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory tract linking bulb to ipsilateral do...</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>UBERON:2000238</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory tract linking bulb to ipsilateral ve...</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>UBERON:0002264</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>UBERON:0002265</td>
+      <td>RO:0002131</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory tract</td>
+      <td>overlaps</td>
+      <td>olfactory bulb</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<section id="Complex-queries">
+<h3>Complex queries<a class="headerlink" href="#Complex-queries" title="Link to this heading"></a></h3>
+<p>We can also make use of entailed edges in complex boolean queries.</p>
+<p>The following query is an <em>intersection</em> (using <code class="docutils literal notranslate"><span class="pre">and</span></code>) syntax of</p>
+<ul class="simple">
+<li><p>all things that overlap the <strong>olfactory bulb</strong></p></li>
+<li><p>all subtypes of <strong>interneuron</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">RO</span><span class="p">:</span><span class="mi">0002131</span> <span class="s2">&quot;olfactory bulb&quot;</span> <span class="o">.</span><span class="ow">and</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;interneuron&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:1001435 ! periglomerular cell
+CL:1001434 ! olfactory bulb interneuron
+CL:1001502 ! mitral cell
+</pre></div></div>
+</div>
+</section>
+<section id="Pairwise-term-similarity">
+<h3>Pairwise term similarity<a class="headerlink" href="#Pairwise-term-similarity" title="Link to this heading"></a></h3>
+<p>Next we will explore the nascent semantic similarity functions in OAK</p>
+<p>Note that the data model and signatures may change slightly here in the future.</p>
+<p>Once again, it is important to understand how OAK handles graphs - all similarity methods are parameterized by predicate lists. Let’s start with the simple case of is-a hierarchies.</p>
+<p>Here we will compare:</p>
+<ul class="simple">
+<li><p>CL:1001435 ! periglomerular cell</p></li>
+<li><p>CL:1001502 ! mitral cell</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">similarity</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">CL</span><span class="p">:</span><span class="mi">1001435</span> <span class="n">CL</span><span class="p">:</span><span class="mi">1001502</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_id: CL:1001435
+object_id: CL:1001502
+ancestor_id: CL:1001434
+ancestor_information_content: 13.47134302805148
+jaccard_similarity: 0.92
+phenodigm_score: 3.520459570256043
+</pre></div></div>
+</div>
+<p>TODOs:</p>
+<ul class="simple">
+<li><p>allow calculation of IC from background annotations</p></li>
+<li><p>add an <code class="docutils literal notranslate"><span class="pre">--autolabel</span></code> option (other OAK commands have this)</p></li>
+</ul>
+<p>to see what the MRCA is:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="n">CL</span><span class="p">:</span><span class="mi">1001434</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:1001434 ! olfactory bulb interneuron
+</pre></div></div>
+</div>
+<p>not surprising since we selected those terms based on the fact they are OB interneurons!</p>
+</section>
+<section id="Using-queries-as-inputs-for-similarity-(advanced)">
+<h3>Using queries as inputs for similarity (advanced)<a class="headerlink" href="#Using-queries-as-inputs-for-similarity-(advanced)" title="Link to this heading"></a></h3>
+<p>Next we are going to explore a (randomly chosen) example - how similar are the neurons of two cortical layers?</p>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">all-similarity</span></code>, which can take as input either:</p>
+<ul class="simple">
+<li><p>two files containing term lists</p></li>
+<li><p>two boolean queries, each resolving to a term list</p></li>
+</ul>
+<p>Similarity is then computed for the cross-product of the two lists:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="nb">all</span><span class="o">-</span><span class="n">similarity</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">RO</span><span class="p">:</span><span class="mi">0002131</span> <span class="s2">&quot;cortical layer II/III&quot;</span> <span class="o">.</span><span class="ow">and</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;neuron&quot;</span> <span class="o">@</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">RO</span><span class="p">:</span><span class="mi">0002131</span> <span class="s2">&quot;cortical layer V&quot;</span> <span class="o">.</span><span class="ow">and</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;neuron&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">sim</span><span class="o">.</span><span class="n">png</span> <span class="o">-</span><span class="n">O</span> <span class="n">seaborn</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/CL/output/sim.png" /></p>
+<p>As can be seen, glutaminergic cells are more similar, etc</p>
+</section>
+</section>
+<section id="Text-Mining">
+<h2>Text Mining<a class="headerlink" href="#Text-Mining" title="Link to this heading"></a></h2>
+<p>Next we will use the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-annotate">annotate</a> command to annotate some text</p>
+<p>Up until now we have been using the sqlite adaptor, but for this we will switch to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/bioportal.html">bioportal adaptor</a></p>
+<p>In future it will be possible to use plugins to combine your choice of adapter with different annotators, such as SciSpacy. For now bear in mind that bioportal gives wide coverage of ontologies but can have recall issues e.g. with plurals or different orthographic forms.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> annotate runoak -i bioportal:cl annotate
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotate</span> <span class="s2">&quot;olfactory bulb interneuron projects into amygdala&quot;</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">tmp</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>object_source</th>
+      <th>confidence</th>
+      <th>match_string</th>
+      <th>is_longest_match</th>
+      <th>matches_whole_text</th>
+      <th>match_type</th>
+      <th>info</th>
+      <th>subject_start</th>
+      <th>subject_end</th>
+      <th>subject_label</th>
+      <th>subject_source</th>
+      <th>subject_text_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>None</td>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+      <td>https://data.bioontology.org/ontologies/CL</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>PREF</td>
+      <td>None</td>
+      <td>1</td>
+      <td>26</td>
+      <td>OLFACTORY BULB INTERNEURON</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>None</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb</td>
+      <td>https://data.bioontology.org/ontologies/CL</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>PREF</td>
+      <td>None</td>
+      <td>1</td>
+      <td>14</td>
+      <td>OLFACTORY BULB</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>None</td>
+      <td>UBERON:0001896</td>
+      <td>medulla oblongata</td>
+      <td>https://data.bioontology.org/ontologies/CL</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>SYN</td>
+      <td>None</td>
+      <td>11</td>
+      <td>14</td>
+      <td>BULB</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>None</td>
+      <td>CL:0000099</td>
+      <td>interneuron</td>
+      <td>https://data.bioontology.org/ontologies/CL</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>PREF</td>
+      <td>None</td>
+      <td>16</td>
+      <td>26</td>
+      <td>INTERNEURON</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>None</td>
+      <td>UBERON:0001876</td>
+      <td>amygdala</td>
+      <td>https://data.bioontology.org/ontologies/CL</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>PREF</td>
+      <td>None</td>
+      <td>42</td>
+      <td>49</td>
+      <td>AMYGDALA</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="CL Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lung-Epithelial-Cell-Types.html" class="btn btn-neutral float-right" title="Dissecting cell types for anatomical structures - Lung Epithelial Cells (advanced)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

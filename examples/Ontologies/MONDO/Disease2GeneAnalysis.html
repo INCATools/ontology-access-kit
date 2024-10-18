@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analysis of differences with different gene to disease sources &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Mondo Phenotypes Example (IN PROGRESS)" href="Mondo-pheno-summaries.html" />
+    <link rel="prev" title="MONDO Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">MONDO Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Analysis of differences with different gene to disease sources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Mondo-pheno-summaries.html">Mondo Phenotypes Example (IN PROGRESS)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">MONDO Examples</a></li>
+      <li class="breadcrumb-item active">Analysis of differences with different gene to disease sources</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/MONDO/Disease2GeneAnalysis.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Analysis-of-differences-with-different-gene-to-disease-sources">
+<h1>Analysis of differences with different gene to disease sources<a class="headerlink" href="#Analysis-of-differences-with-different-gene-to-disease-sources" title="Link to this heading"></a></h1>
+<section id="Load-all-associations-from-multiple-sources">
+<h2>Load all associations from multiple sources<a class="headerlink" href="#Load-all-associations-from-multiple-sources" title="Link to this heading"></a></h2>
+<p>The mondo-g2d input spec includes metadata about where to download</p>
+<ul class="simple">
+<li><p>gencc</p></li>
+<li><p>medgen_mim2gene</p></li>
+</ul>
+<p>Note these use heterogeneous IDs, the spec includes normalizers for these</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.conf</span> <span class="kn">import</span> <span class="n">CONF_DIR_PATH</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">CONF_DIR_PATH</span><span class="o">/</span> <span class="s2">&quot;mondo-g2d-input-spec.yaml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">associations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">associations</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+106577
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_as_dict</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">json_dumper</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;subject_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;object_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">_as_dict</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;g2d.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>primary_knowledge_source</th>
+      <th>aggregator_knowledge_source</th>
+      <th>original_object</th>
+      <th>original_subject</th>
+      <th>subject_prefix</th>
+      <th>object_prefix</th>
+      <th>subject_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>HGNC:1952</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007032</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:100100</td>
+      <td>NCBIGene:1131</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>HGNC:29216</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0024506</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:100300</td>
+      <td>NCBIGene:57514</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>HGNC:3690</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007037</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:100800</td>
+      <td>NCBIGene:2261</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>HGNC:7773</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007039</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:101000</td>
+      <td>NCBIGene:4771</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>HGNC:3689</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007041</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:101200</td>
+      <td>NCBIGene:2263</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>106572</th>
+      <td>HGNC:12762</td>
+      <td>NaN</td>
+      <td>MONDO:0013673</td>
+      <td>GENCC:000110</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>WFS1</td>
+      <td>Wolfram-like syndrome</td>
+    </tr>
+    <tr>
+      <th>106573</th>
+      <td>HGNC:12762</td>
+      <td>NaN</td>
+      <td>MONDO:0013673</td>
+      <td>GENCC:000102</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>WFS1</td>
+      <td>Wolfram-like syndrome</td>
+    </tr>
+    <tr>
+      <th>106574</th>
+      <td>HGNC:12762</td>
+      <td>NaN</td>
+      <td>MONDO:0013673</td>
+      <td>GENCC:000101</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>WFS1</td>
+      <td>Wolfram-like syndrome</td>
+    </tr>
+    <tr>
+      <th>106575</th>
+      <td>HGNC:29271</td>
+      <td>NaN</td>
+      <td>MONDO:0030491</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:619644</td>
+      <td>NCBIGene:57169</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>ZNFX1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>106576</th>
+      <td>HGNC:29271</td>
+      <td>NaN</td>
+      <td>MONDO:0030491</td>
+      <td>GENCC:000101</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>ZNFX1</td>
+      <td>immunodeficiency 91 and hyperinflammation</td>
+    </tr>
+  </tbody>
+</table>
+<p>106577 rows × 11 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;object == &#39;MONDO:0008426&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>primary_knowledge_source</th>
+      <th>aggregator_knowledge_source</th>
+      <th>original_object</th>
+      <th>original_subject</th>
+      <th>subject_prefix</th>
+      <th>object_prefix</th>
+      <th>subject_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>699</th>
+      <td>HGNC:10896</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0008426</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:182212</td>
+      <td>NCBIGene:6497</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>15644</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:182212</td>
+      <td>NCBIGene:6497</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>15645</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>http://www.orphadata.org/data/xml/en_product6.xml</td>
+      <td>infores:hpoa</td>
+      <td>Orphanet:2462</td>
+      <td>NCBIGene:6497</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>15646</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>GENCC:000101</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>Shprintzen-Goldberg syndrome</td>
+    </tr>
+    <tr>
+      <th>15647</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>GENCC:000112</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>Shprintzen-Goldberg syndrome</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>104537</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>GENCC:000111</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>Shprintzen-Goldberg syndrome</td>
+    </tr>
+    <tr>
+      <th>104538</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>GENCC:000104</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>Shprintzen-Goldberg syndrome</td>
+    </tr>
+    <tr>
+      <th>104539</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>GENCC:000106</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>Shprintzen-Goldberg syndrome</td>
+    </tr>
+    <tr>
+      <th>104540</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>GENCC:000110</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>Shprintzen-Goldberg syndrome</td>
+    </tr>
+    <tr>
+      <th>104541</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>GENCC:000102</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>SKI</td>
+      <td>Shprintzen-Goldberg syndrome</td>
+    </tr>
+  </tbody>
+</table>
+<p>98 rows × 11 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;aggregator_knowledge_source == &#39;infores:hpoa&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>primary_knowledge_source</th>
+      <th>aggregator_knowledge_source</th>
+      <th>original_object</th>
+      <th>original_subject</th>
+      <th>subject_prefix</th>
+      <th>object_prefix</th>
+      <th>subject_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5907</th>
+      <td>HGNC:16391</td>
+      <td>NaN</td>
+      <td>MONDO:0008905</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:212050</td>
+      <td>NCBIGene:64170</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>CARD9</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5908</th>
+      <td>HGNC:16391</td>
+      <td>NaN</td>
+      <td>MONDO:0008905</td>
+      <td>http://www.orphadata.org/data/xml/en_product6.xml</td>
+      <td>infores:hpoa</td>
+      <td>Orphanet:457088</td>
+      <td>NCBIGene:64170</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>CARD9</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5911</th>
+      <td>HGNC:21066</td>
+      <td>NaN</td>
+      <td>MONDO:0009544</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:248000</td>
+      <td>NCBIGene:51256</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>TBC1D7</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5915</th>
+      <td>HGNC:14313</td>
+      <td>NaN</td>
+      <td>MONDO:0033485</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:617895</td>
+      <td>NCBIGene:28981</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>IFT81</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5916</th>
+      <td>HGNC:6742</td>
+      <td>NaN</td>
+      <td>MONDO:0014693</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:616564</td>
+      <td>NCBIGene:8216</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>LZTR1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>106562</th>
+      <td>HGNC:12731</td>
+      <td>NaN</td>
+      <td>MONDO:0010294</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:300299</td>
+      <td>NCBIGene:7454</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>WAS</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>106563</th>
+      <td>HGNC:12731</td>
+      <td>NaN</td>
+      <td>MONDO:0010294</td>
+      <td>http://www.orphadata.org/data/xml/en_product6.xml</td>
+      <td>infores:hpoa</td>
+      <td>Orphanet:86788</td>
+      <td>NCBIGene:7454</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>WAS</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>106567</th>
+      <td>HGNC:12762</td>
+      <td>NaN</td>
+      <td>MONDO:0013673</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:614296</td>
+      <td>NCBIGene:7466</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>WFS1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>106568</th>
+      <td>HGNC:12762</td>
+      <td>NaN</td>
+      <td>MONDO:0013673</td>
+      <td>http://www.orphadata.org/data/xml/en_product6.xml</td>
+      <td>infores:hpoa</td>
+      <td>Orphanet:411590</td>
+      <td>NCBIGene:7466</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>WFS1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>106575</th>
+      <td>HGNC:29271</td>
+      <td>NaN</td>
+      <td>MONDO:0030491</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:619644</td>
+      <td>NCBIGene:57169</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>ZNFX1</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>40613 rows × 11 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">])[</span><span class="s2">&quot;aggregator_knowledge_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>freq</th>
+    </tr>
+    <tr>
+      <th>subject</th>
+      <th>object</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>HGNC:10001</th>
+      <th>MONDO:0007781</th>
+      <td>4</td>
+      <td>2</td>
+      <td>infores:hpoa</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>HGNC:10004</th>
+      <th>MONDO:0012033</th>
+      <td>50</td>
+      <td>3</td>
+      <td>infores:gencc</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">HGNC:10006</th>
+      <th>MONDO:0008493</th>
+      <td>17</td>
+      <td>3</td>
+      <td>infores:hpoa</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>MONDO:0019107</th>
+      <td>10</td>
+      <td>3</td>
+      <td>infores:hpoa</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>HGNC:10008</th>
+      <th>MONDO:0019107</th>
+      <td>4</td>
+      <td>2</td>
+      <td>infores:hpoa</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>NCBIGene:105259599</th>
+      <th>MONDO:0020796</th>
+      <td>2</td>
+      <td>2</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>NCBIGene:109580095</th>
+      <th>MONDO:0013517</th>
+      <td>2</td>
+      <td>2</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">NCBIGene:111365204</th>
+      <th>MONDO:0007630</th>
+      <td>2</td>
+      <td>2</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>MONDO:0010932</th>
+      <td>2</td>
+      <td>2</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>NCBIGene:7467</th>
+      <th>MONDO:0008684</th>
+      <td>2</td>
+      <td>2</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>15696 rows × 4 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;subject_prefix&quot;</span><span class="p">,</span> <span class="s2">&quot;object_prefix&quot;</span><span class="p">])[</span><span class="s2">&quot;aggregator_knowledge_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>freq</th>
+    </tr>
+    <tr>
+      <th>subject_prefix</th>
+      <th>object_prefix</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">HGNC</th>
+      <th>MONDO</th>
+      <td>105710</td>
+      <td>3</td>
+      <td>infores:gencc</td>
+      <td>60057</td>
+    </tr>
+    <tr>
+      <th>OMIM</th>
+      <td>719</td>
+      <td>2</td>
+      <td>infores:hpoa</td>
+      <td>405</td>
+    </tr>
+    <tr>
+      <th>Orphanet</th>
+      <td>132</td>
+      <td>1</td>
+      <td>infores:hpoa</td>
+      <td>132</td>
+    </tr>
+    <tr>
+      <th>NCBIGene</th>
+      <th>MONDO</th>
+      <td>16</td>
+      <td>2</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;subject_prefix&quot;</span><span class="p">,</span> <span class="s2">&quot;object_prefix&quot;</span><span class="p">,</span> <span class="s2">&quot;aggregator_knowledge_source&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th colspan="4" halign="left">subject</th>
+      <th colspan="4" halign="left">predicate</th>
+      <th colspan="2" halign="left">object</th>
+      <th>...</th>
+      <th colspan="2" halign="left">original_subject</th>
+      <th colspan="4" halign="left">subject_label</th>
+      <th colspan="4" halign="left">object_label</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>freq</th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>freq</th>
+      <th>count</th>
+      <th>unique</th>
+      <th>...</th>
+      <th>top</th>
+      <th>freq</th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>freq</th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>freq</th>
+    </tr>
+    <tr>
+      <th>subject_prefix</th>
+      <th>object_prefix</th>
+      <th>aggregator_knowledge_source</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="6" valign="top">HGNC</th>
+      <th rowspan="3" valign="top">MONDO</th>
+      <th>infores:gencc</th>
+      <td>60057</td>
+      <td>4753</td>
+      <td>HGNC:3690</td>
+      <td>246</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>60057</td>
+      <td>6155</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>60057</td>
+      <td>4753</td>
+      <td>FGFR3</td>
+      <td>246</td>
+      <td>60057</td>
+      <td>6151</td>
+      <td>retinitis pigmentosa</td>
+      <td>229</td>
+    </tr>
+    <tr>
+      <th>infores:hpoa</th>
+      <td>40068</td>
+      <td>5128</td>
+      <td>HGNC:2200</td>
+      <td>130</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40068</td>
+      <td>7527</td>
+      <td>...</td>
+      <td>NCBIGene:1280</td>
+      <td>130</td>
+      <td>40068</td>
+      <td>5128</td>
+      <td>COL2A1</td>
+      <td>130</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>infores:medgen_mim_g2d</th>
+      <td>5585</td>
+      <td>3933</td>
+      <td>HGNC:2200</td>
+      <td>14</td>
+      <td>5585</td>
+      <td>1</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>5585</td>
+      <td>5585</td>
+      <td>5093</td>
+      <td>...</td>
+      <td>NCBIGene:1280</td>
+      <td>14</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">OMIM</th>
+      <th>infores:hpoa</th>
+      <td>405</td>
+      <td>385</td>
+      <td>HGNC:4398</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>405</td>
+      <td>404</td>
+      <td>...</td>
+      <td>NCBIGene:2783</td>
+      <td>2</td>
+      <td>405</td>
+      <td>385</td>
+      <td>GNB2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>infores:medgen_mim_g2d</th>
+      <td>314</td>
+      <td>305</td>
+      <td>HGNC:18420</td>
+      <td>2</td>
+      <td>314</td>
+      <td>1</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>314</td>
+      <td>314</td>
+      <td>314</td>
+      <td>...</td>
+      <td>NCBIGene:29072</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Orphanet</th>
+      <th>infores:hpoa</th>
+      <td>132</td>
+      <td>111</td>
+      <td>HGNC:7577</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>132</td>
+      <td>83</td>
+      <td>...</td>
+      <td>NCBIGene:4625</td>
+      <td>2</td>
+      <td>132</td>
+      <td>111</td>
+      <td>MYH7</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">NCBIGene</th>
+      <th rowspan="2" valign="top">MONDO</th>
+      <th>infores:hpoa</th>
+      <td>8</td>
+      <td>5</td>
+      <td>NCBIGene:105259599</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8</td>
+      <td>8</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8</td>
+      <td>1</td>
+      <td>-</td>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>infores:medgen_mim_g2d</th>
+      <td>8</td>
+      <td>5</td>
+      <td>NCBIGene:105259599</td>
+      <td>3</td>
+      <td>8</td>
+      <td>1</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>8</td>
+      <td>8</td>
+      <td>8</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>8 rows × 32 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>primary_knowledge_source</th>
+      <th>aggregator_knowledge_source</th>
+      <th>original_object</th>
+      <th>original_subject</th>
+      <th>subject_prefix</th>
+      <th>object_prefix</th>
+      <th>subject_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>16423</th>
+      <td>HGNC:10001</td>
+      <td>NaN</td>
+      <td>MONDO:0007781</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:145500</td>
+      <td>NCBIGene:8490</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>RGS5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16424</th>
+      <td>HGNC:10001</td>
+      <td>NaN</td>
+      <td>MONDO:0007781</td>
+      <td>GENCC:000106</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>RGS5</td>
+      <td>essential hypertension, genetic</td>
+    </tr>
+    <tr>
+      <th>47487</th>
+      <td>HGNC:10001</td>
+      <td>NaN</td>
+      <td>MONDO:0007781</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:145500</td>
+      <td>NCBIGene:8490</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>RGS5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>47488</th>
+      <td>HGNC:10001</td>
+      <td>NaN</td>
+      <td>MONDO:0007781</td>
+      <td>GENCC:000106</td>
+      <td>infores:gencc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>RGS5</td>
+      <td>essential hypertension, genetic</td>
+    </tr>
+    <tr>
+      <th>2684</th>
+      <td>HGNC:10004</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0012033</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:608415</td>
+      <td>NCBIGene:8787</td>
+      <td>HGNC</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>7192</th>
+      <td>NCBIGene:111365204</td>
+      <td>NaN</td>
+      <td>MONDO:0007630</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:136550</td>
+      <td>NaN</td>
+      <td>NCBIGene</td>
+      <td>MONDO</td>
+      <td>-</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2108</th>
+      <td>NCBIGene:111365204</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0010932</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:600790</td>
+      <td>NaN</td>
+      <td>NCBIGene</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9063</th>
+      <td>NCBIGene:111365204</td>
+      <td>NaN</td>
+      <td>MONDO:0010932</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:600790</td>
+      <td>NaN</td>
+      <td>NCBIGene</td>
+      <td>MONDO</td>
+      <td>-</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>817</th>
+      <td>NCBIGene:7467</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0008684</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>infores:medgen_mim_g2d</td>
+      <td>OMIM:194190</td>
+      <td>NaN</td>
+      <td>NCBIGene</td>
+      <td>MONDO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11624</th>
+      <td>NCBIGene:7467</td>
+      <td>NaN</td>
+      <td>MONDO:0008684</td>
+      <td>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_...</td>
+      <td>infores:hpoa</td>
+      <td>OMIM:194190</td>
+      <td>NaN</td>
+      <td>NCBIGene</td>
+      <td>MONDO</td>
+      <td>-</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>106577 rows × 11 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;primary_knowledge_source&quot;</span><span class="p">)[[</span><span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>object</th>
+    </tr>
+    <tr>
+      <th>primary_knowledge_source</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>GENCC:000101</th>
+      <td>9974</td>
+      <td>9974</td>
+    </tr>
+    <tr>
+      <th>GENCC:000102</th>
+      <td>5687</td>
+      <td>5687</td>
+    </tr>
+    <tr>
+      <th>GENCC:000104</th>
+      <td>4952</td>
+      <td>4952</td>
+    </tr>
+    <tr>
+      <th>GENCC:000105</th>
+      <td>1365</td>
+      <td>1365</td>
+    </tr>
+    <tr>
+      <th>GENCC:000106</th>
+      <td>9101</td>
+      <td>9101</td>
+    </tr>
+    <tr>
+      <th>GENCC:000107</th>
+      <td>1145</td>
+      <td>1145</td>
+    </tr>
+    <tr>
+      <th>GENCC:000108</th>
+      <td>767</td>
+      <td>767</td>
+    </tr>
+    <tr>
+      <th>GENCC:000110</th>
+      <td>16407</td>
+      <td>16407</td>
+    </tr>
+    <tr>
+      <th>GENCC:000111</th>
+      <td>3624</td>
+      <td>3624</td>
+    </tr>
+    <tr>
+      <th>GENCC:000112</th>
+      <td>6918</td>
+      <td>6918</td>
+    </tr>
+    <tr>
+      <th>GENCC:000113</th>
+      <td>72</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>GENCC:000114</th>
+      <td>45</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_medgen</th>
+      <td>20368</td>
+      <td>20368</td>
+    </tr>
+    <tr>
+      <th>http://www.orphadata.org/data/xml/en_product6.xml</th>
+      <td>20245</td>
+      <td>20245</td>
+    </tr>
+    <tr>
+      <th>infores:medgen_mim_g2d</th>
+      <td>5907</td>
+      <td>5907</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib_venn</span> <span class="kn">import</span> <span class="n">venn2</span><span class="p">,</span> <span class="n">venn3</span>
+
+<span class="n">s1</span> <span class="o">=</span> <span class="s2">&quot;infores:gencc&quot;</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="s2">&quot;infores:medgen_mim_g2d&quot;</span>
+<span class="n">s3</span> <span class="o">=</span> <span class="s2">&quot;infores:hpoa&quot;</span>
+<span class="n">src_col</span> <span class="o">=</span> <span class="s2">&quot;aggregator_knowledge_source&quot;</span>
+
+<span class="k">def</span> <span class="nf">make_venn</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">venn_df</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">venn_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">venn_df</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="n">source1_tuples</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">venn_df</span><span class="p">[</span><span class="n">venn_df</span><span class="p">[</span><span class="n">src_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">s1</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">source2_tuples</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">venn_df</span><span class="p">[</span><span class="n">venn_df</span><span class="p">[</span><span class="n">src_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">source3_tuples</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">venn_df</span><span class="p">[</span><span class="n">venn_df</span><span class="p">[</span><span class="n">src_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">s3</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">venn3</span><span class="p">([</span><span class="n">source1_tuples</span><span class="p">,</span> <span class="n">source2_tuples</span><span class="p">,</span> <span class="n">source3_tuples</span><span class="p">],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s3</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Venn Diagram for </span><span class="si">{</span><span class="n">cols</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Identifying unique (a, b) tuples for each source</span>
+<span class="c1">#source1_tuples = set(df[df[src_col] == s1][[&#39;subject&#39;, &#39;object&#39;]].apply(tuple, axis=1))</span>
+<span class="c1">#source2_tuples = set(df[df[src_col] == s2][[&#39;subject&#39;, &#39;object&#39;]].apply(tuple, axis=1))</span>
+
+<span class="c1"># Creating the Venn diagram</span>
+<span class="c1">#venn2([source1_tuples, source2_tuples], set_labels=(s1, s2))</span>
+
+<span class="c1">#plt.title(&quot;Venn Diagram for gene-disease tuples&quot;)</span>
+<span class="c1">#plt.show()</span>
+
+<span class="n">make_venn</span><span class="p">([</span><span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_18_0.png" src="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_18_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_venn</span><span class="p">([</span><span class="s2">&quot;subject&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_19_0.png" src="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_19_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_venn</span><span class="p">([</span><span class="s2">&quot;object&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_20_0.png" src="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_20_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diseases</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">])</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">diseases</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+8697
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+
+<span class="n">redundant</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="n">roll_up_map</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">diseases</span><span class="p">:</span>
+    <span class="n">ancs</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ixn</span> <span class="o">=</span> <span class="n">diseases</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">ancs</span><span class="p">)</span>
+    <span class="n">redundant</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ixn</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ixn</span><span class="p">:</span>
+        <span class="n">roll_up_map</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ixn</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">roll_up_map</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">]</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">redundant</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1092
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;object_rollup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">roll_up_map</span><span class="p">[</span><span class="n">x</span><span class="p">])))</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;object_rollup&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0                       (MONDO:0005240,)
+1         (MONDO:0005172, MONDO:0007034)
+2         (MONDO:0005172, MONDO:0005516)
+3         (MONDO:0005071, MONDO:0021061)
+4         (MONDO:0005172, MONDO:0015469)
+                       ...
+106572                  (MONDO:0013673,)
+106573                  (MONDO:0013673,)
+106574                  (MONDO:0013673,)
+106575    (MONDO:0005046, MONDO:0021094)
+106576    (MONDO:0005046, MONDO:0021094)
+Name: object_rollup, Length: 106577, dtype: object
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_venn</span><span class="p">([</span><span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="s2">&quot;object_rollup&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_24_0.png" src="../../../_images/examples_Ontologies_MONDO_Disease2GeneAnalysis_24_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cross_tab</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;primary_knowledge_source&#39;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;infores:gencc&quot;</span><span class="p">][</span><span class="s1">&#39;object&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;primary_knowledge_source&#39;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;infores:medgen_mim_g2d&quot;</span><span class="p">][</span><span class="s1">&#39;object&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cross_tab</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>object</th>
+    </tr>
+    <tr>
+      <th>object</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gencc</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;primary_knowledge_source&#39;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;infores:gencc&quot;</span><span class="p">]</span>
+<span class="n">gencc</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>primary_knowledge_source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5837</th>
+      <td>HGNC:10896</td>
+      <td>NaN</td>
+      <td>MONDO:0008426</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>5838</th>
+      <td>HGNC:16636</td>
+      <td>NaN</td>
+      <td>MONDO:0008233</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>5839</th>
+      <td>HGNC:16636</td>
+      <td>NaN</td>
+      <td>MONDO:0007308</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>5840</th>
+      <td>HGNC:17939</td>
+      <td>NaN</td>
+      <td>MONDO:0044322</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>5841</th>
+      <td>HGNC:11071</td>
+      <td>NaN</td>
+      <td>MONDO:0014572</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>16089</th>
+      <td>HGNC:17625</td>
+      <td>NaN</td>
+      <td>MONDO:0100284</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>16090</th>
+      <td>HGNC:13128</td>
+      <td>NaN</td>
+      <td>MONDO:0100148</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>16091</th>
+      <td>HGNC:13156</td>
+      <td>NaN</td>
+      <td>MONDO:0100284</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>16092</th>
+      <td>HGNC:29046</td>
+      <td>NaN</td>
+      <td>MONDO:0030695</td>
+      <td>infores:gencc</td>
+    </tr>
+    <tr>
+      <th>16093</th>
+      <td>HGNC:6827</td>
+      <td>NaN</td>
+      <td>MONDO:0030770</td>
+      <td>infores:gencc</td>
+    </tr>
+  </tbody>
+</table>
+<p>10257 rows × 4 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">medgen</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;primary_knowledge_source&#39;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;infores:medgen_mim_g2d&quot;</span><span class="p">]</span>
+<span class="n">medgen</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>primary_knowledge_source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>HGNC:1952</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007032</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>HGNC:29216</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0024506</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>HGNC:3690</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007037</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>HGNC:7773</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007039</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>HGNC:3689</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>MONDO:0007041</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5832</th>
+      <td>HGNC:11016</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>OMIM:620306</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>5833</th>
+      <td>HGNC:10485</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>OMIM:620310</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>5834</th>
+      <td>HGNC:15979</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>OMIM:620311</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>5835</th>
+      <td>HGNC:19946</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>OMIM:620316</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+    <tr>
+      <th>5836</th>
+      <td>HGNC:21839</td>
+      <td>biolink:gene_associated_with_condition</td>
+      <td>OMIM:620319</td>
+      <td>infores:medgen_mim_g2d</td>
+    </tr>
+  </tbody>
+</table>
+<p>5837 rows × 4 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[13], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">pd</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">crosstab</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">df</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-fg">TypeError</span>: crosstab() missing 1 required positional argument: &#39;columns&#39;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>matplotlib-venn
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="MONDO Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Mondo-pheno-summaries.html" class="btn btn-neutral float-right" title="Mondo Phenotypes Example (IN PROGRESS)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

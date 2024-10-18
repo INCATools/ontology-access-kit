@@ -1,0 +1,812 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "06e62fb8",
+   "metadata": {},
+   "source": [
+    "# Using OAK for Environmental Ontologies\n",
+    "\n",
+    "* author: Chris Mungall\n",
+    "* created: 2022-10-24\n",
+    "\n",
+    "This tutorial walks through the neuro-relevant subset of the [ENVO](https://obofoundry.org/ontology/envo) as well as SWEET.\n",
+    "\n",
+    "- to help understand the structure of ENVO\n",
+    "- to show how to do advanced OAK queries and visualization (CLI and programmatic) on ENVO\n",
+    "- demonstrate rudimentary text annotation\n",
+    "\n",
+    "Running this notebook locally or on mybinder requires [0.1.41](https://github.com/INCATools/ontology-access-kit/releases/tag/v0.1.41) or higher"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b35b6d4b",
+   "metadata": {},
+   "source": [
+    "## Create an alias\n",
+    "\n",
+    "For convenience we will set a bash alias within Jupyter.\n",
+    "\n",
+    "The first time you run this, a copy of envo.db.gz is downloaded from S3, which may include a delay - for subsequent invocations,\n",
+    "the cached copy will be used"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "id": "a026ca40",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-10-17T02:08:58.554905Z",
+     "start_time": "2024-10-17T02:08:58.551733Z"
+    }
+   },
+   "source": [
+    "%alias envo runoak -i sqlite:obo:envo"
+   ],
+   "outputs": [],
+   "execution_count": 1
+  },
+  {
+   "cell_type": "markdown",
+   "id": "70c772a9",
+   "metadata": {},
+   "source": [
+    "## Basic lookup\n",
+    "\n",
+    "We will first lookup a term by name"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "id": "d14ef3a5",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-10-17T02:09:10.593296Z",
+     "start_time": "2024-10-17T02:09:06.456148Z"
+    }
+   },
+   "source": [
+    "envo info biome"
+   ],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ENVO:00000428 ! biome                                                           \r\n"
+     ]
+    }
+   ],
+   "execution_count": 2
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6973e329",
+   "metadata": {},
+   "source": [
+    "multiple terms can be entered, using either IDs or labels (later we will see how to include *extensional* terms that expand queries to sets of terms)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "e4d99cc4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ENVO:00000220 ! archipelago\r\n",
+      "ENVO:00000215 ! hydrothermal vent\r\n",
+      "ENVO:00000091 ! beach\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "envo info archipelago \"hydrothermal vent\" beach"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d691378d",
+   "metadata": {},
+   "source": [
+    "### hierarchical tree displays\n",
+    "\n",
+    "The [Oak Tree](https://incatools.github.io/ontology-access-kit/cli.html#runoak-tree) command will show a hierarchical tree for any set of terms.\n",
+    "\n",
+    "Like any graph-oriented OAK command this is parameterized by `--predicates` (`-p`), so to show only is-a:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "f18ff1b4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "* [] BFO:0000001 ! entity\r\n",
+      "    * [i] BFO:0000002 ! continuant\r\n",
+      "        * [i] BFO:0000004 ! independent continuant\r\n",
+      "            * [i] BFO:0000040 ! material entity\r\n",
+      "                * [i] RO:0002577 ! system\r\n",
+      "                    * [i] ENVO:01000254 ! environmental system\r\n",
+      "                        * [i] ENVO:01001110 ! ecosystem\r\n",
+      "                            * [i] **ENVO:00000428 ! biome**\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "envo tree biome -p i"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f87e2063",
+   "metadata": {},
+   "source": [
+    "note the default output is markdown-friendly, so this can be pasted into a GitHub issue (or a Jupyter cell) and it will render, like this:\n",
+    "\n",
+    "* [] BFO:0000001 ! entity\n",
+    "    * [i] BFO:0000002 ! continuant\n",
+    "        * [i] BFO:0000004 ! independent continuant\n",
+    "            * [i] BFO:0000040 ! material entity\n",
+    "                * [i] RO:0002577 ! system\n",
+    "                    * [i] ENVO:01000254 ! environmental system\n",
+    "                        * [i] ENVO:01001110 ! ecosystem\n",
+    "                            * [i] **ENVO:00000428 ! biome**\n",
+    "                            \n",
+    "We can also have the tree command show descendants (using `--down`).\n",
+    "\n",
+    "The results can sometimes lead to \"path explosions\", we can control this by setting a maximum number of hops using `--max-hops`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "326856e1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "* [] ENVO:01000254 ! environmental system\r\n",
+      "    * [i] ENVO:01001110 ! ecosystem\r\n",
+      "        * [i] **ENVO:00000428 ! biome**\r\n",
+      "            * [i] ENVO:01001838 ! arid biome\r\n",
+      "            * [i] ENVO:01001837 ! subalpine biome\r\n",
+      "            * [i] ENVO:01001836 ! montane biome\r\n",
+      "                * [i] ENVO:01000223 ! montane savanna biome\r\n",
+      "                * [i] ENVO:01000216 ! montane shrubland biome\r\n",
+      "            * [i] ENVO:01001835 ! alpine biome\r\n",
+      "                * [i] ENVO:01001505 ! alpine tundra biome\r\n",
+      "            * [i] ENVO:01001834 ! subpolar biome\r\n",
+      "            * [i] ENVO:01001832 ! subtropical biome\r\n",
+      "                * [i] ENVO:01001833 ! mediterranean biome\r\n",
+      "                    * [i] ENVO:01000229 ! mediterranean savanna biome\r\n",
+      "                    * [i] ENVO:01000217 ! mediterranean shrubland biome\r\n",
+      "                    * [i] ENVO:01000208 ! mediterranean woodland biome\r\n",
+      "                    * [i] ENVO:01000047 ! mediterranean sea biome\r\n",
+      "                        * [i] ENVO:01000857 ! temperate mediterranean sea biome\r\n",
+      "                        * [i] ENVO:01000128 ! dilution basin mediterranean sea biome\r\n",
+      "                        * [i] ENVO:01000004 ! concentration basin mediterranean sea biome\r\n",
+      "                * [i] ENVO:01000222 ! subtropical woodland biome\r\n",
+      "                    * [i] ENVO:01000208 ! mediterranean woodland biome\r\n",
+      "                * [i] ENVO:01000213 ! subtropical shrubland biome\r\n",
+      "                    * [i] ENVO:01000217 ! mediterranean shrubland biome\r\n",
+      "                * [i] ENVO:01000187 ! subtropical savanna biome\r\n",
+      "                    * [i] ENVO:01000229 ! mediterranean savanna biome\r\n",
+      "            * [i] ENVO:01001831 ! temperate biome\r\n",
+      "                * [i] ENVO:01000860 ! temperate marine upwelling biome\r\n",
+      "                * [i] ENVO:01000856 ! temperate marginal sea biome\r\n",
+      "                * [i] ENVO:01000221 ! temperate woodland biome\r\n",
+      "                * [i] ENVO:01000215 ! temperate shrubland biome\r\n",
+      "                * [i] ENVO:01000189 ! temperate savanna biome\r\n",
+      "            * [i] ENVO:01001830 ! tropical biome\r\n",
+      "                * [i] ENVO:01001230 ! tropical marginal sea biome\r\n",
+      "                * [i] ENVO:01000859 ! tropical marine upwelling biome\r\n",
+      "                * [i] ENVO:01000854 ! tropical marine coral reef biome\r\n",
+      "                * [i] ENVO:01000220 ! tropical woodland biome\r\n",
+      "                * [i] ENVO:01000214 ! tropical shrubland biome\r\n",
+      "                * [i] ENVO:01000188 ! tropical savanna biome\r\n",
+      "            * [i] ENVO:01000339 ! polar biome\r\n",
+      "            * [i] ENVO:00002030 ! aquatic biome\r\n",
+      "                * [i] ENVO:00000873 ! freshwater biome\r\n",
+      "                    * [i] ENVO:01000253 ! freshwater river biome\r\n",
+      "                        * [i] ENVO:00000890 ! small river biome\r\n",
+      "                        * [i] ENVO:00000889 ! large river delta biome\r\n",
+      "                        * [i] ENVO:00000888 ! large river headwater biome\r\n",
+      "                        * [i] ENVO:00000887 ! large river biome\r\n",
+      "                    * [i] ENVO:01000252 ! freshwater lake biome\r\n",
+      "                        * [i] ENVO:00000892 ! small freshwater lake biome\r\n",
+      "                        * [i] ENVO:00000891 ! large freshwater lake biome\r\n",
+      "                    * [i] ENVO:00000893 ! xeric basin biome\r\n",
+      "                * [i] ENVO:00000447 ! marine biome\r\n",
+      "                    * [i] ENVO:01000858 ! marine upwelling biome\r\n",
+      "                        * [i] ENVO:01000860 ! temperate marine upwelling biome\r\n",
+      "                        * [i] ENVO:01000859 ! tropical marine upwelling biome\r\n",
+      "                    * [i] ENVO:01000048 ! ocean biome\r\n",
+      "                    * [i] ENVO:01000047 ! mediterranean sea biome\r\n",
+      "                        * [i] ENVO:01000857 ! temperate mediterranean sea biome\r\n",
+      "                        * [i] ENVO:01000128 ! dilution basin mediterranean sea biome\r\n",
+      "                        * [i] ENVO:01000004 ! concentration basin mediterranean sea biome\r\n",
+      "                    * [i] ENVO:01000046 ! marginal sea biome\r\n",
+      "                        * [i] ENVO:01001230 ! tropical marginal sea biome\r\n",
+      "                        * [i] ENVO:01000856 ! temperate marginal sea biome\r\n",
+      "                    * [i] ENVO:01000045 ! epeiric sea biome\r\n",
+      "                    * [i] ENVO:01000024 ! marine benthic biome\r\n",
+      "                        * [i] ENVO:01000127 ! marine cold seep biome\r\n",
+      "                        * [i] ENVO:01000030 ! marine hydrothermal vent biome\r\n",
+      "                            * [i] ENVO:01000054 ! marine basaltic hydrothermal vent biome\r\n",
+      "                            * [i] ENVO:01000053 ! marine ultramafic hydrothermal vent biome\r\n",
+      "                            * [i] ENVO:01000052 ! marine white smoker biome\r\n",
+      "                            * [i] ENVO:01000051 ! marine black smoker biome\r\n",
+      "                        * [i] ENVO:01000029 ! marine reef biome\r\n",
+      "                            * [i] ENVO:01000123 ! marine sponge reef biome\r\n",
+      "                            * [i] ENVO:01000050 ! marine subtidal rocky reef biome\r\n",
+      "                            * [i] ENVO:01000049 ! marine coral reef biome\r\n",
+      "                                * [i] ENVO:01000854 ! tropical marine coral reef biome\r\n",
+      "                        * [i] ENVO:01000028 ! marine hadal zone biome\r\n",
+      "                        * [i] ENVO:01000027 ! marine abyssal zone biome\r\n",
+      "                        * [i] ENVO:01000026 ! marine bathyal zone biome\r\n",
+      "                        * [i] ENVO:01000025 ! marine neritic benthic zone biome\r\n",
+      "                    * [i] ENVO:01000023 ! marine pelagic biome\r\n",
+      "                        * [i] ENVO:01000033 ! oceanic pelagic zone biome\r\n",
+      "                            * [i] ENVO:01000040 ! oceanic benthopelagic zone biome\r\n",
+      "                            * [i] ENVO:01000039 ! oceanic hadal pelagic zone biome\r\n",
+      "                            * [i] ENVO:01000038 ! oceanic abyssopelagic zone biome\r\n",
+      "                            * [i] ENVO:01000037 ! oceanic bathypelagic zone biome\r\n",
+      "                            * [i] ENVO:01000036 ! oceanic mesopelagic zone biome\r\n",
+      "                            * [i] ENVO:01000035 ! oceanic epipelagic zone biome\r\n",
+      "                            * [i] ENVO:01000034 ! oceanic sea surface microlayer biome\r\n",
+      "                        * [i] ENVO:01000032 ! neritic pelagic zone biome\r\n",
+      "                            * [i] ENVO:01000043 ! neritic mesopelagic zone biome\r\n",
+      "                            * [i] ENVO:01000042 ! neritic epipelagic zone biome\r\n",
+      "                            * [i] ENVO:01000041 ! neritic sea surface microlayer biome\r\n",
+      "                    * [i] ENVO:01000022 ! marine salt marsh biome\r\n",
+      "                    * [i] ENVO:01000020 ! estuarine biome\r\n",
+      "            * [i] ENVO:00000446 ! terrestrial biome\r\n",
+      "                * [i] ENVO:01000219 ! anthropogenic terrestrial biome\r\n",
+      "                    * [i] ENVO:01000248 ! dense settlement biome\r\n",
+      "                        * [i] ENVO:01000249 ! urban biome\r\n",
+      "                    * [i] ENVO:01000247 ! rangeland biome\r\n",
+      "                    * [i] ENVO:01000246 ! village biome\r\n",
+      "                * [i] ENVO:01000181 ! mangrove biome\r\n",
+      "                * [i] ENVO:01000180 ! tundra biome\r\n",
+      "                    * [i] ENVO:01001505 ! alpine tundra biome\r\n",
+      "                * [i] ENVO:01000176 ! shrubland biome\r\n",
+      "                    * [i] ENVO:01001369 ! tidal mangrove shrubland\r\n",
+      "                    * [i] ENVO:01000218 ! xeric shrubland biome\r\n",
+      "                    * [i] ENVO:01000216 ! montane shrubland biome\r\n",
+      "                    * [i] ENVO:01000215 ! temperate shrubland biome\r\n",
+      "                    * [i] ENVO:01000214 ! tropical shrubland biome\r\n",
+      "                    * [i] ENVO:01000213 ! subtropical shrubland biome\r\n",
+      "                        * [i] ENVO:01000217 ! mediterranean shrubland biome\r\n",
+      "                * [i] ENVO:01000175 ! woodland biome\r\n",
+      "                    * [i] ENVO:01000222 ! subtropical woodland biome\r\n",
+      "                        * [i] ENVO:01000208 ! mediterranean woodland biome\r\n",
+      "                    * [i] ENVO:01000221 ! temperate woodland biome\r\n",
+      "                    * [i] ENVO:01000220 ! tropical woodland biome\r\n",
+      "                    * [i] ENVO:01000178 ! savanna biome\r\n",
+      "                        * [i] ENVO:01000223 ! montane savanna biome\r\n",
+      "                        * [i] ENVO:01000190 ! flooded savanna biome\r\n",
+      "                        * [i] ENVO:01000189 ! temperate savanna biome\r\n",
+      "                        * [i] ENVO:01000188 ! tropical savanna biome\r\n",
+      "                        * [i] ENVO:01000187 ! subtropical savanna biome\r\n",
+      "                            * [i] ENVO:01000229 ! mediterranean savanna biome\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "envo tree biome -p i --down --max-hops 2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a6b67de7",
+   "metadata": {},
+   "source": [
+    "## Search\n",
+    "\n",
+    "In addition to specifying exact terms, you can specify *query terms* as inputs to most commands.\n",
+    "\n",
+    "One form of query is a search query, which has structure:\n",
+    "\n",
+    "`PREDICATE-CODE SEARCH-SYMBOL SEARCH-TERM`\n",
+    "\n",
+    "For example, to search\n",
+    "\n",
+    "- for any matching *label*, (code `l`)\n",
+    "- using a *substring* match (code `~`)\n",
+    "- for the string \"oak\"\n",
+    "\n",
+    "We can do:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "64510e36",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ENVO:01000239 ! oak woodland\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "envo info l~oak"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "da49e996",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ENVO:00000109 ! woodland area\r\n",
+      "ENVO:00002989 ! obsolete Temperate broad-leaf forests or woodlands and subpolar deciduous thickets\r\n",
+      "ENVO:00002990 ! obsolete Tropical dry or deciduous forests (including Monsoon forests) or woodlands\r\n",
+      "ENVO:01000385 ! temperate deciduous broadleaf forest\r\n",
+      "ENVO:01000386 ! temperate deciduous needleleaf forest\r\n",
+      "ENVO:01000387 ! tropical deciduous broadleaf forest\r\n",
+      "ENVO:01000388 ! tropical semi-deciduous broadleaf forest\r\n",
+      "ENVO:01000816 ! area of deciduous forest\r\n",
+      "PATO:0001730 ! deciduous (generic)\r\n",
+      "PATO:0001731 ! deciduous (plant)\r\n",
+      "PATO:0001732 ! non-deciduous (any body part)\r\n",
+      "PATO:0001734 ! semi-deciduous(plant)\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "envo info t~deciduous"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "5b84ce79",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ENVO:00000875 ! obsolete Temperate coniferous forest biome\r\n",
+      "ENVO:00000876 ! obsolete Temperate broadleaf and mixed forest biome\r\n",
+      "ENVO:00000878 ! obsolete Mediterranean forests, woodlands, and shrub biome\r\n",
+      "ENVO:00000879 ! obsolete Tropical and subtropical moist broadleaf forest biome\r\n",
+      "ENVO:00000880 ! obsolete Tropical and subtropical dry broadleaf forest biome\r\n",
+      "ENVO:00005806 ! obsolete Tropical and subtropical coniferous forest biome\r\n",
+      "ENVO:01000174 ! forest biome\r\n",
+      "ENVO:01000196 ! coniferous forest biome\r\n",
+      "ENVO:01000197 ! broadleaf forest biome\r\n",
+      "ENVO:01000198 ! mixed forest biome\r\n",
+      "ENVO:01000199 ! mediterranean forest biome\r\n",
+      "ENVO:01000200 ! tropical broadleaf forest biome\r\n",
+      "ENVO:01000201 ! subtropical broadleaf forest biome\r\n",
+      "ENVO:01000202 ! temperate broadleaf forest biome\r\n",
+      "ENVO:01000209 ! subtropical coniferous forest biome\r\n",
+      "ENVO:01000210 ! tropical coniferous forest biome\r\n",
+      "ENVO:01000211 ! temperate coniferous forest biome\r\n",
+      "ENVO:01000212 ! temperate mixed forest biome\r\n",
+      "ENVO:01000225 ! subtropical dry broadleaf forest biome\r\n",
+      "ENVO:01000226 ! subtropical moist broadleaf forest biome\r\n",
+      "ENVO:01000227 ! tropical dry broadleaf forest biome\r\n",
+      "ENVO:01000228 ! tropical moist broadleaf forest biome\r\n",
+      "ENVO:01000250 ! subpolar coniferous forest biome\r\n",
+      "ENVO:01001798 ! tropical mixed forest biome\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "envo info 'l/forest.*biome$'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "49415f04",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ENVO:01000048 ! ocean biome\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "envo info .desc//p=i biome .and .desc//p=i,p ocean"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "08dfc70c",
+   "metadata": {},
+   "source": [
+    "## Visualization\n",
+    "\n",
+    "The [Oak Viz](https://incatools.github.io/ontology-access-kit/cli.html#runoak-viz) can be used to create flexible configurable visualizations centered around a set of input terms"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "id": "0536c373",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-10-17T02:08:57.367234Z",
+     "start_time": "2024-10-17T02:08:49.361197Z"
+    }
+   },
+   "source": [
+    "envo viz \"oak woodland\" -o output/oak-woodland.png"
+   ],
+   "outputs": [
+    {
+     "ename": "SyntaxError",
+     "evalue": "invalid syntax (2708209757.py, line 1)",
+     "output_type": "error",
+     "traceback": [
+      "\u001B[0;36m  Cell \u001B[0;32mIn[1], line 1\u001B[0;36m\u001B[0m\n\u001B[0;31m    envo viz \"oak woodland\" -o output/oak-woodland.png\u001B[0m\n\u001B[0m         ^\u001B[0m\n\u001B[0;31mSyntaxError\u001B[0m\u001B[0;31m:\u001B[0m invalid syntax\n"
+     ]
+    }
+   ],
+   "execution_count": 1
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0818743d",
+   "metadata": {},
+   "source": [
+    "![img](output/oak-woodland.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d25d3584",
+   "metadata": {},
+   "source": [
+    "## Accessing SWEET\n",
+    "\n",
+    "SWEET is also indexed in the SemSQL index, so we can download ready-made sqlite files\n",
+    "\n",
+    "(the SWEET owl files can also be accessed directly using OAK, but we do not cover this in this tutorial)\n",
+    "\n",
+    "First we will set up a Jupyter alias for convenience"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "cec30971",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%alias sweet runoak -i sqlite:obo:sweetAll"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "34c03b8c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "sweet:realmBiolBiome/Biome ! biome\r\n",
+      "sweet:realmBiolBiome/TerrestrialBiome ! terrestrial biome\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "sweet search l~biome"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "913642db",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "sweet:realmBiolBiome/Anthromes ! anthromes\n",
+      "sweet:realmBiolBiome/Barren ! barren\n",
+      "sweet:realmBiolBiome/Biome ! biome\n",
+      "sweet:realmBiolBiome/Biota ! biota\n",
+      "sweet:realmBiolBiome/Croplands ! croplands\n",
+      "sweet:realmBiolBiome/DenseSettlements ! dense settlements\n",
+      "sweet:realmBiolBiome/Forested ! forested\n",
+      "sweet:realmBiolBiome/Rangelands ! rangelands\n",
+      "sweet:realmBiolBiome/SparseTrees ! sparse trees\n",
+      "sweet:realmBiolBiome/Terrain ! terrain\n",
+      "sweet:realmBiolBiome/TerrestrialBiome ! terrestrial biome\n",
+      "sweet:realmBiolBiome/Villages ! villages\n",
+      "sweet:realmBiolBiome/Wildlands ! wildlands\n"
+     ]
+    }
+   ],
+   "source": [
+    "sweet descendants sweet:realmBiolBiome/Biome"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "b90c5e99",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "* [] sweet:reprSciComponent/SystemComponent ! system component\r\n",
+      "    * [i] sweet:reprSciComponent/Environment ! environment\r\n",
+      "        * [i] **sweet:realmBiolBiome/Biome ! biome**\r\n",
+      "            * [i] **sweet:realmBiolBiome/TerrestrialBiome ! terrestrial biome**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Rangelands ! rangelands**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Terrain ! terrain**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Wildlands ! wildlands**\r\n",
+      "                    * [i] **sweet:realmBiolBiome/SparseTrees ! sparse trees**\r\n",
+      "                    * [i] **sweet:realmBiolBiome/Barren ! barren**\r\n",
+      "                * [i] **sweet:realmBiolBiome/DenseSettlements ! dense settlements**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Villages ! villages**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Biota ! biota**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Anthromes ! anthromes**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Forested ! forested**\r\n",
+      "                * [i] **sweet:realmBiolBiome/Croplands ! croplands**\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "sweet tree .desc biome"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fb2a3be3",
+   "metadata": {},
+   "source": [
+    "## Accessing ENVO through Bioportal"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "e79b8ba1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%alias bpenvo runoak -i bioportal:envo"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "a40fe67b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "match_type: PREF\r\n",
+      "object_id: ENVO:00001995\r\n",
+      "object_label: rock\r\n",
+      "object_source: https://data.bioontology.org/ontologies/ENVO\r\n",
+      "subject_end: 43\r\n",
+      "subject_label: ROCK\r\n",
+      "subject_start: 40\r\n",
+      "\r\n",
+      "---\r\n",
+      "match_type: PREF\r\n",
+      "object_id: ENVO:00000428\r\n",
+      "object_label: biome\r\n",
+      "object_source: https://data.bioontology.org/ontologies/ENVO\r\n",
+      "subject_end: 49\r\n",
+      "subject_label: BIOME\r\n",
+      "subject_start: 45\r\n",
+      "\r\n",
+      "---\r\n",
+      "match_type: PREF\r\n",
+      "object_id: ENVO:00000428\r\n",
+      "object_label: biome\r\n",
+      "object_source: https://data.bioontology.org/ontologies/ENVO\r\n",
+      "subject_end: 67\r\n",
+      "subject_label: BIOME\r\n",
+      "subject_start: 63\r\n",
+      "\r\n",
+      "---\r\n",
+      "match_type: PREF\r\n",
+      "object_id: ENVO:00000446\r\n",
+      "object_label: terrestrial biome\r\n",
+      "object_source: https://data.bioontology.org/ontologies/ENVO\r\n",
+      "subject_end: 67\r\n",
+      "subject_label: TERRESTRIAL BIOME\r\n",
+      "subject_start: 51\r\n",
+      "\r\n",
+      "---\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "bpenvo annotate \"Peatlands have acted as net CO2 sinks. Rock biome terrestrial biome\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "5c95698d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%alias agroportal runoak -i agroportal:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "87a9dc8b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "match_type: SYN\n",
+      "object_id: http://www.yso.fi/onto/afo/p122\n",
+      "object_label: bogs\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/AFO\n",
+      "subject_end: 9\n",
+      "subject_label: PEATLANDS\n",
+      "subject_start: 1\n",
+      "\n",
+      "---\n",
+      "match_type: PREF\n",
+      "object_id: http://id.agrisemantics.org/gacs/C10734\n",
+      "object_label: peatlands\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/GACS\n",
+      "subject_end: 9\n",
+      "subject_label: PEATLANDS\n",
+      "subject_start: 1\n",
+      "\n",
+      "---\n",
+      "match_type: PREF\n",
+      "object_id: http://aims.fao.org/aos/agrovoc/c_13929\n",
+      "object_label: peatlands\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/AGROVOC\n",
+      "subject_end: 9\n",
+      "subject_label: PEATLANDS\n",
+      "subject_start: 1\n",
+      "\n",
+      "---\n",
+      "match_type: PREF\n",
+      "object_id: http://www.yso.fi/onto/afo/p902\n",
+      "object_label: peatlands\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/AFO\n",
+      "subject_end: 9\n",
+      "subject_label: PEATLANDS\n",
+      "subject_start: 1\n",
+      "\n",
+      "---\n",
+      "match_type: SYN\n",
+      "object_id: https://www.tno.nl/agrifood/ontology/common-greenhouse-ontology#CO2\n",
+      "object_label: Carbon Dioxide\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/CGO\n",
+      "subject_end: 27\n",
+      "subject_label: CO2\n",
+      "subject_start: 25\n",
+      "\n",
+      "---\n",
+      "match_type: PREF\n",
+      "object_id: http://opendata.inra.fr/resources/hSC9z#co2\n",
+      "object_label: CO2\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/TRANSMAT\n",
+      "subject_end: 27\n",
+      "subject_label: CO2\n",
+      "subject_start: 25\n",
+      "\n",
+      "---\n",
+      "match_type: SYN\n",
+      "object_id: http://aims.fao.org/aos/agrovoc/c_1302\n",
+      "object_label: carbon dioxide\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/AGROVOC\n",
+      "subject_end: 27\n",
+      "subject_label: CO2\n",
+      "subject_start: 25\n",
+      "\n",
+      "---\n",
+      "match_type: PREF\n",
+      "object_id: http://www.yso.fi/onto/afo/p4770\n",
+      "object_label: CO2\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/AFO\n",
+      "subject_end: 27\n",
+      "subject_label: CO2\n",
+      "subject_start: 25\n",
+      "\n",
+      "---\n",
+      "match_type: SYN\n",
+      "object_id: CHEBI:16526\n",
+      "object_label: carbon dioxide\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/PECO\n",
+      "subject_end: 27\n",
+      "subject_label: CO2\n",
+      "subject_start: 25\n",
+      "\n",
+      "---\n",
+      "match_type: SYN\n",
+      "object_id: http://id.agrisemantics.org/gacs/C381\n",
+      "object_label: carbon dioxide\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/GACS\n",
+      "subject_end: 27\n",
+      "subject_label: CO2\n",
+      "subject_start: 25\n",
+      "\n",
+      "---\n",
+      "match_type: SYN\n",
+      "object_id: http://opendata.inra.fr/anaeeThes/c2_2680\n",
+      "object_label: carbon dioxide\n",
+      "object_source: http://data.agroportal.lirmm.fr/ontologies/ANAEETHES\n",
+      "subject_end: 27\n",
+      "subject_label: CO2\n",
+      "subject_start: 25\n",
+      "\n",
+      "---\n"
+     ]
+    }
+   ],
+   "source": [
+    "agroportal annotate \"Peatlands have acted as CO2 sinks\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "18238612",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

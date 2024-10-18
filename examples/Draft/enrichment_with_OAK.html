@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Draft/enrichment_with_OAK.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1">#from pandasql import sqldf</span>
+<span class="kn">import</span> <span class="nn">duckdb</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yeast_annot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../4932.tab&quot;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yeast_annot</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>locusId</th>
+      <th>accession</th>
+      <th>GI</th>
+      <th>scaffoldId</th>
+      <th>start</th>
+      <th>stop</th>
+      <th>strand</th>
+      <th>sysName</th>
+      <th>name</th>
+      <th>desc</th>
+      <th>COG</th>
+      <th>COGFun</th>
+      <th>COGDesc</th>
+      <th>TIGRFam</th>
+      <th>TIGRRoles</th>
+      <th>GO</th>
+      <th>EC</th>
+      <th>ECDesc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6580634</td>
+      <td>NP_009332.1</td>
+      <td>6319249.0</td>
+      <td>223723</td>
+      <td>2169</td>
+      <td>1807</td>
+      <td>-</td>
+      <td>YAL068C</td>
+      <td>PAU8</td>
+      <td>Pau8p (RefSeq)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>GO:0006950</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6580635</td>
+      <td>NP_878038.1</td>
+      <td>33438754.0</td>
+      <td>223723</td>
+      <td>2480</td>
+      <td>2707</td>
+      <td>+</td>
+      <td>YAL067W-A</td>
+      <td>YAL067W-A</td>
+      <td>Putative protein of unknown function; identifi...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6580636</td>
+      <td>NP_009333.1</td>
+      <td>6319250.0</td>
+      <td>223723</td>
+      <td>9017</td>
+      <td>7236</td>
+      <td>-</td>
+      <td>YAL067C</td>
+      <td>SEO1</td>
+      <td>Putative permease, member of the allantoate tr...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6580637</td>
+      <td>NP_009335.1</td>
+      <td>6319252.0</td>
+      <td>223723</td>
+      <td>11952</td>
+      <td>11566</td>
+      <td>-</td>
+      <td>YAL065C</td>
+      <td>YAL065C</td>
+      <td>Putative protein of unknown function; has homo...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6580638</td>
+      <td>NP_009336.1</td>
+      <td>6319253.0</td>
+      <td>223723</td>
+      <td>12047</td>
+      <td>12427</td>
+      <td>+</td>
+      <td>YAL064W-B</td>
+      <td>YAL064W-B</td>
+      <td>Fungal-specific protein of unknown function (R...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#yeast_annot.query(&quot;GO like %GO:0006950%&quot;)</span>
+<span class="n">genes_stress_response_data</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM yeast_annot WHERE GO LIKE &#39;</span><span class="si">%G</span><span class="s2">O:0006950%&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_ids</span> <span class="o">=</span> <span class="n">genes_stress_response_data</span><span class="p">[</span><span class="s1">&#39;sysName&#39;</span><span class="p">]</span>
+<span class="n">gene_ids</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0       YAL068C
+1       YAR020C
+2     YBL108C-A
+3       YBR067C
+4       YBR301W
+5       YCR104W
+6       YDR542W
+7       YEL049W
+8       YER011W
+9       YFL020C
+10      YFL014W
+11      YGL261C
+12      YGR294W
+13      YHL046C
+14      YIL176C
+15      YIL011W
+16      YIR041W
+17      YJL223C
+18      YJR150C
+19      YJR151C
+20      YKL224C
+21      YLL064C
+22      YLL025W
+23      YLR037C
+24      YLR040C
+25      YLR461W
+26      YMR325W
+27      YNR076W
+28      YOL161C
+29      YOR009W
+30      YOR010C
+31      YOR394W
+32      YPL282C
+Name: sysName, dtype: object
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go.obo&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="s1">&#39;GO:0006950&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  rdfs:subClassOf ! subClassOf
+    GO:0050896 ! response to stimulus
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">gene_ids</span>
+<span class="n">hypotheses</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GO:0006950&quot;</span><span class="p">]</span>
+<span class="n">hypotheses</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;GO:0006950&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#removed: inferred_types=None,</span>
+<span class="k">def</span> <span class="nf">enrichment_test</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hypotheses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">ontology_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;greater&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs term enrichment analysis.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        subjects: string list</span>
+
+<span class="sd">            Sample set. Typically a gene ID list. These are assumed to have associations</span>
+
+<span class="sd">        background: string list</span>
+
+<span class="sd">            Background set. If not set, uses full set of known subject IDs in the association set</span>
+
+<span class="sd">        threshold: float</span>
+
+<span class="sd">            p values above this are filtered out</span>
+
+<span class="sd">        labels: boolean</span>
+
+<span class="sd">            if true, labels for enriched classes are included in result objects</span>
+
+<span class="sd">        direction: &#39;greater&#39;, &#39;less&#39; or &#39;two-sided&#39;</span>
+
+<span class="sd">            default is greater - i.e. enrichment test. Use &#39;less&#39; for depletion test.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">subjects</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">subjects</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">subjects</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
+        <span class="n">bg_count</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sample_count</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">potential_hypotheses</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
+        <span class="c1">#for s in subjects:</span>
+        <span class="c1">#    potential_hypotheses.update(inferred_types(s))</span>
+        <span class="c1">#if hypotheses is None:</span>
+        <span class="c1">#    hypotheses = potential_hypotheses</span>
+        <span class="c1">#else:</span>
+        <span class="c1">#    hypotheses = potential_hypotheses.intersection(hypotheses)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hypotheses: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hypotheses</span><span class="p">))</span>
+
+        <span class="c1"># get background counts</span>
+        <span class="c1"># TODO: consider doing this ahead of time</span>
+        <span class="k">if</span> <span class="n">background</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">background</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">background</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">background</span><span class="p">)</span>
+
+        <span class="c1"># ensure background includes all subjects</span>
+        <span class="n">background</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
+
+        <span class="n">bg_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">background</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hypotheses</span><span class="p">:</span>
+            <span class="n">bg_count</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">sample_count</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1">#hard-coded</span>
+        <span class="n">bg_count</span><span class="p">[</span><span class="s2">&quot;GO:0006950&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gene_ids</span><span class="p">)</span>
+        <span class="n">sample_count</span><span class="p">[</span><span class="s2">&quot;GO:0006950&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gene_ids</span><span class="p">)</span>
+
+        <span class="c1">#ADD BACK IN LATER</span>
+        <span class="c1">#for s in background:</span>
+        <span class="c1">#    ancs = inferred_types(s)</span>
+        <span class="c1">#    for a in ancs.intersection(hypotheses):</span>
+        <span class="c1">#        bg_count[a] = bg_count[a]+1</span>
+        <span class="c1">#for s in subjects:</span>
+        <span class="c1">#    for a in inferred_types(s):</span>
+        <span class="c1">#        if a in hypotheses:</span>
+        <span class="c1">#            sample_count[a] = sample_count[a]+1</span>
+
+        <span class="n">hypotheses</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">hypotheses</span> <span class="k">if</span> <span class="n">bg_count</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filtered hypotheses: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hypotheses</span><span class="p">))</span>
+        <span class="n">num_hypotheses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hypotheses</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">hypotheses</span><span class="p">:</span>
+
+            <span class="c1"># https://en.wikipedia.org/wiki/Fisher&#39;s_exact_test</span>
+            <span class="c1">#</span>
+            <span class="c1">#              Cls  NotCls    RowTotal</span>
+            <span class="c1">#              ---  ------    ---</span>
+            <span class="c1"># study/sample [a,      b]    sample_size</span>
+            <span class="c1"># rest of ref  [c,      d]    bg_size - sample_size</span>
+            <span class="c1">#              ---     ---</span>
+            <span class="c1">#              nCls  nNotCls</span>
+
+            <span class="n">a</span> <span class="o">=</span> <span class="n">sample_count</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">sample_size</span> <span class="o">-</span> <span class="n">a</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">bg_count</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">bg_size</span> <span class="o">-</span> <span class="n">bg_count</span><span class="p">[</span><span class="bp">cls</span><span class="p">])</span> <span class="o">-</span> <span class="n">b</span>
+            <span class="c1">#logger.debug(&quot;ABCD=&quot;+str((cls,a,b,c,d,sample_size)))</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">p_uncorrected</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">(</span> <span class="p">[[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">]],</span> <span class="n">direction</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p_uncorrected</span> <span class="o">*</span> <span class="n">num_hypotheses</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">&gt;</span><span class="mf">1.0</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span>
+            <span class="c1">#logger.debug(&quot;P={} uncorrected={}&quot;.format(p,p_uncorrected))</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">&lt;</span><span class="n">threshold</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="bp">cls</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="s1">&#39;p_uncorrected&#39;</span><span class="p">:</span><span class="n">p_uncorrected</span><span class="p">}</span>
+                <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ontology</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Run enrichment tests using all classes in ontology</span>
+<span class="n">enr</span> <span class="o">=</span> <span class="n">enrichment_test</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="n">gene_ids</span><span class="p">,</span> <span class="n">background</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">hypotheses</span><span class="o">=</span><span class="n">hypotheses</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Hypotheses: [&#39;GO:0006950&#39;]
+Filtered hypotheses: [&#39;GO:0006950&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enr</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Show first 20 results</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">enr</span><span class="p">[:</span><span class="mi">20</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:8.3g}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{:40s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">],</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">])))</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

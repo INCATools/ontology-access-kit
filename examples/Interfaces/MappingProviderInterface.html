@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MappingProviderInterface Examples &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Glossary" href="../../glossary.html" />
+    <link rel="prev" title="ClassEnrichmentCalculationInterface Examples" href="ClassEnrichmentCalculationInterface.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="BasicOntologyInterface.html">Basic Ontology Interface Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BasicOntologyInterface.html#Graph-Operations">Graph Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ClassEnrichmentCalculationInterface.html">ClassEnrichmentCalculationInterface Examples</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MappingProviderInterface Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-libraries">Import libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Declare-variables">Declare variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Part-1">Part 1</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Bioportal-=&gt;-SSSOM">Bioportal =&gt; SSSOM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Local-Ontology-=&gt;-SSSOM">Local Ontology =&gt; SSSOM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Part-2">Part 2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Get-mappings-using-lexmatch">Get mappings using <code class="docutils literal notranslate"><span class="pre">lexmatch</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces Examples</a></li>
+      <li class="breadcrumb-item active">MappingProviderInterface Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Interfaces/MappingProviderInterface.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="MappingProviderInterface-Examples">
+<h1>MappingProviderInterface Examples<a class="headerlink" href="#MappingProviderInterface-Examples" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="o">%</span><span class="k">reset</span> -f
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Import-libraries">
+<h1>Import libraries<a class="headerlink" href="#Import-libraries" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_resource_from_shorthand</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.sssom_utils</span> <span class="kn">import</span> <span class="n">StreamingSssomWriter</span>
+<span class="kn">from</span> <span class="nn">oaklib.cli</span> <span class="kn">import</span> <span class="n">lexmatch</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.lexical.lexical_indexer</span> <span class="kn">import</span> <span class="n">create_lexical_index</span><span class="p">,</span> <span class="n">lexical_index_to_sssom</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Declare-variables">
+<h1>Declare variables<a class="headerlink" href="#Declare-variables" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BIOPORTAL</span><span class="o">=</span><span class="s2">&quot;bioportal:&quot;</span>
+<span class="n">OBO</span><span class="o">=</span><span class="s2">&quot;obo&quot;</span>
+<span class="c1"># NOTE: Make sure you have your unique biportal api-key in a txt file locally.</span>
+<span class="n">API_KEY_FILE</span> <span class="o">=</span> <span class="s2">&quot;api-key.txt&quot;</span>
+<span class="n">limb_curie</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0002101&quot;</span>
+<span class="n">limb_curie_2</span> <span class="o">=</span> <span class="s2">&quot;MA:0000007&quot;</span>
+<span class="n">input_dir</span> <span class="o">=</span> <span class="s2">&quot;input&quot;</span>
+<span class="n">xao_file</span> <span class="o">=</span> <span class="s2">&quot;xao.obo&quot;</span>
+<span class="n">ma_file</span> <span class="o">=</span> <span class="s2">&quot;ma.obo&quot;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Functions">
+<h1>Functions<a class="headerlink" href="#Functions" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_implementation</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="n">resource</span> <span class="o">=</span> <span class="n">get_resource_from_shorthand</span><span class="p">(</span><span class="n">rsrc</span><span class="p">)</span>
+    <span class="n">oi</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">implementation_class</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">rsrc</span> <span class="o">==</span> <span class="s2">&quot;bioportal:&quot;</span><span class="p">:</span>
+        <span class="n">oi</span><span class="o">.</span><span class="n">load_bioportal_api_key</span><span class="p">(</span><span class="n">API_KEY_FILE</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">resource</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="n">input_dir</span>
+        <span class="n">oi</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">implementation_class</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">oi</span>
+
+<span class="k">def</span> <span class="nf">render_sssom</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">StreamingSssomWriter</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation</span><span class="p">(</span><span class="n">rsrc</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">get_lexmatch</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="n">impl</span> <span class="o">=</span> <span class="n">get_implementation</span><span class="p">(</span><span class="n">rsrc</span><span class="p">)</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">create_lexical_index</span><span class="p">(</span><span class="n">impl</span><span class="p">)</span>
+    <span class="n">msdf</span> <span class="o">=</span> <span class="n">lexical_index_to_sssom</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">ix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">msdf</span><span class="o">.</span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<section id="Part-1">
+<h2>Part 1<a class="headerlink" href="#Part-1" title="Link to this heading"></a></h2>
+</section>
+</section>
+<section id="Bioportal-=&gt;-SSSOM">
+<h1>Bioportal =&gt; SSSOM<a class="headerlink" href="#Bioportal-=>-SSSOM" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">render_sssom</span><span class="p">(</span><span class="n">BIOPORTAL</span><span class="p">,</span> <span class="n">limb_curie</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id      predicate_id    object_id       match_type      mapping_provider        mapping_tool
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.bioontology.org/ontology/CSP/2715-5305      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C12429       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C12429       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C12429       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C12429       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C12429       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C12429       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C12429       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4516e5ffbeb793c8c61039c695023423951699f5    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EMAPA_16405      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_7198        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/XAO_0003027      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/XAO_0003027      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/XAO_0003027      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/AEO_0000172      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/AEO_0000172      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fa4cdef7fec35673b3dee1834bbbe8ed841b3d48    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_8274        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_3201        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.bioontology.org/ontology/RCD/X74Yt  Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://www.semanticweb.org/ontologies/2010/10/BPO.owl#limb      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.org/obo/owlapi/fma#FMA_7182 Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_9614        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/MA_0000007       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ca177381b1060b0076df6b6dc9010d1eaf5863df    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://www.semanticweb.org/rjyy/ontologies/2015/5/ESSO#Limb     Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://www.semanticweb.org/rjyy/ontologies/2015/5/ESSO#Limb     Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/ba6bfbd382f7c97fe4607d830553e7d826d2ee93    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:exactMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    SAME_URI
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/UBERON_0002101   Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Limb Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://www.projecthalo.com/aura#Limb    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.org/sig/ont/fma/fma7182     Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_9472        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDAA_8273       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_6093        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/fdc87ad2d44d83caa701832b36e59a8f77970b30    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/4f49aa6124b587b96b0404c5deaa6c0469c62698    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/35a23b773dae4bd85776c146e7242bf07eac28aa    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_2357        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/16bd0c376d8b1fe434d76c761d52374715442f77    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_4159        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_5141        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/d7ca07679d2a01092ddaa57a481807e860675703    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://www.ifomis.org/acgt/1.0#Limb     Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_1698        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/645360d2ec3d52c220946102d7c72e4dd24b31be    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/e6a0ffd68de6b99c1223379a466c5496eca589fe    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://www.semanticweb.org/ontologies/2009/3/ontoDPN.owl#OPPIO_a000245  Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_10567       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDAA_1697       Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/A8467_0000065    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/NCIT_C12429      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch https://cadsr.nci.nih.gov/metadata/CADSR-VS/8699e68169dba1cb479a6425361f63b08c90811a    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.org/obo/owl/FMA#FMA_7182    Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/NCIT_C12429      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/NCIT_C12429      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/EHDA_8414        Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/NCIT_C12429      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/NCIT_C12429      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001492      Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/UBERON_0002101   skos:closeMatch http://purl.obolibrary.org/obo/VHOG_0000336     Unspecified     http://data.bioontology.org/metadata/Mapping    LOOM
+
+</pre></div></div>
+</div>
+</section>
+<section id="Local-Ontology-=&gt;-SSSOM">
+<h1>Local Ontology =&gt; SSSOM<a class="headerlink" href="#Local-Ontology-=>-SSSOM" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Xenopus Anatomy Ontology</span>
+<span class="n">render_sssom</span><span class="p">(</span><span class="n">xao_file</span><span class="p">,</span> <span class="n">limb_curie</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id      predicate_id    object_id       match_type
+XAO:0003027     skos:closeMatch UBERON:0002101  Unspecified
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mouse adult gross anatomy</span>
+<span class="n">render_sssom</span><span class="p">(</span><span class="n">ma_file</span><span class="p">,</span> <span class="n">limb_curie_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id      predicate_id    object_id       match_type
+MA:0000007      skos:closeMatch EMAPS:1640528   Unspecified
+
+</pre></div></div>
+</div>
+<section id="Part-2">
+<h2>Part 2<a class="headerlink" href="#Part-2" title="Link to this heading"></a></h2>
+</section>
+</section>
+<section id="Get-mappings-using-lexmatch">
+<h1>Get mappings using <code class="docutils literal notranslate"><span class="pre">lexmatch</span></code><a class="headerlink" href="#Get-mappings-using-lexmatch" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_lexmatch</span><span class="p">(</span><span class="n">xao_file</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>match_type</th>
+      <th>mapping_tool</th>
+      <th>subject_match_field</th>
+      <th>object_match_field</th>
+      <th>match_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XAO:0000006</td>
+      <td>otic vesicle</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0000189</td>
+      <td>auditory apparatus</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>ear</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>XAO:0000006</td>
+      <td>otic vesicle</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0000223</td>
+      <td>otic placode</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>ear</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>XAO:0000008</td>
+      <td>lens</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0005240</td>
+      <td>regenerating lens</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>rdfs:label</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>lens</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>XAO:0000021</td>
+      <td>ventricular zone</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0004616</td>
+      <td>ventrolateral neural tube</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>rdfs:label</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>ventricular zone</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>XAO:0000023</td>
+      <td>skin</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0000028</td>
+      <td>epidermis</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>rdfs:label</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>skin</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>XAO:0004609</td>
+      <td>neural nucleus</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0005038</td>
+      <td>nucleus</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>nucleus</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>XAO:0005072</td>
+      <td>skin mucous gland</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0005073</td>
+      <td>mucous gland</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>mucous gland</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>XAO:0005084</td>
+      <td>blastomere D1</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0005100</td>
+      <td>blastomere D2.1.1</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>D1</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>XAO:0005085</td>
+      <td>blastomere D2</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:0005102</td>
+      <td>blastomere D2.2.1</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>D2</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>XAO:0005322</td>
+      <td>tadpole</td>
+      <td>skos:closeMatch</td>
+      <td>XAO:1000008</td>
+      <td>tadpole stage</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>rdfs:label</td>
+      <td>oio:hasExactSynonym</td>
+      <td>tadpole</td>
+    </tr>
+  </tbody>
+</table>
+<p>104 rows × 10 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_lexmatch</span><span class="p">(</span><span class="n">ma_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>match_type</th>
+      <th>mapping_tool</th>
+      <th>subject_match_field</th>
+      <th>object_match_field</th>
+      <th>match_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MA:0000004</td>
+      <td>trunk</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0000020</td>
+      <td>back of trunk</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>body</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MA:0000133</td>
+      <td>cerebral hemisphere</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0000183</td>
+      <td>telencephalon</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>cerebrum</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MA:0000185</td>
+      <td>cerebral cortex</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0002754</td>
+      <td>neocortex</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>rdfs:label</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>cerebral cortex</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MA:0000193</td>
+      <td>olfactory cortex</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0002413</td>
+      <td>olfactory lobe</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>olfactory lobe</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MA:0000318</td>
+      <td>viscerocranium</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0003159</td>
+      <td>facial bone</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>facial bone</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>MA:0000341</td>
+      <td>oral region</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0002474</td>
+      <td>mouth</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>mouth</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>MA:0000402</td>
+      <td>coagulating gland</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0002422</td>
+      <td>prostate gland anterior lobe</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>prostate gland anterior lobe</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>MA:0000744</td>
+      <td>lymph node secondary follicle</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0002989</td>
+      <td>lymph node germinal center</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>lymph node germinal center</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>MA:0000999</td>
+      <td>cerebellum vermis lobule II</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0001000</td>
+      <td>cerebellum vermis lobule III</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>central lobule</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>MA:0001001</td>
+      <td>cerebellum vermis lobule IV</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0001002</td>
+      <td>cerebellum vermis lobule V</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>culmen</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>MA:0001344</td>
+      <td>central carpal bone</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0001349</td>
+      <td>navicular</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>centrale</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>MA:0001722</td>
+      <td>decidua</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0002905</td>
+      <td>decidua basalis</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>decidua basalis</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>MA:0001823</td>
+      <td>respiratory system epithelium</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0001827</td>
+      <td>respiratory system mucosa</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>respiratory system mucosa</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>MA:0002324</td>
+      <td>intercostales</td>
+      <td>skos:closeMatch</td>
+      <td>MA:0003165</td>
+      <td>intercostal muscle</td>
+      <td>Lexical</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>intercostal muscle</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ClassEnrichmentCalculationInterface.html" class="btn btn-neutral float-left" title="ClassEnrichmentCalculationInterface Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

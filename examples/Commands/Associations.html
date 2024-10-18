@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK associations command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK diff-via-mappings command" href="DiffViaMappings.html" />
+    <link rel="prev" title="OAK apply command" href="Apply.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK associations command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Query-for-associations-to-a-term">Query for associations to a term</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Complex-Queries">Complex Queries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Querying-via-API">Querying via API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK associations command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/Associations.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-associations-command">
+<h1>OAK associations command<a class="headerlink" href="#OAK-associations-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">associations</span></code> command which ways of querying <a class="reference external" href="https://incatools.github.io/ontology-access-kit/glossary.html#term-Association">associations</a>.</p>
+<p>For more on associations, see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/guide/associations.html">Associations and Curated Annotations</a> in the OAK guide.</p>
+<p>For more on command line usage in general, see the <a class="reference external" href="https://doi.org/10.5281/zenodo.7708963">Command Line Tutorial</a></p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>associations<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak associations [OPTIONS] [TERMS]...
+
+  Lookup associations from or to entities.
+
+  Example:
+
+      runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations
+
+  The above will show all associations
+
+  To query using an ontology term, including is-a closure, specify one or more
+  terms or term queries, plus the closure predicate(s), e.g.
+
+  Example:
+
+      runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i
+      HP:0001392
+
+  This shows all annotations either to &#34;Abnormality of the liver&#34;
+  (HP:0001392), or to is-a descendants.
+
+  Using input specifications:
+
+  It can be awkward to specify both input ontology and association path and
+  format. You can use input specifications to bundle common combinations of
+  inputs together.
+
+  For example, the go-dictybase-input-spec combines go plus dictybase
+  associations.
+
+  Example:
+
+      runoak --i src/oaklib/conf/go-dictybase-input-spec.yaml associations -p
+      i,p GO:0008104
+
+  More examples:
+
+     https://github.com/INCATools/ontology-access-
+     kit/blob/main/notebooks/Commands/Associations.ipynb
+
+Options:
+  -o, --output FILENAME           Output file, e.g. obo file
+  -p, --predicates TEXT           A comma-separated list of predicates. This
+                                  may be a shorthand (i, p) or CURIE
+  --autolabel / --no-autolabel    If set, results will automatically have
+                                  labels assigned  [default: autolabel]
+  -O, --output-type TEXT          Desired output type
+  -o, --output FILENAME           Output file, e.g. obo file
+  --if-absent [absent-only|present-only]
+                                  determines behavior when the value is not
+                                  present or is empty.
+  -S, --set-value TEXT            the value to set for all terms for the given
+                                  property.
+  --association-predicates TEXT   A comma-separated list of predicates for the
+                                  association relation
+  -Q, --terms-role [subject|object|both]
+                                  How to interpret query terms.  [default:
+                                  object]
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+<section id="Set-up-an-alias">
+<h3>Set up an alias<a class="headerlink" href="#Set-up-an-alias" title="Link to this heading"></a></h3>
+<p>We will set up an alias for running OAK bound to GO for the purposes of this notebook:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">go</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">go</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">ontology</span><span class="o">-</span><span class="n">metadata</span> <span class="o">--</span><span class="nb">all</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id:
+- obo:go/extensions/go-plus.owl
+dce:description:
+- The Gene Ontology (GO) provides a framework and set of concepts for describing the
+  functions of gene products from all organisms.
+dce:title:
+- Gene Ontology
+dcterms:license:
+- &lt;http://creativecommons.org/licenses/by/4.0/&gt;
+oio:default-namespace:
+- gene_ontology
+oio:hasOBOFormatVersion:
+- &#39;1.2&#39;
+owl:versionIRI:
+- obo:go/releases/2023-04-01/extensions/go-plus.owl
+owl:versionInfo:
+- &#39;2023-04-01&#39;
+rdf:type:
+- owl:Ontology
+sh:prefix:
+- obo
+schema:url:
+- http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
+rdfs:isDefinedBy:
+- http://purl.obolibrary.org/obo/obo.owl
+</pre></div></div>
+</div>
+<p>Check that queries work</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">info</span> <span class="s2">&quot;kinase activity&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0016301 ! kinase activity
+</pre></div></div>
+</div>
+</section>
+<section id="Query-for-associations-to-a-gene">
+<h3>Query for associations to a gene<a class="headerlink" href="#Query-for-associations-to-a-gene" title="Link to this heading"></a></h3>
+<p>Here we will query from a previously downloaded GAF all associations to a gene</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">-</span><span class="n">g</span> <span class="nb">input</span><span class="o">/</span><span class="n">gene_association</span><span class="o">.</span><span class="n">sgd</span><span class="o">.</span><span class="n">gaf</span> <span class="o">-</span><span class="n">G</span> <span class="n">gaf</span> <span class="n">associations</span> <span class="o">-</span><span class="n">Q</span> <span class="n">subject</span> <span class="n">SGD</span><span class="p">:</span><span class="n">S000004294</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="mi">20</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject predicate       object  object_label    property_values subject_label   predicate_label negated publications    primary_knowledge_source        aggregator_knowledge_source
+SGD:S000004294  None    GO:0003824      None            MET17   None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000004294  None    GO:0003824      None            MET17   None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000004294  None    GO:0003824      None            MET17   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000004294  None    GO:0005737      None            MET17   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000004294  None    GO:0005737      None            MET17   None    None    SGD_REF:S000148671      infores:UniProt None
+SGD:S000004294  None    GO:0005737      None            MET17   None    None    SGD_REF:S000069459|PMID:11914276        infores:SGD     None
+SGD:S000004294  None    GO:0005737      None            MET17   None    None    SGD_REF:S000069459|PMID:11914276        infores:SGD     None
+SGD:S000004294  None    GO:0016765      None            MET17   None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000004294  None    GO:0030170      None            MET17   None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000004294  None    GO:0030170      None            MET17   None    None    SGD_REF:S000185201      infores:GO_Central      None
+SGD:S000004294  None    GO:0006520      None            MET17   None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000004294  None    GO:0008152      None            MET17   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000004294  None    GO:0008652      None            MET17   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000004294  None    GO:0009086      None            MET17   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000004294  None    GO:0019344      None            MET17   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000004294  None    GO:0019344      None            MET17   None    None    SGD_REF:S000075748|PMID:15042590        infores:SGD     None
+SGD:S000004294  None    GO:0071266      None            MET17   None    None    SGD_REF:S000204515      infores:GOC     None
+SGD:S000004294  None    GO:0003961      None            MET17   None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000004294  None    GO:0003961      None            MET17   None    None    SGD_REF:S000057063|PMID:3299001 infores:SGD     None
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Query-for-associations-to-a-term">
+<h2>Query for associations to a term<a class="headerlink" href="#Query-for-associations-to-a-term" title="Link to this heading"></a></h2>
+<p>In contrast to gene queries, we want to make use of <a class="reference external" href="https://incatools.github.io/ontology-access-kit/guide/relationships-and-graphs.html">ontology relationships</a> - in particular we typically want to include all is-a and part-of descendants in our query</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">-</span><span class="n">g</span> <span class="nb">input</span><span class="o">/</span><span class="n">gene_association</span><span class="o">.</span><span class="n">sgd</span><span class="o">.</span><span class="n">gaf</span> <span class="o">-</span><span class="n">G</span> <span class="n">gaf</span> <span class="n">associations</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="s2">&quot;kinase activity&quot;</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="mi">20</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject predicate       object  object_label    property_values subject_label   predicate_label negated publications    primary_knowledge_source        aggregator_knowledge_source
+SGD:S000001369  None    GO:0016301      None            PFK26   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000051318|PMID:1322693 infores:SGD     None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000048479|PMID:1657152 infores:SGD     None
+SGD:S000002318  None    GO:0004708      None            STE7    None    None    SGD_REF:S000041791|PMID:8668180 infores:SGD     None
+SGD:S000002318  None    GO:0004708      None            STE7    None    None    SGD_REF:S000045748|PMID:8384702 infores:SGD     None
+SGD:S000003272  None    GO:0004707      None            KSS1    None    None    SGD_REF:S000041791|PMID:8668180 infores:SGD     None
+SGD:S000003272  None    GO:0004707      None            KSS1    None    None    SGD_REF:S000045641|PMID:8918885 infores:SGD     None
+SGD:S000003272  None    GO:0004707      None            KSS1    None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000003272  None    GO:0004707      None            KSS1    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000006124  None    GO:0004672      None            TPK2    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000006124  None    GO:0004672      None            TPK2    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000006124  None    GO:0004672      None            TPK2    None    None    SGD_REF:S000113918|PMID:16319894        infores:SGD     None
+SGD:S000006124  None    GO:0004672      None            TPK2    None    None    SGD_REF:S000113918|PMID:16319894        infores:SGD     None
+SGD:S000002318  None    GO:0016301      None            STE7    None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000000364  None    GO:0004674      None            CDC28   None    None    SGD_REF:S000086178|PMID:16096060        infores:SGD     None
+SGD:S000000364  None    GO:0004674      None            CDC28   None    None    SGD_REF:S000146417|PMID:21841787        infores:SGD     None
+SGD:S000000364  None    GO:0004674      None            CDC28   None    None    SGD_REF:S000149310|PMID:22521784        infores:SGD     None
+SGD:S000003820  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002394  None    None    GO:0009927      histidine phosphotransfer kinase activity       []
+SGD:S000001644  None    None    GO:0004693      cyclin-dependent protein serine/threonine kinase activity       []
+SGD:S000004710  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000001949  None    None    GO:0008865      fructokinase activity   []
+SGD:S000003607  None    None    GO:0003991      acetylglutamate kinase activity []
+SGD:S000001075  None    None    GO:0004349      glutamate 5-kinase activity     []
+SGD:S000002924  None    None    GO:0019158      mannokinase activity    []
+SGD:S000003509  None    None    GO:0004140      dephospho-CoA kinase activity   []
+SGD:S000004438  None    None    GO:0008865      fructokinase activity   []
+SGD:S000001651  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000001681  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002427  None    None    GO:0004849      uridine kinase activity []
+SGD:S000003866  None    None    GO:0019200      carbohydrate kinase activity    []
+SGD:S000000687  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000006071  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000004438  None    None    GO:0004340      glucokinase activity    []
+SGD:S000001654  None    None    GO:0009931      calcium-dependent protein serine/threonine kinase activity      []
+SGD:S000001949  None    None    GO:0004340      glucokinase activity    []
+SGD:S000005878  None    None    GO:0004683      calmodulin-dependent protein kinase activity    []
+SGD:S000006074  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000003126  None    None    GO:0004683      calmodulin-dependent protein kinase activity    []
+SGD:S000001622  None    None    GO:0008353      RNA polymerase II CTD heptapeptide repeat kinase activity       []
+SGD:S000005488  None    None    GO:0004693      cyclin-dependent protein serine/threonine kinase activity       []
+SGD:S000002924  None    None    GO:0008865      fructokinase activity   []
+SGD:S000003222  None    None    GO:0008865      fructokinase activity   []
+SGD:S000002266  None    None    GO:0004693      cyclin-dependent protein serine/threonine kinase activity       []
+SGD:S000006043  None    None    GO:0008353      RNA polymerase II CTD heptapeptide repeat kinase activity       []
+SGD:S000004438  None    None    GO:0019158      mannokinase activity    []
+SGD:S000000545  None    None    GO:0019158      mannokinase activity    []
+SGD:S000002656  None    None    GO:0046316      gluconokinase activity  []
+SGD:S000002924  None    None    GO:0004340      glucokinase activity    []
+SGD:S000001654  None    None    GO:0004683      calmodulin-dependent protein kinase activity    []
+SGD:S000003222  None    None    GO:0019158      mannokinase activity    []
+SGD:S000000632  None    None    GO:0019200      carbohydrate kinase activity    []
+SGD:S000001141  None    None    GO:0016301      kinase activity []
+SGD:S000002915  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000005776  None    None    GO:0051731      polynucleotide 5&#39;-hydroxyl-kinase activity  []
+SGD:S000000601  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000003222  None    None    GO:0004340      glucokinase activity    []
+SGD:S000000612  None    None    GO:0019200      carbohydrate kinase activity    []
+SGD:S000006130  None    None    GO:0035174      histone serine kinase activity  []
+SGD:S000003701  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000003437  None    None    GO:0004849      uridine kinase activity []
+SGD:S000003818  None    None    GO:0004550      nucleoside diphosphate kinase activity  []
+SGD:S000002516  None    None    GO:0019150      D-ribulokinase activity []
+SGD:S000002691  None    None    GO:0004672      protein kinase activity []
+SGD:S000001124  None    None    GO:0004672      protein kinase activity []
+SGD:S000004965  None    None    GO:0004672      protein kinase activity []
+SGD:S000003631  None    None    GO:0004672      protein kinase activity []
+SGD:S000001297  None    None    GO:0004672      protein kinase activity []
+SGD:S000005242  None    None    GO:0004672      protein kinase activity []
+SGD:S000001910  None    None    GO:0004672      protein kinase activity []
+SGD:S000005376  None    None    GO:0004672      protein kinase activity []
+SGD:S000003324  None    None    GO:0004672      protein kinase activity []
+SGD:S000001531  None    None    GO:0004672      protein kinase activity []
+SGD:S000000015  None    None    GO:0004672      protein kinase activity []
+SGD:S000006125  None    None    GO:0004672      protein kinase activity []
+SGD:S000003593  None    None    GO:0004672      protein kinase activity []
+SGD:S000001121  None    None    GO:0004672      protein kinase activity []
+SGD:S000004086  None    None    GO:0004672      protein kinase activity []
+SGD:S000002266  None    None    GO:0004672      protein kinase activity []
+SGD:S000003942  None    None    GO:0004672      protein kinase activity []
+SGD:S000003272  None    None    GO:0004672      protein kinase activity []
+SGD:S000005251  None    None    GO:0004672      protein kinase activity []
+SGD:S000002186  None    None    GO:0004672      protein kinase activity []
+SGD:S000000931  None    None    GO:0004672      protein kinase activity []
+SGD:S000003664  None    None    GO:0004672      protein kinase activity []
+SGD:S000005952  None    None    GO:0004672      protein kinase activity []
+SGD:S000001357  None    None    GO:0004672      protein kinase activity []
+SGD:S000001599  None    None    GO:0004672      protein kinase activity []
+SGD:S000002373  None    None    GO:0004672      protein kinase activity []
+SGD:S000006074  None    None    GO:0004672      protein kinase activity []
+SGD:S000004747  None    None    GO:0004672      protein kinase activity []
+SGD:S000005947  None    None    GO:0004672      protein kinase activity []
+SGD:S000001072  None    None    GO:0004672      protein kinase activity []
+SGD:S000002885  None    None    GO:0004672      protein kinase activity []
+SGD:S000005963  None    None    GO:0004672      protein kinase activity []
+SGD:S000004354  None    None    GO:0004672      protein kinase activity []
+SGD:S000000999  None    None    GO:0004672      protein kinase activity []
+SGD:S000003723  None    None    GO:0004672      protein kinase activity []
+SGD:S000003700  None    None    GO:0004672      protein kinase activity []
+SGD:S000001649  None    None    GO:0004672      protein kinase activity []
+SGD:S000002655  None    None    GO:0004672      protein kinase activity []
+SGD:S000001177  None    None    GO:0004672      protein kinase activity []
+SGD:S000005098  None    None    GO:0004672      protein kinase activity []
+SGD:S000000925  None    None    GO:0004672      protein kinase activity []
+SGD:S000005488  None    None    GO:0004672      protein kinase activity []
+SGD:S000000364  None    None    GO:0016301      kinase activity []
+SGD:S000000036  None    None    GO:0016301      kinase activity []
+SGD:S000003818  None    None    GO:0016301      kinase activity []
+SGD:S000000605  None    None    GO:0016301      kinase activity []
+SGD:S000000224  None    None    GO:0016301      kinase activity []
+SGD:S000001949  None    None    GO:0016301      kinase activity []
+SGD:S000003222  None    None    GO:0016301      kinase activity []
+SGD:S000001649  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000001649  None    None    GO:0016301      kinase activity []
+SGD:S000002175  None    None    GO:0016301      kinase activity []
+SGD:S000003700  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002266  None    None    GO:0016301      kinase activity []
+SGD:S000002175  None    None    GO:0004672      protein kinase activity []
+SGD:S000006124  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002266  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000006124  None    None    GO:0016301      kinase activity []
+SGD:S000002318  None    None    GO:0004672      protein kinase activity []
+SGD:S000002318  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002634  None    None    GO:0016301      kinase activity []
+SGD:S000002634  None    None    GO:0019205      nucleobase-containing compound kinase activity  []
+SGD:S000002580  None    None    GO:0016301      kinase activity []
+SGD:S000004821  None    None    GO:0016301      kinase activity []
+SGD:S000003664  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000003664  None    None    GO:0004713      protein tyrosine kinase activity        []
+SGD:S000002931  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002931  None    None    GO:0016301      kinase activity []
+SGD:S000003623  None    None    GO:0016301      kinase activity []
+SGD:S000000854  None    None    GO:0016301      kinase activity []
+SGD:S000001248  None    None    GO:0004672      protein kinase activity []
+SGD:S000001248  None    None    GO:0016301      kinase activity []
+SGD:S000001609  None    None    GO:0004672      protein kinase activity []
+SGD:S000001609  None    None    GO:0016301      kinase activity []
+SGD:S000004086  None    None    GO:0016301      kinase activity []
+SGD:S000003272  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002691  None    None    GO:0016301      kinase activity []
+SGD:S000001507  None    None    GO:0016301      kinase activity []
+SGD:S000001507  None    None    GO:0019205      nucleobase-containing compound kinase activity  []
+SGD:S000002862  None    None    GO:0016301      kinase activity []
+SGD:S000001297  None    None    GO:0016301      kinase activity []
+SGD:S000000112  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000000112  None    None    GO:0016301      kinase activity []
+SGD:S000005952  None    None    GO:0016301      kinase activity []
+SGD:S000000545  None    None    GO:0004396      hexokinase activity     []
+SGD:S000000545  None    None    GO:0016301      kinase activity []
+SGD:S000005587  None    None    GO:0004672      protein kinase activity []
+SGD:S000004615  None    None    GO:0016301      kinase activity []
+SGD:S000004123  None    None    GO:0016301      kinase activity []
+SGD:S000003810  None    None    GO:0016301      kinase activity []
+SGD:S000005251  None    None    GO:0016301      kinase activity []
+SGD:S000000071  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000005127  None    None    GO:0004672      protein kinase activity []
+SGD:S000005127  None    None    GO:0016301      kinase activity []
+SGD:S000003324  None    None    GO:0016301      kinase activity []
+SGD:S000006074  None    None    GO:0004713      protein tyrosine kinase activity        []
+SGD:S000006074  None    None    GO:0016301      kinase activity []
+SGD:S000000301  None    None    GO:0004672      protein kinase activity []
+SGD:S000000301  None    None    GO:0016301      kinase activity []
+SGD:S000005376  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000005376  None    None    GO:0016301      kinase activity []
+SGD:S000004230  None    None    GO:0016301      kinase activity []
+SGD:S000001177  None    None    GO:0016301      kinase activity []
+SGD:S000005098  None    None    GO:0016301      kinase activity []
+SGD:S000004833  None    None    GO:0016301      kinase activity []
+SGD:S000000601  None    None    GO:0016301      kinase activity []
+SGD:S000000687  None    None    GO:0016301      kinase activity []
+SGD:S000000529  None    None    GO:0016301      kinase activity []
+SGD:S000000669  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000000669  None    None    GO:0016301      kinase activity []
+SGD:S000003087  None    None    GO:0016301      kinase activity []
+SGD:S000001599  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000001599  None    None    GO:0016301      kinase activity []
+SGD:S000006125  None    None    GO:0016301      kinase activity []
+SGD:S000000015  None    None    GO:0016301      kinase activity []
+SGD:S000003942  None    None    GO:0004712      protein serine/threonine/tyrosine kinase activity       []
+SGD:S000003942  None    None    GO:0016301      kinase activity []
+SGD:S000004603  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000004603  None    None    GO:0016301      kinase activity []
+SGD:S000001686  None    None    GO:0004430      1-phosphatidylinositol 4-kinase activity        []
+SGD:S000001686  None    None    GO:0016301      kinase activity []
+SGD:S000000767  None    None    GO:0016301      kinase activity []
+SGD:S000000105  None    None    GO:0016301      kinase activity []
+SGD:S000001664  None    None    GO:0016301      kinase activity []
+SGD:S000003723  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000003723  None    None    GO:0016301      kinase activity []
+SGD:S000001915  None    None    GO:0016301      kinase activity []
+SGD:S000001915  None    None    GO:0016307      phosphatidylinositol phosphate kinase activity  []
+SGD:S000003827  None    None    GO:0016301      kinase activity []
+SGD:S000001681  None    None    GO:0016301      kinase activity []
+SGD:S000001654  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000001654  None    None    GO:0016301      kinase activity []
+SGD:S000001651  None    None    GO:0004672      protein kinase activity []
+SGD:S000001651  None    None    GO:0016301      kinase activity []
+SGD:S000001644  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000001644  None    None    GO:0004672      protein kinase activity []
+SGD:S000001644  None    None    GO:0016301      kinase activity []
+SGD:S000001550  None    None    GO:0016301      kinase activity []
+SGD:S000001508  None    None    GO:0004672      protein kinase activity []
+SGD:S000004296  None    None    GO:0016301      kinase activity []
+SGD:S000000164  None    None    GO:0016301      kinase activity []
+SGD:S000000184  None    None    GO:0016301      kinase activity []
+SGD:S000000340  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000000340  None    None    GO:0016301      kinase activity []
+SGD:S000004747  None    None    GO:0016301      kinase activity []
+SGD:S000001003  None    None    GO:0016301      kinase activity []
+SGD:S000001075  None    None    GO:0016301      kinase activity []
+SGD:S000001124  None    None    GO:0016301      kinase activity []
+SGD:S000003701  None    None    GO:0016301      kinase activity []
+SGD:S000000931  None    None    GO:0016301      kinase activity []
+SGD:S000006130  None    None    GO:0016301      kinase activity []
+SGD:S000002616  None    None    GO:0016301      kinase activity []
+SGD:S000002616  None    None    GO:0016307      phosphatidylinositol phosphate kinase activity  []
+SGD:S000006130  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000002259  None    None    GO:0016301      kinase activity []
+SGD:S000005963  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000005211  None    None    GO:0016301      kinase activity []
+SGD:S000001409  None    None    GO:0000155      phosphorelay sensor kinase activity     []
+SGD:S000001409  None    None    GO:0016301      kinase activity []
+SGD:S000000925  None    None    GO:0016301      kinase activity []
+SGD:S000001357  None    None    GO:0016301      kinase activity []
+SGD:S000001304  None    None    GO:0016301      kinase activity []
+SGD:S000003420  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000006258  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000006258  None    None    GO:0004672      protein kinase activity []
+SGD:S000006258  None    None    GO:0016301      kinase activity []
+SGD:S000006135  None    None    GO:0016301      kinase activity []
+SGD:S000003437  None    None    GO:0016301      kinase activity []
+SGD:S000003636  None    None    GO:0016301      kinase activity []
+SGD:S000001861  None    None    GO:0016301      kinase activity []
+SGD:S000003593  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000003593  None    None    GO:0016301      kinase activity []
+SGD:S000003820  None    None    GO:0016301      kinase activity []
+SGD:S000003866  None    None    GO:0016301      kinase activity []
+SGD:S000002237  None    None    GO:0004672      protein kinase activity []
+SGD:S000002237  None    None    GO:0016301      kinase activity []
+SGD:S000003051  None    None    GO:0004672      protein kinase activity []
+SGD:S000003027  None    None    GO:0016301      kinase activity []
+SGD:S000003494  None    None    GO:0016301      kinase activity []
+SGD:S000005310  None    None    GO:0016301      kinase activity []
+SGD:S000005330  None    None    GO:0016301      kinase activity []
+SGD:S000005200  None    None    GO:0016301      kinase activity []
+SGD:S000005105  None    None    GO:0004672      protein kinase activity []
+SGD:S000005105  None    None    GO:0016301      kinase activity []
+SGD:S000004965  None    None    GO:0016301      kinase activity []
+SGD:S000004535  None    None    GO:0016301      kinase activity []
+SGD:S000004535  None    None    GO:0050354      triokinase activity     []
+SGD:S000001072  None    None    GO:0016301      kinase activity []
+SGD:S000000871  None    None    GO:0016301      kinase activity []
+SGD:S000003631  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000003631  None    None    GO:0004713      protein tyrosine kinase activity        []
+SGD:S000002898  None    None    GO:0016301      kinase activity []
+SGD:S000000999  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000000999  None    None    GO:0016301      kinase activity []
+SGD:S000002604  None    None    GO:0016301      kinase activity []
+SGD:S000001622  None    None    GO:0016301      kinase activity []
+SGD:S000002924  None    None    GO:0004396      hexokinase activity     []
+SGD:S000002924  None    None    GO:0016301      kinase activity []
+SGD:S000002516  None    None    GO:0016301      kinase activity []
+SGD:S000004250  None    None    GO:0008481      sphinganine kinase activity     []
+SGD:S000004250  None    None    GO:0003951      NAD+ kinase activity    []
+SGD:S000004438  None    None    GO:0004396      hexokinase activity     []
+SGD:S000004438  None    None    GO:0016301      kinase activity []
+SGD:S000006109  None    None    GO:0003951      NAD+ kinase activity    []
+SGD:S000003958  None    None    GO:0016301      kinase activity []
+SGD:S000006179  None    None    GO:0016301      kinase activity []
+SGD:S000006157  None    None    GO:0004672      protein kinase activity []
+SGD:S000006157  None    None    GO:0016301      kinase activity []
+SGD:S000002325  None    None    GO:0016301      kinase activity []
+SGD:S000002427  None    None    GO:0016301      kinase activity []
+SGD:S000002183  None    None    GO:0016301      kinase activity []
+SGD:S000006071  None    None    GO:0016301      kinase activity []
+SGD:S000005645  None    None    GO:0016301      kinase activity []
+SGD:S000005645  None    None    GO:0004674      protein serine/threonine kinase activity        []
+SGD:S000005488  None    None    GO:0016301      kinase activity []
+SGD:S000005460  None    None    GO:0016301      kinase activity []
+SGD:S000005697  None    None    GO:0016301      kinase activity []
+SGD:S000005697  None    None    GO:0008481      sphinganine kinase activity     []
+SGD:S000002915  None    None    GO:0016301      kinase activity []
+SGD:S000005422  None    None    GO:0016301      kinase activity []
+SGD:S000005473  None    None    GO:0016301      kinase activity []
+SGD:S000005496  None    None    GO:0016301      kinase activity []
+SGD:S000005947  None    None    GO:0016301      kinase activity []
+SGD:S000002885  None    None    GO:0016301      kinase activity []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre></div></div>
+</div>
+<p>Note that including part of (<code class="docutils literal notranslate"><span class="pre">p</span></code>) does not make a difference with the MF hierarchy in GO, but does make a big difference in the other two.</p>
+<section id="Important:-closures-make-a-big-difference">
+<h3>Important: closures make a big difference<a class="headerlink" href="#Important:-closures-make-a-big-difference" title="Link to this heading"></a></h3>
+<p>Let’s compare the number of results with and without closures</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">-</span><span class="n">g</span> <span class="nb">input</span><span class="o">/</span><span class="n">gene_association</span><span class="o">.</span><span class="n">sgd</span><span class="o">.</span><span class="n">gaf</span> <span class="o">-</span><span class="n">G</span> <span class="n">gaf</span> <span class="n">associations</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="s2">&quot;kinase activity&quot;</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">|</span> <span class="n">wc</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    3209   32091  315394
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">-</span><span class="n">g</span> <span class="nb">input</span><span class="o">/</span><span class="n">gene_association</span><span class="o">.</span><span class="n">sgd</span><span class="o">.</span><span class="n">gaf</span> <span class="o">-</span><span class="n">G</span> <span class="n">gaf</span> <span class="n">associations</span> <span class="s2">&quot;kinase activity&quot;</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">|</span> <span class="n">wc</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+     285    2851   26750
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Complex-Queries">
+<h2>Complex Queries<a class="headerlink" href="#Complex-Queries" title="Link to this heading"></a></h2>
+<p>We can use the OAK graph query language to specify exhaustive lists of direct terms.</p>
+<p>For example, not retrieve annotations to any kinase that is not a protein kinase:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">-</span><span class="n">g</span> <span class="nb">input</span><span class="o">/</span><span class="n">gene_association</span><span class="o">.</span><span class="n">sgd</span><span class="o">.</span><span class="n">gaf</span> <span class="o">-</span><span class="n">G</span> <span class="n">gaf</span> <span class="n">associations</span>  <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;kinase activity&quot;</span> <span class="o">.</span><span class="ow">not</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;protein kinase activity&quot;</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="mi">30</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject predicate       object  object_label    property_values subject_label   predicate_label negated publications    primary_knowledge_source        aggregator_knowledge_source
+SGD:S000001369  None    GO:0016301      None            PFK26   None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000051318|PMID:1322693 infores:SGD     None
+SGD:S000001369  None    GO:0003873      None            PFK26   None    None    SGD_REF:S000048479|PMID:1657152 infores:SGD     None
+SGD:S000002318  None    GO:0016301      None            STE7    None    None    SGD_REF:S000148669      infores:UniProt None
+SGD:S000000605  None    GO:0004618      None            PGK1    None    None    SGD_REF:S000058483|PMID:6254992 infores:SGD     None
+SGD:S000000605  None    GO:0004618      None            PGK1    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000000605  None    GO:0004618      None            PGK1    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000000605  None    GO:0004618      None            PGK1    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000000605  None    GO:0004618      None            PGK1    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000000605  None    GO:0004618      None            PGK1    None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000053290|PMID:6088527 infores:SGD     None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000049877|PMID:6094555 infores:SGD     None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000130762|PMID:19540237        infores:SGD     None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000130762|PMID:19540237        infores:SGD     None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000053290|PMID:6088527 infores:SGD     None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000042433|PMID:6091111 infores:SGD     None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000042433|PMID:6091111 infores:SGD     None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000003818  None    GO:0004798      None            CDC8    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000003818  None    GO:0009041      None            CDC8    None    None    SGD_REF:S000049877|PMID:6094555 infores:SGD     None
+SGD:S000002939  None    GO:0004594      None            CAB1    None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000002939  None    GO:0004594      None            CAB1    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000002939  None    GO:0004594      None            CAB1    None    None    SGD_REF:S000129524|PMID:19266201        infores:SGD     None
+SGD:S000002939  None    GO:0004594      None            CAB1    None    None    SGD_REF:S000065722|PMID:9890959 infores:SGD     None
+SGD:S000002939  None    GO:0004594      None            CAB1    None    None    SGD_REF:S000124037      infores:UniProt None
+SGD:S000002939  None    GO:0004594      None            CAB1    None    None    SGD_REF:S000124036      infores:InterPro        None
+SGD:S000001357  None    None    GO:0016301      kinase activity []
+SGD:S000001304  None    None    GO:0016301      kinase activity []
+SGD:S000006258  None    None    GO:0016301      kinase activity []
+SGD:S000006135  None    None    GO:0016301      kinase activity []
+SGD:S000003437  None    None    GO:0016301      kinase activity []
+SGD:S000003636  None    None    GO:0016301      kinase activity []
+SGD:S000001861  None    None    GO:0016301      kinase activity []
+SGD:S000003593  None    None    GO:0016301      kinase activity []
+SGD:S000003820  None    None    GO:0016301      kinase activity []
+SGD:S000003866  None    None    GO:0016301      kinase activity []
+SGD:S000002237  None    None    GO:0016301      kinase activity []
+SGD:S000003027  None    None    GO:0016301      kinase activity []
+SGD:S000003494  None    None    GO:0016301      kinase activity []
+SGD:S000005310  None    None    GO:0016301      kinase activity []
+SGD:S000005330  None    None    GO:0016301      kinase activity []
+SGD:S000005200  None    None    GO:0016301      kinase activity []
+SGD:S000005105  None    None    GO:0016301      kinase activity []
+SGD:S000004965  None    None    GO:0016301      kinase activity []
+SGD:S000004535  None    None    GO:0016301      kinase activity []
+SGD:S000004535  None    None    GO:0050354      triokinase activity     []
+SGD:S000001072  None    None    GO:0016301      kinase activity []
+SGD:S000000871  None    None    GO:0016301      kinase activity []
+SGD:S000002898  None    None    GO:0016301      kinase activity []
+SGD:S000000999  None    None    GO:0016301      kinase activity []
+SGD:S000002604  None    None    GO:0016301      kinase activity []
+SGD:S000001622  None    None    GO:0016301      kinase activity []
+SGD:S000002924  None    None    GO:0004396      hexokinase activity     []
+SGD:S000002924  None    None    GO:0016301      kinase activity []
+SGD:S000002516  None    None    GO:0016301      kinase activity []
+SGD:S000004250  None    None    GO:0008481      sphinganine kinase activity     []
+SGD:S000004250  None    None    GO:0003951      NAD+ kinase activity    []
+SGD:S000004438  None    None    GO:0004396      hexokinase activity     []
+SGD:S000004438  None    None    GO:0016301      kinase activity []
+SGD:S000006109  None    None    GO:0003951      NAD+ kinase activity    []
+SGD:S000003958  None    None    GO:0016301      kinase activity []
+SGD:S000006179  None    None    GO:0016301      kinase activity []
+SGD:S000006157  None    None    GO:0016301      kinase activity []
+SGD:S000002325  None    None    GO:0016301      kinase activity []
+SGD:S000002427  None    None    GO:0016301      kinase activity []
+SGD:S000002183  None    None    GO:0016301      kinase activity []
+SGD:S000006071  None    None    GO:0016301      kinase activity []
+SGD:S000005645  None    None    GO:0016301      kinase activity []
+SGD:S000005488  None    None    GO:0016301      kinase activity []
+SGD:S000005460  None    None    GO:0016301      kinase activity []
+SGD:S000005697  None    None    GO:0016301      kinase activity []
+SGD:S000005697  None    None    GO:0008481      sphinganine kinase activity     []
+SGD:S000002915  None    None    GO:0016301      kinase activity []
+SGD:S000005422  None    None    GO:0016301      kinase activity []
+SGD:S000005473  None    None    GO:0016301      kinase activity []
+SGD:S000005496  None    None    GO:0016301      kinase activity []
+SGD:S000005947  None    None    GO:0016301      kinase activity []
+SGD:S000002885  None    None    GO:0016301      kinase activity []
+SGD:S000003664  None    None    GO:0016301      kinase activity []
+SGD:S000002416  None    None    GO:0004335      galactokinase activity  []
+SGD:S000003272  None    None    GO:0016301      kinase activity []
+SGD:S000004818  None    None    GO:0016301      kinase activity []
+SGD:S000005878  None    None    GO:0016301      kinase activity []
+SGD:S000003426  None    None    GO:0016301      kinase activity []
+SGD:S000005874  None    None    GO:0016301      kinase activity []
+SGD:S000002874  None    None    GO:0016301      kinase activity []
+SGD:S000002554  None    None    GO:0016301      kinase activity []
+SGD:S000002939  None    None    GO:0016301      kinase activity []
+SGD:S000005793  None    None    GO:0016301      kinase activity []
+SGD:S000000972  None    None    GO:0004017      adenylate kinase activity       []
+SGD:S000000972  None    None    GO:0016301      kinase activity []
+SGD:S000000972  None    None    GO:0019205      nucleobase-containing compound kinase activity  []
+SGD:S000002644  None    None    GO:0016301      kinase activity []
+SGD:S000002655  None    None    GO:0016301      kinase activity []
+SGD:S000002656  None    None    GO:0016301      kinase activity []
+</pre></div></div>
+</div>
+</section>
+<section id="Querying-via-API">
+<h2>Querying via API<a class="headerlink" href="#Querying-via-API" title="Link to this heading"></a></h2>
+<p>Some association sources provide an API, so rather than downloading an association file, you have OAK speak to the API.</p>
+<p>Note that API endpoints may not support all OAK options; e.g. the amigo endpoint currently forces you to use IDs:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>amigo:NCBITaxon:9606<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>GO:0016301<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-30
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject predicate       object  property_values subject_label   predicate_label object_label    negated publications    primary_knowledge_source        aggregator_knowledge_source
+UniProtKB:Q13976        None    GO:0004672              PRKG1   None    protein kinase activity None    PMID:25447536   BHF-UCL infores:go
+UniProtKB:Q13976        None    GO:0004692              PRKG1   None    cGMP-dependent protein kinase activity  None    PMID:21402151   UniProt infores:go
+UniProtKB:Q13976        None    GO:0004692              PRKG1   None    cGMP-dependent protein kinase activity  None    Reactome:R-HSA-418442   Reactome        infores:go
+UniProtKB:Q13976        None    GO:0106310              PRKG1   None    protein serine kinase activity  None    GO_REF:0000116  RHEA    infores:go
+UniProtKB:Q9HCP0        None    GO:0004674              CSNK1G1 None    protein serine/threonine kinase activity        None    PMID:25500533   ParkinsonsUK-UCL        infores:go
+UniProtKB:Q9HCP0        None    GO:0106310              CSNK1G1 None    protein serine kinase activity  None    GO_REF:0000116  RHEA    infores:go
+UniProtKB:Q9HCP0        None    GO:0004674              CSNK1G1 None    protein serine/threonine kinase activity        None    PMID:21873635   GO_Central      infores:go
+UniProtKB:Q8IWQ3        None    GO:0004674              BRSK2   None    protein serine/threonine kinase activity        None    GO_REF:0000024  ARUK-UCL        infores:go
+UniProtKB:Q8IWQ3        None    GO:0004674              BRSK2   None    protein serine/threonine kinase activity        None    PMID:14976552   UniProt infores:go
+UniProtKB:Q8IWQ3        None    GO:0050321              BRSK2   None    tau-protein kinase activity     None    GO_REF:0000024  UniProt infores:go
+UniProtKB:Q8IWQ3        None    GO:0050321              BRSK2   None    tau-protein kinase activity     None    PMID:21985311   UniProt infores:go
+UniProtKB:Q8IWQ3        None    GO:0050321              BRSK2   None    tau-protein kinase activity     None    PMID:28386764   ARUK-UCL        infores:go
+UniProtKB:Q8IWQ3        None    GO:0106310              BRSK2   None    protein serine kinase activity  None    GO_REF:0000116  RHEA    infores:go
+UniProtKB:Q8IWQ3        None    GO:0050321              BRSK2   None    tau-protein kinase activity     None    PMID:21873635   GO_Central      infores:go
+UniProtKB:Q8IWQ3        None    GO:0004674              BRSK2   None    protein serine/threonine kinase activity        None    PMID:21873635   GO_Central      infores:go
+UniProtKB:Q96PF2        None    GO:0004674              TSSK2   None    protein serine/threonine kinase activity        None    GO_REF:0000024  UniProt infores:go
+UniProtKB:Q96PF2        None    GO:0004674              TSSK2   None    protein serine/threonine kinase activity        None    PMID:18533145   UniProt infores:go
+UniProtKB:Q96PF2        None    GO:0004674              TSSK2   None    protein serine/threonine kinase activity        None    PMID:20729278   UniProt infores:go
+UniProtKB:Q96PF2        None    GO:0106310              TSSK2   None    protein serine kinase activity  None    GO_REF:0000116  RHEA    infores:go
+UniProtKB:Q96PF2        None    GO:0004674              TSSK2   None    protein serine/threonine kinase activity        None    PMID:21873635   GO_Central      infores:go
+UniProtKB:P19525        None    GO:0004672              EIF2AK2 None    protein kinase activity None    PMID:12882984   UniProt infores:go
+UniProtKB:P19525        None    GO:0004672              EIF2AK2 None    protein kinase activity None    PMID:15229216   UniProt infores:go
+UniProtKB:P19525        None    GO:0004672              EIF2AK2 None    protein kinase activity None    PMID:18835251   UniProt infores:go
+UniProtKB:P19525        None    GO:0004672              EIF2AK2 None    protein kinase activity None    PMID:21123651   UniProt infores:go
+UniProtKB:P19525        None    GO:0004672              EIF2AK2 None    protein kinase activity None    PMID:248628414  UniProt infores:go
+UniProtKB:P19525        None    GO:0004674              EIF2AK2 None    protein serine/threonine kinase activity        None    PMID:1695551    PINC    infores:go
+UniProtKB:P19525        None    GO:0004694              EIF2AK2 None    eukaryotic translation initiation factor 2alpha kinase activity None    PMID:25329545   UniProt infores:go
+UniProtKB:P19525        None    GO:0004715              EIF2AK2 None    non-membrane spanning protein tyrosine kinase activity  None    GO_REF:0000003  UniProt infores:go
+UniProtKB:P19525        None    GO:0016301              EIF2AK2 None    kinase activity None    PMID:21123651   UniProt infores:go
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Apply.html" class="btn btn-neutral float-left" title="OAK apply command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DiffViaMappings.html" class="btn btn-neutral float-right" title="OAK diff-via-mappings command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

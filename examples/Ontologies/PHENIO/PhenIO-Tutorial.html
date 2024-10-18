@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhenIO tutorial &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Schema.org Examples" href="../SchemaDotOrg/index.html" />
+    <link rel="prev" title="PhenIO Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">PhenIO Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PhenIO tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">PhenIO Examples</a></li>
+      <li class="breadcrumb-item active">PhenIO tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/PHENIO/PhenIO-Tutorial.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="PhenIO-tutorial">
+<h1>PhenIO tutorial<a class="headerlink" href="#PhenIO-tutorial" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>author: Chris Mungall</p></li>
+<li><p>created: 2022-08-16</p></li>
+</ul>
+<p>This tutorial walks through phenio, the goals are:</p>
+<ul class="simple">
+<li><p>to help understand the structure of phenio</p></li>
+<li><p>to show how to do advanced OAK queries (CLI and programmatic) on PhenIO</p></li>
+<li><p>to explore semsim techniques</p></li>
+</ul>
+<section id="Create-an-alias">
+<h2>Create an alias<a class="headerlink" href="#Create-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set a bash alias.</p>
+<p>This assumes you have built the sqlite version of phenio in the <code class="docutils literal notranslate"><span class="pre">../../db</span></code> folder</p>
+<p><strong>NOTE</strong> an alternative is:</p>
+<p><code class="docutils literal notranslate"><span class="pre">%alias</span> <span class="pre">phenio</span> <span class="pre">runoak</span> <span class="pre">-i</span> <span class="pre">sqlite:obo:phenio</span></code></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> phenio runoak -i ../../db/phenio.db
+</pre></div>
+</div>
+</div>
+<section id="Basic-lookup-queries">
+<h3>Basic lookup queries<a class="headerlink" href="#Basic-lookup-queries" title="Link to this heading"></a></h3>
+<p>Let’s check it’s working:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">info</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0008609</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0008609 ! Morphological abnormality of the middle ear (HPO)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">info</span> <span class="s2">&quot;l~abnormality of the middle ear&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0000370 ! Abnormality of the middle ear (HPO)
+HP:0004452 ! Abnormality of the middle ear ossicles (HPO)
+HP:0008609 ! Morphological abnormality of the middle ear (HPO)
+HP:0011452 ! Functional abnormality of the middle ear (HPO)
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Exploring-the-structure-of-PhenIO">
+<h2>Exploring the structure of PhenIO<a class="headerlink" href="#Exploring-the-structure-of-PhenIO" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">relationships</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0008609</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject predicate       object  subject_label   predicate_label object_label
+HP:0008609      rdfs:subClassOf HP:0000370      Morphological abnormality of the middle ear (HPO)       None    Abnormality of the middle ear (HPO)
+HP:0008609      rdfs:subClassOf UPHENO:0021692  Morphological abnormality of the middle ear (HPO)       None    abnormal middle ear morphology
+</pre></div></div>
+</div>
+<p><strong>NOTE</strong> I am surprised there is no linkages to Uberon here. Something has gone wrong.</p>
+<p>Let’s try a different example</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">relationships</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0008609</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0011453</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+
+
+
+
+
+</pre></div></div>
+</div>
+<p>Here we can see linkages to external ontologies using two relations</p>
+<p>We can find out more about these:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">info</span> <span class="n">UPHENO</span><span class="p">:</span><span class="mi">0000001</span> <span class="n">UPHENO</span><span class="p">:</span><span class="mi">0000003</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UPHENO:0000001 ! has phenotype affecting
+UPHENO:0000003 ! phenotype has associated entity
+</pre></div></div>
+</div>
+<p>Here we can see linkages to external ontologies using two relations</p>
+<section id="Querying-ancestors">
+<h3>Querying ancestors<a class="headerlink" href="#Querying-ancestors" title="Link to this heading"></a></h3>
+<p>We will try finding all ancestors of HP:0008609 (Morphological abnormality of the middle ear)</p>
+<p><strong>IMPORTANT</strong> in OAK, all graph commands are parameterized by predicate lists. Consult the OAK docs if you don’t understand what this means!</p>
+<p>To find all is-a ancestors (i.e. ancestors following SubClassOf between named classes) we use <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">i</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">ancestors</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0008609</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000001 ! entity
+BFO:0000002 ! continuant
+BFO:0000020 ! specifically dependent continuant
+HP:0000001 ! All (HPO)
+HP:0000118 ! Phenotypic abnormality (HPO)
+HP:0000152 ! Abnormality of head or neck (HPO)
+HP:0000234 ! Abnormality of the head (HPO)
+HP:0000370 ! Abnormality of the middle ear (HPO)
+HP:0000598 ! Abnormality of the ear (HPO)
+HP:0008609 ! Morphological abnormality of the middle ear (HPO)
+HP:0031703 ! Abnormal ear morphology (HPO)
+PATO:0000001 ! quality
+UPHENO:0001001 ! Phenotype
+UPHENO:0001001 ! phenotype
+UPHENO:0001002 ! Phenotypic abnormality
+UPHENO:0001003 ! phenotype by ontology source
+UPHENO:0001005 ! abnormal phenotype by ontology source
+UPHENO:0002536 ! abnormal anatomical entity
+UPHENO:0002764 ! abnormal craniocervical region
+UPHENO:0002844 ! abnormal head
+UPHENO:0002903 ! abnormal ear
+UPHENO:0003017 ! abnormal middle ear
+UPHENO:0015280 ! abnormal anatomical entity morphology in the independent continuant
+UPHENO:0020584 ! abnormal anatomical entity morphology
+UPHENO:0021692 ! abnormal middle ear morphology
+UPHENO:0075696 ! abnormal anatomical entity
+UPHENO:0076692 ! abnormal anatomical entity morphology
+UPHENO:0076730 ! abnormal ear morphology
+UPHENO:0081581 ! abnormal multicellular organism morphology
+</pre></div></div>
+</div>
+<p>Next we will generate a visualization from this using the <code class="docutils literal notranslate"><span class="pre">viz</span></code> command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0008609</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">HP_0008609</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/PHENIO/output/with-uberon.png" /></p>
+<p>Note we are using the default OAK stylesheet which colors Upheno in black, HPO in blue-green, etc. For more info on visualization and stylesheets see <a class="reference external" href="https://github.com/INCATools/obographviz/">OboGraphViz</a></p>
+<section id="siblings">
+<h4>siblings<a class="headerlink" href="#siblings" title="Link to this heading"></a></h4>
+<p>Next we will explore siblings. Again, we parameterize the predicate list to avoid flooding results:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">siblings</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0008609</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0000388 ! Otitis media (HPO)
+HP:0008609 ! Morphological abnormality of the middle ear (HPO)
+HP:0011452 ! Functional abnormality of the middle ear (HPO)
+HP:0040090 ! Abnormality of the tympanic membrane (HPO)
+HP:0040099 ! Abnormality of the round window (HPO)
+HP:0040100 ! Abnormality of the vestibular window (HPO)
+HP:0040115 ! Abnormality of the Eustachian tube (HPO)
+HP:0040262 ! Glue ear (HPO)
+HP:0040268 ! Recurrent infections of the middle ear (HPO)
+HP:0100799 ! Neoplasm of the middle ear (HPO)
+MP:0000049 ! abnormal middle ear morphology (MPO)
+XPO:0102637 ! abnormal middle ear morphology (XPO)
+</pre></div></div>
+</div>
+<p>let’s take a closer look at some of these siblings.</p>
+<p>the <code class="docutils literal notranslate"><span class="pre">viz</span></code> command, like most commands in OAK, takes as argument an open ended list of queries:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0008609</span> <span class="n">MP</span><span class="p">:</span><span class="mi">0000049</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">HP_0008609_MP_0000049</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/PHENIO/output/with-uberon.png" /></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">descendants</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="s2">&quot;abnormal middle ear morphology (MPO)&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+MP:0000029 ! abnormal malleus morphology (MPO)
+MP:0000030 ! abnormal tympanic ring morphology (MPO)
+MP:0000040 ! absent middle ear ossicles (MPO)
+MP:0000049 ! abnormal middle ear morphology (MPO)
+MP:0003110 ! absent malleus processus brevis (MPO)
+MP:0003138 ! absent tympanic ring (MPO)
+MP:0003330 ! abnormal auditory tube morphology (MPO)
+MP:0003739 ! dense middle ear ossicles (MPO)
+MP:0003740 ! fusion of middle ear ossicles (MPO)
+MP:0004204 ! absent stapes (MPO)
+MP:0004290 ! abnormal stapes footplate morphology (MPO)
+MP:0004318 ! absent incus (MPO)
+MP:0004319 ! absent malleus (MPO)
+MP:0004479 ! abnormal oval window morphology (MPO)
+MP:0004480 ! abnormal round window morphology (MPO)
+MP:0004541 ! absent auditory tube (MPO)
+MP:0004665 ! abnormal stapedial artery morphology (MPO)
+MP:0004666 ! absent stapedial artery (MPO)
+MP:0005105 ! abnormal middle ear ossicle morphology (MPO)
+MP:0005106 ! abnormal incus morphology (MPO)
+MP:0005107 ! abnormal stapes morphology (MPO)
+MP:0006018 ! abnormal tympanic membrane morphology (MPO)
+MP:0006019 ! absent tympanic membrane (MPO)
+MP:0006020 ! decreased tympanic ring size (MPO)
+MP:0008372 ! small malleus (MPO)
+MP:0008373 ! short malleus (MPO)
+MP:0008374 ! abnormal malleus manubrium morphology (MPO)
+MP:0008375 ! short malleus manubrium (MPO)
+MP:0008376 ! small malleus manubrium (MPO)
+MP:0008377 ! absent malleus manubrium (MPO)
+MP:0008378 ! small malleus processus brevis (MPO)
+MP:0008379 ! absent malleus head (MPO)
+MP:0008380 ! abnormal gonial bone morphology (MPO)
+MP:0008381 ! absent gonial bone (MPO)
+MP:0008382 ! gonial bone hypoplasia (MPO)
+MP:0008383 ! enlarged gonial bone (MPO)
+MP:0010324 ! abnormal malleus processus brevis morphology (MPO)
+MP:0010325 ! abnormal malleus head morphology (MPO)
+MP:0010326 ! malleus hypoplasia (MPO)
+MP:0010327 ! abnormal malleus neck morphology (MPO)
+MP:0010328 ! thin malleus neck (MPO)
+MP:0013871 ! abnormal stapedial artery topology (MPO)
+MP:0020900 ! abnormal middle ear epithelium morphology (MPO)
+MP:0020901 ! abnormal middle ear goblet cell morphology (MPO)
+MP:0020902 ! abnormal middle ear goblet cell number (MPO)
+MP:0020903 ! increased middle ear goblet cell number (MPO)
+MP:0020904 ! decreased middle ear goblet cell number (MPO)
+MP:0030084 ! tympanic ring hypoplasia (MPO)
+MP:0030106 ! small incus (MPO)
+MP:0030107 ! incus hypoplasia (MPO)
+MP:0030110 ! incudomalleolar fusion (MPO)
+MP:0030123 ! small middle ear ossicles (MPO)
+MP:0030124 ! middle ear ossicle hypoplasia (MPO)
+MP:0030125 ! small gonial bone (MPO)
+MP:0030127 ! small stapes (MPO)
+MP:0030128 ! stapes hypoplasia (MPO)
+MP:0030154 ! abnormal tympanic cavity morphology (MPO)
+MP:0030155 ! absent tympanic cavity (MPO)
+MP:0030156 ! abnormal tympanic cavity muscle morphology (MPO)
+MP:0030157 ! abnormal stapedius muscle morphology (MPO)
+MP:0030158 ! absent stapedius muscle (MPO)
+MP:0030159 ! abnormal tensor tympani muscle morphology (MPO)
+MP:0030187 ! abnormal epitympanic recess morphology (MPO)
+MP:0030213 ! gonial bone hyperplasia (MPO)
+MP:0030226 ! middle ear polyps (MPO)
+MP:0030227 ! abnormal tubotympanic recess morphology (MPO)
+MP:0030228 ! absent tubotympanic recess (MPO)
+MP:0030321 ! abnormal tegmen tympani morphology (MPO)
+MP:0030394 ! abnormal incus short process morphology (MPO)
+MP:0030395 ! absent incus short process (MPO)
+MP:0030396 ! abnormal incus long process morphology (MPO)
+MP:0030397 ! abnormal incus lenticular process morphology (MPO)
+MP:0030398 ! absent incus lenticular process (MPO)
+MP:0030399 ! abnormal incus body morphology (MPO)
+MP:0030400 ! abnormal stapes annular ligament morphology (MPO)
+MP:0030401 ! absent stapes annular ligament (MPO)
+MP:0030402 ! abnormal stapes head morphology (MPO)
+MP:0030403 ! absent stapes head (MPO)
+MP:0030404 ! abnormal stapes obturator foramen morphology (MPO)
+MP:0030405 ! small stapes obturator foramen (MPO)
+MP:0030406 ! absent stapes obturator foramen (MPO)
+MP:0030407 ! abnormal stapes crus morpholgy (MPO)
+MP:0030408 ! abnormal stapes posterior crus morphology (MPO)
+MP:0030409 ! abnormal stapes anterior crus morphology (MPO)
+MP:0030410 ! middle ear effusion (MPO)
+MP:0030411 ! small round window (MPO)
+MP:0030412 ! absent round window (MPO)
+MP:0030413 ! tympanic membrane retraction (MPO)
+MP:0030414 ! tympanic membrane perforation (MPO)
+MP:0030465 ! absent oval window (MPO)
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Pairwise-term-similarity">
+<h3>Pairwise term similarity<a class="headerlink" href="#Pairwise-term-similarity" title="Link to this heading"></a></h3>
+<p>Next we will explore the nascent semantic similarity functions in OAK</p>
+<p>Note that the data model and signatures may change slightly here in the future.</p>
+<p>Once again, it is important to understand how OAK handles graphs - all similarity methods are parameterized by predicate lists. Let’s start with the simple case of is-a hierarchies:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">similarity</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0000388</span> <span class="n">MP</span><span class="p">:</span><span class="mi">0030395</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_id: HP:0000388
+object_id: MP:0030395
+ancestor_id: UPHENO:0003017
+ancestor_information_content: 12.860723034493532
+jaccard_similarity: 0.22077922077922077
+phenodigm_score: 1.6850461151591245
+</pre></div></div>
+</div>
+<p>TODOs:</p>
+<ul class="simple">
+<li><p>allow calculation of IC from background annotations</p></li>
+<li><p>add an <code class="docutils literal notranslate"><span class="pre">--autolabel</span></code> option (other OAK commands have this)</p></li>
+</ul>
+<p>to see what the MRCA is:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">info</span> <span class="n">UPHENO</span><span class="p">:</span><span class="mi">0003017</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UPHENO:0003017 ! abnormal middle ear
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this is how we would do all-by-all</span>
+<span class="c1">#phenio all-similarity -p i,p --set1 i^HP: --set2 i^MP: --ic-minimum 3.0 --jaccard-minimum 0.65</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">tree</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0000388</span> <span class="n">MP</span><span class="p">:</span><span class="mi">0030395</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">hops</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] UPHENO:0003017 ! abnormal middle ear
+    * [i] HP:0000370 ! Abnormality of the middle ear (HPO)
+        * [i] **HP:0000388 ! Otitis media (HPO)**
+* [] HP:0031703 ! Abnormal ear morphology (HPO)
+    * [i] HP:0000370 ! Abnormality of the middle ear (HPO)
+        * [i] **HP:0000388 ! Otitis media (HPO)**
+* [] HP:0012647 ! Abnormal inflammatory response (HPO)
+    * [i] HP:0012649 ! Increased inflammatory response (HPO)
+        * [i] **HP:0000388 ! Otitis media (HPO)**
+* [] UPHENO:0074782 ! increased biological_process in middle ear
+    * [i] UPHENO:0074629 ! increased inflammatory response in middle ear
+        * [i] **HP:0000388 ! Otitis media (HPO)**
+* [] UPHENO:0074685 ! increased inflammatory response in independent continuant
+    * [i] UPHENO:0074629 ! increased inflammatory response in middle ear
+        * [i] **HP:0000388 ! Otitis media (HPO)**
+* [] MP:0005106 ! abnormal incus morphology (MPO)
+    * [i] MP:0030394 ! abnormal incus short process morphology (MPO)
+        * [i] **MP:0030395 ! absent incus short process (MPO)**
+</pre></div></div>
+</div>
+</section>
+<section id="Using-other-ontologies">
+<h3>Using other ontologies<a class="headerlink" href="#Using-other-ontologies" title="Link to this heading"></a></h3>
+<p>We can parameterize the similarity calculation to make use of is-a (i), part-of (p) (which typically traverse <em>within</em> an ontology), and UPHENO:0000003 (phenotype has associated entity) (which traverses “sideways” from a phenotype ontology to an “entity” ontology).</p>
+<p>Here we will ask for the similarity between the concept of the <em>stapes bone</em> and the concept of <em>Abnormality of the incus</em>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">similarity</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">UPHENO</span><span class="p">:</span><span class="mi">0000003</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0001687</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0011453</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_id: UBERON:0001687
+object_id: HP:0011453
+ancestor_id: UBERON:0001686
+ancestor_information_content: 12.16586147141704
+jaccard_similarity: 0.4329896907216495
+phenodigm_score: 2.2951454411150713
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">info</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0001686</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:0001686 ! auditory ossicle bone
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">viz</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0011453</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">UPHENO</span><span class="p">:</span><span class="mi">0000003</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="k">with</span><span class="o">-</span><span class="n">uberon</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/PHENIO/output/with-uberon.png" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="PhenIO Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../SchemaDotOrg/index.html" class="btn btn-neutral float-right" title="Schema.org Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

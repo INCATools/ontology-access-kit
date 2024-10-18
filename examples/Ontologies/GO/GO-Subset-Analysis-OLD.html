@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GO Subset Analysis &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">GO Subset Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/GO/GO-Subset-Analysis-OLD.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="GO-Subset-Analysis">
+<h1>GO Subset Analysis<a class="headerlink" href="#GO-Subset-Analysis" title="Link to this heading"></a></h1>
+<p>This is a demonstrator for some functionality in OAK</p>
+<section id="Dependencies">
+<h2>Dependencies<a class="headerlink" href="#Dependencies" title="Link to this heading"></a></h2>
+<p>We will use seaborn for plotting</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>seaborn
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: seaborn in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (0.11.2)
+Requirement already satisfied: numpy&gt;=1.15 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from seaborn) (1.22.3)
+Requirement already satisfied: scipy&gt;=1.0 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from seaborn) (1.6.1)
+Requirement already satisfied: matplotlib&gt;=2.2 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from seaborn) (3.5.1)
+Requirement already satisfied: pandas&gt;=0.23 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from seaborn) (1.4.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from matplotlib&gt;=2.2-&gt;seaborn) (4.31.2)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from matplotlib&gt;=2.2-&gt;seaborn) (2.8.2)
+Requirement already satisfied: pyparsing&gt;=2.2.1 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from matplotlib&gt;=2.2-&gt;seaborn) (2.4.7)
+Requirement already satisfied: pillow&gt;=6.2.0 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from matplotlib&gt;=2.2-&gt;seaborn) (9.1.0)
+Requirement already satisfied: cycler&gt;=0.10 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from matplotlib&gt;=2.2-&gt;seaborn) (0.11.0)
+Requirement already satisfied: packaging&gt;=20.0 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from matplotlib&gt;=2.2-&gt;seaborn) (21.3)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from matplotlib&gt;=2.2-&gt;seaborn) (1.4.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from pandas&gt;=0.23-&gt;seaborn) (2022.1)
+Requirement already satisfied: six&gt;=1.5 in /Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib&gt;=2.2-&gt;seaborn) (1.16.0)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.spatial</span> <span class="k">as</span> <span class="nn">sp</span><span class="o">,</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="k">as</span> <span class="nn">hc</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.subsets.subset_analysis</span> <span class="kn">import</span> <span class="n">compare_all_subsets</span><span class="p">,</span> <span class="n">get_subset_dict</span><span class="p">,</span> <span class="n">terms_by_subsets</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Establish-a-database-connection">
+<h2>Establish a database connection<a class="headerlink" href="#Establish-a-database-connection" title="Link to this heading"></a></h2>
+<p>For purposes here we will use a sqlite3 db (created using semantic-sql)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO - download step</span>
+<span class="n">oi</span> <span class="o">=</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;sqlite:///input/go.db&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">all_subset_curies</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;chebi_ph7_3&#39;,
+ &#39;3_STAR&#39;,
+ &#39;1_STAR&#39;,
+ &#39;goslim_plant&#39;,
+ &#39;goslim_pir&#39;,
+ &#39;goslim_flybase_ribbon&#39;,
+ &#39;goslim_chembl&#39;,
+ &#39;goslim_agr&#39;,
+ &#39;goslim_metagenomics&#39;,
+ &#39;goslim_yeast&#39;,
+ &#39;goslim_pombe&#39;,
+ &#39;gocheck_do_not_annotate&#39;,
+ &#39;goslim_generic&#39;,
+ &#39;goslim_drosophila&#39;,
+ &#39;goslim_candida&#39;,
+ &#39;goslim_aspergillus&#39;,
+ &#39;gocheck_do_not_manually_annotate&#39;,
+ &#39;goslim_synapse&#39;,
+ &#39;goslim_mouse&#39;,
+ &#39;SOFA&#39;,
+ &#39;Alliance_of_Genome_Resources&#39;,
+ &#39;biosapiens&#39;]
+</pre></div></div>
+</div>
+</section>
+<section id="Generate-a-term-x-subset-Dataframe">
+<h2>Generate a term x subset Dataframe<a class="headerlink" href="#Generate-a-term-x-subset-Dataframe" title="Link to this heading"></a></h2>
+<p>We use terms_by_subsets from subset_utils</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">txs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">terms_by_subsets</span><span class="p">(</span><span class="n">oi</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;GO&#39;</span><span class="p">,</span> <span class="n">subsumed_score</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">min_subsets</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">txs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">txs</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;term_id&#39;</span><span class="p">,</span> <span class="s1">&#39;term_label&#39;</span><span class="p">,</span> <span class="s1">&#39;subset&#39;</span><span class="p">,</span> <span class="s1">&#39;present&#39;</span><span class="p">])</span>
+<span class="n">txs_df</span> <span class="o">=</span> <span class="n">txs_df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s2">&quot;term_label&quot;</span><span class="p">,</span> <span class="s2">&quot;subset&quot;</span><span class="p">,</span> <span class="s2">&quot;present&quot;</span><span class="p">)</span>
+<span class="n">txs_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>gocheck_do_not_annotate</th>
+      <th>gocheck_do_not_manually_annotate</th>
+      <th>goslim_agr</th>
+      <th>goslim_aspergillus</th>
+      <th>goslim_candida</th>
+      <th>goslim_chembl</th>
+      <th>goslim_drosophila</th>
+      <th>goslim_flybase_ribbon</th>
+      <th>goslim_generic</th>
+      <th>goslim_metagenomics</th>
+      <th>goslim_mouse</th>
+      <th>goslim_pir</th>
+      <th>goslim_plant</th>
+      <th>goslim_pombe</th>
+      <th>goslim_synapse</th>
+      <th>goslim_yeast</th>
+    </tr>
+    <tr>
+      <th>term_label</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ATP-dependent activity</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.5</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>DNA binding</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>DNA metabolic process</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.5</td>
+      <td>1.0</td>
+      <td>0.5</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <th>DNA recombination</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>DNA repair</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>vacuole</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>vacuole organization</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>vesicle-mediated transport</th>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.5</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <th>virion component</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>vitamin metabolic process</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>198 rows × 16 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">txs_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_11_0.png" src="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_11_0.png" />
+</div>
+</div>
+</section>
+<section id="Clustering-of-terms-and-subset">
+<h2>Clustering of terms and subset<a class="headerlink" href="#Clustering-of-terms-and-subset" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#plt.figure(figsize = (30,30))</span>
+<span class="c1">#plt.xticks(rotation=45)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">txs_df</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_13_0.png" src="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_13_0.png" />
+</div>
+</div>
+<section id="Overlap-Analysis">
+<h3>Overlap Analysis<a class="headerlink" href="#Overlap-Analysis" title="Link to this heading"></a></h3>
+<p>First we do a basic overlap of terms in subsets - no use of the graph</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">compare_all_subsets</span><span class="p">(</span><span class="n">oi</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;GO&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairs_to_dm</span><span class="p">(</span><span class="n">pairs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a distance matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[(</span><span class="n">p</span><span class="o">.</span><span class="n">set1_id</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">set2_id</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="o">.</span><span class="n">jaccard_similarity</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;subsetA&#39;</span><span class="p">,</span> <span class="s1">&#39;subsetB&#39;</span><span class="p">,</span> <span class="s1">&#39;sim&#39;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s2">&quot;subsetA&quot;</span><span class="p">,</span> <span class="s2">&quot;subsetB&quot;</span><span class="p">,</span> <span class="s2">&quot;sim&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pairs_to_dm</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subsetB</th>
+      <th>gocheck_do_not_annotate</th>
+      <th>gocheck_do_not_manually_annotate</th>
+      <th>goslim_agr</th>
+      <th>goslim_aspergillus</th>
+      <th>goslim_candida</th>
+      <th>goslim_chembl</th>
+      <th>goslim_drosophila</th>
+      <th>goslim_flybase_ribbon</th>
+      <th>goslim_generic</th>
+      <th>goslim_metagenomics</th>
+      <th>goslim_mouse</th>
+      <th>goslim_pir</th>
+      <th>goslim_plant</th>
+      <th>goslim_pombe</th>
+      <th>goslim_synapse</th>
+      <th>goslim_yeast</th>
+    </tr>
+    <tr>
+      <th>subsetA</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>gocheck_do_not_annotate</th>
+      <td>0.000000</td>
+      <td>0.266667</td>
+      <td>0.750000</td>
+      <td>0.722222</td>
+      <td>0.533333</td>
+      <td>0.625000</td>
+      <td>0.647059</td>
+      <td>0.684211</td>
+      <td>0.625000</td>
+      <td>0.466667</td>
+      <td>0.750000</td>
+      <td>0.823529</td>
+      <td>0.625000</td>
+      <td>0.764706</td>
+      <td>0.647059</td>
+      <td>0.625000</td>
+    </tr>
+    <tr>
+      <th>gocheck_do_not_manually_annotate</th>
+      <td>0.266667</td>
+      <td>0.000000</td>
+      <td>0.666667</td>
+      <td>0.578947</td>
+      <td>0.470588</td>
+      <td>0.555556</td>
+      <td>0.578947</td>
+      <td>0.550000</td>
+      <td>0.555556</td>
+      <td>0.411765</td>
+      <td>0.588235</td>
+      <td>0.736842</td>
+      <td>0.555556</td>
+      <td>0.684211</td>
+      <td>0.500000</td>
+      <td>0.470588</td>
+    </tr>
+    <tr>
+      <th>goslim_agr</th>
+      <td>0.750000</td>
+      <td>0.666667</td>
+      <td>0.000000</td>
+      <td>0.250000</td>
+      <td>0.333333</td>
+      <td>0.461538</td>
+      <td>0.250000</td>
+      <td>0.357143</td>
+      <td>0.333333</td>
+      <td>0.384615</td>
+      <td>0.363636</td>
+      <td>0.200000</td>
+      <td>0.333333</td>
+      <td>0.416667</td>
+      <td>0.384615</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>goslim_aspergillus</th>
+      <td>0.722222</td>
+      <td>0.578947</td>
+      <td>0.250000</td>
+      <td>0.000000</td>
+      <td>0.466667</td>
+      <td>0.466667</td>
+      <td>0.285714</td>
+      <td>0.375000</td>
+      <td>0.357143</td>
+      <td>0.400000</td>
+      <td>0.250000</td>
+      <td>0.250000</td>
+      <td>0.357143</td>
+      <td>0.307692</td>
+      <td>0.285714</td>
+      <td>0.357143</td>
+    </tr>
+    <tr>
+      <th>goslim_candida</th>
+      <td>0.533333</td>
+      <td>0.470588</td>
+      <td>0.333333</td>
+      <td>0.466667</td>
+      <td>0.000000</td>
+      <td>0.428571</td>
+      <td>0.357143</td>
+      <td>0.437500</td>
+      <td>0.307692</td>
+      <td>0.230769</td>
+      <td>0.461538</td>
+      <td>0.461538</td>
+      <td>0.307692</td>
+      <td>0.500000</td>
+      <td>0.357143</td>
+      <td>0.428571</td>
+    </tr>
+    <tr>
+      <th>goslim_chembl</th>
+      <td>0.625000</td>
+      <td>0.555556</td>
+      <td>0.461538</td>
+      <td>0.466667</td>
+      <td>0.428571</td>
+      <td>0.000000</td>
+      <td>0.466667</td>
+      <td>0.437500</td>
+      <td>0.307692</td>
+      <td>0.357143</td>
+      <td>0.333333</td>
+      <td>0.461538</td>
+      <td>0.533333</td>
+      <td>0.250000</td>
+      <td>0.466667</td>
+      <td>0.428571</td>
+    </tr>
+    <tr>
+      <th>goslim_drosophila</th>
+      <td>0.647059</td>
+      <td>0.578947</td>
+      <td>0.250000</td>
+      <td>0.285714</td>
+      <td>0.357143</td>
+      <td>0.466667</td>
+      <td>0.000000</td>
+      <td>0.470588</td>
+      <td>0.466667</td>
+      <td>0.500000</td>
+      <td>0.500000</td>
+      <td>0.250000</td>
+      <td>0.357143</td>
+      <td>0.428571</td>
+      <td>0.400000</td>
+      <td>0.466667</td>
+    </tr>
+    <tr>
+      <th>goslim_flybase_ribbon</th>
+      <td>0.684211</td>
+      <td>0.550000</td>
+      <td>0.357143</td>
+      <td>0.375000</td>
+      <td>0.437500</td>
+      <td>0.437500</td>
+      <td>0.470588</td>
+      <td>0.000000</td>
+      <td>0.333333</td>
+      <td>0.375000</td>
+      <td>0.466667</td>
+      <td>0.466667</td>
+      <td>0.437500</td>
+      <td>0.400000</td>
+      <td>0.266667</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>goslim_generic</th>
+      <td>0.625000</td>
+      <td>0.555556</td>
+      <td>0.333333</td>
+      <td>0.357143</td>
+      <td>0.307692</td>
+      <td>0.307692</td>
+      <td>0.466667</td>
+      <td>0.333333</td>
+      <td>0.000000</td>
+      <td>0.230769</td>
+      <td>0.333333</td>
+      <td>0.333333</td>
+      <td>0.428571</td>
+      <td>0.384615</td>
+      <td>0.357143</td>
+      <td>0.428571</td>
+    </tr>
+    <tr>
+      <th>goslim_metagenomics</th>
+      <td>0.466667</td>
+      <td>0.411765</td>
+      <td>0.384615</td>
+      <td>0.400000</td>
+      <td>0.230769</td>
+      <td>0.357143</td>
+      <td>0.500000</td>
+      <td>0.375000</td>
+      <td>0.230769</td>
+      <td>0.000000</td>
+      <td>0.384615</td>
+      <td>0.500000</td>
+      <td>0.230769</td>
+      <td>0.428571</td>
+      <td>0.285714</td>
+      <td>0.230769</td>
+    </tr>
+    <tr>
+      <th>goslim_mouse</th>
+      <td>0.750000</td>
+      <td>0.588235</td>
+      <td>0.363636</td>
+      <td>0.250000</td>
+      <td>0.461538</td>
+      <td>0.333333</td>
+      <td>0.500000</td>
+      <td>0.466667</td>
+      <td>0.333333</td>
+      <td>0.384615</td>
+      <td>0.000000</td>
+      <td>0.363636</td>
+      <td>0.461538</td>
+      <td>0.272727</td>
+      <td>0.384615</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>goslim_pir</th>
+      <td>0.823529</td>
+      <td>0.736842</td>
+      <td>0.200000</td>
+      <td>0.250000</td>
+      <td>0.461538</td>
+      <td>0.461538</td>
+      <td>0.250000</td>
+      <td>0.466667</td>
+      <td>0.333333</td>
+      <td>0.500000</td>
+      <td>0.363636</td>
+      <td>0.000000</td>
+      <td>0.333333</td>
+      <td>0.272727</td>
+      <td>0.384615</td>
+      <td>0.461538</td>
+    </tr>
+    <tr>
+      <th>goslim_plant</th>
+      <td>0.625000</td>
+      <td>0.555556</td>
+      <td>0.333333</td>
+      <td>0.357143</td>
+      <td>0.307692</td>
+      <td>0.533333</td>
+      <td>0.357143</td>
+      <td>0.437500</td>
+      <td>0.428571</td>
+      <td>0.230769</td>
+      <td>0.461538</td>
+      <td>0.333333</td>
+      <td>0.000000</td>
+      <td>0.384615</td>
+      <td>0.230769</td>
+      <td>0.307692</td>
+    </tr>
+    <tr>
+      <th>goslim_pombe</th>
+      <td>0.764706</td>
+      <td>0.684211</td>
+      <td>0.416667</td>
+      <td>0.307692</td>
+      <td>0.500000</td>
+      <td>0.250000</td>
+      <td>0.428571</td>
+      <td>0.400000</td>
+      <td>0.384615</td>
+      <td>0.428571</td>
+      <td>0.272727</td>
+      <td>0.272727</td>
+      <td>0.384615</td>
+      <td>0.000000</td>
+      <td>0.307692</td>
+      <td>0.384615</td>
+    </tr>
+    <tr>
+      <th>goslim_synapse</th>
+      <td>0.647059</td>
+      <td>0.500000</td>
+      <td>0.384615</td>
+      <td>0.285714</td>
+      <td>0.357143</td>
+      <td>0.466667</td>
+      <td>0.400000</td>
+      <td>0.266667</td>
+      <td>0.357143</td>
+      <td>0.285714</td>
+      <td>0.384615</td>
+      <td>0.384615</td>
+      <td>0.230769</td>
+      <td>0.307692</td>
+      <td>0.000000</td>
+      <td>0.230769</td>
+    </tr>
+    <tr>
+      <th>goslim_yeast</th>
+      <td>0.625000</td>
+      <td>0.470588</td>
+      <td>0.333333</td>
+      <td>0.357143</td>
+      <td>0.428571</td>
+      <td>0.428571</td>
+      <td>0.466667</td>
+      <td>0.333333</td>
+      <td>0.428571</td>
+      <td>0.230769</td>
+      <td>0.333333</td>
+      <td>0.461538</td>
+      <td>0.307692</td>
+      <td>0.384615</td>
+      <td>0.230769</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_18_0.png" src="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_18_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">linkage</span> <span class="o">=</span> <span class="n">hc</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">squareform</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;average&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">row_linkage</span><span class="o">=</span><span class="n">linkage</span><span class="p">,</span> <span class="n">col_linkage</span><span class="o">=</span><span class="n">linkage</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">18</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;Figure size 5760x5760 with 0 Axes&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_19_1.png" src="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_19_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Overlap-using-the-graph">
+<h2>Overlap using the graph<a class="headerlink" href="#Overlap-using-the-graph" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">compare_all_subsets</span><span class="p">(</span><span class="n">oi</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;GO&#39;</span><span class="p">,</span> <span class="n">extend_down</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pairs_to_dm</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linkage</span> <span class="o">=</span> <span class="n">hc</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">squareform</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;average&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">row_linkage</span><span class="o">=</span><span class="n">linkage</span><span class="p">,</span> <span class="n">col_linkage</span><span class="o">=</span><span class="n">linkage</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">18</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_23_0.png" src="../../../_images/examples_Ontologies_GO_GO-Subset-Analysis-OLD_23_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

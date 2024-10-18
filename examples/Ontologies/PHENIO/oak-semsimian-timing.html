@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semsimian &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Semsimian</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/PHENIO/oak-semsimian-timing.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">reset</span> -f
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install oaklib==0.5.16-rc1</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="n">semsim</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;semsimian:sqlite:obo:phenio&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 3.35 s, sys: 710 ms, total: 4.06 s
+Wall time: 3.15 s
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">semsim</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span>
+            <span class="n">subjects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;MP:0010771&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0002169&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005391&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005389&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005367&quot;</span><span class="p">],</span>
+            <span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HP:0004325&quot;</span><span class="p">,</span><span class="s2">&quot;HP:0000093&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0006144&quot;</span><span class="p">],</span>
+            <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rdfs:subClassOf&quot;</span><span class="p">,</span> <span class="s2">&quot;BFO:0000050&quot;</span><span class="p">,</span> <span class="s2">&quot;UPHENO:0000001&quot;</span><span class="p">],</span>
+            <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 39.8 s, sys: 3.9 s, total: 43.7 s
+Wall time: 43.3 s
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TermSetPairwiseSimilarity(subject_termset=[{&#39;MP:0010771&#39;: {&#39;id&#39;: &#39;MP:0010771&#39;, &#39;label&#39;: &#39;integument phenotype (MPO)&#39;}}, {&#39;MP:0005367&#39;: {&#39;id&#39;: &#39;MP:0005367&#39;, &#39;label&#39;: &#39;renal/urinary system phenotype (MPO)&#39;}}, {&#39;MP:0002169&#39;: {&#39;id&#39;: &#39;MP:0002169&#39;, &#39;label&#39;: &#39;no abnormal phenotype detected (MPO)&#39;}}, {&#39;MP:0005389&#39;: {&#39;id&#39;: &#39;MP:0005389&#39;, &#39;label&#39;: &#39;reproductive system phenotype (MPO)&#39;}}, {&#39;MP:0005391&#39;: {&#39;id&#39;: &#39;MP:0005391&#39;, &#39;label&#39;: &#39;vision/eye phenotype (MPO)&#39;}}], object_termset=[{&#39;MP:0006144&#39;: {&#39;id&#39;: &#39;MP:0006144&#39;, &#39;label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;}}, {&#39;HP:0004325&#39;: {&#39;id&#39;: &#39;HP:0004325&#39;, &#39;label&#39;: &#39;Decreased body weight (HPO)&#39;}}, {&#39;HP:0000093&#39;: {&#39;id&#39;: &#39;HP:0000093&#39;, &#39;label&#39;: &#39;Proteinuria (HPO)&#39;}}], subject_best_matches=JsonObj(similarity=JsonObj(**{&#39;MP:0002169&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.1&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;0.6651112623056488&#39;, subject_id=&#39;MP:0002169&#39;), &#39;MP:0005367&#39;: JsonObj(ancestor_id=&#39;UBERON:0001008&#39;, ancestor_information_content=&#39;6.050689168215567&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.24107142857142858&#39;, object_id=&#39;HP:0000093&#39;, phenodigm_score=&#39;1.2077451227901506&#39;, subject_id=&#39;MP:0005367&#39;), &#39;MP:0005389&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.38571428571428573&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;1.3062525878928277&#39;, subject_id=&#39;MP:0005389&#39;), &#39;MP:0005391&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.36486486486486486&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;1.270458034217462&#39;, subject_id=&#39;MP:0005391&#39;), &#39;MP:0010771&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.38028169014084506&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;1.2970210051638302&#39;, subject_id=&#39;MP:0010771&#39;)}), **{&#39;MP:0002169&#39;: JsonObj(match_source=&#39;MP:0002169&#39;, match_source_label=&#39;no abnormal phenotype detected (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;), &#39;MP:0005367&#39;: JsonObj(match_source=&#39;MP:0005367&#39;, match_source_label=&#39;renal/urinary system phenotype (MPO)&#39;, match_target=&#39;HP:0000093&#39;, match_target_label=&#39;Proteinuria (HPO)&#39;, score=&#39;6.050689168215567&#39;), &#39;MP:0005389&#39;: JsonObj(match_source=&#39;MP:0005389&#39;, match_source_label=&#39;reproductive system phenotype (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;), &#39;MP:0005391&#39;: JsonObj(match_source=&#39;MP:0005391&#39;, match_source_label=&#39;vision/eye phenotype (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;), &#39;MP:0010771&#39;: JsonObj(match_source=&#39;MP:0010771&#39;, match_source_label=&#39;integument phenotype (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;)}), object_best_matches=JsonObj(similarity=JsonObj(**{&#39;HP:0000093&#39;: JsonObj(ancestor_id=&#39;UBERON:0001008&#39;, ancestor_information_content=&#39;6.050689168215567&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.24107142857142858&#39;, object_id=&#39;MP:0005367&#39;, phenodigm_score=&#39;1.2077451227901506&#39;, subject_id=&#39;HP:0000093&#39;), &#39;HP:0004325&#39;: JsonObj(ancestor_id=&#39;UPHENO:0001003&#39;, ancestor_information_content=&#39;1.449244551635026&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.13043478260869565&#39;, object_id=&#39;MP:0002169&#39;, phenodigm_score=&#39;0.4347779870685166&#39;, subject_id=&#39;HP:0004325&#39;), &#39;MP:0006144&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.38028169014084506&#39;, object_id=&#39;MP:0010771&#39;, phenodigm_score=&#39;1.2970210051638302&#39;, subject_id=&#39;MP:0006144&#39;)}), **{&#39;HP:0000093&#39;: JsonObj(match_source=&#39;HP:0000093&#39;, match_source_label=&#39;Proteinuria (HPO)&#39;, match_target=&#39;MP:0005367&#39;, match_target_label=&#39;renal/urinary system phenotype (MPO)&#39;, score=&#39;6.050689168215567&#39;), &#39;HP:0004325&#39;: JsonObj(match_source=&#39;HP:0004325&#39;, match_source_label=&#39;Decreased body weight (HPO)&#39;, match_target=&#39;MP:0002169&#39;, match_target_label=&#39;no abnormal phenotype detected (MPO)&#39;, score=&#39;1.449244551635026&#39;), &#39;MP:0006144&#39;: JsonObj(match_source=&#39;MP:0006144&#39;, match_source_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, match_target=&#39;MP:0010771&#39;, match_target_label=&#39;integument phenotype (MPO)&#39;, score=&#39;4.4237299124581355&#39;)}), average_score=4.361838153856265, best_score=6.050689168215567, metric=&#39;ancestor_information_content&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">semsim</span><span class="o">.</span><span class="n">semsimian_object_cache</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{(&#39;BFO:0000050&#39;,
+  &#39;UPHENO:0000001&#39;,
+  &#39;rdfs:subClassOf&#39;): &lt;Semsimian at 0x7fe4b888cab0&gt;}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">semsim</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span>
+            <span class="n">subjects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;MP:0010771&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0002169&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005391&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005389&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005367&quot;</span><span class="p">],</span>
+            <span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HP:0004325&quot;</span><span class="p">,</span><span class="s2">&quot;HP:0000093&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0006144&quot;</span><span class="p">],</span>
+            <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rdfs:subClassOf&quot;</span><span class="p">,</span> <span class="s2">&quot;BFO:0000050&quot;</span><span class="p">,</span> <span class="s2">&quot;UPHENO:0000001&quot;</span><span class="p">],</span>
+            <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 26 s, sys: 1.74 s, total: 27.7 s
+Wall time: 27.6 s
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TermSetPairwiseSimilarity(subject_termset=[{&#39;MP:0005367&#39;: {&#39;id&#39;: &#39;MP:0005367&#39;, &#39;label&#39;: &#39;renal/urinary system phenotype (MPO)&#39;}}, {&#39;MP:0005389&#39;: {&#39;id&#39;: &#39;MP:0005389&#39;, &#39;label&#39;: &#39;reproductive system phenotype (MPO)&#39;}}, {&#39;MP:0005391&#39;: {&#39;id&#39;: &#39;MP:0005391&#39;, &#39;label&#39;: &#39;vision/eye phenotype (MPO)&#39;}}, {&#39;MP:0010771&#39;: {&#39;id&#39;: &#39;MP:0010771&#39;, &#39;label&#39;: &#39;integument phenotype (MPO)&#39;}}, {&#39;MP:0002169&#39;: {&#39;id&#39;: &#39;MP:0002169&#39;, &#39;label&#39;: &#39;no abnormal phenotype detected (MPO)&#39;}}], object_termset=[{&#39;HP:0000093&#39;: {&#39;id&#39;: &#39;HP:0000093&#39;, &#39;label&#39;: &#39;Proteinuria (HPO)&#39;}}, {&#39;MP:0006144&#39;: {&#39;id&#39;: &#39;MP:0006144&#39;, &#39;label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;}}, {&#39;HP:0004325&#39;: {&#39;id&#39;: &#39;HP:0004325&#39;, &#39;label&#39;: &#39;Decreased body weight (HPO)&#39;}}], subject_best_matches=JsonObj(similarity=JsonObj(**{&#39;MP:0002169&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.1&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;0.6651112623056488&#39;, subject_id=&#39;MP:0002169&#39;), &#39;MP:0005367&#39;: JsonObj(ancestor_id=&#39;UBERON:0001008&#39;, ancestor_information_content=&#39;6.050689168215567&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.24107142857142858&#39;, object_id=&#39;HP:0000093&#39;, phenodigm_score=&#39;1.2077451227901506&#39;, subject_id=&#39;MP:0005367&#39;), &#39;MP:0005389&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.38571428571428573&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;1.3062525878928277&#39;, subject_id=&#39;MP:0005389&#39;), &#39;MP:0005391&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.36486486486486486&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;1.270458034217462&#39;, subject_id=&#39;MP:0005391&#39;), &#39;MP:0010771&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.38028169014084506&#39;, object_id=&#39;MP:0006144&#39;, phenodigm_score=&#39;1.2970210051638302&#39;, subject_id=&#39;MP:0010771&#39;)}), **{&#39;MP:0002169&#39;: JsonObj(match_source=&#39;MP:0002169&#39;, match_source_label=&#39;no abnormal phenotype detected (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;), &#39;MP:0005367&#39;: JsonObj(match_source=&#39;MP:0005367&#39;, match_source_label=&#39;renal/urinary system phenotype (MPO)&#39;, match_target=&#39;HP:0000093&#39;, match_target_label=&#39;Proteinuria (HPO)&#39;, score=&#39;6.050689168215567&#39;), &#39;MP:0005389&#39;: JsonObj(match_source=&#39;MP:0005389&#39;, match_source_label=&#39;reproductive system phenotype (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;), &#39;MP:0005391&#39;: JsonObj(match_source=&#39;MP:0005391&#39;, match_source_label=&#39;vision/eye phenotype (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;), &#39;MP:0010771&#39;: JsonObj(match_source=&#39;MP:0010771&#39;, match_source_label=&#39;integument phenotype (MPO)&#39;, match_target=&#39;MP:0006144&#39;, match_target_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, score=&#39;4.4237299124581355&#39;)}), object_best_matches=JsonObj(similarity=JsonObj(**{&#39;HP:0000093&#39;: JsonObj(ancestor_id=&#39;UBERON:0001008&#39;, ancestor_information_content=&#39;6.050689168215567&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.24107142857142858&#39;, object_id=&#39;MP:0005367&#39;, phenodigm_score=&#39;1.2077451227901506&#39;, subject_id=&#39;HP:0000093&#39;), &#39;HP:0004325&#39;: JsonObj(ancestor_id=&#39;UPHENO:0001003&#39;, ancestor_information_content=&#39;1.449244551635026&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.44&#39;, object_id=&#39;MP:0005367&#39;, phenodigm_score=&#39;0.7985409211301644&#39;, subject_id=&#39;HP:0004325&#39;), &#39;MP:0006144&#39;: JsonObj(ancestor_id=&#39;MP:0000001&#39;, ancestor_information_content=&#39;4.4237299124581355&#39;, ancestor_label=&#39;&#39;, cosine_similarity=&#39;NaN&#39;, jaccard_similarity=&#39;0.36486486486486486&#39;, object_id=&#39;MP:0005391&#39;, phenodigm_score=&#39;1.270458034217462&#39;, subject_id=&#39;MP:0006144&#39;)}), **{&#39;HP:0000093&#39;: JsonObj(match_source=&#39;HP:0000093&#39;, match_source_label=&#39;Proteinuria (HPO)&#39;, match_target=&#39;MP:0005367&#39;, match_target_label=&#39;renal/urinary system phenotype (MPO)&#39;, score=&#39;6.050689168215567&#39;), &#39;HP:0004325&#39;: JsonObj(match_source=&#39;HP:0004325&#39;, match_source_label=&#39;Decreased body weight (HPO)&#39;, match_target=&#39;MP:0005367&#39;, match_target_label=&#39;renal/urinary system phenotype (MPO)&#39;, score=&#39;1.449244551635026&#39;), &#39;MP:0006144&#39;: JsonObj(match_source=&#39;MP:0006144&#39;, match_source_label=&#39;increased systemic arterial systolic blood pressure (MPO)&#39;, match_target=&#39;MP:0005391&#39;, match_target_label=&#39;vision/eye phenotype (MPO)&#39;, score=&#39;4.4237299124581355&#39;)}), average_score=4.361838153856265, best_score=6.050689168215567, metric=&#39;ancestor_information_content&#39;)
+</pre></div></div>
+</div>
+<section id="Semsimian">
+<h1>Semsimian<a class="headerlink" href="#Semsimian" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">semsimian</span> <span class="kn">import</span> <span class="n">Semsimian</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subjects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;MP:0010771&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0002169&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005391&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005389&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0005367&quot;</span><span class="p">]</span>
+<span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HP:0004325&quot;</span><span class="p">,</span><span class="s2">&quot;HP:0000093&quot;</span><span class="p">,</span><span class="s2">&quot;MP:0006144&quot;</span><span class="p">]</span>
+<span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rdfs:subClassOf&quot;</span><span class="p">,</span> <span class="s2">&quot;BFO:0000050&quot;</span><span class="p">,</span> <span class="s2">&quot;UPHENO:0000001&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">semsim</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SemSimianImplementation(resource=OntologyResource(slug=&#39;sqlite:obo:phenio&#39;, directory=None, scheme=&#39;semsimian&#39;, format=None, url=None, readonly=False, provider=None, local=False, in_memory=False, data=None, implementation_class=&lt;class &#39;oaklib.implementations.semsimian.semsimian_implementation.SemSimianImplementation&#39;&gt;, import_depth=None), strict=False, _multilingual=None, autosave=True, exclude_owl_top_and_bottom=True, ontology_metamodel_mapper=None, _converter=None, auto_relax_axioms=None, cache_lookups=False, _edge_index=None, _entailed_edge_index=None, semsimian_object_cache={(&#39;BFO:0000050&#39;, &#39;UPHENO:0000001&#39;, &#39;rdfs:subClassOf&#39;): &lt;builtins.Semsimian object at 0x7fe4b888cab0&gt;})
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">semsim</span><span class="o">.</span><span class="n">resource_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">semsim</span><span class="o">.</span><span class="n">wrapped_adapter</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;sqlite:&quot;</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">semsim</span><span class="o">.</span><span class="n">resource_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 25 µs, sys: 1 µs, total: 26 µs
+Wall time: 30 µs
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+str
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">new_semsim_obj</span> <span class="o">=</span> <span class="n">Semsimian</span><span class="p">(</span><span class="n">spo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span> <span class="n">pairwise_similarity_attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resource_path</span><span class="o">=</span><span class="n">semsim</span><span class="o">.</span><span class="n">resource_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 15.8 s, sys: 1.62 s, total: 17.5 s
+Wall time: 17.4 s
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_semsim_obj</span><span class="o">.</span><span class="n">get_spo</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010000&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0005918&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0080300&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000003&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000006&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0030000&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041448&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001440&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000040&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000002&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041370&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0011582&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000475&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041262&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0040068&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0008785&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0011216&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002964&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0040070&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000468&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0015024&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0014502&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0020651&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0009853&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0015063&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0007272&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0006049&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0021800&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0082129&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010712&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5103622&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5003622&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041311&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0084448&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0003607&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000465&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001009&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0019232&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041288&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012358&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0040064&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0009834&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0021840&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0005897&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0011249&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001015&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012141&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010912&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010000&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002905&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012140&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041346&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012139&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0020853&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076740&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5102389&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010741&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000032&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0015023&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004708&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012475&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000075&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010740&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001436&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041226&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0075817&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0004100&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0011842&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0079876&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004381&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0003636&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010538&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0008962&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5002389&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0084447&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002880&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000062&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0011250&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0009769&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002536&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002398&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002389&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004375&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000011&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004249&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002428&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0002813&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0002001&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041407&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002204&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0020220&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0002817&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0000118&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0075696&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002416&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001442&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004302&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0006058&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000004&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0019222&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0015212&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012357&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041258&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0009582&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004765&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000383&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0001167&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076727&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001005&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0034925&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010758&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076718&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0079872&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020004&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0001155&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0020584&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000467&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002495&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0005451&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0006717&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012354&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076723&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076703&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002544&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0003606&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000153&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0015061&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5006049&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010004&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004328&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5102544&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001016&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001474&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076939&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0033127&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012151&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0081581&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041154&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0009541&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0000924&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000012&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002470&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002234&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041361&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010543&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010708&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0005881&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0011297&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;RO:0002577&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0082301&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0000001&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0015280&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0003221&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041374&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0082444&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020003&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5002544&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0011314&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010688&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0009544&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000026&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002091&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002896&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002830&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:5106049&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002102&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0015021&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010363&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076747&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076941&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0009548&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000061&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002529&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001460&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004288&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001434&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0015026&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001062&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0003622&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001010&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002101&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004120&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0005922&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002708&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001008&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0012150&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002513&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010003&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041289&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004710&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0082380&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000000&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0011844&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0020041&#39;),
+ (&#39;HP:0009582&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010707&#39;),
+ (&#39;HP:0009582&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076692&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0051046&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0060255&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0010468&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0048583&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002682&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002791&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0031347&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002784&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0050776&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0008150&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0050789&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0051049&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0032101&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000015&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002831&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002800&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000003&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0019222&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002920&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002759&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0032879&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002788&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0080134&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:1900150&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002700&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0090087&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002697&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0002794&#39;),
+ (&#39;GO:0002800&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0065007&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:89593&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0005291&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:41665&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000061&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010000&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186627&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004120&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0101265&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186623&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001094&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001122&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107301&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001008&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0103175&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0010254&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:117571&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000468&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000043&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:30727&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0000060&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001105&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000002&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0003068&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7711&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0000041&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:1489341&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000003&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:32519&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0108517&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7952&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0011498&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001010&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0018666&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001005&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000926&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010316&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7954&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107368&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:00000000&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001477&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107511&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0000037&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0030000&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000012&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000465&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0035025&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7742&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0035147&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:117570&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001204&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000040&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0100009&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7898&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0012999&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186625&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000030&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:2743711&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000000&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010000&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000006&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7776&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:6072&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:2759&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:32443&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000922&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107311&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0006910&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0100000&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33208&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33154&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002536&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0063722&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000004&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:ENTITY&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001062&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107409&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;OBI:0100026&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107299&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000479&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33511&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186626&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33213&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0005423&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000923&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0003063&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010004&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020003&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:1&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186634&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002050&#39;),
+ (&#39;ZP:0101265&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0075696&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:131567&#39;),
+ (&#39;ZP:0101265&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:2743709&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0003150&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0000001&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;OGMS:0000031&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000016&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0002118&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0001776&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0700096&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0024647&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0003105&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0005039&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000017&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0004828&#39;),
+ (&#39;MONDO:0001776&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0050121&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049724&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049587&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0045716&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049927&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0050050&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0051356&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0042775&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0059829&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0052178&#39;),
+ (&#39;UPHENO:0045716&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002536&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0075831&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002896&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002905&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002964&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002830&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002708&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;UPHENO:0075831&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;OGMS:0000031&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000016&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0100338&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0005113&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0000001&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0020590&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0000368&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0018076&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0002118&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0000314&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000017&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0004272&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0006026&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0100336&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0005550&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0006002&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0005247&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;MONDO:0004272&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0700096&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0099081&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0016865&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:30727&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7898&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000043&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33511&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:6072&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0011216&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:2743709&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002536&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000393&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;RO:0002577&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0030018&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000211&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000255&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000004&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043232&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0016068&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107851&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:00000000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000013&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001062&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000383&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0018254&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107296&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0005090&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020003&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:41665&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:1489341&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:1&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0099080&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0012013&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0018927&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0005622&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001477&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0031674&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000003&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043292&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000183&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0100000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107342&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000030&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186625&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009190&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0005575&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000187&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000011&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186634&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001094&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043228&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107301&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:32443&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7776&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009116&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009128&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043226&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000465&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7952&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001008&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107543&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7711&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0003067&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0131285&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000061&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0014892&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000468&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7954&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009114&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000003&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107584&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020004&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000548&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:32519&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000062&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0030016&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000737&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:ENTITY&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0002917&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002204&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33208&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33154&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0099568&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0000548&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000002&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:2759&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0013269&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000054&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:131567&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107585&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000040&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0030017&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186626&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001439&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107707&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:33213&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0030000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107340&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:117570&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0110165&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:117571&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7742&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043229&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009000&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0099512&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000012&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000480&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0100009&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001015&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0014214&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010004&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001630&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0012248&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0005277&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0007016&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107299&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001005&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:2743711&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000467&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186623&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0005784&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000479&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001512&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107311&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009115&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;OBI:0100026&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:89593&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002816&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0005737&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004120&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0002371&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0005145&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0000037&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186627&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000006&#39;),
+ (&#39;ZP:0016865&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001010&#39;),
+ (&#39;ZP:0016865&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0100010&#39;),
+ (&#39;GO:0048869&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0008150&#39;),
+ (&#39;GO:0048869&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000003&#39;),
+ (&#39;GO:0048869&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0048869&#39;),
+ (&#39;GO:0048869&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0009987&#39;),
+ (&#39;GO:0048869&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0032502&#39;),
+ (&#39;GO:0048869&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000015&#39;),
+ (&#39;GO:0048869&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043228&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043226&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0006889&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000004&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0001320&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000521&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000003&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001062&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000020&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0000356&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0004638&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0082043&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0000001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043229&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000061&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0005622&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0001321&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020003&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0005575&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000465&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0030000&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000006&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000000&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;FYPO:0000001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000040&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002536&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000013&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0084004&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0000136&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0067691&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076692&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0001985&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0000002&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000003&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0110165&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0075696&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0043232&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;PATO:0000001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0020584&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0001322&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000002&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0005811&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000255&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0015280&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;FYPO:0000287&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;FYPO:0000356&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:7215&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:33392&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:00100313&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:2759&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0000465&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:33340&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000548&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CARO:0000006&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;OBI:0100026&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;RO:0002577&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0002319&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0001016&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:33317&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:50557&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:00000001&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000255&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00001333&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:33208&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:00004856&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CARO:0000013&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:480117&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:32351&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:43746&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0005423&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:7214&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:43738&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CARO:0030000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:33213&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:43733&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CARO:0020003&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0020003&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00007014&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00100556&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:00007016&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CARO:0000000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;BFO:0000002&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00007006&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0000467&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00100741&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:33154&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0010000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0011115&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0001062&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00007001&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0000468&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000047&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00007344&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0000000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000040&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:480118&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:ENTITY&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CARO:0000003&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:6072&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0000011&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0000465&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0002371&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:00007001&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:197563&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00005146&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;BFO:0000001&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:7227&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00100318&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:43845&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0010000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000003&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000034&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:46877&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0001017&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;BFO:0000004&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0000061&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:131567&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;BFO:0000030&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00007008&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:6656&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000338&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:85512&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0004121&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00007016&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:88770&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:197562&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:ENTITY&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0000061&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00100532&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:7147&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:6960&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:1206794&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0001062&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:32341&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0030000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:00007002&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000048&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:00005093&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0001010&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;FBbt:10000000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:43741&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:7496&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;FBbt:10000000&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0004121&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:32346&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0000003&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:1&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0000006&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0000012&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;NCBITaxon:7203&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0001008&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;CARO:0010004&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000004&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;BFO:0000040&#39;),
+ (&#39;FBbt:00100556&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0011216&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0006725&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0006732&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0006082&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0006807&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0046452&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:1901360&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0006761&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0009396&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0018130&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:1901566&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0044281&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0042398&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000015&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0044283&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000003&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0042559&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0044271&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0044249&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0009987&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0019752&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0044237&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0043648&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0016053&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0009058&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0051186&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0008152&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:1901576&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0043603&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:1901564&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0046483&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0019438&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0043650&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0034641&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0042558&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0071704&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0008150&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:1901362&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0006760&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0046394&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0006575&#39;),
+ (&#39;GO:0006761&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0043436&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049587&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0048589&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0050108&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:00000000&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000015&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0040007&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0048856&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0042246&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049781&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0014445&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0031101&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049874&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0006859&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0008150&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0032502&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0012905&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0031099&#39;),
+ (&#39;ZP:0012905&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000003&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0051516&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0015939&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0081436&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0131284&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0014975&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;ZP:0012905&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001005&#39;),
+ (&#39;MONDO:0000311&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0000311&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049707&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049671&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049676&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0059829&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0081999&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049588&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0050121&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049586&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0051091&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049964&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0060333&#39;),
+ (&#39;UPHENO:0049676&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0049587&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0000001&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0005046&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0003847&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000017&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000016&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0021094&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0030692&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;OGMS:0000031&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0700096&#39;),
+ (&#39;MONDO:0030692&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:2731342&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000004&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:1&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:151340&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:2732415&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;OBI:0100026&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:10239&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:2732421&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000040&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000030&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:2732533&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:333774&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;NCBITaxon:2732092&#39;),
+ (&#39;NCBITaxon:333774&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;, &#39;rdfs:subClassOf&#39;, &#39;SO:0000704&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;, &#39;rdfs:subClassOf&#39;, &#39;SO:0001411&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000031&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;,
+  &#39;rdfs:subClassOf&#39;,
+  &#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;, &#39;rdfs:subClassOf&#39;, &#39;SO:0000001&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;, &#39;rdfs:subClassOf&#39;, &#39;SO:0000110&#39;),
+ (&#39;&lt;http://identifiers.org/hgnc/649&gt;&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0016798&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0047405&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000003&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0016787&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0003824&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0016799&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0003674&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000015&#39;),
+ (&#39;GO:0047405&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0015400&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000015&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;ZP:0015400&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0008150&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0131284&#39;),
+ (&#39;ZP:0015400&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0036268&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001005&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:00000000&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0015400&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0015398&#39;),
+ (&#39;ZP:0015400&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;ZP:0015400&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0040011&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;ZP:0015400&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;ZP:0015400&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000003&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076692&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0002371&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0001871&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001010&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000467&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0010000&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0025461&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000004&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002390&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000013&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000040&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002193&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0020584&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0020047&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0012130&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001002&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001005&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000006&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000003&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0001927&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0075696&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000548&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;RO:0002577&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0000001&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000764&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000000&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0080300&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000988&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0077197&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000763&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000081&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0004447&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000003&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0001877&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000061&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0041226&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010004&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002536&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000232&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001008&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0010000&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0004120&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0025354&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000255&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0030000&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0001062&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000465&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000012&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CL:0000329&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000000&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000002&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0004459&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0005987&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000011&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020003&#39;),
+ (&#39;HP:0001927&#39;, &#39;rdfs:subClassOf&#39;, &#39;HP:0000118&#39;),
+ (&#39;HP:0001927&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000468&#39;),
+ (&#39;MP:0020231&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0042592&#39;),
+ (&#39;MP:0020231&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0065007&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000002&#39;),
+ (&#39;MP:0020231&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000003&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;MP:0005376&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001001&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;MP:0005319&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;MP:0001764&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;MP:0020231&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;PATO:0000001&#39;),
+ (&#39;MP:0020231&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0008150&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000020&#39;),
+ (&#39;MP:0020231&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000001&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;MP:0000001&#39;),
+ (&#39;MP:0020231&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000015&#39;),
+ (&#39;MP:0020231&#39;, &#39;UPHENO:0000001&#39;, &#39;GO:0065008&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;MP:0020231&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;GO:1990763&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000015&#39;),
+ (&#39;GO:1990763&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000003&#39;),
+ (&#39;GO:1990763&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0005515&#39;),
+ (&#39;GO:1990763&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:1990763&#39;),
+ (&#39;GO:1990763&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0005488&#39;),
+ (&#39;GO:1990763&#39;, &#39;rdfs:subClassOf&#39;, &#39;GO:0003674&#39;),
+ (&#39;GO:1990763&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000001&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0000480&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0000434&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001501&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107732&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:117571&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107307&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0020004&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0076692&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000030&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0000003&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0107298&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:7711&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:117570&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0000314&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0100000&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:00000000&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0002964&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;OBI:0100026&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0108469&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0001488&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:41665&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;UBERON:0002204&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:1&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0000037&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009093&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:186623&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;BFO:0000002&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;UPHENO:0001003&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;CARO:0001010&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0019361&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;ZFA:0009162&#39;),
+ (&#39;ZP:0019361&#39;, &#39;UPHENO:0000001&#39;, &#39;NCBITaxon:2759&#39;),
+ (&#39;ZP:0019361&#39;, &#39;rdfs:subClassOf&#39;, &#39;ZP:0016229&#39;),
+ ...]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">new_semsim_obj</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">subjects</span><span class="p">),</span> <span class="nb">set</span><span class="p">(</span><span class="n">objects</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 25.8 s, sys: 3.38 s, total: 29.2 s
+Wall time: 30 s
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;subject_termset&#39;: [{&#39;MP:0005391&#39;: {&#39;id&#39;: &#39;MP:0005391&#39;,
+    &#39;label&#39;: &#39;vision/eye phenotype (MPO)&#39;}},
+  {&#39;MP:0005367&#39;: {&#39;id&#39;: &#39;MP:0005367&#39;,
+    &#39;label&#39;: &#39;renal/urinary system phenotype (MPO)&#39;}},
+  {&#39;MP:0010771&#39;: {&#39;id&#39;: &#39;MP:0010771&#39;, &#39;label&#39;: &#39;integument phenotype (MPO)&#39;}},
+  {&#39;MP:0005389&#39;: {&#39;id&#39;: &#39;MP:0005389&#39;,
+    &#39;label&#39;: &#39;reproductive system phenotype (MPO)&#39;}},
+  {&#39;MP:0002169&#39;: {&#39;id&#39;: &#39;MP:0002169&#39;,
+    &#39;label&#39;: &#39;no abnormal phenotype detected (MPO)&#39;}}],
+ &#39;object_termset&#39;: [{&#39;MP:0006144&#39;: {&#39;id&#39;: &#39;MP:0006144&#39;,
+    &#39;label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;}},
+  {&#39;HP:0000093&#39;: {&#39;id&#39;: &#39;HP:0000093&#39;, &#39;label&#39;: &#39;Proteinuria (HPO)&#39;}},
+  {&#39;HP:0004325&#39;: {&#39;id&#39;: &#39;HP:0004325&#39;,
+    &#39;label&#39;: &#39;Decreased body weight (HPO)&#39;}}],
+ &#39;subject_best_matches&#39;: {&#39;MP:0002169&#39;: {&#39;match_source&#39;: &#39;MP:0002169&#39;,
+   &#39;match_source_label&#39;: &#39;no abnormal phenotype detected (MPO)&#39;,
+   &#39;match_target&#39;: &#39;MP:0006144&#39;,
+   &#39;match_target_label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;,
+   &#39;score&#39;: &#39;4.4237299124581355&#39;},
+  &#39;MP:0005367&#39;: {&#39;match_source&#39;: &#39;MP:0005367&#39;,
+   &#39;match_source_label&#39;: &#39;renal/urinary system phenotype (MPO)&#39;,
+   &#39;match_target&#39;: &#39;HP:0000093&#39;,
+   &#39;match_target_label&#39;: &#39;Proteinuria (HPO)&#39;,
+   &#39;score&#39;: &#39;6.050689168215567&#39;},
+  &#39;MP:0005389&#39;: {&#39;match_source&#39;: &#39;MP:0005389&#39;,
+   &#39;match_source_label&#39;: &#39;reproductive system phenotype (MPO)&#39;,
+   &#39;match_target&#39;: &#39;MP:0006144&#39;,
+   &#39;match_target_label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;,
+   &#39;score&#39;: &#39;4.4237299124581355&#39;},
+  &#39;MP:0005391&#39;: {&#39;match_source&#39;: &#39;MP:0005391&#39;,
+   &#39;match_source_label&#39;: &#39;vision/eye phenotype (MPO)&#39;,
+   &#39;match_target&#39;: &#39;MP:0006144&#39;,
+   &#39;match_target_label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;,
+   &#39;score&#39;: &#39;4.4237299124581355&#39;},
+  &#39;MP:0010771&#39;: {&#39;match_source&#39;: &#39;MP:0010771&#39;,
+   &#39;match_source_label&#39;: &#39;integument phenotype (MPO)&#39;,
+   &#39;match_target&#39;: &#39;MP:0006144&#39;,
+   &#39;match_target_label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;,
+   &#39;score&#39;: &#39;4.4237299124581355&#39;},
+  &#39;similarity&#39;: {&#39;MP:0002169&#39;: {&#39;ancestor_id&#39;: &#39;MP:0000001&#39;,
+    &#39;ancestor_information_content&#39;: &#39;4.4237299124581355&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.1&#39;,
+    &#39;object_id&#39;: &#39;MP:0006144&#39;,
+    &#39;phenodigm_score&#39;: &#39;0.6651112623056488&#39;,
+    &#39;subject_id&#39;: &#39;MP:0002169&#39;},
+   &#39;MP:0005367&#39;: {&#39;ancestor_id&#39;: &#39;UBERON:0001008&#39;,
+    &#39;ancestor_information_content&#39;: &#39;6.050689168215567&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.24107142857142858&#39;,
+    &#39;object_id&#39;: &#39;HP:0000093&#39;,
+    &#39;phenodigm_score&#39;: &#39;1.2077451227901506&#39;,
+    &#39;subject_id&#39;: &#39;MP:0005367&#39;},
+   &#39;MP:0005389&#39;: {&#39;ancestor_id&#39;: &#39;MP:0000001&#39;,
+    &#39;ancestor_information_content&#39;: &#39;4.4237299124581355&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.38571428571428573&#39;,
+    &#39;object_id&#39;: &#39;MP:0006144&#39;,
+    &#39;phenodigm_score&#39;: &#39;1.3062525878928277&#39;,
+    &#39;subject_id&#39;: &#39;MP:0005389&#39;},
+   &#39;MP:0005391&#39;: {&#39;ancestor_id&#39;: &#39;MP:0000001&#39;,
+    &#39;ancestor_information_content&#39;: &#39;4.4237299124581355&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.36486486486486486&#39;,
+    &#39;object_id&#39;: &#39;MP:0006144&#39;,
+    &#39;phenodigm_score&#39;: &#39;1.270458034217462&#39;,
+    &#39;subject_id&#39;: &#39;MP:0005391&#39;},
+   &#39;MP:0010771&#39;: {&#39;ancestor_id&#39;: &#39;MP:0000001&#39;,
+    &#39;ancestor_information_content&#39;: &#39;4.4237299124581355&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.38028169014084506&#39;,
+    &#39;object_id&#39;: &#39;MP:0006144&#39;,
+    &#39;phenodigm_score&#39;: &#39;1.2970210051638302&#39;,
+    &#39;subject_id&#39;: &#39;MP:0010771&#39;}}},
+ &#39;object_best_matches&#39;: {&#39;HP:0000093&#39;: {&#39;match_source&#39;: &#39;HP:0000093&#39;,
+   &#39;match_source_label&#39;: &#39;Proteinuria (HPO)&#39;,
+   &#39;match_target&#39;: &#39;MP:0005367&#39;,
+   &#39;match_target_label&#39;: &#39;renal/urinary system phenotype (MPO)&#39;,
+   &#39;score&#39;: &#39;6.050689168215567&#39;},
+  &#39;HP:0004325&#39;: {&#39;match_source&#39;: &#39;HP:0004325&#39;,
+   &#39;match_source_label&#39;: &#39;Decreased body weight (HPO)&#39;,
+   &#39;match_target&#39;: &#39;MP:0010771&#39;,
+   &#39;match_target_label&#39;: &#39;integument phenotype (MPO)&#39;,
+   &#39;score&#39;: &#39;1.449244551635026&#39;},
+  &#39;MP:0006144&#39;: {&#39;match_source&#39;: &#39;MP:0006144&#39;,
+   &#39;match_source_label&#39;: &#39;increased systemic arterial systolic blood pressure (MPO)&#39;,
+   &#39;match_target&#39;: &#39;MP:0005391&#39;,
+   &#39;match_target_label&#39;: &#39;vision/eye phenotype (MPO)&#39;,
+   &#39;score&#39;: &#39;4.4237299124581355&#39;},
+  &#39;similarity&#39;: {&#39;HP:0000093&#39;: {&#39;ancestor_id&#39;: &#39;UBERON:0001008&#39;,
+    &#39;ancestor_information_content&#39;: &#39;6.050689168215567&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.24107142857142858&#39;,
+    &#39;object_id&#39;: &#39;MP:0005367&#39;,
+    &#39;phenodigm_score&#39;: &#39;1.2077451227901506&#39;,
+    &#39;subject_id&#39;: &#39;HP:0000093&#39;},
+   &#39;HP:0004325&#39;: {&#39;ancestor_id&#39;: &#39;UPHENO:0001003&#39;,
+    &#39;ancestor_information_content&#39;: &#39;1.449244551635026&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.43137254901960786&#39;,
+    &#39;object_id&#39;: &#39;MP:0010771&#39;,
+    &#39;phenodigm_score&#39;: &#39;0.7906733310233626&#39;,
+    &#39;subject_id&#39;: &#39;HP:0004325&#39;},
+   &#39;MP:0006144&#39;: {&#39;ancestor_id&#39;: &#39;MP:0000001&#39;,
+    &#39;ancestor_information_content&#39;: &#39;4.4237299124581355&#39;,
+    &#39;ancestor_label&#39;: &#39;&#39;,
+    &#39;cosine_similarity&#39;: &#39;NaN&#39;,
+    &#39;jaccard_similarity&#39;: &#39;0.36486486486486486&#39;,
+    &#39;object_id&#39;: &#39;MP:0005391&#39;,
+    &#39;phenodigm_score&#39;: &#39;1.270458034217462&#39;,
+    &#39;subject_id&#39;: &#39;MP:0006144&#39;}}},
+ &#39;average_score&#39;: 4.361838153856265,
+ &#39;best_score&#39;: 6.050689168215567,
+ &#39;metric&#39;: &#39;ancestor_information_content&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

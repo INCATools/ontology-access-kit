@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COMPLoinc Example &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="MAXO Examples" href="../MAXO/index.html" />
+    <link rel="prev" title="LOINC Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">LOINC Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">COMPLoinc Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">LOINC Examples</a></li>
+      <li class="breadcrumb-item active">COMPLoinc Example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/LOINC/COMPLoinc-Example.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="COMPLoinc-Example">
+<h1>COMPLoinc Example<a class="headerlink" href="#COMPLoinc-Example" title="Link to this heading"></a></h1>
+<p>See <a class="reference external" href="https://github.com/loinc/comp-loinc">https://github.com/loinc/comp-loinc</a> for a description of the COMPLoinc project. This creates an OWL version of LOINC that can be used in OAK to explore relationships between codes and components.</p>
+<p>Currently this notebook largely only uses the command line functionality of OAK. It should therefore be accessible to non-programmers (although it helps to have a good understanding of the command line, and some advanced OAK query concepts are introduced).</p>
+<p>In future we may extend this notebook to have Python examples</p>
+<section id="Creating-an-alias">
+<h2>Creating an alias<a class="headerlink" href="#Creating-an-alias" title="Link to this heading"></a></h2>
+<p>First we create an alias <code class="docutils literal notranslate"><span class="pre">comploinc</span></code> for the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak">runoak command</a> using a sqlite selector for the comploinc resource</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> comploinc runoak -i sqlite:obo:comploinc
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Basic-Lookup">
+<h2>Basic Lookup<a class="headerlink" href="#Basic-Lookup" title="Link to this heading"></a></h2>
+<p>The info command can be used to do lookup for a given entity or set of entities. These can be specified as lists of CURIEs or labels on the command line after the <code class="docutils literal notranslate"><span class="pre">info</span></code> command:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">info</span> <span class="n">loinc</span><span class="p">:</span><span class="mi">11145</span><span class="o">-</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:11145-0 ! 5-Hydroxyindoleacetate/Creatinine:MRto:Pt:Urine:Qn:
+</pre></div></div>
+</div>
+</section>
+<section id="Graph-Visualization">
+<h2>Graph Visualization<a class="headerlink" href="#Graph-Visualization" title="Link to this heading"></a></h2>
+<p>Here we show the <code class="docutils literal notranslate"><span class="pre">viz</span></code> command with a single term (multiple terms can be passed, but we illustrate with one for now)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">viz</span> <span class="n">loinc</span><span class="p">:</span><span class="mi">11145</span><span class="o">-</span><span class="mi">0</span>  <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">loinc</span><span class="o">-</span><span class="mi">11145</span><span class="o">-</span><span class="mf">0.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/LOINC/output/loinc-11145-0.png" /></p>
+</section>
+<section id="Lookup-by-label">
+<h2>Lookup by label<a class="headerlink" href="#Lookup-by-label" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">info</span> <span class="n">Serotonin</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:LP14693-3 ! Serotonin
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">descendants</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">Serotonin</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:LP14693-3 ! Serotonin
+loinc:LP15097-6 ! 5-Hydroxyindoleacetate
+loinc:LP36806-5 ! 5-Hydroxyindoleacetate &amp; Creatinine
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">descendants</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">loinc</span><span class="p">:</span><span class="n">hasComponent</span> <span class="n">Serotonin</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:11145-0 ! 5-Hydroxyindoleacetate/Creatinine:MRto:Pt:Urine:Qn:
+loinc:12172-3 ! 5-Hydroxyindoleacetate:PrThr:24H:Urine:Ord:
+loinc:14573-0 ! 5-Hydroxyindoleacetate:SRat:24H:Urine:Qn:
+loinc:14910-4 ! Serotonin:SCnc:Pt:Ser:Qn:
+loinc:15009-4 ! 5-Hydroxyindoleacetate:SCnc:Pt:Urine:Qn:
+loinc:1692-3 ! 5-Hydroxyindoleacetate:MCnc:Pt:CSF:Qn:
+loinc:1693-1 ! 5-Hydroxyindoleacetate:MCnc:Pt:Ser/Plas:Qn:
+loinc:1694-9 ! 5-Hydroxyindoleacetate:MCnc:Pt:Urine:Qn:
+loinc:1695-6 ! 5-Hydroxyindoleacetate:MRat:24H:Urine:Qn:
+loinc:17003-5 ! Serotonin:MCnc:Pt:Urine:Qn:
+loinc:18253-5 ! Serotonin:MRat:24H:Urine:Qn:
+loinc:18375-6 ! Serotonin:MCnc:Pt:Urine:Qn:
+loinc:25524-0 ! Serotonin:SCnc:Pt:Bld:Qn:
+loinc:25971-3 ! 5-Hydroxyindoleacetate:SCnc:24H:Urine:Qn:
+loinc:25981-2 ! Serotonin:SCnc:24H:Urine:Qn:
+loinc:26035-6 ! Serotonin:SCnc:Pt:Plas:Qn:
+loinc:27057-9 ! Serotonin:MCnc:Pt:Ser:Qn:
+loinc:2939-7 ! Serotonin:MCnc:Pt:Bld:Qn:
+loinc:2940-5 ! Serotonin:MCnc:Pt:Plas:Qn:
+loinc:2941-3 ! Serotonin:MCnc:Pt:Platelets:Qn:
+loinc:29520-4 ! 5-Hydroxyindoleacetate/Creatinine:SRto:Pt:Urine:Qn:
+loinc:31203-3 ! 5-Hydroxyindoleacetate:MCnc:24H:Urine:Qn:
+loinc:32339-4 ! Serotonin:SRat:24H:Urine:Qn:
+loinc:34373-1 ! Serotonin:SCnc:Pt:Urine:Qn:
+loinc:34374-9 ! Serotonin/Creatinine:SRto:Pt:Urine:Qn:
+loinc:42671-8 ! Serotonin:EntMass:Pt:Platelets:Qn:
+loinc:44288-9 ! 5-Hydroxyindoleacetate/Creatinine:MRto:24H:Urine:Qn:
+loinc:44909-0 ! 5-Hydroxyindoleacetate &amp; Creatinine:Imp:Pt:Urine:Nom:
+loinc:47544-2 ! 5-Hydroxyindoleacetate:SCnc:Pt:CSF:Qn:
+loinc:47545-9 ! 5-Hydroxyindoleacetate/Creatinine:SRto:24H:Urine:Qn:
+loinc:48168-9 ! 5-Hydroxyindoleacetate:PrThr:Pt:Urine:Ord:
+loinc:50149-4 ! 5-Hydroxyindoleacetate:SCnc:Pt:Ser/Plas:Qn:
+loinc:56978-0 ! Serotonin:MCnc:24H:Urine:Qn:
+loinc:71804-9 ! Serotonin:EntSub:Pt:Platelets:Qn:
+loinc:74769-1 ! 5-Hydroxyindoleacetate:SCnc:Pt:PRP:Qn:
+loinc:LP14693-3 ! Serotonin
+loinc:LP15097-6 ! 5-Hydroxyindoleacetate
+loinc:LP36806-5 ! 5-Hydroxyindoleacetate &amp; Creatinine
+</pre></div></div>
+</div>
+</section>
+<section id="Text-Search">
+<h2>Text Search<a class="headerlink" href="#Text-Search" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">info</span> <span class="n">l</span><span class="o">~</span><span class="n">Serotonin</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:LP14693-3 ! Serotonin
+loinc:14910-4 ! Serotonin:SCnc:Pt:Ser:Qn:
+loinc:17003-5 ! Serotonin:MCnc:Pt:Urine:Qn:
+loinc:18253-5 ! Serotonin:MRat:24H:Urine:Qn:
+loinc:18375-6 ! Serotonin:MCnc:Pt:Urine:Qn:
+loinc:25524-0 ! Serotonin:SCnc:Pt:Bld:Qn:
+loinc:25981-2 ! Serotonin:SCnc:24H:Urine:Qn:
+loinc:26035-6 ! Serotonin:SCnc:Pt:Plas:Qn:
+loinc:27057-9 ! Serotonin:MCnc:Pt:Ser:Qn:
+loinc:2939-7 ! Serotonin:MCnc:Pt:Bld:Qn:
+loinc:2940-5 ! Serotonin:MCnc:Pt:Plas:Qn:
+loinc:2941-3 ! Serotonin:MCnc:Pt:Platelets:Qn:
+loinc:32339-4 ! Serotonin:SRat:24H:Urine:Qn:
+loinc:34373-1 ! Serotonin:SCnc:Pt:Urine:Qn:
+loinc:34374-9 ! Serotonin/Creatinine:SRto:Pt:Urine:Qn:
+loinc:42671-8 ! Serotonin:EntMass:Pt:Platelets:Qn:
+loinc:56978-0 ! Serotonin:MCnc:24H:Urine:Qn:
+loinc:71804-9 ! Serotonin:EntSub:Pt:Platelets:Qn:
+</pre></div></div>
+</div>
+</section>
+<section id="Boolean-Graph-Queries">
+<h2>Boolean Graph Queries<a class="headerlink" href="#Boolean-Graph-Queries" title="Link to this heading"></a></h2>
+<p>Find all codes that have a component of “Serotonin” and has a system of “Urine”</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">info</span> <span class="o">.</span><span class="n">descendant</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">loinc</span><span class="p">:</span><span class="n">hasComponent</span> <span class="n">Serotonin</span> <span class="o">.</span><span class="ow">and</span> <span class="o">.</span><span class="n">descendant</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">loinc</span><span class="p">:</span><span class="n">hasSystem</span> <span class="n">Urine</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:15009-4 ! 5-Hydroxyindoleacetate:SCnc:Pt:Urine:Qn:
+loinc:1695-6 ! 5-Hydroxyindoleacetate:MRat:24H:Urine:Qn:
+loinc:44909-0 ! 5-Hydroxyindoleacetate &amp; Creatinine:Imp:Pt:Urine:Nom:
+loinc:34373-1 ! Serotonin:SCnc:Pt:Urine:Qn:
+loinc:25971-3 ! 5-Hydroxyindoleacetate:SCnc:24H:Urine:Qn:
+loinc:31203-3 ! 5-Hydroxyindoleacetate:MCnc:24H:Urine:Qn:
+loinc:18253-5 ! Serotonin:MRat:24H:Urine:Qn:
+loinc:34374-9 ! Serotonin/Creatinine:SRto:Pt:Urine:Qn:
+loinc:32339-4 ! Serotonin:SRat:24H:Urine:Qn:
+loinc:29520-4 ! 5-Hydroxyindoleacetate/Creatinine:SRto:Pt:Urine:Qn:
+loinc:17003-5 ! Serotonin:MCnc:Pt:Urine:Qn:
+loinc:25981-2 ! Serotonin:SCnc:24H:Urine:Qn:
+loinc:44288-9 ! 5-Hydroxyindoleacetate/Creatinine:MRto:24H:Urine:Qn:
+loinc:12172-3 ! 5-Hydroxyindoleacetate:PrThr:24H:Urine:Ord:
+loinc:56978-0 ! Serotonin:MCnc:24H:Urine:Qn:
+loinc:18375-6 ! Serotonin:MCnc:Pt:Urine:Qn:
+loinc:48168-9 ! 5-Hydroxyindoleacetate:PrThr:Pt:Urine:Ord:
+loinc:11145-0 ! 5-Hydroxyindoleacetate/Creatinine:MRto:Pt:Urine:Qn:
+loinc:1694-9 ! 5-Hydroxyindoleacetate:MCnc:Pt:Urine:Qn:
+loinc:47545-9 ! 5-Hydroxyindoleacetate/Creatinine:SRto:24H:Urine:Qn:
+loinc:14573-0 ! 5-Hydroxyindoleacetate:SRat:24H:Urine:Qn:
+</pre></div></div>
+</div>
+</section>
+<section id="Semantic-Similarity-(Term-Wise)">
+<h2>Semantic Similarity (Term Wise)<a class="headerlink" href="#Semantic-Similarity-(Term-Wise)" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">similarity</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak similarity [OPTIONS] [TERMS]...
+
+  All by all similarity
+
+  This calculates a similarity matrix for two sets of terms.
+
+  Input sets of a terms can be specified in different ways:
+
+  - via a file - via explicit lists of terms or queries
+
+  Example:
+
+      runoak -i hp.db all-similarity -p i --set1-file HPO-TERMS1 --set2-file
+      HPO-TERMS2 -O csv
+
+  This will compare every term in TERMS1 vs TERMS2
+
+  Alternatively standard OAK term queries can be used, with &#34;@&#34; separating the
+  two lists
+
+  Example:
+
+      runoak -i hp.db all-similarity -p i TERM_1 TERM_2 ... TERM_N @ TERM_N+1
+      ... TERM_M
+
+  The .all term syntax can be used to select all terms in an ontology
+
+  Example:
+
+      runoak -i ma.db all-similarity -p i,p .all @ .all
+
+  This can be mixed with other term selectors; for example to calculate the
+  similarity of &#34;neuron&#34; vs all terms in CL:
+
+      runoak -i cl.db all-similarity -p i,p .all @ neuron
+
+  An example pipeline to do all by all over all phenotypes in HPO:
+
+  Explicit:
+
+      runoak -i hp.db descendants -p i HP:0000118 &gt; HPO     runoak -i hp.db
+      all-similarity -p i --set1-file HPO --set2-file HPO -O csv -o
+      RESULTS.tsv
+
+  The same thing can be done more compactly with term queries:
+
+      runoak -i hp.db all-similarity -p i .desc//p=i HP:0000118 @ .desc//p=i
+      HP:0000118
+
+Options:
+  -p, --predicates TEXT         A comma-separated list of predicates
+  --set1-file TEXT              ID file for set1
+  --set2-file TEXT              ID file for set2
+  --jaccard-minimum FLOAT       Minimum value for jaccard score
+  --ic-minimum FLOAT            Minimum value for information content
+  -o, --output TEXT             path to output
+  --main-score-field TEXT       Score used for summarization  [default:
+                                phenodigm_score]
+  --autolabel / --no-autolabel  If set, results will automatically have labels
+                                assigned  [default: autolabel]
+  -O, --output-type TEXT        Desired output type
+  --help                        Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">similarity</span> <span class="n">loinc</span><span class="p">:</span><span class="mi">2341</span><span class="o">-</span><span class="mi">6</span> <span class="o">@</span> <span class="n">loinc</span><span class="p">:</span><span class="mi">3134</span><span class="o">-</span><span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ancestor_id: loinc:LP65098-3
+ancestor_information_content: 6.066089190457772
+ancestor_label: Sugar
+jaccard_similarity: 0.5
+object_id: loinc:3134-4
+object_label: &#39;Xylose:MCnc:Pt:Bld:Qn:&#39;
+phenodigm_score: 1.7415638361050352
+subject_id: loinc:2341-6
+subject_label: Glucose:MCnc:Pt:Bld:Qn:Test strip manual
+</pre></div></div>
+</div>
+</section>
+<section id="Value-Sets">
+<h2>Value Sets<a class="headerlink" href="#Value-Sets" title="Link to this heading"></a></h2>
+<p>The COMPLoinc project doesn’t define any value sets. Here we just use two random hardcoded ones for illustration purposes</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">info</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">valueset1</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:5914-7 ! Glucose:PrThr:Pt:Bld:Ord:Test strip
+loinc:2339-0 ! Glucose:MCnc:Pt:Bld:Qn:
+loinc:50216-1 ! Glucose^6th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:6777-7 ! Glucose:MCnc:Pt:Ser/Plas:Qn:
+loinc:77145-1 ! Glucose^post CFst:SCnc:Pt:Ser/Plas/Bld:Qn:
+loinc:54085-6 ! Galactose:SCnc:Pt:Bld.dot:Qn:
+loinc:50218-7 ! Glucose^9th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:25426-8 ! Galactose:SCnc:Pt:Ser/Plas:Qn:
+loinc:32016-8 ! Glucose:MCnc:Pt:BldC:Qn:
+loinc:77135-2 ! Glucose:SCnc:Pt:Ser/Plas/Bld:Qn:
+loinc:2307-7 ! Galactose:MCnc:Pt:Bld:Qn:
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">info</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">valueset2</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loinc:54495-7 ! Glucose^post dialysis:SCnc:Pt:Ser/Plas:Qn:
+loinc:2308-5 ! Galactose:MCnc:Pt:Ser/Plas:Qn:
+loinc:76629-5 ! Glucose^post CFst:SCnc:Pt:Bld:Qn:
+loinc:27353-2 ! Estimated average glucose:MCnc:Pt:Bld:Qn:Estimated from glycated hemoglobin
+loinc:2552-8 ! Lactose:MCnc:Pt:Ser/Plas:Qn:
+loinc:12611-0 ! Glucose^4H specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:51596-5 ! Glucose:SCnc:Pt:BldC:Qn:
+loinc:93791-2 ! Glucose:MCnc:Stdy^mean:Ser/Plas:Qn:
+loinc:50215-3 ! Glucose^5th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:50208-8 ! Glucose^10th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:3134-4 ! Xylose:MCnc:Pt:Bld:Qn:
+loinc:29999-0 ! Xylose:MCnc:Pt:Ser/Plas:Qn:
+loinc:5914-7 ! Glucose:PrThr:Pt:Bld:Ord:Test strip
+loinc:2339-0 ! Glucose:MCnc:Pt:Bld:Qn:
+loinc:50216-1 ! Glucose^6th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:6777-7 ! Glucose:MCnc:Pt:Ser/Plas:Qn:
+loinc:77145-1 ! Glucose^post CFst:SCnc:Pt:Ser/Plas/Bld:Qn:
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">termset</span><span class="o">-</span><span class="n">similarity</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">valueset1</span><span class="o">.</span><span class="n">txt</span> <span class="o">@</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">valueset2</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">sim</span><span class="o">-</span><span class="n">out</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head<span class="w"> </span>-20<span class="w"> </span>output/sim-out.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+average_score: 9.623542661061256
+best_score: 13.738514532429267
+object_best_matches:
+  loinc:12611-0:
+    match_source: loinc:12611-0
+    match_source_label: &#39;Glucose^4H specimen:MCnc:Pt:Ser/Plas:Qn:&#39;
+    match_target: loinc:2339-0
+    match_target_label: &#39;Glucose:MCnc:Pt:Bld:Qn:&#39;
+    score: 6.519346011967107
+    similarity:
+      ancestor_id: loinc:LP14635-4
+      ancestor_information_content: 6.519346011967107
+      ancestor_label: Glucose
+      jaccard_similarity: 0.84
+      object_id: loinc:12611-0
+      phenodigm_score: 2.3401390236591437
+      subject_id: loinc:2339-0
+  loinc:2308-5:
+    match_source: loinc:2308-5
+    match_source_label: &#39;Galactose:MCnc:Pt:Ser/Plas:Qn:&#39;
+</pre></div></div>
+</div>
+</section>
+<section id="Logical-Definitions">
+<h2>Logical Definitions<a class="headerlink" href="#Logical-Definitions" title="Link to this heading"></a></h2>
+<p>Currently these are invisible - best way to fix this is to address:</p>
+<p><a class="reference external" href="https://github.com/loinc/comp-loinc/issues/17">https://github.com/loinc/comp-loinc/issues/17</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="n">loinc</span><span class="p">:</span><span class="mi">14573</span><span class="o">-</span><span class="mi">0</span> <span class="n">loinc</span><span class="p">:</span><span class="mi">47545</span><span class="o">-</span><span class="mi">9</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="n">lexmatch</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak lexmatch [OPTIONS] [TERMS]...
+
+  Performs lexical matching between pairs of terms in one more more
+  ontologies.
+
+  Examples:
+
+      runoak -i foo.obo lexmatch -o foo.sssom.tsv
+
+  In this example, the input ontology file is assumed to contain all pairs of
+  terms to be mapped.
+
+  It is more common to map between all pairs of terms in two ontology files.
+  In this case, you can merge the ontologies using a tool like ROBOT; or,  to
+  avoid a merge preprocessing step, use the --addl (-a) option to specify a
+  second ontology file.
+
+      runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv
+
+  By default, this command will compare all terms in all ontologies. You can
+  use the OAK term query syntax to pass in the set of all terms to be
+  compared.
+
+  For example, to compare all terms in union of FOO and BAR namespaces:
+
+      runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv i^FOO: i^BAR:
+
+  All members of the set are compared (including FOO to FOO matches and BAR to
+  BAR matches), omitting trivial reciprocal matches.
+
+  Use an &#34;@&#34; separator between two queries to feed in two explicit sets:
+
+      runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv i^FOO: @
+      i^BAR:
+
+  ALGORITHM: lexmatch implements a simple algorithm:
+
+  - create a lexical index, keyed by normalized strings of labels, synonyms -
+  report all pairs of entities that have the same key
+
+  The lexical index can be exported (in native YAML) using -L:
+
+      runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv
+
+  Note: if you run the above command a second time it will be faster as the
+  index will be reused.
+
+  RULES: Using custom rules:
+
+      runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o
+      foo.sssom.tsv
+
+  Full documentation:
+
+  - https://incatools.github.io/ontology-access-
+  kit/src/oaklib.utilities.lexical.lexical_indexer.html# module-
+  oaklib.utilities.lexical.lexical_indexer
+
+Options:
+  -R, --rules-file TEXT           path to rules file. Conforms to
+                                  rules_datamodel.        e.g.
+                                  https://github.com/INCATools/ontology-
+                                  access-
+                                  kit/blob/main/tests/input/matcher_rules.yaml
+  --add-labels / --no-add-labels  Populate empty labels with URI fragments or
+                                  CURIE local IDs, for ontologies that use
+                                  semantic IDs  [default: no-add-labels]
+  -L, --lexical-index-file TEXT   path to lexical index. This is recreated
+                                  each time unless --no-recreate is passed
+  --recreate / --no-recreate      if true and lexical index is specified,
+                                  always recreate, otherwise load from index
+                                  [default: recreate]
+  -o, --output FILENAME           Output file, e.g. obo file
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Lexical-Matching">
+<h2>Lexical Matching<a class="headerlink" href="#Lexical-Matching" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comploinc</span> <span class="o">-</span><span class="n">a</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">uberon</span> <span class="n">lexmatch</span> <span class="o">-</span><span class="n">L</span> <span class="n">output</span><span class="o">/</span><span class="n">loinc</span><span class="o">-</span><span class="n">uberon</span><span class="o">-</span><span class="n">lexical</span><span class="o">-</span><span class="n">index</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">loinc</span><span class="o">-</span><span class="n">uberon</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span> <span class="n">i</span><span class="o">^</span><span class="n">UBERON</span><span class="p">:</span> <span class="o">@</span> <span class="n">i</span><span class="o">^</span><span class="n">loinc</span><span class="p">:</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:Skipping &lt;urn:swrl#A&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#B&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#C&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#D&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#d&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#e&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#eff&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#in&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#p&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#w&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#z&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#z&gt; as it is not a valid CURIE
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/loinc-uberon.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>mapping_tool</th>
+      <th>subject_match_field</th>
+      <th>object_match_field</th>
+      <th>match_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>UBERON:0000004</td>
+      <td>nose</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7443-7</td>
+      <td>Nose</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>nose</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>UBERON:0000004</td>
+      <td>nose</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7443-7</td>
+      <td>Nose</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>nose</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>UBERON:0000014</td>
+      <td>zone of skin</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP36760-4</td>
+      <td>Skin</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>skin</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>UBERON:0000019</td>
+      <td>camera-type eye</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7797-6</td>
+      <td>EYE</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>eye</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>UBERON:0000019</td>
+      <td>camera-type eye</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7218-3</td>
+      <td>Eye</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>eye</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>UBERON:2000673</td>
+      <td>hypobranchial artery</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP28800-8</td>
+      <td>HA</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>ha</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>UBERON:3011048</td>
+      <td>genital system</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7555-8</td>
+      <td>Reproductive system</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>reproductive system</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>UBERON:3011048</td>
+      <td>genital system</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7264-7</td>
+      <td>Genitalia</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>genitalia</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>UBERON:6110636</td>
+      <td>insect adult cerebral ganglion</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7084-9</td>
+      <td>Brain</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>brain</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>UBERON:8420000</td>
+      <td>hair of scalp</td>
+      <td>skos:closeMatch</td>
+      <td>loinc:LP7280-3</td>
+      <td>Hair</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>hair</td>
+    </tr>
+  </tbody>
+</table>
+<p>79 rows × 10 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="LOINC Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../MAXO/index.html" class="btn btn-neutral float-right" title="MAXO Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

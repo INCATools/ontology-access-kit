@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OMOP/N3C Examples &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="PhenIO Examples" href="../PHENIO/index.html" />
+    <link rel="prev" title="OMOP Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">OMOP Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">OMOP/N3C Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">OMOP Examples</a></li>
+      <li class="breadcrumb-item active">OMOP/N3C Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/OMOP/OMOP-Example.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OMOP/N3C-Examples">
+<h1>OMOP/N3C Examples<a class="headerlink" href="#OMOP/N3C-Examples" title="Link to this heading"></a></h1>
+<p>See <a class="reference external" href="https://github.com/jhu-bids/TermHub/issues/516">https://github.com/jhu-bids/TermHub/issues/516</a></p>
+<section id="Basic-term-lookup">
+<h2>Basic term lookup<a class="headerlink" href="#Basic-term-lookup" title="Link to this heading"></a></h2>
+<p>First we will create an adapter object for a previously created sqlite database containing the N3C version of OMOP.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;input/n3c.db&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next we will do a lookup – note in OAK all IDs are compact URIs (prefixed identifiers)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">TERM_ID</span> <span class="o">=</span> <span class="s2">&quot;omop:4195673&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">TERM_ID</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Angioplasty of posterior tibial artery
+</pre></div></div>
+</div>
+<p>If you have a list of ids you can use the <code class="docutils literal notranslate"><span class="pre">labels</span></code> method:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">labels</span><span class="p">([</span><span class="n">TERM_ID</span><span class="p">,</span> <span class="s2">&quot;omop:45933598&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+omop:4195673 Angioplasty of posterior tibial artery
+omop:45933598 Postsurgical Percutaneous Transluminal Coronary Angioplasty Status
+</pre></div></div>
+</div>
+</section>
+<section id="Basic-Search">
+<h2>Basic Search<a class="headerlink" href="#Basic-Search" title="Link to this heading"></a></h2>
+<p>OAK has a number of different ways to search ontologies or to do boolean queries combining lexical search and graph constraints.</p>
+<p>We will start with a simple lookup-by-label, which considered the most basic search:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;Angioplasty&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;omop:1018433&#39;]
+</pre></div></div>
+</div>
+<p>Next we will do a partial string match search – for this we will need a SearchConfiguration object:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;Angioplasty&quot;</span><span class="p">,</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">is_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">)))[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+omop:45933598 Postsurgical Percutaneous Transluminal Coronary Angioplasty Status
+omop:1389714 Percutaneous transluminal angioplasty of native or recurrent coarctation of the aorta
+omop:2101787 Anesthesia for angioplasty (Deprecated)
+omop:2107779 Transluminal balloon angioplasty, open; renal or other visceral artery
+omop:2107780 Transluminal balloon angioplasty, open; aortic
+</pre></div></div>
+</div>
+<p>Note we truncated the results to 5 for brevity.</p>
+<p>Lexical search is currently quite slow for the sqlite backend. In future it will be possible to use a hybrid approach with lucene-backed search using Solr.</p>
+</section>
+<section id="Command-Line-Simple-Search">
+<h2>Command Line Simple Search<a class="headerlink" href="#Command-Line-Simple-Search" title="Link to this heading"></a></h2>
+<p>We can do the same thing on the command line:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span><span class="nv">$db</span>/omop.db<span class="w"> </span>info<span class="w"> </span>l~Angioplasty<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+omop:45933598 ! Postsurgical Percutaneous Transluminal Coronary Angioplasty Status
+omop:1389714 ! Percutaneous transluminal angioplasty of native or recurrent coarctation of the aorta
+omop:2101787 ! Anesthesia for angioplasty (Deprecated)
+omop:2107779 ! Transluminal balloon angioplasty, open; renal or other visceral artery
+omop:2107780 ! Transluminal balloon angioplasty, open; aortic
+</pre></div></div>
+</div>
+</section>
+<section id="Graph-Queries">
+<h2>Graph Queries<a class="headerlink" href="#Graph-Queries" title="Link to this heading"></a></h2>
+<p>Ontologies and ontology-like structures can be projected onto graphs, and OAK provides a number of graph-oriented queries. For now we only consider IS_A graphs.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+<span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">([</span><span class="n">TERM_ID</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ancs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+omop:4195673 Angioplasty of posterior tibial artery
+omop:4000756 Leg repair
+omop:4002031 Cardiovascular system repair
+omop:4012185 Cardiovascular surgical procedure
+omop:4030028 Surgical procedure on lower extremity
+omop:4050128 Angioplasty of artery
+omop:4050134 Angioplasty of crural artery
+omop:4054559 Repair of blood vessel
+omop:4062347 Surgical repair of artery of extremity
+omop:4091623 Surgical repair of lower extremity
+omop:4148948 Vascular surgery procedure
+omop:4159949 Surgical procedure on soft tissue
+omop:4160912 Vascular surgical procedure on lower limb
+omop:4177089 Surgical repair procedure by device
+omop:4181193 Limb operation
+omop:4181322 Surgical repair procedure by body site
+omop:4184453 Operative procedure on lower leg
+omop:4185115 Surgical repair
+omop:4190070 Angioplasty of artery of lower extremity
+omop:4195673 Angioplasty of posterior tibial artery
+omop:4301351 Surgical procedure
+omop:4302652 Angioplasty of blood vessel
+omop:4311041 Repair of artery
+omop:4324523 Dilation procedure
+omop:4331725 Operative procedure on artery of extremity
+omop:46271049 Angioplasty of peripheral blood vessel
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">([</span><span class="n">TERM_ID</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ancs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="n">a</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+rdfs:subClassOf omop:4000756 Leg repair
+rdfs:subClassOf omop:4050134 Angioplasty of crural artery
+rdfs:subClassOf omop:4091623 Surgical repair of lower extremity
+rdfs:subClassOf omop:4184453 Operative procedure on lower leg
+rdfs:subClassOf omop:4012185 Cardiovascular surgical procedure
+rdfs:subClassOf omop:4181322 Surgical repair procedure by body site
+rdfs:subClassOf omop:4301351 Surgical procedure
+rdfs:subClassOf omop:4181193 Limb operation
+rdfs:subClassOf omop:4302652 Angioplasty of blood vessel
+rdfs:subClassOf omop:4311041 Repair of artery
+rdfs:subClassOf omop:4190070 Angioplasty of artery of lower extremity
+rdfs:subClassOf omop:4002031 Cardiovascular system repair
+rdfs:subClassOf omop:4148948 Vascular surgery procedure
+rdfs:subClassOf omop:4311041 Repair of artery
+rdfs:subClassOf omop:4331725 Operative procedure on artery of extremity
+rdfs:subClassOf omop:4030028 Surgical procedure on lower extremity
+rdfs:subClassOf omop:4181322 Surgical repair procedure by body site
+rdfs:subClassOf omop:4012185 Cardiovascular surgical procedure
+rdfs:subClassOf omop:4159949 Surgical procedure on soft tissue
+rdfs:subClassOf omop:4301351 Surgical procedure
+rdfs:subClassOf omop:4030028 Surgical procedure on lower extremity
+rdfs:subClassOf omop:4148948 Vascular surgery procedure
+rdfs:subClassOf omop:4185115 Surgical repair
+rdfs:subClassOf omop:4301351 Surgical procedure
+rdfs:subClassOf omop:4185115 Surgical repair
+rdfs:subClassOf omop:4030028 Surgical procedure on lower extremity
+rdfs:subClassOf omop:4301351 Surgical procedure
+rdfs:subClassOf omop:4050128 Angioplasty of artery
+rdfs:subClassOf omop:4062347 Surgical repair of artery of extremity
+rdfs:subClassOf omop:4091623 Surgical repair of lower extremity
+rdfs:subClassOf omop:4160912 Vascular surgical procedure on lower limb
+rdfs:subClassOf omop:4177089 Surgical repair procedure by device
+rdfs:subClassOf omop:46271049 Angioplasty of peripheral blood vessel
+rdfs:subClassOf omop:4000756 Leg repair
+rdfs:subClassOf omop:4050134 Angioplasty of crural artery
+rdfs:subClassOf omop:4054559 Repair of blood vessel
+rdfs:subClassOf omop:4324523 Dilation procedure
+rdfs:subClassOf omop:4054559 Repair of blood vessel
+rdfs:subClassOf omop:4301351 Surgical procedure
+rdfs:subClassOf omop:4148948 Vascular surgery procedure
+rdfs:subClassOf omop:4181193 Limb operation
+rdfs:subClassOf omop:4002031 Cardiovascular system repair
+rdfs:subClassOf omop:4324523 Dilation procedure
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">descs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">([</span><span class="s2">&quot;omop:4181322&quot;</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">descs</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+omop:3183297 Transvaginal urethral sling repair
+omop:2730516 Bypass Right Femoral Artery to Posterior Tibial Artery, Percutaneous Endoscopic Approach
+omop:4210771 Reconstruction of eyelid, full-thickness
+omop:2733612 Extraction of Left Brachial Vein, Percutaneous Approach
+omop:2725058 Bypass Right Ventricle to Right Pulmonary Artery with Synthetic Substitute, Percutaneous Endoscopic Approach
+</pre></div></div>
+</div>
+</section>
+<section id="Simple-Pairwise-Semantic-Similarity">
+<h2>Simple Pairwise Semantic Similarity<a class="headerlink" href="#Simple-Pairwise-Semantic-Similarity" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">yaml_dumper</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">yaml_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">pairwise_similarity</span><span class="p">(</span><span class="n">TERM_ID</span><span class="p">,</span> <span class="s2">&quot;omop:2733612&quot;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_id: omop:4195673
+object_id: omop:2733612
+ancestor_id: omop:4302652
+ancestor_information_content: 10.432664389401875
+jaccard_similarity: 0.3793103448275862
+phenodigm_score: 1.9892756287187816
+</pre></div></div>
+</div>
+</section>
+<section id="Paths">
+<h2>Paths<a class="headerlink" href="#Paths" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">paths</span><span class="p">([</span><span class="n">TERM_ID</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;omop:4210771&quot;</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">([(</span><span class="n">elt</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">elt</span><span class="p">))</span> <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">path</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4000756&#39;, &#39;Leg repair&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4091623&#39;, &#39;Surgical repair of lower extremity&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4181322&#39;, &#39;Surgical repair procedure by body site&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4161058&#39;, &#39;Surgical repair of head and neck structure&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4161828&#39;, &#39;Repair of eyelid&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4330850&#39;, &#39;Reconstruction of eyelid&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4000756&#39;, &#39;Leg repair&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4091623&#39;, &#39;Surgical repair of lower extremity&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4181322&#39;, &#39;Surgical repair procedure by body site&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4185115&#39;, &#39;Surgical repair&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4045162&#39;, &#39;Reconstruction procedure&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4330850&#39;, &#39;Reconstruction of eyelid&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4050134&#39;, &#39;Angioplasty of crural artery&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4190070&#39;, &#39;Angioplasty of artery of lower extremity&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4177089&#39;, &#39;Surgical repair procedure by device&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4185115&#39;, &#39;Surgical repair&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4045162&#39;, &#39;Reconstruction procedure&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4330850&#39;, &#39;Reconstruction of eyelid&#39;)]
+[(&#39;omop:4195673&#39;, &#39;Angioplasty of posterior tibial artery&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;), (&#39;omop:4210771&#39;, &#39;Reconstruction of eyelid, full-thickness&#39;)]
+</pre></div></div>
+</div>
+</section>
+<section id="Subgraphs">
+<h2>Subgraphs<a class="headerlink" href="#Subgraphs" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">TERM_ID</span><span class="p">,</span> <span class="s2">&quot;omop:4210771&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:2733612&quot;</span><span class="p">]</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">graph_to_image</span>
+<span class="n">graph_to_image</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">seeds</span><span class="o">=</span><span class="n">seeds</span><span class="p">,</span> <span class="n">imgfile</span><span class="o">=</span><span class="s2">&quot;output/angioplasty.png&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/OMOP/output/angioplasty-styled.png" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">default_stylemap_path</span>
+
+<span class="n">stylemap</span> <span class="o">=</span> <span class="n">default_stylemap_path</span><span class="p">()</span>
+<span class="n">graph_to_image</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">seeds</span><span class="o">=</span><span class="n">seeds</span><span class="p">,</span> <span class="n">imgfile</span><span class="o">=</span><span class="s2">&quot;output/angioplasty-styled.png&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">stylemap</span><span class="o">=</span><span class="n">stylemap</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/OMOP/output/angioplasty-styled.png" /></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">gap_fill_relationships</span><span class="p">([</span><span class="s2">&quot;omop:4195673&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4210771&quot;</span><span class="p">,</span>
+                                               <span class="s2">&quot;omop:2733612&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4054559&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4301351&quot;</span><span class="p">],</span>
+                                                <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="s2">&quot;==&gt;&quot;</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+omop:2733612 Extraction of Left Brachial Vein, Percutaneous Approach ==&gt; omop:4054559 Repair of blood vessel
+omop:4054559 Repair of blood vessel ==&gt; omop:4301351 Surgical procedure
+omop:4195673 Angioplasty of posterior tibial artery ==&gt; omop:4054559 Repair of blood vessel
+omop:4210771 Reconstruction of eyelid, full-thickness ==&gt; omop:4301351 Surgical procedure
+</pre></div></div>
+</div>
+</section>
+<section id="Export-to-networkx">
+<h2>Export to networkx<a class="headerlink" href="#Export-to-networkx" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">as_multi_digraph</span>
+<span class="n">nx_g</span> <span class="o">=</span> <span class="n">as_multi_digraph</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nx_g</span><span class="o">.</span><span class="n">nodes</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+NodeView((&#39;omop:4027561&#39;, &#39;omop:2733612&#39;, &#39;omop:40489873&#39;, &#39;omop:4177089&#39;, &#39;omop:4302652&#39;, &#39;omop:4054559&#39;, &#39;omop:4324523&#39;, &#39;omop:4301351&#39;, &#39;omop:4002031&#39;, &#39;omop:4148948&#39;, &#39;omop:4012185&#39;, &#39;omop:4159949&#39;, &#39;omop:4181322&#39;, &#39;omop:4185115&#39;, &#39;omop:4134598&#39;, &#39;omop:4330850&#39;, &#39;omop:4210771&#39;, &#39;omop:4045162&#39;, &#39;omop:4161828&#39;, &#39;omop:4161058&#39;, &#39;omop:4249123&#39;, &#39;omop:4139008&#39;, &#39;omop:4031321&#39;, &#39;omop:4154279&#39;, &#39;omop:4233946&#39;, &#39;omop:4040721&#39;, &#39;omop:4000756&#39;, &#39;omop:4195673&#39;, &#39;omop:4050134&#39;, &#39;omop:4190070&#39;, &#39;omop:4050128&#39;, &#39;omop:4062347&#39;, &#39;omop:4091623&#39;, &#39;omop:4160912&#39;, &#39;omop:46271049&#39;, &#39;omop:4030028&#39;, &#39;omop:4181193&#39;, &#39;omop:4311041&#39;, &#39;omop:4331725&#39;, &#39;omop:4184453&#39;))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find graph statistics using networkx</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">degree_centrality</span><span class="p">(</span><span class="n">nx_g</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;omop:4027561&#39;: 0.05128205128205128,
+ &#39;omop:2733612&#39;: 0.05128205128205128,
+ &#39;omop:40489873&#39;: 0.07692307692307693,
+ &#39;omop:4177089&#39;: 0.07692307692307693,
+ &#39;omop:4302652&#39;: 0.10256410256410256,
+ &#39;omop:4054559&#39;: 0.10256410256410256,
+ &#39;omop:4324523&#39;: 0.07692307692307693,
+ &#39;omop:4301351&#39;: 0.1794871794871795,
+ &#39;omop:4002031&#39;: 0.10256410256410256,
+ &#39;omop:4148948&#39;: 0.1282051282051282,
+ &#39;omop:4012185&#39;: 0.07692307692307693,
+ &#39;omop:4159949&#39;: 0.05128205128205128,
+ &#39;omop:4181322&#39;: 0.10256410256410256,
+ &#39;omop:4185115&#39;: 0.10256410256410256,
+ &#39;omop:4134598&#39;: 0.05128205128205128,
+ &#39;omop:4330850&#39;: 0.07692307692307693,
+ &#39;omop:4210771&#39;: 0.02564102564102564,
+ &#39;omop:4045162&#39;: 0.05128205128205128,
+ &#39;omop:4161828&#39;: 0.07692307692307693,
+ &#39;omop:4161058&#39;: 0.07692307692307693,
+ &#39;omop:4249123&#39;: 0.05128205128205128,
+ &#39;omop:4139008&#39;: 0.07692307692307693,
+ &#39;omop:4031321&#39;: 0.05128205128205128,
+ &#39;omop:4154279&#39;: 0.05128205128205128,
+ &#39;omop:4233946&#39;: 0.07692307692307693,
+ &#39;omop:4040721&#39;: 0.02564102564102564,
+ &#39;omop:4000756&#39;: 0.07692307692307693,
+ &#39;omop:4195673&#39;: 0.05128205128205128,
+ &#39;omop:4050134&#39;: 0.05128205128205128,
+ &#39;omop:4190070&#39;: 0.1794871794871795,
+ &#39;omop:4050128&#39;: 0.07692307692307693,
+ &#39;omop:4062347&#39;: 0.07692307692307693,
+ &#39;omop:4091623&#39;: 0.10256410256410256,
+ &#39;omop:4160912&#39;: 0.07692307692307693,
+ &#39;omop:46271049&#39;: 0.07692307692307693,
+ &#39;omop:4030028&#39;: 0.10256410256410256,
+ &#39;omop:4181193&#39;: 0.07692307692307693,
+ &#39;omop:4311041&#39;: 0.07692307692307693,
+ &#39;omop:4331725&#39;: 0.07692307692307693,
+ &#39;omop:4184453&#39;: 0.05128205128205128}
+</pre></div></div>
+</div>
+</section>
+<section id="Term-metadata">
+<h2>Term metadata<a class="headerlink" href="#Term-metadata" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adapter</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">TERM_ID</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;id&#39;: [&#39;omop:4195673&#39;],
+ &#39;omop:concept_class_id&#39;: [&#39;Procedure&#39;],
+ &#39;omop:concept_code&#39;: [&#39;312644004&#39;],
+ &#39;omop:domain_id&#39;: [&#39;Procedure&#39;],
+ &#39;omop:standard_concept&#39;: [&#39;S&#39;],
+ &#39;omop:valid_end_date&#39;: [&#39;2099-12-31&#39;],
+ &#39;omop:valid_start_date&#39;: [&#39;2002-01-31&#39;],
+ &#39;omop:vocabulary_id&#39;: [&#39;SNOMED&#39;],
+ &#39;rdfs:label&#39;: [&#39;Angioplasty of posterior tibial artery&#39;],
+ &#39;sh:prefix&#39;: [&#39;omop&#39;],
+ &#39;schema:url&#39;: [&#39;https://athena.ohdsi.org/search-terms/terms/4195673&#39;],
+ &#39;rdfs:isDefinedBy&#39;: [&#39;https://athena.ohdsi.org/search-terms/terms/&#39;]}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;omop:312644004&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Semantic-Similarity-using-Rust">
+<h2>Semantic Similarity using Rust<a class="headerlink" href="#Semantic-Similarity-using-Rust" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">simadapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;semsimian:input/n3c.db&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">terms1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;omop:4195673&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4000756&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4002031&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4012185&quot;</span><span class="p">]</span>
+<span class="n">terms2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;omop:4030028&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4050128&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4050134&quot;</span><span class="p">,</span> <span class="s2">&quot;omop:4054559&quot;</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsps</span> <span class="o">=</span> <span class="n">simadapter</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span><span class="n">terms1</span><span class="p">,</span> <span class="n">terms2</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">yaml_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tsps</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_termset:
+  omop:4000756:
+    id: omop:4000756
+    label: Leg repair
+  omop:4002031:
+    id: omop:4002031
+    label: Cardiovascular system repair
+  omop:4012185:
+    id: omop:4012185
+    label: Cardiovascular surgical procedure
+  omop:4195673:
+    id: omop:4195673
+    label: Angioplasty of posterior tibial artery
+object_termset:
+  omop:4050128:
+    id: omop:4050128
+    label: Angioplasty of artery
+  omop:4054559:
+    id: omop:4054559
+    label: Repair of blood vessel
+  omop:4030028:
+    id: omop:4030028
+    label: Surgical procedure on lower extremity
+  omop:4050134:
+    id: omop:4050134
+    label: Angioplasty of crural artery
+subject_best_matches:
+  omop:4000756:
+    match_source: omop:4000756
+    score: 10.984781775651545
+    similarity:
+      subject_id: omop:4000756
+      object_id: omop:4050134
+      ancestor_id: omop:4091623
+      ancestor_label: &#39;&#39;
+      ancestor_information_content: 10.984781775651545
+      jaccard_similarity: 0.25
+      phenodigm_score: 1.657164881329823
+    match_source_label: Leg repair
+    match_target: omop:4050134
+    match_target_label: Angioplasty of crural artery
+  omop:4002031:
+    match_source: omop:4002031
+    score: 9.090426815106653
+    similarity:
+      subject_id: omop:4002031
+      object_id: omop:4050128
+      ancestor_id: omop:4002031
+      ancestor_label: Cardiovascular system repair
+      ancestor_information_content: 9.090426815106653
+      jaccard_similarity: 0.4166666666666667
+      phenodigm_score: 1.946195735178703
+    match_source_label: Cardiovascular system repair
+    match_target: omop:4050128
+    match_target_label: Angioplasty of artery
+  omop:4012185:
+    match_source: omop:4012185
+    score: 8.513920531310507
+    similarity:
+      subject_id: omop:4012185
+      object_id: omop:4054559
+      ancestor_id: omop:4012185
+      ancestor_label: Cardiovascular surgical procedure
+      ancestor_information_content: 8.513920531310507
+      jaccard_similarity: 0.25
+      phenodigm_score: 1.4589311610996685
+    match_source_label: Cardiovascular surgical procedure
+    match_target: omop:4054559
+    match_target_label: Repair of blood vessel
+  omop:4195673:
+    match_source: omop:4195673
+    score: 18.911289573272484
+    similarity:
+      subject_id: omop:4195673
+      object_id: omop:4050134
+      ancestor_id: omop:4050134
+      ancestor_label: Angioplasty of crural artery
+      ancestor_information_content: 18.911289573272484
+      jaccard_similarity: 0.88
+      phenodigm_score: 4.079452760417724
+    match_source_label: Angioplasty of posterior tibial artery
+    match_target: omop:4050134
+    match_target_label: Angioplasty of crural artery
+object_best_matches:
+  omop:4030028:
+    match_source: omop:4030028
+    score: 9.734760203165433
+    similarity:
+      subject_id: omop:4030028
+      object_id: omop:4195673
+      ancestor_id: omop:4030028
+      ancestor_label: Surgical procedure on lower extremity
+      ancestor_information_content: 9.734760203165433
+      jaccard_similarity: 0.12
+      phenodigm_score: 1.0808197002182427
+    match_source_label: Surgical procedure on lower extremity
+    match_target: omop:4195673
+    match_target_label: Angioplasty of posterior tibial artery
+  omop:4050128:
+    match_source: omop:4050128
+    score: 11.720054065584758
+    similarity:
+      subject_id: omop:4050128
+      object_id: omop:4195673
+      ancestor_id: omop:4050128
+      ancestor_label: Angioplasty of artery
+      ancestor_information_content: 11.720054065584758
+      jaccard_similarity: 0.48
+      phenodigm_score: 2.371840203614207
+    match_source_label: Angioplasty of artery
+    match_target: omop:4195673
+    match_target_label: Angioplasty of posterior tibial artery
+  omop:4050134:
+    match_source: omop:4050134
+    score: 18.911289573272484
+    similarity:
+      subject_id: omop:4050134
+      object_id: omop:4195673
+      ancestor_id: omop:4050134
+      ancestor_label: Angioplasty of crural artery
+      ancestor_information_content: 18.911289573272484
+      jaccard_similarity: 0.88
+      phenodigm_score: 4.079452760417724
+    match_source_label: Angioplasty of crural artery
+    match_target: omop:4195673
+    match_target_label: Angioplasty of posterior tibial artery
+  omop:4054559:
+    match_source: omop:4054559
+    score: 9.176700908405415
+    similarity:
+      subject_id: omop:4054559
+      object_id: omop:4195673
+      ancestor_id: omop:4054559
+      ancestor_label: Repair of blood vessel
+      ancestor_information_content: 9.176700908405415
+      jaccard_similarity: 0.32
+      phenodigm_score: 1.713634818358256
+    match_source_label: Repair of blood vessel
+    match_target: omop:4195673
+    match_target_label: Angioplasty of posterior tibial artery
+average_score: 12.13040293072116
+best_score: 18.911289573272484
+metric: ancestor_information_content
+</pre></div></div>
+</div>
+</section>
+<section id="Mondo-Mappings">
+<h2>Mondo Mappings<a class="headerlink" href="#Mondo-Mappings" title="Link to this heading"></a></h2>
+<p>We will now demonstrate mapping to Mondo. Mondo has mappings to many sources - but not OMOP.</p>
+<p>The n3c OMOP does however have mappings to SNOMED (structured in an unusual way in the OWL), so we can use these as a join point to Mondo</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PD</span> <span class="o">=</span> <span class="s2">&quot;omop:381270&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">PD</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Parkinson&#39;s disease
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">omop_mappings</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+    <span class="c1"># we SHOULD be able to just do this:</span>
+    <span class="c1"># adapter.mappings([id], ...)</span>
+    <span class="c1"># however, mappings are stored in the upstream OWL in a non-standard way</span>
+    <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;SCTID:</span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omop:concept_code&quot;</span><span class="p">,</span> <span class="p">[])]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">omop_mappings</span><span class="p">(</span><span class="n">PD</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;SCTID:49049000&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mondo</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:mondo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mondo</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="n">omop_mappings</span><span class="p">(</span><span class="n">PD</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span><span class="n">m</span><span class="o">.</span><span class="n">predicate_id</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">object_id</span><span class="p">,</span> <span class="n">PD</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+MONDO:0005180 oio:hasDbXref SCTID:49049000 omop:381270
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">transitive_mappings</span><span class="p">(</span><span class="n">omop_id</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mondo</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="n">omop_mappings</span><span class="p">(</span><span class="n">omop_id</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">m2</span> <span class="ow">in</span> <span class="n">mondo</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">([</span><span class="n">m</span><span class="o">.</span><span class="n">subject_id</span><span class="p">]):</span>
+            <span class="k">yield</span> <span class="n">omop_id</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">object_id</span><span class="p">,</span> <span class="n">m2</span><span class="o">.</span><span class="n">object_id</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">transitive_mappings</span><span class="p">(</span><span class="n">PD</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;DOID:14330&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;EFO:0002508&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;ICD9:332&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;ICD9:332.0&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;MESH:D010300&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;NCIT:C26845&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;NIFSTD:birnlex_2098&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;OMIMPS:168600&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;Orphanet:319705&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;SCTID:49049000&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;UMLS:C0030567&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;&lt;https://omim.org/phenotypicSeries/PS168600&gt;&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;NCIT:C26845&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;DOID:14330&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;&lt;http://linkedlifedata.com/resource/umls/id/C0030567&gt;&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;&lt;http://identifiers.org/snomedct/49049000&gt;&#39;)
+(&#39;omop:381270&#39;, &#39;MONDO:0005180&#39;, &#39;SCTID:49049000&#39;, &#39;&lt;http://identifiers.org/mesh/D010300&gt;&#39;)
+</pre></div></div>
+</div>
+</section>
+<section id="Value-Set-Expansion">
+<h2>Value Set Expansion<a class="headerlink" href="#Value-Set-Expansion" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>input/n3c_config.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+default_resolver:
+  name: omop
+  shorthand: sqlite:input/n3c.db
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>input/n3c-example-intensional-value-set.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id: https://w3id.org/linkml/examples/enums
+title: Dynamic Enums Example
+name: dynamicenums-example
+description: This demonstrates the use of dynamic enums
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  ex: https://w3id.org/linkml/examples/enums/
+  sh: https://w3id.org/shacl/
+  bioregistry: https://bioregistry.io/registry/
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  omop: https://athena.ohdsi.org/search-terms/terms/
+  loinc: http://loinc.org/
+
+default_prefix: ex
+default_range: string
+
+imports:
+  - linkml:types
+
+
+enums:
+  Synucleinopathies:
+    reachable_from:
+      include_self: true
+      source_ontology: local:omop
+      source_nodes:
+        - omop:37203944
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.subsets.value_set_expander</span> <span class="kn">import</span> <span class="n">ValueSetExpander</span>
+
+<span class="n">expander</span> <span class="o">=</span> <span class="n">ValueSetExpander</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.value_set_configuration</span> <span class="kn">import</span> <span class="n">ValueSetConfiguration</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.loaders</span> <span class="kn">import</span> <span class="n">yaml_loader</span>
+
+<span class="n">expander</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="n">yaml_loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;input/n3c_config.yaml&quot;</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="n">ValueSetConfiguration</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expander</span><span class="o">.</span><span class="n">expand_in_place</span><span class="p">(</span>
+        <span class="n">schema_path</span><span class="o">=</span><span class="s2">&quot;input/n3c-example-intensional-value-set.yaml&quot;</span><span class="p">,</span> <span class="n">value_set_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Synucleinopathies&quot;</span><span class="p">],</span>
+        <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;output/synucleinopathies.yaml&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>output/synucleinopathies.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id: https://w3id.org/linkml/examples/enums
+title: Dynamic Enums Example
+name: dynamicenums-example
+description: This demonstrates the use of dynamic enums
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  ex: https://w3id.org/linkml/examples/enums/
+  sh: https://w3id.org/shacl/
+  bioregistry: https://bioregistry.io/registry/
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  omop: https://athena.ohdsi.org/search-terms/terms/
+  loinc: http://loinc.org/
+
+default_prefix: ex
+default_range: string
+
+imports:
+- linkml:types
+
+
+enums:
+  Synucleinopathies:
+    reachable_from:
+      include_self: true
+      source_ontology: local:omop
+      source_nodes:
+      - omop:37203944
+    permissible_values:
+      omop:44800441:
+        text: omop:44800441
+        description: &#39;[X]Parkinsonism in diseases classified elsewhere&#39;
+        meaning: omop:44800441
+      omop:380701:
+        text: omop:380701
+        description: Diffuse Lewy body disease
+        meaning: omop:380701
+      omop:1340428:
+        text: omop:1340428
+        description: Exacerbation of Parkinson&#39;s disease
+        meaning: omop:1340428
+      omop:4219273:
+        text: omop:4219273
+        description: Parkinsonian syndrome with idiopathic orthostatic hypotension
+        meaning: omop:4219273
+      omop:4196433:
+        text: omop:4196433
+        description: Senile dementia of the Lewy body type
+        meaning: omop:4196433
+      omop:1340521:
+        text: omop:1340521
+        description: Progression of pure autonomic failure
+        meaning: omop:1340521
+      omop:40485457:
+        text: omop:40485457
+        description: Multiple system atrophy, Parkinson&#39;s variant
+        meaning: omop:40485457
+      omop:37396747:
+        text: omop:37396747
+        description: Autosomal dominant late onset Parkinson disease
+        meaning: omop:37396747
+      omop:4100236:
+        text: omop:4100236
+        description: Parkinsonism with orthostatic hypotension
+        meaning: omop:4100236
+      omop:36713737:
+        text: omop:36713737
+        description: Orthostatic hypotension co-occurrent and due to Parkinson&#39;s disease
+        meaning: omop:36713737
+      omop:381270:
+        text: omop:381270
+        description: Parkinson&#39;s disease
+        meaning: omop:381270
+      omop:4178618:
+        text: omop:4178618
+        description: Diffuse Lewy body disease with spongiform cortical change
+        meaning: omop:4178618
+      omop:37203944:
+        text: omop:37203944
+        description: Synucleinopathy
+        meaning: omop:37203944
+      omop:37110776:
+        text: omop:37110776
+        description: Atypical juvenile parkinsonism
+        meaning: omop:37110776
+      omop:37110499:
+        text: omop:37110499
+        description: Sporadic Parkinson disease
+        meaning: omop:37110499
+      omop:608078:
+        text: omop:608078
+        description: Autosomal recessive familial Parkinson disease
+        meaning: omop:608078
+      omop:37399497:
+        text: omop:37399497
+        description: Early onset parkinsonism and intellectual disability syndrome
+        meaning: omop:37399497
+      omop:37395785:
+        text: omop:37395785
+        description: Young onset Parkinson disease
+        meaning: omop:37395785
+      omop:44782763:
+        text: omop:44782763
+        description: Lewy body dementia with behavioral disturbance
+        meaning: omop:44782763
+      omop:4044053:
+        text: omop:4044053
+        description: Multiple system atrophy
+        meaning: omop:4044053
+      omop:40484594:
+        text: omop:40484594
+        description: Multiple system atrophy, cerebellar variant
+        meaning: omop:40484594
+      omop:4309357:
+        text: omop:4309357
+        description: Pure autonomic failure
+        meaning: omop:4309357
+      omop:4047751:
+        text: omop:4047751
+        description: Juvenile Parkinson&#39;s disease
+        meaning: omop:4047751
+</pre></div></div>
+</div>
+</section>
+<section id="Command-Line-Value-Set-Expansion">
+<h2>Command Line Value Set Expansion<a class="headerlink" href="#Command-Line-Value-Set-Expansion" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>vskit<span class="w"> </span>expand<span class="w"> </span>-c<span class="w"> </span>input/n3c_config.yaml<span class="w"> </span>-s<span class="w"> </span>input/n3c-example-intensional-value-set.yaml<span class="w"> </span>Synucleinopathies<span class="w"> </span>-o<span class="w"> </span>output/synucleinopathies.yaml
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="OMOP Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../PHENIO/index.html" class="btn btn-neutral float-right" title="PhenIO Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

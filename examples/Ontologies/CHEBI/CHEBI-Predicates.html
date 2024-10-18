@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHEBI Predicates &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="CHEBI Slimmer" href="CHEBI-Slimmer.html" />
+    <link rel="prev" title="CHEBI Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">CHEBI Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">CHEBI Predicates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CHEBI-Slimmer.html">CHEBI Slimmer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">CHEBI Examples</a></li>
+      <li class="breadcrumb-item active">CHEBI Predicates</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/CHEBI/CHEBI-Predicates.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="CHEBI-Predicates">
+<h1>CHEBI Predicates<a class="headerlink" href="#CHEBI-Predicates" title="Link to this heading"></a></h1>
+<p>This notebook is intended as an explanatory guide to the importance of edge types (predicates) in ontologies.</p>
+<section id="Citric-acid-and-its-ion-forms">
+<h2>Citric acid and its ion forms<a class="headerlink" href="#Citric-acid-and-its-ion-forms" title="Link to this heading"></a></h2>
+<p>For this guide, we are going to look at citric acid and it’s conjugate forms such as citrate(3-). These chemical entities are very similar and in fact are readily interchangeable in cells.</p>
+<p>Biologists and biochemists may talk of “citric acid” and “citrate” interchangeably.</p>
+<p>We can see the corresponding CHEBI entries:</p>
+</section>
+<section id="Citric-acid">
+<h2>Citric acid<a class="headerlink" href="#Citric-acid" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="http://purl.obolibrary.org/obo/CHEBI_30769">CHEBI:30769</a></p>
+<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+</section>
+<section id="Citrate(3-)">
+<h2>Citrate(3-)<a class="headerlink" href="#Citrate(3-)" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="http://purl.obolibrary.org/obo/CHEBI_16947">CHEBI:16947</a></p>
+<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+</section>
+<section id="Accessing-CHEBI-through-OAK">
+<h2>Accessing CHEBI through OAK<a class="headerlink" href="#Accessing-CHEBI-through-OAK" title="Link to this heading"></a></h2>
+<p>There are different ways to access CHEBI, we will use the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/sqldb.html">sqlite adapter</a>. See also <a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial07.html">part 7</a> of the tutorial.</p>
+<p>We will use the selector <code class="docutils literal notranslate"><span class="pre">sqlite:obo:chebi</span></code> to access CHEBI.</p>
+<p>We will be using the command line interface via Jupyter for this tutortial, but the equivalent operations can be done via Python.</p>
+<p>First we will set up a Jupyter alias.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> chebi runoak -i sqlite:obo:chebi
+</pre></div>
+</div>
+</div>
+<p>If we wanted to do the equivalen on the command line, we would do:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">chebi</span><span class="o">=</span><span class="s2">&quot;runoak -i sqlite:obo:chebi&quot;</span>
+</pre></div>
+</div>
+<section id="Basic-lookup">
+<h3>Basic lookup<a class="headerlink" href="#Basic-lookup" title="Link to this heading"></a></h3>
+<p>Next we will do some basic lookup. The first time you run this may take some time, as the sqlite file is downloaded. Subsequent operations will be faster.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">info</span> <span class="s2">&quot;citric acid&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CHEBI:30769 ! citric acid
+</pre></div></div>
+</div>
+</section>
+<section id="Term-metadata">
+<h3>Term metadata<a class="headerlink" href="#Term-metadata" title="Link to this heading"></a></h3>
+<p>To check we have the right term, let’s look at all of the CHEBI metadata, including mappings and chemical formulae:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">term</span><span class="o">-</span><span class="n">metadata</span> <span class="s2">&quot;citric acid&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+IAO:0000115: A tricarboxylic acid that is propane-1,2,3-tricarboxylic acid bearing
+  a hydroxy substituent at position 2. It is an important metabolite in the pathway
+  of all aerobic organisms.
+id: CHEBI:30769
+obo:chebi/charge: &#39;0&#39;
+obo:chebi/formula: C6H8O7
+obo:chebi/inchi: InChI=1S/C6H8O7/c7-3(8)1-6(13,5(11)12)2-4(9)10/h13H,1-2H2,(H,7,8)(H,9,10)(H,11,12)
+obo:chebi/inchikey: KRKNYBCHXYNGOX-UHFFFAOYSA-N
+obo:chebi/mass: &#39;192.123&#39;
+obo:chebi/monoisotopicmass: &#39;192.02700&#39;
+obo:chebi/smiles: OC(=O)CC(O)(CC(O)=O)C(O)=O
+oio:hasAlternativeId:
+- CHEBI:23322
+- CHEBI:3727
+- CHEBI:41523
+oio:hasDbXref:
+- BPDB:1359
+- Beilstein:782061
+- CAS:77-92-9
+- DrugBank:DB04272
+- Drug_Central:666
+- Gmelin:4240
+- HMDB:HMDB0000094
+- KEGG:C00158
+- KEGG:D00037
+- KNApSAcK:C00007619
+- MetaCyc:CIT
+- PDBeChem:CIT
+- PMID:11762832
+- PMID:11782123
+- PMID:11857437
+- PMID:14537820
+- PMID:15311880
+- PMID:15934243
+- PMID:16232627
+- PMID:17190852
+- PMID:17357118
+- PMID:17604395
+- PMID:18298573
+- PMID:18960216
+- PMID:19288211
+- PMID:22115968
+- PMID:22192423
+- PMID:22264346
+- PMID:22373571
+- PMID:22509852
+- Reaxys:782061
+- Wikipedia:Citric_Acid
+oio:hasExactSynonym:
+- 2-hydroxypropane-1,2,3-tricarboxylic acid
+- CITRIC ACID
+- Citric acid
+oio:hasOBONamespace: chebi_ontology
+oio:hasRelatedSynonym:
+- 2-Hydroxy-1,2,3-propanetricarboxylic acid
+- 2-Hydroxytricarballylic acid
+- 3-Carboxy-3-hydroxypentane-1,5-dioic acid
+- Citronensaeure
+- E330
+- H3cit
+oio:id: CHEBI:30769
+oio:inSubset: obo:chebi#3_STAR
+rdfs:label: citric acid
+
+---
+</pre></div></div>
+</div>
+<p>We can do the same thing for the same chemical in a different protonation state, <code class="docutils literal notranslate"><span class="pre">citrate(3-)</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">term</span><span class="o">-</span><span class="n">metadata</span> <span class="s2">&quot;citrate(3-)&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+IAO:0000115: A tricarboxylic acid trianion, obtained by deprotonation of the three
+  carboxy groups of citric acid.
+id: CHEBI:16947
+obo:chebi/charge: &#39;-3&#39;
+obo:chebi/formula: C6H5O7
+obo:chebi/inchi: InChI=1S/C6H8O7/c7-3(8)1-6(13,5(11)12)2-4(9)10/h13H,1-2H2,(H,7,8)(H,9,10)(H,11,12)/p-3
+obo:chebi/inchikey: KRKNYBCHXYNGOX-UHFFFAOYSA-K
+obo:chebi/mass: &#39;189.09970&#39;
+obo:chebi/monoisotopicmass: &#39;189.00517&#39;
+obo:chebi/smiles: OC(CC([O-])=O)(CC([O-])=O)C([O-])=O
+oio:hasAlternativeId:
+- CHEBI:13999
+- CHEBI:23321
+- CHEBI:42563
+oio:hasDbXref:
+- Beilstein:1884707
+- CAS:126-44-3
+- Gmelin:4239
+- KEGG:C00158
+- PDBeChem:FLC
+- Reaxys:1884707
+oio:hasExactSynonym: 2-hydroxypropane-1,2,3-tricarboxylate
+oio:hasOBONamespace: chebi_ontology
+oio:hasRelatedSynonym:
+- 2-hydroxy-1,2,3-propanetricarboxylate
+- 2-hydroxy-1,2,3-propanetricarboxylate(3-)
+- 2-hydroxy-1,2,3-propanetricarboxylic acid, ion(3-)
+- 2-hydroxytricarballylate
+- CITRATE ANION
+- cit
+- cit(3-)
+- citrate
+oio:id: CHEBI:16947
+oio:inSubset: obo:chebi#3_STAR
+rdfs:label: citrate(3-)
+
+---
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Computing-similarity">
+<h2>Computing similarity<a class="headerlink" href="#Computing-similarity" title="Link to this heading"></a></h2>
+<p>There are various ways to measure <a class="reference external" href="https://en.wikipedia.org/wiki/Chemical_similarity">chemical similarity</a>.</p>
+<p>Here we are using an ontology library, not a chemical library like RDKit, so we can measure similarity with respect to their shared parentage.</p>
+<p>We will use the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-similarity">similarity</a> command that measures semantic similarity.</p>
+<p>Like many OAK operations, it is <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#predicates">parameterized by a predicates option</a>. For example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--predicates</span> <span class="pre">rdfs:subClassOf</span></code></p></li>
+</ul>
+<p>This can be shortened to:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">i</span></code></p></li>
+</ul>
+<p>This instructs OAK to use only the is-a relationship when computing parentage.</p>
+<p><strong>Note that many libraries don’t provide any option here, and only allow is-a relationships</strong></p>
+<p>The similarity command takes two term lists separated by <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> - here we just want to do a simple pairwise comparison, we specify one term either side:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">similarity</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="s2">&quot;citrate(3-)&quot;</span> <span class="o">@</span> <span class="s2">&quot;citric acid&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ancestor_id: CHEBI:37577
+ancestor_information_content: 1.792616548579986
+ancestor_label: heteroatomic molecular entity
+jaccard_similarity: 0.25
+object_id: CHEBI:30769
+object_label: citric acid
+phenodigm_score: 0.6694431545284457
+subject_id: CHEBI:16947
+subject_label: citrate(3-)
+
+---
+</pre></div></div>
+</div>
+<p>What is this telling us?</p>
+<ul class="simple">
+<li><p>the jaccard similarity is 0.25, which is very low</p></li>
+<li><p>the most recent common ancestor is the very general and abstract sounding <code class="docutils literal notranslate"><span class="pre">heteroatomic</span> <span class="pre">molecular</span> <span class="pre">entity</span></code>, which has a low information content of 1.8</p></li>
+</ul>
+<p>Why is the score so low?</p>
+<p>Remember at the start of this guide we looked at the chemical structures, which are almost identical. And biologically these are interchangeable. Why is the similarity so low?</p>
+<p>Investigating ontological oddities is one of the strengths of OAK. We can take a number of different approaches, but the easiest is to start by just visualizing the terms and their ancestors:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="s2">&quot;citrate(3-)&quot;</span> <span class="s2">&quot;citric acid&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">citrate</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<p>As can be seen, the is-a graphs of these two terms are almost completely separated. You have to go all the way up to <code class="docutils literal notranslate"><span class="pre">heteroatomic</span> <span class="pre">molecular</span> <span class="pre">entity</span></code> to find the common ancestor, just like the similarity output told us.</p>
+</section>
+<section id="So-what's-going-on?">
+<h2>So what’s going on?<a class="headerlink" href="#So-what's-going-on?" title="Link to this heading"></a></h2>
+<p>So what’s going on here? is there something missing from CHEBI?</p>
+<p>In fact, CHEBI is like this by design, and we see the same pattern/template repeated for all acids.</p>
+<p>But all is not lost, CHEBI has other relationships we can use here.</p>
+<p>Which leads us to one of the main lessons when using ontologies:</p>
+</section>
+<section id="Always-make-use-of-the-full-range-of-edge-types">
+<h2>Always make use of the full range of edge types<a class="headerlink" href="#Always-make-use-of-the-full-range-of-edge-types" title="Link to this heading"></a></h2>
+<p>CHEBI has many other edge types we can use here.</p>
+<p>Currently OAK doesn’t have a quick way of summarizing edge statistics, but we can do this easily with a SQL query on the sqlite database we downloaded earlier, querying the <a class="reference external" href="https://incatools.github.io/semantic-sql/Edge/">Edge</a> table:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SELECT predicate, count(*) FROM edge GROUP BY predicate;&quot;</span><span class="w">  </span><span class="p">|</span><span class="w"> </span>sqlite3<span class="w"> </span><span class="nv">$HOME</span>/.data/oaklib/chebi.db
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000051|3947
+RO:0000087|42533
+obo:chebi#has_functional_parent|18459
+obo:chebi#has_parent_hydride|1752
+obo:chebi#is_conjugate_acid_of|8340
+obo:chebi#is_conjugate_base_of|8340
+obo:chebi#is_enantiomer_of|2700
+obo:chebi#is_substituent_group_from|1279
+obo:chebi#is_tautomer_of|1846
+rdfs:subClassOf|235113
+</pre></div></div>
+</div>
+<p>CHEBI mostly uses it’s own relationship types, and a few from RO, we can query what these are:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">info</span> <span class="n">BFO</span><span class="p">:</span><span class="mi">0000051</span> <span class="n">RO</span><span class="p">:</span><span class="mi">0000087</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000051 ! has part
+RO:0000087 ! has role
+</pre></div></div>
+</div>
+<p>Next let’s try again, using the viz command, but this time adding a different predicate.</p>
+<p>We can specify a list of predicates separated by <code class="docutils literal notranslate"><span class="pre">,</span></code> with the <code class="docutils literal notranslate"><span class="pre">--predicates</span></code> option on most commands:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="s2">&quot;i,obo:chebi#is_conjugate_acid_of&quot;</span> <span class="s2">&quot;citrate(3-)&quot;</span> <span class="s2">&quot;citric acid&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">citrate</span><span class="o">-</span><span class="n">conj</span><span class="o">-</span><span class="n">acid</span><span class="o">-</span><span class="n">of</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<p>This time the terms are much closer together. However, they are not “next” to each other, which brings us to another lesson:</p>
+</section>
+<section id="Number-of-hops-is-often-meaningless-with-ontologies">
+<h2>Number of hops is often meaningless with ontologies<a class="headerlink" href="#Number-of-hops-is-often-meaningless-with-ontologies" title="Link to this heading"></a></h2>
+<p>A common metric with graph operations is counting number of hops. However, for <em>knowledge</em> graphs, this metric can be misleading or meaningless. It may be tempting to do something like “weighting” predicates but this is always ad-hoc.</p>
+<p>With ontologies, predicates have <em>meaning</em> and we want this to be take into account.</p>
+</section>
+<section id="Calculating-similarity-using-all-predicates">
+<h2>Calculating similarity using all predicates<a class="headerlink" href="#Calculating-similarity-using-all-predicates" title="Link to this heading"></a></h2>
+<p>In OAK the <strong>default is usually to use all predicates</strong></p>
+<p>Thus if we simply ask for the <em>overall</em> similarity between citric acid and the 3- form, i.e via:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">similarity</span> <span class="s2">&quot;citrate(3-)&quot;</span> <span class="o">@</span> <span class="s2">&quot;citric acid&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ancestor_id: CHEBI:133748
+ancestor_information_content: 12.881018338799942
+ancestor_label: citrate anion
+jaccard_similarity: 0.6526315789473685
+object_id: CHEBI:30769
+object_label: citric acid
+phenodigm_score: 2.899406721538221
+subject_id: CHEBI:16947
+subject_label: citrate(3-)
+
+---
+</pre></div></div>
+</div>
+<p>This is much better than before, reflecting the true biochemical similarity between these.</p>
+<ul class="simple">
+<li><p>The jaccard similarity is 0.65, still not great</p></li>
+<li><p>the MRCA is the more meaningful <code class="docutils literal notranslate"><span class="pre">citrate</span> <span class="pre">anion</span></code> which has a higher IC of 12.88</p></li>
+</ul>
+<p>So how did OAK calculate this?</p>
+<p>Here OAK made use of all edge types in the CHEBI <em>relation graph</em>. This is in contrast to many methods that <em>only</em> make use of is-a relationships. This might be a good baked in assumption if you are <em>only</em> doing similarity on HPO (but even then it can be limiting).</p>
+<p>For other ontologies, we need to make use of other predicates.</p>
+<p>At this stage you may be thinking: “Ah! All ontologies are DAGs, so OAK is using the CHEBI DAG here!”</p>
+<p>This brings us to our next point</p>
+</section>
+<section id="Ontologies-are-not-DAGs">
+<h2>Ontologies are not DAGs<a class="headerlink" href="#Ontologies-are-not-DAGs" title="Link to this heading"></a></h2>
+<p>This is a common misconception. Ontologies are not DAGs, no matter what you may have previously heard.</p>
+<p>And in general <strong>avoid baking in assumptions generalized from a few cases when it comes to ontologies</strong></p>
+<p>Often ontologies will be released in a form that is guaranteed to be a DAG <em>because so many tools mistakenly assume an ontology is a DAG</em>. But if you are using one of these dumbed down forms of an ontology you are missing useful information.</p>
+<p>Let’s take a look at CHEBI again. This time we will use two different relationship types (predicates), and exclude is-a:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">viz</span> <span class="n">CHEBI</span><span class="p">:</span><span class="mi">16947</span> <span class="n">CHEBI</span><span class="p">:</span><span class="mi">30769</span> <span class="o">-</span><span class="n">p</span> <span class="s2">&quot;obo:chebi#is_conjugate_acid_of,obo:chebi#is_conjugate_base_of&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">citrate</span><span class="o">-</span><span class="ow">not</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">dag</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<p>This is definitely <strong>not a DAG</strong>.</p>
+<p>In fact there is no reason to assume that for an ontology or a <em>knowledge</em> graph the structure will be a DAG. A lot of relationships in real life are inherently cyclic, and this definitely holds for chemistry, we have cyclic structures and cyclic relationships, and chemicals cycle through these different protonation states.</p>
+</section>
+<section id="So-how-do-we-handle-these?">
+<h2>So how do we handle these?<a class="headerlink" href="#So-how-do-we-handle-these?" title="Link to this heading"></a></h2>
+<p>At this point you might be thinking it makes no sense to use measures like semantic similarity over cyclic graphs. Or that it may be necessary to include ad-hoc measures like maximum distance. <em>But this isn’t the case</em></p>
+<p>Because ontology graphs are <em>existential graphs</em> over concepts, where the existence of the subject depends on the existence of the object, you can still use algorithms designed with concepts of “ancestors” and “descendants”. The overall structure of the relation graph will still (in general) follow a pattern of narrowing down to more general concepts.</p>
+<p>There are two broad approaches:</p>
+<ol class="arabic simple">
+<li><p>naive graph walking, with cycle checks</p></li>
+<li><p>use the <em>relation graph</em></p></li>
+</ol>
+<p>The first is trivial to implement, just implement traversal as you normally would, but remove the assumption of acyclicity.</p>
+<p>The OAK sqlite adapter uses the 2nd approach, making use of <em>relation graph</em></p>
+</section>
+<section id="Relation-Graph">
+<h2>Relation Graph<a class="headerlink" href="#Relation-Graph" title="Link to this heading"></a></h2>
+<p>Relation graph is a tool for calculating the <em>closure</em> of ontology relationships. Unlike naive graph walking, it takes into account the semantics of the ontology and of predicates <em>as intended by the producers of these ontologies</em></p>
+<p>More formally, RG materializes the <em>entailment</em> of all SubClassOf axioms, including those axioms that have existential restrictions on the right hand side.</p>
+<p>Relation graph can be obtained and installed <a class="reference external" href="https://github.com/balhoff/relation-graph">from its github repo</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>relation-graph<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+relation-graph
+Usage: relation-graph [options]
+  --usage  &lt;bool&gt;
+        Print usage and exit
+  --help | -h  &lt;bool&gt;
+        Print help message and exit
+  --ontology-file  &lt;filename&gt;
+        Input OWL ontology
+  --output-file  &lt;filename&gt;
+        File to stream output triples to.
+  --mode  &lt;RDF|OWL&gt;
+        Configure style of triples to be output. RDF mode is the default; each existential relation is collapsed to a single direct triple.
+  --property  &lt;IRI&gt;
+        Property to restrict output relations to. Provide option multiple times for multiple properties.
+  --properties-file  &lt;filename&gt;
+        File containing line-separated property IRIs to restrict output relations to.
+  --output-subclasses  &lt;bool&gt;
+        Include entailed rdfs:subClassOf or owl:equivalentClass relations in output (default false)
+  --reflexive-subclasses  &lt;bool&gt;
+        When outputting rdfs:subClassOf, include relations to self for every class (default true)
+  --equivalence-as-subclass  &lt;bool&gt;
+        When outputting equivalent classes, output reciprocal rdfs:subClassOf triples instead of owl:equivalentClass triples (default true)
+  --output-classes  &lt;bool&gt;
+        Output any triples where classes are subjects (default true)
+  --output-individuals  &lt;bool&gt;
+        Output triples where individuals are subjects, with classes as objects (default false)
+  --disable-owl-nothing  &lt;bool&gt;
+        Disable inference of unsatisfiable classes by the whelk reasoner (default false)
+  --verbose  &lt;bool&gt;
+        Set log level to INFO
+
+</pre></div></div>
+</div>
+</section>
+<section id="SemSQL-Builds-have-relation-graph-pre-computed">
+<h2>SemSQL Builds have relation-graph pre-computed<a class="headerlink" href="#SemSQL-Builds-have-relation-graph-pre-computed" title="Link to this heading"></a></h2>
+<p>If you access an ontology via the sqlite method, it will make use of an ontology loaded in using the SemSQL schema, which has relation-graph precomputed.</p>
+<p>We can take a look first at the CL</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> cl runoak -i sqlite:obo:cl
+</pre></div>
+</div>
+</div>
+<p>The OAK <code class="docutils literal notranslate"><span class="pre">relationships</span></code> command will query all relationships (by default “outgoing”) for an entity.</p>
+<p>If you pass in <code class="docutils literal notranslate"><span class="pre">--include-entailed</span></code> it will include entailed (inferred by reasoner) relationships, here coming from RG:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">relationships</span> <span class="o">--</span><span class="n">include</span><span class="o">-</span><span class="n">entailed</span> <span class="n">astrocyte</span> <span class="o">&gt;</span> <span class="n">output</span><span class="o">/</span><span class="n">astrocyte</span><span class="o">-</span><span class="n">rg</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<p>The size of a RG can be large so we will explore it with pandas:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/astrocyte-rg.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>subject_label</th>
+      <th>predicate_label</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0000127</td>
+      <td>BFO:0000050</td>
+      <td>BFO:0000002</td>
+      <td>astrocyte</td>
+      <td>part of</td>
+      <td>continuant</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000127</td>
+      <td>BFO:0000050</td>
+      <td>BFO:0000004</td>
+      <td>astrocyte</td>
+      <td>part of</td>
+      <td>independent continuant</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000127</td>
+      <td>BFO:0000050</td>
+      <td>BFO:0000040</td>
+      <td>astrocyte</td>
+      <td>part of</td>
+      <td>material entity</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000127</td>
+      <td>BFO:0000050</td>
+      <td>CARO:0000000</td>
+      <td>astrocyte</td>
+      <td>part of</td>
+      <td>anatomical entity</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0000127</td>
+      <td>BFO:0000050</td>
+      <td>CARO:0000006</td>
+      <td>astrocyte</td>
+      <td>part of</td>
+      <td>material anatomical entity</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>299</th>
+      <td>CL:0000127</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0000127</td>
+      <td>astrocyte</td>
+      <td>None</td>
+      <td>astrocyte</td>
+    </tr>
+    <tr>
+      <th>300</th>
+      <td>CL:0000127</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0000255</td>
+      <td>astrocyte</td>
+      <td>None</td>
+      <td>eukaryotic cell</td>
+    </tr>
+    <tr>
+      <th>301</th>
+      <td>CL:0000127</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0000548</td>
+      <td>astrocyte</td>
+      <td>None</td>
+      <td>animal cell</td>
+    </tr>
+    <tr>
+      <th>302</th>
+      <td>CL:0000127</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0002319</td>
+      <td>astrocyte</td>
+      <td>None</td>
+      <td>neural cell</td>
+    </tr>
+    <tr>
+      <th>303</th>
+      <td>CL:0000127</td>
+      <td>rdfs:subClassOf</td>
+      <td>CL:0002371</td>
+      <td>astrocyte</td>
+      <td>None</td>
+      <td>somatic cell</td>
+    </tr>
+  </tbody>
+</table>
+<p>304 rows × 6 columns</p>
+</div></div>
+</div>
+<p>These are all <strong>guaranteed correct</strong> (according to the semantics of classes and object properties in the ontology)</p>
+<p>They are not guaranteed <em>useful</em>. There are many trivial edges, eg.</p>
+<ul class="simple">
+<li><p>every astrocyte is part of <em>some</em> material entity</p></li>
+<li><p>every astrocyte is a subtype of a continuant</p></li>
+</ul>
+<p>But these less useful ones will “fall out in the wash” when we use them in methods like semantic similarity</p>
+<p>We can query the EntailedEdge table more directly:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SELECT * FROM entailed_edge WHERE predicate=&#39;BFO:0000050&#39; AND object LIKE &#39;UBERON:%&#39; LIMIT 5&quot;</span><span class="w">  </span><span class="p">|</span><span class="w"> </span>sqlite3<span class="w"> </span><span class="nv">$HOME</span>/.data/oaklib/cl.db
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:0001612|BFO:0000050|UBERON:0000477
+UBERON:0001612|BFO:0000050|UBERON:0010000
+UBERON:0001612|BFO:0000050|UBERON:0000055
+UBERON:0001612|BFO:0000050|UBERON:0003509
+UBERON:0001612|BFO:0000050|UBERON:0001637
+</pre></div></div>
+</div>
+</section>
+<section id="OAK-uses-Relation-Graph-in-semantic-similarity">
+<h2>OAK uses Relation Graph in semantic similarity<a class="headerlink" href="#OAK-uses-Relation-Graph-in-semantic-similarity" title="Link to this heading"></a></h2>
+<p>The OAK SQL backend will use RG when calculating semantic similarity.</p>
+<ul class="simple">
+<li><p>there is no need to worry whether the structure is a DAG or a tree</p></li>
+<li><p>no need to implement “hops” or ad-hoc mechanisms</p></li>
+</ul>
+<p>All semantic similarity measures then become trivial operations on RG, parameterizable by a <em>semantic</em> predicate</p>
+<ul class="simple">
+<li><p>Jaccard is simply the intersection of common ancestors in the RG divided by the union of ancestors</p></li>
+<li><p>MRCA, IC etc work as expected</p></li>
+</ul>
+</section>
+<section id="Relation-Graph-is-only-as-good-as-its-inputs">
+<h2>Relation Graph is only as good as its inputs<a class="headerlink" href="#Relation-Graph-is-only-as-good-as-its-inputs" title="Link to this heading"></a></h2>
+<p><em>Garbage in, Garbage out</em></p>
+<ul class="simple">
+<li><p>if ontologies include false axioms, RG will give false results</p></li>
+<li><p>if ontologies are incomplete, RG will give incomplete answers</p></li>
+</ul>
+<p>Usually for most ontologies we care about in a project like Monarch, we have decent QC in place, and in general most methods should be resilient to this.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="CHEBI Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CHEBI-Slimmer.html" class="btn btn-neutral float-right" title="CHEBI Slimmer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/PHENIO/Semantic-Similarity.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;semsimian:sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="n">adapter2</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">labels2curies</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">adapter2</span><span class="o">.</span><span class="n">curies_by_label</span><span class="p">(</span><span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
+
+
+<span class="n">terms1</span> <span class="o">=</span> <span class="n">labels2curies</span><span class="p">([</span><span class="s2">&quot;Abnormal liver lobulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Focal white matter lesions&quot;</span><span class="p">])</span>
+<span class="n">terms2</span> <span class="o">=</span> <span class="n">labels2curies</span><span class="p">([</span><span class="s2">&quot;Diffuse hepatic steatosis&quot;</span><span class="p">,</span> <span class="s2">&quot;Hypoplastic hippocampus&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">terms1</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;HP:0100752&#39;, &#39;HP:0007042&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">terms2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;HP:0006555&#39;, &#39;HP:0025517&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span><span class="n">terms1</span><span class="p">,</span> <span class="n">terms2</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TermSetPairwiseSimilarity(subject_termset={&#39;HP:0100752&#39;: TermInfo(id=&#39;HP:0100752&#39;, label=None), &#39;HP:0007042&#39;: TermInfo(id=&#39;HP:0007042&#39;, label=None)}, object_termset={&#39;HP:0006555&#39;: TermInfo(id=&#39;HP:0006555&#39;, label=None), &#39;HP:0025517&#39;: TermInfo(id=&#39;HP:0025517&#39;, label=None)}, subject_best_matches={&#39;HP:0100752&#39;: BestMatch(match_source=&#39;HP:0100752&#39;, score=8.632028875573981, similarity=TermPairwiseSimilarity(subject_id=&#39;HP:0100752&#39;, subject_label=None, subject_source=None, object_id=&#39;HP:0006555&#39;, object_label=None, object_source=None, ancestor_id=&#39;HP:0410042&#39;, ancestor_label=None, ancestor_source=None, object_information_content=None, subject_information_content=None, ancestor_information_content=8.632028875573981, jaccard_similarity=0.5, dice_similarity=None, phenodigm_score=2.0775019705855855), match_source_label=None, match_target=&#39;HP:0006555&#39;, match_target_label=None, match_subsumer=None, match_subsumer_label=None), &#39;HP:0007042&#39;: BestMatch(match_source=&#39;HP:0007042&#39;, score=6.7759382869726945, similarity=TermPairwiseSimilarity(subject_id=&#39;HP:0007042&#39;, subject_label=None, subject_source=None, object_id=&#39;HP:0025517&#39;, object_label=None, object_source=None, ancestor_id=&#39;HP:0100547&#39;, ancestor_label=None, ancestor_source=None, object_information_content=None, subject_information_content=None, ancestor_information_content=6.7759382869726945, jaccard_similarity=0.5, dice_similarity=None, phenodigm_score=1.8406436764040854), match_source_label=None, match_target=&#39;HP:0025517&#39;, match_target_label=None, match_subsumer=None, match_subsumer_label=None)}, object_best_matches={&#39;HP:0025517&#39;: BestMatch(match_source=&#39;HP:0025517&#39;, score=6.7759382869726945, similarity=TermPairwiseSimilarity(subject_id=&#39;HP:0007042&#39;, subject_label=None, subject_source=None, object_id=&#39;HP:0025517&#39;, object_label=None, object_source=None, ancestor_id=&#39;HP:0100547&#39;, ancestor_label=None, ancestor_source=None, object_information_content=None, subject_information_content=None, ancestor_information_content=6.7759382869726945, jaccard_similarity=0.5, dice_similarity=None, phenodigm_score=1.8406436764040854), match_source_label=None, match_target=&#39;HP:0007042&#39;, match_target_label=None, match_subsumer=None, match_subsumer_label=None), &#39;HP:0006555&#39;: BestMatch(match_source=&#39;HP:0006555&#39;, score=8.632028875573981, similarity=TermPairwiseSimilarity(subject_id=&#39;HP:0100752&#39;, subject_label=None, subject_source=None, object_id=&#39;HP:0006555&#39;, object_label=None, object_source=None, ancestor_id=&#39;HP:0410042&#39;, ancestor_label=None, ancestor_source=None, object_information_content=None, subject_information_content=None, ancestor_information_content=8.632028875573981, jaccard_similarity=0.5, dice_similarity=None, phenodigm_score=2.0775019705855855), match_source_label=None, match_target=&#39;HP:0100752&#39;, match_target_label=None, match_subsumer=None, match_subsumer_label=None)}, average_score=7.703983581273338, best_score=8.632028875573981, metric=None)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span><span class="n">terms1</span><span class="p">,</span> <span class="n">terms2</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">yaml_dumper</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">yaml_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sim</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_termset:
+  HP:0100752:
+    id: HP:0100752
+  HP:0007042:
+    id: HP:0007042
+object_termset:
+  HP:0006555:
+    id: HP:0006555
+  HP:0025517:
+    id: HP:0025517
+subject_best_matches:
+  HP:0007042:
+    match_source: HP:0007042
+    score: 6.7759382869726945
+    similarity:
+      subject_id: HP:0007042
+      object_id: HP:0025517
+      ancestor_id: HP:0100547
+      ancestor_information_content: 6.7759382869726945
+      jaccard_similarity: 0.5
+      phenodigm_score: 1.8406436764040854
+    match_target: HP:0025517
+  HP:0100752:
+    match_source: HP:0100752
+    score: 8.632028875573981
+    similarity:
+      subject_id: HP:0100752
+      object_id: HP:0006555
+      ancestor_id: HP:0410042
+      ancestor_information_content: 8.632028875573981
+      jaccard_similarity: 0.5
+      phenodigm_score: 2.0775019705855855
+    match_target: HP:0006555
+object_best_matches:
+  HP:0006555:
+    match_source: HP:0006555
+    score: 8.632028875573981
+    similarity:
+      subject_id: HP:0100752
+      object_id: HP:0006555
+      ancestor_id: HP:0410042
+      ancestor_information_content: 8.632028875573981
+      jaccard_similarity: 0.5
+      phenodigm_score: 2.0775019705855855
+    match_target: HP:0100752
+  HP:0025517:
+    match_source: HP:0025517
+    score: 6.7759382869726945
+    similarity:
+      subject_id: HP:0007042
+      object_id: HP:0025517
+      ancestor_id: HP:0100547
+      ancestor_information_content: 6.7759382869726945
+      jaccard_similarity: 0.5
+      phenodigm_score: 1.8406436764040854
+    match_target: HP:0007042
+average_score: 7.703983581273338
+best_score: 8.632028875573981
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subject_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MP:0010771&quot;</span><span class="p">,</span> <span class="s2">&quot;MP:0002169&quot;</span><span class="p">,</span> <span class="s2">&quot;MP:0005391&quot;</span><span class="p">,</span> <span class="s2">&quot;MP:0005389&quot;</span><span class="p">,</span> <span class="s2">&quot;MP:0005367&quot;</span><span class="p">]</span>
+<span class="n">object_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;HP:0004325&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0000093&quot;</span><span class="p">,</span> <span class="s2">&quot;MP:0006144&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;semsimian:sqlite:obo:phenio&quot;</span><span class="p">,</span> <span class="n">implements</span><span class="o">=</span><span class="n">OboGraphInterface</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING:root:Invalid triple for S:BFO:0000001 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000002 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000003 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000004 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000006 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000008 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000009 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000011 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000015 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000016 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000017 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000018 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000019 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000020 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000023 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000024 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000026 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000027 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000028 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000029 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000030 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000031 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000034 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000035 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000038 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000040 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000140 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000141 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000142 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000144 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000145 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000146 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000147 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000148 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000182 P:BFO:0000179
+WARNING:root:Invalid triple for S:BFO:0000001 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000002 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000003 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000004 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000006 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000008 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000009 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000011 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000015 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000016 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000017 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000018 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000019 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000020 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000023 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000024 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000026 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000027 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000028 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000029 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000030 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000031 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000034 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000035 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000038 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000040 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000140 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000141 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000142 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000144 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000145 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000146 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000147 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000148 P:BFO:0000180
+WARNING:root:Invalid triple for S:BFO:0000182 P:BFO:0000180
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span><span class="n">subject_ids</span><span class="p">,</span> <span class="n">object_ids</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">yaml_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sim</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_termset:
+  MP:0010771:
+    id: MP:0010771
+  MP:0002169:
+    id: MP:0002169
+  MP:0005391:
+    id: MP:0005391
+  MP:0005389:
+    id: MP:0005389
+  MP:0005367:
+    id: MP:0005367
+object_termset:
+  HP:0004325:
+    id: HP:0004325
+  HP:0000093:
+    id: HP:0000093
+  MP:0006144:
+    id: MP:0006144
+subject_best_matches:
+  MP:0005389:
+    match_source: MP:0005389
+    score: 4.277027869832077
+    similarity:
+      subject_id: MP:0005389
+      object_id: MP:0006144
+      ancestor_id: MP:0000001
+      ancestor_information_content: 4.277027869832077
+      jaccard_similarity: 0.30434782608695654
+      phenodigm_score: 1.140922492677184
+    match_target: MP:0006144
+  MP:0005391:
+    match_source: MP:0005391
+    score: 4.277027869832077
+    similarity:
+      subject_id: MP:0005391
+      object_id: MP:0006144
+      ancestor_id: MP:0000001
+      ancestor_information_content: 4.277027869832077
+      jaccard_similarity: 0.30434782608695654
+      phenodigm_score: 1.140922492677184
+    match_target: MP:0006144
+  MP:0005367:
+    match_source: MP:0005367
+    score: 4.277027869832077
+    similarity:
+      subject_id: MP:0005367
+      object_id: MP:0006144
+      ancestor_id: MP:0000001
+      ancestor_information_content: 4.277027869832077
+      jaccard_similarity: 0.30434782608695654
+      phenodigm_score: 1.140922492677184
+    match_target: MP:0006144
+  MP:0002169:
+    match_source: MP:0002169
+    score: 4.277027869832077
+    similarity:
+      subject_id: MP:0002169
+      object_id: MP:0006144
+      ancestor_id: MP:0000001
+      ancestor_information_content: 4.277027869832077
+      jaccard_similarity: 0.2916666666666667
+      phenodigm_score: 1.116900381428154
+    match_target: MP:0006144
+  MP:0010771:
+    match_source: MP:0010771
+    score: 4.277027869832077
+    similarity:
+      subject_id: MP:0010771
+      object_id: MP:0006144
+      ancestor_id: MP:0000001
+      ancestor_information_content: 4.277027869832077
+      jaccard_similarity: 0.30434782608695654
+      phenodigm_score: 1.140922492677184
+    match_target: MP:0006144
+object_best_matches:
+  HP:0000093:
+    match_source: HP:0000093
+    score: 1.5631348570810817
+    similarity:
+      subject_id: MP:0005389
+      object_id: HP:0000093
+      ancestor_id: UPHENO:0001003
+      ancestor_information_content: 1.5631348570810817
+      jaccard_similarity: 0.13333333333333333
+      phenodigm_score: 0.4565281819823878
+    match_target: MP:0005389
+  HP:0004325:
+    match_source: HP:0004325
+    score: 1.5631348570810817
+    similarity:
+      subject_id: MP:0005389
+      object_id: HP:0004325
+      ancestor_id: UPHENO:0001003
+      ancestor_information_content: 1.5631348570810817
+      jaccard_similarity: 0.24
+      phenodigm_score: 0.6124968291342083
+    match_target: MP:0005389
+  MP:0006144:
+    match_source: MP:0006144
+    score: 4.277027869832077
+    similarity:
+      subject_id: MP:0005389
+      object_id: MP:0006144
+      ancestor_id: MP:0000001
+      ancestor_information_content: 4.277027869832077
+      jaccard_similarity: 0.30434782608695654
+      phenodigm_score: 1.140922492677184
+    match_target: MP:0005389
+average_score: 3.598554616644328
+best_score: 4.277027869832077
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adapter2</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:phenio&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim2</span> <span class="o">=</span> <span class="n">adapter2</span><span class="o">.</span><span class="n">termset_pairwise_similarity</span><span class="p">(</span><span class="n">subject_ids</span><span class="p">,</span> <span class="n">object_ids</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

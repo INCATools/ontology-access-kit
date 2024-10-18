@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK Developers Tutorial &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">OAK Developers Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/Developers-Tutorial.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-Developers-Tutorial">
+<h1>OAK Developers Tutorial<a class="headerlink" href="#OAK-Developers-Tutorial" title="Link to this heading"></a></h1>
+<p>This tutorial is primarily for <strong>Python Developers</strong> who wish to use OAK in their applications. These include applications such as:</p>
+<ul class="simple">
+<li><p>building ontology-driven data portals</p></li>
+<li><p>creating curation tools</p></li>
+<li><p>data science and machine learning applications</p></li>
+<li><p>web services</p></li>
+</ul>
+<p>Some basic knowledge of the overall architecture and capabilities of OAK is assumed.</p>
+<p>You may want to start with the slides on the command line here: <a class="reference external" href="https://doi.org/10.5281/zenodo.7708963">https://doi.org/10.5281/zenodo.7708963</a></p>
+<p>Or part 1 of the tutorial here: <a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial01.html">https://incatools.github.io/ontology-access-kit/intro/tutorial01.html</a></p>
+<p>There is a video of the walkthrough of this tutorial: <a class="reference external" href="https://www.youtube.com/watch?v=nVTWazO_Gu0">https://www.youtube.com/watch?v=nVTWazO_Gu0</a></p>
+<section id="How-to-follow-this-tutorial">
+<h2>How to follow this tutorial<a class="headerlink" href="#How-to-follow-this-tutorial" title="Link to this heading"></a></h2>
+<p>The easiest way to run this tutorial is to clone the repo and run locally:</p>
+<ol class="arabic simple">
+<li><p>clone the repo here <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/">https://github.com/INCATools/ontology-access-kit/</a></p></li>
+<li><p>cd ontology-access-kit</p></li>
+<li><p>poetry install</p></li>
+<li><p>poetry run jupyter notebook</p></li>
+</ol>
+<p>Alternatively, everything here should work on a fresh install of oak from pypi. You will need to make sure the test files from <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/tree/main/tests/input">tests/input</a> are accessible.</p>
+<p>Some of the examples work with these test files - others will work with versions of ontologies on the web.</p>
+<section id="Change-directory-so-that-test-files-are-directly-accessible">
+<h3>Change directory so that test files are directly accessible<a class="headerlink" href="#Change-directory-so-that-test-files-are-directly-accessible" title="Link to this heading"></a></h3>
+<p>Note: this is necessary if you are running from a checkout of the OAK repo, since this notebook is in a subfolder</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">cd</span> ..
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/Users/cjm/repos/ontology-access-kit
+</pre></div></div>
+</div>
+<p>The OAK documentation makes heavy use of some of the unit test files in the <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/tree/main/tests/input">tests/input</a> folder.</p>
+<p>This include a little mini test subset of GO, available in different formats for the purposes of testing different adapters:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls<span class="w"> </span>tests/input/go-nucleus.*
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tests/input/go-nucleus.cx      tests/input/go-nucleus.ofn
+tests/input/go-nucleus.db      tests/input/go-nucleus.owl
+tests/input/go-nucleus.json    tests/input/go-nucleus.owl.ttl
+tests/input/go-nucleus.obo
+</pre></div></div>
+</div>
+<p>If you are an OAK core developer it helps to be aware of these files, as you will likely be writing new unit tests.</p>
+<p>If one the other hand you just want to use OAK in your own code you don’t need to know anything about these except that they are handy for quick testing.</p>
+</section>
+</section>
+<section id="Running-Examples-from-the-OAK-sphinx-docs">
+<h2>Running Examples from the OAK sphinx docs<a class="headerlink" href="#Running-Examples-from-the-OAK-sphinx-docs" title="Link to this heading"></a></h2>
+<p>The sphinx docs include code examples, these are visible from the <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code>s</p>
+<p>For example, in:</p>
+<p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/basic">https://incatools.github.io/ontology-access-kit/packages/interfaces/basic</a></p>
+<p>You can see sections like this:</p>
+<p><img alt="images/oak-docs-code.png" src="examples/images/oak-docs-code.png" /></p>
+<p>If you click the “copy” button it will copy the code only (no <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code>s, and no output) such that you can paste directly into a Python REPL or a notebook (provided the paths are preserved).</p>
+<p>E.g. try copying this section from the docs</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;tests/input/go-nucleus.db&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;tests/input/go-nucleus.db&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+nucleus
+</pre></div></div>
+</div>
+<p>Hurray! All examples throughout the OAK docs should work</p>
+<p>Note that you can play with using different input formats - this should give the same results:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;tests/input/go-nucleus.obo&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+nucleus
+</pre></div></div>
+</div>
+</section>
+<section id="Working-with-whole-ontologies">
+<h2>Working with whole ontologies<a class="headerlink" href="#Working-with-whole-ontologies" title="Link to this heading"></a></h2>
+<p>Almost all the examples in this tutorial make use of pre-made sqlite versions of ontologies.</p>
+<p>These are specified using <a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/selectors.html">selector</a> syntax:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sqlite:obo:ONTID
+</pre></div>
+</div>
+<p>E.g.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sqlite:obo:cl
+</pre></div>
+</div>
+<p>When you use this for the first time it will download and cache the file (using pystow), so there may be an initial lag</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+neuron
+</pre></div></div>
+</div>
+<p>Hurray! We successfully fetched the label (name) for a class ID in the cell ontology!</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">label</span></code> method is part of the BasicOntologyInterface</p>
+<section id="BasicOntologyInterface">
+<h3>BasicOntologyInterface<a class="headerlink" href="#BasicOntologyInterface" title="Link to this heading"></a></h3>
+<p>The <a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/basic">BasicOntologyInterface</a> provides basic methods that encompass the majority of what most people need to do when working with ontologies - lookups of various kinds as well as simple graph operations.</p>
+<p>OAK has the architectural concept of separating interfaces from implementations. It helps to read about this concept, but for now you don’t need to worry about it. We are using the sql adapter which fully <em>implements</em> almost all the existing OAK interfaces</p>
+</section>
+<section id="Fetching-ancestors">
+<h3>Fetching ancestors<a class="headerlink" href="#Fetching-ancestors" title="Link to this heading"></a></h3>
+<p>Next we are going to fetch ancestors.</p>
+<p>Note: it would help to review <a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial01.html">tutorial part 1</a> to understand basic concepts of edges, ancestors, and predicates.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+<span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">anc</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">anc</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000540 neuron
+BFO:0000002 continuant
+BFO:0000004 independent continuant
+BFO:0000040 material entity
+CL:0000000 cell
+CL:0000003 native cell
+CL:0000211 electrically active cell
+CL:0000255 eukaryotic cell
+CL:0000393 electrically responsive cell
+CL:0000404 electrically signaling cell
+CL:0000540 neuron
+CL:0000548 animal cell
+CL:0002319 neural cell
+CL:0002371 somatic cell
+</pre></div></div>
+</div>
+</section>
+<section id="Fetching-descendants">
+<h3>Fetching descendants<a class="headerlink" href="#Fetching-descendants" title="Link to this heading"></a></h3>
+<p>Let’s try working with descendants.</p>
+<p>This time we are going to demonstrate how OAK deals with collections.</p>
+<p><strong>note</strong> <em>we expect the following code</em><strong>not</strong><em>to work</em></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neurons</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">neurons</span><span class="p">))</span>
+<span class="k">except</span><span class="p">(</span><span class="ne">Exception</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PROBLEM: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PROBLEM: object of type &#39;generator&#39; has no len()
+</pre></div></div>
+</div>
+<p>Why didn’t this work? What does <code class="docutils literal notranslate"><span class="pre">object</span> <span class="pre">of</span> <span class="pre">type</span> <span class="pre">'generator'</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">len()</span></code> mean?</p>
+<p>To understand why we will mention a key concept in OAK, that of the iterator</p>
+</section>
+<section id="Iterators">
+<h3>Iterators<a class="headerlink" href="#Iterators" title="Link to this heading"></a></h3>
+<p>OAK methods rarely return lists - instead they return iterators. This means that code is better adaptable to use cases where you want to work with potentially very large lists or you want to <em>stream</em> results. See:</p>
+<p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/best-practice.html#iterators">best practice</a></p>
+<p>However, if you don’t care about this you can simple use <code class="docutils literal notranslate"><span class="pre">list(...)</span></code> to get a list:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neurons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">neurons</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+454
+</pre></div></div>
+</div>
+<p>You can also cast to <code class="docutils literal notranslate"><span class="pre">set()</span></code> to use set operations like intersections.</p>
+<p>For example, let’s say we want to compose our neuron query above with a query to fetch all things in the forebrain, to get all neurons in the forebrain:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="n">parts_of_forebrain</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;UBERON:0001890&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parts_of_forebrain</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+219
+</pre></div></div>
+</div>
+<p>You may be wondering what Uberon terms are doing here given that we requested the cell ontology in <code class="docutils literal notranslate"><span class="pre">get_adapter</span></code></p>
+<p>One under-appreciated fact of OBO is that many ontologies are in fact mini “knowledge graphs”, linking out to nodes in other ontologies. See</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://oboacademy.github.io/obook/tutorial/robot-tutorial-1/">extracting using robot</a> (OBO Academy)</p></li>
+<li><p><a class="reference external" href="https://oboacademy.github.io/obook/explanation/owl-format-variants/">owl format variants</a> (OBO Academy)</p></li>
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/guide/basics.html">OAK basics</a> (OAK Guide)</p></li>
+</ul>
+<p>OK next lets do an <strong>intersection</strong> between the two lists</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">parts_of_forebrain</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">neurons</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:1001435 periglomerular cell
+CL:4023040 L2/3-6 intratelencephalic projecting glutamatergic cortical neuron
+CL:1001571 hippocampal pyramidal neuron
+CL:1001502 mitral cell
+CL:1001434 olfactory bulb interneuron
+CL:4023048 L4/5 intratelencephalic projecting glutamatergic neuron of the primary motor cortex
+CL:1001505 parvocellular neurosecretory cell
+CL:4023008 intratelencephalic-projecting glutamatergic cortical neuron
+CL:4023049 L5 intratelencephalic projecting glutamatergic neuron of the primary motor cortex
+CL:4023047 L2/3 intratelencephalic projecting glutamatergic neuron of the primary motor cortex
+CL:4023081 inverted L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Mmus)
+CL:4023050 L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex
+CL:1001503 olfactory bulb tufted cell
+CL:4023080 stellate L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Mmus)
+</pre></div></div>
+</div>
+<p>This is <strong>all the neurons that are part of the forebrain</strong>.</p>
+<p>Readers familiar with OWL and Protege may like to think of this as similar to a DL query for the expression <code class="docutils literal notranslate"><span class="pre">neuron</span> <span class="pre">and</span> <span class="pre">part-of</span> <span class="pre">some</span> <span class="pre">forebrain</span></code> – there are some theoretical differences we won’t get into here but for practical purposes the results should be the same.</p>
+</section>
+<section id="Relationships">
+<h3>Relationships<a class="headerlink" href="#Relationships" title="Link to this heading"></a></h3>
+<p>The above example uses the ancestors and descendants query in <a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/basic">BasicOntologyInterface</a>.</p>
+<p>We can also get the relationships using the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> method:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;CL:0000540&#39;, &#39;RO:0002215&#39;, &#39;GO:0019226&#39;)
+(&#39;CL:0000540&#39;, &#39;rdfs:subClassOf&#39;, &#39;BFO:0000040&#39;)
+(&#39;CL:0000540&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000393&#39;)
+(&#39;CL:0000540&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0000404&#39;)
+(&#39;CL:0000540&#39;, &#39;rdfs:subClassOf&#39;, &#39;CL:0002319&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ RO:0002215 capable of GO:0019226 transmission of nerve impulse
+ rdfs:subClassOf None BFO:0000040 material entity
+ rdfs:subClassOf None CL:0000393 electrically responsive cell
+ rdfs:subClassOf None CL:0000404 electrically signaling cell
+ rdfs:subClassOf None CL:0002319 neural cell
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">_o</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2"> FROM: </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ rdfs:subClassOf FROM: CL:0000028 CNS neuron (sensu Nematoda and Protostomia)
+ rdfs:subClassOf FROM: CL:0000029 neural crest derived neuron
+ rdfs:subClassOf FROM: CL:0000099 interneuron
+ rdfs:subClassOf FROM: CL:0000102 polymodal neuron
+ rdfs:subClassOf FROM: CL:0000104 multipolar neuron
+ rdfs:subClassOf FROM: CL:0000105 pseudounipolar neuron
+ rdfs:subClassOf FROM: CL:0000106 unipolar neuron
+ rdfs:subClassOf FROM: CL:0000108 cholinergic neuron
+ rdfs:subClassOf FROM: CL:0000109 adrenergic neuron
+ rdfs:subClassOf FROM: CL:0000110 peptidergic neuron
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_s</span><span class="p">,</span> <span class="n">_p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">],</span> <span class="n">include_entailed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000002 continuant
+BFO:0000004 independent continuant
+BFO:0000040 material entity
+CARO:0000000 anatomical entity
+CARO:0000006 material anatomical entity
+CARO:0030000 biological entity
+UBERON:0000061 anatomical structure
+UBERON:0000465 material anatomical entity
+UBERON:0000467 anatomical system
+UBERON:0000468 multicellular organism
+UBERON:0001016 nervous system
+UBERON:0001062 anatomical entity
+UBERON:0010000 multicellular anatomical structure
+</pre></div></div>
+</div>
+<p>This includes all the entailed part-of relationships from neuron, including trivial ones (“every neuron is part of a material entity”)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">_p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span> <span class="n">include_entailed</span><span class="o">=</span><span class="kc">True</span><span class="p">))[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000705 R6 photoreceptor cell
+CL:4023108 oxytocin-secreting magnocellular cell
+CL:0004240 WF1 amacrine cell
+CL:0004242 WF3-1 amacrine cell
+CL:1000380 type 1 vestibular sensory cell of epithelium of macula of saccule of membranous labyrinth
+CL:1001582 lateral ventricle neuron
+CL:4023128 rostral periventricular region of the third ventricle KDNy neuron
+CL:0003020 retinal ganglion cell C outer
+CL:4023094 tufted pyramidal neuron
+CL:4023057 cerebellar inhibitory GABAergic interneuron
+</pre></div></div>
+</div>
+</section>
+<section id="Creating-a-Data-Frame-for-Relationships">
+<h3>Creating a Data Frame for Relationships<a class="headerlink" href="#Creating-a-Data-Frame-for-Relationships" title="Link to this heading"></a></h3>
+<p>Next we will see how to create a small data frame for relationships for forebrain neurons:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">forebrain_neurons</span> <span class="o">=</span> <span class="n">parts_of_forebrain</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">neurons</span><span class="p">)</span>
+
+<span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">forebrain_neurons</span><span class="p">):</span>
+    <span class="n">objs</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;s_label&quot;</span><span class="p">:</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
+                 <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span> <span class="s2">&quot;p_label&quot;</span><span class="p">:</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">p</span><span class="p">),</span>
+                 <span class="s2">&quot;o&quot;</span><span class="p">:</span> <span class="n">o</span><span class="p">,</span> <span class="s2">&quot;o_label&quot;</span><span class="p">:</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">)})</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>s</th>
+      <th>s_label</th>
+      <th>p</th>
+      <th>p_label</th>
+      <th>o</th>
+      <th>o_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+      <td>BFO:0000050</td>
+      <td>part of</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0002264</td>
+      <td>olfactory bulb</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0000101</td>
+      <td>sensory neuron</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0000402</td>
+      <td>CNS interneuron</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0012001</td>
+      <td>neuron of the forebrain</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CL:1001435</td>
+      <td>periglomerular cell</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0005377</td>
+      <td>olfactory bulb glomerular layer</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CL:1001435</td>
+      <td>periglomerular cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>CL:1001502</td>
+      <td>mitral cell</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0004186</td>
+      <td>olfactory bulb mitral cell layer</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CL:1001502</td>
+      <td>mitral cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:1001434</td>
+      <td>olfactory bulb interneuron</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>CL:1001503</td>
+      <td>olfactory bulb tufted cell</td>
+      <td>BFO:0000050</td>
+      <td>part of</td>
+      <td>UBERON:0005376</td>
+      <td>olfactory bulb external plexiform layer</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>CL:1001503</td>
+      <td>olfactory bulb tufted cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CARO:0000000</td>
+      <td>anatomical entity</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>CL:1001503</td>
+      <td>olfactory bulb tufted cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0000540</td>
+      <td>neuron</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CL:1001505</td>
+      <td>parvocellular neurosecretory cell</td>
+      <td>BFO:0000050</td>
+      <td>part of</td>
+      <td>UBERON:0001930</td>
+      <td>paraventricular nucleus of hypothalamus</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CL:1001505</td>
+      <td>parvocellular neurosecretory cell</td>
+      <td>RO:0002215</td>
+      <td>capable of</td>
+      <td>GO:0030103</td>
+      <td>vasopressin secretion</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>CL:1001505</td>
+      <td>parvocellular neurosecretory cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CARO:0000000</td>
+      <td>anatomical entity</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>CL:1001505</td>
+      <td>parvocellular neurosecretory cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0000167</td>
+      <td>peptide hormone secreting cell</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>CL:1001505</td>
+      <td>parvocellular neurosecretory cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0000381</td>
+      <td>neurosecretory neuron</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>CL:1001505</td>
+      <td>parvocellular neurosecretory cell</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:2000030</td>
+      <td>hypothalamus cell</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>CL:1001571</td>
+      <td>hippocampal pyramidal neuron</td>
+      <td>BFO:0000050</td>
+      <td>part of</td>
+      <td>UBERON:0002313</td>
+      <td>hippocampus pyramidal layer</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>CL:1001571</td>
+      <td>hippocampal pyramidal neuron</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0002608</td>
+      <td>hippocampal neuron</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>CL:1001571</td>
+      <td>hippocampal pyramidal neuron</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023111</td>
+      <td>cerebral cortex pyramidal neuron</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>CL:4023008</td>
+      <td>intratelencephalic-projecting glutamatergic co...</td>
+      <td>RO:0000053</td>
+      <td>bearer of</td>
+      <td>PATO:0070034</td>
+      <td>intratelencephalic projecting</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>CL:4023008</td>
+      <td>intratelencephalic-projecting glutamatergic co...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0000679</td>
+      <td>glutamatergic neuron</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CL:4023008</td>
+      <td>intratelencephalic-projecting glutamatergic co...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:0010012</td>
+      <td>cerebral cortex neuron</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>CL:4023040</td>
+      <td>L2/3-6 intratelencephalic projecting glutamate...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023008</td>
+      <td>intratelencephalic-projecting glutamatergic co...</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CL:4023047</td>
+      <td>L2/3 intratelencephalic projecting glutamaterg...</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0001384</td>
+      <td>primary motor cortex</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>CL:4023047</td>
+      <td>L2/3 intratelencephalic projecting glutamaterg...</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:8440000</td>
+      <td>cortical layer II/III</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>CL:4023047</td>
+      <td>L2/3 intratelencephalic projecting glutamaterg...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023040</td>
+      <td>L2/3-6 intratelencephalic projecting glutamate...</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>CL:4023048</td>
+      <td>L4/5 intratelencephalic projecting glutamaterg...</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0001384</td>
+      <td>primary motor cortex</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CL:4023048</td>
+      <td>L4/5 intratelencephalic projecting glutamaterg...</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:8440001</td>
+      <td>cortical layer IV/V</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>CL:4023048</td>
+      <td>L4/5 intratelencephalic projecting glutamaterg...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023040</td>
+      <td>L2/3-6 intratelencephalic projecting glutamate...</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>CL:4023049</td>
+      <td>L5 intratelencephalic projecting glutamatergic...</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0001384</td>
+      <td>primary motor cortex</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>CL:4023049</td>
+      <td>L5 intratelencephalic projecting glutamatergic...</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0005394</td>
+      <td>cortical layer V</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>CL:4023049</td>
+      <td>L5 intratelencephalic projecting glutamatergic...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023040</td>
+      <td>L2/3-6 intratelencephalic projecting glutamate...</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>CL:4023050</td>
+      <td>L6 intratelencephalic projecting glutamatergic...</td>
+      <td>RO:0000053</td>
+      <td>bearer of</td>
+      <td>PATO:0070019</td>
+      <td>untufted pyramidal morphology</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>CL:4023050</td>
+      <td>L6 intratelencephalic projecting glutamatergic...</td>
+      <td>RO:0002100</td>
+      <td>has soma location</td>
+      <td>UBERON:0005395</td>
+      <td>cortical layer VI</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>CL:4023050</td>
+      <td>L6 intratelencephalic projecting glutamatergic...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:2000049</td>
+      <td>primary motor cortex pyramidal cell</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>CL:4023050</td>
+      <td>L6 intratelencephalic projecting glutamatergic...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023040</td>
+      <td>L2/3-6 intratelencephalic projecting glutamate...</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>CL:4023080</td>
+      <td>stellate L6 intratelencephalic projecting glut...</td>
+      <td>RO:0000053</td>
+      <td>bearer of</td>
+      <td>PATO:0070020</td>
+      <td>stellate pyramidal morphology</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>CL:4023080</td>
+      <td>stellate L6 intratelencephalic projecting glut...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023050</td>
+      <td>L6 intratelencephalic projecting glutamatergic...</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>CL:4023081</td>
+      <td>inverted L6 intratelencephalic projecting glut...</td>
+      <td>RO:0000053</td>
+      <td>bearer of</td>
+      <td>PATO:0070021</td>
+      <td>inverted pyramidal morphology</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>CL:4023081</td>
+      <td>inverted L6 intratelencephalic projecting glut...</td>
+      <td>rdfs:subClassOf</td>
+      <td>None</td>
+      <td>CL:4023050</td>
+      <td>L6 intratelencephalic projecting glutamatergic...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Aliases">
+<h3>Aliases<a class="headerlink" href="#Aliases" title="Link to this heading"></a></h3>
+<p>The BasicOntologyInterface has a deliberately simple datamodel for aliases that can be expressed by returning simple strings and tuples. Later on we can see how to leverage the more advanced OBO Graphs data model</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adapter</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;nerve cell&#39;, &#39;neuron&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">alias</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+rdfs:label neuron
+oio:hasExactSynonym nerve cell
+</pre></div></div>
+</div>
+</section>
+<section id="Mappings">
+<h3>Mappings<a class="headerlink" href="#Mappings" title="Link to this heading"></a></h3>
+<p>Similar to aliases, the BasicOntologyInterface has a very simple model of mappings. Later on we will see how we can use the MappingProviderInterface to get more granular information.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">xref</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">simple_mappings_by_curie</span><span class="p">(</span><span class="s2">&quot;CL:0000202&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">xref</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+oio:hasDbXref FMA:62364
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Subsets">
+<h2>Subsets<a class="headerlink" href="#Subsets" title="Link to this heading"></a></h2>
+<p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/glossary.html#term-Subset">Subsets</a> in the OAK Glossary.</p>
+<p>Subsets allow terms to be placed into groups outside the hierarchy for different purposes.</p>
+<p>To illustrate we will switch our example to use GO which has a rich variety of subsets</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">go_adapter</span><span class="o">.</span><span class="n">subsets</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+chebi_ph7_3
+3_STAR
+1_STAR
+goslim_plant
+goslim_pir
+goslim_flybase_ribbon
+goslim_chembl
+goslim_agr
+goslim_metagenomics
+goslim_yeast
+goslim_pombe
+gocheck_do_not_annotate
+goslim_generic
+goslim_drosophila
+goslim_candida
+prokaryote_subset
+gocheck_do_not_manually_annotate
+goslim_synapse
+goslim_mouse
+SOFA
+Alliance_of_Genome_Resources
+biosapiens
+</pre></div></div>
+</div>
+<p>note this includes subsets for ontologies that have been merged in</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">go_adapter</span><span class="o">.</span><span class="n">subset_members</span><span class="p">(</span><span class="s2">&quot;goslim_generic&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">go_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0000228 nuclear chromosome
+GO:0000278 mitotic cell cycle
+GO:0000910 cytokinesis
+GO:0001618 virus receptor activity
+GO:0002181 cytoplasmic translation
+GO:0002376 immune system process
+GO:0003012 muscle system process
+GO:0003013 circulatory system process
+GO:0003014 renal system process
+GO:0003016 respiratory system process
+</pre></div></div>
+</div>
+<section id="Plotting-how-GO-subsets-inter-relate">
+<h3>Plotting how GO subsets inter-relate<a class="headerlink" href="#Plotting-how-GO-subsets-inter-relate" title="Link to this heading"></a></h3>
+<p>Now we are ready for a simple mini application - showing commonalities between</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">go_adapter</span><span class="o">.</span><span class="n">subsets</span><span class="p">():</span>
+    <span class="n">members</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">go_adapter</span><span class="o">.</span><span class="n">subset_members</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="n">members</span><span class="p">:</span>
+        <span class="n">sets</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">subset</span><span class="p">,</span> <span class="n">members</span><span class="p">))</span>
+
+
+<span class="c1"># Number of sets</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">)</span>
+
+<span class="c1"># Initialize an empty matrix to store the number of members in common</span>
+<span class="n">intersection_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+
+<span class="c1"># Calculate the intersections between each pair of sets</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">intersection_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">sets</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="c1"># Get the set names</span>
+<span class="n">set_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sets</span><span class="p">]</span>
+
+<span class="c1"># Create a pandas DataFrame with the intersection matrix and set names as index and columns</span>
+<span class="n">intersection_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">intersection_matrix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">set_names</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">set_names</span><span class="p">)</span>
+
+<span class="c1"># Plot the clustermap with dendrograms</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">intersection_df</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Clustermap of Common Members Between Sets with Dendrograms&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_Developers-Tutorial_47_0.png" src="../_images/examples_Developers-Tutorial_47_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Search-Interface">
+<h2>Search Interface<a class="headerlink" href="#Search-Interface" title="Link to this heading"></a></h2>
+<p>So far we have been doing basic lookup information, assuming we know the ID in advance.</p>
+<p>What if we don’t know the ID but just have a label, or if we don’t even have a particular concept in mind, and just want to search?</p>
+<p>If so, the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/search.html">SearchInterface</a> is your friend!</p>
+<section id="Lookup-by-label">
+<h3>Lookup by label<a class="headerlink" href="#Lookup-by-label" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;neuron&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000540
+</pre></div></div>
+</div>
+<p>now let’s try searching for the capitalized form:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;Neuron&quot;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+</pre></div></div>
+</div>
+<p>uh oh!</p>
+<p>By design, the default is case sensitive. But we can pass a SearchConfiguration to make search more customizable.</p>
+<p>You can read more about the SearchConfiguration datamodel here:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://w3id.org/oak/search">https://w3id.org/oak/search</a></p></li>
+</ul>
+<p><strong>a note on data models</strong> the BasicOntologyInterface is designed to work without any particular data model, returning only simple lists and tuples. Other interfaces typically need to work with more sophisticated structures, so we use data models here.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchTermSyntax</span><span class="p">,</span> <span class="n">SearchProperty</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">force_case_insensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;Neuron&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;NeUrOn&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
+<p>We can also do regexes, starts-with, ends with etc (but see below for caveat)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">STARTS_WITH</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;neuron&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CARO:0001001 neuron projection bundle
+CL:0000006 neuronal receptor cell
+CL:0000095 neuron associated cell
+CL:0000123 neuron associated cell (sensu Vertebrata)
+CL:0000130 neuron associated cell (sensu Nematoda and Protostomia)
+CL:0000540 neuron
+CL:0000555 neuronal brush cell
+CL:0002611 neuron of the dorsal spinal cord
+CL:0002612 neuron of the ventral spinal cord
+CL:0002614 neuron of the substantia nigra
+CL:0012001 neuron of the forebrain
+GO:0001764 neuron migration
+GO:0019228 neuronal action potential
+GO:0030182 neuron differentiation
+GO:0031175 neuron projection development
+GO:0032589 neuron projection membrane
+GO:0042551 neuron maturation
+GO:0043005 neuron projection
+GO:0043025 neuronal cell body
+GO:0044306 neuron projection terminus
+GO:0048666 neuron development
+GO:0048812 neuron projection morphogenesis
+GO:0051402 neuron apoptotic process
+GO:0060705 neuron differentiation involved in salivary gland development
+GO:0070050 neuron cellular homeostasis
+GO:0070997 neuron death
+GO:0106027 neuron projection organization
+GO:0120111 neuron projection cytoplasm
+GO:0150099 neuron-glial cell signaling
+PATO:0070033 neuron projection quality
+PR:000005460 neuronal acetylcholine receptor subunit alpha-7
+PR:000044062 neuronal acetylcholine receptor subunit alpha-7, signal peptide removed form
+PR:000044063 neuronal acetylcholine receptor subunit alpha-7, signal peptide removed form (human)
+PR:P36544 neuronal acetylcholine receptor subunit alpha-7 (human)
+PR:P49582 neuronal acetylcholine receptor subunit alpha-7 (mouse)
+UBERON:0000122 neuron projection bundle
+UBERON:0004904 neuron projection bundle connecting eye with brain
+</pre></div></div>
+</div>
+<p>now we can try a regex:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">REGULAR_EXPRESSION</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;^neuron&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CARO:0001001 neuron projection bundle
+CL:0000006 neuronal receptor cell
+CL:0000095 neuron associated cell
+CL:0000123 neuron associated cell (sensu Vertebrata)
+CL:0000130 neuron associated cell (sensu Nematoda and Protostomia)
+CL:0000540 neuron
+CL:0000555 neuronal brush cell
+CL:0002611 neuron of the dorsal spinal cord
+CL:0002612 neuron of the ventral spinal cord
+CL:0002614 neuron of the substantia nigra
+CL:0012001 neuron of the forebrain
+GO:0001764 neuron migration
+GO:0019228 neuronal action potential
+GO:0030182 neuron differentiation
+GO:0031175 neuron projection development
+GO:0032589 neuron projection membrane
+GO:0042551 neuron maturation
+GO:0043005 neuron projection
+GO:0043025 neuronal cell body
+GO:0044306 neuron projection terminus
+GO:0048666 neuron development
+GO:0048812 neuron projection morphogenesis
+GO:0051402 neuron apoptotic process
+GO:0060705 neuron differentiation involved in salivary gland development
+GO:0070050 neuron cellular homeostasis
+GO:0070997 neuron death
+GO:0106027 neuron projection organization
+GO:0120111 neuron projection cytoplasm
+GO:0150099 neuron-glial cell signaling
+PATO:0070033 neuron projection quality
+PR:000005460 neuronal acetylcholine receptor subunit alpha-7
+PR:000044062 neuronal acetylcholine receptor subunit alpha-7, signal peptide removed form
+PR:000044063 neuronal acetylcholine receptor subunit alpha-7, signal peptide removed form (human)
+PR:P36544 neuronal acetylcholine receptor subunit alpha-7 (human)
+PR:P49582 neuronal acetylcholine receptor subunit alpha-7 (mouse)
+UBERON:0000122 neuron projection bundle
+UBERON:0004904 neuron projection bundle connecting eye with brain
+</pre></div></div>
+</div>
+</section>
+<section id="Caveat-on-regexes">
+<h3>Caveat on regexes<a class="headerlink" href="#Caveat-on-regexes" title="Link to this heading"></a></h3>
+<p>If your adapter is talking to sqlite, then the regex must be of a form that can be translated to a LIKE query</p>
+<p>(OAK takes care of this translation - as a developer you should only care about the interface, not implementation)</p>
+<p>In future we may have strategies to allow more powerful lexical search with sqlite…</p>
+</section>
+<section id="Searching-on-mapped-identifiers">
+<h3>Searching on mapped identifiers<a class="headerlink" href="#Searching-on-mapped-identifiers" title="Link to this heading"></a></h3>
+<p>You can search on arbitrary properties, such as synonyms or even mapped identifiers (<code class="docutils literal notranslate"><span class="pre">object_id</span></code> in SSSOM lingo)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">MAPPED_IDENTIFIER</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;FMA:62364&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000202 auditory hair cell
+CL:4023120 cochlea auditory hair cell
+</pre></div></div>
+</div>
+</section>
+<section id="SSSOM-Mappings">
+<h3>SSSOM Mappings<a class="headerlink" href="#SSSOM-Mappings" title="Link to this heading"></a></h3>
+<p>Up above we saw that the default datamodel for mappings in OAK is simple. For more advanced operations, you can use:</p>
+<p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/mapping-provider.html">MappingProviderInterface</a></p>
+<p>This makes use of the <a class="reference external" href="https://w3id.org/sssom">https://w3id.org/sssom</a> data model</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neurons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<span class="n">mappings</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="n">neurons</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">mappings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+186
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mappings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Mapping(subject_id=&#39;CL:0000099&#39;, predicate_id=&#39;oio:hasDbXref&#39;, object_id=&#39;BTO:0003811&#39;, mapping_justification=&#39;semapv:UnspecifiedMatching&#39;, subject_label=None, subject_category=None, predicate_label=None, predicate_modifier=None, object_label=None, object_category=None, author_id=[], author_label=[], reviewer_id=[], reviewer_label=[], creator_id=[], creator_label=[], license=None, subject_type=None, subject_source=&#39;CL&#39;, subject_source_version=None, object_type=None, object_source=&#39;BTO&#39;, object_source_version=None, mapping_provider=None, mapping_source=None, mapping_cardinality=None, mapping_tool=None, mapping_tool_version=None, mapping_date=None, confidence=None, curation_rule=[], curation_rule_text=[], subject_match_field=[], object_match_field=[], match_string=[], subject_preprocessing=[], object_preprocessing=[], semantic_similarity_score=None, semantic_similarity_measure=None, see_also=[], other=None, comment=None)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">yaml_dumper</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">yaml_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">mappings</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+- subject_id: CL:0000099
+  predicate_id: oio:hasDbXref
+  object_id: BTO:0003811
+  mapping_justification: semapv:UnspecifiedMatching
+  subject_source: CL
+  object_source: BTO
+- subject_id: CL:0000099
+  predicate_id: oio:hasDbXref
+  object_id: FBbt:00005125
+  mapping_justification: semapv:UnspecifiedMatching
+  subject_source: CL
+  object_source: FBbt
+
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Text-Annotation">
+<h2>Text Annotation<a class="headerlink" href="#Text-Annotation" title="Link to this heading"></a></h2>
+<p>Interface: <a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/text-annotator.html">TextAnnotatorInterface</a></p>
+<p>The text annotator uses the <a class="reference external" href="https://w3id.org/linkml/text-annotator">https://w3id.org/linkml/text-annotator</a> data model. This models each annotation as an TextAnnotation object with fields such as subject_start and subject_end (marking the span in the text) and object_id and object_label (the matched concept):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ann</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">annotate_text</span><span class="p">(</span><span class="s2">&quot;this is a goblet cell from the intestinal epithelium&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ann</span><span class="o">.</span><span class="n">subject_start</span><span class="p">,</span> <span class="n">ann</span><span class="o">.</span><span class="n">subject_end</span><span class="p">,</span> <span class="n">ann</span><span class="o">.</span><span class="n">object_id</span><span class="p">,</span> <span class="n">ann</span><span class="o">.</span><span class="n">object_label</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+18 21 CARO:0000013 cell
+18 21 CL:0000000 cell
+9 9 CHEBI:15339 A
+11 11 CHEBI:15428 G
+18 18 CHEBI:27594 C
+11 21 CL:0000160 goblet cell
+1 2 PR:000016301 TH
+1 2 PR:P07101 TH
+1 2 PR:P24529 Th
+1 2 UBERON:0001897 Th
+43 52 UBERON:0000483 epithelium
+32 52 UBERON:0001277 intestinal epithelium
+</pre></div></div>
+</div>
+<section id="OBO-Graph-Interface">
+<h3>OBO Graph Interface<a class="headerlink" href="#OBO-Graph-Interface" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/obograph.html">OboGraphInterface</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">([</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+25
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+29
+</pre></div></div>
+</div>
+</section>
+<section id="Exporting-subgraphs-to-GraphViz">
+<h3>Exporting subgraphs to GraphViz<a class="headerlink" href="#Exporting-subgraphs-to-GraphViz" title="Link to this heading"></a></h3>
+<p>See also <a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial05.html">part 5</a> of the tutorial</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">graph_to_image</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graph_to_image</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">seeds</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">],</span> <span class="n">imgfile</span><span class="o">=</span><span class="s2">&quot;examples/output/neuron-v1.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="../_images/go-enrichment-from-hp.png" /></p>
+</section>
+<section id="Adding-a-stylesheet">
+<h3>Adding a stylesheet<a class="headerlink" href="#Adding-a-stylesheet" title="Link to this heading"></a></h3>
+<p>The graph above is a little plain and boring looking. We can spice it up using a StyleMap.</p>
+<p>For now we will use the standard stylemap in <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/src/oaklib/conf/obograph-style.json">src/oaklib/conf/obograph-style.json</a>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">default_stylemap_path</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graph_to_image</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">seeds</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">],</span> <span class="n">imgfile</span><span class="o">=</span><span class="s2">&quot;examples/output/neuron-v2.png&quot;</span><span class="p">,</span> <span class="n">stylemap</span><span class="o">=</span><span class="n">default_stylemap_path</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="../_images/go-enrichment-from-hp.png" /></p>
+</section>
+</section>
+<section id="Working-with-annotations">
+<h2>Working with annotations<a class="headerlink" href="#Working-with-annotations" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;src/oaklib/conf/hpoa-g2p-input-spec.yaml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">associations</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+238269
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">assoc</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">associations</span><span class="p">())[</span><span class="mi">0</span><span class="p">:</span><span class="mi">15</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">assoc</span><span class="p">,</span> <span class="n">hp</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">assoc</span><span class="o">.</span><span class="n">object</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Association(subject=&#39;NCBIGene:ncbi_gene_id&#39;, predicate=None, object=&#39;hpo_id&#39;, property_values=[]) None
+Association(subject=&#39;NCBIGene:10&#39;, predicate=None, object=&#39;HP:0000007&#39;, property_values=[]) Autosomal recessive inheritance
+Association(subject=&#39;NCBIGene:10&#39;, predicate=None, object=&#39;HP:0001939&#39;, property_values=[]) Abnormality of metabolism/homeostasis
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0002460&#39;, property_values=[]) Distal muscle weakness
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0002451&#39;, property_values=[]) Limb dystonia
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0010871&#39;, property_values=[]) Sensory ataxia
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0009886&#39;, property_values=[]) Trichorrhexis nodosa
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0002421&#39;, property_values=[]) Poor head control
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0001298&#39;, property_values=[]) Encephalopathy
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0001290&#39;, property_values=[]) Generalized hypotonia
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0001273&#39;, property_values=[]) Abnormal corpus callosum morphology
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0001268&#39;, property_values=[]) Mental deterioration
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0002599&#39;, property_values=[]) Head titubation
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0001284&#39;, property_values=[]) Areflexia
+Association(subject=&#39;NCBIGene:16&#39;, predicate=None, object=&#39;HP:0001250&#39;, property_values=[]) Seizure
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch sensory ataxia genes (including those annotated to is-a descendants of the term)</span>
+<span class="n">ataxia_assocs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HP:0010871&quot;</span><span class="p">],</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">ataxia_assocs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+15
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">genes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">assoc</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">assoc</span> <span class="ow">in</span> <span class="n">ataxia_assocs</span><span class="p">]))</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">genes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+15
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">genes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;NCBIGene:56652&#39;,
+ &#39;NCBIGene:5428&#39;,
+ &#39;NCBIGene:16&#39;,
+ &#39;NCBIGene:1959&#39;,
+ &#39;NCBIGene:57716&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_normalizer</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;translator:&quot;</span><span class="p">)</span>
+<span class="n">uniprot_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">genes</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">node_normalizer</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">([</span><span class="n">gene</span><span class="p">],</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;UniProtKB&quot;</span><span class="p">):</span>
+        <span class="n">uniprot_ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
+<span class="n">uniprot_ids</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;UniProtKB:A0A024RDV7&#39;,
+ &#39;UniProtKB:A0A140VJE4&#39;,
+ &#39;UniProtKB:A0A2R8Y4V4&#39;,
+ &#39;UniProtKB:A0A2R8Y746&#39;,
+ &#39;UniProtKB:A0A2U3TZU2&#39;,
+ &#39;UniProtKB:A0A514TP98&#39;,
+ &#39;UniProtKB:A0A5F9ZI26&#39;,
+ &#39;UniProtKB:A0A8I5KYI5&#39;,
+ &#39;UniProtKB:A8KA82&#39;,
+ &#39;UniProtKB:A8MU75&#39;,
+ &#39;UniProtKB:B2RB38&#39;,
+ &#39;UniProtKB:B4DE36&#39;,
+ &#39;UniProtKB:E5KNU5&#39;,
+ &#39;UniProtKB:E5KSY5&#39;,
+ &#39;UniProtKB:O00505&#39;,
+ &#39;UniProtKB:P06744&#39;,
+ &#39;UniProtKB:P11161&#39;,
+ &#39;UniProtKB:P25189&#39;,
+ &#39;UniProtKB:P49588&#39;,
+ &#39;UniProtKB:P54098&#39;,
+ &#39;UniProtKB:P54802&#39;,
+ &#39;UniProtKB:Q01453&#39;,
+ &#39;UniProtKB:Q13217&#39;,
+ &#39;UniProtKB:Q6FH25&#39;,
+ &#39;UniProtKB:Q8TF17&#39;,
+ &#39;UniProtKB:Q96K19&#39;,
+ &#39;UniProtKB:Q96RR1&#39;,
+ &#39;UniProtKB:Q9BXM0&#39;,
+ &#39;UniProtKB:Q9H5I5&#39;,
+ &#39;UniProtKB:Q9H6V3&#39;,
+ &#39;UniProtKB:Q9Y5Y0&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;src/oaklib/conf/go-human-input-spec.yaml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">enriched_classes</span><span class="p">(</span><span class="n">uniprot_ids</span><span class="p">,</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">],</span> <span class="n">autolabel</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">class_id</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">class_label</span><span class="si">}</span><span class="s2">&#39; </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">p_value_adjusted</span><span class="si">:</span><span class="s2">0.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0042552 &#39;myelination&#39; 9.72e-04
+GO:0008366 &#39;axon ensheathment&#39; 1.06e-03
+GO:0007272 &#39;ensheathment of neurons&#39; 1.06e-03
+GO:0007422 &#39;peripheral nervous system development&#39; 6.38e-03
+GO:0014037 &#39;Schwann cell differentiation&#39; 2.75e-02
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">class_id</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">terms</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graph_to_image</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">seeds</span><span class="o">=</span><span class="n">terms</span><span class="p">,</span> <span class="n">imgfile</span><span class="o">=</span><span class="s2">&quot;examples/output/go-enrichment-from-hp.png&quot;</span><span class="p">,</span> <span class="n">stylemap</span><span class="o">=</span><span class="n">default_stylemap_path</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="../_images/go-enrichment-from-hp.png" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

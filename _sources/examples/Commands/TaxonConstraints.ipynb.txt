@@ -1,0 +1,424 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "da068aab",
+   "metadata": {},
+   "source": [
+    "# OAK taxon-constraints command\n",
+    "\n",
+    "This notebook is intended as a supplement to the [main OAK CLI docs](https://incatools.github.io/ontology-access-kit/cli.html).\n",
+    "\n",
+    "This notebook provides examples for the `taxon-constraints` command, which can be used to lookup direct and inferred taxon constraints\n",
+    "for terms\n",
+    "\n",
+    "## Background Material\n",
+    "\n",
+    "We strongly recommend you first read the [Taxon Constraints Explainer](https://oboacademy.github.io/obook/explanation/taxon-constraints-explainer/) on the OBook.\n",
+    "\n",
+    "\n",
+    "## Help Option\n",
+    "\n",
+    "You can get help on any OAK command using `--help`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "49620d53",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Usage: runoak taxon-constraints [OPTIONS] [TERMS]...\r\n",
+      "\r\n",
+      "  Compute all taxon constraints for a term or terms.\r\n",
+      "\r\n",
+      "  This will apply rules using the inferred ancestors of subject terms, as well\r\n",
+      "  as inferred ancestors/descendants of taxon terms.\r\n",
+      "\r\n",
+      "  The input ontology MUST include both the taxon constraint relationships AND\r\n",
+      "  the relevant portion of NCBI Taxonomy\r\n",
+      "\r\n",
+      "  Example:\r\n",
+      "\r\n",
+      "      runoak -i db/go.db taxon-constraints GO:0034357 --include-redundant -p\r\n",
+      "      i,p\r\n",
+      "\r\n",
+      "  Example:\r\n",
+      "\r\n",
+      "      runoak -i sqlite:obo:uberon taxon-constraints UBERON:0003884\r\n",
+      "      UBERON:0003941 -p i,p\r\n",
+      "\r\n",
+      "  This command is a wrapper onto taxon_constraints_utils:\r\n",
+      "\r\n",
+      "  - https://incatools.github.io/ontology-access-\r\n",
+      "  kit/src/oaklib.utilities.taxon.taxon_constraints_utils\r\n",
+      "\r\n",
+      "Options:\r\n",
+      "  -o, --output FILENAME           Output file, e.g. obo file\r\n",
+      "  -O, --output-type TEXT          Desired output type\r\n",
+      "  -p, --predicates TEXT           A comma-separated list of predicates\r\n",
+      "  -M, --graph-traversal-method [HOP|ENTAILMENT]\r\n",
+      "                                  Desired output type\r\n",
+      "  -A, --all / --no-A, --no-all    if specified then perform for all terms\r\n",
+      "                                  [default: no-A]\r\n",
+      "  --include-redundant / --no-include-redundant\r\n",
+      "                                  if specified then include redundant taxon\r\n",
+      "                                  constraints from ancestral subjects\r\n",
+      "                                  [default: no-include-redundant]\r\n",
+      "  --direct / --no-direct          only include directly asserted taxon\r\n",
+      "                                  constraints  [default: no-direct]\r\n",
+      "  --help                          Show this message and exit.\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!runoak taxon-constraints --help"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b33cb8fc",
+   "metadata": {},
+   "source": [
+    "## Set up an alias\n",
+    "\n",
+    "For convenience we will set up an alias for use in this notebook"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "e94221c2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "alias go runoak -i sqlite:obo:go"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f6142647",
+   "metadata": {},
+   "source": [
+    "## Taxon Constraints for nucleus membrane"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e7e9c595",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "id: GO:0031965\r\n",
+      "label: nuclear membrane\r\n",
+      "description: 'Term GO:0031965 \"nuclear membrane\" is ONLY found in NCBITaxon:2759 \"Eukaryota\"\r\n",
+      "  (NOT asserted: original term = GO:0005634 \"nucleus\"); no additional constraints'\r\n",
+      "only_in:\r\n",
+      "- subject: GO:0005634\r\n",
+      "  predicate: RO:0002160\r\n",
+      "  asserted: false\r\n",
+      "  redundant: false\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:2759\r\n",
+      "    label: Eukaryota\r\n",
+      "  via_terms:\r\n",
+      "  - id: GO:0005634\r\n",
+      "    label: nucleus\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "go taxon-constraints --no-include-redundant \"nuclear membrane\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "44adaa09",
+   "metadata": {},
+   "source": [
+    "The YAML here conforms to the [Taxon Constraints](https://incatools.github.io/ontology-access-kit/datamodels/taxon-constraints/index.html) data model defined in OAK.\n",
+    "\n",
+    "Here we can see that \"nuclear membrane\" is only applicable for eukaryotes.\n",
+    "\n",
+    "Note the `via_terms` - this means that the constraint was inferred via the `nucleus` term (the nucleus is a eukaryotic specific feature)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d2181baf",
+   "metadata": {},
+   "source": [
+    "## Direct Taxon Constraints\n",
+    "\n",
+    "to show ONLY direct taxon constraints, use `--direct`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "1304887e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "id: GO:0005634\r\n",
+      "label: nucleus\r\n",
+      "description: Term GO:0005634 \"nucleus\" is ONLY found in NCBITaxon:2759 \"Eukaryota\"\r\n",
+      "  (IS asserted); no additional constraints\r\n",
+      "only_in:\r\n",
+      "- subject: GO:0005634\r\n",
+      "  predicate: RO:0002160\r\n",
+      "  asserted: true\r\n",
+      "  redundant: false\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:2759\r\n",
+      "    label: Eukaryota\r\n",
+      "  via_terms:\r\n",
+      "  - id: GO:0005634\r\n",
+      "    label: nucleus\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "go taxon-constraints --direct GO:0005634"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7e6abdf3",
+   "metadata": {},
+   "source": [
+    "## Taxon Constraints from Other Ontologies"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "c58f2a67",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "id: GO:0001503\r\n",
+      "label: ossification\r\n",
+      "description: 'Term GO:0001503 \"ossification\" is ONLY found in NCBITaxon:7742 \"Vertebrata\r\n",
+      "  <vertebrates>\" (NOT asserted: original term = UBERON:0001474 \"bone element\"); is\r\n",
+      "  NEVER found in NCBITaxon:4896 \"Schizosaccharomyces pombe\" OR NCBITaxon:4932 \"Saccharomyces\r\n",
+      "  cerevisiae\" OR NCBITaxon:2157 \"Archaea\" OR NCBITaxon:2 \"Bacteria\" IS asserted'\r\n",
+      "only_in:\r\n",
+      "- subject: UBERON:0001474\r\n",
+      "  predicate: RO:0002160\r\n",
+      "  asserted: false\r\n",
+      "  redundant: false\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:7742\r\n",
+      "    label: Vertebrata <vertebrates>\r\n",
+      "  via_terms:\r\n",
+      "  - id: UBERON:0001474\r\n",
+      "    label: bone element\r\n",
+      "never_in:\r\n",
+      "- subject: GO:0032501\r\n",
+      "  predicate: RO:0002161\r\n",
+      "  asserted: false\r\n",
+      "  redundant: false\r\n",
+      "  redundant_with_only_in: true\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:4932\r\n",
+      "    label: Saccharomyces cerevisiae\r\n",
+      "  via_terms:\r\n",
+      "  - id: GO:0032501\r\n",
+      "    label: multicellular organismal process\r\n",
+      "- subject: GO:0032501\r\n",
+      "  predicate: RO:0002161\r\n",
+      "  asserted: false\r\n",
+      "  redundant: false\r\n",
+      "  redundant_with_only_in: true\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:4896\r\n",
+      "    label: Schizosaccharomyces pombe\r\n",
+      "  via_terms:\r\n",
+      "  - id: GO:0032501\r\n",
+      "    label: multicellular organismal process\r\n",
+      "- subject: GO:0032501\r\n",
+      "  predicate: RO:0002161\r\n",
+      "  asserted: false\r\n",
+      "  redundant: false\r\n",
+      "  redundant_with_only_in: true\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:2157\r\n",
+      "    label: Archaea\r\n",
+      "  via_terms:\r\n",
+      "  - id: GO:0032501\r\n",
+      "    label: multicellular organismal process\r\n",
+      "- subject: GO:0032501\r\n",
+      "  predicate: RO:0002161\r\n",
+      "  asserted: false\r\n",
+      "  redundant: false\r\n",
+      "  redundant_with_only_in: true\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:2\r\n",
+      "    label: Bacteria\r\n",
+      "  via_terms:\r\n",
+      "  - id: GO:0032501\r\n",
+      "    label: multicellular organismal process\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "go taxon-constraints --no-include-redundant ossification"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2e8f1bda",
+   "metadata": {},
+   "source": [
+    "In this case we can see that the primary `only_in` constraint comes not from GO but from Uberon."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3c2f954f",
+   "metadata": {},
+   "source": [
+    "We can use the `paths` command to explore specific paths further:"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c539fd50",
+   "metadata": {},
+   "source": [
+    "go paths --directed --target NCBITaxon:7742 ossification"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e9fb2c14",
+   "metadata": {},
+   "source": [
+    "## Evaluating Candidate taxon constraints\n",
+    "\n",
+    "The related `apply-taxon-constraints` command can be used to test taxon constraints\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "1cc48ef9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "id: GO:0031965\r\n",
+      "label: nuclear membrane\r\n",
+      "only_in:\r\n",
+      "- subject: GO:0031965\r\n",
+      "  predicate: RO:0002160\r\n",
+      "  redundant: true\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:2759\r\n",
+      "    label: Eukaryota\r\n",
+      "  redundant_with:\r\n",
+      "  - subject: GO:0005634\r\n",
+      "    predicate: RO:0002160\r\n",
+      "    asserted: false\r\n",
+      "    redundant: false\r\n",
+      "    taxon:\r\n",
+      "      id: NCBITaxon:2759\r\n",
+      "      label: Eukaryota\r\n",
+      "    via_terms:\r\n",
+      "    - id: GO:0005634\r\n",
+      "      label: nucleus\r\n",
+      "  comments:\r\n",
+      "  - Redundant with pre-existing constraint                                 GO:0005634\r\n",
+      "    // Taxon(id='NCBITaxon:2759', label='Eukaryota')\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "go apply-taxon-constraints GO:0031965 only NCBITaxon:2759"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8195c24b",
+   "metadata": {},
+   "source": [
+    "This tells us that the addition is valid, but redundant"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "deffe794",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "id: GO:0031965\r\n",
+      "label: nuclear membrane\r\n",
+      "description: 'Unsatisfiable taxon constraints: NCBITaxon:2759 and NCBITaxon:2 are\r\n",
+      "  disjoint'\r\n",
+      "unsatisfiable: true\r\n",
+      "only_in:\r\n",
+      "- subject: GO:0031965\r\n",
+      "  predicate: RO:0002160\r\n",
+      "  taxon:\r\n",
+      "    id: NCBITaxon:2\r\n",
+      "  candidate: true\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "go apply-taxon-constraints GO:0031965 only NCBITaxon:2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c9612d17",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

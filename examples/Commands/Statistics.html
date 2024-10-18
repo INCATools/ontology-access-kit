@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK statistics command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK taxon-constraints command" href="TaxonConstraints.html" />
+    <link rel="prev" title="OAK rollup command" href="Rollup.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK statistics command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Calculating-summary-statistics-(default-YAML-output)">Calculating summary statistics (default YAML output)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Exploring-the-output">Exploring the output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Mapping-Stats">Mapping Stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#TSV-Output">TSV Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Multi-ontology-merges">Multi-ontology merges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Diff-stats">Diff stats</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK statistics command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/Statistics.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-statistics-command">
+<h1>OAK statistics command<a class="headerlink" href="#OAK-statistics-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> command, which can be used to calculate basic descriptive statistics for an ontology</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>statistics<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak statistics [OPTIONS] [BRANCHES]...
+
+  Shows all descriptive/summary statistics
+
+  Example: -------     runoak -i sqlite:obo:pr statistics
+
+  By default, this will show combined summary statistics for all terms
+
+  You can also break down the statistics in two ways:
+
+  - by a collection of branch roots
+
+  - by a metadata property (e.g. oio:hasOBONamespace, rdfs:isDefinedBy)
+
+  - by prefix (e.g. GO, PR, CL, OBI)
+
+  Example: -------     runoak -i sqlite:obo:pr statistics -p
+  oio:hasOBONamespace
+
+  Note: the oio:hasOBONamespace is *not* the same as the ID prefix, it is a
+  field that is used by a subset of ontologies to partition classes into broad
+  groupings, similar to subsets. Its use is non-standard, yet a lot of
+  ontologies use this as the main partitioning mechanism.
+
+  A note on bundled ontologies:
+
+  The standard release many OBO ontologies &#34;bundles&#34; parts of other ontologies
+  (formally, the release product includes a merged imports closure of import
+  modules). This can complicate generation of statistics. A naive count of all
+  classes in the main OBI release will include not only &#34;native&#34; OBI classes,
+  but also classes from other ontologies that are bundled in the release.
+
+  For bundled ontologies, we recommend some kind of partitioning, such as via
+  defined roots, or via the CURIE prefix, using the ``--group-by-prefix``
+  option.
+
+  Output formats:
+
+  The recommended output types for this command are yaml, json, or csv. The
+  default output type is yaml, following the SummaryStatistics data model.
+  This is naturally nested, as the statistics includes faceted groupings (e.g.
+  edge counts are broken down by predicate). When specifying a flat format
+  like csv, this is flattened into a single table, with dynamic column names.
+
+  Change statistics:
+
+  You can optionally combine the ontology statistics with a change summary
+  relative to another ontology, using the ``--compare-with`` option.
+
+  Example: -------     runoak -i v2.obo statistics --group-by-obo-namespace
+  --compare-with v1.obo
+
+  This will also include change stats broken down by KGCL change types. If a
+  group-by option is specified, these will be grouped accordingly.
+
+  Python API:
+
+     https://incatools.github.io/ontology-access-kit/interfaces/summary-
+     statistics
+
+  Data model:
+
+     https://w3id.org/oak/summary-statistics
+
+Options:
+  -O, --output-type [obo|obojson|ofn|rdf|json|yaml|fhirjson|csv|tsv|nl]
+                                  Desired output type
+  --group-by-property TEXT        group summaries by a metadata property, e.g.
+                                  rdfs:isDefinedBy
+  --group-by-obo-namespace / --no-group-by-obo-namespace
+                                  shortcut for --group-by-property
+                                  oio:hasOBONamespace (note this is distinct
+                                  from the ID namespace)  [default: no-group-
+                                  by-obo-namespace]
+  --group-by-prefix / --no-group-by-prefix
+                                  shortcut for --group-by-property sh:prefix.
+                                  Groups by the prefix of the CURIE  [default:
+                                  no-group-by-prefix]
+  --group-by-defined-by / --no-group-by-defined-by
+                                  shortcut for --group-by-property
+                                  rdfs:isDefinedBy. This may be inferred from
+                                  prefix if not set explicitly  [default: no-
+                                  group-by-defined-by]
+  --include-residuals / --no-include-residuals
+                                  If true include an OTHER category for terms
+                                  that do not have the property
+  -X, --compare-with TEXT         Compare with another ontology
+  -P, --has-prefix TEXT           filter based on a prefix, e.g. OBI
+  -o, --output FILENAME           Output file, e.g. obo file
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Set-up-an-alias">
+<h2>Set up an alias<a class="headerlink" href="#Set-up-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set up some aliases for use in this notebook</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">chebi</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">chebi</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Calculating-summary-statistics-(default-YAML-output)">
+<h2>Calculating summary statistics (default YAML output)<a class="headerlink" href="#Calculating-summary-statistics-(default-YAML-output)" title="Link to this heading"></a></h2>
+<p>We can calculate the summary stats using the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> command. The output is quite lengthy, so we will use <code class="docutils literal notranslate"><span class="pre">--output</span></code> (<code class="docutils literal notranslate"><span class="pre">-o</span></code>) to direct to a yamml file:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">statistics</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">chebi</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:bad mapping: KEGG_COMPOUND
+WARNING:root:bad mapping: IUPAC
+WARNING:root:bad mapping: ChemIDplus
+WARNING:root:bad mapping: UniProt
+WARNING:root:bad mapping: DrugCentral
+WARNING:root:bad mapping: LINCS
+WARNING:root:bad mapping: KEGG_DRUG
+WARNING:root:bad mapping: ChEBI
+WARNING:root:bad mapping: ChEMBL
+WARNING:root:bad mapping: DrugBank
+WARNING:root:bad mapping: WHO_MedNet
+WARNING:root:bad mapping: PDBeChem
+WARNING:root:bad mapping: NIST_Chemistry_WebBook
+WARNING:root:bad mapping: PPDB
+WARNING:root:bad mapping: LIPID_MAPS
+WARNING:root:bad mapping: IUPHAR
+WARNING:root:bad mapping: HMDB
+WARNING:root:bad mapping: SUBMITTER
+WARNING:root:bad mapping: MetaCyc
+WARNING:root:bad mapping: JCBN
+WARNING:root:bad mapping: GlyTouCan
+WARNING:root:bad mapping: KNApSAcK
+WARNING:root:bad mapping: IUBMB
+WARNING:root:bad mapping: CBN
+WARNING:root:bad mapping: Alan_Wood&#39;s_Pesticides
+WARNING:root:bad mapping: GlyGen
+WARNING:root:bad mapping: KEGG_GLYCAN
+WARNING:root:bad mapping: RESID
+WARNING:root:bad mapping: PubChem
+WARNING:root:bad mapping: FooDB
+WARNING:root:bad mapping: VSDB
+WARNING:root:bad mapping: UM-BBD
+WARNING:root:bad mapping: MolBase
+WARNING:root:bad mapping: COMe
+WARNING:root:bad mapping: Beilstein
+WARNING:root:bad mapping: Patent
+WARNING:root:bad mapping: PDB
+WARNING:root:bad mapping: SMID
+</pre></div></div>
+</div>
+<p><strong>Note</strong> CHEBI has a lot of bad xrefs, hence the output</p>
+</section>
+<section id="Exploring-the-output">
+<h2>Exploring the output<a class="headerlink" href="#Exploring-the-output" title="Link to this heading"></a></h2>
+<p>Let’s look at the top of the YAML file:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head<span class="w"> </span>-50<span class="w"> </span>output/chebi.stats.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id: AllOntologies
+ontologies:
+- id: obo:chebi.owl
+  version: obo:chebi/231/chebi.owl
+was_generated_by:
+  started_at_time: &#39;2024-03-26T17:29:56.627143&#39;
+  was_associated_with: OAK
+  acted_on_behalf_of: cjm
+class_count: 217549
+deprecated_class_count: 18650
+non_deprecated_class_count: 198899
+class_count_with_text_definitions: 53575
+class_count_without_text_definitions: 163974
+object_property_count: 10
+annotation_property_count: 37
+named_individual_count: 0
+subset_count: 3
+rdf_triple_count: 6860047
+subclass_of_axiom_count: 368285
+equivalent_classes_axiom_count: 0
+edge_count_by_predicate:
+  BFO:0000051:
+    facet: BFO:0000051
+    filtered_count: 4029
+  RO:0000087:
+    facet: RO:0000087
+    filtered_count: 43636
+  obo:chebi#has_functional_parent:
+    facet: obo:chebi#has_functional_parent
+    filtered_count: 19632
+  obo:chebi#has_parent_hydride:
+    facet: obo:chebi#has_parent_hydride
+    filtered_count: 1799
+  obo:chebi#is_conjugate_acid_of:
+    facet: obo:chebi#is_conjugate_acid_of
+    filtered_count: 8484
+  obo:chebi#is_conjugate_base_of:
+    facet: obo:chebi#is_conjugate_base_of
+    filtered_count: 8484
+  obo:chebi#is_enantiomer_of:
+    facet: obo:chebi#is_enantiomer_of
+    filtered_count: 2754
+  obo:chebi#is_substituent_group_from:
+    facet: obo:chebi#is_substituent_group_from
+    filtered_count: 1287
+  obo:chebi#is_tautomer_of:
+    facet: obo:chebi#is_tautomer_of
+    filtered_count: 1886
+  rdfs:subClassOf:
+    facet: rdfs:subClassOf
+</pre></div></div>
+</div>
+<p>Like all objects produced by OAK, there is a data dictionary / data model. The ontology stats one is <a class="reference external" href="https://w3id.org/oak/summary-statistics">https://w3id.org/oak/summary-statistics</a>, you can use this link to browse documentation etc.</p>
+<p><strong>A well defined data dictionary is necessary for communicating aggregate statistics accurately</strong>. Often when ontologies are reported informally, it’s ambiguous whether <em>number of terms</em> means:</p>
+<ul class="simple">
+<li><p>number of <em>classes</em>, <em>classes plus relationship types</em>, or <em>classes plus some other elements</em></p></li>
+<li><p>including or excluding deprecated (obsolete) entities</p></li>
+</ul>
+<p>The OAK summary statistics data dictionary aims to provide a <strong>standard for ontology reporting</strong>.</p>
+<p>YAML allows for nesting which is a natural way to group things; for example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">edge_count_by_predicate</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">BFO:0000051</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">facet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BFO:0000051</span>
+<span class="w">    </span><span class="nt">filtered_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4003</span>
+<span class="w">  </span><span class="nt">RO:0000087</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">facet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RO:0000087</span>
+<span class="w">    </span><span class="nt">filtered_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">43082</span>
+</pre></div>
+</div>
+<p>This says that there are 4003 part-of (BFO:0000050) and 43082 has-role (RO:00000087) <a class="reference external" href="https://incatools.github.io/ontology-access-kit/glossary.html#term-Relationship">relationships</a>.</p>
+<p>See the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/guide/relationships-and-graphs.html">OAK guide to relationships</a> to understand more.</p>
+</section>
+<section id="Mapping-Stats">
+<h2>Mapping Stats<a class="headerlink" href="#Mapping-Stats" title="Link to this heading"></a></h2>
+<p>Further on in the YAML we can see mapping stats. See (<a class="reference external" href="https://w3id.org/ssssom)[https://w3id.org/ssssom">https://w3id.org/ssssom)[https://w3id.org/ssssom</a>] to understand the OAK mapping data model.</p>
+<p>These are broken down</p>
+<ul class="simple">
+<li><p>by mapping predicate (for many ontologies this is only <code class="docutils literal notranslate"><span class="pre">oio:hasDbXref</span></code>)</p></li>
+<li><p>my mapping object source (i.e. the database or ontology that is mapped to)</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>grep<span class="w"> </span>-A40<span class="w"> </span>^mapping_statement_count<span class="w"> </span>output/chebi.stats.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+mapping_statement_count_by_predicate:
+  oio:hasDbXref:
+    facet: oio:hasDbXref
+    filtered_count: 345271
+mapping_statement_count_by_object_source:
+  BFO:
+    facet: BFO
+    filtered_count: 1
+  RO:
+    facet: RO
+    filtered_count: 1
+  KNApSAcK:
+    facet: KNApSAcK
+    filtered_count: 5185
+  KEGG:
+    facet: KEGG
+    filtered_count: 22228
+  CAS:
+    facet: CAS
+    filtered_count: 28938
+  KEGG_COMPOUND:
+    facet: KEGG_COMPOUND
+    filtered_count: 19870
+  Beilstein:
+    facet: Beilstein
+    filtered_count: 9187
+  IUPAC:
+    facet: IUPAC
+    filtered_count: 61013
+  ChemIDplus:
+    facet: ChemIDplus
+    filtered_count: 33383
+  UniProt:
+    facet: UniProt
+    filtered_count: 16047
+  LINCS:
+    facet: LINCS
+    filtered_count: 41392
+  Drug_Central:
+    facet: Drug_Central
+    filtered_count: 3784
+  DrugCentral:
+    facet: DrugCentral
+    filtered_count: 6202
+  Wikipedia:
+--
+mapping_statement_count_subject_by_object_source:
+  BFO:
+    facet: BFO
+    filtered_count: 1
+  RO:
+    facet: RO
+    filtered_count: 1
+  KNApSAcK:
+    facet: KNApSAcK
+    filtered_count: 5091
+  KEGG:
+    facet: KEGG
+    filtered_count: 20233
+  CAS:
+    facet: CAS
+    filtered_count: 28615
+  KEGG_COMPOUND:
+    facet: KEGG_COMPOUND
+    filtered_count: 19870
+  Beilstein:
+    facet: Beilstein
+    filtered_count: 8704
+  IUPAC:
+    facet: IUPAC
+    filtered_count: 61013
+  ChemIDplus:
+    facet: ChemIDplus
+    filtered_count: 33383
+  UniProt:
+    facet: UniProt
+    filtered_count: 16047
+  LINCS:
+    facet: LINCS
+    filtered_count: 41389
+  Drug_Central:
+    facet: Drug_Central
+    filtered_count: 3783
+  DrugCentral:
+    facet: DrugCentral
+    filtered_count: 6202
+  Wikipedia:
+</pre></div></div>
+</div>
+<p>As expected, CHEBI does not make use of SKOS mapping predicates, and mappings are dominated by databases like KEGG, CAS.</p>
+</section>
+<section id="TSV-Output">
+<h2>TSV Output<a class="headerlink" href="#TSV-Output" title="Link to this heading"></a></h2>
+<p>YAML is not a very natural format for doing further data science or statistical processing.</p>
+<p>FOr that we can use the <code class="docutils literal notranslate"><span class="pre">csv</span></code> option (which actually defaults to tsv…)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chebi</span> <span class="n">statistics</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">chebi</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:bad mapping: KEGG_COMPOUND
+WARNING:root:bad mapping: IUPAC
+WARNING:root:bad mapping: ChemIDplus
+WARNING:root:bad mapping: UniProt
+WARNING:root:bad mapping: DrugCentral
+WARNING:root:bad mapping: LINCS
+WARNING:root:bad mapping: KEGG_DRUG
+WARNING:root:bad mapping: ChEBI
+WARNING:root:bad mapping: ChEMBL
+WARNING:root:bad mapping: DrugBank
+WARNING:root:bad mapping: WHO_MedNet
+WARNING:root:bad mapping: PDBeChem
+WARNING:root:bad mapping: NIST_Chemistry_WebBook
+WARNING:root:bad mapping: LIPID_MAPS
+WARNING:root:bad mapping: IUPHAR
+WARNING:root:bad mapping: HMDB
+WARNING:root:bad mapping: SUBMITTER
+WARNING:root:bad mapping: MetaCyc
+WARNING:root:bad mapping: JCBN
+WARNING:root:bad mapping: GlyTouCan
+WARNING:root:bad mapping: KNApSAcK
+WARNING:root:bad mapping: IUBMB
+WARNING:root:bad mapping: EMBL
+WARNING:root:bad mapping: CBN
+WARNING:root:bad mapping: Alan_Wood&#39;s_Pesticides
+WARNING:root:bad mapping: GlyGen
+WARNING:root:bad mapping: PPDB
+WARNING:root:bad mapping: KEGG_GLYCAN
+WARNING:root:bad mapping: RESID
+WARNING:root:bad mapping: PubChem
+WARNING:root:bad mapping: FooDB
+WARNING:root:bad mapping: VSDB
+WARNING:root:bad mapping: UM-BBD
+WARNING:root:bad mapping: MolBase
+WARNING:root:bad mapping: COMe
+WARNING:root:bad mapping: EBI_Industry_Programme
+WARNING:root:bad mapping: EuroFIR
+WARNING:root:bad mapping: Beilstein
+WARNING:root:bad mapping: Patent
+WARNING:root:bad mapping: PDB
+WARNING:root:bad mapping: SMID
+</pre></div></div>
+</div>
+<p>To illustrate this we will use pandas:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/chebi.stats.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>compared_with</th>
+      <th>agents</th>
+      <th>class_count</th>
+      <th>deprecated_class_count</th>
+      <th>non_deprecated_class_count</th>
+      <th>class_count_with_text_definitions</th>
+      <th>class_count_without_text_definitions</th>
+      <th>object_property_count</th>
+      <th>annotation_property_count</th>
+      <th>...</th>
+      <th>mapping_statement_count_subject_by_object_source_CTX</th>
+      <th>mapping_statement_count_subject_by_object_source_SMID</th>
+      <th>class_count_by_subset_1_STAR</th>
+      <th>class_count_by_subset_2_STAR</th>
+      <th>class_count_by_subset_3_STAR</th>
+      <th>was_generated_by_started_at_time</th>
+      <th>was_generated_by_was_associated_with</th>
+      <th>was_generated_by_acted_on_behalf_of</th>
+      <th>ontologies_id</th>
+      <th>ontologies_version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AllOntologies</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>185295</td>
+      <td>18628</td>
+      <td>166667</td>
+      <td>53049</td>
+      <td>132246</td>
+      <td>10</td>
+      <td>37</td>
+      <td>...</td>
+      <td>3</td>
+      <td>307</td>
+      <td>2945</td>
+      <td>102919</td>
+      <td>60803</td>
+      <td>2024-03-26T17:07:33.778117</td>
+      <td>OAK</td>
+      <td>cjm</td>
+      <td>obo:chebi.owl</td>
+      <td>obo:chebi/226/chebi.owl</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 177 columns</p>
+</div></div>
+</div>
+<p>This format is useful if you have multiple ontologies (see later). But for a single ontology it’s more convenient to melt this:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Property&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Value&#39;</span><span class="p">)</span>
+<span class="n">mdf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>id</td>
+      <td>AllOntologies</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>compared_with</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>agents</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>class_count</td>
+      <td>185295</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>deprecated_class_count</td>
+      <td>18628</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>non_deprecated_class_count</td>
+      <td>166667</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>class_count_with_text_definitions</td>
+      <td>53049</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>class_count_without_text_definitions</td>
+      <td>132246</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>object_property_count</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>annotation_property_count</td>
+      <td>37</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>named_individual_count</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>subset_count</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>rdf_triple_count</td>
+      <td>6158555</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>subclass_of_axiom_count</td>
+      <td>330989</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>equivalent_classes_axiom_count</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>entailed_edge_count_by_predicate</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>distinct_synonym_count</td>
+      <td>332744</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>synonym_statement_count</td>
+      <td>346486</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>class_count_by_category</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>contributor_summary</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>change_summary</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>merged_class_query</td>
+      <td>18559</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>deprecated_property_count</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>edge_count_by_predicate_BFO:0000051</td>
+      <td>4003</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>edge_count_by_predicate_RO:0000087</td>
+      <td>43082</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>edge_count_by_predicate_has_functional_parent</td>
+      <td>18664</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>edge_count_by_predicate_has_parent_hydride</td>
+      <td>1764</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>edge_count_by_predicate_is_conjugate_acid_of</td>
+      <td>8434</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>edge_count_by_predicate_is_conjugate_base_of</td>
+      <td>8434</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>edge_count_by_predicate_is_enantiomer_of</td>
+      <td>2728</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>edge_count_by_predicate_is_substituent_group_from</td>
+      <td>1284</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>edge_count_by_predicate_is_tautomer_of</td>
+      <td>1884</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>edge_count_by_predicate_rdfs:subClassOf</td>
+      <td>240712</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>edge_count_by_predicate_rdfs:subPropertyOf</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>synonym_statement_count_by_predicate_hasExactS...</td>
+      <td>100585</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>synonym_statement_count_by_predicate_hasRelate...</td>
+      <td>234002</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>mapping_statement_count_by_predicate_hasDbXref</td>
+      <td>317151</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>mapping_statement_count_by_object_source_BFO</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>mapping_statement_count_by_object_source_RO</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>mapping_statement_count_by_object_source_KNApSAcK</td>
+      <td>5152</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Note this uses a very generic way of flattening the yaml so some columns make less sense out of context - e.g. the “agent” field belongs to a parent object that describes what “agent” generated the stats (TODO: this should say “oaklib”)</p>
+</section>
+<section id="Multi-ontology-merges">
+<h2>Multi-ontology merges<a class="headerlink" href="#Multi-ontology-merges" title="Link to this heading"></a></h2>
+<p>Many OBO ontologies bundle portions of other ontologies with their main release. This can be confusing! For more details see <a class="reference external" href="https://oboacademy.github.io/obook/explanation/owl-format-variants/">OWL Format Variants</a> in the obook.</p>
+<p>As an example, consider naively calculating stats for the standard release of the Cell Ontology (CL):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>statistics<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:bad mapping: GSE137537
+WARNING:root:bad mapping: 10.1007/s004180050142
+WARNING:root:bad mapping: NIFSTD
+WARNING:root:bad mapping: Noradrenergic_cell_group_A6&amp;oldid=981960774
+WARNING:root:bad mapping: _Chapter_3
+WARNING:root:bad mapping: A12.2.15.042
+WARNING:root:bad mapping: PHENOSCAPE
+id: AllOntologies
+ontologies:
+- id: obo:cl.owl
+  version: obo:cl/releases/2023-09-21/cl.owl
+  version_info: &#39;2023-09-21&#39;
+was_generated_by:
+  started_at_time: &#39;2024-03-26T17:16:02.669245&#39;
+  was_associated_with: OAK
+  acted_on_behalf_of: cjm
+class_count: 28330
+deprecated_class_count: 261
+non_deprecated_class_count: 28069
+class_count_with_text_definitions: 15110
+class_count_without_text_definitions: 13220
+object_property_count: 297
+annotation_property_count: 241
+named_individual_count: 18
+subset_count: 63
+rdf_triple_count: 681623
+subclass_of_axiom_count: 44142
+</pre></div></div>
+</div>
+<p>Looking at this you might think CL has 28k classes. In fact, this is the total number of classes in the ontology as defined by OWL, where here “ontology” means the merged product that includes bits of GO, Uberon, etc. Confusing, huh?</p>
+<p>Ideally the OBO Foundry would move towards making <em>base files</em> the default, but in the absence of this, we have a few options:</p>
+<ul class="simple">
+<li><p>Filtering by prefix (using <code class="docutils literal notranslate"><span class="pre">-P</span></code>)</p></li>
+<li><p>Grouping using some property such as the prefix.</p></li>
+</ul>
+<p>We’ll try the latter</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>statistics<span class="w"> </span>--group-by-prefix<span class="w"> </span>-o<span class="w"> </span>output/cl.stats.grouped.tsv<span class="w"> </span>-O<span class="w"> </span>csv
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/cl.stats.grouped.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>compared_with</th>
+      <th>agents</th>
+      <th>class_count</th>
+      <th>deprecated_class_count</th>
+      <th>non_deprecated_class_count</th>
+      <th>class_count_with_text_definitions</th>
+      <th>class_count_without_text_definitions</th>
+      <th>object_property_count</th>
+      <th>annotation_property_count</th>
+      <th>...</th>
+      <th>class_count_by_subset_non_informative</th>
+      <th>class_count_by_subset_organ_slim</th>
+      <th>class_count_by_subset_pheno_slim</th>
+      <th>class_count_by_subset_phenotype_rcn</th>
+      <th>class_count_by_subset_uberon_slim</th>
+      <th>class_count_by_subset_unverified_taxonomic_grouping</th>
+      <th>class_count_by_subset_upper_level</th>
+      <th>class_count_by_subset_vertebrate_core</th>
+      <th>mapping_statement_count_by_object_source_GOREL</th>
+      <th>mapping_statement_count_subject_by_object_source_GOREL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>&lt;http</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>&lt;https</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>BFO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>15</td>
+      <td>0</td>
+      <td>15</td>
+      <td>9</td>
+      <td>6</td>
+      <td>6</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>BSPO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CARO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20</td>
+      <td>0</td>
+      <td>20</td>
+      <td>20</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CHEBI</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>123</td>
+      <td>0</td>
+      <td>123</td>
+      <td>18</td>
+      <td>105</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CL</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2969</td>
+      <td>249</td>
+      <td>2720</td>
+      <td>2555</td>
+      <td>414</td>
+      <td>3</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>GO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7265</td>
+      <td>2</td>
+      <td>7263</td>
+      <td>7264</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>IAO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6</td>
+      <td>0</td>
+      <td>6</td>
+      <td>4</td>
+      <td>2</td>
+      <td>0</td>
+      <td>23</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>NCBITaxon</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>138</td>
+      <td>0</td>
+      <td>138</td>
+      <td>0</td>
+      <td>138</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>OMO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>PATO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>185</td>
+      <td>0</td>
+      <td>185</td>
+      <td>184</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>PR</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>748</td>
+      <td>0</td>
+      <td>748</td>
+      <td>747</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>RO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>240</td>
+      <td>16</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>UBERON</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4670</td>
+      <td>0</td>
+      <td>4670</td>
+      <td>4308</td>
+      <td>362</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>47.0</td>
+      <td>136.0</td>
+      <td>1373.0</td>
+      <td>3.0</td>
+      <td>809.0</td>
+      <td>1.0</td>
+      <td>49.0</td>
+      <td>448.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>cito</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>dce</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>dcterms</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>foaf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>obo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10</td>
+      <td>10</td>
+      <td>0</td>
+      <td>0</td>
+      <td>10</td>
+      <td>24</td>
+      <td>116</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>oio</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>61</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>owl</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>rdfs</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>skos</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>xsd</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>25 rows × 512 columns</p>
+</div></div>
+</div>
+<p>Here we can see the numbers broken down by ontology. The number of classes in the CL row is now accurate. Note of course that the other numbers don’t reflect totals for the external ontology as a whole – it’s just the number that has been merged into CL</p>
+</section>
+<section id="Diff-stats">
+<h2>Diff stats<a class="headerlink" href="#Diff-stats" title="Link to this heading"></a></h2>
+<p>You can also use <code class="docutils literal notranslate"><span class="pre">--compare-with</span></code> to compare stats with a different release of an ontology. Note this is effictively the same as running <code class="docutils literal notranslate"><span class="pre">diff</span></code> with <code class="docutils literal notranslate"><span class="pre">--statistics</span></code>. See diff docs for details.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Rollup.html" class="btn btn-neutral float-left" title="OAK rollup command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TaxonConstraints.html" class="btn btn-neutral float-right" title="OAK taxon-constraints command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

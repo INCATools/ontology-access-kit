@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/GO/Pathway-Regulation.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> go runoak -i sqlite:obo:go
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">relationships</span> <span class="o">--</span><span class="n">direction</span> <span class="n">down</span> <span class="o">-</span><span class="n">p</span> <span class="n">RO</span><span class="p">:</span><span class="mi">0002211</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s1">&#39;signal transduction&#39;</span> <span class="o">&gt;</span> <span class="n">output</span><span class="o">/</span><span class="n">reg</span><span class="o">-</span><span class="n">pathway</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/reg-pathway.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>predicate</th>
+      <th>predicate_label</th>
+      <th>object</th>
+      <th>object_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0001959</td>
+      <td>regulation of cytokine-mediated signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0019221</td>
+      <td>cytokine-mediated signaling pathway</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0002155</td>
+      <td>regulation of thyroid hormone mediated signali...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0002154</td>
+      <td>thyroid hormone mediated signaling pathway</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0003307</td>
+      <td>regulation of Wnt signaling pathway involved i...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0003306</td>
+      <td>Wnt signaling pathway involved in heart develo...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0008277</td>
+      <td>regulation of G protein-coupled receptor signa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0007186</td>
+      <td>G protein-coupled receptor signaling pathway</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0008589</td>
+      <td>regulation of smoothened signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0007224</td>
+      <td>smoothened signaling pathway</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>246</th>
+      <td>GO:2001233</td>
+      <td>regulation of apoptotic signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097190</td>
+      <td>apoptotic signaling pathway</td>
+    </tr>
+    <tr>
+      <th>247</th>
+      <td>GO:2001236</td>
+      <td>regulation of extrinsic apoptotic signaling pa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097191</td>
+      <td>extrinsic apoptotic signaling pathway</td>
+    </tr>
+    <tr>
+      <th>248</th>
+      <td>GO:2001239</td>
+      <td>regulation of extrinsic apoptotic signaling pa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097192</td>
+      <td>extrinsic apoptotic signaling pathway in absen...</td>
+    </tr>
+    <tr>
+      <th>249</th>
+      <td>GO:2001242</td>
+      <td>regulation of intrinsic apoptotic signaling pa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097193</td>
+      <td>intrinsic apoptotic signaling pathway</td>
+    </tr>
+    <tr>
+      <th>250</th>
+      <td>GO:2001260</td>
+      <td>regulation of semaphorin-plexin signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0071526</td>
+      <td>semaphorin-plexin signaling pathway</td>
+    </tr>
+  </tbody>
+</table>
+<p>251 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.input_specification</span> <span class="kn">import</span> <span class="n">InputSpecification</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gaf_adapter</span><span class="p">(</span><span class="n">src</span><span class="p">):</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">InputSpecification</span><span class="p">(</span><span class="n">ontology_resources</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;go&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;selector&quot;</span><span class="p">:</span> <span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">}},</span>
+                              <span class="n">association_resources</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;gaf&quot;</span><span class="p">:</span>
+                                                     <span class="p">{</span><span class="s2">&quot;selector&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;gaf:</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}})</span>
+    <span class="k">return</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+<span class="n">goa_human</span> <span class="o">=</span> <span class="n">gaf_adapter</span><span class="p">(</span><span class="s2">&quot;goa_human&quot;</span><span class="p">)</span>
+<span class="n">goa_human</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SqlImplementation(resource=OntologyResource(slug=&#39;obo:go&#39;, directory=None, scheme=&#39;sqlite&#39;, format=None, url=None, readonly=False, provider=None, local=False, in_memory=False, data=None, implementation_class=&lt;class &#39;oaklib.implementations.sqldb.sql_implementation.SqlImplementation&#39;&gt;, import_depth=None), strict=False, _multilingual=None, autosave=True, exclude_owl_top_and_bottom=True, ontology_metamodel_mapper=None, _converter=None, auto_relax_axioms=None, cache_lookups=False, functional_writer=None, _association_index=AssociationIndex(_connection=&lt;sqlalchemy.pool.base._ConnectionFairy object at 0x7fabea70d8b0&gt;, _session=&lt;sqlalchemy.orm.session.Session object at 0x7fabea70d910&gt;, _engine=Engine(sqlite:///:memory:)), normalizers=[], engine=Engine(sqlite:////Users/cjm/.data/oaklib/go.db), _session=None, _connection=None, _ontology_metadata_model=None, _prefix_map=None, _information_content_cache=None, _relationships_by_subject_index=None, max_items_for_in_clause=1000, can_store_associations=False)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">amigo</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;amigo:NCBITaxon:9606&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">overlap</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">s2</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">s2</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">s1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">genes_for_pair</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">):</span>
+    <span class="n">assocs1</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">t1</span><span class="p">],</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
+    <span class="n">assocs2</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">t2</span><span class="p">],</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
+    <span class="n">genes1</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assocs1</span><span class="p">}</span>
+    <span class="n">genes2</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assocs2</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">genes1</span><span class="p">,</span> <span class="n">genes2</span>
+
+<span class="n">pairs</span> <span class="o">=</span> <span class="n">genes_for_pair</span><span class="p">(</span><span class="n">goa_human</span><span class="p">,</span> <span class="s2">&quot;GO:0003307&quot;</span><span class="p">,</span> <span class="s2">&quot;GO:0003306&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">overlap</span><span class="p">(</span><span class="o">*</span><span class="n">pairs</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0    1
+1    7
+2    3
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;common&#39;</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">overlap</span><span class="p">(</span><span class="o">*</span><span class="n">genes_for_pair</span><span class="p">(</span><span class="n">goa_human</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])))),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>predicate</th>
+      <th>predicate_label</th>
+      <th>object</th>
+      <th>object_label</th>
+      <th>common</th>
+      <th>left</th>
+      <th>right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0001959</td>
+      <td>regulation of cytokine-mediated signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0019221</td>
+      <td>cytokine-mediated signaling pathway</td>
+      <td>36</td>
+      <td>115</td>
+      <td>338</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0002155</td>
+      <td>regulation of thyroid hormone mediated signali...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0002154</td>
+      <td>thyroid hormone mediated signaling pathway</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0003307</td>
+      <td>regulation of Wnt signaling pathway involved i...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0003306</td>
+      <td>Wnt signaling pathway involved in heart develo...</td>
+      <td>1</td>
+      <td>7</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0008277</td>
+      <td>regulation of G protein-coupled receptor signa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0007186</td>
+      <td>G protein-coupled receptor signaling pathway</td>
+      <td>66</td>
+      <td>70</td>
+      <td>1157</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0008589</td>
+      <td>regulation of smoothened signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0007224</td>
+      <td>smoothened signaling pathway</td>
+      <td>29</td>
+      <td>59</td>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>246</th>
+      <td>GO:2001233</td>
+      <td>regulation of apoptotic signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097190</td>
+      <td>apoptotic signaling pathway</td>
+      <td>100</td>
+      <td>270</td>
+      <td>211</td>
+    </tr>
+    <tr>
+      <th>247</th>
+      <td>GO:2001236</td>
+      <td>regulation of extrinsic apoptotic signaling pa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097191</td>
+      <td>extrinsic apoptotic signaling pathway</td>
+      <td>40</td>
+      <td>114</td>
+      <td>71</td>
+    </tr>
+    <tr>
+      <th>248</th>
+      <td>GO:2001239</td>
+      <td>regulation of extrinsic apoptotic signaling pa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097192</td>
+      <td>extrinsic apoptotic signaling pathway in absen...</td>
+      <td>12</td>
+      <td>32</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>249</th>
+      <td>GO:2001242</td>
+      <td>regulation of intrinsic apoptotic signaling pa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097193</td>
+      <td>intrinsic apoptotic signaling pathway</td>
+      <td>31</td>
+      <td>136</td>
+      <td>131</td>
+    </tr>
+    <tr>
+      <th>250</th>
+      <td>GO:2001260</td>
+      <td>regulation of semaphorin-plexin signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0071526</td>
+      <td>semaphorin-plexin signaling pathway</td>
+      <td>0</td>
+      <td>3</td>
+      <td>41</td>
+    </tr>
+  </tbody>
+</table>
+<p>251 rows × 9 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;common / (left + right) &gt; 0.3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>predicate</th>
+      <th>predicate_label</th>
+      <th>object</th>
+      <th>object_label</th>
+      <th>common</th>
+      <th>left</th>
+      <th>right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>GO:0002155</td>
+      <td>regulation of thyroid hormone mediated signali...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0002154</td>
+      <td>thyroid hormone mediated signaling pathway</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>GO:0009966</td>
+      <td>regulation of signal transduction</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0007165</td>
+      <td>signal transduction</td>
+      <td>1760</td>
+      <td>1198</td>
+      <td>3003</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>GO:0030111</td>
+      <td>regulation of Wnt signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0016055</td>
+      <td>Wnt signaling pathway</td>
+      <td>159</td>
+      <td>168</td>
+      <td>123</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>GO:0090092</td>
+      <td>regulation of transmembrane receptor protein s...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0007178</td>
+      <td>transmembrane receptor protein serine/threonin...</td>
+      <td>106</td>
+      <td>166</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>GO:0106056</td>
+      <td>regulation of calcineurin-mediated signaling</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0097720</td>
+      <td>calcineurin-mediated signaling</td>
+      <td>11</td>
+      <td>30</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>140</th>
+      <td>GO:1900234</td>
+      <td>regulation of Kit signaling pathway</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0038109</td>
+      <td>Kit signaling pathway</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>GO:1902238</td>
+      <td>regulation of intrinsic apoptotic signaling pa...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:1990127</td>
+      <td>intrinsic apoptotic signaling pathway in respo...</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>GO:2000040</td>
+      <td>regulation of planar cell polarity pathway inv...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0003402</td>
+      <td>planar cell polarity pathway involved in axis ...</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>GO:2000313</td>
+      <td>regulation of fibroblast growth factor recepto...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0060825</td>
+      <td>fibroblast growth factor receptor signaling pa...</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>236</th>
+      <td>GO:2000446</td>
+      <td>regulation of macrophage migration inhibitory ...</td>
+      <td>RO:0002211</td>
+      <td>regulates</td>
+      <td>GO:0035691</td>
+      <td>macrophage migration inhibitory factor signali...</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

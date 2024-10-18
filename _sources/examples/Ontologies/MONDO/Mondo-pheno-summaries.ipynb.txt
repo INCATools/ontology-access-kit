@@ -1,0 +1,320 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "0f6c4513",
+   "metadata": {},
+   "source": [
+    "# Mondo Phenotypes Example (IN PROGRESS)\n",
+    "\n",
+    "## Help Option\n",
+    "\n",
+    "You can get help on any OAK command using `--help`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "65db4b53",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:23:58.173870Z",
+     "start_time": "2024-03-14T00:23:55.398545Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Usage: runoak enrichment [OPTIONS] [TERMS]...\r\n",
+      "\r\n",
+      "  Run class enrichment analysis.\r\n",
+      "\r\n",
+      "  Given a sample file of identifiers (e.g. gene IDs), plus a set of\r\n",
+      "  associations (e.g. gene to term associations, return the terms that are\r\n",
+      "  over-represented in the sample set.\r\n",
+      "\r\n",
+      "  Example:\r\n",
+      "\r\n",
+      "      runoak -i sqlite:obo:uberon -g gene2anat.txt -G g2t enrichment -U my-\r\n",
+      "      genes.txt -O csv\r\n",
+      "\r\n",
+      "  This runs an enrichment using Uberon on my-genes.txt, using the\r\n",
+      "  gene2anat.txt file as the association file (assuming simple gene-to-term\r\n",
+      "  format). The output is in CSV format.\r\n",
+      "\r\n",
+      "  It is recommended you always provide a background set, including all the\r\n",
+      "  entity identifiers considered in the experiment.\r\n",
+      "\r\n",
+      "  You can specify --filter-redundant to filter out redundant terms. This will\r\n",
+      "  block reporting of any terms that are either subsumed by or subsume a lower\r\n",
+      "  p-value term that is already reported.\r\n",
+      "\r\n",
+      "  For a full example, see:\r\n",
+      "\r\n",
+      "     https://github.com/INCATools/ontology-access-\r\n",
+      "     kit/blob/main/notebooks/Commands/Enrichment.ipynb\r\n",
+      "\r\n",
+      "  Note that it is possible to run \"pseudo-enrichments\" on term lists only by\r\n",
+      "  passing no associations and using --ontology-only. This creates a fake\r\n",
+      "  association set that is simply reflexive relations between each term and\r\n",
+      "  itself. This can be useful for summarizing term lists, but note that\r\n",
+      "  P-values may not be meaningful.\r\n",
+      "\r\n",
+      "Options:\r\n",
+      "  -o, --output FILENAME           Output file, e.g. obo file\r\n",
+      "  -p, --predicates TEXT           A comma-separated list of predicates. This\r\n",
+      "                                  may be a shorthand (i, p) or CURIE\r\n",
+      "  --autolabel / --no-autolabel    If set, results will automatically have\r\n",
+      "                                  labels assigned  [default: autolabel]\r\n",
+      "  -O, --output-type TEXT          Desired output type\r\n",
+      "  -o, --output FILENAME           Output file, e.g. obo file\r\n",
+      "  --ontology-only / --no-ontology-only\r\n",
+      "                                  If true, perform a pseudo-enrichment\r\n",
+      "                                  analysis treating each term as an\r\n",
+      "                                  association to itself.  [default: no-\r\n",
+      "                                  ontology-only]\r\n",
+      "  --cutoff FLOAT                  The cutoff for the p-value; any p-values\r\n",
+      "                                  greater than this are not reported.\r\n",
+      "                                  [default: 0.05]\r\n",
+      "  -U, --sample-file FILENAME      file containing input list of entity IDs\r\n",
+      "                                  (e.g. gene IDs)  [required]\r\n",
+      "  -B, --background-file FILENAME  file containing background list of entity\r\n",
+      "                                  IDs (e.g. gene IDs)\r\n",
+      "  --association-predicates TEXT   A comma-separated list of predicates for the\r\n",
+      "                                  association relation\r\n",
+      "  --filter-redundant / --no-filter-redundant\r\n",
+      "                                  If true, filter out redundant terms\r\n",
+      "  --allow-labels / --no-allow-labels\r\n",
+      "                                  If true, allow labels as well as CURIEs in\r\n",
+      "                                  the input files\r\n",
+      "  --help                          Show this message and exit.\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!runoak enrichment --help"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c8878ac5",
+   "metadata": {},
+   "source": [
+    "## Download example file and setup\n",
+    "\n",
+    "We will use the HPO Association file"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "12a41f0d",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:24:12.733925Z",
+     "start_time": "2024-03-14T00:24:09.543782Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "!mkdir -p input\n",
+    "!curl -L -s http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa > input/hpoa.tsv"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d57ac006",
+   "metadata": {},
+   "source": [
+    "next we will set up an hpo alias"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "dc71c543",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:24:12.772663Z",
+     "start_time": "2024-03-14T00:24:12.764956Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "alias hp runoak -i sqlite:obo:hp"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "6a878ff1",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:24:15.690919Z",
+     "start_time": "2024-03-14T00:24:15.685543Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "alias mondo runoak -i sqlite:obo:mondo"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6033aa66",
+   "metadata": {},
+   "source": [
+    "Test this out by querying for associations for a particular orpha disease.\n",
+    "\n",
+    "We need to pass in the association file we downloaded, as well as specify the file type (with `-G`):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "2cfa1be8",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:24:33.486242Z",
+     "start_time": "2024-03-14T00:24:19.109344Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tpredicate\tobject\tobject_label\tproperty_values\tsubject_label\tpredicate_label\tnegated\tpublications\tevidence_type\tsupporting_objects\tprimary_knowledge_source\taggregator_knowledge_source\tsubject_closure\tsubject_closure_label\tobject_closure\tobject_closure_label\tcomments\r\n",
+      "ORPHA:1899\tNone\tHP:0000963\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0000974\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0001001\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0001252\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0001373\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0001385\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0001387\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0002300\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n",
+      "ORPHA:1899\tNone\tHP:0002381\tNone\t\tArthrochalasia Ehlers-Danlos syndrome\tNone\tNone\t\tNone\t\tNone\tNone\t\t\t\t\t\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "hp -G hpoa -g input/hpoa.tsv associations -Q subject ORPHA:1899 -O csv | head"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c9047f55",
+   "metadata": {},
+   "source": [
+    "## Rollup\n",
+    "\n",
+    "Next we will roll up annotations. We choose two representations of the same EDS concept, from Orphanet and OMIM\n",
+    "(note we can provide as many diseases as we like).\n",
+    "\n",
+    "We will use HPO terms roughly inspired by https://www.omim.org/clinicalSynopsis/130060"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "ab30433e",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:24:46.095062Z",
+     "start_time": "2024-03-14T00:24:39.979267Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "mondo labels .parents//p=RO:0004003 [ .desc//p=i EDS ] -O csv > output/EDS-genes.tsv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "id\tlabel\r\n",
+      "HGNC:11976\tTNXB\r\n",
+      "HGNC:1246\tC1R\r\n",
+      "HGNC:1247\tC1S\r\n",
+      "HGNC:17978\tB3GALT6\r\n",
+      "HGNC:18625\tFKBP14\r\n",
+      "HGNC:20859\tSLC39A13\r\n",
+      "HGNC:21144\tDSE\r\n",
+      "HGNC:218\tADAMTS2\r\n",
+      "HGNC:2188\tCOL12A1\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!head output/EDS-genes.tsv"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:25:31.278869Z",
+     "start_time": "2024-03-14T00:25:31.142542Z"
+    }
+   },
+   "id": "231aa31dae41a6ce"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "c7c9ce32",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-03-14T00:25:37.915980Z",
+     "start_time": "2024-03-14T00:25:34.909067Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "NotImplementedError\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!runoak -i translator: normalize -M NCBIGene [ .parents//p=RO:0004003 [ .desc//p=i EDS ] ]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c10f833e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/GO/GO-EC-Structural-Diff.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">go</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">go</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">eccode</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">eccode</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eccode</span> <span class="n">statistics</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+annotation_property_count: 6
+class_count: 247426
+class_count_with_text_definitions: 0
+class_count_without_text_definitions: 247426
+deprecated_class_count: 0
+deprecated_property_count: 0
+distinct_synonym_count: 9849
+edge_count_by_predicate:
+  RO:0002351:
+    facet: RO:0002351
+    filtered_count: 253315
+  obo:go#_has_molecular_function:
+    facet: obo:go#_has_molecular_function
+    filtered_count: 4705
+  rdfs:subClassOf:
+    facet: rdfs:subClassOf
+    filtered_count: 7046
+equivalent_classes_axiom_count: 0
+id: AllOntologies
+merged_class_count: 0
+named_individual_count: 0
+non_deprecated_class_count: 247426
+object_property_count: 2
+ontologies:
+- id: obo:eccode.owl
+  version: obo:eccode/25-May-2022/eccode.owl
+rdf_triple_count: 1311019
+subclass_of_axiom_count: 265066
+subset_count: 0
+synonym_statement_count: 10341
+synonym_statement_count_by_predicate:
+  oio:hasExactSynonym:
+    facet: oio:hasExactSynonym
+    filtered_count: 9849
+was_generated_by:
+  acted_on_behalf_of: cjm
+  started_at_time: &#39;2022-12-09T18:17:42.953274&#39;
+  was_associated_with: OAK
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eccode</span> <span class="n">relationships</span> <span class="n">EC</span><span class="p">:</span><span class="mf">2.1.1.133</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+
+
+
+
+
+
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eccode</span> <span class="n">tree</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">EC</span><span class="p">:</span><span class="mf">2.1.1.133</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] EC:2 ! Transferases
+    * [i] EC:2.1 ! Transferring one-carbon groups
+        * [i] EC:2.1.1 ! Methyltransferases
+            * [i] **EC:2.1.1.133 ! Precorrin-4 C(11)-methyltransferase**
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">mappings</span> <span class="n">EC</span><span class="p">:</span><span class="mf">2.1.1.133</span> <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id      subject_label   predicate_id    object_id       mapping_justification   subject_source  object_source
+GO:0046026      precorrin-4 C11-methyltransferase activity      oio:hasDbXref   EC:2.1.1.133    semapv:UnspecifiedMatching      GO      EC
+_:riog00184258          oio:hasDbXref   EC:2.1.1.133    semapv:UnspecifiedMatching      _       EC
+_:riog00184259          oio:hasDbXref   EC:2.1.1.133    semapv:UnspecifiedMatching      _       EC
+_:riog00184260          oio:hasDbXref   EC:2.1.1.133    semapv:UnspecifiedMatching      _       EC
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">mappings</span> <span class="n">EC</span><span class="p">:</span><span class="mf">2.1.1</span><span class="o">.-</span> <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id      subject_label   predicate_id    object_id       mapping_justification   subject_source  object_source
+GO:0008168      methyltransferase activity      oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+GO:0008169      C-methyltransferase activity    oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+GO:0008170      N-methyltransferase activity    oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+GO:0008171      O-methyltransferase activity    oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+GO:0008172      S-methyltransferase activity    oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+GO:0008425      2-polyprenyl-6-methoxy-1,4-benzoquinone methyltransferase activity      oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+GO:0030792      methylarsonite methyltransferase activity       oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+GO:0051994      P-methyltransferase activity    oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      GO      EC
+_:riog00111069          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00264576          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00264580          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00264628          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00264668          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00264757          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265011          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265021          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265087          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265089          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265091          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265151          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265157          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265159          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265162          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265164          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265166          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265168          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265170          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265174          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265176          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265178          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265180          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265182          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265184          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265186          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265188          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265336          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265338          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265346          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265350          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265473          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265482          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265511          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265513          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265515          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265523          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265525          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265527          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265608          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265610          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265674          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265676          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265778          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265780          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265896          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00265898          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266081          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266083          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266138          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266140          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266142          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266144          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266182          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266234          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+_:riog00266331          oio:hasDbXref   EC:2.1.1.-      semapv:UnspecifiedMatching      _       EC
+
+</pre></div></div>
+</div>
+<p>TODO - eliminate blank nodes</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">diff</span><span class="o">-</span><span class="n">via</span><span class="o">-</span><span class="n">mappings</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak diff-via-mappings [OPTIONS] [TERMS]...
+
+  Calculates cross-ontology diff using mappings
+
+  Given a pair of ontologies, and mappings that connect terms in both
+  ontologies, this command will perform a structural comparison of all mapped
+  pairs of terms
+
+  Example:
+
+      runoak -i sqlite:obo:uberon diff-via-mappings --other-input
+      sqlite:obo:zfa  --source UBERON --source ZFA -O csv
+
+  Note the above command does not have any mapping file specified; the
+  mappings that are distributed within each ontology is used (in this case,
+  Uberon contains mappings to ZFA)
+
+  If the mappings are provided externally:
+
+      runoak -i ont1.obo diff-via-mappings --other-input ont2.obo --mapping-
+      input mappings.sssom.tsv
+
+  (in the above example, --source is not passed, so all mappings are tested)
+
+  If there are no existing mappings, you can use the lexmatch command to
+  generate them:
+
+      runoak -i ont1.obo diff-via-mappings -a ont2.obo lexmatch -o
+      mappings.sssom.tsv
+
+      runoak -i ont1.obo diff-via-mappings --other-input ont2.obo --mapping-
+      input mappings.sssom.tsv
+
+  The output from this command follows the cross-ontology-diff data model
+  (https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-
+  diff/index.html)
+
+  This can be serialized in YAML or TSV form
+
+Options:
+  -S, --source TEXT               ontology prefixes  e.g. HP, MP
+  --mapping-input TEXT            File of mappings in SSSOM format. If not
+                                  provided then mappings in ontology(ies) are
+                                  used
+  -X, --other-input TEXT          Additional input file
+  --other-input-type TEXT         Type of additional input file
+  --intra / --no-intra            If true, then all sources are in the main
+                                  input ontology  [default: no-intra]
+  --autolabel / --no-autolabel    If set, results will automatically have
+                                  labels assigned  [default: autolabel]
+  --include-identity-mappings / --no-include-identity-mappings
+                                  Use identity relation as mapping; use this
+                                  for two versions of the same ontology
+                                  [default: no-include-identity-mappings]
+  --filter-category-identical / --no-filter-category-identical
+                                  Do not report cases where a relationship has
+                                  not changed  [default: no-filter-category-
+                                  identical]
+  --bidirectional / --no-bidirectional
+                                  Show diff from both left and right
+                                  perspectives  [default: bidirectional]
+  -p, --predicates TEXT           A comma-separated list of predicates
+  -o, --output FILENAME           Output file, e.g. obo file
+  -O, --output-type TEXT          Desired output type
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

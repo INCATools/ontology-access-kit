@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK rollup command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK statistics command" href="Statistics.html" />
+    <link rel="prev" title="OAK relationships command" href="Relationships.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK rollup command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Download-example-file-and-setup">Download example file and setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Enrichment">Enrichment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK rollup command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/Rollup.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-rollup-command">
+<h1>OAK rollup command<a class="headerlink" href="#OAK-rollup-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">rollup</span></code> command which produces a summarization of ontology associations between entities and “rolled-up” ancestor terms.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>rollup<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak rollup [OPTIONS] [TERMS]...
+
+  Produce an association rollup report.
+
+  The report will list associations where the subject is one of the terms
+  provided. The associations will be grouped by any provided --object-group
+  options. This option can be provided multiple times. If the value is a comma
+  separated list of object IDs, the first will be used as a primary grouping
+  dimension and the remainder will be used to create sub-groups.
+
+  Example:
+
+      runoak -i sqlite:go.db -g wb.gaf -G gaf rollup             --object-
+      group GO:0032502,GO:0007568,GO:0048869,GO:0098727             --object-
+      group GO:0008152,GO:0009056,GO:0044238,GO:1901275             --object-
+      group GO:0050896,GO:0051716,GO:0051606,GO:0051606,GO:0014823
+      --object-group=GO:0023052             --output rollup.html
+      WB:WBGene00000417 WB:WBGene00000912 WB:WBGene00000898 WB:WBGene00006752
+
+  By default, is-a relationships between association objects are used to
+  perform the rollup. Use the -p/--predicates option to change this behavior.
+
+Options:
+  -o, --output FILENAME         Output file, e.g. obo file
+  -p, --predicates TEXT         A comma-separated list of predicates
+  --autolabel / --no-autolabel  If set, results will automatically have labels
+                                assigned  [default: autolabel]
+  -O, --output-type TEXT        Desired output type
+  --object-group TEXT           An object ID to group by. If a comma separated
+                                list of IDs is provided, the first one is
+                                interpreted as a top-level grouping and the
+                                remaining IDs are interpreted as sub-groups
+                                within.
+  --help                        Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Download-example-file-and-setup">
+<h2>Download example file and setup<a class="headerlink" href="#Download-example-file-and-setup" title="Link to this heading"></a></h2>
+<p>We will use the HPO Association file</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-L<span class="w"> </span>-s<span class="w"> </span>http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt<span class="w"> </span>&gt;<span class="w"> </span>input/g2p.tsv
+</pre></div>
+</div>
+</div>
+<p>next we will set up an hpo alias</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">hp</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">hp</span>
+</pre></div>
+</div>
+</div>
+<p>Test this out by querying for associations for a particular orpha disease.</p>
+<p>We need to pass in the association file we downloaded, as well as specify the file type (with <code class="docutils literal notranslate"><span class="pre">-G</span></code>):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="o">-</span><span class="n">G</span> <span class="n">hpoa_g2p</span> <span class="o">-</span><span class="n">g</span> <span class="nb">input</span><span class="o">/</span><span class="n">g2p</span><span class="o">.</span><span class="n">tsv</span> <span class="n">associations</span> <span class="o">-</span><span class="n">Q</span> <span class="n">subject</span> <span class="n">NCBIGene</span><span class="p">:</span><span class="mi">8195</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">|</span> <span class="n">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+
+
+
+
+
+
+
+
+</pre></div></div>
+</div>
+</section>
+<section id="Enrichment">
+<h2>Enrichment<a class="headerlink" href="#Enrichment" title="Link to this heading"></a></h2>
+<p>Next we will enrich based on a gene set</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">mondo</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">mondo</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Relationships.html" class="btn btn-neutral float-left" title="OAK relationships command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Statistics.html" class="btn btn-neutral float-right" title="OAK statistics command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

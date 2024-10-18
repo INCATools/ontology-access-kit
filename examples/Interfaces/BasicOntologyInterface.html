@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Ontology Interface Demo &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ClassEnrichmentCalculationInterface Examples" href="ClassEnrichmentCalculationInterface.html" />
+    <link rel="prev" title="Interfaces Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Basic Ontology Interface Demo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Loading-from-obo-files-using-Pronto">Loading from obo files using Pronto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SQL-Database-access">SQL Database access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Loading-from-OWL-ontologies-using-owlfun">Loading from OWL ontologies using owlfun</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Wrapping-remote-ontology-portals">Wrapping remote ontology portals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Wrapping-SPARQL-Endpoints">Wrapping SPARQL Endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Graph-Operations">Graph Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Rendering-using-GraphViz">Rendering using GraphViz</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ClassEnrichmentCalculationInterface.html">ClassEnrichmentCalculationInterface Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html">MappingProviderInterface Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html#Import-libraries">Import libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html#Declare-variables">Declare variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html#Functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html#Bioportal-=&gt;-SSSOM">Bioportal =&gt; SSSOM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html#Local-Ontology-=&gt;-SSSOM">Local Ontology =&gt; SSSOM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html#Get-mappings-using-lexmatch">Get mappings using <code class="docutils literal notranslate"><span class="pre">lexmatch</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces Examples</a></li>
+      <li class="breadcrumb-item active">Basic Ontology Interface Demo</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Interfaces/BasicOntologyInterface.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Basic-Ontology-Interface-Demo">
+<h1>Basic Ontology Interface Demo<a class="headerlink" href="#Basic-Ontology-Interface-Demo" title="Link to this heading"></a></h1>
+<p>this demonstrates the use of the BasicOntologyInterface which provides simplified access to local or remote ontologies.</p>
+<p>We demonstrate the use of different backends, but in practice you will likely only use one depending on your use case.</p>
+<ul class="simple">
+<li><p>pronto or sqlite for working with ontologies which you have a local copy of, and can trade startup time for generally faster operations</p></li>
+<li><p>ubergraph or ontobee or ols or bioportal for an ontology that has been loaded into a remote server</p></li>
+</ul>
+<section id="Loading-from-obo-files-using-Pronto">
+<h2>Loading from obo files using Pronto<a class="headerlink" href="#Loading-from-obo-files-using-Pronto" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
+</pre></div>
+</div>
+</div>
+<section id="Local-files">
+<h3>Local files<a class="headerlink" href="#Local-files" title="Link to this heading"></a></h3>
+<p>First we demonstrate loading from a file on the filesystem</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go-nucleus.obo&#39;</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  rdfs:subClassOf ! subClassOf
+    GO:0043231 ! intracellular membrane-bounded organelle
+  BFO:0000050 ! part_of
+    GO:0005737 ! cytoplasm
+</pre></div></div>
+</div>
+</section>
+<section id="Remote-(downloading-from-OBO)">
+<h3>Remote (downloading from OBO)<a class="headerlink" href="#Remote-(downloading-from-OBO)" title="Link to this heading"></a></h3>
+<p>Next we use pronto’s load from obo library feature</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go.obo&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>note this slight lag in executing the command above - while this method relieves the need to manage and synchronize files locally there is an initial network startup penalty</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  rdfs:subClassOf ! subClassOf
+    GO:0043231 ! intracellular membrane-bounded organelle
+  BFO:0000050 ! part of
+    GO:0005737 ! cytoplasm
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="SQL-Database-access">
+<h2>SQL Database access<a class="headerlink" href="#SQL-Database-access" title="Link to this heading"></a></h2>
+<p>We can load from a SQL Database following Semantic SQL patterns (see <a class="reference external" href="https://github.com/cmungall/semantic-sql/#download-sqlite-dbs">docs</a> for how to download ready-made sqlite dbs for all of OBO)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span> <span class="o">=</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;sqlite:///input/go-nucleus.db&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  rdfs:subClassOf ! subClassOf
+    GO:0043231 ! intracellular membrane-bounded organelle
+  BFO:0000050 ! part of
+    GO:0005737 ! cytoplasm
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s1">&#39;intracellular&#39;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; MATCH: </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Determining-which-interfaces-an-implementation-implements">
+<h3>Determining which interfaces an implementation implements<a class="headerlink" href="#Determining-which-interfaces-an-implementation-implements" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span><span class="o">.</span><span class="n">interfaces_implemented</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[oaklib.interfaces.validator_interface.ValidatorInterface,
+ oaklib.interfaces.rdf_interface.RdfInterface,
+ oaklib.interfaces.obograph_interface.OboGraphInterface,
+ oaklib.interfaces.search_interface.SearchInterface,
+ oaklib.interfaces.mapping_provider_interface.MappingProviderInterface,
+ oaklib.interfaces.patcher_interface.PatcherInterface]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Loading-from-OWL-ontologies-using-owlfun">
+<h2>Loading from OWL ontologies using owlfun<a class="headerlink" href="#Loading-from-OWL-ontologies-using-owlfun" title="Link to this heading"></a></h2>
+<p>TODO</p>
+</section>
+<section id="Wrapping-remote-ontology-portals">
+<h2>Wrapping remote ontology portals<a class="headerlink" href="#Wrapping-remote-ontology-portals" title="Link to this heading"></a></h2>
+<section id="OLS">
+<h3>OLS<a class="headerlink" href="#OLS" title="Link to this heading"></a></h3>
+<p>TODO</p>
+</section>
+<section id="BioPortal">
+<h3>BioPortal<a class="headerlink" href="#BioPortal" title="Link to this heading"></a></h3>
+<p>TODO</p>
+</section>
+</section>
+<section id="Wrapping-SPARQL-Endpoints">
+<h2>Wrapping SPARQL Endpoints<a class="headerlink" href="#Wrapping-SPARQL-Endpoints" title="Link to this heading"></a></h2>
+<section id="Ubergraph">
+<h3>Ubergraph<a class="headerlink" href="#Ubergraph" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING:root:Multiple labels for BFO:0000050 = [&#39;part of&#39;, &#39;part_of&#39;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  BFO:0000050 ! part of
+    GO:0005737 ! cytoplasm
+  COB:0000072 ! part of
+    GO:0005737 ! cytoplasm
+  rdfs:subClassOf ! None
+    GO:0043231 ! intracellular membrane-bounded organelle
+</pre></div></div>
+</div>
+</section>
+<section id="notes">
+<h3>notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<p>Notice some of the differences with some of the other mechanisms:</p>
+<ul class="simple">
+<li><p>ubergraph includes multiple ontologies, one of which ‘injects’ an legacy caro#part_of relationship</p></li>
+<li><p>similarly there are different injected labels for the part-of relation</p></li>
+<li><p>note also that the ubergraph implementation uses the actual predicate CURIE, currently pronto uses the shortname</p></li>
+</ul>
+<p>This also involves multiple iterative calls to the API which is inefficient.</p>
+<p>In future there will be an interface for ‘bigger’ operations that can be implemented more efficiently</p>
+</section>
+<section id="Ontobee">
+<h3>Ontobee<a class="headerlink" href="#Ontobee" title="Link to this heading"></a></h3>
+<p>Currently the ontobee implementation doesn’t allow the selection of a specific ontology within the triplestore – instead the whole store is treated as if it were one giant ontology with everything merged together.</p>
+<p>This can be confusing when one ontology contains a stale part of another - e.g. if an ontology used to have a parent term but it has since been obsoleted.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
+<span class="n">oi</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  rdfs:subClassOf ! subClassOf
+    GO:0043231 ! intracellular membrane-bounded organelle
+  BFO:0000050 ! part of
+    GO:0005737 ! cytoplasm
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Graph-Operations">
+<h1>Graph Operations<a class="headerlink" href="#Graph-Operations" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go.obo&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ancs</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ancs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">anc</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">anc</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0016020 ! membrane
+GO:0005773 ! vacuole
+GO:0005622 ! intracellular anatomical structure
+GO:0043227 ! membrane-bounded organelle
+GO:0043229 ! intracellular organelle
+GO:0043226 ! organelle
+GO:0043231 ! intracellular membrane-bounded organelle
+GO:0005737 ! cytoplasm
+GO:0110165 ! cellular anatomical entity
+GO:0005575 ! cellular_component
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+
+<span class="n">ancs</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ancs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">anc</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">anc</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0005773 ! vacuole
+GO:0005622 ! intracellular anatomical structure
+GO:0043227 ! membrane-bounded organelle
+GO:0043229 ! intracellular organelle
+GO:0043226 ! organelle
+GO:0043231 ! intracellular membrane-bounded organelle
+GO:0005737 ! cytoplasm
+GO:0110165 ! cellular anatomical entity
+GO:0005575 ! cellular_component
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> &quot;</span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">o</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">walk_up_relationship_graph</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">render</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s1"> -</span><span class="si">{</span><span class="n">render</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">}</span><span class="s1">-&gt; </span><span class="si">{</span><span class="n">render</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0005773 &#34;vacuole&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0043231 &#34;intracellular membrane-bounded organelle&#34;
+GO:0005773 &#34;vacuole&#34; -BFO:0000050 &#34;part of&#34;-&gt; GO:0005737 &#34;cytoplasm&#34;
+GO:0005737 &#34;cytoplasm&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0110165 &#34;cellular anatomical entity&#34;
+GO:0005737 &#34;cytoplasm&#34; -BFO:0000050 &#34;part of&#34;-&gt; GO:0005622 &#34;intracellular anatomical structure&#34;
+GO:0005622 &#34;intracellular anatomical structure&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0110165 &#34;cellular anatomical entity&#34;
+GO:0110165 &#34;cellular anatomical entity&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0005575 &#34;cellular_component&#34;
+GO:0043231 &#34;intracellular membrane-bounded organelle&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0043227 &#34;membrane-bounded organelle&#34;
+GO:0043231 &#34;intracellular membrane-bounded organelle&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0043229 &#34;intracellular organelle&#34;
+GO:0043229 &#34;intracellular organelle&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0043226 &#34;organelle&#34;
+GO:0043229 &#34;intracellular organelle&#34; -BFO:0000050 &#34;part of&#34;-&gt; GO:0005622 &#34;intracellular anatomical structure&#34;
+GO:0043226 &#34;organelle&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0110165 &#34;cellular anatomical entity&#34;
+GO:0043227 &#34;membrane-bounded organelle&#34; -rdfs:subClassOf &#34;subClassOf&#34;-&gt; GO:0043226 &#34;organelle&#34;
+</pre></div></div>
+</div>
+<section id="Rendering-using-GraphViz">
+<h2>Rendering using GraphViz<a class="headerlink" href="#Rendering-using-GraphViz" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">graph_to_image</span><span class="p">,</span> <span class="n">default_stylemap_path</span>
+<span class="n">stylemap</span> <span class="o">=</span> <span class="n">default_stylemap_path</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graph_to_image</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">],</span> <span class="n">stylemap</span><span class="o">=</span><span class="n">stylemap</span><span class="p">,</span> <span class="n">imgfile</span><span class="o">=</span><span class="s1">&#39;output/vacuole.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+ERROR:root:No og2dot
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+You need to install a node package to be able to visualize results
+
+npm install -g obographviz
+Then set your path to include og2dot
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">Exception</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [23]</span>, in <span class="ansi-cyan-fg">&lt;cell line: 1&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">graph_to_image</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">graph</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">GO:0005773</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">stylemap</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">stylemap</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">imgfile</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">output/vacuole.png</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">~/Documents/src/ontology-access-kit/src/oaklib/utilities/obograph_utils.py:102</span>, in <span class="ansi-cyan-fg">graph_to_image</span><span class="ansi-blue-fg">(graph, seeds, configure, stylemap, imgfile)</span>
+<span class="ansi-green-intense-fg ansi-bold">    100</span>     <span style="color: rgb(0,135,0)">print</span>(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">npm install -g obographviz</span><span style="color: rgb(175,0,0)">&#34;</span>)
+<span class="ansi-green-intense-fg ansi-bold">    101</span>     <span style="color: rgb(0,135,0)">print</span>(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Then set your path to include og2dot</span><span style="color: rgb(175,0,0)">&#34;</span>)
+<span class="ansi-green-fg">--&gt; 102</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">Exception</span>(
+<span class="ansi-green-intense-fg ansi-bold">    103</span>         <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Cannot find </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>exec<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> on path. Install from https://github.com/INCATools/obographviz</span><span style="color: rgb(175,0,0)">&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">    104</span>     )
+<span class="ansi-green-intense-fg ansi-bold">    105</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> tempfile<span style="color: rgb(98,98,98)">.</span>NamedTemporaryFile(<span style="color: rgb(0,135,0)">dir</span><span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">/tmp</span><span style="color: rgb(175,0,0)">&#34;</span>, mode<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">w</span><span style="color: rgb(175,0,0)">&#34;</span>) <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> tmpfile:
+<span class="ansi-green-intense-fg ansi-bold">    106</span>     style <span style="color: rgb(98,98,98)">=</span> {}
+
+<span class="ansi-red-fg">Exception</span>: Cannot find og2dot on path. Install from https://github.com/INCATools/obographviz
+</pre></div></div>
+</div>
+<section id="Output">
+<h3>Output<a class="headerlink" href="#Output" title="Link to this heading"></a></h3>
+<p><img alt="img" src="examples/Interfaces/output/vacuole.png" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Interfaces Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ClassEnrichmentCalculationInterface.html" class="btn btn-neutral float-right" title="ClassEnrichmentCalculationInterface Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

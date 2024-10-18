@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phenotypic Series queries &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Phenotypic Series queries</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/MONDO/Mondo-phenotypic-series-genes.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Phenotypic-Series-queries">
+<h1>Phenotypic Series queries<a class="headerlink" href="#Phenotypic-Series-queries" title="Link to this heading"></a></h1>
+<p>We will walk through</p>
+<ol class="arabic simple">
+<li><p>Finding all MONDOs that correspond to an OMIM Phenotypic Series</p></li>
+<li><p>Extend these to the leaf MODNO nodes</p></li>
+<li><p>Query associations between these leaf nodes and genes</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">handle</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:mondo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the first time you run this it may be slow while mondo sqlite downloads</span>
+<span class="n">mappings</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">handle</span><span class="o">.</span><span class="n">sssom_mappings_by_source</span><span class="p">(</span><span class="s2">&quot;OMIMPS&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">mappings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+548
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Mapping(subject_id=&#39;MONDO:0000005&#39;, predicate_id=&#39;oio:hasDbXref&#39;, object_id=&#39;OMIMPS:203655&#39;, mapping_justification=&#39;semapv:UnspecifiedMatching&#39;, subject_label=None, subject_category=None, predicate_label=None, predicate_modifier=None, object_label=None, object_category=None, author_id=[], author_label=[], reviewer_id=[], reviewer_label=[], creator_id=[], creator_label=[], license=None, subject_type=None, subject_source=&#39;MONDO&#39;, subject_source_version=None, object_type=None, object_source=&#39;OMIMPS&#39;, object_source_version=None, mapping_provider=None, mapping_cardinality=None, mapping_tool=None, mapping_tool_version=None, mapping_date=None, confidence=None, subject_match_field=[], object_match_field=[], match_string=[], subject_preprocessing=[], object_preprocessing=[], semantic_similarity_score=None, semantic_similarity_measure=None, see_also=[], other=None, comment=None)
+</pre></div></div>
+</div>
+</section>
+<section id="Get-descendants-and-their-genes">
+<h1>Get descendants and their genes<a class="headerlink" href="#Get-descendants-and-their-genes" title="Link to this heading"></a></h1>
+<p>Next we will write a routine that takes each MONDO-PS mapping:</p>
+<ol class="arabic simple">
+<li><p>get descendants (IS_A) of the mondo to get the mondo <em>leaf</em></p></li>
+<li><p>query that leaf for <code class="docutils literal notranslate"><span class="pre">RO:0004003</span></code> links to the gene</p></li>
+</ol>
+<p>This will be returned as a tuple</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+<span class="n">has_material_basis_in_germline_mutation_in</span> <span class="o">=</span> <span class="s2">&quot;RO:0004003&quot;</span>
+
+<span class="k">def</span> <span class="nf">ps_mapping_to_gene</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="n">mondo_grouping_id</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">subject_id</span>
+    <span class="n">ps_id</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">object_id</span>
+    <span class="n">leafs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">handle</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">mondo_grouping_id</span><span class="p">,</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">mondo_leaf</span><span class="p">,</span> <span class="n">_p</span><span class="p">,</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">handle</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">leafs</span><span class="p">,</span> <span class="p">[</span><span class="n">has_material_basis_in_germline_mutation_in</span><span class="p">]):</span>
+            <span class="k">yield</span> <span class="n">ps_id</span><span class="p">,</span> <span class="n">mondo_grouping_id</span><span class="p">,</span> <span class="n">mondo_leaf</span><span class="p">,</span> <span class="n">gene</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">assocs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mappings</span><span class="p">:</span>
+    <span class="n">assocs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ps_mapping_to_gene</span><span class="p">(</span><span class="n">m</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">assocs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3476
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">assocs</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;PS&#39;</span><span class="p">,</span> <span class="s1">&#39;MONDO_GROUP&#39;</span><span class="p">,</span> <span class="s1">&#39;MONDO_LEAF&#39;</span><span class="p">,</span> <span class="s1">&#39;GENE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PS</th>
+      <th>MONDO_GROUP</th>
+      <th>MONDO_LEAF</th>
+      <th>GENE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>OMIMPS:203655</td>
+      <td>MONDO:0000005</td>
+      <td>MONDO:0008757</td>
+      <td>&lt;http://identifiers.org/hgnc/5172&gt;</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>OMIMPS:231200</td>
+      <td>MONDO:0000009</td>
+      <td>MONDO:0007686</td>
+      <td>&lt;http://identifiers.org/hgnc/31928&gt;</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>OMIMPS:231200</td>
+      <td>MONDO:0000009</td>
+      <td>MONDO:0007930</td>
+      <td>&lt;http://identifiers.org/hgnc/4439&gt;</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>OMIMPS:231200</td>
+      <td>MONDO:0000009</td>
+      <td>MONDO:0008332</td>
+      <td>&lt;http://identifiers.org/hgnc/4439&gt;</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>OMIMPS:231200</td>
+      <td>MONDO:0000009</td>
+      <td>MONDO:0008553</td>
+      <td>&lt;http://identifiers.org/hgnc/4238&gt;</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3471</th>
+      <td>OMIMPS:608638</td>
+      <td>MONDO:0100440</td>
+      <td>MONDO:0010343</td>
+      <td>&lt;http://identifiers.org/hgnc/14287&gt;</td>
+    </tr>
+    <tr>
+      <th>3472</th>
+      <td>OMIMPS:209880</td>
+      <td>MONDO:0800031</td>
+      <td>MONDO:0800026</td>
+      <td>&lt;http://identifiers.org/hgnc/9143&gt;</td>
+    </tr>
+    <tr>
+      <th>3473</th>
+      <td>OMIMPS:610551</td>
+      <td>MONDO:0800174</td>
+      <td>MONDO:0013633</td>
+      <td>&lt;http://identifiers.org/hgnc/2330&gt;</td>
+    </tr>
+    <tr>
+      <th>3474</th>
+      <td>OMIMPS:145600</td>
+      <td>MONDO:0800188</td>
+      <td>MONDO:0007783</td>
+      <td>&lt;http://identifiers.org/hgnc/10483&gt;</td>
+    </tr>
+    <tr>
+      <th>3475</th>
+      <td>OMIMPS:145600</td>
+      <td>MONDO:0800188</td>
+      <td>MONDO:0011163</td>
+      <td>&lt;http://identifiers.org/hgnc/1397&gt;</td>
+    </tr>
+  </tbody>
+</table>
+<p>3476 rows × 4 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: contact gene URIs</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;output/ps-to-gene.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

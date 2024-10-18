@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK validate-mappings command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Ontologies" href="../Ontologies/index.html" />
+    <link rel="prev" title="OAK validate-definitions command" href="ValidateDefinitions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK validate-mappings command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example:-Validate-mappings-in-XAO">Example: Validate mappings in XAO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example:-CL">Example: CL</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK validate-mappings command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/ValidateMappings.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-validate-mappings-command">
+<h1>OAK validate-mappings command<a class="headerlink" href="#OAK-validate-mappings-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">validate-mappings</span></code> command. This forms part of a suite of <em>validate</em> commands.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>validate-mappings<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak validate-mappings [OPTIONS] [TERMS]...
+
+  Validates mappings in ontology using additional ontologies.
+
+  To run:
+
+      runoak validate-mappings -i db/uberon.db
+
+  For sssom:
+
+      runoak validate-mappings -i db/uberon.db -o bad-mappings.sssom.tsv
+
+  By default this will attempt to download and connect to sqlite versions of
+  different ontologies.
+
+  You can customize this:
+
+      runoak validate-mappings -i db/uberon.db --adapter-mapping
+      uberon=db/uberon.db             --adapter-mapping zfa=db/zfa.db
+
+  You can use &#34;*&#34; as a wildcard, in the case where you have an application
+  ontology with many mapped entities merged in:
+
+      runoak validate-mappings -i db/uberon.db --adapter-mapping
+      &#34;*&#34;=db/merged.db&#34;
+
+Options:
+  --autolabel / --no-autolabel  If set, results will automatically have labels
+                                assigned  [default: autolabel]
+  -O, --output-type TEXT        Desired output type
+  --adapter-mapping TEXT        Multiple prefix=selector pairs, e.g.
+                                --adapter-mapping uberon=db/uberon.db
+  -o, --output FILENAME         Output file, e.g. obo file
+  --help                        Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Example:-Validate-mappings-in-XAO">
+<h2>Example: Validate mappings in XAO<a class="headerlink" href="#Example:-Validate-mappings-in-XAO" title="Link to this heading"></a></h2>
+<p>XAO is an anatomical ontology for <em>Xenopus</em>. It has mappings to ontologies like UBERON, GO, CL</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:xao<span class="w"> </span>validate-mappings<span class="w"> </span>-O<span class="w"> </span>sssom<span class="w"> </span>-o<span class="w"> </span>output/xao-invalid.sssom.tsv
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/xao-invalid.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>subject_source</th>
+      <th>object_source</th>
+      <th>mapping_cardinality</th>
+      <th>comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XAO:0000054</td>
+      <td>trunk region</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0002100</td>
+      <td>trunk</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>XAO:0000100</td>
+      <td>cardiovascular system</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0004535</td>
+      <td>cardiovascular system</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>XAO:0000204</td>
+      <td>peripheral nerve</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0002003</td>
+      <td>obsolete peripheral nerve</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>XAO:0000227</td>
+      <td>eye primordium</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0003071</td>
+      <td>eye primordium</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>XAO:0000282</td>
+      <td>visceral pouch</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0004117</td>
+      <td>pharyngeal pouch</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>XAO:0000376</td>
+      <td>omphalomesenteric vein</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0005487</td>
+      <td>vitelline vein</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>XAO:0000427</td>
+      <td>gasserian ganglion</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0001675</td>
+      <td>trigeminal ganglion</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>XAO:0000428</td>
+      <td>trigeminal ganglion</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0001675</td>
+      <td>trigeminal ganglion</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>XAO:0001010</td>
+      <td>circulatory system</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0004535</td>
+      <td>cardiovascular system</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>XAO:0003001</td>
+      <td>anatomical group</td>
+      <td>oio:hasDbXref</td>
+      <td>CARO:0000054</td>
+      <td>anatomical group</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>CARO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>XAO:0003012</td>
+      <td>cell</td>
+      <td>oio:hasDbXref</td>
+      <td>GO:0005623</td>
+      <td>obsolete cell</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>GO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>XAO:0003025</td>
+      <td>trunk</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0002100</td>
+      <td>trunk</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>XAO:0003160</td>
+      <td>anatomical cluster</td>
+      <td>oio:hasDbXref</td>
+      <td>CARO:0000041</td>
+      <td>anatomical cluster</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>CARO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>XAO:0003163</td>
+      <td>basal lamina</td>
+      <td>oio:hasDbXref</td>
+      <td>CARO:0000065</td>
+      <td>basal lamina</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>CARO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>XAO:0003257</td>
+      <td>myelin accumulating cell</td>
+      <td>oio:hasDbXref</td>
+      <td>CL:0000328</td>
+      <td>obsolete myelin accumulating cell</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>CL</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>XAO:0004090</td>
+      <td>optic field</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0003071</td>
+      <td>eye primordium</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>XAO:0004147</td>
+      <td>vitelline vein</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0005487</td>
+      <td>vitelline vein</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>XAO:0004165</td>
+      <td>intersomitic artery</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0006001</td>
+      <td>NaN</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>XAO:0004260</td>
+      <td>pharyngeal pouch</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0004117</td>
+      <td>pharyngeal pouch</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>XAO:0004290</td>
+      <td>cell part</td>
+      <td>oio:hasDbXref</td>
+      <td>GO:0044464</td>
+      <td>obsolete cell part</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>GO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>XAO:0004615</td>
+      <td>basal body</td>
+      <td>oio:hasDbXref</td>
+      <td>GO:0005932</td>
+      <td>NaN</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>GO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>XAO:0004621</td>
+      <td>epidermal cell</td>
+      <td>oio:hasDbXref</td>
+      <td>CL:1000396</td>
+      <td>NaN</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>CL</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>XAO:0005007</td>
+      <td>Muller cell</td>
+      <td>oio:hasDbXref</td>
+      <td>CL:0011107</td>
+      <td>obsolete Muller cell</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>CL</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>XAO:1000007</td>
+      <td>tailbud stage</td>
+      <td>oio:hasDbXref</td>
+      <td>UBERON:0009741</td>
+      <td>obsolete tailbud stage</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>XAO</td>
+      <td>UBERON</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Here we can see a mixture of cardinality issues and obsoletion issues</p>
+<p>Note that behind the scenes this command connected to external ontologies such as GO, CL, and UBERON in order to check obsoletion status etc.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#39;cardinality is 1:n&#39;, &#39;object is obsolete&#39;], dtype=object)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comment</th>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cardinality is 1:n</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>object is obsolete</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Example:-CL">
+<h2>Example: CL<a class="headerlink" href="#Example:-CL" title="Link to this heading"></a></h2>
+<p>CL has a broader range of mappings, in the ontology as xrefs</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>--quiet<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>validate-mappings<span class="w"> </span>-O<span class="w"> </span>sssom<span class="w"> </span>-o<span class="w"> </span>output/cl-invalid.sssom.tsv<span class="w"> </span>&gt;<span class="p">&amp;</span><span class="w"> </span>output/LOG
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/cl-invalid.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>subject_source</th>
+      <th>object_source</th>
+      <th>mapping_cardinality</th>
+      <th>comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CARO:0000013</td>
+      <td>cell</td>
+      <td>oio:hasDbXref</td>
+      <td>GO:0005623</td>
+      <td>obsolete cell</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>CARO</td>
+      <td>GO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000000</td>
+      <td>cell</td>
+      <td>oio:hasDbXref</td>
+      <td>GO:0005623</td>
+      <td>obsolete cell</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>CL</td>
+      <td>GO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000019</td>
+      <td>sperm</td>
+      <td>oio:hasDbXref</td>
+      <td>BTO:0001277</td>
+      <td>spermatozoon</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>CL</td>
+      <td>BTO</td>
+      <td>n:n</td>
+      <td>cardinality is n:n</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000019</td>
+      <td>sperm</td>
+      <td>oio:hasDbXref</td>
+      <td>BTO:0002046</td>
+      <td>spermatozoid</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>CL</td>
+      <td>BTO</td>
+      <td>n:1</td>
+      <td>cardinality is n:1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0000019</td>
+      <td>sperm</td>
+      <td>oio:hasDbXref</td>
+      <td>CALOHA:TS-0949</td>
+      <td>NaN</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>CL</td>
+      <td>CALOHA</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3824</th>
+      <td>UBERON:2001316</td>
+      <td>anterior lateral line placode</td>
+      <td>oio:hasDbXref</td>
+      <td>EFO:0003461</td>
+      <td>obsolete_anterior lateral line placode</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>UBERON</td>
+      <td>EFO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>3825</th>
+      <td>UBERON:2001389</td>
+      <td>regeneration epithelium of fin/limb</td>
+      <td>oio:hasDbXref</td>
+      <td>EFO:0003682</td>
+      <td>obsolete_regeneration epithelium</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>UBERON</td>
+      <td>EFO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>3826</th>
+      <td>UBERON:2001391</td>
+      <td>anterior lateral line ganglion</td>
+      <td>oio:hasDbXref</td>
+      <td>EFO:0003683</td>
+      <td>obsolete_anterior lateral line ganglion</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>UBERON</td>
+      <td>EFO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>UBERON:2001468</td>
+      <td>anterior lateral line system</td>
+      <td>oio:hasDbXref</td>
+      <td>EFO:0003691</td>
+      <td>obsolete_anterior lateral line system</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>UBERON</td>
+      <td>EFO</td>
+      <td>1:1</td>
+      <td>object is obsolete</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>UBERON:6000004</td>
+      <td>panarthropod head</td>
+      <td>oio:hasDbXref</td>
+      <td>FBbt:00000004</td>
+      <td>head</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>UBERON</td>
+      <td>FBbt</td>
+      <td>1:n</td>
+      <td>cardinality is 1:n</td>
+    </tr>
+  </tbody>
+</table>
+<p>3829 rows × 10 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comment</th>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cardinality is 1:n</td>
+      <td>608</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cardinality is n:1</td>
+      <td>2588</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>cardinality is n:n</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>object is obsolete</td>
+      <td>438</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>object is obsolete | cardinality is n:1</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>subject is obsolete</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>subject is obsolete | cardinality is 1:n</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>subject is obsolete | object is obsolete</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>We can summarize these in groups:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;comment&quot;</span><span class="p">,</span> <span class="s2">&quot;subject_source&quot;</span><span class="p">,</span> <span class="s2">&quot;object_source&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comment</th>
+      <th>subject_source</th>
+      <th>object_source</th>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cardinality is 1:n</td>
+      <td>CL</td>
+      <td>BTO</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cardinality is 1:n</td>
+      <td>CL</td>
+      <td>CALOHA</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>cardinality is 1:n</td>
+      <td>CL</td>
+      <td>FAO</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>cardinality is 1:n</td>
+      <td>CL</td>
+      <td>FMA</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>cardinality is 1:n</td>
+      <td>CL</td>
+      <td>GOC</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>subject is obsolete | cardinality is 1:n</td>
+      <td>CL</td>
+      <td>FAO</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>subject is obsolete | cardinality is 1:n</td>
+      <td>CL</td>
+      <td>FMA</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>subject is obsolete | cardinality is 1:n</td>
+      <td>CL</td>
+      <td>ILX</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>subject is obsolete | object is obsolete</td>
+      <td>CL</td>
+      <td>FBbt</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>subject is obsolete | object is obsolete</td>
+      <td>RO</td>
+      <td>RO</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>126 rows × 4 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ValidateDefinitions.html" class="btn btn-neutral float-left" title="OAK validate-definitions command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Ontologies/index.html" class="btn btn-neutral float-right" title="Ontologies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

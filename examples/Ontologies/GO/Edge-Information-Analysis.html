@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/GO/Edge-Information-Analysis.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.associations.edge_information_util</span> <span class="kn">import</span> <span class="n">associations_to_matrix</span>
+
+
+<span class="n">ont_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">taxa</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;9606&quot;</span><span class="p">,</span> <span class="s2">&quot;6239&quot;</span><span class="p">,</span> <span class="s2">&quot;7955&quot;</span><span class="p">,</span> <span class="s2">&quot;3702&quot;</span><span class="p">,</span> <span class="s2">&quot;559292&quot;</span><span class="p">,</span> <span class="s2">&quot;4896&quot;</span><span class="p">,</span> <span class="s2">&quot;7227&quot;</span><span class="p">,</span> <span class="s2">&quot;10090&quot;</span><span class="p">,</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">matrix_by_taxon</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">taxa</span><span class="p">:</span>
+    <span class="n">assoc_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;amigo:NCBITaxon:</span><span class="si">{</span><span class="n">tax</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">assocs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assoc_adapter</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">add_closure_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="n">associations_to_matrix</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span>
+    <span class="n">matrix_by_taxon</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Taxon </span><span class="si">{</span><span class="n">tax</span><span class="si">}</span><span class="s2"> shape </span><span class="si">{</span><span class="n">matrix</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Taxon 9606 shape (44398, 22647)
+Taxon 6239 shape (14675, 9794)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING:pysolr:Unable to extract error message from invalid XML: syntax error: line 1, column 49
+ERROR:pysolr:Solr responded with an error (HTTP 503): [Reason: None]
+&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;503 Service Unavailable&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;Service Unavailable&lt;/h1&gt;&lt;p&gt;The server is temporarily unable to service yourrequest due to maintenance downtime or capacityproblems. Please try again later.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">SolrError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[48], line 4</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> tax <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> taxa:
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     assoc_adapter <span style="color: rgb(98,98,98)">=</span> get_adapter(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">amigo:NCBITaxon:</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>tax<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">&#34;</span>)
+<span class="ansi-green-fg">----&gt; 4</span>     assocs <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">list</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">assoc_adapter</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">associations</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">add_closure_fields</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     matrix <span style="color: rgb(98,98,98)">=</span> associations_to_matrix(assocs)
+<span class="ansi-green-intense-fg ansi-bold">      6</span>     matrix_by_taxon[tax] <span style="color: rgb(98,98,98)">=</span> matrix
+
+File <span class="ansi-green-fg">~/repos/ontology-access-kit/src/oaklib/implementations/amigo/amigo_implementation.py:253</span>, in <span class="ansi-cyan-fg">AmiGOImplementation.associations</span><span class="ansi-blue-fg">(self, subjects, predicates, objects, property_filter, subject_closure_predicates, predicate_closure_predicates, object_closure_predicates, include_modified, add_closure_fields, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    248</span> results <span style="color: rgb(98,98,98)">=</span> _query(solr, fq, select_fields)
+<span class="ansi-green-intense-fg ansi-bold">    250</span> <span style="color: rgb(95,135,135)"># fq_list = [_fq_element(k, vs) for k, vs in fq.items()]</span>
+<span class="ansi-green-intense-fg ansi-bold">    251</span> <span style="color: rgb(95,135,135)"># params = {&#34;fq&#34;: fq_list, &#34;fl&#34;: &#34;,&#34;.join(SELECT_FIELDS)}</span>
+<span class="ansi-green-intense-fg ansi-bold">    252</span> <span style="color: rgb(95,135,135)"># results = solr.search(&#34;*:*&#34;, rows=1000, **params)</span>
+<span class="ansi-green-fg">--&gt; 253</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> doc <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> results:
+<span class="ansi-green-intense-fg ansi-bold">    254</span>     assoc <span style="color: rgb(98,98,98)">=</span> Association(
+<span class="ansi-green-intense-fg ansi-bold">    255</span>         subject<span style="color: rgb(98,98,98)">=</span>_normalize(doc[BIOENTITY]),
+<span class="ansi-green-intense-fg ansi-bold">    256</span>         subject_label<span style="color: rgb(98,98,98)">=</span>doc[BIOENTITY_LABEL],
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    262</span>         aggregator_knowledge_source<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">infores:go</span><span style="color: rgb(175,0,0)">&#34;</span>,
+<span class="ansi-green-intense-fg ansi-bold">    263</span>     )
+<span class="ansi-green-intense-fg ansi-bold">    264</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> add_closure_fields:
+
+File <span class="ansi-green-fg">~/repos/ontology-access-kit/src/oaklib/implementations/amigo/amigo_implementation.py:88</span>, in <span class="ansi-cyan-fg">_query</span><span class="ansi-blue-fg">(solr, fq, fields, q, start, limit, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     86</span> logging<span style="color: rgb(98,98,98)">.</span>info(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">QUERY: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>q<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> PARAMS: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>params<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">&#34;</span>)
+<span class="ansi-green-intense-fg ansi-bold">     87</span> <span class="ansi-bold" style="color: rgb(0,135,0)">while</span> <span class="ansi-bold" style="color: rgb(0,135,0)">True</span>:
+<span class="ansi-green-fg">---&gt; 88</span>     results <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">solr</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">search</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">q</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">rows</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">limit</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">start</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">start</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">params</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     89</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">yield from</span> results
+<span class="ansi-green-intense-fg ansi-bold">     90</span>     logging<span style="color: rgb(98,98,98)">.</span>debug(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">CHECKING: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>start<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> + </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span><span style="color: rgb(0,135,0)">len</span>(results)<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> &gt;= </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>results<span style="color: rgb(98,98,98)">.</span>hits<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">&#34;</span>)
+
+File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/pysolr.py:827</span>, in <span class="ansi-cyan-fg">Solr.search</span><span class="ansi-blue-fg">(self, q, search_handler, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    825</span> params <span style="color: rgb(98,98,98)">=</span> {<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">q</span><span style="color: rgb(175,0,0)">&#34;</span>: q}
+<span class="ansi-green-intense-fg ansi-bold">    826</span> params<span style="color: rgb(98,98,98)">.</span>update(kwargs)
+<span class="ansi-green-fg">--&gt; 827</span> response <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_select</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">params</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">handler</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">search_handler</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    828</span> decoded <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>decoder<span style="color: rgb(98,98,98)">.</span>decode(response)
+<span class="ansi-green-intense-fg ansi-bold">    830</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>log<span style="color: rgb(98,98,98)">.</span>debug(
+<span class="ansi-green-intense-fg ansi-bold">    831</span>     <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Found </span><span style="color: rgb(175,0,0)">&#39;</span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)"> search results.</span><span style="color: rgb(175,0,0)">&#34;</span>,
+<span class="ansi-green-intense-fg ansi-bold">    832</span>     <span style="color: rgb(95,135,135)"># cover both cases: there is no response key or value is None</span>
+<span class="ansi-green-intense-fg ansi-bold">    833</span>     (decoded<span style="color: rgb(98,98,98)">.</span>get(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">response</span><span style="color: rgb(175,0,0)">&#34;</span>, {}) <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> {})<span style="color: rgb(98,98,98)">.</span>get(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">numFound</span><span style="color: rgb(175,0,0)">&#34;</span>, <span style="color: rgb(98,98,98)">0</span>),
+<span class="ansi-green-intense-fg ansi-bold">    834</span> )
+
+File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/pysolr.py:488</span>, in <span class="ansi-cyan-fg">Solr._select</span><span class="ansi-blue-fg">(self, params, handler)</span>
+<span class="ansi-green-intense-fg ansi-bold">    485</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">len</span>(params_encoded) <span style="color: rgb(98,98,98)">&lt;</span> <span style="color: rgb(98,98,98)">1024</span>:
+<span class="ansi-green-intense-fg ansi-bold">    486</span>     <span style="color: rgb(95,135,135)"># Typical case.</span>
+<span class="ansi-green-intense-fg ansi-bold">    487</span>     path <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">&#34;</span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span style="color: rgb(175,0,0)">/?</span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span style="color: rgb(175,0,0)">&#34;</span> <span style="color: rgb(98,98,98)">%</span> (handler, params_encoded)
+<span class="ansi-green-fg">--&gt; 488</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_send_request</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">get</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">path</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    489</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
+<span class="ansi-green-intense-fg ansi-bold">    490</span>     <span style="color: rgb(95,135,135)"># Handles very long queries by submitting as a POST.</span>
+<span class="ansi-green-intense-fg ansi-bold">    491</span>     path <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">&#34;</span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span style="color: rgb(175,0,0)">/</span><span style="color: rgb(175,0,0)">&#34;</span> <span style="color: rgb(98,98,98)">%</span> handler
+
+File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/pysolr.py:463</span>, in <span class="ansi-cyan-fg">Solr._send_request</span><span class="ansi-blue-fg">(self, method, path, body, headers, files)</span>
+<span class="ansi-green-intense-fg ansi-bold">    449</span>     solr_message <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_extract_error(resp)
+<span class="ansi-green-intense-fg ansi-bold">    450</span>     <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>log<span style="color: rgb(98,98,98)">.</span>error(
+<span class="ansi-green-intense-fg ansi-bold">    451</span>         error_message,
+<span class="ansi-green-intense-fg ansi-bold">    452</span>         resp<span style="color: rgb(98,98,98)">.</span>status_code,
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    461</span>         },
+<span class="ansi-green-intense-fg ansi-bold">    462</span>     )
+<span class="ansi-green-fg">--&gt; 463</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> SolrError(error_message <span style="color: rgb(98,98,98)">%</span> (resp<span style="color: rgb(98,98,98)">.</span>status_code, solr_message))
+<span class="ansi-green-intense-fg ansi-bold">    465</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> force_unicode(resp<span style="color: rgb(98,98,98)">.</span>content)
+
+<span class="ansi-red-fg">SolrError</span>: Solr responded with an error (HTTP 503): [Reason: None]
+&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;503 Service Unavailable&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;Service Unavailable&lt;/h1&gt;&lt;p&gt;The server is temporarily unable to service yourrequest due to maintenance downtime or capacityproblems. Please try again later.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">matrix_by_taxon</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+132140
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;GO:0008527&quot;</span>
+<span class="n">p</span><span class="o">=</span><span class="s2">&quot;GO:0050912&quot;</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.associations.edge_information_util</span> <span class="kn">import</span> <span class="n">calculate_edge_information</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">matrix_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">matrix</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+7227 0.12928301694496636
+10090 0.405992359675837
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;child&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">o</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">matrix_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;child&#39;: &#39;GO:0000943&#39;, &#39;parent&#39;: &#39;GO:0110165&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0001933&#39;, &#39;parent&#39;: &#39;GO:0006468&#39;, &#39;predicate&#39;: &#39;RO:0002212&#39;, &#39;7227&#39;: 2.8187596853298533, &#39;10090&#39;: 1.0951572330403403}
+{&#39;child&#39;: &#39;GO:0002503&#39;, &#39;parent&#39;: &#39;GO:0002495&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 0.8073549220576037}
+{&#39;child&#39;: &#39;GO:0002869&#39;, &#39;parent&#39;: &#39;GO:0002904&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0003678&#39;, &#39;parent&#39;: &#39;GO:0032508&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: 0.22239242133644765, &#39;10090&#39;: 0.32192809488736174}
+{&#39;child&#39;: &#39;GO:0004823&#39;, &#39;parent&#39;: &#39;GO:0004812&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 4.247927513443585, &#39;10090&#39;: 4.357552004618084}
+{&#39;child&#39;: &#39;GO:0005743&#39;, &#39;parent&#39;: &#39;GO:0019866&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 0.05916207246814409, &#39;10090&#39;: 0.09780478547179872}
+{&#39;child&#39;: &#39;GO:0006364&#39;, &#39;parent&#39;: &#39;GO:0042254&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: 0.5341133592254037, &#39;10090&#39;: 0.5756846871331458}
+{&#39;child&#39;: &#39;GO:0006982&#39;, &#39;parent&#39;: &#39;GO:0033993&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 8.779719355143403}
+{&#39;child&#39;: &#39;GO:0007563&#39;, &#39;parent&#39;: &#39;GO:2000026&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 5.357552004618083, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0008764&#39;, &#39;parent&#39;: &#39;GO:0016881&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0009398&#39;, &#39;parent&#39;: &#39;GO:0009156&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 4.321928094887362, &#39;10090&#39;: 5.1292830169449655}
+{&#39;child&#39;: &#39;GO:0010006&#39;, &#39;parent&#39;: &#39;GO:0009707&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0010560&#39;, &#39;parent&#39;: &#39;GO:0010559&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 1.0, &#39;10090&#39;: 0.8744691179161403}
+{&#39;child&#39;: &#39;GO:0010986&#39;, &#39;parent&#39;: &#39;GO:0010984&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 1.938599455335856}
+{&#39;child&#39;: &#39;GO:0015310&#39;, &#39;parent&#39;: &#39;GO:0015078&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0015995&#39;, &#39;parent&#39;: &#39;GO:0006779&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0016906&#39;, &#39;parent&#39;: &#39;GO:0035251&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0018642&#39;, &#39;parent&#39;: &#39;GO:0016709&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0019356&#39;, &#39;parent&#39;: &#39;GO:0019357&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0019917&#39;, &#39;parent&#39;: &#39;GO:0019122&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0021946&#39;, &#39;parent&#39;: &#39;GO:0021535&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0030388&#39;, &#39;parent&#39;: &#39;GO:1901135&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 7.016808287686553, &#39;10090&#39;: 6.602884408718419}
+{&#39;child&#39;: &#39;GO:0031025&#39;, &#39;parent&#39;: &#39;GO:0000923&#39;, &#39;predicate&#39;: &#39;RO:0002590&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0031609&#39;, &#39;parent&#39;: &#39;GO:0031603&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0032218&#39;, &#39;parent&#39;: &#39;GO:0051180&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 2.700439718141091, &#39;10090&#39;: 3.1154772174199348}
+{&#39;child&#39;: &#39;GO:0032694&#39;, &#39;parent&#39;: &#39;GO:0032614&#39;, &#39;predicate&#39;: &#39;RO:0002212&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0033118&#39;, &#39;parent&#39;: &#39;GO:0033117&#39;, &#39;predicate&#39;: &#39;RO:0002007&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0033717&#39;, &#39;parent&#39;: &#39;GO:0008875&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0034346&#39;, &#39;parent&#39;: &#39;GO:0034343&#39;, &#39;predicate&#39;: &#39;RO:0002213&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 0.0}
+{&#39;child&#39;: &#39;GO:0035025&#39;, &#39;parent&#39;: &#39;GO:0007266&#39;, &#39;predicate&#39;: &#39;RO:0002213&#39;, &#39;7227&#39;: 0.4594316186372964, &#39;10090&#39;: 0.8278190246173196}
+{&#39;child&#39;: &#39;GO:0035603&#39;, &#39;parent&#39;: &#39;GO:0030097&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 9.696967526234285}
+{&#39;child&#39;: &#39;GO:0036237&#39;, &#39;parent&#39;: &#39;GO:0004553&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0039707&#39;, &#39;parent&#39;: &#39;GO:0016032&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0042571&#39;, &#39;parent&#39;: &#39;GO:0005615&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 6.179198227699055}
+{&#39;child&#39;: &#39;GO:0043151&#39;, &#39;parent&#39;: &#39;GO:0000731&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0043673&#39;, &#39;parent&#39;: &#39;GO:0043668&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0044542&#39;, &#39;parent&#39;: &#39;GO:0044541&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0045300&#39;, &#39;parent&#39;: &#39;GO:0016717&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0045831&#39;, &#39;parent&#39;: &#39;GO:0010461&#39;, &#39;predicate&#39;: &#39;RO:0002212&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0046244&#39;, &#39;parent&#39;: &#39;GO:0009696&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0046761&#39;, &#39;parent&#39;: &#39;GO:0046753&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 0.12553088208385965}
+{&#39;child&#39;: &#39;GO:0047537&#39;, &#39;parent&#39;: &#39;GO:0008483&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0048303&#39;, &#39;parent&#39;: &#39;GO:0048302&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0048787&#39;, &#39;parent&#39;: &#39;GO:0042734&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: 5.0, &#39;10090&#39;: 1.7241252483927818}
+{&#39;child&#39;: &#39;GO:0050625&#39;, &#39;parent&#39;: &#39;GO:0016655&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0051157&#39;, &#39;parent&#39;: &#39;GO:0019527&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0051709&#39;, &#39;parent&#39;: &#39;GO:0031640&#39;, &#39;predicate&#39;: &#39;RO:0002211&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 2.9860608090421277}
+{&#39;child&#39;: &#39;GO:0052805&#39;, &#39;parent&#39;: &#39;GO:1901565&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 9.041659151637214, &#39;10090&#39;: 7.54432051622381}
+{&#39;child&#39;: &#39;GO:0060295&#39;, &#39;parent&#39;: &#39;GO:0003352&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 1.8073549220576037, &#39;10090&#39;: 0.4043902550793348}
+{&#39;child&#39;: &#39;GO:0060714&#39;, &#39;parent&#39;: &#39;GO:0048646&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0061197&#39;, &#39;parent&#39;: &#39;GO:0061196&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 0.22239242133644765}
+{&#39;child&#39;: &#39;GO:0061724&#39;, &#39;parent&#39;: &#39;GO:0005811&#39;, &#39;predicate&#39;: &#39;RO:0002233&#39;, &#39;7227&#39;: 2.700439718141091, &#39;10090&#39;: 4.894817763307943}
+{&#39;child&#39;: &#39;GO:0070059&#39;, &#39;parent&#39;: &#39;GO:0034976&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 4.087462841250339, &#39;10090&#39;: 2.47186872187552}
+{&#39;child&#39;: &#39;GO:0070620&#39;, &#39;parent&#39;: &#39;GO:0098797&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0071189&#39;, &#39;parent&#39;: &#39;GO:0071183&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0071651&#39;, &#39;parent&#39;: &#39;GO:0032722&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 3.857980995127571}
+{&#39;child&#39;: &#39;GO:0072185&#39;, &#39;parent&#39;: &#39;GO:0072075&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 3.3219280948873617}
+{&#39;child&#39;: &#39;GO:0075184&#39;, &#39;parent&#39;: &#39;GO:0050793&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0090033&#39;, &#39;parent&#39;: &#39;GO:0045927&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0090483&#39;, &#39;parent&#39;: &#39;GO:0030572&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0097400&#39;, &#39;parent&#39;: &#39;GO:0097398&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 1.0641303374197157}
+{&#39;child&#39;: &#39;GO:0098736&#39;, &#39;parent&#39;: &#39;GO:0002026&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 4.954196310386875}
+{&#39;child&#39;: &#39;GO:0099568&#39;, &#39;parent&#39;: &#39;GO:0005737&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 4.972578498675761, &#39;10090&#39;: 5.3494456155177526}
+{&#39;child&#39;: &#39;GO:0102914&#39;, &#39;parent&#39;: &#39;GO:0008168&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0110080&#39;, &#39;parent&#39;: &#39;GO:0110079&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:0140131&#39;, &#39;parent&#39;: &#39;GO:0048247&#39;, &#39;predicate&#39;: &#39;RO:0002213&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 0.39592867633113826}
+{&#39;child&#39;: &#39;GO:0140813&#39;, &#39;parent&#39;: &#39;GO:0015747&#39;, &#39;predicate&#39;: &#39;BFO:0000050&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1900017&#39;, &#39;parent&#39;: &#39;GO:0002534&#39;, &#39;predicate&#39;: &#39;RO:0002213&#39;, &#39;7227&#39;: None, &#39;10090&#39;: -1.6880559936852588}
+{&#39;child&#39;: &#39;GO:1900362&#39;, &#39;parent&#39;: &#39;GO:0051050&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1900711&#39;, &#39;parent&#39;: &#39;GO:1900608&#39;, &#39;predicate&#39;: &#39;RO:0002212&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1901035&#39;, &#39;parent&#39;: &#39;GO:2000486&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1901448&#39;, &#39;parent&#39;: &#39;GO:1901422&#39;, &#39;predicate&#39;: &#39;RO:0002211&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1901866&#39;, &#39;parent&#39;: &#39;GO:0016123&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1902245&#39;, &#39;parent&#39;: &#39;GO:1902244&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1902728&#39;, &#39;parent&#39;: &#39;GO:1902724&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 0.0}
+{&#39;child&#39;: &#39;GO:1903136&#39;, &#39;parent&#39;: &#39;GO:0005507&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 2.979822118062369}
+{&#39;child&#39;: &#39;GO:1903555&#39;, &#39;parent&#39;: &#39;GO:0071706&#39;, &#39;predicate&#39;: &#39;RO:0002211&#39;, &#39;7227&#39;: None, &#39;10090&#39;: -2.6147098441152075}
+{&#39;child&#39;: &#39;GO:1903949&#39;, &#39;parent&#39;: &#39;GO:0045760&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 4.0}
+{&#39;child&#39;: &#39;GO:1904333&#39;, &#39;parent&#39;: &#39;GO:2000573&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:1904735&#39;, &#39;parent&#39;: &#39;GO:0031998&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 4.523561956057012}
+{&#39;child&#39;: &#39;GO:1905135&#39;, &#39;parent&#39;: &#39;GO:0015878&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 0.5849625007211561}
+{&#39;child&#39;: &#39;GO:1905551&#39;, &#39;parent&#39;: &#39;GO:1903828&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 6.965784284662087}
+{&#39;child&#39;: &#39;GO:1905941&#39;, &#39;parent&#39;: &#39;GO:1905939&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 0.0, &#39;10090&#39;: 0.5849625007211561}
+{&#39;child&#39;: &#39;GO:1990608&#39;, &#39;parent&#39;: &#39;GO:0044732&#39;, &#39;predicate&#39;: &#39;RO:0004009&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:2000156&#39;, &#39;parent&#39;: &#39;GO:0006890&#39;, &#39;predicate&#39;: &#39;RO:0002211&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 4.426264754702098}
+{&#39;child&#39;: &#39;GO:2000509&#39;, &#39;parent&#39;: &#39;GO:0002689&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: 4.087462841250339}
+{&#39;child&#39;: &#39;GO:2000883&#39;, &#39;parent&#39;: &#39;GO:2000881&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: None, &#39;10090&#39;: None}
+{&#39;child&#39;: &#39;GO:2001268&#39;, &#39;parent&#39;: &#39;GO:2001234&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;7227&#39;: 4.6438561897747235, &#39;10090&#39;: 5.011227255423254}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">has_val</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">filtered_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span> <span class="k">if</span> <span class="n">has_val</span><span class="p">(</span><span class="n">r</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">filtered_rows</span><span class="p">:</span>
+    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;child_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">])</span>
+    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_rows</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>child</th>
+      <th>parent</th>
+      <th>predicate</th>
+      <th>7227</th>
+      <th>10090</th>
+      <th>child_label</th>
+      <th>parent_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0000001</td>
+      <td>GO:0005739</td>
+      <td>obo:GOREL_0002003</td>
+      <td>7.813781</td>
+      <td>NaN</td>
+      <td>mitochondrion inheritance</td>
+      <td>mitochondrion</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0000001</td>
+      <td>GO:0048308</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>mitochondrion inheritance</td>
+      <td>organelle inheritance</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0000001</td>
+      <td>GO:0048311</td>
+      <td>rdfs:subClassOf</td>
+      <td>1.459432</td>
+      <td>NaN</td>
+      <td>mitochondrion inheritance</td>
+      <td>mitochondrion distribution</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0000002</td>
+      <td>GO:0007005</td>
+      <td>rdfs:subClassOf</td>
+      <td>4.650254</td>
+      <td>3.865499</td>
+      <td>mitochondrial genome maintenance</td>
+      <td>mitochondrion organization</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0000009</td>
+      <td>GO:0000030</td>
+      <td>rdfs:subClassOf</td>
+      <td>3.321928</td>
+      <td>3.643856</td>
+      <td>alpha-1,6-mannosyltransferase activity</td>
+      <td>mannosyltransferase activity</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>49354</th>
+      <td>GO:2001306</td>
+      <td>GO:1901617</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>7.491853</td>
+      <td>lipoxin B4 biosynthetic process</td>
+      <td>organic hydroxy compound biosynthetic process</td>
+    </tr>
+    <tr>
+      <th>49355</th>
+      <td>GO:2001306</td>
+      <td>GO:2001301</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>2.000000</td>
+      <td>lipoxin B4 biosynthetic process</td>
+      <td>lipoxin biosynthetic process</td>
+    </tr>
+    <tr>
+      <th>49356</th>
+      <td>GO:2001306</td>
+      <td>GO:2001304</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>lipoxin B4 biosynthetic process</td>
+      <td>lipoxin B4 metabolic process</td>
+    </tr>
+    <tr>
+      <th>49357</th>
+      <td>GO:2001311</td>
+      <td>GO:0006650</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>7.049849</td>
+      <td>lysobisphosphatidic acid metabolic process</td>
+      <td>glycerophospholipid metabolic process</td>
+    </tr>
+    <tr>
+      <th>49358</th>
+      <td>GO:2001311</td>
+      <td>GO:0052646</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>2.807355</td>
+      <td>lysobisphosphatidic acid metabolic process</td>
+      <td>alditol phosphate metabolic process</td>
+    </tr>
+  </tbody>
+</table>
+<p>49359 rows × 7 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>results
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+mkdir: results: File exists
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">old_matrix_by_taxon</span> <span class="o">=</span> <span class="n">matrix_by_taxon</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -23,18 +23,18 @@ URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [Class](Class.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [HasLifeCycle](HasLifeCycle.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
 | [Property](Property.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Class](Class.md) |  |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Image](Image.md) |  |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [HasLifeCycle](HasLifeCycle.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 
 
 

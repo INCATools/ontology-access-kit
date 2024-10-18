@@ -1,0 +1,744 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "32a2e447",
+   "metadata": {},
+   "source": [
+    "# OAK relationships command\n",
+    "\n",
+    "This notebook is intended as a supplement to the [main OAK CLI docs](https://incatools.github.io/ontology-access-kit/cli.html).\n",
+    "\n",
+    "This notebook provides examples for the `relationships` command, which can be used to lookup direct and inferred relationships\n",
+    "between entities in ontologies.\n",
+    "\n",
+    "Overall background on the concepts here can be found in the [OAK Guide to Graphs and Relationships](https://incatools.github.io/ontology-access-kit/guide/relationships-and-graphs.html).\n",
+    "\n",
+    "## Help Option\n",
+    "\n",
+    "You can get help on any OAK command using `--help`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "97ed8cee",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T22:17:52.798918Z",
+     "start_time": "2024-04-19T22:17:50.223140Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Usage: runoak relationships [OPTIONS] [TERMS]...\r\n",
+      "\r\n",
+      "  Show all relationships for a term or terms\r\n",
+      "\r\n",
+      "  By default, this shows all relationships where the input term(s) are the\r\n",
+      "  *subjects*\r\n",
+      "\r\n",
+      "  Example:\r\n",
+      "\r\n",
+      "      runoak -i cl.db relationships CL:4023094\r\n",
+      "\r\n",
+      "  Like all OAK commands, a label can be passed instead of a CURIE\r\n",
+      "\r\n",
+      "  Example:\r\n",
+      "\r\n",
+      "      runoak -i cl.db relationships neuron\r\n",
+      "\r\n",
+      "  To reverse the direction, and query where the search term(s) are *objects*,\r\n",
+      "  use the --direction flag:\r\n",
+      "\r\n",
+      "  Example:\r\n",
+      "\r\n",
+      "      runoak -i cl.db relationships --direction down neuron\r\n",
+      "\r\n",
+      "  Multiple terms can be passed\r\n",
+      "\r\n",
+      "  Example:\r\n",
+      "\r\n",
+      "      runoak -i uberon.db relationships heart liver lung\r\n",
+      "\r\n",
+      "  And like all OAK commands, a query can be passed rather than an explicit\r\n",
+      "  term list\r\n",
+      "\r\n",
+      "  The following query lists all arteries in the limb together which what\r\n",
+      "  structures they supply\r\n",
+      "\r\n",
+      "  Query:\r\n",
+      "\r\n",
+      "      runoak -i uberon.db relationships -p RO:0002178 .desc//p=i \"artery\" .and\r\n",
+      "      .desc//p=i,p \"limb\"\r\n",
+      "\r\n",
+      "  More examples:\r\n",
+      "\r\n",
+      "     https://github.com/INCATools/ontology-access-\r\n",
+      "     kit/blob/main/notebooks/Commands/Relationships.ipynb\r\n",
+      "\r\n",
+      "  Python API:\r\n",
+      "\r\n",
+      "     https://incatools.github.io/ontology-access-kit/interfaces/basic\r\n",
+      "\r\n",
+      "Options:\r\n",
+      "  -p, --predicates TEXT           A comma-separated list of predicates. This\r\n",
+      "                                  may be a shorthand (i, p) or CURIE\r\n",
+      "  --direction [up|down|both]      direction of traversal over edges, which up\r\n",
+      "                                  is subject to object, down is object to\r\n",
+      "                                  subject.\r\n",
+      "  --autolabel / --no-autolabel    If set, results will automatically have\r\n",
+      "                                  labels assigned  [default: autolabel]\r\n",
+      "  -O, --output-type TEXT          Desired output type\r\n",
+      "  -o, --output FILENAME           Output file, e.g. obo file\r\n",
+      "  --if-absent [absent-only|present-only]\r\n",
+      "                                  determines behavior when the value is not\r\n",
+      "                                  present or is empty.\r\n",
+      "  -S, --set-value TEXT            the value to set for all terms for the given\r\n",
+      "                                  property.\r\n",
+      "  --include-entailed / --no-include-entailed\r\n",
+      "                                  Include entailed indirect relationships\r\n",
+      "                                  [default: no-include-entailed]\r\n",
+      "  --non-redundant-entailed / --no-non-redundant-entailed\r\n",
+      "                                  Include entailed but exclude entailed\r\n",
+      "                                  redundant relationships  [default: no-non-\r\n",
+      "                                  redundant-entailed]\r\n",
+      "  --include-tbox / --no-include-tbox\r\n",
+      "                                  Include class-class relationships (subclass\r\n",
+      "                                  and existentials)  [default: include-tbox]\r\n",
+      "  --include-abox / --no-include-abox\r\n",
+      "                                  Include instance relationships (class and\r\n",
+      "                                  object property assertions)  [default:\r\n",
+      "                                  include-abox]\r\n",
+      "  --include-metadata / --no-include-metadata\r\n",
+      "                                  Include metadata (axiom annotations)\r\n",
+      "                                  [default: no-include-metadata]\r\n",
+      "  --help                          Show this message and exit.\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!runoak relationships --help"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1f933146",
+   "metadata": {},
+   "source": [
+    "## Set up an alias\n",
+    "\n",
+    "For convenience we will set up an alias for use in this notebook. This will allow us to use `uberon ...` rather than `runoak -i sqlite:obo:uberon ...` for the rest of the notebook."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "29d2249a",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:06:44.192590Z",
+     "start_time": "2024-04-19T19:06:44.188656Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "alias uberon runoak -i sqlite:obo:uberon"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1a7c69d7",
+   "metadata": {},
+   "source": [
+    "## Direct relationships for a subject term\n",
+    "\n",
+    "First we will look up the direct [asserted](https://incatools.github.io/ontology-access-kit/glossary.html#term-Asserted) relationships in Uberon with `finger` as the subject term."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "2c406bc1",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:06:47.918434Z",
+     "start_time": "2024-04-19T19:06:44.193418Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0002102\tforelimb\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:5002389\tmanual digit plus metapodial segment\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0002544\tdigit\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships finger"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "Like most OAK commands, the `relationships` command can take lists of labels, lists of IDs, or even complex query terms (which might themselves involve graphs)."
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "860ef175aa0e1bb8"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "70acf6ae",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:10:02.524364Z",
+     "start_time": "2024-04-19T19:09:59.249190Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0001466\tpedal digit\tBFO:0000050\tpart of\tUBERON:0002387\tpes\r\n",
+      "UBERON:0001466\tpedal digit\tBFO:0000050\tpart of\tUBERON:0012142\tpedal digitopodium region\r\n",
+      "UBERON:0001466\tpedal digit\tBFO:0000050\tpart of\tUBERON:5001466\tpedal digit plus metapodial segment\r\n",
+      "UBERON:0001466\tpedal digit\trdfs:subClassOf\tNone\tUBERON:0002544\tdigit\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0002102\tforelimb\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:5002389\tmanual digit plus metapodial segment\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0002544\tdigit\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships finger toe"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "Next we will show all direct relationships for all is-a descendants of `finger`."
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "747e2b9c7333997b"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "84dc3c97",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:10:29.447982Z",
+     "start_time": "2024-04-19T19:10:24.216377Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0001463\tmanual digit 1\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0001463\tmanual digit 1\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0001463\tmanual digit 1\tBFO:0000050\tpart of\tUBERON:5001463\tmanual digit 1 plus metapodial segment\r\n",
+      "UBERON:0001463\tmanual digit 1\tBSPO:0001113\tpreaxialmost part of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0001463\tmanual digit 1\trdfs:subClassOf\tNone\tUBERON:0006048\tdigit 1\r\n",
+      "UBERON:0001463\tmanual digit 1\trdfs:subClassOf\tNone\tUBERON:0019231\tmanual digit 1 or 5\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0002102\tforelimb\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0002389\tmanual digit\tBFO:0000050\tpart of\tUBERON:5002389\tmanual digit plus metapodial segment\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0002544\tdigit\r\n",
+      "UBERON:0003622\tmanual digit 2\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0003622\tmanual digit 2\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0003622\tmanual digit 2\tBFO:0000050\tpart of\tUBERON:5003622\tmanual digit 2 plus metapodial segment\r\n",
+      "UBERON:0003622\tmanual digit 2\trdfs:subClassOf\tNone\tUBERON:0006049\tdigit 2\r\n",
+      "UBERON:0003622\tmanual digit 2\trdfs:subClassOf\tNone\tUBERON:0019232\tmanual digit 2, 3 or 4\r\n",
+      "UBERON:0003623\tmanual digit 3\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0003623\tmanual digit 3\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0003623\tmanual digit 3\tBFO:0000050\tpart of\tUBERON:5003623\tmanual digit 3 plus metapodial segment\r\n",
+      "UBERON:0003623\tmanual digit 3\trdfs:subClassOf\tNone\tUBERON:0006050\tdigit 3\r\n",
+      "UBERON:0003623\tmanual digit 3\trdfs:subClassOf\tNone\tUBERON:0019232\tmanual digit 2, 3 or 4\r\n",
+      "UBERON:0003624\tmanual digit 4\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0003624\tmanual digit 4\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0003624\tmanual digit 4\tBFO:0000050\tpart of\tUBERON:5003624\tmanual digit 4 plus metapodial segment\r\n",
+      "UBERON:0003624\tmanual digit 4\trdfs:subClassOf\tNone\tUBERON:0006051\tdigit 4\r\n",
+      "UBERON:0003624\tmanual digit 4\trdfs:subClassOf\tNone\tUBERON:0019232\tmanual digit 2, 3 or 4\r\n",
+      "UBERON:0003625\tmanual digit 5\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0003625\tmanual digit 5\tBFO:0000050\tpart of\tUBERON:0012141\tmanual digitopodium region\r\n",
+      "UBERON:0003625\tmanual digit 5\tBFO:0000050\tpart of\tUBERON:5003625\tmanual digit 5 plus metapodial segment\r\n",
+      "UBERON:0003625\tmanual digit 5\trdfs:subClassOf\tNone\tUBERON:0006052\tdigit 5\r\n",
+      "UBERON:0003625\tmanual digit 5\trdfs:subClassOf\tNone\tUBERON:0019231\tmanual digit 1 or 5\r\n",
+      "UBERON:0008444\twebbed manual digit\tBFO:0000050\tpart of\tUBERON:0008441\twebbed manus\r\n",
+      "UBERON:0008444\twebbed manual digit\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0008444\twebbed manual digit\trdfs:subClassOf\tNone\tUBERON:0008443\twebbed digit\r\n",
+      "UBERON:0011981\tmanual digit 6\tBFO:0000050\tpart of\tUBERON:5011981\tmanual digit 6 plus metapodial segment\r\n",
+      "UBERON:0011981\tmanual digit 6\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0011981\tmanual digit 6\trdfs:subClassOf\tNone\tUBERON:0016856\tdigit 6\r\n",
+      "UBERON:0011982\tmanual digit 7\tBFO:0000050\tpart of\tUBERON:5011982\tmanual digit 7 plus metapodial segment\r\n",
+      "UBERON:0011982\tmanual digit 7\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0011982\tmanual digit 7\trdfs:subClassOf\tNone\tUBERON:0016857\tdigit 7\r\n",
+      "UBERON:0011983\tmanual digit 8\tBFO:0000050\tpart of\tUBERON:5011983\tmanual digit 8 plus metapodial segment\r\n",
+      "UBERON:0011983\tmanual digit 8\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0011983\tmanual digit 8\trdfs:subClassOf\tNone\tUBERON:0016858\tdigit 8\r\n",
+      "UBERON:0012260\talular digit\tBFO:0000050\tpart of\tUBERON:5012260\talular digit plus metapodial segment\r\n",
+      "UBERON:0012260\talular digit\tBSPO:0001113\tpreaxialmost part of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0012260\talular digit\tRO:0002160\tonly in taxon\tNCBITaxon:8782\tAves\r\n",
+      "UBERON:0012260\talular digit\tRO:0002254\thas developmental contribution from\tUBERON:0005692\tmanual digit 2 mesenchyme\r\n",
+      "UBERON:0012260\talular digit\tRO:0002254\thas developmental contribution from\tUBERON:0010564\tmanual digit 1 mesenchyme\r\n",
+      "UBERON:0012260\talular digit\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0012261\tmanual major digit (Aves)\tBFO:0000050\tpart of\tUBERON:5012261\tmanual major digit (Aves) plus metapodial segment\r\n",
+      "UBERON:0012261\tmanual major digit (Aves)\tRO:0002160\tonly in taxon\tNCBITaxon:8782\tAves\r\n",
+      "UBERON:0012261\tmanual major digit (Aves)\tRO:0002254\thas developmental contribution from\tUBERON:0005693\tmanual digit 3 mesenchyme\r\n",
+      "UBERON:0012261\tmanual major digit (Aves)\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0012262\tmanual minor digit (Aves)\tBFO:0000050\tpart of\tUBERON:5012262\tmanual minor digit (Aves) plus metapodial segment\r\n",
+      "UBERON:0012262\tmanual minor digit (Aves)\tBSPO:0001115\tpostaxialmost part of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0012262\tmanual minor digit (Aves)\tRO:0002160\tonly in taxon\tNCBITaxon:8782\tAves\r\n",
+      "UBERON:0012262\tmanual minor digit (Aves)\tRO:0002254\thas developmental contribution from\tUBERON:0005694\tmanual digit 4 mesenchyme\r\n",
+      "UBERON:0012262\tmanual minor digit (Aves)\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0019231\tmanual digit 1 or 5\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0019231\tmanual digit 1 or 5\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0019231\tmanual digit 1 or 5\trdfs:subClassOf\tNone\tUBERON:0019221\tdigit 1 or 5\r\n",
+      "UBERON:0019232\tmanual digit 2, 3 or 4\tBFO:0000050\tpart of\tUBERON:0002398\tmanus\r\n",
+      "UBERON:0019232\tmanual digit 2, 3 or 4\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0019232\tmanual digit 2, 3 or 4\trdfs:subClassOf\tNone\tUBERON:0019222\tdigit 2, 3 or 4\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships .desc//p=i finger"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "We can write this out to a file and explore it using pandas.\n",
+    "\n",
+    "(we use pandas here as this is convenient for Jupyter notebooks but if you were to execute this on the command line you could use any TSV or tabular tool you like)"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "edf4f8d768c91e3f"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "7d7574ba",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:11:20.714954Z",
+     "start_time": "2024-04-19T19:11:15.352017Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "uberon relationships .desc//p=i finger -o output/finger-relationships.tsv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "cf691c34",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:11:20.968690Z",
+     "start_time": "2024-04-19T19:11:20.715483Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "c68535b0",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:11:20.993998Z",
+     "start_time": "2024-04-19T19:11:20.969074Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": "           subject           subject_label        predicate  \\\n0   UBERON:0001463          manual digit 1      BFO:0000050   \n1   UBERON:0001463          manual digit 1      BFO:0000050   \n2   UBERON:0001463          manual digit 1      BFO:0000050   \n3   UBERON:0001463          manual digit 1     BSPO:0001113   \n4   UBERON:0001463          manual digit 1  rdfs:subClassOf   \n..             ...                     ...              ...   \n59  UBERON:0019231     manual digit 1 or 5  rdfs:subClassOf   \n60  UBERON:0019231     manual digit 1 or 5  rdfs:subClassOf   \n61  UBERON:0019232  manual digit 2, 3 or 4      BFO:0000050   \n62  UBERON:0019232  manual digit 2, 3 or 4  rdfs:subClassOf   \n63  UBERON:0019232  manual digit 2, 3 or 4  rdfs:subClassOf   \n\n         predicate_label          object  \\\n0                part of  UBERON:0002398   \n1                part of  UBERON:0012141   \n2                part of  UBERON:5001463   \n3   preaxialmost part of  UBERON:0002398   \n4                    NaN  UBERON:0006048   \n..                   ...             ...   \n59                   NaN  UBERON:0002389   \n60                   NaN  UBERON:0019221   \n61               part of  UBERON:0002398   \n62                   NaN  UBERON:0002389   \n63                   NaN  UBERON:0019222   \n\n                              object_label  \n0                                    manus  \n1               manual digitopodium region  \n2   manual digit 1 plus metapodial segment  \n3                                    manus  \n4                                  digit 1  \n..                                     ...  \n59                            manual digit  \n60                            digit 1 or 5  \n61                                   manus  \n62                            manual digit  \n63                         digit 2, 3 or 4  \n\n[64 rows x 6 columns]",
+      "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>subject</th>\n      <th>subject_label</th>\n      <th>predicate</th>\n      <th>predicate_label</th>\n      <th>object</th>\n      <th>object_label</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>UBERON:0001463</td>\n      <td>manual digit 1</td>\n      <td>BFO:0000050</td>\n      <td>part of</td>\n      <td>UBERON:0002398</td>\n      <td>manus</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>UBERON:0001463</td>\n      <td>manual digit 1</td>\n      <td>BFO:0000050</td>\n      <td>part of</td>\n      <td>UBERON:0012141</td>\n      <td>manual digitopodium region</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>UBERON:0001463</td>\n      <td>manual digit 1</td>\n      <td>BFO:0000050</td>\n      <td>part of</td>\n      <td>UBERON:5001463</td>\n      <td>manual digit 1 plus metapodial segment</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>UBERON:0001463</td>\n      <td>manual digit 1</td>\n      <td>BSPO:0001113</td>\n      <td>preaxialmost part of</td>\n      <td>UBERON:0002398</td>\n      <td>manus</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>UBERON:0001463</td>\n      <td>manual digit 1</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>UBERON:0006048</td>\n      <td>digit 1</td>\n    </tr>\n    <tr>\n      <th>...</th>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n    </tr>\n    <tr>\n      <th>59</th>\n      <td>UBERON:0019231</td>\n      <td>manual digit 1 or 5</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>UBERON:0002389</td>\n      <td>manual digit</td>\n    </tr>\n    <tr>\n      <th>60</th>\n      <td>UBERON:0019231</td>\n      <td>manual digit 1 or 5</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>UBERON:0019221</td>\n      <td>digit 1 or 5</td>\n    </tr>\n    <tr>\n      <th>61</th>\n      <td>UBERON:0019232</td>\n      <td>manual digit 2, 3 or 4</td>\n      <td>BFO:0000050</td>\n      <td>part of</td>\n      <td>UBERON:0002398</td>\n      <td>manus</td>\n    </tr>\n    <tr>\n      <th>62</th>\n      <td>UBERON:0019232</td>\n      <td>manual digit 2, 3 or 4</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>UBERON:0002389</td>\n      <td>manual digit</td>\n    </tr>\n    <tr>\n      <th>63</th>\n      <td>UBERON:0019232</td>\n      <td>manual digit 2, 3 or 4</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>UBERON:0019222</td>\n      <td>digit 2, 3 or 4</td>\n    </tr>\n  </tbody>\n</table>\n<p>64 rows × 6 columns</p>\n</div>"
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df = pd.read_csv(\"output/finger-relationships.tsv\", sep=\"\\t\")\n",
+    "df"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9611f196",
+   "metadata": {},
+   "source": [
+    "## Entailments\n",
+    "\n",
+    "Next we will look at [Entailed](https://incatools.github.io/ontology-access-kit/glossary.html#term-Entailed) relationships.\n",
+    "\n",
+    "You are encouraged to consult the OAK guide and glossary here but the basic idea is that entailed relationships\n",
+    "encompasses \"walking up\" the relationship graph, following a specified set of [predicates](https://incatools.github.io/ontology-access-kit/glossary.html#term-Predicate).\n",
+    "\n",
+    "First we'll look at the is-a ancestors of `finger`. Note the results here should be the same as using the  `ancestors` command:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "38a93c7d",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:12:50.442368Z",
+     "start_time": "2024-04-19T19:12:48.002563Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tBFO:0000001\tentity\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tBFO:0000002\tcontinuant\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tBFO:0000004\tindependent continuant\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tBFO:0000040\tmaterial entity\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0000061\tanatomical structure\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0000465\tmaterial anatomical entity\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0000475\torganism subdivision\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0001062\tanatomical entity\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0002389\tmanual digit\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0002544\tdigit\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0005881\tautopodial extension\r\n",
+      "UBERON:0002389\tmanual digit\trdfs:subClassOf\tNone\tUBERON:0010000\tmulticellular anatomical structure\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships finger --include-entailed -p i"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "Next we'll include a wider range of predicates. We'll also switch our example to be `trigeminal ganglion`"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "a94e156d1089947"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tBFO:0000001\tentity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tBFO:0000002\tcontinuant\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tBFO:0000004\tindependent continuant\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tBFO:0000040\tmaterial entity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tRO:0002577\tsystem\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000033\thead\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000061\tanatomical structure\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000153\tanterior region of body\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000465\tmaterial anatomical entity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000467\tanatomical system\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000468\tmulticellular organism\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000475\torganism subdivision\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0001016\tnervous system\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0001062\tanatomical entity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0007811\tcraniocervical region\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0010000\tmulticellular anatomical structure\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0011676\tsubdivision of organism along main body axis\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0013701\tmain body axis\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0013702\tbody proper\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tBFO:0000001\tentity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tBFO:0000002\tcontinuant\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tBFO:0000004\tindependent continuant\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tBFO:0000040\tmaterial entity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0000045\tganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0000061\tanatomical structure\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0000465\tmaterial anatomical entity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001062\tanatomical entity\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001675\ttrigeminal ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001714\tcranial ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001800\tsensory ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0004121\tectoderm-derived structure\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0010313\tneural crest-derived structure\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0010314\tstructure with developmental contribution from neural crest\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships \"trigeminal ganglion\" --include-entailed -p i,p"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:26:17.932863Z",
+     "start_time": "2024-04-19T19:26:15.284612Z"
+    }
+   },
+   "id": "55d23e285bea8695"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "We can see if the query above we get a lot of entailed relationships! Usually we wouldn't show this as a table to a user - instead we might use the `viz` command to show all individual direct relationships for all ancestors."
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "788270cee6bad9ca"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "outputs": [],
+   "source": [
+    "uberon viz -p i,p \"trigeminal ganglion\" -o output/trigeminal-ganglion-graph.png"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-04-19T19:27:47.848838Z",
+     "start_time": "2024-04-19T19:27:41.902477Z"
+    }
+   },
+   "id": "60354b36cc783e26"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "![img](output/trigeminal-ganglion-graph.png)"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "3fdad80da90a38aa"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "This is a standard way of communicating a complex bundle of relationships. But is there a way of getting the *non-redundant* informative entailed relationships in a more concise way?"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "30177ec6b27b30c0"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## Non-redundant entailed relationships\n",
+    "\n",
+    "Is there a way to get the most relevant information in a more concise way, as a table.\n",
+    "\n",
+    "Let's consider the term \"trigeminal ganglion\" again. Let's look at direct relationships"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "914b45da1e52ef8d"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "767d220d",
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-04-19T22:09:26.325020Z",
+     "start_time": "2024-04-19T22:09:22.451109Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001714\tcranial ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001800\tsensory ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0010313\tneural crest-derived structure\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships uberon relationships \"trigeminal ganglion\" -p i,p"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "These are all correct but don't tell us what this ganglion is a part of. Using the `--include-entailed` option above gives **too much** information.\n",
+    "\n",
+    "OAK now has a `--non-redundant-entailed` option which effectively \"rolls down\" the entailed relationships for each predicate:"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "cd462f9b9e3f413c"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tRO:0002577\tsystem\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0000033\thead\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tUBERON:0001016\tnervous system\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001714\tcranial ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001800\tsensory ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0010313\tneural crest-derived structure\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships uberon relationships --non-redundant-entailed \"trigeminal ganglion\" -p i,p"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-04-19T22:09:41.578453Z",
+     "start_time": "2024-04-19T22:09:38.750423Z"
+    }
+   },
+   "id": "23cee5fd3df60b5c"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "Note that even though 3 part-parents are provided, these are all technically non-redundant, as they are all \"proper\" overlaps (the `system` term is odd, but this is an artefact of RO imports, and in fact uberon doesn't place 'nervous system' under 'system')"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "64031e20457ec269"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "We can do this for other relationships too:"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "a550c9cc75bb8043"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "subject\tsubject_label\tpredicate\tpredicate_label\tobject\tobject_label\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000050\tpart of\tRO:0002577\tsystem\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tBFO:0000051\thas part\tUBERON:0003714\tneural tissue\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002131\toverlaps\tRO:0002577\tsystem\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002131\toverlaps\tUBERON:0003714\tneural tissue\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002162\tin taxon\tNCBITaxon:7742\tVertebrata <vertebrates>\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002170\tconnected to\tUBERON:0001027\tsensory nerve\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002170\tconnected to\tUBERON:0001645\ttrigeminal nerve\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002202\tdevelops from\tUBERON:0006304\tfuture trigeminal ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002207\tdirectly develops from\tUBERON:0006304\tfuture trigeminal ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002225\tdevelops from part of\tUBERON:0000922\tembryo\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002254\thas developmental contribution from\tUBERON:0006304\tfuture trigeminal ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002258\tdevelopmentally preceded by\tUBERON:0006304\tfuture trigeminal ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002328\tfunctionally related to\tGO:0019226\ttransmission of nerve impulse\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002329\tpart of structure that is capable of\tGO:0050877\tnervous system process\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002473\tcomposed primarily of\tUBERON:0003714\tneural tissue\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002494\ttransformation of\tUBERON:0006304\tfuture trigeminal ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002495\timmediate transformation of\tUBERON:0006304\tfuture trigeminal ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002496\texistence starts during or after\tUBERON:0000110\tneurula stage\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002496\texistence starts during or after\tUBERON:0000111\torganogenesis stage\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002497\texistence ends during or before\tUBERON:0000066\tfully formed stage\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tRO:0002584\thas part structure that is capable of\tGO:0019226\ttransmission of nerve impulse\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001714\tcranial ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0001800\tsensory ganglion\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\trdfs:subClassOf\tNone\tUBERON:0010313\tneural crest-derived structure\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tuberon/core#extends:fibers_into\tNone\tUBERON:0001027\tsensory nerve\r\n",
+      "UBERON:0001675\ttrigeminal ganglion\tuberon/core#extends:fibers_into\tNone\tUBERON:0001645\ttrigeminal nerve\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "uberon relationships uberon relationships --non-redundant-entailed \"trigeminal ganglion\" "
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-04-19T22:14:43.961052Z",
+     "start_time": "2024-04-19T22:14:40.508242Z"
+    }
+   },
+   "id": "ffccb89f65f605c3"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "outputs": [],
+   "source": [],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "5dd76e24bdc3fea2"
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

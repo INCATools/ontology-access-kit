@@ -23,9 +23,9 @@ URI: [ontoassoc:object_closure_label](https://w3id.org/oak/association/object_cl
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
 
 

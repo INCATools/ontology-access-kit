@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HPO CLI Examples &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="LOINC Examples" href="../LOINC/index.html" />
+    <link rel="prev" title="HP Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">HP Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">HPO CLI Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">HP Examples</a></li>
+      <li class="breadcrumb-item active">HPO CLI Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/HP/HP-CLI-Examples.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="HPO-CLI-Examples">
+<h1>HPO CLI Examples<a class="headerlink" href="#HPO-CLI-Examples" title="Link to this heading"></a></h1>
+<p>The Human Phenotype Ontology (HPO) provides a standardized vocabulary of phenotypic abnormalities encountered in human disease. Each term in the HPO describes a phenotypic abnormality, such as Atrial septal defect.</p>
+<p><strong>OBO URL</strong> <a class="reference external" href="https://obofoundry.org/ontology/hp">https://obofoundry.org/ontology/hp</a></p>
+<section id="Initial-configuration">
+<h2>Initial configuration<a class="headerlink" href="#Initial-configuration" title="Link to this heading"></a></h2>
+<p>Here we set up alias and convenience functions for use in this Jupyter notebook.</p>
+<p>First we will set up an alias for accessing the sqlite version of HPO.</p>
+<p><strong>Note</strong> this only works in a Jupyter notebook context. On the command line, instead do <code class="docutils literal notranslate"><span class="pre">alias</span> <span class="pre">hp=runoak</span> <span class="pre">-i</span> <span class="pre">sqlite:obo:hp</span></code></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openpyxl.styles.builtins</span> <span class="kn">import</span> <span class="n">output</span>
+
+<span class="n">alias</span> <span class="n">hp</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">hp</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>-p<span class="w"> </span>output
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Summary-Statistics">
+<h2>Summary Statistics<a class="headerlink" href="#Summary-Statistics" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">statistics</span> <span class="o">--</span><span class="n">group</span><span class="o">-</span><span class="n">by</span><span class="o">-</span><span class="n">prefix</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">stats</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/stats.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>compared_with</th>
+      <th>agents</th>
+      <th>class_count</th>
+      <th>deprecated_class_count</th>
+      <th>non_deprecated_class_count</th>
+      <th>class_count_with_text_definitions</th>
+      <th>class_count_without_text_definitions</th>
+      <th>object_property_count</th>
+      <th>annotation_property_count</th>
+      <th>...</th>
+      <th>class_count_by_subset_inconsistent_with_fma</th>
+      <th>class_count_by_subset_major_organ</th>
+      <th>class_count_by_subset_non_informative</th>
+      <th>class_count_by_subset_organ_slim</th>
+      <th>class_count_by_subset_pheno_slim</th>
+      <th>class_count_by_subset_phenotype_rcn</th>
+      <th>class_count_by_subset_uberon_slim</th>
+      <th>class_count_by_subset_unverified_taxonomic_grouping</th>
+      <th>class_count_by_subset_upper_level</th>
+      <th>class_count_by_subset_vertebrate_core</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>BFO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11</td>
+      <td>0</td>
+      <td>11</td>
+      <td>0</td>
+      <td>11</td>
+      <td>6</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>BSPO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>26</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CHEBI</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1849</td>
+      <td>1</td>
+      <td>1848</td>
+      <td>1447</td>
+      <td>402</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1151</td>
+      <td>1</td>
+      <td>1150</td>
+      <td>1118</td>
+      <td>33</td>
+      <td>3</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2563</td>
+      <td>2</td>
+      <td>2561</td>
+      <td>2563</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>HP</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19434</td>
+      <td>446</td>
+      <td>18988</td>
+      <td>16398</td>
+      <td>3036</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>HsapDv</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12</td>
+      <td>7</td>
+      <td>5</td>
+      <td>12</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>IAO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>MPATH</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>75</td>
+      <td>0</td>
+      <td>75</td>
+      <td>73</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>NBO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>64</td>
+      <td>0</td>
+      <td>64</td>
+      <td>22</td>
+      <td>42</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>OMO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>PATO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>567</td>
+      <td>0</td>
+      <td>567</td>
+      <td>562</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>PR</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>206</td>
+      <td>0</td>
+      <td>206</td>
+      <td>206</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>RO</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>158</td>
+      <td>2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>UBERON</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5605</td>
+      <td>0</td>
+      <td>5605</td>
+      <td>5130</td>
+      <td>475</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>2.0</td>
+      <td>23.0</td>
+      <td>49.0</td>
+      <td>135.0</td>
+      <td>1724.0</td>
+      <td>8.0</td>
+      <td>899.0</td>
+      <td>2.0</td>
+      <td>50.0</td>
+      <td>462.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>dce</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>dcterms</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>obo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>32</td>
+      <td>83</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>oio</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>19</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>owl</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>rdfs</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>21 rows × 541 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Lookup-by-Label">
+<h2>Lookup by Label<a class="headerlink" href="#Lookup-by-Label" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">info</span> <span class="s1">&#39;Tibial bowing&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0002982 ! Tibial bowing
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">info</span> <span class="s1">&#39;Short tibia&#39;</span> <span class="s1">&#39;Tibial bowing&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0005736 ! Short tibia
+HP:0002982 ! Tibial bowing
+</pre></div></div>
+</div>
+</section>
+<section id="Search">
+<h2>Search<a class="headerlink" href="#Search" title="Link to this heading"></a></h2>
+<p>We can use the OAK search syntax to find labels with a partial match to “tibia”</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">info</span> <span class="n">l</span><span class="o">~</span><span class="n">tibia</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0002982 ! Tibial bowing
+HP:0002992 ! Abnormal tibia morphology
+HP:0003832 ! Abnormality of the tibial plateaux
+HP:0003833 ! Laterally deficient tibial plateaux
+HP:0005028 ! Widened proximal tibial metaphyses
+HP:0005736 ! Short tibia
+HP:0005766 ! Disproportionate shortening of the tibia
+HP:0005772 ! Aplasia/Hypoplasia of the tibia
+HP:0005892 ! Proximal tibial and fibular fusion
+HP:0005929 ! Synostosis involving the tibia
+HP:0006379 ! Proximal tibial hypoplasia
+HP:0006390 ! Anterior tibial bowing
+HP:0006413 ! Broad tibial metaphyses
+HP:0006414 ! Distal tibial bowing
+HP:0006423 ! Peg-like central prominence of distal tibial metaphyses
+HP:0006426 ! Rudimentary to absent tibiae
+HP:0006436 ! obsolete Shortening of the tibia
+HP:0006456 ! Irregular proximal tibial epiphyses
+HP:0006491 ! Abnormal tibial metaphysis morphology
+HP:0006508 ! Abnormality of tibial epiphyses
+HP:0008963 ! Tibialis muscle weakness
+HP:0009556 ! Absent tibia
+HP:0009736 ! Tibial pseudarthrosis
+HP:0010504 ! Increased length of the tibia
+HP:0010591 ! Abnormality of the proximal tibial epiphysis
+HP:0010592 ! Abnormality of the distal tibial epiphysis
+HP:0011399 ! Tibialis anterior muscle atrophy
+HP:0012221 ! Pretibial blistering
+HP:0012284 ! Small proximal tibial epiphyses
+HP:0012564 ! Premature epimetaphyseal fusion in tibia
+HP:0030292 ! Tibial metaphyseal irregularity
+HP:0030294 ! Metaphyseal chondromatosis of tibia
+HP:0030308 ! Flared distal tibial metaphysis
+HP:0031173 ! Tibial spur
+HP:0031260 ! Triangular tibia
+HP:0031305 ! Tibial arterial calcification
+HP:0032538 ! Pretibial dimple
+HP:0034372 ! Internal tibial torsion
+HP:0034373 ! External tibial torsion
+HP:0034517 ! Pretibial hyperpigmentation
+HP:0041089 ! Avulsion fractured tibia
+HP:0041143 ! Fractured tibia
+HP:0100341 ! Tibial deviation of the 4th toe
+HP:0100343 ! Tibial deviation of the 3rd toe
+HP:0100345 ! Tibial deviation of the 2nd toe
+HP:0100347 ! Tibial deviation of the 5th toe
+HP:0100499 ! Tibial deviation of toes
+HP:0100694 ! Tibial torsion
+HP:0200028 ! Pretibial myxedema
+HP:6000778 ! Cone-shaped distal tibial epiphysis
+HP:6000809 ! Thickened tibial cortex
+HP:6000867 ! Delayed tibial epiphyseal ossification
+HP:6000886 ! Enlarged distal tibial epiphysis
+HP:6000951 ! Flared proximal tibial metaphysis
+UBERON:0000313 ! portion of cartilage tissue in tibia
+UBERON:0000979 ! tibia
+UBERON:0001323 ! tibial nerve
+UBERON:0001385 ! tibialis anterior
+UBERON:0001545 ! anterior tibial vein
+UBERON:0001546 ! posterior tibial vein
+UBERON:0001667 ! tibialis posterior
+UBERON:0004098 ! tibial plateaux
+UBERON:0004383 ! epiphysis of tibia
+UBERON:0004405 ! distal epiphysis of tibia
+UBERON:0004499 ! skeletal muscle tissue of tibialis anterior
+UBERON:0007610 ! tibial artery
+UBERON:0008230 ! tibialis
+UBERON:0008772 ! proximal epiphysis of tibia
+UBERON:0009989 ! condyle of tibia
+UBERON:0010370 ! tibial vein
+UBERON:0010849 ! tibia cartilage element
+UBERON:0010850 ! tibia pre-cartilage condensation
+UBERON:0013280 ! diaphysis of tibia
+UBERON:0013750 ! metaphysis of tibia
+UBERON:0015004 ! tibia endochondral element
+UBERON:7500062 ! tibial tuberosity
+</pre></div></div>
+</div>
+<p>Note that the OWL version of HP includes merged imports of parts of other ontologies. To constrain search to only HPO we can do a conjunction query with ID space:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">info</span> <span class="n">l</span><span class="o">~</span><span class="n">tibia</span> <span class="o">.</span><span class="ow">and</span> <span class="n">i</span><span class="o">^</span><span class="n">HP</span><span class="p">:</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0002982 ! Tibial bowing
+HP:0002992 ! Abnormal tibia morphology
+HP:0003832 ! Abnormality of the tibial plateaux
+HP:0003833 ! Laterally deficient tibial plateaux
+HP:0005028 ! Widened proximal tibial metaphyses
+HP:0005736 ! Short tibia
+HP:0005766 ! Disproportionate shortening of the tibia
+HP:0005772 ! Aplasia/Hypoplasia of the tibia
+HP:0005892 ! Proximal tibial and fibular fusion
+HP:0005929 ! Synostosis involving the tibia
+HP:0006379 ! Proximal tibial hypoplasia
+HP:0006390 ! Anterior tibial bowing
+HP:0006413 ! Broad tibial metaphyses
+HP:0006414 ! Distal tibial bowing
+HP:0006423 ! Peg-like central prominence of distal tibial metaphyses
+HP:0006426 ! Rudimentary to absent tibiae
+HP:0006436 ! obsolete Shortening of the tibia
+HP:0006456 ! Irregular proximal tibial epiphyses
+HP:0006491 ! Abnormal tibial metaphysis morphology
+HP:0006508 ! Abnormality of tibial epiphyses
+HP:0008963 ! Tibialis muscle weakness
+HP:0009556 ! Absent tibia
+HP:0009736 ! Tibial pseudarthrosis
+HP:0010504 ! Increased length of the tibia
+HP:0010591 ! Abnormality of the proximal tibial epiphysis
+HP:0010592 ! Abnormality of the distal tibial epiphysis
+HP:0011399 ! Tibialis anterior muscle atrophy
+HP:0012221 ! Pretibial blistering
+HP:0012284 ! Small proximal tibial epiphyses
+HP:0012564 ! Premature epimetaphyseal fusion in tibia
+HP:0030292 ! Tibial metaphyseal irregularity
+HP:0030294 ! Metaphyseal chondromatosis of tibia
+HP:0030308 ! Flared distal tibial metaphysis
+HP:0031173 ! Tibial spur
+HP:0031260 ! Triangular tibia
+HP:0031305 ! Tibial arterial calcification
+HP:0032538 ! Pretibial dimple
+HP:0034372 ! Internal tibial torsion
+HP:0034373 ! External tibial torsion
+HP:0034517 ! Pretibial hyperpigmentation
+HP:0041089 ! Avulsion fractured tibia
+HP:0041143 ! Fractured tibia
+HP:0100341 ! Tibial deviation of the 4th toe
+HP:0100343 ! Tibial deviation of the 3rd toe
+HP:0100345 ! Tibial deviation of the 2nd toe
+HP:0100347 ! Tibial deviation of the 5th toe
+HP:0100499 ! Tibial deviation of toes
+HP:0100694 ! Tibial torsion
+HP:0200028 ! Pretibial myxedema
+HP:6000778 ! Cone-shaped distal tibial epiphysis
+HP:6000809 ! Thickened tibial cortex
+HP:6000867 ! Delayed tibial epiphyseal ossification
+HP:6000886 ! Enlarged distal tibial epiphysis
+HP:6000951 ! Flared proximal tibial metaphysis
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">labels</span> <span class="n">l</span><span class="o">~</span><span class="n">tibia</span> <span class="o">&gt;</span> <span class="n">output</span><span class="o">/</span><span class="n">search</span><span class="o">-</span><span class="n">tibia</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/search-tibia.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>HP:0002982</td>
+      <td>Tibial bowing</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>HP:0002992</td>
+      <td>Abnormal tibia morphology</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>HP:0003832</td>
+      <td>Abnormality of the tibial plateaux</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>HP:0003833</td>
+      <td>Laterally deficient tibial plateaux</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>HP:0005028</td>
+      <td>Widened proximal tibial metaphyses</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>UBERON:0010850</td>
+      <td>tibia pre-cartilage condensation</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>UBERON:0013280</td>
+      <td>diaphysis of tibia</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>UBERON:0013750</td>
+      <td>metaphysis of tibia</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>UBERON:0015004</td>
+      <td>tibia endochondral element</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>UBERON:7500062</td>
+      <td>tibial tuberosity</td>
+    </tr>
+  </tbody>
+</table>
+<p>76 rows × 2 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Basic-Lookup">
+<h2>Basic Lookup<a class="headerlink" href="#Basic-Lookup" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">info</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0002982</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0002982 ! Tibial bowing
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">info</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0002982</span> <span class="o">-</span><span class="n">O</span> <span class="n">obo</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Term]
+id: HP:0002982
+name: Tibial bowing
+def: &#34;A bending or abnormal curvature of the tibia.&#34; [orcid:0000-0002-0736-9199]
+xref: UMLS:C1837081
+subset: hposlim_core
+synonym: &#34;Bowed shankbone&#34; EXACT [orcid:0000-0001-5208-3432]
+synonym: &#34;Bowed shinbone&#34; EXACT [orcid:0000-0001-5208-3432]
+synonym: &#34;Bowed tibia&#34; EXACT []
+synonym: &#34;Bowing of the tibia&#34; EXACT []
+is_a: HP:0002979 ! Bowing of the legs
+is_a: HP:0002992 ! Abnormal tibia morphology
+
+</pre></div></div>
+</div>
+</section>
+<section id="Basic-Graph-Operations">
+<h2>Basic Graph Operations<a class="headerlink" href="#Basic-Graph-Operations" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">ancestors</span> <span class="o">--</span><span class="n">predicates</span> <span class="n">rdfs</span><span class="p">:</span><span class="n">subClassOf</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0002982</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id      label
+HP:0000001      All
+HP:0000118      Phenotypic abnormality
+HP:0000924      Abnormality of the skeletal system
+HP:0000940      Abnormal diaphysis morphology
+HP:0002813      Abnormal limb bone morphology
+HP:0002814      Abnormality of the lower limb
+HP:0002979      Bowing of the legs
+HP:0002981      Abnormality of the calf
+HP:0002982      Tibial bowing
+HP:0002992      Abnormal tibia morphology
+HP:0006487      Bowing of the long bones
+HP:0011314      Abnormal long bone morphology
+HP:0011842      Abnormal skeletal morphology
+HP:0011844      Abnormal appendicular skeleton morphology
+HP:0033127      Abnormality of the musculoskeletal system
+HP:0040064      Abnormality of limbs
+HP:0040068      Abnormality of limb bone
+HP:0040069      Abnormal lower limb bone morphology
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">descendants</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0002982</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HP:0002982 ! Tibial bowing
+HP:0006390 ! Anterior tibial bowing
+HP:0006414 ! Distal tibial bowing
+</pre></div></div>
+</div>
+</section>
+<section id="Relationships">
+<h2>Relationships<a class="headerlink" href="#Relationships" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">relationships</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0002982</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject predicate       object  subject_label   predicate_label object_label
+HP:0002982      rdfs:subClassOf HP:0002979      Tibial bowing   None    Bowing of the legs
+HP:0002982      rdfs:subClassOf HP:0002992      Tibial bowing   None    Abnormal tibia morphology
+</pre></div></div>
+</div>
+</section>
+<section id="Trees">
+<h2>Trees<a class="headerlink" href="#Trees" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">tree</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="o">--</span><span class="n">down</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0002982</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] HP:0000001 ! All
+    * [i] HP:0000118 ! Phenotypic abnormality
+        * [i] HP:0033127 ! Abnormality of the musculoskeletal system
+            * [i] HP:0000924 ! Abnormality of the skeletal system
+                * [i] HP:0011842 ! Abnormal skeletal morphology
+                    * [i] HP:0011844 ! Abnormal appendicular skeleton morphology
+                        * [i] HP:0011314 ! Abnormal long bone morphology
+                            * [i] HP:0000940 ! Abnormal diaphysis morphology
+                                * [i] HP:0006487 ! Bowing of the long bones
+                                    * [i] HP:0002979 ! Bowing of the legs
+                                        * [i] **HP:0002982 ! Tibial bowing**
+                                            * [i] HP:0006414 ! Distal tibial bowing
+                                            * [i] HP:0006390 ! Anterior tibial bowing
+                        * [i] HP:0002813 ! Abnormal limb bone morphology
+                            * [i] HP:0000940 ! Abnormal diaphysis morphology
+                                * [i] HP:0006487 ! Bowing of the long bones
+                                    * [i] HP:0002979 ! Bowing of the legs
+                                        * [i] **HP:0002982 ! Tibial bowing**
+                                            * [i] HP:0006414 ! Distal tibial bowing
+                                            * [i] HP:0006390 ! Anterior tibial bowing
+                            * [i] HP:0040069 ! Abnormal lower limb bone morphology
+                                * [i] HP:0002992 ! Abnormal tibia morphology
+                                    * [i] **HP:0002982 ! Tibial bowing**
+                                        * [i] HP:0006414 ! Distal tibial bowing
+                                        * [i] HP:0006390 ! Anterior tibial bowing
+                * [i] HP:0040068 ! Abnormality of limb bone
+                    * [i] HP:0002813 ! Abnormal limb bone morphology
+                        * [i] HP:0000940 ! Abnormal diaphysis morphology
+                            * [i] HP:0006487 ! Bowing of the long bones
+                                * [i] HP:0002979 ! Bowing of the legs
+                                    * [i] **HP:0002982 ! Tibial bowing**
+                                        * [i] HP:0006414 ! Distal tibial bowing
+                                        * [i] HP:0006390 ! Anterior tibial bowing
+                        * [i] HP:0040069 ! Abnormal lower limb bone morphology
+                            * [i] HP:0002992 ! Abnormal tibia morphology
+                                * [i] **HP:0002982 ! Tibial bowing**
+                                    * [i] HP:0006414 ! Distal tibial bowing
+                                    * [i] HP:0006390 ! Anterior tibial bowing
+        * [i] HP:0040064 ! Abnormality of limbs
+            * [i] HP:0040068 ! Abnormality of limb bone
+                * [i] HP:0002813 ! Abnormal limb bone morphology
+                    * [i] HP:0000940 ! Abnormal diaphysis morphology
+                        * [i] HP:0006487 ! Bowing of the long bones
+                            * [i] HP:0002979 ! Bowing of the legs
+                                * [i] **HP:0002982 ! Tibial bowing**
+                                    * [i] HP:0006414 ! Distal tibial bowing
+                                    * [i] HP:0006390 ! Anterior tibial bowing
+                    * [i] HP:0040069 ! Abnormal lower limb bone morphology
+                        * [i] HP:0002992 ! Abnormal tibia morphology
+                            * [i] **HP:0002982 ! Tibial bowing**
+                                * [i] HP:0006414 ! Distal tibial bowing
+                                * [i] HP:0006390 ! Anterior tibial bowing
+            * [i] HP:0002814 ! Abnormality of the lower limb
+                * [i] HP:0002981 ! Abnormality of the calf
+                    * [i] HP:0002979 ! Bowing of the legs
+                        * [i] **HP:0002982 ! Tibial bowing**
+                            * [i] HP:0006414 ! Distal tibial bowing
+                            * [i] HP:0006390 ! Anterior tibial bowing
+                    * [i] HP:0002992 ! Abnormal tibia morphology
+                        * [i] **HP:0002982 ! Tibial bowing**
+                            * [i] HP:0006414 ! Distal tibial bowing
+                            * [i] HP:0006390 ! Anterior tibial bowing
+                * [i] HP:0040069 ! Abnormal lower limb bone morphology
+                    * [i] HP:0002992 ! Abnormal tibia morphology
+                        * [i] **HP:0002982 ! Tibial bowing**
+                            * [i] HP:0006414 ! Distal tibial bowing
+                            * [i] HP:0006390 ! Anterior tibial bowing
+</pre></div></div>
+</div>
+</section>
+<section id="Graph-Visualization">
+<h2>Graph Visualization<a class="headerlink" href="#Graph-Visualization" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">HP</span><span class="p">:</span><span class="mi">0002982</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">graph</span><span class="o">-</span><span class="n">tb</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/HP/output/graph-tb.png" /></p>
+</section>
+<section id="Semantic-Similarity">
+<h2>Semantic Similarity<a class="headerlink" href="#Semantic-Similarity" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="n">similarity</span> <span class="s2">&quot;Tibial bowing&quot;</span> <span class="o">@</span> <span class="s2">&quot;Short tibia&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject_id: HP:0002982
+subject_label: Tibial bowing
+object_id: HP:0005736
+object_label: Short tibia
+ancestor_id: HP:0002992
+ancestor_label: Abnormal tibia morphology
+object_information_content: 13.359841052540446
+subject_information_content: 13.359841052540446
+ancestor_information_content: 9.659401334399353
+jaccard_similarity: 0.56
+phenodigm_score: 2.325782609631356
+</pre></div></div>
+</div>
+</section>
+<section id="Associations">
+<h2>Associations<a class="headerlink" href="#Associations" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-L<span class="w"> </span>-s<span class="w"> </span>http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt<span class="w"> </span>&gt;<span class="w"> </span>output/hpoa_g2p.tsv
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="o">-</span><span class="n">G</span> <span class="n">hpoa_g2p</span> <span class="o">-</span><span class="n">g</span> <span class="n">output</span><span class="o">/</span><span class="n">hpoa_g2p</span><span class="o">.</span><span class="n">tsv</span> <span class="n">associations</span> <span class="o">-</span><span class="n">Q</span> <span class="n">subject</span> <span class="n">NCBIGene</span><span class="p">:</span><span class="mi">8192</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">&gt;</span> <span class="n">output</span><span class="o">/</span><span class="n">assocs</span><span class="o">-</span><span class="n">query</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/assocs-query.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>property_values</th>
+      <th>subject_label</th>
+      <th>predicate_label</th>
+      <th>object_label</th>
+      <th>negated</th>
+      <th>publications</th>
+      <th>evidence_type</th>
+      <th>supporting_objects</th>
+      <th>primary_knowledge_source</th>
+      <th>aggregator_knowledge_source</th>
+      <th>subject_closure</th>
+      <th>subject_closure_label</th>
+      <th>object_closure</th>
+      <th>object_closure_label</th>
+      <th>comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0001250</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Seizure</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0000013</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Hypoplasia of the uterus</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0000007</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Autosomal recessive inheritance</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0010464</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Streak ovary</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0008232</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Elevated circulating follicle stimulating horm...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0011969</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Elevated circulating luteinizing hormone level</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0004322</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Short stature</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0000786</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Primary amenorrhea</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0000815</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Hypergonadotropic hypogonadism</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0000252</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Microcephaly</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>NCBIGene:8192</td>
+      <td>NaN</td>
+      <td>HP:0000407</td>
+      <td>NaN</td>
+      <td>CLPP</td>
+      <td>NaN</td>
+      <td>Sensorineural hearing impairment</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="HP Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../LOINC/index.html" class="btn btn-neutral float-right" title="LOINC Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

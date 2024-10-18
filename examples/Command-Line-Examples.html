@@ -1,0 +1,2674 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Line Examples &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Command Line Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/Command-Line-Examples.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Command-Line-Examples">
+<h1>Command Line Examples<a class="headerlink" href="#Command-Line-Examples" title="Link to this heading"></a></h1>
+<p>All lines starting <code class="docutils literal notranslate"><span class="pre">!</span></code> are commands that you can execute yourself on the command line</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pwd
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/Users/cjm/repos/ontology-access-kit/notebooks
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak [OPTIONS] COMMAND [ARGS]...
+
+  Run the oaklib Command Line.
+
+  A subcommand must be passed - for example: ancestors, terms, ...
+
+  Most commands require an input ontology to be specified:
+
+      runoak -i &lt;INPUT SPECIFICATION&gt; SUBCOMMAND &lt;SUBCOMMAND OPTIONS AND
+      ARGUMENTS&gt;
+
+  Get help on any command, e.g:
+
+      runoak viz -h
+
+Options:
+  -v, --verbose
+  -q, --quiet TEXT
+  --save-to TEXT              For commands that mutate the ontology, this
+                              specifies where changes are saved to
+  --autosave / --no-autosave  For commands that mutate the ontology, this
+                              determines if these are automatically saved in
+                              place
+  -i, --input TEXT            input implementation specification. This is
+                              either a path to a file, or an ontology selector
+  -I, --input-type TEXT       Input type.
+  -a, --add TEXT              additional implementation specification.
+  --help                      Show this message and exit.
+
+Commands:
+  add-taxon-constraints  Test candidate taxon constraints
+  aliases                List aliases for a term or set of terms
+  all-axioms             List all axioms
+  all-similarity         All by all similarity
+  all-subsets            Shows all subsets
+  ancestors              List all ancestors
+  annotate               Annotate a piece of text using a Named Entity...
+  apply                  Applies a patch to an ontology
+  apply-obsolete         Sets an ontology element to be obsolete
+  axioms                 Filters axioms
+  check-definitions      Check definitions
+  definitions            Show definitions for terms
+  descendants            List all descendants of a term
+  diff                   Diff between two ontologies
+  diff-terms             EXPERIMENTAL
+  diff-via-mappings      Calculates a relational diff between ontologies...
+  dump                   Exports an ontology
+  extract-subset         Extracts a subset
+  extract-triples        Extracts a subontology as triples
+  fill-table             Fills missing values in a table of ontology...
+  info                   Show info on terms
+  labels                 Show labels for terms
+  leafs                  List all leaf nodes in the ontology
+  lexmatch               Generates lexical index and mappings
+  list-subset            Shows IDs in a given subset
+  mappings               List all SSSOM mappings in the ontology
+  migrate-curies         Rewires an ontology replacing all instances of...
+  obsoletes              Shows all obsolete nodes
+  ontologies             Shows ontologies
+  ontology-metadata      Shows ontology metadata
+  ontology-versions      Shows ontology versions
+  paths                  List all paths between one or more start curies
+  relationships          Show all relationships for a term or terms
+  roots                  List all root in the ontology
+  search                 Searches ontology for entities that have a...
+  set-apikey             Sets an API key
+  siblings               List all siblings
+  similarity             Determine pairwise similarity between two terms...
+  subset-rollups         For each subset provide a mapping of each term...
+  taxon-constraints      List all taxon constraints for a term or terms
+  term-metadata          Shows term metadata
+  terms                  List all terms in the ontology
+  tree                   Display an ancestor graph as an ascii/markdown tree
+  validate               Validate an ontology against ontology metadata
+  validate-multiple      Validate multiple ontologies against ontology...
+  viz                    Visualizing an ancestor graph using obographviz
+</pre></div></div>
+</div>
+<section id="Ubergraph-Examples">
+<h2>Ubergraph Examples<a class="headerlink" href="#Ubergraph-Examples" title="Link to this heading"></a></h2>
+<p>Ubergraph is suitable for both graphy type operations as well as some inference/OWLy operations</p>
+<p>The default ubergraph endpoint is used, but you could also set up your own</p>
+<section id="Graph-operations">
+<h3>Graph operations<a class="headerlink" href="#Graph-operations" title="Link to this heading"></a></h3>
+<p>OAK provides a simple relation-graph style abstraction over ontologies. This incorporates not only is-a relations, but others like part-of and develops-from too</p>
+<p>Background:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial04.html">Part 4</a> of the tutorial</p></li>
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph.html">Obo Graph Interface</a></p></li>
+</ul>
+<section id="Finding-all-ancestors-of-a-set-of-terms">
+<h4>Finding all ancestors of a set of terms<a class="headerlink" href="#Finding-all-ancestors-of-a-set-of-terms" title="Link to this heading"></a></h4>
+<p>The <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-ancestors">ancestors</a> command will find all ancestors of a term, or of a set of terms. It can be parameterized by which relationship types to traverse.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>ancestors<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak ancestors [OPTIONS] [TERMS]...
+
+  List all ancestors
+
+  Example:
+
+      runoak -i cl.owl ancestors CL:4023094
+
+  Note that ancestors is by default over ALL relationship types
+
+  Constrained to is-a and part-of:
+
+      runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050
+
+  Same, on ubergraph:
+
+      runoak -i ubergraph: ancestors CL:4023094 -p i,BFO:0000050
+
+  Search terms can also be used:
+
+      runoak -i cl.owl ancestors &#39;goblet cell&#39;
+
+  Multiple terms can be passed:
+
+      runoak -i sqlite:go.db ancestors GO:0005773 GO:0005737 -p i,p
+
+  More background:
+
+      https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
+
+Options:
+  -p, --predicates TEXT           A comma-separated list of predicates
+  -O, --output-type TEXT          Desired output type
+  --statistics / --no-statistics  For each ancestor, show statistics.
+                                  [default: no-statistics]
+  -o, --output FILENAME           Output file, e.g. obo file
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># all is-a (i.e. subClassOf between named classes) ancestors of a seed set.</span>
+<span class="c1"># note you can use either a list of IDs or a list of labels (e.g. &quot;neuron&quot;),</span>
+<span class="c1"># we use IDs/CURIEs here for precision</span>
+<span class="o">!</span>runoak<span class="w">  </span>-i<span class="w"> </span>ubergraph:<span class="w"> </span>ancestors<span class="w"> </span>GO:0001750<span class="w"> </span>CL:0000540<span class="w"> </span>-p<span class="w"> </span>i
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000002 ! continuant
+BFO:0000004 ! independent continuant
+BFO:0000040 ! material entity
+CARO:0000000 ! anatomical entity
+CARO:0030000 ! biological entity
+CL:0000000 ! cell
+CL:0000003 ! native cell
+CL:0000211 ! electrically active cell
+CL:0000255 ! eukaryotic cell
+CL:0000393 ! electrically responsive cell
+CL:0000404 ! electrically signaling cell
+CL:0000540 ! neuron
+CL:0000548 ! animal cell
+CL:0002319 ! neural cell
+CL:0002371 ! somatic cell
+COB:0000006 ! material entity
+COB:0000017 ! cell
+COB:0000018 ! native cell
+UBERON:0001062 ! anatomical entity
+GO:0005575 ! cellular_component
+GO:0001750 ! photoreceptor outer segment
+GO:0110165 ! cellular anatomical entity
+owl:Thing ! None
+CARO:0000013 ! None
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># visualize starting from a seed set of terms</span>
+<span class="o">!</span>runoak<span class="w">  </span>-i<span class="w"> </span>ubergraph:<span class="w"> </span>viz<span class="w"> </span>--no-view<span class="w"> </span>GO:0001750<span class="w"> </span>CL:0000540<span class="w"> </span>-p<span class="w"> </span>i,BFO:0000050<span class="w"> </span>-o<span class="w"> </span>output/ug-test1.png<span class="w"> </span>-O<span class="w"> </span>png
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Generating-Graph-Diagrams">
+<h4>Generating Graph Diagrams<a class="headerlink" href="#Generating-Graph-Diagrams" title="Link to this heading"></a></h4>
+<p>The <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-viz">viz</a> command will generate a graphviz diagram seeded from a set of input terms</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>viz<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak viz [OPTIONS] [TERMS]...
+
+  Visualizing an ancestor graph using obographviz
+
+  For general background on what is meant by a graph in OAK, see
+  https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
+
+  :: note:    This requires that `obographviz
+  &lt;https://github.com/INCATools/obographviz&gt;`_ is installed.
+
+  Example:
+
+      runoak -i sqlite:cl.db viz CL:4023094
+
+  Same query on ubergraph:
+
+      runoak -i ubergraph: viz CL:4023094
+
+  Example, showing only is-a:
+
+      runoak -i sqlite:cl.db viz CL:4023094 -p i
+
+  Example, showing only is-a and part-of, to include Uberon:
+
+      runoak -i sqlite:cl.db viz CL:4023094 -p i,p
+
+  As above, including develops-from:
+
+      runoak -i sqlite:cl.db viz CL:4023094 -p i,p,RO:0002202
+
+  With abbreviation:
+
+      runoak -i sqlite:cl.db viz CL:4023094 -p i,p,d
+
+  We can also limit the number of &#34;hops&#34; from the seed terms; for example, all
+  is-a and develops-from ancestors of T-cell, limiting to a distance of 2:
+
+      runoak -i sqlite:cl.db viz &#39;T cell&#39; -p i,d --max-hops 2
+
+Options:
+  --view / --no-view            if view is set then open the image after
+                                rendering  [default: view]
+  --down / --no-down            traverse down  [default: no-down]
+  --gap-fill / --no-gap-fill    If set then find the minimal graph that spans
+                                all input curies  [default: no-gap-fill]
+  --add-mrcas / --no-add-mrcas  If set then extend input seed list to include
+                                all pairwise MRCAs  [default: no-add-mrcas]
+  -S, --stylemap TEXT           a json file to configure visualization. See
+                                https://berkeleybop.github.io/kgviz-model/
+  -C, --configure TEXT          overrides for stylemap, specified as yaml.
+                                E.g. `-C &#34;styles: [filled, rounded]&#34; `
+  --max-hops INTEGER            Trim nodes that are equal to or greater than
+                                this distance from terms
+  --meta / --no-meta            Add metadata object to graph nodes, including
+                                xrefs, definitions  [default: no-meta]
+  -p, --predicates TEXT         A comma-separated list of predicates
+  -O, --output-type TEXT        Desired output type
+  -o, --output TEXT             Path to output file
+  --help                        Show this message and exit.
+</pre></div></div>
+</div>
+<p><img alt="img" src="../_images/ug-gap-fill1.png" /></p>
+</section>
+</section>
+<section id="Gap-Filling">
+<h3>Gap Filling<a class="headerlink" href="#Gap-Filling" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">--gap-fill</span></code> option in the viz command can be used to fill in relationship types between an input set of terms. If the seed set contains terms that are not directly connected, but a relationship type can be inferred, this inferred relationship type is used to “gap-fill”</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>ubergraph:<span class="w"> </span>viz<span class="w"> </span>--gap-fill<span class="w"> </span>GO:0001750<span class="w"> </span>CL:0000540<span class="w"> </span>CL:0000000<span class="w"> </span>NCBITaxon:9606<span class="w"> </span>NCBITaxon:1<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-o<span class="w"> </span>output/ug-gap-fill1.png<span class="w"> </span>-O<span class="w"> </span>png
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="../_images/ug-gap-fill1.png" /></p>
+</section>
+<section id="Extracting-triples">
+<h3>Extracting triples<a class="headerlink" href="#Extracting-triples" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">extract-triples</span></code> command will perform a simplified version of robot extract</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>extract-triples<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak extract-triples [OPTIONS] [TERMS]...
+
+  Extracts a subontology as triples
+
+  Currently the only endpoint to implement this is ubergraph. Ontobee seems to
+  have performance issues with the query
+
+  This will soon be supported in the SqlDatabase/Sqlite endpoint
+
+  Example:
+
+      runoak -v -i ubergraph: extract-triples GO:0005635 CL:0000099 -o
+      test.ttl -O ttl
+
+Options:
+  -p, --predicates TEXT   A comma-separated list of predicates
+  -o, --output FILENAME   Output file, e.g. obo file
+  -O, --output-type TEXT  Desired output type
+  --help                  Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w">  </span>-i<span class="w"> </span>ubergraph:cl<span class="w"> </span>extract-triples<span class="w"> </span>CL:0000540<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A10<span class="w"> </span>owl:Class<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-50
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ns1:CARO_0010004 a owl:Class ;
+    ns3:normalizedInformationContent 2.9608045960631606 ;
+    ns3:referenceCount 2212401 ;
+    rdfs:isDefinedBy ns1:caro.owl ;
+    rdfs:subClassOf ns1:CARO_0001010,
+        ns1:COB_0000022,
+        ns1:NCBITaxon_1,
+        ns1:OBI_0100026 ;
+    owl:equivalentClass ns1:COB_0000118 .
+
+ns1:CL_0000255 a owl:Class ;
+    rdfs:label &#34;eukaryotic cell&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 38.061828746974257 ;
+    ns3:referenceCount 11215 ;
+    ns2:hasDbXref &#34;MESH:D005057&#34;^^xsd:string ;
+    rdfs:isDefinedBy ns1:cl.owl ;
+    rdfs:subClassOf ns1:CARO_0000013,
+        ns1:CL_0000003,
+        ns1:COB_0000018 ;
+    owl:disjointWith ns1:CL_0000520 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf [ ] ],
+        [ a owl:Class ;
+            owl:intersectionOf [ ] ] .
+
+ns1:CL_0000393 a owl:Class ;
+    rdfs:label &#34;electrically responsive cell&#34;^^xsd:string ;
+    ns1:IAO_0000115 &#34;A cell whose function is determined by its response to an electric signal.&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 40.268362795149379 ;
+    ns3:referenceCount 8045 ;
+    rdfs:isDefinedBy ns1:cl.owl ;
+    rdfs:subClassOf ns1:CL_0000211 .
+
+ns1:CL_0000404 a owl:Class ;
+    rdfs:label &#34;electrically signaling cell&#34;^^xsd:string ;
+    ns1:IAO_0000115 &#34;A cell that initiates an electrical signal and passes that signal to another cell.&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 41.293907397023872 ;
+    ns3:referenceCount 6894 ;
+    rdfs:isDefinedBy ns1:cl.owl ;
+    rdfs:subClassOf ns1:CL_0000211 .
+
+ns1:CL_0000540 a owl:Class ;
+    rdfs:label &#34;neuron&#34;^^xsd:string ;
+    ns1:IAO_0000115 &#34;The basic cellular unit of nervous tissue. Each neuron consists of a body, an axon, and dendrites. Their purpose is to receive, conduct, and transmit impulses in the nervous system.&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 41.294870936277412 ;
+    ns3:referenceCount 6893 ;
+    ns2:hasDbXref &#34;BTO:0000938&#34;^^xsd:string,
+        &#34;CALOHA:TS-0683&#34;^^xsd:string,
+        &#34;FBbt:00005106&#34;^^xsd:string,
+        &#34;FMA:54527&#34;^^xsd:string,
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w">  </span>-i<span class="w"> </span>ubergraph:<span class="w"> </span>extract-triples<span class="w"> </span>CL:0000540<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A10<span class="w"> </span>owl:Class<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-50
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ns2:CARO_0010004 a owl:Class ;
+    ns3:normalizedInformationContent 2.9608045960631606 ;
+    ns3:referenceCount 2212401 ;
+    rdfs:isDefinedBy ns2:caro.owl ;
+    rdfs:subClassOf ns2:CARO_0001010,
+        ns2:COB_0000022,
+        ns2:NCBITaxon_1,
+        ns2:OBI_0100026 ;
+    owl:equivalentClass ns2:COB_0000118 .
+
+ns2:CL_0000255 a owl:Class ;
+    rdfs:label &#34;eukaryotic cell&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 38.061828746974257 ;
+    ns3:referenceCount 11215 ;
+    ns1:hasDbXref &#34;MESH:D005057&#34;^^xsd:string ;
+    rdfs:isDefinedBy ns2:cl.owl ;
+    rdfs:subClassOf ns2:CARO_0000013,
+        ns2:CL_0000003,
+        ns2:COB_0000018 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf [ ] ] .
+
+ns2:CL_0000393 a owl:Class ;
+    rdfs:label &#34;electrically responsive cell&#34;^^xsd:string ;
+    ns2:IAO_0000115 &#34;A cell whose function is determined by its response to an electric signal.&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 40.268362795149379 ;
+    ns3:referenceCount 8045 ;
+    rdfs:isDefinedBy ns2:cl.owl ;
+    rdfs:subClassOf ns2:CL_0000211 .
+
+ns2:CL_0000404 a owl:Class ;
+    rdfs:label &#34;electrically signaling cell&#34;^^xsd:string ;
+    ns2:IAO_0000115 &#34;A cell that initiates an electrical signal and passes that signal to another cell.&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 41.293907397023872 ;
+    ns3:referenceCount 6894 ;
+    rdfs:isDefinedBy ns2:cl.owl ;
+    rdfs:subClassOf ns2:CL_0000211 .
+
+ns2:CL_0000540 a owl:Class ;
+    rdfs:label &#34;neuron&#34;^^xsd:string ;
+    ns2:IAO_0000115 &#34;The basic cellular unit of nervous tissue. Each neuron consists of a body, an axon, and dendrites. Their purpose is to receive, conduct, and transmit impulses in the nervous system.&#34;^^xsd:string ;
+    ns3:normalizedInformationContent 41.294870936277412 ;
+    ns3:referenceCount 6893 ;
+    ns1:hasDbXref &#34;BTO:0000938&#34;^^xsd:string,
+        &#34;CALOHA:TS-0683&#34;^^xsd:string,
+        &#34;FBbt:00005106&#34;^^xsd:string,
+        &#34;FMA:54527&#34;^^xsd:string,
+        &#34;VHOG:0001483&#34;^^xsd:string,
+        &#34;WBbt:0003679&#34;^^xsd:string ;
+--
+</pre></div></div>
+</div>
+</section>
+<section id="Search">
+<h3>Search<a class="headerlink" href="#Search" title="Link to this heading"></a></h3>
+<p>The <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-search">search</a> command will search the ontology or ontologies using a search term.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>search<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak search [OPTIONS] [TERMS]...
+
+  Searches ontology for entities that have a label, alias, or other property
+  matching a search term.
+
+  Example:
+
+      runoak -i uberon.obo search limb
+
+  This uses the Pronto implementation to load uberon from disk, and does a
+  basic substring search over the labels and synonyms - results are not ranked
+
+  Bioportal (all ontologies):
+
+      runoak -i bioportal: search limb
+
+  (You need to set your API key first)
+
+  This uses the Bioportal API to search over a broad set of ontologies,
+  returning a ranked list ranked by relevance. There may be many results, the
+  results are streamed, do ctrl^C to stop
+
+  Ubergraph (all ontologies):
+
+      runoak -i ubergraph: search limb
+
+  Ubergraph (one ontology):
+
+      runoak -i ubergraph:uberon search limb
+
+  For more on search, see https://incatools.github.io/ontology-access-
+  kit/interfaces/search.html
+
+Options:
+  -O, --output-type [obo|obojson|ofn|rdf|json|yaml|csv]
+                                  Desired output type
+  -o, --output FILENAME           Output file, e.g. obo file
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+<section id="Relevancy-ranked-search">
+<h4>Relevancy-ranked search<a class="headerlink" href="#Relevancy-ranked-search" title="Link to this heading"></a></h4>
+<p>By default, ubergraph will perform relevancy-ranked search. The implementation of this is endpoint-dependent</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>ubergraph:<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;tentacle&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+NCBITaxon:132411 ! Halcampa duodecimcirrata
+NCBITaxon:192593 ! Erpeton tentaculatum
+NCBITaxon:2057060 ! Oxyurichthys auchenolepis
+UBERON:0012473 ! oral cirrus
+UBERON:0013206 ! nasal tentacle
+</pre></div></div>
+</div>
+</section>
+<section id="Restricting-queries-to-a-specific-ontology">
+<h4>Restricting queries to a specific ontology<a class="headerlink" href="#Restricting-queries-to-a-specific-ontology" title="Link to this heading"></a></h4>
+<p>If you connect to ubergraph using the selector <code class="docutils literal notranslate"><span class="pre">ubergraph</span></code> then the endpoint is treated as a kind of uber-ontology.</p>
+<p>Can you use a selector of the form <code class="docutils literal notranslate"><span class="pre">ubergraph:ONTID</span></code> to restrict to a particular ontology within ubergraph:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>ubergraph:uberon<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;tentacle&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:0012473 ! oral cirrus
+UBERON:0013206 ! nasal tentacle
+</pre></div></div>
+</div>
+</section>
+<section id="Listing-all-ontologies">
+<h4>Listing all ontologies<a class="headerlink" href="#Listing-all-ontologies" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>ontologies<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak ontologies [OPTIONS]
+
+  Shows ontologies
+
+Options:
+  -o, --output FILENAME  Output file, e.g. obo file
+  --help                 Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>ubergraph:<span class="w"> </span>ontologies
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+bspo.owl
+chebi.owl
+cl/cl-base.owl
+cob/cob-base.owl
+cob/components/cob-to-external.owl
+dpo/dpo-base.owl
+eco/eco-base.owl
+ecto/ecto-base.owl
+emapa.owl
+envo/envo-base.owl
+fbbt/fbbt-base.owl
+fbcv/fbcv-base.owl
+fbdv/fbdv-base.owl
+fypo/fypo-base.owl
+go/extensions/go-bfo-bridge.owl
+go/go-base.owl
+hp/hp-base.owl
+ma.owl
+maxo/maxo-base.owl
+mi.owl
+mmo.owl
+mondo/mondo-base.owl
+ncbitaxon.owl
+ncit.owl
+mp/mp-base.owl
+obi/obi-base.owl
+pato/pato-base.owl
+pcl/pcl-base.owl
+ro/ro-base.owl
+so.owl
+uberon/bridge/cl-bridge-to-caro.owl
+uberon/bridge/cl-bridge-to-fbbt.owl
+uberon/bridge/uberon-bridge-to-caro.owl
+uberon/bridge/uberon-bridge-to-fbbt.owl
+uberon/uberon-base.owl
+wbbt/wbbt-base.owl
+wbls/wbls-base.owl
+wbphenotype/wbphenotype-base.owl
+zfa/zfa-base.owl
+pr.owl
+po.owl
+https://raw.githubusercontent.com/PlantPhenoOntology/ppo/master/ppo.owl
+apo.owl
+mmusdv.owl
+foodon.owl
+http://translator.renci.org/ubergraph-axioms.ofn
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="BioPortal">
+<h2>BioPortal<a class="headerlink" href="#BioPortal" title="Link to this heading"></a></h2>
+<p>This implementation is ideal for use cases involving</p>
+<ul class="simple">
+<li><p>search over diverse multiple ontologies</p></li>
+<li><p>extracting text mappings (in SSSOM) across broad ontologies</p></li>
+<li><p>text annotation</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>bioportal:<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;tentacle&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BTO:0001357 ! tentacle
+http://purl.jp/bio/4/id/200906071014668510 ! tentacle
+CEPH:0000256 ! tentacle
+http://www.projecthalo.com/aura#Tentacle ! Tentacle
+CEPH:0000256 ! tentacle
+CTENO:0000018 ! tentacle
+BSA:0000109 ! tentacle
+CLYH:1000005 ! tentacle
+UBERON:0013206 ! nasal tentacle
+UBERON:0013206 ! nasal tentacle
+CEPH:0000259 ! tentacle pocket
+CEPH:0000261 ! tentacle thickness
+CEPH:0000257 ! tentacle absence
+CEPH:0000258 ! tentacle pad
+CTENO:0000121 ! tentacle sheath
+CTENO:0000120 ! tentacle epithelium
+CTENO:0000152 ! tentacle apparatus
+CTENO:0000143 ! tentacle bulb
+AMPHX:1000339 ! velar tentacle
+CLYH:1000004 ! tentacle system
+</pre></div></div>
+</div>
+<p>BioPortal includes all by all LOOM mappings for all sources</p>
+<p>We can extract these using the mappings command</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>mappings<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak mappings [OPTIONS] [TERMS]...
+
+  List all SSSOM mappings in the ontology
+
+  Example (YAML):
+
+      runoak -i db/envo.db mappings
+
+  TODO: TSV
+
+Options:
+  -o, --output FILENAME   Output file, e.g. obo file
+  -O, --output-type TEXT  Desired output type
+  --maps-to-source TEXT
+  --help                  Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>bioportal:<span class="w"> </span>mappings<span class="w"> </span>CTENO:0000018<span class="w"> </span>-O<span class="w"> </span>sssom
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id      predicate_id    object_id       mapping_justification   mapping_provider        mapping_tool
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001357      semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001357      semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001357      semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/BTO_0001357      semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/CLYH_1000005     semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.jp/bio/4/id/200906071014668510      semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/CEPH_0000256     semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/CEPH_0000256     semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://purl.obolibrary.org/obo/BSA_0000109      semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+http://purl.obolibrary.org/obo/CTENO_0000018    skos:closeMatch http://www.projecthalo.com/aura#Tentacle        semapv:UnspecifiedMatching      http://data.bioontology.org/metadata/Mapping    LOOM
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Write output to a file; after this we will parse with pandas</span>
+<span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>bioportal:<span class="w"> </span>mappings<span class="w"> </span>CTENO:0000018<span class="w"> </span>-O<span class="w"> </span>sssom<span class="w"> </span>-o<span class="w"> </span>output/tentacle-bioportal.sssom.tsv
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pandas is a python library that is useful for working with TSV files, including SSSOM</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;output/tentacle-bioportal.sssom.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>mapping_justification</th>
+      <th>mapping_provider</th>
+      <th>mapping_tool</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/BTO_0001357</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/BTO_0001357</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/BTO_0001357</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/BTO_0001357</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/CLYH_1000005</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.jp/bio/4/id/200906071014668510</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/CEPH_0000256</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/CEPH_0000256</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://purl.obolibrary.org/obo/BSA_0000109</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>http://data.bioontology.org/metadata/Mapping</td>
+      <td>LOOM</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>http://purl.obolibrary.org/obo/CTENO_0000018</td>
+      <td>skos:closeMatch</td>
+      <td>http://www.projecthalo.com/aura</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>The <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-annotate">annotate</a> command will perform NER/CR using a source</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>annotate<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak annotate [OPTIONS] [WORDS]...
+
+  Annotate a piece of text using a Named Entity Recognition annotation
+
+  Example:     runoak -i bioportal: annotate &#34;enlarged nucleus in T-cells from
+  peripheral blood&#34;
+
+  Currently BioPortal is the only implementation. Volunteers sought to
+  implement for OLS.
+
+  See the ontorunner framework for plugins for SciSpacy and OGER
+
+  For more on text annotation, see:
+
+   - &lt;https://incatools.github.io/ontology-access-kit/interfaces/text-
+   annotator.html&gt;_
+
+Options:
+  -W, --matches-whole-text / --no-W, --no-matches-whole-text
+                                  if true, then only show matches that span
+                                  the entire input text  [default: no-W]
+  --text-file FILENAME            Text file to annotate. Each newline
+                                  separated entry is a distinct text.
+  -o, --output FILENAME           Output file, e.g. obo file
+  -O, --output-type TEXT          Desired output type
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>bioportal:<span class="w"> </span>annotate<span class="w"> </span><span class="s2">&quot;cephalopods may have tentacular clubs on the end of their tentacles&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+match_type: SYN
+object_id: MESH:D049830
+object_label: Cephalopoda
+object_source: https://data.bioontology.org/ontologies/BERO
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: SYN
+object_id: http://id.nlm.nih.gov/mesh/D049830
+object_label: Cephalopoda
+object_source: https://data.bioontology.org/ontologies/MDM
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: PREF
+object_id: NIBIOHN:NHNSFG:1010054
+object_label: Cephalopods
+object_source: https://data.bioontology.org/ontologies/FGNHNS
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: SYN
+object_id: MESH/D049830
+object_label: Cephalopoda
+object_source: https://data.bioontology.org/ontologies/MESH
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: PREF
+object_id: http://bioontology.org/projects/ontologies/birnlex#birnlex_519
+object_label: Cephalopods
+object_source: https://data.bioontology.org/ontologies/BIRNLEX
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: SYN
+object_id: NCBITaxon:6605
+object_label: Cephalopoda
+object_source: https://data.bioontology.org/ontologies/ERO
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: PREF
+object_id: http://localhost/plosthes.2017-1#3780
+object_label: Cephalopods
+object_source: https://data.bioontology.org/ontologies/PLOSTHES
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: PREF
+object_id: http://uri.neuinfo.org/nif/nifstd/birnlex_519
+object_label: Cephalopods
+object_source: https://data.bioontology.org/ontologies/NIFSTD
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+match_type: SYN
+object_id: TRAK:0001433
+object_label: possibly
+object_source: https://data.bioontology.org/ontologies/TRAK
+subject_end: 20
+subject_label: MAY HAVE
+subject_start: 13
+
+---
+match_type: SYN
+object_id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C89277
+object_label: Possess
+object_source: https://data.bioontology.org/ontologies/NCIT
+subject_end: 20
+subject_label: HAVE
+subject_start: 17
+
+---
+match_type: PREF
+object_id: NCIT:C101282
+object_label: Have
+object_source: https://data.bioontology.org/ontologies/PREMEDONTO
+subject_end: 20
+subject_label: HAVE
+subject_start: 17
+
+---
+match_type: PREF
+object_id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C101282
+object_label: Have
+object_source: https://data.bioontology.org/ontologies/NCIT
+subject_end: 20
+subject_label: HAVE
+subject_start: 17
+
+---
+match_type: PREF
+object_id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C25496
+object_label: End
+object_source: https://data.bioontology.org/ontologies/NCIT
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: http://www.limics.fr/ontologies/menelastop#end
+object_label: fin
+object_source: https://data.bioontology.org/ontologies/TOP-MENELAS
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: https://w3id.org/mixs/vocab/TrainStopLocEnum#end
+object_label: end
+object_source: https://data.bioontology.org/ontologies/MIXS
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: OGG:3000888190
+object_label: end
+object_source: https://data.bioontology.org/ontologies/OHPI
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: https://identifiers.org/ncbigene/2022
+object_label: ENG (Hsap)
+object_source: https://data.bioontology.org/ontologies/PCL
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: ZFA:0000340
+object_label: dorsal entopeduncular nucleus of ventral telencephalon
+object_source: https://data.bioontology.org/ontologies/ZFA
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C17406
+object_label: Endoglin
+object_source: https://data.bioontology.org/ontologies/NCIT
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: http://sbmi.uth.tmc.edu/ontology/ochv#C0444930
+object_label: end
+object_source: https://data.bioontology.org/ontologies/OCHV
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: http://identifiers.org/ncbigene/2022
+object_label: ENG
+object_source: https://data.bioontology.org/ontologies/GEXO
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: http://www.projecthalo.com/aura#End
+object_label: End
+object_source: https://data.bioontology.org/ontologies/AURA
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: http://sbmi.uth.tmc.edu/ontology/ochv#35491
+object_label: &#39;35491&#39;
+object_source: https://data.bioontology.org/ontologies/OCHV
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: http://www.w3.org/ns/prov#End
+object_label: End
+object_source: https://data.bioontology.org/ontologies/CHEAR
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: PR:000001345
+object_label: endoglin
+object_source: https://data.bioontology.org/ontologies/NIFDYS
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: GAZ:00633718
+object_label: End
+object_source: https://data.bioontology.org/ontologies/GAZ
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: SNOMEDCT/261782000
+object_label: End
+object_source: https://data.bioontology.org/ontologies/SNOMEDCT
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: http://purl.allotrope.org/ontologies/result#AFR_0001626
+object_label: stop command
+object_source: https://data.bioontology.org/ontologies/AFO
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: RCD/X90XL
+object_label: End
+object_source: https://data.bioontology.org/ontologies/RCD
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: LNC/LP190655-3
+object_label: end
+object_source: https://data.bioontology.org/ontologies/LOINC
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: http://identifiers.org/hgnc/3349
+object_label: ENG
+object_source: https://data.bioontology.org/ontologies/HGNC-NR
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: http://vocabs.lter-europe.net/EnvThes/10319
+object_label: end
+object_source: https://data.bioontology.org/ontologies/ENVTHES
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: OGG:3000002022
+object_label: ENG
+object_source: https://data.bioontology.org/ontologies/OGG
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: http://purl.allotrope.org/ontologies/process#AFP_0003286
+object_label: end
+object_source: https://data.bioontology.org/ontologies/AFO
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: NCIT:C25496
+object_label: End
+object_source: https://data.bioontology.org/ontologies/PREMEDONTO
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: http://www.limics.fr/ontologies/ontoparonnoy#Fin
+object_label: fin
+object_source: https://data.bioontology.org/ontologies/ONTOPARON
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: HL7/C1561490
+object_label: end
+object_source: https://data.bioontology.org/ontologies/HL7
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: PR:P17813
+object_label: endoglin (human)
+object_source: https://data.bioontology.org/ontologies/PR
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C51541
+object_label: ENG wt Allele
+object_source: https://data.bioontology.org/ontologies/NCIT
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: SYN
+object_id: NCBIGene:2022
+object_label: ENG
+object_source: https://data.bioontology.org/ontologies/CCO
+subject_end: 48
+subject_label: END
+subject_start: 46
+
+---
+match_type: PREF
+object_id: MooccuA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/MOOCCUADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: MoocciA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/MOOCCIADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: PhmammA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/PHMAMMADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: PhfumiA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/PHFUMIADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: HaroreA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/HAROREADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: CisaviA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/CISAVIADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: HaauraA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/HAAURAADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: CiinteA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/CIINTEADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+match_type: PREF
+object_id: MooculA:0000741
+object_label: Tentacles
+object_source: https://data.bioontology.org/ontologies/MOOCULADO
+subject_end: 67
+subject_label: TENTACLES
+subject_start: 59
+
+---
+</pre></div></div>
+</div>
+<p>Just like with Ubergraph, by default bioportal is treated as a single uber-ontology, but you can use a more specific selector to restrict search, e.g to the <a class="reference external" href="https://obofoundry.org/ontology/ceph">cephalopod</a> ontology</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>bioportal:ceph<span class="w"> </span>annotate<span class="w"> </span><span class="s2">&quot;cephalopods may have tentacular clubs on the end of their tentacles&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+match_type: SYN
+object_id: NCBITaxon:6605
+object_label: Cephalopoda
+object_source: https://data.bioontology.org/ontologies/CEPH
+subject_end: 11
+subject_label: CEPHALOPODS
+subject_start: 1
+
+---
+</pre></div></div>
+</div>
+</section>
+<section id="Pronto-(for-local-and-remote-files)">
+<h2>Pronto (for local and remote files)<a class="headerlink" href="#Pronto-(for-local-and-remote-files)" title="Link to this heading"></a></h2>
+<p>Pronto can be used for local files in obo format, or rdf/xml following an OBO-like profile; also for the same files hosted on <a class="reference external" href="http://obofoundry.org">http://obofoundry.org</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>prontolib:fbbt.obo<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;wing vein&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+FBbt:00004751 ! wing vein
+</pre></div></div>
+</div>
+</section>
+<section id="Sqlite">
+<h2>Sqlite<a class="headerlink" href="#Sqlite" title="Link to this heading"></a></h2>
+<p>One of the most efficient ways to query is via a SQL database.</p>
+<p>The <a class="reference external" href="https://github.com/INCATools/semantic-sql">semantic-sql</a> repo provides ready-made SQLite files for all OBO ontologies plus a number of other ontologies.</p>
+<p>See also:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial07.html">Part 7</a> of the tutorial</p></li>
+</ul>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">sqlite:obo:ONTID</span></code> selector to use a ready-made sqlite file.</p>
+<p>There is an initial delay while this is download, after this it is stashed using pystow (by default in <code class="docutils literal notranslate"><span class="pre">~/.data</span></code>)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:envo<span class="w"> </span>ancestors<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>river
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000001 ! entity
+BFO:0000002 ! continuant
+BFO:0000004 ! independent continuant
+BFO:0000024 ! fiat object
+BFO:0000024 ! fiat object part
+BFO:0000030 ! object
+BFO:0000040 ! material entity
+ENVO:00000022 ! river
+ENVO:00000023 ! stream
+ENVO:00000029 ! watercourse
+ENVO:00000063 ! water body
+ENVO:01000618 ! lotic water body
+ENVO:01000685 ! water mass
+ENVO:01000799 ! astronomical body
+ENVO:01000804 ! astronomical object
+ENVO:01000813 ! astronomical body part
+ENVO:01000819 ! hydrosphere
+ENVO:01001476 ! body of liquid
+ENVO:01001477 ! liquid astronomical body part
+ENVO:01001479 ! fluid astronomical body part
+ENVO:01001784 ! compound astronomical body part
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:envo<span class="w"> </span>descendants<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>river<span class="w"> </span><span class="p">|</span><span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>input/envo.db<span class="w"> </span>info<span class="w"> </span>-O<span class="w"> </span>obo<span class="w"> </span>-
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[Term]
+id: ENVO:00000022
+name: river
+def: &#34;A stream which, through permanent or seasonal flow processes, moves from elevated land towards lower elevations through a definite channel and empties either into a sea, lake, or another river or ends on land as bed seepage and evapotranspiration exceed water supply.&#34; [&lt;http://orcid.org/0000-0002-4366-3088&gt;, ADL:FTT, https://en.wikipedia.org/wiki/River]
+xref: EcoLexicon:river
+xref: FTT:1179
+xref: FTT:251
+xref: SPIRE:River
+xref: SWEETRealm:River
+xref: TGN:21105
+synonym: &#34;rio&#34; EXACT []
+synonym: &#34;braided river&#34; NARROW []
+is_a: ENVO:00000023 ! stream
+relationship: RO:0002150 ENVO:01000652 ! river channel
+relationship: RO:0002220 ENVO:00000143 ! river bank
+
+
+[Term]
+id: ENVO:00000059
+name: underground river
+def: &#34;A river that is under the surface of the Earth.&#34; [MA:ma]
+xref: TGN:21187
+xref: https://en.wikipedia.org/wiki/Underground_river
+is_a: ENVO:00000022 ! river
+is_a: ENVO:00000060 ! underground stream
+
+
+[Term]
+id: ENVO:00000101
+name: delta
+def: &#34;A tract of alluvium formed at the mouth of a river where the deposition ofsome of its load exceeds its rate of removal, crossed by the divergent channels (distributaries) of the river.&#34; [USGS:SDTS]
+xref: EcoLexicon:delta
+xref: FTT:97
+xref: Geonames:T.DLTA
+xref: SWEETRealm:Delta
+xref: TGN:21164
+xref: TGN:21422
+xref: https://en.wikipedia.org/wiki/Delta
+synonym: &#34;DELTA&#34; EXACT []
+synonym: &#34;Delta&#34; EXACT []
+synonym: &#34;delta&#34; EXACT []
+synonym: &#34;alluvial fan&#34; RELATED []
+synonym: &#34;bay delta&#34; RELATED []
+synonym: &#34;canyon delta&#34; RELATED []
+synonym: &#34;fan&#34; RELATED []
+synonym: &#34;fan delta&#34; RELATED []
+synonym: &#34;outwash&#34; RELATED []
+synonym: &#34;outwash plain&#34; RELATED []
+synonym: &#34;pass (delta)&#34; RELATED []
+is_a: ENVO:00000386 ! river mouth
+
+
+[Term]
+id: ENVO:00000386
+name: river mouth
+def: &#34;The end of a stream where it enters a standing water body such as a lake, sea or ocean.&#34; [MA:ma]
+xref: TGN:21156
+xref: https://en.wikipedia.org/wiki/River_mouth
+is_a: ENVO:00000385 ! stream mouth
+relationship: BFO:0000050 ENVO:00000022 ! river
+
+
+[Term]
+id: ENVO:01000297
+name: freshwater river
+def: &#34;A river where fresh water flows.&#34; [ORCID:0000-0002-4366-3088]
+is_a: ENVO:00000022 ! river
+relationship: BFO:0000051 ENVO:00002011 ! fresh water
+
+
+[Term]
+id: ENVO:01000599
+name: river water
+is_a: ENVO:00002006 ! liquid water
+relationship: BFO:0000050 ENVO:00000022 ! river
+
+
+[Term]
+id: ENVO:01000908
+name: geothermally heated river
+def: &#34;A river which is heated by geothermal processes such as heat exchange with lava or hydrothermal percolation.&#34; [http://www.atlasobscura.com/places/the-boiling-river-of-the-amazon]
+synonym: &#34;boiling river&#34; RELATED []
+is_a: ENVO:00000022 ! river
+
+
+[Term]
+id: ENVO:03600015
+name: polluted river
+def: &#34;A river which has elevated levels of contaminants.&#34; [&lt;https://en.wikipedia.org/wiki/Water_pollution&gt;, &lt;https://en.wikipedia.org/wiki/Pollution&gt;]
+is_a: ENVO:00000022 ! river
+relationship: obo:envo#has_increased_levels_of _:riog00017696 ! None
+
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;neuron&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000540 ! neuron
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## terms ending with &quot;neuron&quot; (in label or synonym)</span>
+<span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;t/neuron</span>$<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:4023041 ! L5 extratelencephalic projecting glutamatergic cortical neuron
+CL:4023121 ! sst chodl GABAergic cortical interneuron
+CL:0000100 ! motor neuron
+CL:0000119 ! cerebellar Golgi cell
+CL:0000121 ! Purkinje cell
+CL:0000207 ! olfactory receptor cell
+CL:0000526 ! afferent neuron
+CL:0000527 ! efferent neuron
+CL:0000561 ! amacrine cell
+CL:0000598 ! pyramidal neuron
+CL:0000617 ! GABAergic neuron
+CL:0000847 ! ciliated olfactory receptor neuron
+CL:0000848 ! microvillous olfactory receptor neuron
+CL:0000849 ! crypt olfactory receptor neuron
+CL:0000850 ! serotonergic neuron
+CL:0002609 ! obsolete neuron of cerebral cortex
+CL:0005007 ! Kolmer-Agduhr neuron
+CL:0005023 ! branchiomotor neuron
+CL:0005024 ! somatomotor neuron
+CL:0005025 ! visceromotor neuron
+CL:0008031 ! cortical interneuron
+CL:0008037 ! gamma motor neuron
+CL:0008038 ! alpha motor neuron
+CL:0009000 ! sensory neuron of spinal nerve
+CL:0010012 ! cerebral cortex neuron
+CL:0011003 ! magnocellular neurosecretory cell
+CL:0011005 ! GABAergic interneuron
+CL:0011111 ! gonadotropin releasing neuron
+CL:0012001 ! neuron of the forebrain
+CL:0015000 ! cranial motor neuron
+CL:1001451 ! sensory neuron of dorsal root ganglion
+CL:1001474 ! medium spiny neuron
+CL:1001505 ! parvocellular neurosecretory cell
+CL:1001571 ! hippocampal pyramidal neuron
+CL:2000032 ! peripheral nervous system neuron
+CL:2000048 ! anterior horn motor neuron
+CL:4023008 ! intratelencephalic-projecting glutamatergic cortical neuron
+CL:4023009 ! extratelencephalic-projecting glutamatergic cortical neuron
+CL:4023012 ! near-projecting glutamatergic cortical neuron
+CL:4023013 ! corticothalamic-projecting glutamatergic cortical neuron
+CL:4023040 ! L2/3-6 intratelencephalic projecting glutamatergic cortical neuron
+CL:4023069 ! medial ganglionic eminence derived GABAergic cortical interneuron
+CL:4023070 ! caudal ganglionic eminence derived GABAergic cortical interneuron
+CL:4023086 ! T Martinotti neuron
+CL:4023087 ! fan Martinotti neuron
+CL:4023125 ! KNDy neuron
+CL:4023128 ! rostral periventricular region of the third ventricle KDNy neuron
+GO:0019226 ! transmission of nerve impulse
+CL:0000112 ! columnar neuron
+CL:0000247 ! Rohon-Beard neuron
+CL:0011000 ! dorsal horn interneuron
+CL:1001611 ! cerebellar neuron
+CL:0000029 ! neural crest derived neuron
+CL:0000099 ! interneuron
+CL:0000101 ! sensory neuron
+CL:0000102 ! polymodal neuron
+CL:0000103 ! bipolar neuron
+CL:0000104 ! multipolar neuron
+CL:0000105 ! pseudounipolar neuron
+CL:0000106 ! unipolar neuron
+CL:0000107 ! autonomic neuron
+CL:0000108 ! cholinergic neuron
+CL:0000109 ! adrenergic neuron
+CL:0000110 ! peptidergic neuron
+CL:0000111 ! obsolete peripheral neuron
+CL:0000116 ! pioneer neuron
+CL:0000122 ! stellate neuron
+CL:0000246 ! Mauthner neuron
+CL:0000379 ! sensory processing neuron
+CL:0000381 ! neurosecretory neuron
+CL:0000397 ! ganglion interneuron
+CL:0000402 ! CNS interneuron
+CL:0000406 ! CNS short range interneuron
+CL:0000410 ! CNS long range interneuron
+CL:0000498 ! inhibitory interneuron
+CL:0000528 ! nitrergic neuron
+CL:0000530 ! primary neuron
+CL:0000531 ! primary sensory neuron
+CL:0000532 ! CAP motoneuron
+CL:0000533 ! primary motor neuron
+CL:0000534 ! primary interneuron
+CL:0000535 ! secondary neuron
+CL:0000536 ! secondary motor neuron
+CL:0000540 ! neuron
+CL:0000678 ! commissural neuron
+CL:0000679 ! glutamatergic neuron
+CL:0000691 ! stellate interneuron
+CL:0000700 ! dopaminergic neuron
+CL:0000717 ! obsolete fusimotor neuron
+CL:0000741 ! spinal accessory motor neuron
+CL:0000748 ! retinal bipolar neuron
+CL:0002608 ! hippocampal neuron
+CL:0002610 ! raphe nuclei neuron
+CL:0002613 ! striatum neuron
+CL:0005000 ! spinal cord interneuron
+CL:0007011 ! enteric neuron
+CL:0008010 ! cranial somatomotor neuron
+CL:0008013 ! cranial visceromotor neuron
+CL:0008014 ! obsolete excitatory motor neuron
+CL:0008015 ! inhibitory motor neuron
+CL:0008021 ! anterior lateral line ganglion neuron
+CL:0008025 ! noradrenergic neuron
+CL:0008028 ! visual system neuron
+CL:0008029 ! obsolete inhibitory neuron
+CL:0008030 ! obsolete excitatory neuron
+CL:0008032 ! rosehip neuron
+CL:0008039 ! lower motor neuron
+CL:0008048 ! upper motor neuron
+CL:0010011 ! cerebral cortex GABAergic interneuron
+CL:0010022 ! cardiac neuron
+CL:0011001 ! spinal cord motor neuron
+CL:0011002 ! lateral motor column neuron
+CL:0011100 ! galanergic neuron
+CL:0011102 ! parasympathetic neuron
+CL:0011103 ! sympathetic neuron
+CL:0011109 ! hypocretin-secreting neuron
+CL:0011110 ! histaminergic neuron
+CL:0011113 ! spiral ganglion neuron
+CL:1000001 ! retrotrapezoid nucleus neuron
+CL:1000245 ! posterior lateral line ganglion neuron
+CL:1001434 ! olfactory bulb interneuron
+CL:1001436 ! hair-tylotrich neuron
+CL:1001437 ! hair-down neuron
+CL:1001509 ! glycinergic neuron
+CL:1001561 ! vomeronasal sensory neuron
+CL:1001569 ! hippocampal interneuron
+CL:1001582 ! lateral ventricle neuron
+CL:2000023 ! spinal cord ventral column interneuron
+CL:2000024 ! spinal cord medial motor column neuron
+CL:2000028 ! cerebellum glutamatergic neuron
+CL:2000029 ! central nervous system neuron
+CL:2000031 ! lateral line ganglion neuron
+CL:2000047 ! brainstem motor neuron
+CL:2000097 ! midbrain dopaminergic neuron
+CL:3000002 ! sympathetic noradrenergic neuron
+CL:3000003 ! sympathetic cholinergic neuron
+CL:3000004 ! peripheral sensory neuron
+CL:4023000 ! beta motor neuron
+CL:4023001 ! static beta motor neuron
+CL:4023002 ! dynamic beta motor neuron
+CL:4023011 ! lamp5 GABAergic cortical interneuron
+CL:4023015 ! sncg GABAergic cortical interneuron
+CL:4023016 ! vip GABAergic cortical interneuron
+CL:4023017 ! sst GABAergic cortical interneuron
+CL:4023018 ! pvalb GABAergic cortical interneuron
+CL:4023020 ! dynamic gamma motor neuron
+CL:4023021 ! static gamma motor neuron
+CL:4023036 ! chandelier pvalb GABAergic cortical interneuron
+CL:4023038 ! L6b glutamatergic cortical neuron
+CL:4023042 ! L6 corticothalamic-projecting glutamatergic cortical neuron
+CL:4023052 ! Betz upper motor neuron
+CL:4023066 ! horizontal pyramidal neuron
+CL:4023076 ! Martinotti neuron
+CL:4023077 ! bitufted neuron
+CL:4023092 ! inverted pyramidal neuron
+CL:4023093 ! stellate pyramidal neuron
+CL:4023094 ! tufted pyramidal neuron
+CL:4023095 ! untufted pyramidal neuron
+CL:4023107 ! reticulospinal neuron
+CL:4023110 ! amygdala pyramidal neuron
+CL:4023111 ! cerebral cortex pyramidal neuron
+CL:4023112 ! vestibular afferent neuron
+CL:4023113 ! bouton vestibular afferent neuron
+CL:4023114 ! calyx vestibular afferent neuron
+CL:4023115 ! type 1 spiral ganglion neuron
+CL:4023116 ! type 2 spiral ganglion neuron
+CL:4023122 ! oxytocin receptor sst GABAergic cortical interneuron
+CL:4023123 ! hypothalamus kisspeptin neuron
+CL:4023124 ! dentate gyrus kisspeptin neuron
+CL:4023127 ! arcuate nucleus of hypothalamus KNDy neuron
+CL:4023130 ! kisspeptin neuron
+</pre></div></div>
+</div>
+<p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">How to validate an ontology</a></p>
+<p>We will use PATO as an example, as it is small</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:pato<span class="w"> </span>validate<span class="w"> </span>-o<span class="w"> </span>output/pato.validation.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+type: http://www.w3.org/ns/shacl#MinCountConstraintComponent
+subject: BFO:0000027
+severity: ERROR
+predicate: rdfs:label
+info: Missing slot (label) for BFO:0000027
+
+type: http://www.w3.org/ns/shacl#MinCountConstraintComponent
+subject: CARO:0000000
+severity: ERROR
+predicate: rdfs:label
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## the results are in TSV format conforming to the LinkML/SHACL validation datamodel</span>
+<span class="c1">## we will explore this using Pandas</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;output/pato.validation.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>severity</th>
+      <th>instantiates</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>object_str</th>
+      <th>source</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>http://www.w3.org/ns/shacl#MinCountConstraintC...</td>
+      <td>BFO:0000027</td>
+      <td>ERROR</td>
+      <td>None</td>
+      <td>rdfs:label</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Missing slot (label) for BFO:0000027</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>http://www.w3.org/ns/shacl#MinCountConstraintC...</td>
+      <td>CARO:0000000</td>
+      <td>ERROR</td>
+      <td>None</td>
+      <td>rdfs:label</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Missing slot (label) for CARO:0000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>http://www.w3.org/ns/shacl#MinCountConstraintC...</td>
+      <td>NBO:0000073</td>
+      <td>ERROR</td>
+      <td>None</td>
+      <td>rdfs:label</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Missing slot (label) for NBO:0000073</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>http://www.w3.org/ns/shacl#MinCountConstraintC...</td>
+      <td>NCBITaxon:3176</td>
+      <td>ERROR</td>
+      <td>None</td>
+      <td>rdfs:label</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Missing slot (label) for NCBITaxon:3176</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>http://www.w3.org/ns/shacl#MinCountConstraintC...</td>
+      <td>NCBITaxon:3378</td>
+      <td>ERROR</td>
+      <td>None</td>
+      <td>rdfs:label</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Missing slot (label) for NCBITaxon:3378</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>https://w3id.org/linkml/validation-model/Depre...</td>
+      <td>CHEBI:16189</td>
+      <td>WARNING</td>
+      <td>None</td>
+      <td>oio:hasAlternativeId</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Deprecated slot (has_alternative_id) for CHEBI...</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>https://w3id.org/linkml/validation-model/Depre...</td>
+      <td>CHEBI:16189</td>
+      <td>WARNING</td>
+      <td>None</td>
+      <td>oio:hasAlternativeId</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Deprecated slot (has_alternative_id) for CHEBI...</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>https://w3id.org/linkml/validation-model/Depre...</td>
+      <td>CHEBI:16189</td>
+      <td>WARNING</td>
+      <td>None</td>
+      <td>oio:hasAlternativeId</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Deprecated slot (has_alternative_id) for CHEBI...</td>
+    </tr>
+    <tr>
+      <th>200</th>
+      <td>https://w3id.org/linkml/validation-model/Depre...</td>
+      <td>CHEBI:16336</td>
+      <td>WARNING</td>
+      <td>None</td>
+      <td>oio:hasAlternativeId</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Deprecated slot (has_alternative_id) for CHEBI...</td>
+    </tr>
+    <tr>
+      <th>201</th>
+      <td>https://w3id.org/linkml/validation-model/Depre...</td>
+      <td>CHEBI:16336</td>
+      <td>WARNING</td>
+      <td>None</td>
+      <td>oio:hasAlternativeId</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Deprecated slot (has_alternative_id) for CHEBI...</td>
+    </tr>
+  </tbody>
+</table>
+<p>202 rows × 9 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Boolean-Search">
+<h2>Boolean Search<a class="headerlink" href="#Boolean-Search" title="Link to this heading"></a></h2>
+<p>We assume you have read <a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial01.html">part 1</a> of the tutorial.</p>
+<section id="passing-multiple-terms">
+<h3>passing multiple terms<a class="headerlink" href="#passing-multiple-terms" title="Link to this heading"></a></h3>
+<p>Most OAK commands take one <strong>or more</strong> arguments (recall the difference between <em>options</em> and <em>arguments</em>)</p>
+<p>These are treated as <strong>OR</strong> terms, so for example if we feed multiple terms into <code class="docutils literal notranslate"><span class="pre">info</span></code> we will get info on the set of all terms</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>info<span class="w"> </span><span class="s1">&#39;skin of head&#39;</span><span class="w"> </span><span class="s1">&#39;skin of face&#39;</span><span class="w"> </span><span class="s1">&#39;skin of scalp&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:0001084 ! skin of head
+UBERON:1000021 ! skin of face
+UBERON:8300000 ! skin of scalp
+</pre></div></div>
+</div>
+<p>For precision, use CURIEs in these queries:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>info<span class="w"> </span>UBERON:0001084<span class="w"> </span>UBERON:1000021<span class="w"> </span>UBERON:8300000
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:0001084 ! skin of head
+UBERON:1000021 ! skin of face
+UBERON:8300000 ! skin of scalp
+</pre></div></div>
+</div>
+<p>Graph operation commands such as <code class="docutils literal notranslate"><span class="pre">descendants</span></code> will find all descendants where the start nodes are the union of all search terms:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>descendants<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span><span class="s1">&#39;skin of face&#39;</span><span class="w"> </span><span class="s1">&#39;skin of scalp&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:0001457 ! skin of eyelid
+UBERON:0008802 ! cheek pouch
+UBERON:0008803 ! skin of cheek
+UBERON:0010515 ! brille
+UBERON:0012304 ! nasal diverticulum
+UBERON:0013640 ! internal cheek pouch
+UBERON:0013641 ! external cheek pouch
+UBERON:0013766 ! epicanthal fold
+UBERON:0015476 ! nose skin
+UBERON:0016462 ! periorbital skin
+UBERON:0016475 ! skin of forehead
+UBERON:0016918 ! upper vermilion
+UBERON:0018151 ! skin of upper lip
+UBERON:0034765 ! glabella skin
+UBERON:1000003 ! dewlap
+UBERON:1000015 ! skin of snout
+UBERON:1000021 ! skin of face
+UBERON:8300000 ! skin of scalp
+</pre></div></div>
+</div>
+</section>
+<section id="Graph-queries-as-search-terms">
+<h3>Graph queries as search terms<a class="headerlink" href="#Graph-queries-as-search-terms" title="Link to this heading"></a></h3>
+<p>We can also pass in graph queries <em>as search terms</em>. These are <strong>expanded</strong> to lists of terms that are substituted into the query.</p>
+<p>Query terms are preceded with a <code class="docutils literal notranslate"><span class="pre">.</span></code> and are parameterized using <code class="docutils literal notranslate"><span class="pre">//</span></code>.</p>
+<p>So for example the query term <code class="docutils literal notranslate"><span class="pre">.desc//p=i</span></code> means “find the descendants over is-a”:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>info<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin of face&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:1000021 ! skin of face
+UBERON:0008803 ! skin of cheek
+UBERON:0008802 ! cheek pouch
+UBERON:1000003 ! dewlap
+UBERON:1000015 ! skin of snout
+UBERON:0016475 ! skin of forehead
+UBERON:0016462 ! periorbital skin
+UBERON:0001457 ! skin of eyelid
+UBERON:0016918 ! upper vermilion
+UBERON:0013640 ! internal cheek pouch
+UBERON:0013641 ! external cheek pouch
+UBERON:0013766 ! epicanthal fold
+UBERON:0012304 ! nasal diverticulum
+UBERON:0018151 ! skin of upper lip
+UBERON:0015476 ! nose skin
+UBERON:0034765 ! glabella skin
+UBERON:0010515 ! brille
+</pre></div></div>
+</div>
+<p>Multiple search terms are treated as ORs; so for example to get the union of all (1) subtypes of skin (2) parts of the face, we can do:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>info<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin&#39;</span><span class="w"> </span>.desc//p<span class="o">=</span>i,p<span class="w"> </span><span class="s1">&#39;face&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:0014931 ! periungual skin
+UBERON:0009015 ! upper back skin
+UBERON:0009014 ! lower back skin
+UBERON:0004264 ! lower leg skin
+UBERON:0004263 ! upper arm skin
+UBERON:0004262 ! upper leg skin
+UBERON:1000021 ! skin of face
+UBERON:0013626 ! medial metatarsal pad
+UBERON:0013627 ! lateral metatarsal pad
+UBERON:0013628 ! pollical pad
+UBERON:0013629 ! hallical pad
+UBERON:0013622 ! manual autopod pad
+UBERON:0013623 ! pedal autopod pad
+UBERON:0001517 ! skin of elbow
+UBERON:0001513 ! skin of pes
+UBERON:0004014 ! labium minora
+UBERON:0001518 ! skin of wrist
+UBERON:0001519 ! skin of manus
+UBERON:0001511 ! skin of leg
+UBERON:0001512 ! skin of ankle
+</pre></div></div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">.and</span></code> to perform intersections:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>info<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin&#39;</span><span class="w"> </span>.and<span class="w"> </span>.desc//p<span class="o">=</span>i,p<span class="w"> </span><span class="s1">&#39;face&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:1000021 ! skin of face
+UBERON:0008803 ! skin of cheek
+UBERON:0008802 ! cheek pouch
+UBERON:1000003 ! dewlap
+UBERON:1000015 ! skin of snout
+UBERON:0016475 ! skin of forehead
+UBERON:0016462 ! periorbital skin
+UBERON:0001457 ! skin of eyelid
+UBERON:0016918 ! upper vermilion
+UBERON:0013640 ! internal cheek pouch
+UBERON:0013641 ! external cheek pouch
+UBERON:0013766 ! epicanthal fold
+UBERON:0012304 ! nasal diverticulum
+UBERON:0018151 ! skin of upper lip
+UBERON:0015476 ! nose skin
+UBERON:0034765 ! glabella skin
+UBERON:0010515 ! brille
+</pre></div></div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">.not</span></code> to perform set subtractions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>info<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin of head&#39;</span><span class="w"> </span>.not<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin of face&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+UBERON:8300000 ! skin of scalp
+UBERON:0001458 ! skin of lip
+UBERON:0001459 ! skin of external ear
+UBERON:0016919 ! lower vermilion
+UBERON:0016915 ! vermilion
+UBERON:0012305 ! marginal cutaneous pouch of ear
+UBERON:0012458 ! antler velvet
+UBERON:0018150 ! skin of lower lip
+UBERON:0001084 ! skin of head
+</pre></div></div>
+</div>
+</section>
+<section id="Extracting-subsets,-performing-gap-filling">
+<h3>Extracting subsets, performing gap-filling<a class="headerlink" href="#Extracting-subsets,-performing-gap-filling" title="Link to this heading"></a></h3>
+<p>We can show an end to end example here that shows how to to extract custom subsets</p>
+<p>First consider the tree formed by fetching all descendants of a term:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>tree<span class="w"> </span>--gap-fill<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin of head&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] **UBERON:0001084 ! skin of head**
+    * [i] **UBERON:8300000 ! skin of scalp**
+    * [i] **UBERON:1000021 ! skin of face**
+        * [i] **UBERON:1000015 ! skin of snout**
+        * [i] **UBERON:1000003 ! dewlap**
+        * [i] **UBERON:0018151 ! skin of upper lip**
+            * [i] **UBERON:0016918 ! upper vermilion**
+        * [i] **UBERON:0016475 ! skin of forehead**
+            * [i] **UBERON:0034765 ! glabella skin**
+        * [i] **UBERON:0016462 ! periorbital skin**
+        * [i] **UBERON:0015476 ! nose skin**
+        * [i] **UBERON:0012304 ! nasal diverticulum**
+        * [i] **UBERON:0010515 ! brille**
+        * [i] **UBERON:0008803 ! skin of cheek**
+            * [i] **UBERON:0008802 ! cheek pouch**
+                * [i] **UBERON:0013641 ! external cheek pouch**
+                * [i] **UBERON:0013640 ! internal cheek pouch**
+        * [i] **UBERON:0001457 ! skin of eyelid**
+            * [i] **UBERON:0013766 ! epicanthal fold**
+    * [i] **UBERON:0016915 ! vermilion**
+        * [i] **UBERON:0016919 ! lower vermilion**
+        * [i] **UBERON:0016918 ! upper vermilion**
+    * [i] **UBERON:0012458 ! antler velvet**
+    * [i] **UBERON:0001459 ! skin of external ear**
+        * [i] **UBERON:0012305 ! marginal cutaneous pouch of ear**
+    * [i] **UBERON:0001458 ! skin of lip**
+        * [i] **UBERON:0018151 ! skin of upper lip**
+            * [i] **UBERON:0016918 ! upper vermilion**
+        * [i] **UBERON:0018150 ! skin of lower lip**
+            * [i] **UBERON:0016919 ! lower vermilion**
+</pre></div></div>
+</div>
+<p>Note: all terms are highlighted as all are part of the input set.</p>
+<p>Note that this hierarchy is relatively deep - what if we decided to remove intermediate nodes, for example:</p>
+<ul class="simple">
+<li><p>[] UBERON:0001084 ! skin of head</p>
+<ul>
+<li><p>[i] <strong>UBERON:8300000 ! skin of scalp</strong> &lt;—- <em>REMOVE THIS ONE</em></p></li>
+<li><p>[i] UBERON:1000021 ! skin of face</p></li>
+</ul>
+</li>
+</ul>
+<p>However, if we remove this we want to make sure “skin of face” is not left an orphan, it should have the most direct <em>entailed</em> edges after removal.</p>
+<p>We do this by:</p>
+<ol class="arabic simple">
+<li><p>Adding <em>exclusion</em> criteria to our query</p></li>
+<li><p>Using the <code class="docutils literal notranslate"><span class="pre">--gap-fill</span></code> option to plug any gaps</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>tree<span class="w"> </span>--gap-fill<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin of head&#39;</span><span class="w"> </span>.not<span class="w"> </span><span class="s1">&#39;skin of face&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] **UBERON:0001084 ! skin of head**
+    * [i] **UBERON:8300000 ! skin of scalp**
+    * [i] **UBERON:1000015 ! skin of snout**
+    * [i] **UBERON:1000003 ! dewlap**
+    * [i] **UBERON:0016915 ! vermilion**
+        * [i] **UBERON:0016919 ! lower vermilion**
+        * [i] **UBERON:0016918 ! upper vermilion**
+    * [i] **UBERON:0016475 ! skin of forehead**
+        * [i] **UBERON:0034765 ! glabella skin**
+    * [i] **UBERON:0016462 ! periorbital skin**
+    * [i] **UBERON:0015476 ! nose skin**
+    * [i] **UBERON:0012458 ! antler velvet**
+    * [i] **UBERON:0012304 ! nasal diverticulum**
+    * [i] **UBERON:0010515 ! brille**
+    * [i] **UBERON:0008803 ! skin of cheek**
+        * [i] **UBERON:0008802 ! cheek pouch**
+            * [i] **UBERON:0013641 ! external cheek pouch**
+            * [i] **UBERON:0013640 ! internal cheek pouch**
+    * [i] **UBERON:0001459 ! skin of external ear**
+        * [i] **UBERON:0012305 ! marginal cutaneous pouch of ear**
+    * [i] **UBERON:0001458 ! skin of lip**
+        * [i] **UBERON:0018151 ! skin of upper lip**
+            * [i] **UBERON:0016918 ! upper vermilion**
+        * [i] **UBERON:0018150 ! skin of lower lip**
+            * [i] **UBERON:0016919 ! lower vermilion**
+    * [i] **UBERON:0001457 ! skin of eyelid**
+        * [i] **UBERON:0013766 ! epicanthal fold**
+</pre></div></div>
+</div>
+<p>We can export this to <code class="docutils literal notranslate"><span class="pre">.obo</span></code> format:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>viz<span class="w"> </span>--gap-fill<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s1">&#39;skin of head&#39;</span><span class="w"> </span>.not<span class="w"> </span><span class="s1">&#39;skin of face&#39;</span><span class="w"> </span>-O<span class="w"> </span>obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+format-version: 1.4
+
+[Term]
+id: UBERON:0001084
+name: skin of head
+
+[Term]
+id: UBERON:0001457
+name: skin of eyelid
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0001458
+name: skin of lip
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0001459
+name: skin of external ear
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0008802
+name: cheek pouch
+is_a: UBERON:0008803
+
+[Term]
+id: UBERON:0008803
+name: skin of cheek
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0010515
+name: brille
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0012304
+name: nasal diverticulum
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0012305
+name: marginal cutaneous pouch of ear
+is_a: UBERON:0001459
+
+[Term]
+id: UBERON:0012458
+name: antler velvet
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0013640
+name: internal cheek pouch
+is_a: UBERON:0008802
+
+[Term]
+id: UBERON:0013641
+name: external cheek pouch
+is_a: UBERON:0008802
+
+[Term]
+id: UBERON:0013766
+name: epicanthal fold
+is_a: UBERON:0001457
+
+[Term]
+id: UBERON:0015476
+name: nose skin
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0016462
+name: periorbital skin
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0016475
+name: skin of forehead
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0016915
+name: vermilion
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:0016918
+name: upper vermilion
+is_a: UBERON:0016915
+is_a: UBERON:0018151
+
+[Term]
+id: UBERON:0016919
+name: lower vermilion
+is_a: UBERON:0016915
+is_a: UBERON:0018150
+
+[Term]
+id: UBERON:0018150
+name: skin of lower lip
+is_a: UBERON:0001458
+
+[Term]
+id: UBERON:0018151
+name: skin of upper lip
+is_a: UBERON:0001458
+
+[Term]
+id: UBERON:0034765
+name: glabella skin
+is_a: UBERON:0016475
+
+[Term]
+id: UBERON:1000003
+name: dewlap
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:1000015
+name: skin of snout
+is_a: UBERON:0001084
+
+[Term]
+id: UBERON:8300000
+name: skin of scalp
+is_a: UBERON:0001084
+</pre></div></div>
+</div>
+<p>By default the obo has only minimal metadata. There will be more export options in future.</p>
+</section>
+<section id="Applying-Changes">
+<h3>Applying Changes<a class="headerlink" href="#Applying-Changes" title="Link to this heading"></a></h3>
+<p>We can use <a class="reference external" href="https://incatools.github.io/kgcl/">KGCL</a> to describe desired changes to an ontology.</p>
+<p>In this example we will use the remote version of the FBbt ontology from the OBO library. Of course, we will not write our changes (which are intentionally silly) back to the central location, but instead to a local file:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>prontolib:fbbt.obo<span class="w"> </span>apply<span class="w"> </span><span class="err">\</span>
+    <span class="s2">&quot;rename FBbt:00004751 from &#39;wing vein&#39; to &#39;cheesy pizza&#39;&quot;</span>\
+    <span class="s2">&quot;rename FBbt:00005095 from &#39;brain&#39; to &#39;mushroom body pizza&#39;&quot;</span>\
+    <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">fbbt</span><span class="o">-</span><span class="n">local</span><span class="o">.</span><span class="n">obo</span> <span class="o">-</span><span class="n">O</span> <span class="n">obo</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>output/fbbt-local.obo<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;t~pizza&quot;</span><span class="w"> </span>-O<span class="w"> </span>csv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1-3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id      label   definition
+FBbt:00004751   cheesy pizza    Wing veins are epidermal sclerotizations above hemolymph lacunae that run between the dorsal and the ventral wing surfaces and carry trachea and nerves. The two-dimensional pattern of wing veins is the result of the cuticular differentiation of stripes of epidermal cells on the wing blade, which can be contrasted with the two-dimensional pattern of sensory organs derived from discrete cells.
+FBbt:00005095   mushroom body pizza     Anterodorsal portion of the central nervous system. The neuromeres considered to be part of the brain vary by stage. In the larva, the cerebral (supraesophageal) neuromeres, which form a bilateral pair of lobes, constitute the brain (Urbach and Technau, 2003; Li et al., 2014; Crews, 2019). During metamorphosis, the gnathal ganglion separates from the prothoracic neuromere and fuses with the supraesophageal ganglion, to become the ventral part of the adult brain (Ito et al., 2014; Hartenstein et al., 2018; Kendroud et al., 2018).
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

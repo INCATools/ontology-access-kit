@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapping using OAK: mapping GO to MetaCyc &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Mapping using OAK: mapping GO to MetaCyc</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/GO/Mapping-GO-to-Metacyc.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Mapping-using-OAK:-mapping-GO-to-MetaCyc">
+<h1>Mapping using OAK: mapping GO to MetaCyc<a class="headerlink" href="#Mapping-using-OAK:-mapping-GO-to-MetaCyc" title="Link to this heading"></a></h1>
+<p>This illustrates the use of <code class="docutils literal notranslate"><span class="pre">lexmatch</span></code> to map between GO and MetaCyc</p>
+<p>First we set up a convenience alias:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">go</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">go</span>
+</pre></div>
+</div>
+</div>
+<p>Next we will use <code class="docutils literal notranslate"><span class="pre">--help</span></code> to get the inline documentation on <code class="docutils literal notranslate"><span class="pre">lexmatch</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">lexmatch</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak lexmatch [OPTIONS] [TERMS]...
+
+  Performs lexical matching between pairs of terms in one more more
+  ontologies.
+
+  Examples:
+
+      runoak -i foo.obo lexmatch -o foo.sssom.tsv
+
+  In this example, the input ontology file is assumed to contain all pairs of
+  terms to be mapped.
+
+  It is more common to map between all pairs of terms in two ontology files.
+  In this case, you can merge the ontologies using a tool like ROBOT; or,  to
+  avoid a merge preprocessing step, use the --addl (-a) option to specify a
+  second ontology file.
+
+      runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv
+
+  By default, this command will compare all terms in all ontologies. You can
+  use the OAK term query syntax to pass in the set of all terms to be
+  compared.
+
+  For example, to compare all terms in union of FOO and BAR namespaces:
+
+      runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv i^FOO: i^BAR:
+
+  All members of the set are compared (including FOO to FOO matches and BAR to
+  BAR matches), omitting trivial reciprocal matches.
+
+  Use an &#34;@&#34; separator between two queries to feed in two explicit sets:
+
+      runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv i^FOO: @
+      i^BAR:
+
+  ALGORITHM: lexmatch implements a simple algorithm:
+
+  - create a lexical index, keyed by normalized strings of labels, synonyms -
+  report all pairs of entities that have the same key
+
+  The lexical index can be exported (in native YAML) using -L:
+
+      runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv
+
+  Note: if you run the above command a second time it will be faster as the
+  index will be reused.
+
+  RULES: Using custom rules:
+
+      runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o
+      foo.sssom.tsv
+
+  Full documentation:
+
+  - https://incatools.github.io/ontology-access-
+  kit/src/oaklib.utilities.lexical.lexical_indexer.html# module-
+  oaklib.utilities.lexical.lexical_indexer
+
+Options:
+  -R, --rules-file TEXT           path to rules file. Conforms to
+                                  rules_datamodel.        e.g.
+                                  https://github.com/INCATools/ontology-
+                                  access-
+                                  kit/blob/main/tests/input/matcher_rules.yaml
+  --add-labels / --no-add-labels  Populate empty labels with URI fragments or
+                                  CURIE local IDs, for ontologies that use
+                                  semantic IDs  [default: no-add-labels]
+  -L, --lexical-index-file TEXT   path to lexical index. This is recreated
+                                  each time unless --no-recreate is passed
+  --recreate / --no-recreate      if true and lexical index is specified,
+                                  always recreate, otherwise load from index
+                                  [default: recreate]
+  --ensure-strict-prefixes / --no-ensure-strict-prefixes
+                                  Clean prefix map and mappings before
+                                  generating an output.  [default: ensure-
+                                  strict-prefixes]
+  -o, --output FILENAME           Output file, e.g. obo file
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+<section id="Using-lexmatch">
+<h2>Using lexmatch<a class="headerlink" href="#Using-lexmatch" title="Link to this heading"></a></h2>
+<p>Here we assume a prepared yeastpathways file in an ontology format (yp.obo)</p>
+<p>To align we will specify this file with the <code class="docutils literal notranslate"><span class="pre">-a</span></code> option, for additional ontologies.</p>
+<p>To restrict the mapping set to those between GO and MetaCyc we pass two argument lists which are OAK selector queries</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">i^GO:</span></code> all terms with an ID that starts with <code class="docutils literal notranslate"><span class="pre">GO:</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">i^MetaCyc:</span></code> all terms with an ID that starts with <code class="docutils literal notranslate"><span class="pre">MetaCyc:</span></code></p></li>
+</ul>
+<p>We will choose SSSOM as the output format (default). Note SSSOM is strict about all IDs also being expandable to URIs, and currently <code class="docutils literal notranslate"><span class="pre">MetaCyc</span></code> isn’t in the default OBO list, so we pass this on the command line:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">--</span><span class="n">prefix</span> <span class="n">MetaCyc</span><span class="o">=</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">identifiers</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">MetaCyc</span><span class="o">/</span> <span class="o">-</span><span class="n">a</span> <span class="n">inputs</span><span class="o">/</span><span class="n">yp</span><span class="o">.</span><span class="n">obo</span> <span class="n">lexmatch</span> <span class="n">i</span><span class="o">^</span><span class="n">GO</span><span class="p">:</span> <span class="o">@</span> <span class="n">i</span><span class="o">^</span><span class="n">MetaCyc</span><span class="p">:</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">yp</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:Skipping &lt;urn:swrl#A&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#B&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#C&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#D&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#d&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#e&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#eff&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#in&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#p&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#w&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#z&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#z&gt; as it is not a valid CURIE
+</pre></div></div>
+</div>
+<p>Next we will use pandas to explore and view the table</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/go-to-yp.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>mapping_tool</th>
+      <th>confidence</th>
+      <th>subject_match_field</th>
+      <th>object_match_field</th>
+      <th>match_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0005978</td>
+      <td>glycogen biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4031</td>
+      <td>glycogen biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glycogen biosynthesis</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0005980</td>
+      <td>glycogen catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:GLYCOCAT-YEAST-PWY</td>
+      <td>glycogen catabolism</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glycogen catabolism</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0005987</td>
+      <td>sucrose catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:SUCUTIL-PWY-2</td>
+      <td>sucrose degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>sucrose degradation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0005993</td>
+      <td>trehalose catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:TREDEG-YEAST-PWY</td>
+      <td>trehalose degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>trehalose degradation</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0005998</td>
+      <td>xylulose catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-5</td>
+      <td>xylulose degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>xylulose degradation</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>GO:0006001</td>
+      <td>fructose catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-0</td>
+      <td>fructose degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>fructose degradation</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>GO:0006031</td>
+      <td>chitin biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-15</td>
+      <td>chitin biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>chitin biosynthesis</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>GO:0006048</td>
+      <td>UDP-N-acetylglucosamine biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:UDPNAGSYN-YEAST-PWY</td>
+      <td>UDP-N-acetylglucosamine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>udp-n-acetylglucosamine biosynthesis</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>GO:0006068</td>
+      <td>ethanol catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4300</td>
+      <td>ethanol degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>ethanol degradation</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>GO:0006097</td>
+      <td>glyoxylate cycle</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:GLYOXYLATE-BYPASS</td>
+      <td>glyoxylate cycle</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>glyoxylate cycle</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>GO:0006098</td>
+      <td>pentose-phosphate shunt</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PENTOSE-P-PWY</td>
+      <td>pentose phosphate pathway</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>pentose phosphate pathway</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>GO:0006114</td>
+      <td>glycerol biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-48</td>
+      <td>glycerol biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glycerol biosynthesis</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>GO:0006530</td>
+      <td>asparagine catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:ASPARAGINE-DEG2-PWY</td>
+      <td>asparagine degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>asparagine degradation</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>GO:0006532</td>
+      <td>aspartate biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:ASPBIO-PWY</td>
+      <td>aspartate biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>aspartate biosynthesis</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>GO:0006550</td>
+      <td>isoleucine catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4109</td>
+      <td>isoleucine degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>isoleucine degradation</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>GO:0006552</td>
+      <td>leucine catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4112</td>
+      <td>leucine degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>leucine degradation</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>GO:0006565</td>
+      <td>L-serine catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:SERDEG-PWY</td>
+      <td>L-serine degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>l-serine degradation</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>GO:0006567</td>
+      <td>threonine catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:THREOCAT2-PWY</td>
+      <td>threonine degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>threonine degradation</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>GO:0006569</td>
+      <td>tryptophan catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-214</td>
+      <td>tryptophan degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>tryptophan degradation</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>GO:0006571</td>
+      <td>tyrosine biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4120</td>
+      <td>tyrosine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>tyrosine biosynthesis</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>GO:0006574</td>
+      <td>valine catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4105</td>
+      <td>valine degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>valine degradation</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>GO:0006597</td>
+      <td>spermine biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:ARGSPECAT-PWY</td>
+      <td>spermine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>spermine biosynthesis</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>GO:0006661</td>
+      <td>phosphatidylinositol biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-3</td>
+      <td>phosphatidylinositol biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>phosphatidylinositol biosynthesis</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>GO:0006696</td>
+      <td>ergosterol biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-31704</td>
+      <td>ergosterol biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>ergosterol biosynthesis</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>GO:0006750</td>
+      <td>glutathione biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:GLUTATHIONESYN-PWY</td>
+      <td>glutathione biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glutathione biosynthesis</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>GO:0006751</td>
+      <td>glutathione catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWYQT-4432</td>
+      <td>glutathione degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glutathione degradation</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>GO:0006853</td>
+      <td>carnitine shuttle</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4</td>
+      <td>carnitine shuttle</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>carnitine shuttle</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>GO:0008654</td>
+      <td>phospholipid biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PHOSLIPSYN2-PWY-1</td>
+      <td>phospholipid biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>phospholipid biosynthesis</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>GO:0009086</td>
+      <td>methionine biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-238</td>
+      <td>methionine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>methionine biosynthesis</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>GO:0009094</td>
+      <td>L-phenylalanine biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-4153</td>
+      <td>phenylalanine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>rdfs:label</td>
+      <td>phenylalanine biosynthesis</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>GO:0009102</td>
+      <td>biotin biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:BIOTIN-SYNTHESIS-PWY</td>
+      <td>biotin biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>biotin biosynthesis</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>GO:0009228</td>
+      <td>thiamine biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-17</td>
+      <td>thiamine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>thiamine biosynthesis</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>GO:0009423</td>
+      <td>chorismate biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:ARO-PWY-1</td>
+      <td>chorismate biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>chorismate biosynthesis</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>GO:0016024</td>
+      <td>CDP-diacylglycerol biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-103</td>
+      <td>CDP-diacylglycerol biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>cdp-diacylglycerol biosynthesis</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>GO:0019240</td>
+      <td>citrulline biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:CITRUL-BIO2-PWY</td>
+      <td>citrulline biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>citrulline biosynthesis</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>GO:0019309</td>
+      <td>mannose catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-1743</td>
+      <td>mannose degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>mannose degradation</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>GO:0019354</td>
+      <td>siroheme biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY-5194-1</td>
+      <td>siroheme biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>siroheme biosynthesis</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>GO:0019388</td>
+      <td>galactose catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:YEAST-GALACT-METAB-PWY</td>
+      <td>galactose degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>galactose degradation</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>GO:0019427</td>
+      <td>acetyl-CoA biosynthetic process from acetate</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:ACETATEUTIL2-PWY</td>
+      <td>acetate utilization</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasRelatedSynonym</td>
+      <td>rdfs:label</td>
+      <td>acetate utilization</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>GO:0019509</td>
+      <td>L-methionine salvage from methylthioadenosine</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-64</td>
+      <td>methionine salvage pathway</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>methionine salvage pathway</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>GO:0019563</td>
+      <td>glycerol catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:AERO-GLYCEROL-CAT-PWY</td>
+      <td>glycerol degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glycerol degradation</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>GO:0030497</td>
+      <td>fatty acid elongation</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:FASYN-ELONG2-PWY</td>
+      <td>fatty acid elongation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>fatty acid elongation</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>GO:0032958</td>
+      <td>inositol phosphate biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-402</td>
+      <td>inositol phosphate biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>inositol phosphate biosynthesis</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>GO:0033014</td>
+      <td>tetrapyrrole biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-50</td>
+      <td>tetrapyrrole biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>tetrapyrrole biosynthesis</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>GO:0034079</td>
+      <td>butanediol biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-661</td>
+      <td>butanediol biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>butanediol biosynthesis</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>GO:0036197</td>
+      <td>zymosterol biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY-6074-1</td>
+      <td>zymosterol biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>zymosterol biosynthesis</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>GO:0045151</td>
+      <td>acetoin biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-335</td>
+      <td>acetoin biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>acetoin biosynthesis</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>GO:0046654</td>
+      <td>tetrahydrofolate biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY-6614</td>
+      <td>tetrahydrofolate biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>tetrahydrofolate biosynthesis</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>GO:0046854</td>
+      <td>phosphatidylinositol phosphate biosynthetic pr...</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-242</td>
+      <td>phosphatidylinositol phosphate biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>phosphatidylinositol phosphate biosynthesis</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>GO:0051596</td>
+      <td>methylglyoxal catabolic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY-901</td>
+      <td>methylglyoxal catabolism</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>methylglyoxal catabolism</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>GO:0070485</td>
+      <td>dehydro-D-arabinono-1,4-lactone biosynthetic p...</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY3O-6-1</td>
+      <td>dehydro-D-arabinono-1,4-lactone biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>dehydro-d-arabinono-1,4-lactone biosynthesis</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>GO:0071269</td>
+      <td>L-homocysteine biosynthetic process</td>
+      <td>skos:closeMatch</td>
+      <td>MetaCyc:PWY-5344</td>
+      <td>L-homocysteine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.5</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>l-homocysteine biosynthesis</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Enhancing-mappings-with-a-rule-file">
+<h2>Enhancing mappings with a rule file<a class="headerlink" href="#Enhancing-mappings-with-a-rule-file" title="Link to this heading"></a></h2>
+<p>Our first pass yielded 51 mappings (many of which were already present as xrefs). But those of us who know GO nomenclature know that this may be an undercount due to the fact GO uses unusual formal nomenclature not always used by biologists, or by the curators of MetaCyc.</p>
+<p>An example is the use of terms like <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">catabolic</span> <span class="pre">process</span></code> whereas a biologist might just say <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">catabolism</span></code>. Also for microbes a common term is <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">degradation</span></code></p>
+<p>Sometimes GO includes synonyms for these, <em>but this can’t be relied on consistently</em>.</p>
+<p>We will use the <em>synonymizer</em> to auto-inject these synonyms.</p>
+<p>First we will curate a <em>rule file</em>, that looks like this:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>inputs/go-match-rules.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+rules:
+  - description: default
+    postconditions:
+      predicate_id: skos:closeMatch
+      weight: 0.0
+
+  - description: exact to exact
+    preconditions:
+      subject_match_field_one_of:
+        - oio:hasExactSynonym
+        - rdfs:label
+        - skos:prefLabel
+      object_match_field_one_of:
+        - oio:hasExactSynonym
+        - rdfs:label
+        - skos:prefLabel
+    postconditions:
+      predicate_id: skos:exactMatch
+      weight: 2.0
+
+  - description: &gt;-
+     label to label; note this is additive with the exact to exact rule,
+      so the score just represents an additional small boost
+    preconditions:
+      subject_match_field_one_of:
+        - rdfs:label
+      object_match_field_one_of:
+        - rdfs:label
+    postconditions:
+      predicate_id: skos:exactMatch
+      weight: 0.5
+
+  - description: xref match
+    preconditions:
+      subject_match_field_one_of:
+        - oio:hasDbXref
+        - skos:exactMatch
+      object_match_field_one_of:
+        - oio:hasDbXref
+        - skos:exactMatch
+    postconditions:
+      predicate_id: skos:exactMatch
+      weight: 4.0
+
+  - preconditions:
+      subject_match_field_one_of:
+        - oio:hasExactSynonym
+        - rdfs:label
+      object_match_field_one_of:
+        - oio:hasBroadSynonym
+    postconditions:
+      predicate_id: skos:broadMatch
+      weight: 2.0
+
+  - preconditions:
+      subject_match_field_one_of:
+        - oio:hasExactSynonym
+        - rdfs:label
+      object_match_field_one_of:
+        - oio:hasNarrowSynonym
+    postconditions:
+      predicate_id: skos:narrowMatch
+      weight: 2.0
+
+  - synonymizer:
+      the_rule: biosynthesis
+      match: r&#39;biosynthetic process&#39;
+      match_scope: &#34;*&#34;
+      replacement: &#34;biosynthesis&#34;
+  - synonymizer:
+      the_rule: metabolism
+      match: r&#39;metabolic process&#39;
+      match_scope: &#34;*&#34;
+      replacement: &#34;metabolism&#34;
+  - synonymizer:
+      the_rule: catabolism
+      match: r&#39;catabolic process&#39;
+      match_scope: &#34;*&#34;
+      replacement: &#34;catabolism&#34;
+  - synonymizer:
+      the_rule: degradation
+      match: r&#39;catabolic process&#39;
+      match_scope: &#34;*&#34;
+      replacement: &#34;degradation&#34;
+
+</pre></div></div>
+</div>
+<p>Note the <code class="docutils literal notranslate"><span class="pre">synonymizer</span></code> replacement rules at the end.</p>
+<p>Next we will run lexmatch again, passing the rule file using <code class="docutils literal notranslate"><span class="pre">-R</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="o">--</span><span class="n">prefix</span> <span class="n">MetaCyc</span><span class="o">=</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">identifiers</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">MetaCyc</span><span class="o">/</span> <span class="o">-</span><span class="n">a</span> <span class="n">inputs</span><span class="o">/</span><span class="n">yp</span><span class="o">.</span><span class="n">obo</span> <span class="n">lexmatch</span> <span class="o">-</span><span class="n">R</span> <span class="n">inputs</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">match</span><span class="o">-</span><span class="n">rules</span><span class="o">.</span><span class="n">yaml</span> <span class="n">i</span><span class="o">^</span><span class="n">GO</span><span class="p">:</span> <span class="o">@</span> <span class="n">i</span><span class="o">^</span><span class="n">MetaCyc</span><span class="p">:</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">yp</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:Skipping &lt;urn:swrl#A&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#B&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#C&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#D&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#a2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#d&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#e&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#eff&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g1&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#g2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#in&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf2&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#mf&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#p&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#w&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl#z&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#x&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#y&gt; as it is not a valid CURIE
+WARNING:root:Skipping &lt;urn:swrl:var#z&gt; as it is not a valid CURIE
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/go-to-yp.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>mapping_tool</th>
+      <th>confidence</th>
+      <th>subject_match_field</th>
+      <th>object_match_field</th>
+      <th>match_string</th>
+      <th>subject_preprocessing</th>
+      <th>object_preprocessing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0005978</td>
+      <td>glycogen biosynthetic process</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:PWY3O-4031</td>
+      <td>glycogen biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.849779</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>glycogen biosynthesis</td>
+      <td>semapv:RegularExpressionReplacement</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0005978</td>
+      <td>glycogen biosynthetic process</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:PWY3O-4031</td>
+      <td>glycogen biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.800000</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glycogen biosynthesis</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0005980</td>
+      <td>glycogen catabolic process</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:GLYCOCAT-YEAST-PWY</td>
+      <td>glycogen catabolism</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.849779</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>glycogen catabolism</td>
+      <td>semapv:RegularExpressionReplacement</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0005980</td>
+      <td>glycogen catabolic process</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:GLYCOCAT-YEAST-PWY</td>
+      <td>glycogen catabolism</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.800000</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>glycogen catabolism</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0005987</td>
+      <td>sucrose catabolic process</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:SUCUTIL-PWY-2</td>
+      <td>sucrose degradation</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.800000</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>sucrose degradation</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>GO:0070485</td>
+      <td>dehydro-D-arabinono-1,4-lactone biosynthetic p...</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:PWY3O-6-1</td>
+      <td>dehydro-D-arabinono-1,4-lactone biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.800000</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>dehydro-d-arabinono-1,4-lactone biosynthesis</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>GO:0071269</td>
+      <td>L-homocysteine biosynthetic process</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:PWY-5344</td>
+      <td>L-homocysteine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.800000</td>
+      <td>oio:hasExactSynonym</td>
+      <td>rdfs:label</td>
+      <td>l-homocysteine biosynthesis</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>GO:0071269</td>
+      <td>L-homocysteine biosynthetic process</td>
+      <td>skos:exactMatch</td>
+      <td>MetaCyc:PWY-5344</td>
+      <td>L-homocysteine biosynthesis</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.849779</td>
+      <td>rdfs:label</td>
+      <td>rdfs:label</td>
+      <td>l-homocysteine biosynthesis</td>
+      <td>semapv:RegularExpressionReplacement</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>MetaCyc:PWY3O-4153</td>
+      <td>phenylalanine biosynthesis</td>
+      <td>skos:narrowMatch</td>
+      <td>GO:0009094</td>
+      <td>L-phenylalanine biosynthetic process</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.800000</td>
+      <td>rdfs:label</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>phenylalanine biosynthesis</td>
+      <td>NaN</td>
+      <td>semapv:RegularExpressionReplacement</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>MetaCyc:PWY3O-4153</td>
+      <td>phenylalanine biosynthesis</td>
+      <td>skos:narrowMatch</td>
+      <td>GO:0009094</td>
+      <td>L-phenylalanine biosynthetic process</td>
+      <td>semapv:LexicalMatching</td>
+      <td>oaklib</td>
+      <td>0.800000</td>
+      <td>rdfs:label</td>
+      <td>oio:hasBroadSynonym</td>
+      <td>phenylalanine biosynthesis</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>83 rows × 13 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">time</span> <span class="n">we</span> <span class="n">get</span> <span class="mi">83</span> <span class="n">rows</span><span class="p">,</span> <span class="n">including</span>
+</pre></div>
+</div>
+</div>
+<p>To download: <a class="reference external" href="output/go-to-yp.sssom.tsv">output/go-to-yp.sssom.tsv</a></p>
+</section>
+<section id="Future-steps">
+<h2>Future steps<a class="headerlink" href="#Future-steps" title="Link to this heading"></a></h2>
+<p>In future this tutorial will also include</p>
+<ul class="simple">
+<li><p>methods to retrieve unmapped terms</p></li>
+<li><p>…</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK paths command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK relationships command" href="Relationships.html" />
+    <link rel="prev" title="OAK obsoletes command" href="Obsoletes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK paths command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example:-simple-subclass-ancestor-path">Example: simple subclass ancestor path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Non-directed-paths">Non-directed paths</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Narrow-table-options">Narrow table options</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK paths command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/Paths.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-paths-command">
+<h1>OAK paths command<a class="headerlink" href="#OAK-paths-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">paths</span></code> command, which can be used to query for paths between ontology terms</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>paths<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak paths [OPTIONS] [TERMS]...
+
+  List all paths between one or more start curies.
+
+  Example:
+
+      runoak -i sqlite:obo:go paths  -p i,p &#39;nuclear membrane&#39;
+
+  This shows all shortest paths from nuclear membrane to all ancestors
+
+  Example:
+
+      runoak -i sqlite:obo:go paths  -p i,p &#39;nuclear membrane&#39; --target
+      cytoplasm
+
+  This shows shortest paths between two nodes
+
+  Example:
+
+      runoak -i sqlite:obo:go paths  -p i,p &#39;nuclear membrane&#39; &#39;thylakoid&#39;
+      --target cytoplasm &#39;thylakoid membrane&#39;
+
+  This shows all shortest paths between 4 combinations of starts and ends
+
+  You can also use &#34;@&#34; to separate start node list and end node list. Like
+  most OAK commands, you can pass either explicit terms, or term queries. For
+  example, if you have two files of IDs, then you can do this:
+
+      runoak -i sqlite:obo:go paths  -p i,p .idfile START_NODES.txt @ .idfile
+      END_NODES.txt
+
+  You can also pass in weights for each predicate, used when calculating
+  shortest paths.
+
+  Example:
+
+      runoak -i sqlite:obo:go paths  -p i,p &#39;nuclear membrane&#39; --target
+      cytoplasm                 --predicate-weights &#34;{i: 0.0001, p: 999}&#34;
+
+  This shows all shortest paths after weighting relations
+
+  (Note: you can use the same shorthands as in the `--predicates` option)
+
+  This command can be combined with others to visualize the paths.
+
+  Example:
+
+      alias go=&#34;runoak -i sqlite:obo:go&#34;     go paths  -p i,p &#39;nuclear
+      membrane&#39; --target cytoplasm --narrow | go viz --fill-gaps -
+
+  This visualizes the path by first exporting the path as a flat list, then
+  passing the results to viz, using the fill-gaps option
+
+Options:
+  --target TEXT                   end point of path
+  --narrow / --no-narrow          If true then output path is written a list
+                                  of terms  [default: no-narrow]
+  --autolabel / --no-autolabel    If set, results will automatically have
+                                  labels assigned  [default: autolabel]
+  -p, --predicates TEXT           A comma-separated list of predicates
+  -O, --output-type TEXT          Desired output type
+  --directed / --no-directed      only show directed paths  [default: no-
+                                  directed]
+  --include-predicates / --no-include-predicates
+                                  show predicates between nodes  [default: no-
+                                  include-predicates]
+  --predicate-weights TEXT        key-value pairs specified in YAML where keys
+                                  are predicates or shorthands and values are
+                                  weights
+  -o, --output FILENAME           Output file, e.g. obo file
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Set-up-an-alias">
+<h2>Set up an alias<a class="headerlink" href="#Set-up-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set up an alias for use in this notebook</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">cl</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">cl</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Note</strong> if you want to do this on your own machine the syntax is slightly different in bash/zsh:</p>
+<p><code class="docutils literal notranslate"><span class="pre">alias</span> <span class="pre">cl=&quot;runoak</span> <span class="pre">-i</span> <span class="pre">sqlite:obo:cl&quot;</span></code></p>
+</section>
+<section id="Example:-simple-subclass-ancestor-path">
+<h2>Example: simple subclass ancestor path<a class="headerlink" href="#Example:-simple-subclass-ancestor-path" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">paths</span> <span class="o">--</span><span class="n">target</span> <span class="n">cell</span> <span class="n">interneuron</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   object  object_label    path    path_label
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;BFO:0000040&#39;, &#39;CL:0011115&#39;, &#39;GO:0030154&#39;, &#39;CL:0000000&#39;]   interneuron|neuron|material entity|precursor cell|cell differentiation|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;BFO:0000040&#39;, &#39;CL:0011115&#39;, &#39;CL:0000003&#39;, &#39;CL:0000000&#39;]   interneuron|neuron|material entity|precursor cell|native cell|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;BFO:0000040&#39;, &#39;CL:0000219&#39;, &#39;CL:0000003&#39;, &#39;CL:0000000&#39;]   interneuron|neuron|material entity|motile cell|native cell|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;CL:0000393&#39;, &#39;CL:0000211&#39;, &#39;CL:0000003&#39;, &#39;CL:0000000&#39;]    interneuron|neuron|electrically responsive cell|electrically active cell|native cell|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;CL:0000404&#39;, &#39;CL:0000211&#39;, &#39;CL:0000003&#39;, &#39;CL:0000000&#39;]    interneuron|neuron|electrically signaling cell|electrically active cell|native cell|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;CL:0002319&#39;, &#39;CL:0002371&#39;, &#39;CL:0000003&#39;, &#39;CL:0000000&#39;]    interneuron|neuron|neural cell|somatic cell|native cell|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;GO:0098793&#39;, &#39;GO:0098916&#39;, &#39;GO:0098794&#39;, &#39;CL:0000000&#39;]    interneuron|neuron|presynapse|anterograde trans-synaptic signaling|postsynapse|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;GO:0098793&#39;, &#39;GO:0045202&#39;, &#39;GO:0098794&#39;, &#39;CL:0000000&#39;]    interneuron|neuron|presynapse|synapse|postsynapse|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;GO:0098793&#39;, &#39;GO:0110165&#39;, &#39;GO:0098794&#39;, &#39;CL:0000000&#39;]    interneuron|neuron|presynapse|cellular anatomical entity|postsynapse|cell
+CL:0000099      interneuron     CL:0000000      cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;GO:0098793&#39;, &#39;GO:0110165&#39;, &#39;GO:0030312&#39;, &#39;CL:0000000&#39;]    interneuron|neuron|presynapse|cellular anatomical entity|external encapsulating structure|cell
+CL:0000099      interneuron     CARO:0000013    cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;UBERON:0001016&#39;, &#39;CARO:0000006&#39;, &#39;CARO:0020003&#39;, &#39;CARO:0000013&#39;]  interneuron|neuron|nervous system|material anatomical entity|cellular anatomical structure|cell
+CL:0000099      interneuron     CARO:0000013    cell    [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;UBERON:0001016&#39;, &#39;CARO:0000006&#39;, &#39;CARO:0000003&#39;, &#39;CARO:0000013&#39;]  interneuron|neuron|nervous system|material anatomical entity|connected anatomical structure|cell
+</pre></div></div>
+</div>
+<p>You can see a similar structure using the <code class="docutils literal notranslate"><span class="pre">tree</span></code> command:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">tree</span> <span class="n">interneuron</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] BFO:0000002 ! continuant
+    * [i] BFO:0000004 ! independent continuant
+        * [i] BFO:0000040 ! material entity
+            * [i] CL:0000540 ! neuron
+                * [i] **CL:0000099 ! interneuron**
+        * [i] CL:0002319 ! neural cell
+            * [i] CL:0000540 ! neuron
+                * [i] **CL:0000099 ! interneuron**
+* [] CL:0000000 ! cell
+    * [i] CL:0000003 ! native cell
+        * [i] CL:0000211 ! electrically active cell
+            * [i] CL:0000393 ! electrically responsive cell
+                * [i] CL:0000540 ! neuron
+                    * [i] **CL:0000099 ! interneuron**
+            * [i] CL:0000404 ! electrically signaling cell
+                * [i] CL:0000540 ! neuron
+                    * [i] **CL:0000099 ! interneuron**
+        * [i] CL:0000255 ! eukaryotic cell
+            * [i] CL:0000548 ! animal cell
+                * [i] CL:0002319 ! neural cell
+                    * [i] CL:0000540 ! neuron
+                        * [i] **CL:0000099 ! interneuron**
+        * [i] CL:0002371 ! somatic cell
+            * [i] CL:0002319 ! neural cell
+                * [i] CL:0000540 ! neuron
+                    * [i] **CL:0000099 ! interneuron**
+</pre></div></div>
+</div>
+</section>
+<section id="Non-directed-paths">
+<h2>Non-directed paths<a class="headerlink" href="#Non-directed-paths" title="Link to this heading"></a></h2>
+<p>By default the paths command will ignore direction and show paths going both up and down:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">paths</span> <span class="n">interneuron</span> <span class="o">--</span><span class="n">target</span> <span class="s2">&quot;T-cell&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   object  object_label    path    path_label
+CL:0000099      interneuron     CL:0000084      T cell  [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;BFO:0000040&#39;, &#39;CL:0000219&#39;, &#39;CL:0000738&#39;, &#39;CL:0000842&#39;, &#39;CL:0000542&#39;, &#39;CL:0000084&#39;]       interneuron|neuron|material entity|motile cell|leukocyte|mononuclear cell|lymphocyte|T cell
+CL:0000099      interneuron     CL:0000084      T cell  [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;BFO:0000040&#39;, &#39;CL:0011115&#39;, &#39;CL:0011026&#39;, &#39;CL:0000051&#39;, &#39;CL:0000542&#39;, &#39;CL:0000084&#39;]       interneuron|neuron|material entity|precursor cell|progenitor cell|common lymphoid progenitor|lymphocyte|T cell
+CL:0000099      interneuron     CL:0000084      T cell  [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;GO:0098793&#39;, &#39;GO:0110165&#39;, &#39;GO:0000785&#39;, &#39;GO:0000792&#39;, &#39;CL:0000542&#39;, &#39;CL:0000084&#39;]        interneuron|neuron|presynapse|cellular anatomical entity|chromatin|heterochromatin|lymphocyte|T cell
+CL:0000099      interneuron     CL:0000084      T cell  [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;GO:0098793&#39;, &#39;GO:0110165&#39;, &#39;GO:0005737&#39;, &#39;CL:0017500&#39;, &#39;CL:0000542&#39;, &#39;CL:0000084&#39;]        interneuron|neuron|presynapse|cellular anatomical entity|cytoplasm|neutrophillic cytoplasm|lymphocyte|T cell
+CL:0000099      interneuron     CL:0000084      T cell  [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;BFO:0000040&#39;, &#39;CL:0011115&#39;, &#39;CL:0011026&#39;, &#39;CL:0000051&#39;, &#39;CL:0000827&#39;, &#39;CL:0000084&#39;]       interneuron|neuron|material entity|precursor cell|progenitor cell|common lymphoid progenitor|pro-T cell|T cell
+CL:0000099      interneuron     CL:0000084      T cell  [&#39;CL:0000099&#39;, &#39;CL:0000540&#39;, &#39;BFO:0000040&#39;, &#39;CL:0011115&#39;, &#39;CL:0011026&#39;, &#39;CL:0000838&#39;, &#39;CL:0000827&#39;, &#39;CL:0000084&#39;]       interneuron|neuron|material entity|precursor cell|progenitor cell|lymphoid lineage restricted progenitor cell|pro-T cell|T cell
+</pre></div></div>
+</div>
+<p>Specifying <code class="docutils literal notranslate"><span class="pre">--directed</span></code> forces traversal of subject to object; in this case, there are no such paths:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">paths</span> <span class="n">interneuron</span> <span class="o">--</span><span class="n">directed</span> <span class="o">--</span><span class="n">target</span> <span class="s2">&quot;T-cell&quot;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Narrow-table-options">
+<h2>Narrow table options<a class="headerlink" href="#Narrow-table-options" title="Link to this heading"></a></h2>
+<p>The default output is one row per <em>path</em></p>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">--narrow</span></code> option to make a narrow table, with one row per path <em>element</em>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">paths</span> <span class="o">--</span><span class="n">narrow</span> <span class="o">--</span><span class="n">target</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023061</span> <span class="n">interneuron</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   object  object_label    path_node       path_node_label
+CL:0000099      interneuron     CL:4023061      hippocampal CA4 neuron  CL:0000099      interneuron
+CL:0000099      interneuron     CL:4023061      hippocampal CA4 neuron  CL:0000540      neuron
+CL:0000099      interneuron     CL:4023061      hippocampal CA4 neuron  CL:4023061      hippocampal CA4 neuron
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">paths</span> <span class="o">--</span><span class="n">narrow</span> <span class="o">--</span><span class="n">target</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023061</span> <span class="n">interneuron</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">interneuron</span><span class="o">-</span><span class="n">CA4</span><span class="o">-</span><span class="n">path</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/interneuron-CA4-path.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object</th>
+      <th>object_label</th>
+      <th>path_node</th>
+      <th>path_node_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0000099</td>
+      <td>interneuron</td>
+      <td>CL:4023061</td>
+      <td>hippocampal CA4 neuron</td>
+      <td>CL:0000099</td>
+      <td>interneuron</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000099</td>
+      <td>interneuron</td>
+      <td>CL:4023061</td>
+      <td>hippocampal CA4 neuron</td>
+      <td>CL:0000540</td>
+      <td>neuron</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000099</td>
+      <td>interneuron</td>
+      <td>CL:4023061</td>
+      <td>hippocampal CA4 neuron</td>
+      <td>CL:4023061</td>
+      <td>hippocampal CA4 neuron</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Obsoletes.html" class="btn btn-neutral float-left" title="OAK obsoletes command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Relationships.html" class="btn btn-neutral float-right" title="OAK relationships command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

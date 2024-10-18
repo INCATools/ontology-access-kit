@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using OAK for Environmental Ontologies &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="GO Examples" href="../GO/index.html" />
+    <link rel="prev" title="ENVO Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">ENVO Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Using OAK for Environmental Ontologies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">ENVO Examples</a></li>
+      <li class="breadcrumb-item active">Using OAK for Environmental Ontologies</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/ENVO/ENVO-Tutorial.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Using-OAK-for-Environmental-Ontologies">
+<h1>Using OAK for Environmental Ontologies<a class="headerlink" href="#Using-OAK-for-Environmental-Ontologies" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>author: Chris Mungall</p></li>
+<li><p>created: 2022-10-24</p></li>
+</ul>
+<p>This tutorial walks through the neuro-relevant subset of the <a class="reference external" href="https://obofoundry.org/ontology/envo">ENVO</a> as well as SWEET.</p>
+<ul class="simple">
+<li><p>to help understand the structure of ENVO</p></li>
+<li><p>to show how to do advanced OAK queries and visualization (CLI and programmatic) on ENVO</p></li>
+<li><p>demonstrate rudimentary text annotation</p></li>
+</ul>
+<p>Running this notebook locally or on mybinder requires <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/releases/tag/v0.1.41">0.1.41</a> or higher</p>
+<section id="Create-an-alias">
+<h2>Create an alias<a class="headerlink" href="#Create-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set a bash alias within Jupyter.</p>
+<p>The first time you run this, a copy of envo.db.gz is downloaded from S3, which may include a delay - for subsequent invocations, the cached copy will be used</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> envo runoak -i sqlite:obo:envo
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Basic-lookup">
+<h2>Basic lookup<a class="headerlink" href="#Basic-lookup" title="Link to this heading"></a></h2>
+<p>We will first lookup a term by name</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">info</span> <span class="n">biome</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENVO:00000428 ! biome
+</pre></div></div>
+</div>
+<p>multiple terms can be entered, using either IDs or labels (later we will see how to include <em>extensional</em> terms that expand queries to sets of terms)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">info</span> <span class="n">archipelago</span> <span class="s2">&quot;hydrothermal vent&quot;</span> <span class="n">beach</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENVO:00000220 ! archipelago
+ENVO:00000215 ! hydrothermal vent
+ENVO:00000091 ! beach
+</pre></div></div>
+</div>
+<section id="hierarchical-tree-displays">
+<h3>hierarchical tree displays<a class="headerlink" href="#hierarchical-tree-displays" title="Link to this heading"></a></h3>
+<p>The <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-tree">Oak Tree</a> command will show a hierarchical tree for any set of terms.</p>
+<p>Like any graph-oriented OAK command this is parameterized by <code class="docutils literal notranslate"><span class="pre">--predicates</span></code> (<code class="docutils literal notranslate"><span class="pre">-p</span></code>), so to show only is-a:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">tree</span> <span class="n">biome</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] BFO:0000001 ! entity
+    * [i] BFO:0000002 ! continuant
+        * [i] BFO:0000004 ! independent continuant
+            * [i] BFO:0000040 ! material entity
+                * [i] RO:0002577 ! system
+                    * [i] ENVO:01000254 ! environmental system
+                        * [i] ENVO:01001110 ! ecosystem
+                            * [i] **ENVO:00000428 ! biome**
+</pre></div></div>
+</div>
+<p>note the default output is markdown-friendly, so this can be pasted into a GitHub issue (or a Jupyter cell) and it will render, like this:</p>
+<ul class="simple">
+<li><p>[] BFO:0000001 ! entity</p>
+<ul>
+<li><p>[i] BFO:0000002 ! continuant</p>
+<ul>
+<li><p>[i] BFO:0000004 ! independent continuant</p>
+<ul>
+<li><p>[i] BFO:0000040 ! material entity</p>
+<ul>
+<li><p>[i] RO:0002577 ! system</p>
+<ul>
+<li><p>[i] ENVO:01000254 ! environmental system</p>
+<ul>
+<li><p>[i] ENVO:01001110 ! ecosystem</p>
+<ul>
+<li><p>[i] <strong>ENVO:00000428 ! biome</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>We can also have the tree command show descendants (using <code class="docutils literal notranslate"><span class="pre">--down</span></code>).</p>
+<p>The results can sometimes lead to “path explosions”, we can control this by setting a maximum number of hops using <code class="docutils literal notranslate"><span class="pre">--max-hops</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">tree</span> <span class="n">biome</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="o">--</span><span class="n">down</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">hops</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] ENVO:01000254 ! environmental system
+    * [i] ENVO:01001110 ! ecosystem
+        * [i] **ENVO:00000428 ! biome**
+            * [i] ENVO:01001838 ! arid biome
+            * [i] ENVO:01001837 ! subalpine biome
+            * [i] ENVO:01001836 ! montane biome
+                * [i] ENVO:01000223 ! montane savanna biome
+                * [i] ENVO:01000216 ! montane shrubland biome
+            * [i] ENVO:01001835 ! alpine biome
+                * [i] ENVO:01001505 ! alpine tundra biome
+            * [i] ENVO:01001834 ! subpolar biome
+            * [i] ENVO:01001832 ! subtropical biome
+                * [i] ENVO:01001833 ! mediterranean biome
+                    * [i] ENVO:01000229 ! mediterranean savanna biome
+                    * [i] ENVO:01000217 ! mediterranean shrubland biome
+                    * [i] ENVO:01000208 ! mediterranean woodland biome
+                    * [i] ENVO:01000047 ! mediterranean sea biome
+                        * [i] ENVO:01000857 ! temperate mediterranean sea biome
+                        * [i] ENVO:01000128 ! dilution basin mediterranean sea biome
+                        * [i] ENVO:01000004 ! concentration basin mediterranean sea biome
+                * [i] ENVO:01000222 ! subtropical woodland biome
+                    * [i] ENVO:01000208 ! mediterranean woodland biome
+                * [i] ENVO:01000213 ! subtropical shrubland biome
+                    * [i] ENVO:01000217 ! mediterranean shrubland biome
+                * [i] ENVO:01000187 ! subtropical savanna biome
+                    * [i] ENVO:01000229 ! mediterranean savanna biome
+            * [i] ENVO:01001831 ! temperate biome
+                * [i] ENVO:01000860 ! temperate marine upwelling biome
+                * [i] ENVO:01000856 ! temperate marginal sea biome
+                * [i] ENVO:01000221 ! temperate woodland biome
+                * [i] ENVO:01000215 ! temperate shrubland biome
+                * [i] ENVO:01000189 ! temperate savanna biome
+            * [i] ENVO:01001830 ! tropical biome
+                * [i] ENVO:01001230 ! tropical marginal sea biome
+                * [i] ENVO:01000859 ! tropical marine upwelling biome
+                * [i] ENVO:01000854 ! tropical marine coral reef biome
+                * [i] ENVO:01000220 ! tropical woodland biome
+                * [i] ENVO:01000214 ! tropical shrubland biome
+                * [i] ENVO:01000188 ! tropical savanna biome
+            * [i] ENVO:01000339 ! polar biome
+            * [i] ENVO:00002030 ! aquatic biome
+                * [i] ENVO:00000873 ! freshwater biome
+                    * [i] ENVO:01000253 ! freshwater river biome
+                        * [i] ENVO:00000890 ! small river biome
+                        * [i] ENVO:00000889 ! large river delta biome
+                        * [i] ENVO:00000888 ! large river headwater biome
+                        * [i] ENVO:00000887 ! large river biome
+                    * [i] ENVO:01000252 ! freshwater lake biome
+                        * [i] ENVO:00000892 ! small freshwater lake biome
+                        * [i] ENVO:00000891 ! large freshwater lake biome
+                    * [i] ENVO:00000893 ! xeric basin biome
+                * [i] ENVO:00000447 ! marine biome
+                    * [i] ENVO:01000858 ! marine upwelling biome
+                        * [i] ENVO:01000860 ! temperate marine upwelling biome
+                        * [i] ENVO:01000859 ! tropical marine upwelling biome
+                    * [i] ENVO:01000048 ! ocean biome
+                    * [i] ENVO:01000047 ! mediterranean sea biome
+                        * [i] ENVO:01000857 ! temperate mediterranean sea biome
+                        * [i] ENVO:01000128 ! dilution basin mediterranean sea biome
+                        * [i] ENVO:01000004 ! concentration basin mediterranean sea biome
+                    * [i] ENVO:01000046 ! marginal sea biome
+                        * [i] ENVO:01001230 ! tropical marginal sea biome
+                        * [i] ENVO:01000856 ! temperate marginal sea biome
+                    * [i] ENVO:01000045 ! epeiric sea biome
+                    * [i] ENVO:01000024 ! marine benthic biome
+                        * [i] ENVO:01000127 ! marine cold seep biome
+                        * [i] ENVO:01000030 ! marine hydrothermal vent biome
+                            * [i] ENVO:01000054 ! marine basaltic hydrothermal vent biome
+                            * [i] ENVO:01000053 ! marine ultramafic hydrothermal vent biome
+                            * [i] ENVO:01000052 ! marine white smoker biome
+                            * [i] ENVO:01000051 ! marine black smoker biome
+                        * [i] ENVO:01000029 ! marine reef biome
+                            * [i] ENVO:01000123 ! marine sponge reef biome
+                            * [i] ENVO:01000050 ! marine subtidal rocky reef biome
+                            * [i] ENVO:01000049 ! marine coral reef biome
+                                * [i] ENVO:01000854 ! tropical marine coral reef biome
+                        * [i] ENVO:01000028 ! marine hadal zone biome
+                        * [i] ENVO:01000027 ! marine abyssal zone biome
+                        * [i] ENVO:01000026 ! marine bathyal zone biome
+                        * [i] ENVO:01000025 ! marine neritic benthic zone biome
+                    * [i] ENVO:01000023 ! marine pelagic biome
+                        * [i] ENVO:01000033 ! oceanic pelagic zone biome
+                            * [i] ENVO:01000040 ! oceanic benthopelagic zone biome
+                            * [i] ENVO:01000039 ! oceanic hadal pelagic zone biome
+                            * [i] ENVO:01000038 ! oceanic abyssopelagic zone biome
+                            * [i] ENVO:01000037 ! oceanic bathypelagic zone biome
+                            * [i] ENVO:01000036 ! oceanic mesopelagic zone biome
+                            * [i] ENVO:01000035 ! oceanic epipelagic zone biome
+                            * [i] ENVO:01000034 ! oceanic sea surface microlayer biome
+                        * [i] ENVO:01000032 ! neritic pelagic zone biome
+                            * [i] ENVO:01000043 ! neritic mesopelagic zone biome
+                            * [i] ENVO:01000042 ! neritic epipelagic zone biome
+                            * [i] ENVO:01000041 ! neritic sea surface microlayer biome
+                    * [i] ENVO:01000022 ! marine salt marsh biome
+                    * [i] ENVO:01000020 ! estuarine biome
+            * [i] ENVO:00000446 ! terrestrial biome
+                * [i] ENVO:01000219 ! anthropogenic terrestrial biome
+                    * [i] ENVO:01000248 ! dense settlement biome
+                        * [i] ENVO:01000249 ! urban biome
+                    * [i] ENVO:01000247 ! rangeland biome
+                    * [i] ENVO:01000246 ! village biome
+                * [i] ENVO:01000181 ! mangrove biome
+                * [i] ENVO:01000180 ! tundra biome
+                    * [i] ENVO:01001505 ! alpine tundra biome
+                * [i] ENVO:01000176 ! shrubland biome
+                    * [i] ENVO:01001369 ! tidal mangrove shrubland
+                    * [i] ENVO:01000218 ! xeric shrubland biome
+                    * [i] ENVO:01000216 ! montane shrubland biome
+                    * [i] ENVO:01000215 ! temperate shrubland biome
+                    * [i] ENVO:01000214 ! tropical shrubland biome
+                    * [i] ENVO:01000213 ! subtropical shrubland biome
+                        * [i] ENVO:01000217 ! mediterranean shrubland biome
+                * [i] ENVO:01000175 ! woodland biome
+                    * [i] ENVO:01000222 ! subtropical woodland biome
+                        * [i] ENVO:01000208 ! mediterranean woodland biome
+                    * [i] ENVO:01000221 ! temperate woodland biome
+                    * [i] ENVO:01000220 ! tropical woodland biome
+                    * [i] ENVO:01000178 ! savanna biome
+                        * [i] ENVO:01000223 ! montane savanna biome
+                        * [i] ENVO:01000190 ! flooded savanna biome
+                        * [i] ENVO:01000189 ! temperate savanna biome
+                        * [i] ENVO:01000188 ! tropical savanna biome
+                        * [i] ENVO:01000187 ! subtropical savanna biome
+                            * [i] ENVO:01000229 ! mediterranean savanna biome
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Search">
+<h2>Search<a class="headerlink" href="#Search" title="Link to this heading"></a></h2>
+<p>In addition to specifying exact terms, you can specify <em>query terms</em> as inputs to most commands.</p>
+<p>One form of query is a search query, which has structure:</p>
+<p><code class="docutils literal notranslate"><span class="pre">PREDICATE-CODE</span> <span class="pre">SEARCH-SYMBOL</span> <span class="pre">SEARCH-TERM</span></code></p>
+<p>For example, to search</p>
+<ul class="simple">
+<li><p>for any matching <em>label</em>, (code <code class="docutils literal notranslate"><span class="pre">l</span></code>)</p></li>
+<li><p>using a <em>substring</em> match (code <code class="docutils literal notranslate"><span class="pre">~</span></code>)</p></li>
+<li><p>for the string “oak”</p></li>
+</ul>
+<p>We can do:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">info</span> <span class="n">l</span><span class="o">~</span><span class="n">oak</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENVO:01000239 ! oak woodland
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">info</span> <span class="n">t</span><span class="o">~</span><span class="n">deciduous</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENVO:00000109 ! woodland area
+ENVO:00002989 ! obsolete Temperate broad-leaf forests or woodlands and subpolar deciduous thickets
+ENVO:00002990 ! obsolete Tropical dry or deciduous forests (including Monsoon forests) or woodlands
+ENVO:01000385 ! temperate deciduous broadleaf forest
+ENVO:01000386 ! temperate deciduous needleleaf forest
+ENVO:01000387 ! tropical deciduous broadleaf forest
+ENVO:01000388 ! tropical semi-deciduous broadleaf forest
+ENVO:01000816 ! area of deciduous forest
+PATO:0001730 ! deciduous (generic)
+PATO:0001731 ! deciduous (plant)
+PATO:0001732 ! non-deciduous (any body part)
+PATO:0001734 ! semi-deciduous(plant)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">info</span> <span class="s1">&#39;l/forest.*biome$&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENVO:00000875 ! obsolete Temperate coniferous forest biome
+ENVO:00000876 ! obsolete Temperate broadleaf and mixed forest biome
+ENVO:00000878 ! obsolete Mediterranean forests, woodlands, and shrub biome
+ENVO:00000879 ! obsolete Tropical and subtropical moist broadleaf forest biome
+ENVO:00000880 ! obsolete Tropical and subtropical dry broadleaf forest biome
+ENVO:00005806 ! obsolete Tropical and subtropical coniferous forest biome
+ENVO:01000174 ! forest biome
+ENVO:01000196 ! coniferous forest biome
+ENVO:01000197 ! broadleaf forest biome
+ENVO:01000198 ! mixed forest biome
+ENVO:01000199 ! mediterranean forest biome
+ENVO:01000200 ! tropical broadleaf forest biome
+ENVO:01000201 ! subtropical broadleaf forest biome
+ENVO:01000202 ! temperate broadleaf forest biome
+ENVO:01000209 ! subtropical coniferous forest biome
+ENVO:01000210 ! tropical coniferous forest biome
+ENVO:01000211 ! temperate coniferous forest biome
+ENVO:01000212 ! temperate mixed forest biome
+ENVO:01000225 ! subtropical dry broadleaf forest biome
+ENVO:01000226 ! subtropical moist broadleaf forest biome
+ENVO:01000227 ! tropical dry broadleaf forest biome
+ENVO:01000228 ! tropical moist broadleaf forest biome
+ENVO:01000250 ! subpolar coniferous forest biome
+ENVO:01001798 ! tropical mixed forest biome
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">info</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="n">biome</span> <span class="o">.</span><span class="ow">and</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">ocean</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENVO:01000048 ! ocean biome
+</pre></div></div>
+</div>
+</section>
+<section id="Visualization">
+<h2>Visualization<a class="headerlink" href="#Visualization" title="Link to this heading"></a></h2>
+<p>The <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-viz">Oak Viz</a> can be used to create flexible configurable visualizations centered around a set of input terms</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">viz</span> <span class="s2">&quot;oak woodland&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">oak</span><span class="o">-</span><span class="n">woodland</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-fg">  Cell </span><span class="ansi-green-fg">In[1], line 1</span>
+<span class="ansi-red-fg">    envo viz &#34;oak woodland&#34; -o output/oak-woodland.png</span>
+         ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+
+</pre></div></div>
+</div>
+<p><img alt="img" src="examples/Ontologies/ENVO/output/oak-woodland.png" /></p>
+</section>
+<section id="Accessing-SWEET">
+<h2>Accessing SWEET<a class="headerlink" href="#Accessing-SWEET" title="Link to this heading"></a></h2>
+<p>SWEET is also indexed in the SemSQL index, so we can download ready-made sqlite files</p>
+<p>(the SWEET owl files can also be accessed directly using OAK, but we do not cover this in this tutorial)</p>
+<p>First we will set up a Jupyter alias for convenience</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> sweet runoak -i sqlite:obo:sweetAll
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sweet</span> <span class="n">search</span> <span class="n">l</span><span class="o">~</span><span class="n">biome</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sweet:realmBiolBiome/Biome ! biome
+sweet:realmBiolBiome/TerrestrialBiome ! terrestrial biome
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sweet</span> <span class="n">descendants</span> <span class="n">sweet</span><span class="p">:</span><span class="n">realmBiolBiome</span><span class="o">/</span><span class="n">Biome</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sweet:realmBiolBiome/Anthromes ! anthromes
+sweet:realmBiolBiome/Barren ! barren
+sweet:realmBiolBiome/Biome ! biome
+sweet:realmBiolBiome/Biota ! biota
+sweet:realmBiolBiome/Croplands ! croplands
+sweet:realmBiolBiome/DenseSettlements ! dense settlements
+sweet:realmBiolBiome/Forested ! forested
+sweet:realmBiolBiome/Rangelands ! rangelands
+sweet:realmBiolBiome/SparseTrees ! sparse trees
+sweet:realmBiolBiome/Terrain ! terrain
+sweet:realmBiolBiome/TerrestrialBiome ! terrestrial biome
+sweet:realmBiolBiome/Villages ! villages
+sweet:realmBiolBiome/Wildlands ! wildlands
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sweet</span> <span class="n">tree</span> <span class="o">.</span><span class="n">desc</span> <span class="n">biome</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] sweet:reprSciComponent/SystemComponent ! system component
+    * [i] sweet:reprSciComponent/Environment ! environment
+        * [i] **sweet:realmBiolBiome/Biome ! biome**
+            * [i] **sweet:realmBiolBiome/TerrestrialBiome ! terrestrial biome**
+                * [i] **sweet:realmBiolBiome/Rangelands ! rangelands**
+                * [i] **sweet:realmBiolBiome/Terrain ! terrain**
+                * [i] **sweet:realmBiolBiome/Wildlands ! wildlands**
+                    * [i] **sweet:realmBiolBiome/SparseTrees ! sparse trees**
+                    * [i] **sweet:realmBiolBiome/Barren ! barren**
+                * [i] **sweet:realmBiolBiome/DenseSettlements ! dense settlements**
+                * [i] **sweet:realmBiolBiome/Villages ! villages**
+                * [i] **sweet:realmBiolBiome/Biota ! biota**
+                * [i] **sweet:realmBiolBiome/Anthromes ! anthromes**
+                * [i] **sweet:realmBiolBiome/Forested ! forested**
+                * [i] **sweet:realmBiolBiome/Croplands ! croplands**
+</pre></div></div>
+</div>
+</section>
+<section id="Accessing-ENVO-through-Bioportal">
+<h2>Accessing ENVO through Bioportal<a class="headerlink" href="#Accessing-ENVO-through-Bioportal" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> bpenvo runoak -i bioportal:envo
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bpenvo</span> <span class="n">annotate</span> <span class="s2">&quot;Peatlands have acted as net CO2 sinks. Rock biome terrestrial biome&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+match_type: PREF
+object_id: ENVO:00001995
+object_label: rock
+object_source: https://data.bioontology.org/ontologies/ENVO
+subject_end: 43
+subject_label: ROCK
+subject_start: 40
+
+---
+match_type: PREF
+object_id: ENVO:00000428
+object_label: biome
+object_source: https://data.bioontology.org/ontologies/ENVO
+subject_end: 49
+subject_label: BIOME
+subject_start: 45
+
+---
+match_type: PREF
+object_id: ENVO:00000428
+object_label: biome
+object_source: https://data.bioontology.org/ontologies/ENVO
+subject_end: 67
+subject_label: BIOME
+subject_start: 63
+
+---
+match_type: PREF
+object_id: ENVO:00000446
+object_label: terrestrial biome
+object_source: https://data.bioontology.org/ontologies/ENVO
+subject_end: 67
+subject_label: TERRESTRIAL BIOME
+subject_start: 51
+
+---
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> agroportal runoak -i agroportal:
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agroportal</span> <span class="n">annotate</span> <span class="s2">&quot;Peatlands have acted as CO2 sinks&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+match_type: SYN
+object_id: http://www.yso.fi/onto/afo/p122
+object_label: bogs
+object_source: http://data.agroportal.lirmm.fr/ontologies/AFO
+subject_end: 9
+subject_label: PEATLANDS
+subject_start: 1
+
+---
+match_type: PREF
+object_id: http://id.agrisemantics.org/gacs/C10734
+object_label: peatlands
+object_source: http://data.agroportal.lirmm.fr/ontologies/GACS
+subject_end: 9
+subject_label: PEATLANDS
+subject_start: 1
+
+---
+match_type: PREF
+object_id: http://aims.fao.org/aos/agrovoc/c_13929
+object_label: peatlands
+object_source: http://data.agroportal.lirmm.fr/ontologies/AGROVOC
+subject_end: 9
+subject_label: PEATLANDS
+subject_start: 1
+
+---
+match_type: PREF
+object_id: http://www.yso.fi/onto/afo/p902
+object_label: peatlands
+object_source: http://data.agroportal.lirmm.fr/ontologies/AFO
+subject_end: 9
+subject_label: PEATLANDS
+subject_start: 1
+
+---
+match_type: SYN
+object_id: https://www.tno.nl/agrifood/ontology/common-greenhouse-ontology#CO2
+object_label: Carbon Dioxide
+object_source: http://data.agroportal.lirmm.fr/ontologies/CGO
+subject_end: 27
+subject_label: CO2
+subject_start: 25
+
+---
+match_type: PREF
+object_id: http://opendata.inra.fr/resources/hSC9z#co2
+object_label: CO2
+object_source: http://data.agroportal.lirmm.fr/ontologies/TRANSMAT
+subject_end: 27
+subject_label: CO2
+subject_start: 25
+
+---
+match_type: SYN
+object_id: http://aims.fao.org/aos/agrovoc/c_1302
+object_label: carbon dioxide
+object_source: http://data.agroportal.lirmm.fr/ontologies/AGROVOC
+subject_end: 27
+subject_label: CO2
+subject_start: 25
+
+---
+match_type: PREF
+object_id: http://www.yso.fi/onto/afo/p4770
+object_label: CO2
+object_source: http://data.agroportal.lirmm.fr/ontologies/AFO
+subject_end: 27
+subject_label: CO2
+subject_start: 25
+
+---
+match_type: SYN
+object_id: CHEBI:16526
+object_label: carbon dioxide
+object_source: http://data.agroportal.lirmm.fr/ontologies/PECO
+subject_end: 27
+subject_label: CO2
+subject_start: 25
+
+---
+match_type: SYN
+object_id: http://id.agrisemantics.org/gacs/C381
+object_label: carbon dioxide
+object_source: http://data.agroportal.lirmm.fr/ontologies/GACS
+subject_end: 27
+subject_label: CO2
+subject_start: 25
+
+---
+match_type: SYN
+object_id: http://opendata.inra.fr/anaeeThes/c2_2680
+object_label: carbon dioxide
+object_source: http://data.agroportal.lirmm.fr/ontologies/ANAEETHES
+subject_end: 27
+subject_label: CO2
+subject_start: 25
+
+---
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="ENVO Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../GO/index.html" class="btn btn-neutral float-right" title="GO Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

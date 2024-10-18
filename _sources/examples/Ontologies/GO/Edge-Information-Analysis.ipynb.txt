@@ -1,0 +1,528 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "initial_id",
+   "metadata": {
+    "collapsed": true,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T00:50:36.100663Z",
+     "start_time": "2024-06-21T00:50:36.072748Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "from oaklib import get_adapter\n",
+    "from oaklib.utilities.associations.edge_information_util import associations_to_matrix\n",
+    "\n",
+    "\n",
+    "ont_adapter = get_adapter(\"sqlite:obo:go\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "outputs": [],
+   "source": [
+    "taxa = [\"9606\", \"6239\", \"7955\", \"3702\", \"559292\", \"4896\", \"7227\", \"10090\", ]"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:06:28.056869Z",
+     "start_time": "2024-06-21T03:06:28.051930Z"
+    }
+   },
+   "id": "5ff92fe5a9bcbbda"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Taxon 9606 shape (44398, 22647)\n",
+      "Taxon 6239 shape (14675, 9794)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "WARNING:pysolr:Unable to extract error message from invalid XML: syntax error: line 1, column 49\n",
+      "ERROR:pysolr:Solr responded with an error (HTTP 503): [Reason: None]\n",
+      "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\"><html><head><title>503 Service Unavailable</title></head><body><h1>Service Unavailable</h1><p>The server is temporarily unable to service yourrequest due to maintenance downtime or capacityproblems. Please try again later.</p></body></html>\n"
+     ]
+    },
+    {
+     "ename": "SolrError",
+     "evalue": "Solr responded with an error (HTTP 503): [Reason: None]\n<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\"><html><head><title>503 Service Unavailable</title></head><body><h1>Service Unavailable</h1><p>The server is temporarily unable to service yourrequest due to maintenance downtime or capacityproblems. Please try again later.</p></body></html>",
+     "output_type": "error",
+     "traceback": [
+      "\u001B[0;31m---------------------------------------------------------------------------\u001B[0m",
+      "\u001B[0;31mSolrError\u001B[0m                                 Traceback (most recent call last)",
+      "Cell \u001B[0;32mIn[48], line 4\u001B[0m\n\u001B[1;32m      2\u001B[0m \u001B[38;5;28;01mfor\u001B[39;00m tax \u001B[38;5;129;01min\u001B[39;00m taxa:\n\u001B[1;32m      3\u001B[0m     assoc_adapter \u001B[38;5;241m=\u001B[39m get_adapter(\u001B[38;5;124mf\u001B[39m\u001B[38;5;124m\"\u001B[39m\u001B[38;5;124mamigo:NCBITaxon:\u001B[39m\u001B[38;5;132;01m{\u001B[39;00mtax\u001B[38;5;132;01m}\u001B[39;00m\u001B[38;5;124m\"\u001B[39m)\n\u001B[0;32m----> 4\u001B[0m     assocs \u001B[38;5;241m=\u001B[39m \u001B[38;5;28;43mlist\u001B[39;49m\u001B[43m(\u001B[49m\u001B[43massoc_adapter\u001B[49m\u001B[38;5;241;43m.\u001B[39;49m\u001B[43massociations\u001B[49m\u001B[43m(\u001B[49m\u001B[43madd_closure_fields\u001B[49m\u001B[38;5;241;43m=\u001B[39;49m\u001B[38;5;28;43;01mTrue\u001B[39;49;00m\u001B[43m)\u001B[49m\u001B[43m)\u001B[49m\n\u001B[1;32m      5\u001B[0m     matrix \u001B[38;5;241m=\u001B[39m associations_to_matrix(assocs)\n\u001B[1;32m      6\u001B[0m     matrix_by_taxon[tax] \u001B[38;5;241m=\u001B[39m matrix\n",
+      "File \u001B[0;32m~/repos/ontology-access-kit/src/oaklib/implementations/amigo/amigo_implementation.py:253\u001B[0m, in \u001B[0;36mAmiGOImplementation.associations\u001B[0;34m(self, subjects, predicates, objects, property_filter, subject_closure_predicates, predicate_closure_predicates, object_closure_predicates, include_modified, add_closure_fields, **kwargs)\u001B[0m\n\u001B[1;32m    248\u001B[0m results \u001B[38;5;241m=\u001B[39m _query(solr, fq, select_fields)\n\u001B[1;32m    250\u001B[0m \u001B[38;5;66;03m# fq_list = [_fq_element(k, vs) for k, vs in fq.items()]\u001B[39;00m\n\u001B[1;32m    251\u001B[0m \u001B[38;5;66;03m# params = {\"fq\": fq_list, \"fl\": \",\".join(SELECT_FIELDS)}\u001B[39;00m\n\u001B[1;32m    252\u001B[0m \u001B[38;5;66;03m# results = solr.search(\"*:*\", rows=1000, **params)\u001B[39;00m\n\u001B[0;32m--> 253\u001B[0m \u001B[38;5;28;01mfor\u001B[39;00m doc \u001B[38;5;129;01min\u001B[39;00m results:\n\u001B[1;32m    254\u001B[0m     assoc \u001B[38;5;241m=\u001B[39m Association(\n\u001B[1;32m    255\u001B[0m         subject\u001B[38;5;241m=\u001B[39m_normalize(doc[BIOENTITY]),\n\u001B[1;32m    256\u001B[0m         subject_label\u001B[38;5;241m=\u001B[39mdoc[BIOENTITY_LABEL],\n\u001B[0;32m   (...)\u001B[0m\n\u001B[1;32m    262\u001B[0m         aggregator_knowledge_source\u001B[38;5;241m=\u001B[39m\u001B[38;5;124m\"\u001B[39m\u001B[38;5;124minfores:go\u001B[39m\u001B[38;5;124m\"\u001B[39m,\n\u001B[1;32m    263\u001B[0m     )\n\u001B[1;32m    264\u001B[0m     \u001B[38;5;28;01mif\u001B[39;00m add_closure_fields:\n",
+      "File \u001B[0;32m~/repos/ontology-access-kit/src/oaklib/implementations/amigo/amigo_implementation.py:88\u001B[0m, in \u001B[0;36m_query\u001B[0;34m(solr, fq, fields, q, start, limit, **kwargs)\u001B[0m\n\u001B[1;32m     86\u001B[0m logging\u001B[38;5;241m.\u001B[39minfo(\u001B[38;5;124mf\u001B[39m\u001B[38;5;124m\"\u001B[39m\u001B[38;5;124mQUERY: \u001B[39m\u001B[38;5;132;01m{\u001B[39;00mq\u001B[38;5;132;01m}\u001B[39;00m\u001B[38;5;124m PARAMS: \u001B[39m\u001B[38;5;132;01m{\u001B[39;00mparams\u001B[38;5;132;01m}\u001B[39;00m\u001B[38;5;124m\"\u001B[39m)\n\u001B[1;32m     87\u001B[0m \u001B[38;5;28;01mwhile\u001B[39;00m \u001B[38;5;28;01mTrue\u001B[39;00m:\n\u001B[0;32m---> 88\u001B[0m     results \u001B[38;5;241m=\u001B[39m \u001B[43msolr\u001B[49m\u001B[38;5;241;43m.\u001B[39;49m\u001B[43msearch\u001B[49m\u001B[43m(\u001B[49m\u001B[43mq\u001B[49m\u001B[43m,\u001B[49m\u001B[43m \u001B[49m\u001B[43mrows\u001B[49m\u001B[38;5;241;43m=\u001B[39;49m\u001B[43mlimit\u001B[49m\u001B[43m,\u001B[49m\u001B[43m \u001B[49m\u001B[43mstart\u001B[49m\u001B[38;5;241;43m=\u001B[39;49m\u001B[43mstart\u001B[49m\u001B[43m,\u001B[49m\u001B[43m \u001B[49m\u001B[38;5;241;43m*\u001B[39;49m\u001B[38;5;241;43m*\u001B[39;49m\u001B[43mparams\u001B[49m\u001B[43m)\u001B[49m\n\u001B[1;32m     89\u001B[0m     \u001B[38;5;28;01myield from\u001B[39;00m results\n\u001B[1;32m     90\u001B[0m     logging\u001B[38;5;241m.\u001B[39mdebug(\u001B[38;5;124mf\u001B[39m\u001B[38;5;124m\"\u001B[39m\u001B[38;5;124mCHECKING: \u001B[39m\u001B[38;5;132;01m{\u001B[39;00mstart\u001B[38;5;132;01m}\u001B[39;00m\u001B[38;5;124m + \u001B[39m\u001B[38;5;132;01m{\u001B[39;00m\u001B[38;5;28mlen\u001B[39m(results)\u001B[38;5;132;01m}\u001B[39;00m\u001B[38;5;124m >= \u001B[39m\u001B[38;5;132;01m{\u001B[39;00mresults\u001B[38;5;241m.\u001B[39mhits\u001B[38;5;132;01m}\u001B[39;00m\u001B[38;5;124m\"\u001B[39m)\n",
+      "File \u001B[0;32m~/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/pysolr.py:827\u001B[0m, in \u001B[0;36mSolr.search\u001B[0;34m(self, q, search_handler, **kwargs)\u001B[0m\n\u001B[1;32m    825\u001B[0m params \u001B[38;5;241m=\u001B[39m {\u001B[38;5;124m\"\u001B[39m\u001B[38;5;124mq\u001B[39m\u001B[38;5;124m\"\u001B[39m: q}\n\u001B[1;32m    826\u001B[0m params\u001B[38;5;241m.\u001B[39mupdate(kwargs)\n\u001B[0;32m--> 827\u001B[0m response \u001B[38;5;241m=\u001B[39m \u001B[38;5;28;43mself\u001B[39;49m\u001B[38;5;241;43m.\u001B[39;49m\u001B[43m_select\u001B[49m\u001B[43m(\u001B[49m\u001B[43mparams\u001B[49m\u001B[43m,\u001B[49m\u001B[43m \u001B[49m\u001B[43mhandler\u001B[49m\u001B[38;5;241;43m=\u001B[39;49m\u001B[43msearch_handler\u001B[49m\u001B[43m)\u001B[49m\n\u001B[1;32m    828\u001B[0m decoded \u001B[38;5;241m=\u001B[39m \u001B[38;5;28mself\u001B[39m\u001B[38;5;241m.\u001B[39mdecoder\u001B[38;5;241m.\u001B[39mdecode(response)\n\u001B[1;32m    830\u001B[0m \u001B[38;5;28mself\u001B[39m\u001B[38;5;241m.\u001B[39mlog\u001B[38;5;241m.\u001B[39mdebug(\n\u001B[1;32m    831\u001B[0m     \u001B[38;5;124m\"\u001B[39m\u001B[38;5;124mFound \u001B[39m\u001B[38;5;124m'\u001B[39m\u001B[38;5;132;01m%s\u001B[39;00m\u001B[38;5;124m'\u001B[39m\u001B[38;5;124m search results.\u001B[39m\u001B[38;5;124m\"\u001B[39m,\n\u001B[1;32m    832\u001B[0m     \u001B[38;5;66;03m# cover both cases: there is no response key or value is None\u001B[39;00m\n\u001B[1;32m    833\u001B[0m     (decoded\u001B[38;5;241m.\u001B[39mget(\u001B[38;5;124m\"\u001B[39m\u001B[38;5;124mresponse\u001B[39m\u001B[38;5;124m\"\u001B[39m, {}) \u001B[38;5;129;01mor\u001B[39;00m {})\u001B[38;5;241m.\u001B[39mget(\u001B[38;5;124m\"\u001B[39m\u001B[38;5;124mnumFound\u001B[39m\u001B[38;5;124m\"\u001B[39m, \u001B[38;5;241m0\u001B[39m),\n\u001B[1;32m    834\u001B[0m )\n",
+      "File \u001B[0;32m~/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/pysolr.py:488\u001B[0m, in \u001B[0;36mSolr._select\u001B[0;34m(self, params, handler)\u001B[0m\n\u001B[1;32m    485\u001B[0m \u001B[38;5;28;01mif\u001B[39;00m \u001B[38;5;28mlen\u001B[39m(params_encoded) \u001B[38;5;241m<\u001B[39m \u001B[38;5;241m1024\u001B[39m:\n\u001B[1;32m    486\u001B[0m     \u001B[38;5;66;03m# Typical case.\u001B[39;00m\n\u001B[1;32m    487\u001B[0m     path \u001B[38;5;241m=\u001B[39m \u001B[38;5;124m\"\u001B[39m\u001B[38;5;132;01m%s\u001B[39;00m\u001B[38;5;124m/?\u001B[39m\u001B[38;5;132;01m%s\u001B[39;00m\u001B[38;5;124m\"\u001B[39m \u001B[38;5;241m%\u001B[39m (handler, params_encoded)\n\u001B[0;32m--> 488\u001B[0m     \u001B[38;5;28;01mreturn\u001B[39;00m \u001B[38;5;28;43mself\u001B[39;49m\u001B[38;5;241;43m.\u001B[39;49m\u001B[43m_send_request\u001B[49m\u001B[43m(\u001B[49m\u001B[38;5;124;43m\"\u001B[39;49m\u001B[38;5;124;43mget\u001B[39;49m\u001B[38;5;124;43m\"\u001B[39;49m\u001B[43m,\u001B[49m\u001B[43m \u001B[49m\u001B[43mpath\u001B[49m\u001B[43m)\u001B[49m\n\u001B[1;32m    489\u001B[0m \u001B[38;5;28;01melse\u001B[39;00m:\n\u001B[1;32m    490\u001B[0m     \u001B[38;5;66;03m# Handles very long queries by submitting as a POST.\u001B[39;00m\n\u001B[1;32m    491\u001B[0m     path \u001B[38;5;241m=\u001B[39m \u001B[38;5;124m\"\u001B[39m\u001B[38;5;132;01m%s\u001B[39;00m\u001B[38;5;124m/\u001B[39m\u001B[38;5;124m\"\u001B[39m \u001B[38;5;241m%\u001B[39m handler\n",
+      "File \u001B[0;32m~/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/pysolr.py:463\u001B[0m, in \u001B[0;36mSolr._send_request\u001B[0;34m(self, method, path, body, headers, files)\u001B[0m\n\u001B[1;32m    449\u001B[0m     solr_message \u001B[38;5;241m=\u001B[39m \u001B[38;5;28mself\u001B[39m\u001B[38;5;241m.\u001B[39m_extract_error(resp)\n\u001B[1;32m    450\u001B[0m     \u001B[38;5;28mself\u001B[39m\u001B[38;5;241m.\u001B[39mlog\u001B[38;5;241m.\u001B[39merror(\n\u001B[1;32m    451\u001B[0m         error_message,\n\u001B[1;32m    452\u001B[0m         resp\u001B[38;5;241m.\u001B[39mstatus_code,\n\u001B[0;32m   (...)\u001B[0m\n\u001B[1;32m    461\u001B[0m         },\n\u001B[1;32m    462\u001B[0m     )\n\u001B[0;32m--> 463\u001B[0m     \u001B[38;5;28;01mraise\u001B[39;00m SolrError(error_message \u001B[38;5;241m%\u001B[39m (resp\u001B[38;5;241m.\u001B[39mstatus_code, solr_message))\n\u001B[1;32m    465\u001B[0m \u001B[38;5;28;01mreturn\u001B[39;00m force_unicode(resp\u001B[38;5;241m.\u001B[39mcontent)\n",
+      "\u001B[0;31mSolrError\u001B[0m: Solr responded with an error (HTTP 503): [Reason: None]\n<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\"><html><head><title>503 Service Unavailable</title></head><body><h1>Service Unavailable</h1><p>The server is temporarily unable to service yourrequest due to maintenance downtime or capacityproblems. Please try again later.</p></body></html>"
+     ]
+    }
+   ],
+   "source": [
+    "matrix_by_taxon = {}\n",
+    "for tax in taxa:\n",
+    "    assoc_adapter = get_adapter(f\"amigo:NCBITaxon:{tax}\")\n",
+    "    assocs = list(assoc_adapter.associations(add_closure_fields=True))\n",
+    "    matrix = associations_to_matrix(assocs)\n",
+    "    matrix_by_taxon[tax] = matrix\n",
+    "    print(f\"Taxon {tax} shape {matrix.arr.shape}\")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:09:58.761418Z",
+     "start_time": "2024-06-21T03:06:28.801736Z"
+    }
+   },
+   "id": "f0196639fef3e874"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "outputs": [
+    {
+     "data": {
+      "text/plain": "2"
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "len(matrix_by_taxon)"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T01:04:14.529019Z",
+     "start_time": "2024-06-21T01:04:14.520402Z"
+    }
+   },
+   "id": "f3d95aa29e00f78"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "outputs": [
+    {
+     "data": {
+      "text/plain": "132140"
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T00:43:18.061005Z",
+     "start_time": "2024-06-21T00:43:18.054290Z"
+    }
+   },
+   "id": "363d0d6676c2c39b"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "outputs": [],
+   "source": [],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T00:43:19.149833Z",
+     "start_time": "2024-06-21T00:43:18.072717Z"
+    }
+   },
+   "id": "b303c5da2f0dca38"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "outputs": [],
+   "source": [
+    "c=\"GO:0008527\"\n",
+    "p=\"GO:0050912\"\n"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T00:43:19.154373Z",
+     "start_time": "2024-06-21T00:43:19.150376Z"
+    }
+   },
+   "id": "9a287e3fe19ea32c"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "outputs": [],
+   "source": [
+    "from oaklib.utilities.associations.edge_information_util import calculate_edge_information\n",
+    "\n"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T01:04:35.298149Z",
+     "start_time": "2024-06-21T01:04:35.291895Z"
+    }
+   },
+   "id": "1905efe69fe136a3"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "7227 0.12928301694496636\n",
+      "10090 0.405992359675837\n"
+     ]
+    }
+   ],
+   "source": [
+    "for t, matrix in matrix_by_taxon.items():\n",
+    "    print(t, calculate_edge_information(c, p, matrix))"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T01:04:52.016589Z",
+     "start_time": "2024-06-21T01:04:51.494519Z"
+    }
+   },
+   "id": "5bfcb4729b183682"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'child': 'GO:0000943', 'parent': 'GO:0110165', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0001933', 'parent': 'GO:0006468', 'predicate': 'RO:0002212', '7227': 2.8187596853298533, '10090': 1.0951572330403403}\n",
+      "{'child': 'GO:0002503', 'parent': 'GO:0002495', 'predicate': 'BFO:0000050', '7227': None, '10090': 0.8073549220576037}\n",
+      "{'child': 'GO:0002869', 'parent': 'GO:0002904', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0003678', 'parent': 'GO:0032508', 'predicate': 'BFO:0000050', '7227': 0.22239242133644765, '10090': 0.32192809488736174}\n",
+      "{'child': 'GO:0004823', 'parent': 'GO:0004812', 'predicate': 'rdfs:subClassOf', '7227': 4.247927513443585, '10090': 4.357552004618084}\n",
+      "{'child': 'GO:0005743', 'parent': 'GO:0019866', 'predicate': 'rdfs:subClassOf', '7227': 0.05916207246814409, '10090': 0.09780478547179872}\n",
+      "{'child': 'GO:0006364', 'parent': 'GO:0042254', 'predicate': 'BFO:0000050', '7227': 0.5341133592254037, '10090': 0.5756846871331458}\n",
+      "{'child': 'GO:0006982', 'parent': 'GO:0033993', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 8.779719355143403}\n",
+      "{'child': 'GO:0007563', 'parent': 'GO:2000026', 'predicate': 'rdfs:subClassOf', '7227': 5.357552004618083, '10090': None}\n",
+      "{'child': 'GO:0008764', 'parent': 'GO:0016881', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0009398', 'parent': 'GO:0009156', 'predicate': 'rdfs:subClassOf', '7227': 4.321928094887362, '10090': 5.1292830169449655}\n",
+      "{'child': 'GO:0010006', 'parent': 'GO:0009707', 'predicate': 'BFO:0000050', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0010560', 'parent': 'GO:0010559', 'predicate': 'rdfs:subClassOf', '7227': 1.0, '10090': 0.8744691179161403}\n",
+      "{'child': 'GO:0010986', 'parent': 'GO:0010984', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 1.938599455335856}\n",
+      "{'child': 'GO:0015310', 'parent': 'GO:0015078', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0015995', 'parent': 'GO:0006779', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0016906', 'parent': 'GO:0035251', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0018642', 'parent': 'GO:0016709', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0019356', 'parent': 'GO:0019357', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0019917', 'parent': 'GO:0019122', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0021946', 'parent': 'GO:0021535', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0030388', 'parent': 'GO:1901135', 'predicate': 'rdfs:subClassOf', '7227': 7.016808287686553, '10090': 6.602884408718419}\n",
+      "{'child': 'GO:0031025', 'parent': 'GO:0000923', 'predicate': 'RO:0002590', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0031609', 'parent': 'GO:0031603', 'predicate': 'BFO:0000050', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0032218', 'parent': 'GO:0051180', 'predicate': 'rdfs:subClassOf', '7227': 2.700439718141091, '10090': 3.1154772174199348}\n",
+      "{'child': 'GO:0032694', 'parent': 'GO:0032614', 'predicate': 'RO:0002212', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0033118', 'parent': 'GO:0033117', 'predicate': 'RO:0002007', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0033717', 'parent': 'GO:0008875', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0034346', 'parent': 'GO:0034343', 'predicate': 'RO:0002213', '7227': None, '10090': 0.0}\n",
+      "{'child': 'GO:0035025', 'parent': 'GO:0007266', 'predicate': 'RO:0002213', '7227': 0.4594316186372964, '10090': 0.8278190246173196}\n",
+      "{'child': 'GO:0035603', 'parent': 'GO:0030097', 'predicate': 'BFO:0000050', '7227': None, '10090': 9.696967526234285}\n",
+      "{'child': 'GO:0036237', 'parent': 'GO:0004553', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0039707', 'parent': 'GO:0016032', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0042571', 'parent': 'GO:0005615', 'predicate': 'BFO:0000050', '7227': None, '10090': 6.179198227699055}\n",
+      "{'child': 'GO:0043151', 'parent': 'GO:0000731', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0043673', 'parent': 'GO:0043668', 'predicate': 'BFO:0000050', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0044542', 'parent': 'GO:0044541', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0045300', 'parent': 'GO:0016717', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0045831', 'parent': 'GO:0010461', 'predicate': 'RO:0002212', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0046244', 'parent': 'GO:0009696', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0046761', 'parent': 'GO:0046753', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 0.12553088208385965}\n",
+      "{'child': 'GO:0047537', 'parent': 'GO:0008483', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0048303', 'parent': 'GO:0048302', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0048787', 'parent': 'GO:0042734', 'predicate': 'BFO:0000050', '7227': 5.0, '10090': 1.7241252483927818}\n",
+      "{'child': 'GO:0050625', 'parent': 'GO:0016655', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0051157', 'parent': 'GO:0019527', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0051709', 'parent': 'GO:0031640', 'predicate': 'RO:0002211', '7227': None, '10090': 2.9860608090421277}\n",
+      "{'child': 'GO:0052805', 'parent': 'GO:1901565', 'predicate': 'rdfs:subClassOf', '7227': 9.041659151637214, '10090': 7.54432051622381}\n",
+      "{'child': 'GO:0060295', 'parent': 'GO:0003352', 'predicate': 'rdfs:subClassOf', '7227': 1.8073549220576037, '10090': 0.4043902550793348}\n",
+      "{'child': 'GO:0060714', 'parent': 'GO:0048646', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0061197', 'parent': 'GO:0061196', 'predicate': 'BFO:0000050', '7227': None, '10090': 0.22239242133644765}\n",
+      "{'child': 'GO:0061724', 'parent': 'GO:0005811', 'predicate': 'RO:0002233', '7227': 2.700439718141091, '10090': 4.894817763307943}\n",
+      "{'child': 'GO:0070059', 'parent': 'GO:0034976', 'predicate': 'rdfs:subClassOf', '7227': 4.087462841250339, '10090': 2.47186872187552}\n",
+      "{'child': 'GO:0070620', 'parent': 'GO:0098797', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0071189', 'parent': 'GO:0071183', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0071651', 'parent': 'GO:0032722', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 3.857980995127571}\n",
+      "{'child': 'GO:0072185', 'parent': 'GO:0072075', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 3.3219280948873617}\n",
+      "{'child': 'GO:0075184', 'parent': 'GO:0050793', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0090033', 'parent': 'GO:0045927', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0090483', 'parent': 'GO:0030572', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0097400', 'parent': 'GO:0097398', 'predicate': 'BFO:0000050', '7227': None, '10090': 1.0641303374197157}\n",
+      "{'child': 'GO:0098736', 'parent': 'GO:0002026', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 4.954196310386875}\n",
+      "{'child': 'GO:0099568', 'parent': 'GO:0005737', 'predicate': 'rdfs:subClassOf', '7227': 4.972578498675761, '10090': 5.3494456155177526}\n",
+      "{'child': 'GO:0102914', 'parent': 'GO:0008168', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0110080', 'parent': 'GO:0110079', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:0140131', 'parent': 'GO:0048247', 'predicate': 'RO:0002213', '7227': None, '10090': 0.39592867633113826}\n",
+      "{'child': 'GO:0140813', 'parent': 'GO:0015747', 'predicate': 'BFO:0000050', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1900017', 'parent': 'GO:0002534', 'predicate': 'RO:0002213', '7227': None, '10090': -1.6880559936852588}\n",
+      "{'child': 'GO:1900362', 'parent': 'GO:0051050', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1900711', 'parent': 'GO:1900608', 'predicate': 'RO:0002212', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1901035', 'parent': 'GO:2000486', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1901448', 'parent': 'GO:1901422', 'predicate': 'RO:0002211', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1901866', 'parent': 'GO:0016123', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1902245', 'parent': 'GO:1902244', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1902728', 'parent': 'GO:1902724', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 0.0}\n",
+      "{'child': 'GO:1903136', 'parent': 'GO:0005507', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 2.979822118062369}\n",
+      "{'child': 'GO:1903555', 'parent': 'GO:0071706', 'predicate': 'RO:0002211', '7227': None, '10090': -2.6147098441152075}\n",
+      "{'child': 'GO:1903949', 'parent': 'GO:0045760', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 4.0}\n",
+      "{'child': 'GO:1904333', 'parent': 'GO:2000573', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:1904735', 'parent': 'GO:0031998', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 4.523561956057012}\n",
+      "{'child': 'GO:1905135', 'parent': 'GO:0015878', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 0.5849625007211561}\n",
+      "{'child': 'GO:1905551', 'parent': 'GO:1903828', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 6.965784284662087}\n",
+      "{'child': 'GO:1905941', 'parent': 'GO:1905939', 'predicate': 'rdfs:subClassOf', '7227': 0.0, '10090': 0.5849625007211561}\n",
+      "{'child': 'GO:1990608', 'parent': 'GO:0044732', 'predicate': 'RO:0004009', '7227': None, '10090': None}\n",
+      "{'child': 'GO:2000156', 'parent': 'GO:0006890', 'predicate': 'RO:0002211', '7227': None, '10090': 4.426264754702098}\n",
+      "{'child': 'GO:2000509', 'parent': 'GO:0002689', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': 4.087462841250339}\n",
+      "{'child': 'GO:2000883', 'parent': 'GO:2000881', 'predicate': 'rdfs:subClassOf', '7227': None, '10090': None}\n",
+      "{'child': 'GO:2001268', 'parent': 'GO:2001234', 'predicate': 'rdfs:subClassOf', '7227': 4.6438561897747235, '10090': 5.011227255423254}\n"
+     ]
+    }
+   ],
+   "source": [
+    "rows = []\n",
+    "for s, p, o in ont_adapter.relationships():\n",
+    "    if not s.startswith(\"GO:\"):\n",
+    "        continue\n",
+    "    if not o.startswith(\"GO:\"):\n",
+    "        continue\n",
+    "    row = {\"child\": s, \"parent\": o, \"predicate\": p}\n",
+    "    for t, matrix in matrix_by_taxon.items():\n",
+    "        v = calculate_edge_information(s, o, matrix)\n",
+    "        row[t] = v\n",
+    "    rows.append(row)\n",
+    "    if len(rows) % 1000 == 0:\n",
+    "        print(row)\n",
+    "        "
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:05:00.689216Z",
+     "start_time": "2024-06-21T03:03:58.650867Z"
+    }
+   },
+   "id": "3234ab59d5764c9e"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:05:00.698602Z",
+     "start_time": "2024-06-21T03:05:00.691144Z"
+    }
+   },
+   "id": "b196c3c52b341b7f"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "outputs": [],
+   "source": [
+    "def has_val(row: dict):\n",
+    "    for k, v in row.items():\n",
+    "        if k not in [\"child\", \"parent\", \"predicate\"]:\n",
+    "            if v is not None:\n",
+    "                return True\n",
+    "    return False"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:05:00.698869Z",
+     "start_time": "2024-06-21T03:05:00.693147Z"
+    }
+   },
+   "id": "20222d40e7efd529"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "outputs": [],
+   "source": [
+    "filtered_rows = [r for r in rows if has_val(r)]"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:05:00.760725Z",
+     "start_time": "2024-06-21T03:05:00.709894Z"
+    }
+   },
+   "id": "3587837f8196bfe4"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "outputs": [],
+   "source": [
+    "for row in filtered_rows:\n",
+    "    row[\"child_label\"] = ont_adapter.label(row[\"child\"])\n",
+    "    row[\"parent_label\"] = ont_adapter.label(row[\"parent\"])"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:06:01.475651Z",
+     "start_time": "2024-06-21T03:05:44.967917Z"
+    }
+   },
+   "id": "d8210aebbcf8347a"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "outputs": [
+    {
+     "data": {
+      "text/plain": "            child      parent          predicate      7227     10090  \\\n0      GO:0000001  GO:0005739  obo:GOREL_0002003  7.813781       NaN   \n1      GO:0000001  GO:0048308    rdfs:subClassOf  0.000000       NaN   \n2      GO:0000001  GO:0048311    rdfs:subClassOf  1.459432       NaN   \n3      GO:0000002  GO:0007005    rdfs:subClassOf  4.650254  3.865499   \n4      GO:0000009  GO:0000030    rdfs:subClassOf  3.321928  3.643856   \n...           ...         ...                ...       ...       ...   \n49354  GO:2001306  GO:1901617    rdfs:subClassOf       NaN  7.491853   \n49355  GO:2001306  GO:2001301    rdfs:subClassOf       NaN  2.000000   \n49356  GO:2001306  GO:2001304    rdfs:subClassOf       NaN  0.000000   \n49357  GO:2001311  GO:0006650    rdfs:subClassOf       NaN  7.049849   \n49358  GO:2001311  GO:0052646    rdfs:subClassOf       NaN  2.807355   \n\n                                      child_label  \\\n0                       mitochondrion inheritance   \n1                       mitochondrion inheritance   \n2                       mitochondrion inheritance   \n3                mitochondrial genome maintenance   \n4          alpha-1,6-mannosyltransferase activity   \n...                                           ...   \n49354             lipoxin B4 biosynthetic process   \n49355             lipoxin B4 biosynthetic process   \n49356             lipoxin B4 biosynthetic process   \n49357  lysobisphosphatidic acid metabolic process   \n49358  lysobisphosphatidic acid metabolic process   \n\n                                        parent_label  \n0                                      mitochondrion  \n1                              organelle inheritance  \n2                         mitochondrion distribution  \n3                         mitochondrion organization  \n4                       mannosyltransferase activity  \n...                                              ...  \n49354  organic hydroxy compound biosynthetic process  \n49355                   lipoxin biosynthetic process  \n49356                   lipoxin B4 metabolic process  \n49357          glycerophospholipid metabolic process  \n49358            alditol phosphate metabolic process  \n\n[49359 rows x 7 columns]",
+      "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>child</th>\n      <th>parent</th>\n      <th>predicate</th>\n      <th>7227</th>\n      <th>10090</th>\n      <th>child_label</th>\n      <th>parent_label</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>GO:0000001</td>\n      <td>GO:0005739</td>\n      <td>obo:GOREL_0002003</td>\n      <td>7.813781</td>\n      <td>NaN</td>\n      <td>mitochondrion inheritance</td>\n      <td>mitochondrion</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>GO:0000001</td>\n      <td>GO:0048308</td>\n      <td>rdfs:subClassOf</td>\n      <td>0.000000</td>\n      <td>NaN</td>\n      <td>mitochondrion inheritance</td>\n      <td>organelle inheritance</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>GO:0000001</td>\n      <td>GO:0048311</td>\n      <td>rdfs:subClassOf</td>\n      <td>1.459432</td>\n      <td>NaN</td>\n      <td>mitochondrion inheritance</td>\n      <td>mitochondrion distribution</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>GO:0000002</td>\n      <td>GO:0007005</td>\n      <td>rdfs:subClassOf</td>\n      <td>4.650254</td>\n      <td>3.865499</td>\n      <td>mitochondrial genome maintenance</td>\n      <td>mitochondrion organization</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>GO:0000009</td>\n      <td>GO:0000030</td>\n      <td>rdfs:subClassOf</td>\n      <td>3.321928</td>\n      <td>3.643856</td>\n      <td>alpha-1,6-mannosyltransferase activity</td>\n      <td>mannosyltransferase activity</td>\n    </tr>\n    <tr>\n      <th>...</th>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n      <td>...</td>\n    </tr>\n    <tr>\n      <th>49354</th>\n      <td>GO:2001306</td>\n      <td>GO:1901617</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>7.491853</td>\n      <td>lipoxin B4 biosynthetic process</td>\n      <td>organic hydroxy compound biosynthetic process</td>\n    </tr>\n    <tr>\n      <th>49355</th>\n      <td>GO:2001306</td>\n      <td>GO:2001301</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>2.000000</td>\n      <td>lipoxin B4 biosynthetic process</td>\n      <td>lipoxin biosynthetic process</td>\n    </tr>\n    <tr>\n      <th>49356</th>\n      <td>GO:2001306</td>\n      <td>GO:2001304</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>0.000000</td>\n      <td>lipoxin B4 biosynthetic process</td>\n      <td>lipoxin B4 metabolic process</td>\n    </tr>\n    <tr>\n      <th>49357</th>\n      <td>GO:2001311</td>\n      <td>GO:0006650</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>7.049849</td>\n      <td>lysobisphosphatidic acid metabolic process</td>\n      <td>glycerophospholipid metabolic process</td>\n    </tr>\n    <tr>\n      <th>49358</th>\n      <td>GO:2001311</td>\n      <td>GO:0052646</td>\n      <td>rdfs:subClassOf</td>\n      <td>NaN</td>\n      <td>2.807355</td>\n      <td>lysobisphosphatidic acid metabolic process</td>\n      <td>alditol phosphate metabolic process</td>\n    </tr>\n  </tbody>\n</table>\n<p>49359 rows × 7 columns</p>\n</div>"
+     },
+     "execution_count": 43,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df = pd.DataFrame(filtered_rows)\n",
+    "df"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:06:01.540034Z",
+     "start_time": "2024-06-21T03:06:01.494862Z"
+    }
+   },
+   "id": "ae6bae32526f09ad"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "mkdir: results: File exists\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!mkdir results"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:06:01.723399Z",
+     "start_time": "2024-06-21T03:06:01.540567Z"
+    }
+   },
+   "id": "fb27ed2f8067b8e0"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "outputs": [],
+   "source": [
+    "df.to_csv(\"results/edge_information.csv\", index=False)"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:06:02.026013Z",
+     "start_time": "2024-06-21T03:06:01.730330Z"
+    }
+   },
+   "id": "b3443f3e443af550"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "outputs": [],
+   "source": [
+    "old_matrix_by_taxon = matrix_by_taxon"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2024-06-21T03:06:16.113599Z",
+     "start_time": "2024-06-21T03:06:16.071054Z"
+    }
+   },
+   "id": "33fc513d1090313a"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "outputs": [],
+   "source": [],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "676e7d015135b3d0"
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

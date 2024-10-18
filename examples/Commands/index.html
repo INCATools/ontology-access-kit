@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commands &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK apply command" href="Apply.html" />
+    <link rel="prev" title="Examples" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+      <li class="breadcrumb-item active">Commands</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="commands">
+<span id="commands-notebooks"></span><h1>Commands<a class="headerlink" href="#commands" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Apply.html">OAK apply command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Download-example-file">Download example file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Create-a-new-exact-synonym">Create a new exact synonym</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Diff-Command">Diff Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Apply-multiple-changes">Apply multiple changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Expanding-complex-changes-into-atomic-changes">Expanding complex changes into atomic changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Invalid-Obsolete-Operations">Invalid Obsolete Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Apply.html#Creating-an-entire-ontology-from-change-directives">Creating an entire ontology from change directives</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Associations.html">OAK associations command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Associations.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Associations.html#Query-for-associations-to-a-term">Query for associations to a term</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Associations.html#Complex-Queries">Complex Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Associations.html#Querying-via-API">Querying via API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DiffViaMappings.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DiffViaMappings.html#Example:-Diff-between-two-anatomy-ontologies">Example: Diff between two anatomy ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DiffViaMappings.html#Analyzing-the-results-using-Pandas">Analyzing the results using Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DiffViaMappings.html#Plotting-mapping-diff-categories">Plotting mapping diff categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DiffViaMappings.html#Exploring-categories">Exploring categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DiffViaMappings.html#Breaking-things-down-by-direction">Breaking things down by direction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Disjoints.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Disjoints.html#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Disjoints.html#All-simple-disjointness-axioms">All simple disjointness axioms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Disjoints.html#Disjoint-Class-Expressions">Disjoint Class Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Disjoints.html#Generating-disjointness-axioms">Generating disjointness axioms</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Enrichment.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Enrichment.html#Download-example-file-and-setup">Download example file and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Enrichment.html#Enrichment">Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Enrichment.html#Normalizing-input-gene-lists">Normalizing input gene lists</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LogicalDefinitions.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LogicalDefinitions.html#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LogicalDefinitions.html#Fetching-logical-definitions-for-individual-terms">Fetching logical definitions for individual terms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LogicalDefinitions.html#Matrix-views">Matrix views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LogicalDefinitions.html#Analyzing-and-gap-filling">Analyzing and gap filling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Mappings.html">OAK mappings command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Direct-mappings-for-a-subject-term">Direct mappings for a subject term</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Mapping-via-reciprocal-term">Mapping via reciprocal term</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Complex-queries">Complex queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Predicates">Predicates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Generating-Mappings">Generating Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mappings.html#Validating-Mappings">Validating Mappings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Obsoletes.html#Help-Option">Help Option</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Paths.html">OAK paths command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Paths.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Paths.html#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Paths.html#Example:-simple-subclass-ancestor-path">Example: simple subclass ancestor path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Paths.html#Non-directed-paths">Non-directed paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Paths.html#Narrow-table-options">Narrow table options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Relationships.html">OAK relationships command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Relationships.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Relationships.html#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Relationships.html#Direct-relationships-for-a-subject-term">Direct relationships for a subject term</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Relationships.html#Entailments">Entailments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Relationships.html#Non-redundant-entailed-relationships">Non-redundant entailed relationships</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Rollup.html">OAK rollup command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Rollup.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Rollup.html#Download-example-file-and-setup">Download example file and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Rollup.html#Enrichment">Enrichment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Statistics.html">OAK statistics command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#Calculating-summary-statistics-(default-YAML-output)">Calculating summary statistics (default YAML output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#Exploring-the-output">Exploring the output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#Mapping-Stats">Mapping Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#TSV-Output">TSV Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#Multi-ontology-merges">Multi-ontology merges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Statistics.html#Diff-stats">Diff stats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TaxonConstraints.html#Background-Material">Background Material</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TaxonConstraints.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TaxonConstraints.html#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TaxonConstraints.html#Taxon-Constraints-for-nucleus-membrane">Taxon Constraints for nucleus membrane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TaxonConstraints.html#Direct-Taxon-Constraints">Direct Taxon Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TaxonConstraints.html#Taxon-Constraints-from-Other-Ontologies">Taxon Constraints from Other Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TaxonConstraints.html#Evaluating-Candidate-taxon-constraints">Evaluating Candidate taxon constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TermsetSimilarity.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TermsetSimilarity.html#Set-up-an-alias-for-HPO">Set up an alias for HPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TermsetSimilarity.html#Compare-two-phenotype-profiles">Compare two phenotype profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TermsetSimilarity.html#Faster-comparisons-using-Rust">Faster comparisons using Rust</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Example:-Validation-over-Test-Ontology">Example: Validation over Test Ontology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Missing-Definitions">Missing Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Non-genus-differentia-structure">Non genus-differentia structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Circular-definitions">Circular definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Not-following-convention">Not following convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Definition-Reference-Issues">Definition Reference Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateDefinitions.html#Using-LLMs-to-validate-definitions">Using LLMs to validate definitions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ValidateMappings.html#Help-Option">Help Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateMappings.html#Example:-Validate-mappings-in-XAO">Example: Validate mappings in XAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ValidateMappings.html#Example:-CL">Example: CL</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Apply.html" class="btn btn-neutral float-right" title="OAK apply command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

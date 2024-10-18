@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/CHEBI/CHEBI-Roles.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> chiro runoak -i sqlite:obo:chiro
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chiro</span> <span class="n">relationships</span> <span class="o">-</span><span class="n">p</span> <span class="n">obo</span><span class="p">:</span><span class="n">chiro</span><span class="c1">#inhibitor_of</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   predicate       predicate_label object  object_label
+CHEBI:22180     None    obo:chiro#inhibitor_of  None    GO:0003984      None
+CHEBI:22587     None    obo:chiro#inhibitor_of  None    NCBITaxon:10239 None
+CHEBI:23018     None    obo:chiro#inhibitor_of  None    GO:0004089      None
+CHEBI:23100     None    obo:chiro#inhibitor_of  None    GO:0006031      None
+CHEBI:23529     None    obo:chiro#inhibitor_of  None    GO:0009512      None
+CHEBI:23924     None    obo:chiro#inhibitor_of  None    &lt;http://purl.obolibrary.org/GO_0003824&gt;   None
+CHEBI:24319     None    obo:chiro#inhibitor_of  None    GO:0004356      None
+CHEBI:25355     None    obo:chiro#inhibitor_of  None    GO:0005746      None
+CHEBI:26087     None    obo:chiro#inhibitor_of  None    GO:0009767      None
+CHEBI:26088     None    obo:chiro#inhibitor_of  None    GO:0009522      None
+CHEBI:26089     None    obo:chiro#inhibitor_of  None    GO:0009523      None
+CHEBI:33282     None    obo:chiro#inhibitor_of  None    NCBITaxon:2     None
+CHEBI:35472     None    obo:chiro#inhibitor_of  None    GO:0006954      None
+CHEBI:35493     None    obo:chiro#inhibitor_of  None    GO:0001660      None
+CHEBI:35608     None    obo:chiro#inhibitor_of  None    GO:0004725      None
+CHEBI:35634     None    obo:chiro#inhibitor_of  None    GO:0004855      None
+CHEBI:35842     None    obo:chiro#inhibitor_of  None    MP:0003561      None
+CHEBI:35856     None    obo:chiro#inhibitor_of  None    GO:0016165      None
+CHEBI:36044     None    obo:chiro#inhibitor_of  None    NCBITaxon:10239 None
+CHEBI:36047     None    obo:chiro#inhibitor_of  None    &lt;http://purl.obolibrary.org/NCBITaxon_2&gt;  None
+CHEBI:37153     None    obo:chiro#inhibitor_of  None    GO:0016791      None
+CHEBI:37416     None    obo:chiro#inhibitor_of  None    GO:0034062      None
+CHEBI:37670     None    obo:chiro#inhibitor_of  None    GO:0004175      None
+CHEBI:37699     None    obo:chiro#inhibitor_of  None    GO:0004672      None
+CHEBI:37700     None    obo:chiro#inhibitor_of  None    GO:0004697      None
+CHEBI:37733     None    obo:chiro#inhibitor_of  None    GO:0004104      None
+CHEBI:38070     None    obo:chiro#inhibitor_of  None    HP:0011675      None
+CHEBI:38234     None    obo:chiro#inhibitor_of  None    GO:0034061      None
+CHEBI:38462     None    obo:chiro#inhibitor_of  None    GO:0003990      None
+CHEBI:38496     None    obo:chiro#inhibitor_of  None    GO:0022900      None
+CHEBI:38497     None    obo:chiro#inhibitor_of  None    GO:0070469      None
+CHEBI:38498     None    obo:chiro#inhibitor_of  None    _:riog00000282  None
+CHEBI:38499     None    obo:chiro#inhibitor_of  None    GO:0005750      None
+CHEBI:38500     None    obo:chiro#inhibitor_of  None    _:riog00000306  None
+CHEBI:38501     None    obo:chiro#inhibitor_of  None    GO:0004129      None
+CHEBI:38502     None    obo:chiro#inhibitor_of  None    GO:0045275      None
+CHEBI:38503     None    obo:chiro#inhibitor_of  None    GO:0008137      None
+CHEBI:38637     None    obo:chiro#inhibitor_of  None    GO:0004713      None
+CHEBI:39456     None    obo:chiro#inhibitor_of  None    HP:0000501      None
+CHEBI:48001     None    obo:chiro#inhibitor_of  None    GO:0006412      None
+CHEBI:48406     None    obo:chiro#inhibitor_of  None    GO:0016206      None
+CHEBI:48422     None    obo:chiro#inhibitor_of  None    GO:0001525      None
+CHEBI:48550     None    obo:chiro#inhibitor_of  None    GO:0004032      None
+CHEBI:49200     None    obo:chiro#inhibitor_of  None    GO:0022804      None
+CHEBI:49205     None    obo:chiro#inhibitor_of  None    PR:000005373    None
+CHEBI:50184     None    obo:chiro#inhibitor_of  None    GO:0006811      None
+CHEBI:50185     None    obo:chiro#inhibitor_of  None    GO:0006633      None
+CHEBI:50380     None    obo:chiro#inhibitor_of  None    GO:0003868      None
+CHEBI:50382     None    obo:chiro#inhibitor_of  None    GO:0008120      None
+CHEBI:50390     None    obo:chiro#inhibitor_of  None    GO:0003955      None
+CHEBI:50427     None    obo:chiro#inhibitor_of  None    GO:0070527      None
+CHEBI:50445     None    obo:chiro#inhibitor_of  None    GO:0004000      None
+CHEBI:50469     None    obo:chiro#inhibitor_of  None    GO:0004623      None
+CHEBI:50502     None    obo:chiro#inhibitor_of  None    GO:0004156      None
+CHEBI:50627     None    obo:chiro#inhibitor_of  None    GO:0004556      None
+CHEBI:50628     None    obo:chiro#inhibitor_of  None    GO:0004558      None
+CHEBI:50635     None    obo:chiro#inhibitor_of  None    GO:0009039      None
+CHEBI:50643     None    obo:chiro#inhibitor_of  None    GO:0004337      None
+CHEBI:50664     None    obo:chiro#inhibitor_of  None    GO:0008237      None
+CHEBI:50683     None    obo:chiro#inhibitor_of  None    GO:0004146      None
+CHEBI:50750     None    obo:chiro#inhibitor_of  None    GO:0003918      None
+CHEBI:50790     None    obo:chiro#inhibitor_of  None    GO:0070330      None
+CHEBI:50914     None    obo:chiro#inhibitor_of  None    GO:0035004      None
+CHEBI:50916     None    obo:chiro#inhibitor_of  None    GO:0001727      None
+CHEBI:50925     None    obo:chiro#inhibitor_of  None    GO:0004674      None
+CHEBI:50949     None    obo:chiro#inhibitor_of  None    GO:0051610      None
+CHEBI:51039     None    obo:chiro#inhibitor_of  None    GO:0051583      None
+CHEBI:52303     None    obo:chiro#inhibitor_of  None    GO:0003838      None
+CHEBI:52425     None    obo:chiro#inhibitor_of  None    GO:0004308      None
+CHEBI:52629     None    obo:chiro#inhibitor_of  None    GO:0004523      None
+CHEBI:52629     None    obo:chiro#inhibitor_of  None    NCBITaxon:11676 None
+CHEBI:52726     None    obo:chiro#inhibitor_of  None    GO:0000502      None
+CHEBI:53659     None    obo:chiro#inhibitor_of  None    GO:0052597      None
+CHEBI:53746     None    obo:chiro#inhibitor_of  None    GO:0003938      None
+CHEBI:53756     None    obo:chiro#inhibitor_of  None    GO:0003964      None
+CHEBI:53756     None    obo:chiro#inhibitor_of  None    NCBITaxon:11676 None
+CHEBI:59105     None    obo:chiro#inhibitor_of  None    GO:0016881      None
+CHEBI:59107     None    obo:chiro#inhibitor_of  None    GO:0004222      None
+CHEBI:5924      None    obo:chiro#inhibitor_of  None    GO:0004252      None
+CHEBI:59285     None    obo:chiro#inhibitor_of  None    GO:0004506      None
+CHEBI:59321     None    obo:chiro#inhibitor_of  None    GO:0004058      None
+CHEBI:59499     None    obo:chiro#inhibitor_of  None    GO:0016805      None
+CHEBI:59517     None    obo:chiro#inhibitor_of  None    GO:0071897      None
+CHEBI:59647     None    obo:chiro#inhibitor_of  None    GO:0004758      None
+CHEBI:59672     None    obo:chiro#inhibitor_of  None    GO:0004100      None
+CHEBI:59897     None    obo:chiro#inhibitor_of  None    GO:0003964      None
+CHEBI:59997     None    obo:chiro#inhibitor_of  None    GO:0004503      None
+CHEBI:60186     None    obo:chiro#inhibitor_of  None    GO:0005388      None
+CHEBI:60258     None    obo:chiro#inhibitor_of  None    GO:0008233      None
+CHEBI:60280     None    obo:chiro#inhibitor_of  None    GO:0004359      None
+CHEBI:60688     None    obo:chiro#inhibitor_of  None    GO:0004834      None
+CHEBI:60901     None    obo:chiro#inhibitor_of  None    GO:0004746      None
+CHEBI:61115     None    obo:chiro#inhibitor_of  None    GO:0004407      None
+CHEBI:61908     None    obo:chiro#inhibitor_of  None    GO:0004517      None
+CHEBI:62089     None    obo:chiro#inhibitor_of  None    GO:0015930      None
+CHEBI:62434     None    obo:chiro#inhibitor_of  None    GO:0004714      None
+CHEBI:62530     None    obo:chiro#inhibitor_of  None    GO:0050291      None
+CHEBI:62608     None    obo:chiro#inhibitor_of  None    GO:0003994      None
+CHEBI:62609     None    obo:chiro#inhibitor_of  None    GO:0033978      None
+CHEBI:62670     None    obo:chiro#inhibitor_of  None    GO:0004721      None
+CHEBI:62871     None    obo:chiro#inhibitor_of  None    GO:0045548      None
+CHEBI:62915     None    obo:chiro#inhibitor_of  None    GO:0008373      None
+CHEBI:63090     None    obo:chiro#inhibitor_of  None    GO:0004731      None
+CHEBI:63146     None    obo:chiro#inhibitor_of  None    GO:0030073      None
+CHEBI:63156     None    obo:chiro#inhibitor_of  None    GO:0047639      None
+CHEBI:63173     None    obo:chiro#inhibitor_of  None    GO:0042098      None
+CHEBI:63330     None    obo:chiro#inhibitor_of  None    GO:0044341      None
+CHEBI:63332     None    obo:chiro#inhibitor_of  None    GO:0004035      None
+CHEBI:63510     None    obo:chiro#inhibitor_of  None    GO:0005391      None
+CHEBI:63674     None    obo:chiro#inhibitor_of  None    GO:0003867      None
+CHEBI:63720     None    obo:chiro#inhibitor_of  None    GO:0004799      None
+CHEBI:63932     None    obo:chiro#inhibitor_of  None    GO:0004511      None
+CHEBI:63958     None    obo:chiro#inhibitor_of  None    GO:0030244      None
+CHEBI:63962     None    obo:chiro#inhibitor_of  None    PR:000025350    None
+CHEBI:64133     None    obo:chiro#inhibitor_of  None    GO:0004660      None
+CHEBI:64152     None    obo:chiro#inhibitor_of  None    GO:0008234      None
+CHEBI:64411     None    obo:chiro#inhibitor_of  None    PR:000007961    None
+CHEBI:64416     None    obo:chiro#inhibitor_of  None    GO:0047794      None
+CHEBI:64570     None    obo:chiro#inhibitor_of  None    GO:0004372      None
+CHEBI:64670     None    obo:chiro#inhibitor_of  None    PR:000024130    None
+CHEBI:64696     None    obo:chiro#inhibitor_of  None    GO:0008415      None
+CHEBI:64697     None    obo:chiro#inhibitor_of  None    PR:000015390    None
+CHEBI:64763     None    obo:chiro#inhibitor_of  None    GO:0004435      None
+CHEBI:64919     None    obo:chiro#inhibitor_of  None    GO:0004144      None
+CHEBI:64920     None    obo:chiro#inhibitor_of  None    PR:000023089    None
+CHEBI:64924     None    obo:chiro#inhibitor_of  None    GO:0008233      None
+CHEBI:64924     None    obo:chiro#inhibitor_of  None    NCBITaxon:11103 None
+CHEBI:64933     None    obo:chiro#inhibitor_of  None    GO:0042438      None
+CHEBI:64947     None    obo:chiro#inhibitor_of  None    NCBITaxon:11676 None
+CHEBI:64955     None    obo:chiro#inhibitor_of  None    GO:0030305      None
+CHEBI:64964     None    obo:chiro#inhibitor_of  None    GO:0004051      None
+CHEBI:64995     None    obo:chiro#inhibitor_of  None    GO:0004052      None
+CHEBI:64996     None    obo:chiro#inhibitor_of  None    GO:0050473      None
+CHEBI:65001     None    obo:chiro#inhibitor_of  None    GO:0004806      None
+CHEBI:65053     None    obo:chiro#inhibitor_of  None    GO:0008792      None
+CHEBI:65064     None    obo:chiro#inhibitor_of  None    GO:0008825      None
+CHEBI:65065     None    obo:chiro#inhibitor_of  None    GO:0009008      None
+CHEBI:65232     None    obo:chiro#inhibitor_of  None    &lt;http://purl.obolibrary.org/GO_0003809&gt;   None
+CHEBI:66921     None    obo:chiro#inhibitor_of  None    GO:0004718      None
+CHEBI:66956     None    obo:chiro#inhibitor_of  None    HP:0100660      None
+
+
+
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

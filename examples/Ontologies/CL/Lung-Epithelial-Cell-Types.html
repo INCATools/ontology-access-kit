@@ -1,0 +1,2869 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dissecting cell types for anatomical structures - Lung Epithelial Cells (advanced) &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="ENVO Examples" href="../ENVO/index.html" />
+    <link rel="prev" title="Neuro-CL tutorial" href="CL-Neuro-Tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">CL Examples</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="CL-Neuro-Tutorial.html">Neuro-CL tutorial</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Dissecting cell types for anatomical structures - Lung Epithelial Cells (advanced)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NCIT/index.html">NCIT Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">CL Examples</a></li>
+      <li class="breadcrumb-item active">Dissecting cell types for anatomical structures - Lung Epithelial Cells (advanced)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/CL/Lung-Epithelial-Cell-Types.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Dissecting-cell-types-for-anatomical-structures---Lung-Epithelial-Cells-(advanced)">
+<h1>Dissecting cell types for anatomical structures - Lung Epithelial Cells (advanced)<a class="headerlink" href="#Dissecting-cell-types-for-anatomical-structures---Lung-Epithelial-Cells-(advanced)" title="Link to this heading"></a></h1>
+<p>This how-to walks through the process of extracting cell types for anatomical structures. It illustrates some of the challenges and nuances of ontology extraction in domains such as anatomy.</p>
+<p>In theory it should be as simple as selecting a structure (e.g lung or the respiratory airway) and then selecting the cell types that are part of that structure. In practice, the way that ontologies are constructed renders results unsatisfactory:</p>
+<ul class="simple">
+<li><p>The results are often incomplete because more ubiquitous cell types may not be axiomatized as part of a structure.</p></li>
+<li><p>The results contain many redundancies because ontologies don’t populate things at consistent “levels”</p></li>
+</ul>
+<p>For this example, we’ll work through lung epithelial cells.</p>
+<p>An example of a biologist-friendly structure we might want to extract:</p>
+<p><img alt="img" src="examples/Ontologies/CL/output/goblet-cell.png" /></p>
+<section id="Initial-exploration-and-motivation">
+<h2>Initial exploration and motivation<a class="headerlink" href="#Initial-exploration-and-motivation" title="Link to this heading"></a></h2>
+<p>As a motivating example, let’s look at <code class="docutils literal notranslate"><span class="pre">goblet</span> <span class="pre">cell</span></code> (CL:0000160) in CL. For now we’re going to use the command line, but later in this guide we’ll explore the python interface.</p>
+<p>We’ll look at is-a and part-of ancestors of this cell type</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>viz<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span><span class="s2">&quot;goblet cell&quot;</span><span class="w"> </span>-o<span class="w"> </span>output/goblet-cell.png
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/CL/output/goblet-cell.png" /></p>
+<p>What might be surprising to people not familiar with ontologies is the generic placement.</p>
+</section>
+<section id="Initial-setup">
+<h2>Initial setup<a class="headerlink" href="#Initial-setup" title="Link to this heading"></a></h2>
+<p>We’ll require some core OAK libraries, as well as pandas</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span> <span class="nn">oaklib.query</span> <span class="kn">import</span> <span class="n">subclass_of</span><span class="p">,</span> <span class="n">descendant_of</span><span class="p">,</span> <span class="n">non_redundant</span><span class="p">,</span> <span class="n">gap_fill</span>
+<span class="kn">from</span> <span class="nn">oaklib.query</span> <span class="kn">import</span> <span class="n">ancestor_of</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">HAS_PART</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">,</span> <span class="n">IS_A</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Connect-to-the-Cell-Ontology">
+<h2>Connect to the Cell Ontology<a class="headerlink" href="#Connect-to-the-Cell-Ontology" title="Link to this heading"></a></h2>
+<p>We’ll use the sqlite version of CL:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<p>We will also define some helper functions to convert queries to sets and dataframes</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">q2set</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;execute query and return as set.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">q2df</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;execute query and return as dataframe.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Setting-up-queries">
+<h2>Setting up queries<a class="headerlink" href="#Setting-up-queries" title="Link to this heading"></a></h2>
+<p>Here we will make use of <em>query objects</em> to represent the queries we want to execute. This allows us to build up complex queries in a more readable way.</p>
+<p>We will start by defining a query for epithelial cells</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">epithelial_q</span> <span class="o">=</span> <span class="n">subclass_of</span><span class="p">(</span><span class="s2">&quot;epithelial cell&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We can look at the results:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">q2df</span><span class="p">(</span><span class="n">epithelial_q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0000059</td>
+      <td>ameloblast</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000060</td>
+      <td>odontoblast</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000065</td>
+      <td>ependymal cell</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000066</td>
+      <td>epithelial cell</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0000067</td>
+      <td>ciliated epithelial cell</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>722</th>
+      <td>CL:4033037</td>
+      <td>mucus secreting cell of tracheobronchial tree ...</td>
+    </tr>
+    <tr>
+      <th>723</th>
+      <td>CL:4033044</td>
+      <td>deuterosomal cell</td>
+    </tr>
+    <tr>
+      <th>724</th>
+      <td>CL:4033048</td>
+      <td>respiratory suprabasal cell</td>
+    </tr>
+    <tr>
+      <th>725</th>
+      <td>CL:4033049</td>
+      <td>taste receptor cell of tongue</td>
+    </tr>
+    <tr>
+      <th>726</th>
+      <td>CL:4040003</td>
+      <td>fetal pre-type II pneumocyte</td>
+    </tr>
+  </tbody>
+</table>
+<p>727 rows × 2 columns</p>
+</div></div>
+</div>
+<p>There are a lot of epithelial cells in the ontology, at different levels of <em>cell type specificity</em>, as well as different levels of <em>anatomical specificity</em>.</p>
+<p>We’re interested in lung epithelial cells, so let’s define a query to get airway parts - we can <em>intersect</em> this with the epithelial cell query to get lung epithelial cells later:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">airway_q</span> <span class="o">=</span> <span class="n">descendant_of</span><span class="p">(</span><span class="s2">&quot;respiratory airway&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">])</span>
+<span class="n">q2df</span><span class="p">(</span><span class="n">airway_q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0000082</td>
+      <td>epithelial cell of lung</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000158</td>
+      <td>club cell</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000307</td>
+      <td>tracheal epithelial cell</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000322</td>
+      <td>pneumocyte</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0000583</td>
+      <td>alveolar macrophage</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>UBERON:8600002</td>
+      <td>mucosa of lobular bronchiole</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>UBERON:8600003</td>
+      <td>smooth muscle tissue of lobular bronchiole</td>
+    </tr>
+    <tr>
+      <th>272</th>
+      <td>UBERON:8600010</td>
+      <td>bronchial submucosal gland ciliated duct</td>
+    </tr>
+    <tr>
+      <th>273</th>
+      <td>UBERON:8600011</td>
+      <td>tracheal submucosal gland ciliated duct</td>
+    </tr>
+    <tr>
+      <th>274</th>
+      <td>UBERON:8600017</td>
+      <td>bronchopulmonary segment</td>
+    </tr>
+  </tbody>
+</table>
+<p>275 rows × 2 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Boolean queries - AND</span>
+</pre></div>
+</div>
+</div>
+<p>Our result includes immune cells and many cell types, so next we will intersect out queries to get lung epithelial cells.</p>
+<p>Note we could do this simply by using python to intersect our two existing results, but we will instead do this by making an AND (intersection) query. This is a good practice to get into, as it will allow us to build up more complex queries later.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">aec_q</span> <span class="o">=</span> <span class="n">epithelial_q</span> <span class="o">&amp;</span> <span class="n">airway_q</span>
+<span class="n">aec</span> <span class="o">=</span> <span class="n">q2df</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
+<span class="n">aec</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0000082</td>
+      <td>epithelial cell of lung</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000158</td>
+      <td>club cell</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000307</td>
+      <td>tracheal epithelial cell</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000322</td>
+      <td>pneumocyte</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0000853</td>
+      <td>olfactory epithelial supporting cell</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>CL:4033023</td>
+      <td>airway submucosal gland collecting duct epithe...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>CL:4033037</td>
+      <td>mucus secreting cell of tracheobronchial tree ...</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>CL:4033044</td>
+      <td>deuterosomal cell</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>CL:4033048</td>
+      <td>respiratory suprabasal cell</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>CL:4040003</td>
+      <td>fetal pre-type II pneumocyte</td>
+    </tr>
+  </tbody>
+</table>
+<p>66 rows × 2 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Non-redundant-sets">
+<h2>Non-redundant sets<a class="headerlink" href="#Non-redundant-sets" title="Link to this heading"></a></h2>
+<p>Here we have fewer rows, but our results still have a lot of redundancy. For example, we have both type I and II pneumocytes, as well as the grouping class <code class="docutils literal notranslate"><span class="pre">pneumocyte</span></code>.</p>
+<p>We will filter the results for redundancy (i.e leaf nodes). As we will see later this is not always the best strategy, as sometimes leaf nodes can be <em>too</em> specific, but it’s a good start for exploration</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">nr_aec_q</span> <span class="o">=</span> <span class="n">non_redundant</span><span class="p">(</span><span class="n">aec_q</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+<span class="n">nr_aec</span> <span class="o">=</span> <span class="n">q2df</span><span class="p">(</span><span class="n">nr_aec_q</span><span class="p">)</span>
+<span class="n">nr_aec</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0000158</td>
+      <td>club cell</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000853</td>
+      <td>olfactory epithelial supporting cell</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0002062</td>
+      <td>type I pneumocyte</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0002063</td>
+      <td>type II pneumocyte</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0002171</td>
+      <td>globose cell of olfactory epithelium</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CL:0002184</td>
+      <td>basal proper cell of olfactory epithelium</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CL:0002205</td>
+      <td>brush cell of lobular bronchiole</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>CL:0002206</td>
+      <td>brush cell of terminal bronchiole</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CL:0002207</td>
+      <td>brush cell of trachea</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>CL:0002209</td>
+      <td>intermediate epitheliocyte</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>CL:0002330</td>
+      <td>undifferentiated cell of bronchus epithelium</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>CL:0002332</td>
+      <td>ciliated cell of the bronchus</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CL:0002480</td>
+      <td>nasal mucosa goblet cell</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CL:0002638</td>
+      <td>bronchioalveolar stem cell</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>CL:0008026</td>
+      <td>open tracheal system tracheocyte</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>CL:0017000</td>
+      <td>pulmonary ionocyte</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>CL:1000329</td>
+      <td>tracheal goblet cell</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>CL:1000348</td>
+      <td>basal cell of epithelium of trachea</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>CL:1000349</td>
+      <td>basal cell of epithelium of bronchus</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>CL:1000352</td>
+      <td>basal cell of epithelium of lobular bronchiole</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>CL:1000377</td>
+      <td>dense-core granulated cell of epithelium of tr...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>CL:1000492</td>
+      <td>mesothelial cell of parietal pleura</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>CL:1000493</td>
+      <td>mesothelial cell of visceral pleura</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CL:1001573</td>
+      <td>nasopharyngeal epithelial cell</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>CL:2000094</td>
+      <td>nasal cavity respiratory epithelium epithelial...</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CL:4028002</td>
+      <td>alveolar capillary type 1 endothelial cell</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>CL:4028003</td>
+      <td>alveolar capillary type 2 endothelial cell</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>CL:4030023</td>
+      <td>respiratory hillock cell</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>CL:4033003</td>
+      <td>myoepithelial cell of bronchus submucosal gland</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CL:4033007</td>
+      <td>brush cell of epithelium of lobar bronchus</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>CL:4033009</td>
+      <td>goblet cell of epithelium of lobar bronchus</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>CL:4033010</td>
+      <td>neuroendocrine cell of epithelium of lobar bro...</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>CL:4033020</td>
+      <td>mucus secreting cell of trachea gland</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>CL:4033021</td>
+      <td>myoepithelial cell of trachea gland</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>CL:4033022</td>
+      <td>mucus secreting cell of bronchus submucosal gland</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>CL:4033023</td>
+      <td>airway submucosal gland collecting duct epithe...</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>CL:4033044</td>
+      <td>deuterosomal cell</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>CL:4033048</td>
+      <td>respiratory suprabasal cell</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>CL:4040003</td>
+      <td>fetal pre-type II pneumocyte</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">lung_grouping_subset</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pneumocyte&quot;</span><span class="p">,</span> <span class="s2">&quot;lower respiratory tract&quot;</span><span class="p">,</span> <span class="s2">&quot;bronchiole&quot;</span><span class="p">,</span> <span class="s2">&quot;respiratory airway&quot;</span><span class="p">,</span> <span class="s2">&quot;bronchus&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0003126&quot;</span><span class="p">,</span> <span class="s2">&quot;alveolus of lung&quot;</span><span class="p">,</span> <span class="s2">&quot;upper respiratory tract&quot;</span><span class="p">]</span>
+<span class="n">nr_aec_subset_q</span> <span class="o">=</span> <span class="n">gap_fill</span><span class="p">(</span><span class="n">nr_aec_q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="o">+</span> <span class="n">lung_grouping_subset</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">relationships_to_graph</span><span class="p">(</span><span class="n">nr_aec_subset_q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">graph_to_tree_display</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">graph_to_tree_display</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+* [] UBERON:0001005 ! respiratory airway
+    * [p] UBERON:0001558 ! lower respiratory tract
+        * [p] UBERON:0003126 ! trachea
+            * [p] CL:4033021 ! myoepithelial cell of trachea gland
+            * [p] CL:4033020 ! mucus secreting cell of trachea gland
+            * [p] CL:1000377 ! dense-core granulated cell of epithelium of trachea
+            * [p] CL:1000348 ! basal cell of epithelium of trachea
+            * [p] CL:1000329 ! tracheal goblet cell
+            * [p] CL:0002207 ! brush cell of trachea
+        * [p] UBERON:0002299 ! alveolus of lung
+            * [p] CL:4028003 ! alveolar capillary type 2 endothelial cell
+            * [p] CL:4028002 ! alveolar capillary type 1 endothelial cell
+            * [p] CL:0000322 ! pneumocyte
+                * [i] CL:4040003 ! fetal pre-type II pneumocyte
+                * [i] CL:0002063 ! type II pneumocyte
+                * [i] CL:0002062 ! type I pneumocyte
+        * [p] UBERON:0002186 ! bronchiole
+            * [p] CL:1000352 ! basal cell of epithelium of lobular bronchiole
+            * [p] CL:0002638 ! bronchioalveolar stem cell
+            * [p] CL:0002206 ! brush cell of terminal bronchiole
+            * [p] CL:0002205 ! brush cell of lobular bronchiole
+        * [p] UBERON:0002185 ! bronchus
+            * [p] CL:4033022 ! mucus secreting cell of bronchus submucosal gland
+            * [p] CL:4033010 ! neuroendocrine cell of epithelium of lobar bronchus
+            * [p] CL:4033009 ! goblet cell of epithelium of lobar bronchus
+            * [p] CL:4033007 ! brush cell of epithelium of lobar bronchus
+            * [p] CL:4033003 ! myoepithelial cell of bronchus submucosal gland
+            * [p] CL:1000349 ! basal cell of epithelium of bronchus
+            * [p] CL:0002332 ! ciliated cell of the bronchus
+            * [p] CL:0002330 ! undifferentiated cell of bronchus epithelium
+        * [p] CL:1000493 ! mesothelial cell of visceral pleura
+        * [p] CL:1000492 ! mesothelial cell of parietal pleura
+        * [p] CL:0017000 ! pulmonary ionocyte
+        * [p] CL:0002209 ! intermediate epitheliocyte
+        * [p] CL:0000158 ! club cell
+    * [p] UBERON:0001557 ! upper respiratory tract
+        * [p] CL:2000094 ! nasal cavity respiratory epithelium epithelial cell of viscerocranial mucosa
+        * [p] CL:1001573 ! nasopharyngeal epithelial cell
+        * [p] CL:0002480 ! nasal mucosa goblet cell
+        * [p] CL:0002184 ! basal proper cell of olfactory epithelium
+        * [p] CL:0002171 ! globose cell of olfactory epithelium
+        * [p] CL:0000853 ! olfactory epithelial supporting cell
+    * [p] CL:4033048 ! respiratory suprabasal cell
+    * [p] CL:4033044 ! deuterosomal cell
+    * [p] CL:4033023 ! airway submucosal gland collecting duct epithelial cell
+    * [p] CL:4030023 ! respiratory hillock cell
+    * [p] CL:0008026 ! open tracheal system tracheocyte
+</pre></div></div>
+</div>
+</section>
+<section id="Dissecting-anatomical-structures">
+<h2>Dissecting anatomical structures<a class="headerlink" href="#Dissecting-anatomical-structures" title="Link to this heading"></a></h2>
+<p>TODO: complete this section. It may be the case that the current structure of Uberon is not best placed to demonstrate dissection queries for the respiratory system.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">dissection_q</span> <span class="o">=</span> <span class="n">ancestor_of</span><span class="p">(</span><span class="n">airway_q</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">HAS_PART</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">epithelial_q</span>
+<span class="n">dissection</span> <span class="o">=</span> <span class="n">q2df</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span>
+<span class="n">dissection</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0000066</td>
+      <td>epithelial cell</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:0000067</td>
+      <td>ciliated epithelial cell</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000071</td>
+      <td>blood vessel endothelial cell</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000075</td>
+      <td>columnar/cuboidal epithelial cell</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0000076</td>
+      <td>squamous epithelial cell</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>CL:4033023</td>
+      <td>airway submucosal gland collecting duct epithe...</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>CL:4033037</td>
+      <td>mucus secreting cell of tracheobronchial tree ...</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>CL:4033044</td>
+      <td>deuterosomal cell</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>CL:4033048</td>
+      <td>respiratory suprabasal cell</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>CL:4040003</td>
+      <td>fetal pre-type II pneumocyte</td>
+    </tr>
+  </tbody>
+</table>
+<p>87 rows × 2 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib_venn</span> <span class="kn">import</span> <span class="n">venn2</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">venn2</span><span class="p">([</span><span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">),</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dissection&quot;</span><span class="p">,</span> <span class="s2">&quot;AEC&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib_venn._common.VennDiagram at 0x7fa1f1306fa0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_28_1.png" src="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_28_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+<span class="n">venn_axis</span> <span class="o">=</span> <span class="n">venn2</span><span class="p">([</span><span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">),</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dissection&quot;</span><span class="p">,</span> <span class="s2">&quot;AEC&quot;</span><span class="p">])</span>
+<span class="n">only_set1</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
+<span class="n">only_set2</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span>
+<span class="n">common_set</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
+<span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set1</span><span class="p">)))</span>
+<span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set2</span><span class="p">)))</span>
+<span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">common_set</span><span class="p">)))</span>
+
+<span class="c1"># Adjust position and size of the labels (optional)</span>
+<span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_29_0.png" src="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_29_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dissection_venn</span><span class="p">(</span><span class="n">struct</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+    <span class="n">my_dissection_q</span> <span class="o">=</span> <span class="n">ancestor_of</span><span class="p">(</span><span class="n">descendant_of</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">]),</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">HAS_PART</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">epithelial_q</span>
+    <span class="n">venn_axis</span> <span class="o">=</span> <span class="n">venn2</span><span class="p">([</span><span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">),</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dissection&quot;</span><span class="p">,</span> <span class="s2">&quot;AEC&quot;</span><span class="p">])</span>
+    <span class="n">only_set1</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
+    <span class="n">only_set2</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">)</span>
+    <span class="n">common_set</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
+    <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set1</span><span class="p">)))</span>
+    <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set2</span><span class="p">)))</span>
+    <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">common_set</span><span class="p">)))</span>
+
+    <span class="c1"># Adjust position and size of the labels (optional)</span>
+    <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+            <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">dissection_venn</span><span class="p">(</span><span class="s2">&quot;bronchus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_30_0.png" src="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_30_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">dissection_venn</span><span class="p">(</span><span class="s2">&quot;trachea&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_31_0.png" src="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_31_0.png" />
+</div>
+</div>
+</section>
+<section id="Roll-ups">
+<h2>Roll ups<a class="headerlink" href="#Roll-ups" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.axioms.logical_definition_utilities</span> <span class="kn">import</span> <span class="n">roll_up_to_genus</span>
+
+<span class="n">aec_minimal</span> <span class="o">=</span> <span class="p">{</span><span class="n">roll_up_to_genus</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cl</span><span class="p">,</span> <span class="p">[</span><span class="n">PART_OF</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">aec_q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)}</span>
+<span class="n">aec_minimal_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">)</span>
+<span class="n">aec_minimal_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0002062</td>
+      <td>type I pneumocyte</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:4033044</td>
+      <td>deuterosomal cell</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000630</td>
+      <td>supporting cell</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000064</td>
+      <td>ciliated cell</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0002145</td>
+      <td>ciliated columnar cell of tracheobronchial tree</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CL:1000441</td>
+      <td>epithelial cell of viscerocranial mucosa</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CL:0002638</td>
+      <td>bronchioalveolar stem cell</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>CL:0002139</td>
+      <td>endothelial cell of vascular tree</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CL:0002184</td>
+      <td>basal proper cell of olfactory epithelium</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>CL:4028003</td>
+      <td>alveolar capillary type 2 endothelial cell</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>CL:0002329</td>
+      <td>basal epithelial cell of tracheobronchial tree</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>CL:0002167</td>
+      <td>olfactory epithelial cell</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CL:0002076</td>
+      <td>endo-epithelial cell</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CL:0002066</td>
+      <td>Feyrter cell</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>CL:0000076</td>
+      <td>squamous epithelial cell</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>CL:4030024</td>
+      <td>hillock cell</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>CL:0017000</td>
+      <td>pulmonary ionocyte</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>CL:4040003</td>
+      <td>fetal pre-type II pneumocyte</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>CL:0002171</td>
+      <td>globose cell of olfactory epithelium</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>CL:0000160</td>
+      <td>goblet cell</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>CL:4033023</td>
+      <td>airway submucosal gland collecting duct epithe...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>CL:4033048</td>
+      <td>respiratory suprabasal cell</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>CL:0000066</td>
+      <td>epithelial cell</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CL:0000165</td>
+      <td>neuroendocrine cell</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>CL:0000322</td>
+      <td>pneumocyte</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CL:0002633</td>
+      <td>respiratory basal cell</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>CL:0002330</td>
+      <td>undifferentiated cell of bronchus epithelium</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>CL:0002209</td>
+      <td>intermediate epitheliocyte</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>CL:0002063</td>
+      <td>type II pneumocyte</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CL:0000319</td>
+      <td>mucus secreting cell</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>CL:0002204</td>
+      <td>brush cell</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>CL:4033037</td>
+      <td>mucus secreting cell of tracheobronchial tree ...</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>CL:4028002</td>
+      <td>alveolar capillary type 1 endothelial cell</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>CL:0000158</td>
+      <td>club cell</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>CL:0000077</td>
+      <td>mesothelial cell</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>CL:0000185</td>
+      <td>myoepithelial cell</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">LOCS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lower respiratory tract&quot;</span><span class="p">,</span> <span class="s2">&quot;upper respiratory tract&quot;</span><span class="p">,</span> <span class="s2">&quot;trachea&quot;</span><span class="p">,</span> <span class="s2">&quot;bronchus&quot;</span><span class="p">,</span> <span class="s2">&quot;alveolus&quot;</span><span class="p">,</span> <span class="s2">&quot;lung&quot;</span><span class="p">,</span> <span class="s2">&quot;nose&quot;</span><span class="p">]</span>
+
+<span class="n">by_loc</span> <span class="o">=</span> <span class="p">{</span><span class="n">loc</span><span class="p">:</span> <span class="p">(</span><span class="n">subclass_of</span><span class="p">(</span><span class="s2">&quot;epithelial cell&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">descendant_of</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">]))</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">by_loc</span><span class="p">))</span>
+<span class="n">by_genus</span> <span class="o">=</span> <span class="p">{</span><span class="n">cell</span><span class="p">:</span> <span class="n">subclass_of</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">by_genus</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+7
+36
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[22], line 11</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span>     row <span style="color: rgb(98,98,98)">=</span> {}
+<span class="ansi-green-intense-fg ansi-bold">     10</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> loc <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> LOCS:
+<span class="ansi-green-fg">---&gt; 11</span>         row[loc] <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">len</span>(<span class="ansi-yellow-bg">by_loc</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">loc</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">intersection</span>(by_genus[cell]))
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     rows<span style="color: rgb(98,98,98)">.</span>append(row)
+<span class="ansi-green-intense-fg ansi-bold">     14</span> xp_df <span style="color: rgb(98,98,98)">=</span> pd<span style="color: rgb(98,98,98)">.</span>DataFrame(rows)
+
+<span class="ansi-red-fg">AttributeError</span>: &#39;list&#39; object has no attribute &#39;intersection&#39;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">:</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">cell</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">cell</span><span class="p">)}</span>
+    <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">:</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">by_loc</span><span class="p">[</span><span class="n">loc</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">by_genus</span><span class="p">[</span><span class="n">cell</span><span class="p">]))</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="n">xp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">xp_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>lower respiratory tract</th>
+      <th>upper respiratory tract</th>
+      <th>trachea</th>
+      <th>bronchus</th>
+      <th>alveolus</th>
+      <th>lung</th>
+      <th>nose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0002062</td>
+      <td>type I pneumocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:4033044</td>
+      <td>deuterosomal cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000630</td>
+      <td>supporting cell</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000064</td>
+      <td>ciliated cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0002145</td>
+      <td>ciliated columnar cell of tracheobronchial tree</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CL:1000441</td>
+      <td>epithelial cell of viscerocranial mucosa</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CL:0002638</td>
+      <td>bronchioalveolar stem cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>CL:0002139</td>
+      <td>endothelial cell of vascular tree</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CL:0002184</td>
+      <td>basal proper cell of olfactory epithelium</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>CL:4028003</td>
+      <td>alveolar capillary type 2 endothelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>CL:0002329</td>
+      <td>basal epithelial cell of tracheobronchial tree</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>CL:0002167</td>
+      <td>olfactory epithelial cell</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CL:0002076</td>
+      <td>endo-epithelial cell</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CL:0002066</td>
+      <td>Feyrter cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>CL:0000076</td>
+      <td>squamous epithelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>CL:4030024</td>
+      <td>hillock cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>CL:0017000</td>
+      <td>pulmonary ionocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>CL:4040003</td>
+      <td>fetal pre-type II pneumocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>CL:0002171</td>
+      <td>globose cell of olfactory epithelium</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>CL:0000160</td>
+      <td>goblet cell</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>CL:4033023</td>
+      <td>airway submucosal gland collecting duct epithe...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>CL:4033048</td>
+      <td>respiratory suprabasal cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>CL:0000066</td>
+      <td>epithelial cell</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CL:0000165</td>
+      <td>neuroendocrine cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>CL:0000322</td>
+      <td>pneumocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CL:0002633</td>
+      <td>respiratory basal cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>CL:0002330</td>
+      <td>undifferentiated cell of bronchus epithelium</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>CL:0002209</td>
+      <td>intermediate epitheliocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>CL:0002063</td>
+      <td>type II pneumocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CL:0000319</td>
+      <td>mucus secreting cell</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>CL:0002204</td>
+      <td>brush cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>CL:4033037</td>
+      <td>mucus secreting cell of tracheobronchial tree ...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>CL:4028002</td>
+      <td>alveolar capillary type 1 endothelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>CL:0000158</td>
+      <td>club cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>CL:0000077</td>
+      <td>mesothelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>CL:0000185</td>
+      <td>myoepithelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="c1"># Assuming df is your dataframe with &#39;id&#39; and &#39;label&#39; columns followed by columns of anatomical entities</span>
+<span class="c1"># Set &#39;id&#39; or &#39;label&#39; as the index if it makes it easier to visualize</span>
+<span class="n">xp_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">xp_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Anatomical Entities&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cell Types&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of Cell Types across Anatomical Entities&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_36_0.png" src="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_36_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">hp_by_loc</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">:</span>
+    <span class="n">hp_by_loc</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ancestor_of</span><span class="p">(</span><span class="n">descendant_of</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">])</span> <span class="o">-</span> <span class="n">subclass_of</span><span class="p">(</span><span class="s2">&quot;cell&quot;</span><span class="p">),</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">HAS_PART</span><span class="p">])</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">:</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">cell</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">cell</span><span class="p">)}</span>
+    <span class="n">cells</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">subclass_of</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">:</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">hp_by_loc</span><span class="p">[</span><span class="n">loc</span><span class="p">]))</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+
+<span class="n">hp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">hp_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>lower respiratory tract</th>
+      <th>upper respiratory tract</th>
+      <th>trachea</th>
+      <th>bronchus</th>
+      <th>alveolus</th>
+      <th>lung</th>
+      <th>nose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL:0002062</td>
+      <td>type I pneumocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CL:4033044</td>
+      <td>deuterosomal cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CL:0000630</td>
+      <td>supporting cell</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CL:0000064</td>
+      <td>ciliated cell</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CL:0002145</td>
+      <td>ciliated columnar cell of tracheobronchial tree</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CL:1000441</td>
+      <td>epithelial cell of viscerocranial mucosa</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CL:0002638</td>
+      <td>bronchioalveolar stem cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>CL:0002139</td>
+      <td>endothelial cell of vascular tree</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CL:0002184</td>
+      <td>basal proper cell of olfactory epithelium</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>CL:4028003</td>
+      <td>alveolar capillary type 2 endothelial cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>CL:0002329</td>
+      <td>basal epithelial cell of tracheobronchial tree</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>CL:0002167</td>
+      <td>olfactory epithelial cell</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CL:0002076</td>
+      <td>endo-epithelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CL:0002066</td>
+      <td>Feyrter cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>CL:0000076</td>
+      <td>squamous epithelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>CL:4030024</td>
+      <td>hillock cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>CL:0017000</td>
+      <td>pulmonary ionocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>CL:4040003</td>
+      <td>fetal pre-type II pneumocyte</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>CL:0002171</td>
+      <td>globose cell of olfactory epithelium</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>CL:0000160</td>
+      <td>goblet cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>CL:4033023</td>
+      <td>airway submucosal gland collecting duct epithe...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>CL:4033048</td>
+      <td>respiratory suprabasal cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>CL:0000066</td>
+      <td>epithelial cell</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CL:0000165</td>
+      <td>neuroendocrine cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>CL:0000322</td>
+      <td>pneumocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CL:0002633</td>
+      <td>respiratory basal cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>CL:0002330</td>
+      <td>undifferentiated cell of bronchus epithelium</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>CL:0002209</td>
+      <td>intermediate epitheliocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>CL:0002063</td>
+      <td>type II pneumocyte</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CL:0000319</td>
+      <td>mucus secreting cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>CL:0002204</td>
+      <td>brush cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>CL:4033037</td>
+      <td>mucus secreting cell of tracheobronchial tree ...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>CL:4028002</td>
+      <td>alveolar capillary type 1 endothelial cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>CL:0000158</td>
+      <td>club cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>CL:0000077</td>
+      <td>mesothelial cell</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>CL:0000185</td>
+      <td>myoepithelial cell</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">hp_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">hp_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Anatomical Entities&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cell Types&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of Dissected Anatomical Entities&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_39_0.png" src="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_39_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">hp_only_df</span> <span class="o">=</span> <span class="n">hp_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">xp_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">hp_only_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>lower respiratory tract</th>
+      <th>upper respiratory tract</th>
+      <th>trachea</th>
+      <th>bronchus</th>
+      <th>alveolus</th>
+      <th>lung</th>
+      <th>nose</th>
+    </tr>
+    <tr>
+      <th>label</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>type I pneumocyte</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>deuterosomal cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>supporting cell</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>ciliated cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>ciliated columnar cell of tracheobronchial tree</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>epithelial cell of viscerocranial mucosa</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>bronchioalveolar stem cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>endothelial cell of vascular tree</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>basal proper cell of olfactory epithelium</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>alveolar capillary type 2 endothelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>basal epithelial cell of tracheobronchial tree</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>olfactory epithelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>endo-epithelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>Feyrter cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>squamous epithelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>hillock cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>pulmonary ionocyte</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>fetal pre-type II pneumocyte</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>globose cell of olfactory epithelium</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>goblet cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>airway submucosal gland collecting duct epithelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>respiratory suprabasal cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>epithelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>neuroendocrine cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>pneumocyte</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>respiratory basal cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>undifferentiated cell of bronchus epithelium</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>intermediate epitheliocyte</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>type II pneumocyte</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>mucus secreting cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>brush cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>mucus secreting cell of tracheobronchial tree submucosal gland</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>alveolar capillary type 1 endothelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>club cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>mesothelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>myoepithelial cell</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#hp_only_df.set_index(&#39;label&#39;, inplace=True)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">hp_only_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Anatomical Entities&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cell Types&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of Dissected Anatomical Entities&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_41_0.png" src="../../../_images/examples_Ontologies_CL_Lung-Epithelial-Cell-Types_41_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="CL-Neuro-Tutorial.html" class="btn btn-neutral float-left" title="Neuro-CL tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ENVO/index.html" class="btn btn-neutral float-right" title="ENVO Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

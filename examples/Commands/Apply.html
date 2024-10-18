@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK apply command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK associations command" href="Associations.html" />
+    <link rel="prev" title="Commands" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK apply command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Download-example-file">Download example file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Create-a-new-exact-synonym">Create a new exact synonym</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Diff-Command">Diff Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Apply-multiple-changes">Apply multiple changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Expanding-complex-changes-into-atomic-changes">Expanding complex changes into atomic changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Invalid-Obsolete-Operations">Invalid Obsolete Operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Creating-an-entire-ontology-from-change-directives">Creating an entire ontology from change directives</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK apply command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/Apply.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-apply-command">
+<h1>OAK apply command<a class="headerlink" href="#OAK-apply-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">apply</span></code> command, which applies any <em>change</em> conforming to the <a class="reference external" href="https://w3id.org/kgcl">KGCL</a> specification.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>apply<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak apply [OPTIONS] [COMMANDS]...
+
+  Applies a patch to an ontology. The patch should be specified using KGCL
+  syntax, see https://github.com/INCATools/kgcl
+
+  Example:
+
+      runoak -i cl.owl.ttl apply &#34;rename CL:0000561 to &#39;amacrine neuron&#39;&#34;  -o
+      cl.owl.ttl -O ttl
+
+  On an obo format file:
+
+      runoak -i simpleobo:go-edit.obo apply &#34;rename GO:0005634 from &#39;nucleus&#39;
+      to &#39;foo&#39;&#34; -o go-edit-new.obo
+
+  With URIs:
+
+      runoak -i cl.owl.ttl apply           &#34;rename
+      &lt;http://purl.obolibrary.org/obo/CL_0000561&gt; from &#39;amacrine cell&#39; to
+      &#39;amacrine neuron&#39;&#34;            -o cl.owl.ttl -O ttl
+
+  WARNING:
+
+  This command is still experimental. Some things to bear in mind:
+
+  - for some ontologies, CURIEs may not work, instead specify a full URI
+  surrounded by &lt;&gt;s - only a subset of KGCL commands are supported by each
+  backend
+
+Options:
+  -o, --output TEXT
+  --changes-output TEXT           output file for KGCL changes
+  --changes-input FILENAME        Path to an input changes file
+  --changes-format TEXT           Format of the changes file (json or kgcl)
+  --dry-run / --no-dry-run        if true, only perform the parse of KCGL and
+                                  do not apply  [default: no-dry-run]
+  --expand / --no-expand          if true, expand complex changes to atomic
+                                  changes  [default: expand]
+  --ignore-invalid-changes / --no-ignore-invalid-changes
+                                  if true, ignore invalid changes, e.g.
+                                  obsoletions of dependent entities  [default:
+                                  no-ignore-invalid-changes]
+  --contributor TEXT              CURIE for the person contributing the patch
+  -O, --output-type TEXT          Desired output type
+  --overwrite / --no-overwrite    If set, any changes applied will be saved
+                                  back to the input file/source
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Download-example-file">
+<h2>Download example file<a class="headerlink" href="#Download-example-file" title="Link to this heading"></a></h2>
+<p>A typical use case for the <code class="docutils literal notranslate"><span class="pre">apply</span></code> command is for applying changes to the source, aka <em>edit</em> version of an ontology. For our purposes here we will make a copy of the go editorial file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-L<span class="w"> </span>-s<span class="w"> </span>https://github.com/geneontology/go-ontology/raw/master/src/ontology/go-edit.obo<span class="w"> </span>&gt;<span class="w"> </span>input/go-edit.obo
+</pre></div>
+</div>
+</div>
+<p>Note that the go edit file is in <em>obo</em> format. A number of ontologies like GO, Uberon, and Mondo use obo format as the edit format due to the fact obo was designed to make human-readable diffs.</p>
+<p>The KGCL apply command may be used with other adapters, but it has been tested most extensively on the above three ontologies.</p>
+</section>
+<section id="Create-a-new-exact-synonym">
+<h2>Create a new exact synonym<a class="headerlink" href="#Create-a-new-exact-synonym" title="Link to this heading"></a></h2>
+<p>Next we will create a new change of type <a class="reference external" href="https://w3id.org/kgcl/NewSynonym">NewSynonym</a>, using KGCL syntax on the command line.</p>
+<p>We will try making a synonym <em>compartment</em> for <code class="docutils literal notranslate"><span class="pre">GO:0043226</span></code> (organelle)</p>
+<p>We will first run in <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> mode:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>apply<span class="w"> </span><span class="s2">&quot;create exact synonym &#39;compartment&#39; for GO:0043226&quot;</span><span class="w"> </span>--dry-run
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:--autosave not passed, changes are NOT saved
+create exact synonym &#39;compartment&#39; for GO:0043226
+</pre></div></div>
+</div>
+<p>This warns us that changes were not saved anywhere.</p>
+<p>next we will try the real deal, and save the output file:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>apply<span class="w"> </span><span class="s2">&quot;create exact synonym &#39;compartment&#39; for GO:0043226&quot;</span><span class="w"> </span>-o<span class="w"> </span>output/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<p>The command doesn’t produce any output on stdout, but we instructed it to save these in an external file <a class="reference external" href="output/go-edit-modified.obo">output/go-edit-modified.obo</a>.</p>
+<p>Let’s double check that it did what we asked it to do. First we’ll try a plain old unix diff (one advantage of OBO format is its easy diffability):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>diff<span class="w"> </span>-u<span class="w"> </span>input/go-edit.obo<span class="w"> </span>output/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- input/go-edit.obo   2023-01-20 12:36:57.000000000 -0800
++++ output/go-edit-modified.obo 2023-01-20 12:37:07.000000000 -0800
+@@ -241846,6 +241846,7 @@
+ xref: NIF_Subcellular:sao1539965131
+ xref: Wikipedia:Organelle
+ is_a: GO:0110165 ! cellular anatomical entity
++synonym: &#34;compartment&#34; EXACT []
+
+ [Term]
+ id: GO:0043227
+</pre></div></div>
+</div>
+<p>This is also what you would see in a Pull Request implementing this change</p>
+</section>
+<section id="Diff-Command">
+<h2>Diff Command<a class="headerlink" href="#Diff-Command" title="Link to this heading"></a></h2>
+<p>The unix diff is still a little low level. OAK comes with a <code class="docutils literal notranslate"><span class="pre">diff</span></code> command that we can use instead.</p>
+<p>This is the reciprocal of the <code class="docutils literal notranslate"><span class="pre">apply</span></code> command, and it will generate a set of change objects in KGCL (which can then be applied….)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>diff<span class="w"> </span>-X<span class="w"> </span>simpleobo:output/go-edit-modified.obo<span class="w"> </span>-O<span class="w"> </span>json
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[
+{
+  &#34;id&#34;: &#34;uuid:a50afe2c-9ed4-4ee9-9a17-e80e971b072e&#34;,
+  &#34;new_value&#34;: &#34;compartment&#34;,
+  &#34;about_node&#34;: &#34;GO:0043226&#34;,
+  &#34;@type&#34;: &#34;NewSynonym&#34;
+}
+]
+</pre></div></div>
+</div>
+<p>(this is currently a bit slow, so be patient - we’re working on optimizing this).</p>
+<p>If you prefer human-readable KGCL syntax to KGCL JSON:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>diff<span class="w"> </span>-X<span class="w"> </span>simpleobo:output/go-edit-modified.obo<span class="w"> </span>-O<span class="w"> </span>kgcl
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+create synonym &#39;compartment&#39; for GO:0043226
+</pre></div></div>
+</div>
+<p>Note that this is the same string we used to apply the patch in the first place - this demonstrates the complementary nature of <code class="docutils literal notranslate"><span class="pre">diff</span></code> and <code class="docutils literal notranslate"><span class="pre">patch</span></code>.</p>
+<p><strong>TODO</strong>: the diff should reflect the <em>scope</em> of the synonym, i.e EXACT</p>
+</section>
+<section id="Apply-multiple-changes">
+<h2>Apply multiple changes<a class="headerlink" href="#Apply-multiple-changes" title="Link to this heading"></a></h2>
+<p>You can pass in a list of multiple changes on the command line, or via a file:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="nb">echo</span><span class="w"> </span>create<span class="w"> </span>exact<span class="w"> </span>synonym<span class="w"> </span><span class="se">\&#39;</span>test1<span class="se">\&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>GO:0043226<span class="w"> </span>&gt;<span class="w"> </span>input/test.kgcl
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="nb">echo</span><span class="w"> </span>create<span class="w"> </span>exact<span class="w"> </span>synonym<span class="w"> </span><span class="se">\&#39;</span>test2<span class="se">\&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>GO:0043226<span class="w"> </span>&gt;&gt;<span class="w"> </span>input/test.kgcl
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>input/test.kgcl
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+create exact synonym &#39;test1&#39; for GO:0043226
+create exact synonym &#39;test2&#39; for GO:0043226
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>apply<span class="w"> </span>--changes-input<span class="w"> </span>input/test.kgcl<span class="w"> </span>-o<span class="w"> </span>output/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Expanding-complex-changes-into-atomic-changes">
+<h2>Expanding complex changes into atomic changes<a class="headerlink" href="#Expanding-complex-changes-into-atomic-changes" title="Link to this heading"></a></h2>
+<p>Some changes represent composites of multiple smaller changes; other changes might <em>entail</em> other changes. Some of these may be variable depending on particular ontology <em>workflows</em>.</p>
+<p>For example, in many OBO workflows, the act of performing a <a class="reference external" href="https://w3id.org/kgcl/NodeObsoletion">NodeObsoletion</a> might also involve:</p>
+<ul class="simple">
+<li><p><em>renaming</em> the node, preceding the label with “<code class="docutils literal notranslate"><span class="pre">obsolete</span></code>”</p></li>
+<li><p><em>rewiring</em> the surrounding nodes, such that:</p>
+<ul>
+<li><p>the children of the obsolete nodes point directly to the parents, with the obsolete node bypassed</p></li>
+<li><p><em>deleting edges</em> such that there are no logical axioms that reference the obsoleted node</p></li>
+</ul>
+</li>
+</ul>
+<p>first let’s try a dry run simulating what it would be like to obsolete <em>organelle</em> (<a class="reference external" href="GO:0043226">GO:0043226</a>).</p>
+<p>First let’s explore the neighborhood - we will use the <code class="docutils literal notranslate"><span class="pre">viz</span></code> command to view a random child of organelle, <em>non-membrane-bounded organelle</em> (<a class="reference external" href="GO:0043228">GO:0043228</a>)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>viz<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>GO:0043228<span class="w"> </span>GO:0043226<span class="w"> </span>-o<span class="w"> </span>output/nmbo.png
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="../../_images/nmbo2.png" /></p>
+<p>now let’s try obsoleting the intermediate <em>organelle</em> class (<code class="docutils literal notranslate"><span class="pre">GO:0043226</span></code>), but in <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> mode, with <code class="docutils literal notranslate"><span class="pre">--expand</span></code>. (Note <code class="docutils literal notranslate"><span class="pre">--expand</span></code> is the default, but it helps to make this explicit).</p>
+<p>This will trigger the outputting of all expanded changes as KGCL syntax:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>apply<span class="w"> </span>--expand<span class="w"> </span><span class="s2">&quot;obsolete GO:0043226&quot;</span><span class="w"> </span>--dry-run
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+obsolete GO:0043226
+rename GO:0043226 from &#39;organelle&#39; to &#39;obsolete organelle&#39;
+create edge GO:0005929 rdfs:subClassOf GO:0110165
+create edge GO:0043228 rdfs:subClassOf GO:0110165
+create edge GO:0043227 rdfs:subClassOf GO:0110165
+create edge GO:0043230 rdfs:subClassOf GO:0110165
+create edge GO:0099572 rdfs:subClassOf GO:0110165
+delete edge GO:0005929 rdfs:subClassOf GO:0043226
+delete edge GO:0043228 rdfs:subClassOf GO:0043226
+delete edge GO:0020004 BFO:0000050 GO:0043226
+delete edge GO:0031676 BFO:0000050 GO:0043226
+delete edge GO:0043227 rdfs:subClassOf GO:0043226
+delete edge GO:0032420 BFO:0000050 GO:0043226
+delete edge GO:0043230 rdfs:subClassOf GO:0043226
+delete edge GO:0044232 BFO:0000050 GO:0043226
+delete edge GO:0060091 BFO:0000050 GO:0043226
+delete edge GO:0060171 BFO:0000050 GO:0043226
+delete edge GO:0097591 BFO:0000050 GO:0043226
+delete edge GO:0097592 BFO:0000050 GO:0043226
+delete edge GO:0097593 BFO:0000050 GO:0043226
+delete edge GO:0097594 BFO:0000050 GO:0043226
+delete edge GO:0097595 BFO:0000050 GO:0043226
+delete edge GO:0097596 BFO:0000050 GO:0043226
+delete edge GO:0099572 rdfs:subClassOf GO:0043226
+delete edge GO:0043226 rdfs:subClassOf GO:0110165WARNING:root:--autosave not passed, changes are NOT saved
+</pre></div></div>
+</div>
+<p>in future it will be possible to visualize KGCL directly. For now, let’s just visualize the output file after running in non-dry-run mode:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>apply<span class="w"> </span>--expand<span class="w"> </span><span class="s2">&quot;obsolete GO:0043226&quot;</span><span class="w"> </span>-o<span class="w"> </span>output/obsoleted-organelle.obo
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>--stacktrace<span class="w"> </span>-i<span class="w"> </span>simpleobo:output/obsoleted-organelle.obo<span class="w"> </span>viz<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>GO:0043228<span class="w"> </span>GO:0043226<span class="w"> </span>-o<span class="w"> </span>output/nmbo2.png
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="../../_images/nmbo2.png" /></p>
+</section>
+<section id="Invalid-Obsolete-Operations">
+<h2>Invalid Obsolete Operations<a class="headerlink" href="#Invalid-Obsolete-Operations" title="Link to this heading"></a></h2>
+<p>Currently the obsolete operation will not rewire certain axioms of ontology axioms like <em>logical definitions</em>, these require curator intervention.</p>
+<p>This can be seen if we try and obsolete a core term like <em>metabolic process</em> (<code class="docutils literal notranslate"><span class="pre">GO:0008152</span></code>):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>apply<span class="w"> </span>--expand<span class="w"> </span><span class="s2">&quot;obsolete GO:0008152&quot;</span><span class="w"> </span>--dry-run
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ValueError: GO:0008152 used in logical definition of GO:0000023
+</pre></div></div>
+</div>
+<p>In future, OAK may allow more configurability here, including the ability to do full cascading deletes. But this in general would not be recommended - if you want to obsolete a term that is commonly used in logical definitions then you need to do some manual examination of your design patterns.</p>
+<p>However, if you also want to obsolete all the dependent nodes in the same operation, you can do that by batching the obsoletes in a single file.</p>
+</section>
+<section id="Creating-an-entire-ontology-from-change-directives">
+<h2>Creating an entire ontology from change directives<a class="headerlink" href="#Creating-an-entire-ontology-from-change-directives" title="Link to this heading"></a></h2>
+<p>You can create an entire ontology from scratch using only change directives.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>input/test-create.kgcl.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+create node X:1 &#39;limb&#39;
+create node X:2 &#39;forelimb&#39;
+create edge X:2 is_a X:1
+create node X:3 &#39;hindlimb&#39;
+create edge X:3 is_a X:1
+create related synonym &#39;arm&#39; for X:2
+create related synonym &#39;leg&#39; for X:3
+# foo
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>pronto:<span class="w"> </span>apply<span class="w"> </span>--changes-input<span class="w"> </span>input/test-create.kgcl.txt<span class="w"> </span>-o<span class="w"> </span>output/kgcl-de-novo.obo
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>output/kgcl-de-novo.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+format-version: 1.4
+
+[Term]
+id: X:1
+name: limb
+
+[Term]
+id: X:2
+name: forelimb
+synonym: &#34;arm&#34; RELATED []
+is_a: X:1
+
+[Term]
+id: X:3
+name: hindlimb
+synonym: &#34;leg&#34; RELATED []
+is_a: X:1
+</pre></div></div>
+</div>
+<p>the same thing but using the funowl wrapper for making an ontology in OWL functional syntax. Note here it’s necessary to set the prefixes as these are not implicit like in obo:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>--stacktrace<span class="w"> </span>--prefix<span class="w"> </span><span class="nv">X</span><span class="o">=</span>http://example.org/<span class="w"> </span>-i<span class="w"> </span>funowl:<span class="w"> </span>apply<span class="w"> </span>--changes-input<span class="w"> </span>input/test-create.kgcl.txt<span class="w"> </span>-o<span class="w"> </span>output/kgcl-de-novo.ofn
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>output/kgcl-de-novo.ofn
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Prefix( owl: = &lt;http://www.w3.org/2002/07/owl#&gt; )
+Prefix( rdf: = &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; )
+Prefix( rdfs: = &lt;http://www.w3.org/2000/01/rdf-schema#&gt; )
+Prefix( xsd: = &lt;http://www.w3.org/2001/XMLSchema#&gt; )
+Prefix( xml: = &lt;http://www.w3.org/XML/1998/namespace&gt; )
+
+Ontology(
+    AnnotationAssertion( rdfs:label &lt;http://example.org/1&gt; &#34;limb&#34; )
+    AnnotationAssertion( rdfs:label &lt;http://example.org/2&gt; &#34;forelimb&#34; )
+    SubClassOf( &lt;http://example.org/2&gt; &lt;http://example.org/1&gt; )
+    AnnotationAssertion( rdfs:label &lt;http://example.org/3&gt; &#34;hindlimb&#34; )
+    SubClassOf( &lt;http://example.org/3&gt; &lt;http://example.org/1&gt; )
+    AnnotationAssertion( &lt;http://www.geneontology.org/formats/oboInOwl#hasExactSynonym&gt; X:2 &#34;arm&#34; )
+    AnnotationAssertion( &lt;http://www.geneontology.org/formats/oboInOwl#hasExactSynonym&gt; X:3 &#34;leg&#34; )
+)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Associations.html" class="btn btn-neutral float-right" title="OAK associations command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

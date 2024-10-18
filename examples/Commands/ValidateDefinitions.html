@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK validate-definitions command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK validate-mappings command" href="ValidateMappings.html" />
+    <link rel="prev" title="OAK termset-similarity command" href="TermsetSimilarity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK validate-definitions command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example:-Validation-over-Test-Ontology">Example: Validation over Test Ontology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Missing-Definitions">Missing Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Non-genus-differentia-structure">Non genus-differentia structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Circular-definitions">Circular definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Not-following-convention">Not following convention</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Definition-Reference-Issues">Definition Reference Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Using-LLMs-to-validate-definitions">Using LLMs to validate definitions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK validate-definitions command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/ValidateDefinitions.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-validate-definitions-command">
+<h1>OAK validate-definitions command<a class="headerlink" href="#OAK-validate-definitions-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">validate-definitions</span></code> command. This forms part of a suite of <em>validate</em> commands.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>validate-definitions<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak validate-definitions [OPTIONS] [TERMS]...
+
+  Checks presence and structure of text definitions.
+
+  To run:
+
+      runoak validate-definitions -i db/uberon.db -o results.tsv
+
+  By default this will apply basic text mining of text definitions to check
+  against machine actionable OBO text definition guideline rules. This can
+  result in an initial lag - to skip this, and ONLY perform checks for
+  *presence* of definitions, use --skip-text-annotation:
+
+  Example: -------
+
+      runoak validate-definitions -i db/uberon.db --skip-text-annotation
+
+  Like most OAK commands, this accepts lists of terms or term queries as
+  arguments. You can pass in a CURIE list to selectively validate individual
+  classes
+
+  Example: -------
+
+       runoak validate-definitions -i db/cl.db CL:0002053
+
+  Only on CL identifiers:
+
+      runoak validate-definitions -i db/cl.db i^CL:
+
+  Only on neuron hierarchy:
+
+      runoak validate-definitions -i db/cl.db .desc//p=i neuron
+
+  Output format:
+
+  This command emits objects conforming to the OAK validation datamodel. See
+  https://incatools.github.io/ontology-access-kit/datamodels for more on OAK
+  datamodels.
+
+  The default serialization of the datamodel is CSV.
+
+  Notes: -----
+
+  This command is largely redundant with the validate command, but is useful
+  for targeted validation focused solely on definitions
+
+Options:
+  --skip-text-annotation / --no-skip-text-annotation
+                                  If true, do not parse text annotations
+                                  [default: no-skip-text-annotation]
+  -C, --configuration-file TEXT   Path to a configuration file. This is
+                                  typically a YAML file, but may be a JSON
+                                  file
+  --adapter-mapping TEXT          Multiple prefix=selector pairs, e.g.
+                                  --adapter-mapping uberon=db/uberon.db
+  -O, --output-type TEXT          Desired output type
+  -o, --output FILENAME           Output file, e.g. obo file
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Example:-Validation-over-Test-Ontology">
+<h2>Example: Validation over Test Ontology<a class="headerlink" href="#Example:-Validation-over-Test-Ontology" title="Link to this heading"></a></h2>
+<p>To illustrate this command we will use a deliberately altered version of a subset of GO.</p>
+<p>We will query the subset that are descendants of cellular process using the query <code class="docutils literal notranslate"><span class="pre">.desc//p=i</span> <span class="pre">&quot;cellular_component&quot;</span></code></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/validate-defs-test.obo<span class="w"> </span>validate-definitions<span class="w"> </span>-C<span class="w"> </span>input/validate-definition-conf.yaml<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;cellular_component&quot;</span><span class="w"> </span>-o<span class="w"> </span>output/validate-definitions.output.tsv
+</pre></div>
+</div>
+</div>
+<p>The output is a TSV file with a summary of the issues found.</p>
+<p>We can load this into a pandas dataframe for further analysis. This also has the advantage of displaying tables nicely in Jupyter notebooks such as this one.</p>
+<p>If you were actually using this on the command line you may prefer to use your own TSV processing tools, or to simply load into google sheets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/validate-definitions.output.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>severity</th>
+      <th>instantiates</th>
+      <th>predicate</th>
+      <th>object</th>
+      <th>object_str</th>
+      <th>source</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043231</td>
+      <td>intracellular membrane-bounded organelle</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043231</td>
+      <td>intracellular membrane-bounded organelle</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043231</td>
+      <td>intracellular membrane-bounded organelle</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0099568</td>
+      <td>cytoplasmic region</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>Any (proper) part of the cytoplasm of a single...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0099738</td>
+      <td>cell cortex region</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>complete extent of cell cortex</td>
+      <td>NaN</td>
+      <td>Did not match whole text: cell cortex &lt; comple...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0099738</td>
+      <td>cell cortex region</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>underlies some some region of the plasma membrane</td>
+      <td>NaN</td>
+      <td>Wrong position, 'cell cortex' not in 'underlie...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0071944</td>
+      <td>cell periphery</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>The part of a cell encompassing the cell corte...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0031090</td>
+      <td>organelle membrane</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>is one of the two lipid bilayers of an organel...</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043229</td>
+      <td>intracellular organelle</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043229</td>
+      <td>intracellular organelle</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043229</td>
+      <td>intracellular organelle</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0031967</td>
+      <td>organelle envelope</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A double membrane structure enclosing an organ...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0031975</td>
+      <td>envelope</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A multilayered structure surrounding all or pa...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0098590</td>
+      <td>plasma membrane region</td>
+      <td>INFO</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A membrane that is a (regional) part of the pl...</td>
+      <td>NaN</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>oaklib.om:DCC#S0</td>
+      <td>GO:0012505</td>
+      <td>endomembrane system</td>
+      <td>ERROR</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Missing text definition</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0005622</td>
+      <td>intracellular anatomical structure</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A component of a cell contained within (but no...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:9999998</td>
+      <td>fake term for testing pmid type</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>fake definition to test retracted typo in refe...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043227</td>
+      <td>membrane-bounded organelle</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043227</td>
+      <td>membrane-bounded organelle</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0005938</td>
+      <td>cell cortex</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>region of a cell</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0005938</td>
+      <td>cell cortex</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>lies just beneath the plasma membrane and ofte...</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>oaklib.om:DCC#S7</td>
+      <td>GO:0009579</td>
+      <td>thylakoid</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>The structure in a plant cell that is known as...</td>
+      <td>NaN</td>
+      <td>Circular, thylakoid (GO:0009579 in definition</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:9999999</td>
+      <td>fake term for testing retraction</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>fake definition to test retracted reference</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0005575</td>
+      <td>cellular_component</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A location, relative to cellular compartments ...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0005634</td>
+      <td>nucleus</td>
+      <td>INFO</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A membrane-bounded organelle of eukaryotic cel...</td>
+      <td>NaN</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0016020</td>
+      <td>membrane</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A lipid bilayer along with all the proteins an...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0110165</td>
+      <td>cellular anatomical entity</td>
+      <td>INFO</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A part of a cellular organism that is either a...</td>
+      <td>NaN</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0005635</td>
+      <td>nuclear envelope</td>
+      <td>INFO</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A double lipid bilayer that is part of the nuc...</td>
+      <td>NaN</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0005886</td>
+      <td>plasma membrane</td>
+      <td>INFO</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>The membrane surrounding a cell that separates...</td>
+      <td>NaN</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>oaklib.om:DCC#S1</td>
+      <td>GO:0005773</td>
+      <td>vacuole</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Definiendum should not appear at the start</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0031965</td>
+      <td>nuclear membrane</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>envelope</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>oaklib.om:DCC#S1</td>
+      <td>GO:0005737</td>
+      <td>cytoplasm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Definiendum should not appear at the start</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0034357</td>
+      <td>photosynthetic membrane</td>
+      <td>INFO</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>A membrane enriched in complexes formed of rea...</td>
+      <td>NaN</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043226</td>
+      <td>organelle</td>
+      <td>WARNING</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>NaN</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>NaN</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>oaklib.om:DCC#S20.1</td>
+      <td>GO:9999998</td>
+      <td>fake term for testing pmid type</td>
+      <td>ERROR</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>PMID:9999999999999</td>
+      <td>fake definition to test retracted typo in refe...</td>
+      <td>NaN</td>
+      <td>publication not found: PMID:9999999999999</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>oaklib.om:DCC#S20.2</td>
+      <td>GO:9999999</td>
+      <td>fake term for testing retraction</td>
+      <td>ERROR</td>
+      <td>NaN</td>
+      <td>IAO:0000115</td>
+      <td>PMID:19717156</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>publication is retracted: A role for plasma tr...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>The rows conform to ValidationResults in the <a class="reference external" href="https://w3id.org/oak/ontology-metadata/">OAK ontology-metadata</a> data model.</p>
+<p>The values of the type field are from the <a class="reference external" href="https://w3id.org/oak/ontology-metadata/DefinitionConstraintComponent">DefinitionConstraintComponent</a> enumeration.</p>
+<p>These themselves are modeled off of the taxonomy from Seppälä, Ruttenberg, and Smith, <a class="reference external" href="https://philpapers.org/archive/SEPGFW.pdf">Guidelines for writing definitions in ontologies</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#39;oaklib.om:DCC#S3&#39;, &#39;oaklib.om:DCC#S11&#39;, &#39;oaklib.om:DCC#Any&#39;,
+       &#39;oaklib.om:DCC#S0&#39;, &#39;oaklib.om:DCC#S7&#39;, &#39;oaklib.om:DCC#S1&#39;,
+       &#39;oaklib.om:DCC#S20.1&#39;, &#39;oaklib.om:DCC#S20.2&#39;], dtype=object)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>oaklib.om:DCC#S0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>oaklib.om:DCC#S1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>oaklib.om:DCC#S20.1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>oaklib.om:DCC#S20.2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>oaklib.om:DCC#S7</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Next we’ll filter out less informative columns</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="s2">&quot;subject_label&quot;</span><span class="p">,</span> <span class="s2">&quot;object_str&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">]]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object_str</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043231</td>
+      <td>intracellular membrane-bounded organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043231</td>
+      <td>intracellular membrane-bounded organelle</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043231</td>
+      <td>intracellular membrane-bounded organelle</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0099568</td>
+      <td>cytoplasmic region</td>
+      <td>Any (proper) part of the cytoplasm of a single...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0099738</td>
+      <td>cell cortex region</td>
+      <td>complete extent of cell cortex</td>
+      <td>Did not match whole text: cell cortex &lt; comple...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0099738</td>
+      <td>cell cortex region</td>
+      <td>underlies some some region of the plasma membrane</td>
+      <td>Wrong position, 'cell cortex' not in 'underlie...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0071944</td>
+      <td>cell periphery</td>
+      <td>The part of a cell encompassing the cell corte...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0031090</td>
+      <td>organelle membrane</td>
+      <td>is one of the two lipid bilayers of an organel...</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043229</td>
+      <td>intracellular organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043229</td>
+      <td>intracellular organelle</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043229</td>
+      <td>intracellular organelle</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0031967</td>
+      <td>organelle envelope</td>
+      <td>A double membrane structure enclosing an organ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0031975</td>
+      <td>envelope</td>
+      <td>A multilayered structure surrounding all or pa...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0098590</td>
+      <td>plasma membrane region</td>
+      <td>A membrane that is a (regional) part of the pl...</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>oaklib.om:DCC#S0</td>
+      <td>GO:0012505</td>
+      <td>endomembrane system</td>
+      <td>NaN</td>
+      <td>Missing text definition</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0005622</td>
+      <td>intracellular anatomical structure</td>
+      <td>A component of a cell contained within (but no...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:9999998</td>
+      <td>fake term for testing pmid type</td>
+      <td>fake definition to test retracted typo in refe...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043227</td>
+      <td>membrane-bounded organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0043227</td>
+      <td>membrane-bounded organelle</td>
+      <td>NaN</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0005938</td>
+      <td>cell cortex</td>
+      <td>region of a cell</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0005938</td>
+      <td>cell cortex</td>
+      <td>lies just beneath the plasma membrane and ofte...</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>oaklib.om:DCC#S7</td>
+      <td>GO:0009579</td>
+      <td>thylakoid</td>
+      <td>The structure in a plant cell that is known as...</td>
+      <td>Circular, thylakoid (GO:0009579 in definition</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:9999999</td>
+      <td>fake term for testing retraction</td>
+      <td>fake definition to test retracted reference</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0005575</td>
+      <td>cellular_component</td>
+      <td>A location, relative to cellular compartments ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0005634</td>
+      <td>nucleus</td>
+      <td>A membrane-bounded organelle of eukaryotic cel...</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0016020</td>
+      <td>membrane</td>
+      <td>A lipid bilayer along with all the proteins an...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0110165</td>
+      <td>cellular anatomical entity</td>
+      <td>A part of a cellular organism that is either a...</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0005635</td>
+      <td>nuclear envelope</td>
+      <td>A double lipid bilayer that is part of the nuc...</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0005886</td>
+      <td>plasma membrane</td>
+      <td>The membrane surrounding a cell that separates...</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>oaklib.om:DCC#S1</td>
+      <td>GO:0005773</td>
+      <td>vacuole</td>
+      <td>NaN</td>
+      <td>Definiendum should not appear at the start</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>oaklib.om:DCC#S11</td>
+      <td>GO:0031965</td>
+      <td>nuclear membrane</td>
+      <td>envelope</td>
+      <td>Logical definition element not found in text: ...</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>oaklib.om:DCC#S1</td>
+      <td>GO:0005737</td>
+      <td>cytoplasm</td>
+      <td>NaN</td>
+      <td>Definiendum should not appear at the start</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>oaklib.om:DCC#Any</td>
+      <td>GO:0034357</td>
+      <td>photosynthetic membrane</td>
+      <td>A membrane enriched in complexes formed of rea...</td>
+      <td>No problems with definition</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043226</td>
+      <td>organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>oaklib.om:DCC#S20.1</td>
+      <td>GO:9999998</td>
+      <td>fake term for testing pmid type</td>
+      <td>fake definition to test retracted typo in refe...</td>
+      <td>publication not found: PMID:9999999999999</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>oaklib.om:DCC#S20.2</td>
+      <td>GO:9999999</td>
+      <td>fake term for testing retraction</td>
+      <td>NaN</td>
+      <td>publication is retracted: A role for plasma tr...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Missing-Definitions">
+<h2>Missing Definitions<a class="headerlink" href="#Missing-Definitions" title="Link to this heading"></a></h2>
+<p>This is the most trivial way to fail a definition check - not to include one. We can see all the missing definitions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;oaklib.om:DCC#S0&quot;</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object_str</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>14</th>
+      <td>oaklib.om:DCC#S0</td>
+      <td>GO:0012505</td>
+      <td>endomembrane system</td>
+      <td>NaN</td>
+      <td>Missing text definition</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Of course, in the real ontology this term has a definition</p>
+</section>
+<section id="Non-genus-differentia-structure">
+<h2>Non genus-differentia structure<a class="headerlink" href="#Non-genus-differentia-structure" title="Link to this heading"></a></h2>
+<p>The OAK validate definitions command follows <a class="reference external" href="https://philpapers.org/archive/SEPGFW.pdf">SRS</a> and assumes good definitions follow genus-differentia structure.</p>
+<p>We can see the ones that fail this (S3):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;oaklib.om:DCC#S3&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object_str</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043231</td>
+      <td>intracellular membrane-bounded organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0099568</td>
+      <td>cytoplasmic region</td>
+      <td>Any (proper) part of the cytoplasm of a single...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0099738</td>
+      <td>cell cortex region</td>
+      <td>complete extent of cell cortex</td>
+      <td>Did not match whole text: cell cortex &lt; comple...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0071944</td>
+      <td>cell periphery</td>
+      <td>The part of a cell encompassing the cell corte...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043229</td>
+      <td>intracellular organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0031967</td>
+      <td>organelle envelope</td>
+      <td>A double membrane structure enclosing an organ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0031975</td>
+      <td>envelope</td>
+      <td>A multilayered structure surrounding all or pa...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0005622</td>
+      <td>intracellular anatomical structure</td>
+      <td>A component of a cell contained within (but no...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:9999998</td>
+      <td>fake term for testing pmid type</td>
+      <td>fake definition to test retracted typo in refe...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043227</td>
+      <td>membrane-bounded organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:9999999</td>
+      <td>fake term for testing retraction</td>
+      <td>fake definition to test retracted reference</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0005575</td>
+      <td>cellular_component</td>
+      <td>A location, relative to cellular compartments ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0016020</td>
+      <td>membrane</td>
+      <td>A lipid bilayer along with all the proteins an...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>oaklib.om:DCC#S3</td>
+      <td>GO:0043226</td>
+      <td>organelle</td>
+      <td>Organized structure of distinctive morphology ...</td>
+      <td>Cannot parse genus and differentia</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Many of these are actual definitions rather than ones manipulated for test purposes.</p>
+<p>There is room for valid disagreement about whether rewriting some of these following genus-differentia form would improve things for either users or annotators. Arguably at least the subtypes of organelle could simply state how they are differentiated from organelles in general rather than repeating the somewhat wordy <em>“Organized structure of distinctive morphology…”</em></p>
+</section>
+<section id="Circular-definitions">
+<h2>Circular definitions<a class="headerlink" href="#Circular-definitions" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;oaklib.om:DCC#S7&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object_str</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21</th>
+      <td>oaklib.om:DCC#S7</td>
+      <td>GO:0009579</td>
+      <td>thylakoid</td>
+      <td>The structure in a plant cell that is known as...</td>
+      <td>Circular, thylakoid (GO:0009579 in definition</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Not-following-convention">
+<h2>Not following convention<a class="headerlink" href="#Not-following-convention" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;oaklib.om:DCC#S1&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object_str</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>29</th>
+      <td>oaklib.om:DCC#S1</td>
+      <td>GO:0005773</td>
+      <td>vacuole</td>
+      <td>NaN</td>
+      <td>Definiendum should not appear at the start</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>oaklib.om:DCC#S1</td>
+      <td>GO:0005737</td>
+      <td>cytoplasm</td>
+      <td>NaN</td>
+      <td>Definiendum should not appear at the start</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Definition-Reference-Issues">
+<h2>Definition Reference Issues<a class="headerlink" href="#Definition-Reference-Issues" title="Link to this heading"></a></h2>
+<section id="Typos-in-PMIDs">
+<h3>Typos in PMIDs<a class="headerlink" href="#Typos-in-PMIDs" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;oaklib.om:DCC#S20.1&quot;</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object_str</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>34</th>
+      <td>oaklib.om:DCC#S20.1</td>
+      <td>GO:9999998</td>
+      <td>fake term for testing pmid type</td>
+      <td>fake definition to test retracted typo in refe...</td>
+      <td>publication not found: PMID:9999999999999</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Retracted-publications">
+<h3>Retracted publications<a class="headerlink" href="#Retracted-publications" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;oaklib.om:DCC#S20.2&quot;</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>subject</th>
+      <th>subject_label</th>
+      <th>object_str</th>
+      <th>info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>35</th>
+      <td>oaklib.om:DCC#S20.2</td>
+      <td>GO:9999999</td>
+      <td>fake term for testing retraction</td>
+      <td>NaN</td>
+      <td>publication is retracted: A role for plasma tr...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Using-LLMs-to-validate-definitions">
+<h2>Using LLMs to validate definitions<a class="headerlink" href="#Using-LLMs-to-validate-definitions" title="Link to this heading"></a></h2>
+<p>For this example we will use an LLM to validate this GO catalytic activity:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000010</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trans-hexaprenyltranstransferase activity</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">molecular_function</span>
+<span class="nt">alt_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0036422</span>
+<span class="nt">def</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Catalysis</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">reaction:</span><span class="nv"> </span><span class="s">(2E,6E)-farnesyl</span><span class="nv"> </span><span class="s">diphosphate</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">4</span><span class="nv"> </span><span class="s">isopentenyl</span><span class="nv"> </span><span class="s">diphosphate</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">4</span><span class="nv"> </span><span class="s">diphosphate</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">all-trans-heptaprenyl</span><span class="nv"> </span><span class="s">diphosphate.&quot;</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">PMID</span><span class="p p-Indicator">:</span><span class="nv">9708911</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">RHEA</span><span class="p p-Indicator">:</span><span class="nv">27794</span><span class="p p-Indicator">]</span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;all-trans-heptaprenyl-diphosphate</span><span class="nv"> </span><span class="s">synthase</span><span class="nv"> </span><span class="s">activity&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED [EC:2.5.1.30]</span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HepPP</span><span class="nv"> </span><span class="s">synthase</span><span class="nv"> </span><span class="s">activity&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED [EC:2.5.1.30]</span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;heptaprenyl</span><span class="nv"> </span><span class="s">diphosphate</span><span class="nv"> </span><span class="s">synthase</span><span class="nv"> </span><span class="s">activity&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED []</span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;heptaprenyl</span><span class="nv"> </span><span class="s">pyrophosphate</span><span class="nv"> </span><span class="s">synthase</span><span class="nv"> </span><span class="s">activity&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED [EC:2.5.1.30]</span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;heptaprenyl</span><span class="nv"> </span><span class="s">pyrophosphate</span><span class="nv"> </span><span class="s">synthetase</span><span class="nv"> </span><span class="s">activity&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED [EC:2.5.1.30]</span>
+<span class="nt">xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EC:2.5.1.30</span>
+<span class="nt">xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MetaCyc:TRANS-HEXAPRENYLTRANSTRANSFERASE-RXN</span>
+<span class="nt">xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RHEA:27794</span>
+</pre></div>
+</div>
+<p>There are two references for this:</p>
+<ul class="simple">
+<li><p>the publication <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/9708911/">PMID:9708911</a></p></li>
+<li><p>the RHEA reaction <a class="reference external" href="https://www.rhea-db.org/reaction?id=27794">RHEA:27794</a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>--stacktrace<span class="w"> </span>-i<span class="w"> </span>llm:<span class="o">{</span>claude-3-opus<span class="o">}</span>:simpleobo:input/validate-defs-test.obo<span class="w"> </span>validate-definitions<span class="w"> </span>-C<span class="w"> </span>input/validate-definition-conf.yaml<span class="w"> </span>GO:0000010<span class="w"> </span>-O<span class="w"> </span>yaml<span class="w"> </span>-o<span class="w"> </span>output/validate-definitions.llm.yaml
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;output/validate-definitions.llm.yaml&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">report</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">lines</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+type: https://w3id.org/oak/ontology-metadata/DCC.S20
+subject: GO:0000010
+severity: INFO
+predicate: IAO:0000115
+object_str:
+  id: PMID:9708911
+  title: Biological significance of the side chain length of ubiquinone in Saccharomyces
+    cerevisiae.
+  abstract: Ubiquinone (UQ), an important component of the electron transfer system,
+    is constituted of a quinone structure and a side chain isoprenoid. The side chain
+    length of UQ differs between microorganisms, and this difference has been used for
+    taxonomic study. In this study, we have addressed the importance of the length of
+    the side chain of UQ for cells, and examined the effect of chain length by producing
+    UQs with isoprenoid chain lengths between 5 and 10 in Saccharomyces cerevisiae.
+    To make the different UQ species, different types of prenyl diphosphate synthases
+    were expressed in a S. cerevisiae COQ1 mutant defective for hexaprenyl diphosphate
+    synthesis. As a result, we found that the original species of UQ (in this case UQ-6)
+    had maximum functionality. However, we found that other species of UQ could replace
+    UQ-6. Thus a broad spectrum of different UQ species are biologically functional
+    in yeast cells, although cells seem to display a preference for their own particular
+    type of UQ.
+  publication_type: Research Support, Non-U.S. Gov&#39;t
+
+
+info:
+  The term &#34;trans-hexaprenyltranstransferase activity&#34; has a HIGH level of alignment with the cited reference PMID:9708911. The abstract supports the definition well, as evidenced by these key points:
+
+  1. The study examines the importance of the side chain length of ubiquinone (UQ) in Saccharomyces cerevisiae, which directly relates to the activity of trans-hexaprenyltranstransferase.
+
+  2. The abstract mentions &#34;hexaprenyl diphosphate synthesis&#34; in S. cerevisiae, which is the product of trans-hexaprenyltranstransferase activity.
+
+  3. The study found that the original species of UQ (UQ-6) had maximum functionality in yeast cells, suggesting a preference for the hexaprenyl side chain length produced by trans-hexaprenyltranstransferase.
+
+  No sections of the abstract misalign with or contradict the term definition. The definition is appropriately specific, focusing on the enzyme&#39;s activity without providing additional details about its structure or cellular role.
+
+definition:
+  Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl diphosphate = 4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+definition_source: PMID:9708911
+</pre></div></div>
+</div>
+<p><strong>COMMENTARY</strong></p>
+<p>Note that as this is an LLM the output differs every time!</p>
+<p>In some cases, the LLM is failing to see that the paper is indeed about trans-hexaprenyltranstransferase activity, the output is useful as it shows us that the abstract is not directly about this activity.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="TermsetSimilarity.html" class="btn btn-neutral float-left" title="OAK termset-similarity command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ValidateMappings.html" class="btn btn-neutral float-right" title="OAK validate-mappings command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

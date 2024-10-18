@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ubergraph Tutorial &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Interfaces Examples" href="../../Interfaces/index.html" />
+    <link rel="prev" title="Adapter Examples" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Adapter Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ubergraph Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Basic-lookup">Basic lookup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Making-SPARQL-queries">Making SPARQL queries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Advanced:-feeding-query-results-to-other-commands">Advanced: feeding query results to other commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Adapter Examples</a></li>
+      <li class="breadcrumb-item active">Ubergraph Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Adapters/Ubergraph/Ubergraph-Tutorial.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Ubergraph-Tutorial">
+<h1>Ubergraph Tutorial<a class="headerlink" href="#Ubergraph-Tutorial" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/INCATools/ubergraph">Ubergraph</a> is a SPARQL endpoint serving multiple OBO ontologies, pre-processed with:</p>
+<ul class="simple">
+<li><p>relation-graph</p></li>
+<li><p>information content scores</p></li>
+<li><p>biolink categories</p></li>
+</ul>
+<p>This notebook demonstrates the use of OAK with the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/ubergraph.html">ubergraph adapter</a>. Many of the same operations can be applied with other adapters. Advantages of ubergraph include:</p>
+<ul class="simple">
+<li><p>multiple ontologies all joined together in one graph</p></li>
+<li><p>complex sparql querying of multiple pieces of information, including entailed relationships</p></li>
+</ul>
+<p>First we set up a Jupyter alias for convenience:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">ubergraph</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ubergraph</span><span class="p">:</span>
+</pre></div>
+</div>
+</div>
+<p>First let’s see the list of ontologies in Ubergraph. Note this list is ever growing and if you try this you may see more than is shown here:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="n">ontologies</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+aism/aism-base.owl
+bspo.owl
+chebi.owl
+cl/cl-base.owl
+cob/cob-base.owl
+cob/components/cob-to-external.owl
+colao/colao-base.owl
+dpo/dpo-base.owl
+eco/eco-base.owl
+iao.owl
+ecto/ecto-base.owl
+emapa.owl
+envo/envo-base.owl
+fbbt/fbbt-base.owl
+fbcv/fbcv-base.owl
+fbdv/fbdv-base.owl
+fypo/fypo-base.owl
+go/extensions/go-bfo-bridge.owl
+go/go-base.owl
+hp/hp-base.owl
+lepao/lepao-base.owl
+ma.owl
+maxo/maxo-base.owl
+mi.owl
+mmo.owl
+mondo/mondo-base.owl
+ncbitaxon.owl
+ncit.owl
+mp/mp-base.owl
+nbo/nbo-base.owl
+oba/oba-base.owl
+obi/obi-base.owl
+so.owl
+pato/pato-base.owl
+pcl/pcl-base.owl
+pco/pco-base.owl
+ro/ro-base.owl
+uberon/bridge/cl-bridge-to-caro.owl
+uberon/bridge/cl-bridge-to-fbbt.owl
+uberon/bridge/uberon-bridge-to-caro.owl
+uberon/bridge/uberon-bridge-to-fbbt.owl
+uberon/uberon-base.owl
+wbbt/wbbt-base.owl
+wbls/wbls-base.owl
+wbphenotype/wbphenotype-base.owl
+zfa/zfa-base.owl
+https://w3id.org/orcidio/orcidio.owl
+pr/pr-asserted.owl
+po.owl
+https://raw.githubusercontent.com/PlantPhenoOntology/ppo/master/ppo.owl
+apo.owl
+mmusdv.owl
+foodon.owl
+to.owl
+peco.owl
+mro.owl
+hao.owl
+clao.owl
+oarcs.owl
+http://translator.renci.org/ubergraph-axioms.ofn
+</pre></div></div>
+</div>
+<section id="Basic-lookup">
+<h2>Basic lookup<a class="headerlink" href="#Basic-lookup" title="Link to this heading"></a></h2>
+<p>We can use the OAK command to lookup various IDs</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="n">info</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000540</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000679</span> <span class="n">RO</span><span class="p">:</span><span class="mi">0002100</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0002771</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000540 ! neuron
+CL:0000679 ! glutamatergic neuron
+WARNING:root:Multiple labels for RO:0002100 = has_soma_location != has soma location
+WARNING:root:Multiple labels for RO:0002100 = has_soma_location != has soma location
+RO:0002100 ! has_soma_location
+UBERON:0002771 ! middle temporal gyrus
+</pre></div></div>
+</div>
+<p>Note the annoying warning messages. OAK is telling us it couldn’t find the “definitive” label for <code class="docutils literal notranslate"><span class="pre">RO:0002100</span></code>. One challenge for a merged graph like Ubergraph is that some sources may include stale imports with older labels and metadata - worse, some may “inject” triples onto objects that don’t belong to them!</p>
+<p>In future, OAK may include more advanced ways of retrieving labels such that trusted graphs are relied on over secondary ones; and it’s likely that some of these will be resolved in ubergraph.</p>
+<p>But for now you can just use <code class="docutils literal notranslate"><span class="pre">--quiet</span></code> to silence the warnings.</p>
+<p>Next let’s try querying for <code class="docutils literal notranslate"><span class="pre">relationships</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">relationships</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000540</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   predicate       predicate_label object  object_label
+CL:0000540      neuron  RO:0002215      capable of      GO:0019226      transmission of nerve impulse
+CL:0000540      neuron  RO:0002216      capable of part of      GO:0007154      cell communication
+CL:0000540      neuron  rdfs:subClassOf None    CL:0000393      electrically responsive cell
+CL:0000540      neuron  rdfs:subClassOf None    CL:0000404      electrically signaling cell
+CL:0000540      neuron  rdfs:subClassOf None    CL:0002319      neural cell
+</pre></div></div>
+</div>
+<p>By default, only asserted relationships are shown. Use <code class="docutils literal notranslate"><span class="pre">--include-entailed</span></code> to show also entailed relationships (calculated ahead of time using relation-graph):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">relationships</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000540</span> <span class="o">-</span><span class="n">p</span> <span class="n">p</span> <span class="o">--</span><span class="n">include</span><span class="o">-</span><span class="n">entailed</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="mi">30</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre></div></div>
+</div>
+<p>Note that there a lot of trivial (but true) relationships there.</p>
+<p>We can also use <code class="docutils literal notranslate"><span class="pre">viz</span></code> to visualize a subgraph, in this around “cell”, following is-a and part-of relationships:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000540</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">ubergraph</span><span class="o">-</span><span class="n">neuron</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="../../../_images/ubergraph-neuron.png" /></p>
+<p>If you have used the viz command on individual ontologies before, you may notice a few differences with ubergraph.</p>
+<p>Note that some pairs of terms have cyclic is-as pointing at one another: this is not an error! this reflects the fact that these two concepts are <em>equivalent</em>. In future we may add something at the visual layer that compacts these down into a bidirectional equivalence edge.</p>
+</section>
+<section id="Making-SPARQL-queries">
+<h2>Making SPARQL queries<a class="headerlink" href="#Making-SPARQL-queries" title="Link to this heading"></a></h2>
+<p>You can make SPARQL queries using the <code class="docutils literal notranslate"><span class="pre">query</span></code> command:</p>
+<p>Here we will do a complex query that involves two relationship constraints:</p>
+<ul class="simple">
+<li><p>all glutaminergic neurons (CL:0000679) that have</p></li>
+<li><p>a soma location (RO:0002100) in the middle temporal gyrus (UBERON:0002771)</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="n">query</span> <span class="o">-</span><span class="n">q</span> <span class="s2">&quot;?s rdfs:subClassOf CL:0000679 ; RO:0002100 UBERON:0002771&quot;</span> <span class="o">-</span><span class="n">P</span> <span class="n">CL</span><span class="p">,</span><span class="n">RO</span><span class="p">,</span><span class="n">UBERON</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:Auto-adding limit
+Query has no LIMIT clause: SELECT * WHERE {?s rdfs:subClassOf CL:0000679 ; RO:0002100 UBERON:0002771} LIMIT 100
+s       s_label
+PCL:0023046     Exc L2 LAMP5 LTK middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023047     Exc L2-4 LINC00507 GLP2R middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023048     Exc L2-3 LINC00507 FREM3 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023049     Exc L5-6 THEMIS C1QL3 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023050     Exc L3-4 RORB CARM1P1 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023051     Exc L3-5 RORB ESR1 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023052     Exc L3-5 RORB COL22A1 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023053     Exc L3-5 RORB FILIP1L middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023054     Exc L3-5 RORB TWIST2 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023055     Exc L4-5 RORB FOLH1B middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023056     Exc L4-6 RORB SEMA3E middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023057     Exc L4-5 RORB DAPK2 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023058     Exc L5-6 RORB TTC12 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023059     Exc L4-6 RORB C1R middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023060     Exc L4-5 FEZF2 SCN4B middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023061     Exc L5-6 THEMIS DCSTAMP middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023062     Exc L5-6 THEMIS CRABP1 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023063     Exc L5-6 THEMIS FGF10 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023064     Exc L4-6 FEZF2 IL26 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023065     Exc L5-6 FEZF2 ABO middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023066     Exc L6 FEZF2 SCUBE1 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023067     Exc L5-6 FEZF2 IL15 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023068     Exc L6 FEZF2 OR2T8 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023069     Exc L5-6 FEZF2 EFTUD1P1 middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023127     L2/3 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023130     L4 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023134     L5 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023138     L6 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023142     L6b middle temporal gyrus glutamatergic neuron (Hsap)
+</pre></div></div>
+</div>
+<p>Note that for your convenience, a surround <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">{...}</span></code> is added. The <code class="docutils literal notranslate"><span class="pre">-P</span></code> option will add prefix declarations for all specified prefixes using standard sources.</p>
+<p>By default, labels will also be queried for all results (note that OAK will try to do this in an efficient a way as possible, avoiding iterative queries over the network). To suppress this, switch off the <code class="docutils literal notranslate"><span class="pre">--autolabel</span></code> option:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="n">query</span> <span class="o">-</span><span class="n">q</span> <span class="s2">&quot;?s rdfs:subClassOf CL:0000679 ; RO:0002100 UBERON:0002771&quot;</span> <span class="o">-</span><span class="n">P</span> <span class="n">CL</span><span class="p">,</span><span class="n">RO</span><span class="p">,</span><span class="n">UBERON</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">autolabel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING:root:Auto-adding limit
+Query has no LIMIT clause: SELECT * WHERE {?s rdfs:subClassOf CL:0000679 ; RO:0002100 UBERON:0002771} LIMIT 100
+s
+PCL:0023046
+PCL:0023047
+PCL:0023048
+PCL:0023049
+PCL:0023050
+PCL:0023051
+PCL:0023052
+PCL:0023053
+PCL:0023054
+PCL:0023055
+PCL:0023056
+PCL:0023057
+PCL:0023058
+PCL:0023059
+PCL:0023060
+PCL:0023061
+PCL:0023062
+PCL:0023063
+PCL:0023064
+PCL:0023065
+PCL:0023066
+PCL:0023067
+PCL:0023068
+PCL:0023069
+PCL:0023127
+PCL:0023130
+PCL:0023134
+PCL:0023138
+PCL:0023142
+</pre></div></div>
+</div>
+</section>
+<section id="Advanced:-feeding-query-results-to-other-commands">
+<h2>Advanced: feeding query results to other commands<a class="headerlink" href="#Advanced:-feeding-query-results-to-other-commands" title="Link to this heading"></a></h2>
+<p>So far we have seen an example of using the <code class="docutils literal notranslate"><span class="pre">query</span></code> command. You can actually use the results of a query in many other commands.</p>
+<p>In OAK, most commands accept a <em>query term list</em>. These are typically lists of IDs or labels - but they can also be <em>query expressions</em> that are evaluated on the fly. One such expression is <code class="docutils literal notranslate"><span class="pre">.query</span></code>.</p>
+<p>Here we will do the same query as above, and feed the results into the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> command, allowing us the see the direct superclasses of all glutamine neurons in the MTG:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubergraph</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">relationships</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="o">.</span><span class="n">query</span><span class="o">//</span><span class="n">prefixes</span><span class="o">=</span><span class="n">CL</span><span class="p">,</span><span class="n">RO</span><span class="p">,</span><span class="n">UBERON</span> <span class="s2">&quot;?s rdfs:subClassOf CL:0000679 ; RO:0002100 UBERON:0002771&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   predicate       predicate_label object  object_label
+PCL:0023046     Exc L2 LAMP5 LTK middle temporal gyrus glutamatergic neuron (Hsap)      rdfs:subClassOf None    PCL:0023127     L2/3 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023047     Exc L2-4 LINC00507 GLP2R middle temporal gyrus glutamatergic neuron (Hsap)      rdfs:subClassOf None    PCL:0023127     L2/3 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023048     Exc L2-3 LINC00507 FREM3 middle temporal gyrus glutamatergic neuron (Hsap)      rdfs:subClassOf None    PCL:0023127     L2/3 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023049     Exc L5-6 THEMIS C1QL3 middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    CL:0000679      glutamatergic neuron
+PCL:0023049     Exc L5-6 THEMIS C1QL3 middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    CL:0010012      cerebral cortex neuron
+PCL:0023050     Exc L3-4 RORB CARM1P1 middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    PCL:0023130     L4 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023051     Exc L3-5 RORB ESR1 middle temporal gyrus glutamatergic neuron (Hsap)    rdfs:subClassOf None    PCL:0023130     L4 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023052     Exc L3-5 RORB COL22A1 middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    PCL:0023130     L4 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023053     Exc L3-5 RORB FILIP1L middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    PCL:0023130     L4 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023054     Exc L3-5 RORB TWIST2 middle temporal gyrus glutamatergic neuron (Hsap)  rdfs:subClassOf None    PCL:0023130     L4 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023055     Exc L4-5 RORB FOLH1B middle temporal gyrus glutamatergic neuron (Hsap)  rdfs:subClassOf None    PCL:0023134     L5 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023056     Exc L4-6 RORB SEMA3E middle temporal gyrus glutamatergic neuron (Hsap)  rdfs:subClassOf None    PCL:0023134     L5 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023057     Exc L4-5 RORB DAPK2 middle temporal gyrus glutamatergic neuron (Hsap)   rdfs:subClassOf None    PCL:0023134     L5 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023058     Exc L5-6 RORB TTC12 middle temporal gyrus glutamatergic neuron (Hsap)   rdfs:subClassOf None    PCL:0023134     L5 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023059     Exc L4-6 RORB C1R middle temporal gyrus glutamatergic neuron (Hsap)     rdfs:subClassOf None    PCL:0023134     L5 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023060     Exc L4-5 FEZF2 SCN4B middle temporal gyrus glutamatergic neuron (Hsap)  rdfs:subClassOf None    CL:4023041      L5 extratelencephalic projecting glutamatergic cortical neuron
+PCL:0023061     Exc L5-6 THEMIS DCSTAMP middle temporal gyrus glutamatergic neuron (Hsap)       rdfs:subClassOf None    PCL:0023138     L6 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023062     Exc L5-6 THEMIS CRABP1 middle temporal gyrus glutamatergic neuron (Hsap)        rdfs:subClassOf None    PCL:0023138     L6 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023063     Exc L5-6 THEMIS FGF10 middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    PCL:0023138     L6 IT middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023064     Exc L4-6 FEZF2 IL26 middle temporal gyrus glutamatergic neuron (Hsap)   rdfs:subClassOf None    CL:4023012      near-projecting glutamatergic cortical neuron
+PCL:0023065     Exc L5-6 FEZF2 ABO middle temporal gyrus glutamatergic neuron (Hsap)    rdfs:subClassOf None    CL:4023042      L6 corticothalamic-projecting glutamatergic cortical neuron
+PCL:0023066     Exc L6 FEZF2 SCUBE1 middle temporal gyrus glutamatergic neuron (Hsap)   rdfs:subClassOf None    PCL:0023142     L6b middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023067     Exc L5-6 FEZF2 IL15 middle temporal gyrus glutamatergic neuron (Hsap)   rdfs:subClassOf None    PCL:0023142     L6b middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023068     Exc L6 FEZF2 OR2T8 middle temporal gyrus glutamatergic neuron (Hsap)    rdfs:subClassOf None    PCL:0023142     L6b middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023069     Exc L5-6 FEZF2 EFTUD1P1 middle temporal gyrus glutamatergic neuron (Hsap)       rdfs:subClassOf None    PCL:0023142     L6b middle temporal gyrus glutamatergic neuron (Hsap)
+PCL:0023127     L2/3 IT middle temporal gyrus glutamatergic neuron (Hsap)       rdfs:subClassOf None    CL:4023008      intratelencephalic-projecting glutamatergic cortical neuron
+PCL:0023130     L4 IT middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    CL:4023008      intratelencephalic-projecting glutamatergic cortical neuron
+PCL:0023134     L5 IT middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    CL:4023008      intratelencephalic-projecting glutamatergic cortical neuron
+PCL:0023138     L6 IT middle temporal gyrus glutamatergic neuron (Hsap) rdfs:subClassOf None    CL:4023008      intratelencephalic-projecting glutamatergic cortical neuron
+PCL:0023142     L6b middle temporal gyrus glutamatergic neuron (Hsap)   rdfs:subClassOf None    CL:4023038      L6b glutamatergic cortical neuron
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Adapter Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../Interfaces/index.html" class="btn btn-neutral float-right" title="Interfaces Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

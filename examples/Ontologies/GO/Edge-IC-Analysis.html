@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agreement between species &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Agreement between species</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/GO/Edge-IC-Analysis.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.associations.edge_information_util</span> <span class="kn">import</span> <span class="n">associations_to_matrix</span>
+
+
+<span class="n">ont_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">taxa</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;9606&quot;</span><span class="p">,</span> <span class="s2">&quot;6239&quot;</span><span class="p">,</span> <span class="s2">&quot;7955&quot;</span><span class="p">,</span> <span class="s2">&quot;3702&quot;</span><span class="p">,</span> <span class="s2">&quot;559292&quot;</span><span class="p">,</span> <span class="s2">&quot;4896&quot;</span><span class="p">,</span> <span class="s2">&quot;7227&quot;</span><span class="p">,</span> <span class="s2">&quot;10090&quot;</span><span class="p">,</span> <span class="s2">&quot;ALL&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">ic_map_by_taxon</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">taxa</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;amigo:NCBITaxon:</span><span class="si">{</span><span class="n">tax</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">tax</span> <span class="o">!=</span> <span class="s2">&quot;ALL&quot;</span> <span class="k">else</span> <span class="s2">&quot;amigo:&quot;</span>
+    <span class="n">assoc_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">ic_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">term</span><span class="p">:</span> <span class="n">ic</span> <span class="k">for</span> <span class="n">term</span><span class="p">,</span> <span class="n">ic</span> <span class="ow">in</span> <span class="n">assoc_adapter</span><span class="o">.</span><span class="n">information_content_scores</span><span class="p">(</span><span class="n">use_associations</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+    <span class="n">ic_map_by_taxon</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span> <span class="o">=</span> <span class="n">ic_map</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">ic_map_by_taxon</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+9
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+
+<span class="k">def</span> <span class="nf">calculate_edge_information</span><span class="p">(</span><span class="n">child</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ic_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ic_map</span> <span class="ow">or</span> <span class="n">parent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ic_map</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">child_ic</span> <span class="o">=</span> <span class="n">ic_map</span><span class="p">[</span><span class="n">child</span><span class="p">]</span>
+    <span class="n">parent_ic</span> <span class="o">=</span> <span class="n">ic_map</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">child_ic</span> <span class="o">-</span> <span class="n">parent_ic</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;GO:0008527&quot;</span>
+<span class="n">p</span><span class="o">=</span><span class="s2">&quot;GO:0050912&quot;</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">tx</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">ic_map_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">matrix</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+9606 0.6844981742720702
+6239 None
+7955 0.16992500144231393
+3702 None
+559292 None
+4896 None
+7227 0.15919859484925425
+10090 0.405992359675837
+ALL 0.360008134132741
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;child&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">o</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">ic_map_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;child&#39;: &#39;GO:0007563&#39;, &#39;parent&#39;: &#39;GO:2000026&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;9606&#39;: None, &#39;6239&#39;: None, &#39;7955&#39;: None, &#39;3702&#39;: None, &#39;559292&#39;: None, &#39;4896&#39;: None, &#39;7227&#39;: 5.357552004618083, &#39;10090&#39;: None, &#39;ALL&#39;: 10.822457022324627}
+{&#39;child&#39;: &#39;GO:0019356&#39;, &#39;parent&#39;: &#39;GO:0019357&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;9606&#39;: None, &#39;6239&#39;: None, &#39;7955&#39;: None, &#39;3702&#39;: None, &#39;559292&#39;: None, &#39;4896&#39;: None, &#39;7227&#39;: None, &#39;10090&#39;: None, &#39;ALL&#39;: None}
+{&#39;child&#39;: &#39;GO:0034346&#39;, &#39;parent&#39;: &#39;GO:0034343&#39;, &#39;predicate&#39;: &#39;RO:0002213&#39;, &#39;9606&#39;: 0.0, &#39;6239&#39;: None, &#39;7955&#39;: None, &#39;3702&#39;: None, &#39;559292&#39;: None, &#39;4896&#39;: None, &#39;7227&#39;: None, &#39;10090&#39;: 0.0, &#39;ALL&#39;: 0.0}
+{&#39;child&#39;: &#39;GO:0045831&#39;, &#39;parent&#39;: &#39;GO:0010461&#39;, &#39;predicate&#39;: &#39;RO:0002212&#39;, &#39;9606&#39;: None, &#39;6239&#39;: None, &#39;7955&#39;: None, &#39;3702&#39;: None, &#39;559292&#39;: None, &#39;4896&#39;: None, &#39;7227&#39;: None, &#39;10090&#39;: None, &#39;ALL&#39;: None}
+{&#39;child&#39;: &#39;GO:0060295&#39;, &#39;parent&#39;: &#39;GO:0003352&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;9606&#39;: 0.4381211123918849, &#39;6239&#39;: 0.0, &#39;7955&#39;: 0.5405683813627036, &#39;3702&#39;: None, &#39;559292&#39;: None, &#39;4896&#39;: None, &#39;7227&#39;: 1.8073549220576037, &#39;10090&#39;: 0.40439025507933657, &#39;ALL&#39;: 0.5629361943911579}
+{&#39;child&#39;: &#39;GO:0090033&#39;, &#39;parent&#39;: &#39;GO:0045927&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;9606&#39;: None, &#39;6239&#39;: None, &#39;7955&#39;: None, &#39;3702&#39;: None, &#39;559292&#39;: 0.11103131238874298, &#39;4896&#39;: None, &#39;7227&#39;: None, &#39;10090&#39;: None, &#39;ALL&#39;: 1.6593675666537084}
+{&#39;child&#39;: &#39;GO:1900362&#39;, &#39;parent&#39;: &#39;GO:0051050&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;9606&#39;: None, &#39;6239&#39;: None, &#39;7955&#39;: None, &#39;3702&#39;: None, &#39;559292&#39;: None, &#39;4896&#39;: None, &#39;7227&#39;: None, &#39;10090&#39;: None, &#39;ALL&#39;: None}
+{&#39;child&#39;: &#39;GO:1904333&#39;, &#39;parent&#39;: &#39;GO:2000573&#39;, &#39;predicate&#39;: &#39;rdfs:subClassOf&#39;, &#39;9606&#39;: 6.10852445677817, &#39;6239&#39;: 0.32192809488736174, &#39;7955&#39;: None, &#39;3702&#39;: None, &#39;559292&#39;: None, &#39;4896&#39;: None, &#39;7227&#39;: None, &#39;10090&#39;: None, &#39;ALL&#39;: 6.62935662007961}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">has_val</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">filtered_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span> <span class="k">if</span> <span class="n">has_val</span><span class="p">(</span><span class="n">r</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">filtered_rows</span><span class="p">:</span>
+    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;child_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">])</span>
+    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_rows</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>child</th>
+      <th>parent</th>
+      <th>predicate</th>
+      <th>9606</th>
+      <th>6239</th>
+      <th>7955</th>
+      <th>3702</th>
+      <th>559292</th>
+      <th>4896</th>
+      <th>7227</th>
+      <th>10090</th>
+      <th>ALL</th>
+      <th>child_label</th>
+      <th>parent_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0000001</td>
+      <td>GO:0005739</td>
+      <td>obo:GOREL_0002003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.872605</td>
+      <td>8.577429</td>
+      <td>7.812177</td>
+      <td>NaN</td>
+      <td>9.414945</td>
+      <td>mitochondrion inheritance</td>
+      <td>mitochondrion</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0000001</td>
+      <td>GO:0048308</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.373458</td>
+      <td>0.584963</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>1.982152</td>
+      <td>mitochondrion inheritance</td>
+      <td>organelle inheritance</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0000001</td>
+      <td>GO:0048311</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.241008</td>
+      <td>1.807355</td>
+      <td>1.459432</td>
+      <td>NaN</td>
+      <td>1.942707</td>
+      <td>mitochondrion inheritance</td>
+      <td>mitochondrion distribution</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0000002</td>
+      <td>GO:0007005</td>
+      <td>rdfs:subClassOf</td>
+      <td>4.056831</td>
+      <td>4.38247</td>
+      <td>4.551796</td>
+      <td>3.658211</td>
+      <td>2.390915</td>
+      <td>2.929611</td>
+      <td>4.650254</td>
+      <td>3.865499</td>
+      <td>3.703148</td>
+      <td>mitochondrial genome maintenance</td>
+      <td>mitochondrion organization</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0000006</td>
+      <td>GO:0005385</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.169925</td>
+      <td>2.584963</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.229558</td>
+      <td>high-affinity zinc transmembrane transporter a...</td>
+      <td>zinc ion transmembrane transporter activity</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>65831</th>
+      <td>GO:2001316</td>
+      <td>GO:0120254</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.466926</td>
+      <td>kojic acid metabolic process</td>
+      <td>olefinic compound metabolic process</td>
+    </tr>
+    <tr>
+      <th>65832</th>
+      <td>GO:2001317</td>
+      <td>GO:0034309</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.176589</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>primary alcohol biosynthetic process</td>
+    </tr>
+    <tr>
+      <th>65833</th>
+      <td>GO:2001317</td>
+      <td>GO:0042181</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.716534</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>ketone biosynthetic process</td>
+    </tr>
+    <tr>
+      <th>65834</th>
+      <td>GO:2001317</td>
+      <td>GO:0120255</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.481127</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>olefinic compound biosynthetic process</td>
+    </tr>
+    <tr>
+      <th>65835</th>
+      <td>GO:2001317</td>
+      <td>GO:2001316</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>kojic acid metabolic process</td>
+    </tr>
+  </tbody>
+</table>
+<p>65836 rows × 14 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>-p<span class="w"> </span>results
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">taxa_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">species_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Replace negative ICdiff values with NaN (treated as None)</span>
+<span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/folders/nc/m4tx21912kv1b8nk3zzx9plr0000gn/T/ipykernel_39537/3033132071.py:4: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+  df[taxa_columns] = df[taxa_columns].applymap(lambda x: np.nan if x &lt; 0 else x)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recalculate the average ICdiff for each edge</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff_sp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">species_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recalculate the maximum ICdiff for each edge</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff_sp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">species_columns</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Identify edges with the lowest average ICdiff</span>
+<span class="n">lowest_average_ICdiff_edges</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()]</span>
+
+<span class="c1"># Identify edges with the lowest maximum ICdiff</span>
+<span class="n">lowest_max_ICdiff_edges</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()]</span>
+
+<span class="c1"># Results</span>
+<span class="n">low_icdiff_stats</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;lowest_average_ICdiff_edges&#39;</span><span class="p">:</span> <span class="n">lowest_average_ICdiff_edges</span><span class="p">,</span>
+    <span class="s1">&#39;lowest_max_ICdiff_edges&#39;</span><span class="p">:</span> <span class="n">lowest_max_ICdiff_edges</span><span class="p">,</span>
+    <span class="s1">&#39;average_ICdiff_per_edge&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;child&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;predicate&#39;</span><span class="p">,</span> <span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]],</span>
+    <span class="s1">&#39;max_ICdiff_per_edge&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;child&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;predicate&#39;</span><span class="p">,</span> <span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">low_icdiff_stats</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;lowest_average_ICdiff_edges&#39;:             child      parent        predicate  9606  6239  7955  3702  \
+ 49     GO:0000036  GO:0044620  rdfs:subClassOf   0.0   0.0   0.0   0.0
+ 50     GO:0000036  GO:0140414  rdfs:subClassOf   0.0   0.0   0.0   0.0
+ 88     GO:0000073  GO:1905047      BFO:0000050   NaN   NaN   NaN   NaN
+ 89     GO:0000073  GO:0110100  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 100    GO:0000080  GO:0051318  rdfs:subClassOf   0.0   NaN   NaN   0.0
+ ...           ...         ...              ...   ...   ...   ...   ...
+ 65782  GO:2001299  GO:2001298  rdfs:subClassOf   0.0   NaN   NaN   NaN
+ 65806  GO:2001307  GO:2001305  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 65820  GO:2001310  GO:2001308  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 65828  GO:2001315  GO:2001313  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 65835  GO:2001317  GO:2001316  rdfs:subClassOf   NaN   NaN   NaN   NaN
+
+        559292  4896  7227  10090  ALL  \
+ 49        0.0   0.0   0.0    0.0  0.0
+ 50        0.0   0.0   0.0    0.0  0.0
+ 88        0.0   0.0   NaN    NaN  0.0
+ 89        0.0   0.0   NaN    NaN  0.0
+ 100       0.0   NaN   NaN    0.0  0.0
+ ...       ...   ...   ...    ...  ...
+ 65782     NaN   NaN   NaN    0.0  0.0
+ 65806     NaN   NaN   NaN    NaN  0.0
+ 65820     NaN   NaN   NaN    NaN  0.0
+ 65828     NaN   NaN   NaN    NaN  0.0
+ 65835     NaN   NaN   NaN    NaN  0.0
+
+                                              child_label  \
+ 49                                 acyl carrier activity
+ 50                                 acyl carrier activity
+ 88          initial mitotic spindle pole body separation
+ 89          initial mitotic spindle pole body separation
+ 100                                     mitotic G1 phase
+ ...                                                  ...
+ 65782  N(omega),N(omega)-dimethyl-L-arginine cataboli...
+ 65806  xanthone-containing compound biosynthetic process
+ 65820                     gliotoxin biosynthetic process
+ 65828  UDP-4-deoxy-4-formamido-beta-L-arabinopyranose...
+ 65835                    kojic acid biosynthetic process
+
+                                             parent_label  average_ICdiff  \
+ 49        ACP phosphopantetheine attachment site binding             0.0
+ 50         phosphopantetheine-dependent carrier activity             0.0
+ 88                mitotic spindle pole body organization             0.0
+ 89                          spindle pole body separation             0.0
+ 100                                             G1 phase             0.0
+ ...                                                  ...             ...
+ 65782  N(omega),N(omega)-dimethyl-L-arginine metaboli...             0.0
+ 65806     xanthone-containing compound metabolic process             0.0
+ 65820                        gliotoxin metabolic process             0.0
+ 65828  UDP-4-deoxy-4-formamido-beta-L-arabinopyranose...             0.0
+ 65835                       kojic acid metabolic process             0.0
+
+        average_ICdiff_sp  max_ICdiff  max_ICdiff_sp
+ 49                   0.0         0.0            0.0
+ 50                   0.0         0.0            0.0
+ 88                   0.0         0.0            0.0
+ 89                   0.0         0.0            0.0
+ 100                  0.0         0.0            0.0
+ ...                  ...         ...            ...
+ 65782                0.0         0.0            0.0
+ 65806                NaN         0.0            NaN
+ 65820                NaN         0.0            NaN
+ 65828                NaN         0.0            NaN
+ 65835                NaN         0.0            NaN
+
+ [2259 rows x 18 columns],
+ &#39;lowest_max_ICdiff_edges&#39;:             child      parent        predicate  9606  6239  7955  3702  \
+ 49     GO:0000036  GO:0044620  rdfs:subClassOf   0.0   0.0   0.0   0.0
+ 50     GO:0000036  GO:0140414  rdfs:subClassOf   0.0   0.0   0.0   0.0
+ 88     GO:0000073  GO:1905047      BFO:0000050   NaN   NaN   NaN   NaN
+ 89     GO:0000073  GO:0110100  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 100    GO:0000080  GO:0051318  rdfs:subClassOf   0.0   NaN   NaN   0.0
+ ...           ...         ...              ...   ...   ...   ...   ...
+ 65782  GO:2001299  GO:2001298  rdfs:subClassOf   0.0   NaN   NaN   NaN
+ 65806  GO:2001307  GO:2001305  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 65820  GO:2001310  GO:2001308  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 65828  GO:2001315  GO:2001313  rdfs:subClassOf   NaN   NaN   NaN   NaN
+ 65835  GO:2001317  GO:2001316  rdfs:subClassOf   NaN   NaN   NaN   NaN
+
+        559292  4896  7227  10090  ALL  \
+ 49        0.0   0.0   0.0    0.0  0.0
+ 50        0.0   0.0   0.0    0.0  0.0
+ 88        0.0   0.0   NaN    NaN  0.0
+ 89        0.0   0.0   NaN    NaN  0.0
+ 100       0.0   NaN   NaN    0.0  0.0
+ ...       ...   ...   ...    ...  ...
+ 65782     NaN   NaN   NaN    0.0  0.0
+ 65806     NaN   NaN   NaN    NaN  0.0
+ 65820     NaN   NaN   NaN    NaN  0.0
+ 65828     NaN   NaN   NaN    NaN  0.0
+ 65835     NaN   NaN   NaN    NaN  0.0
+
+                                              child_label  \
+ 49                                 acyl carrier activity
+ 50                                 acyl carrier activity
+ 88          initial mitotic spindle pole body separation
+ 89          initial mitotic spindle pole body separation
+ 100                                     mitotic G1 phase
+ ...                                                  ...
+ 65782  N(omega),N(omega)-dimethyl-L-arginine cataboli...
+ 65806  xanthone-containing compound biosynthetic process
+ 65820                     gliotoxin biosynthetic process
+ 65828  UDP-4-deoxy-4-formamido-beta-L-arabinopyranose...
+ 65835                    kojic acid biosynthetic process
+
+                                             parent_label  average_ICdiff  \
+ 49        ACP phosphopantetheine attachment site binding             0.0
+ 50         phosphopantetheine-dependent carrier activity             0.0
+ 88                mitotic spindle pole body organization             0.0
+ 89                          spindle pole body separation             0.0
+ 100                                             G1 phase             0.0
+ ...                                                  ...             ...
+ 65782  N(omega),N(omega)-dimethyl-L-arginine metaboli...             0.0
+ 65806     xanthone-containing compound metabolic process             0.0
+ 65820                        gliotoxin metabolic process             0.0
+ 65828  UDP-4-deoxy-4-formamido-beta-L-arabinopyranose...             0.0
+ 65835                       kojic acid metabolic process             0.0
+
+        average_ICdiff_sp  max_ICdiff  max_ICdiff_sp
+ 49                   0.0         0.0            0.0
+ 50                   0.0         0.0            0.0
+ 88                   0.0         0.0            0.0
+ 89                   0.0         0.0            0.0
+ 100                  0.0         0.0            0.0
+ ...                  ...         ...            ...
+ 65782                0.0         0.0            0.0
+ 65806                NaN         0.0            NaN
+ 65820                NaN         0.0            NaN
+ 65828                NaN         0.0            NaN
+ 65835                NaN         0.0            NaN
+
+ [2259 rows x 18 columns],
+ &#39;average_ICdiff_per_edge&#39;:             child      parent          predicate  average_ICdiff
+ 0      GO:0000001  GO:0005739  obo:GOREL_0002003        7.919289
+ 1      GO:0000001  GO:0048308    rdfs:subClassOf        0.985143
+ 2      GO:0000001  GO:0048311    rdfs:subClassOf        1.362625
+ 3      GO:0000002  GO:0007005    rdfs:subClassOf        3.798748
+ 4      GO:0000006  GO:0005385    rdfs:subClassOf        4.328149
+ ...           ...         ...                ...             ...
+ 65831  GO:2001316  GO:0120254    rdfs:subClassOf        9.466926
+ 65832  GO:2001317  GO:0034309    rdfs:subClassOf        7.176589
+ 65833  GO:2001317  GO:0042181    rdfs:subClassOf        9.716534
+ 65834  GO:2001317  GO:0120255    rdfs:subClassOf        6.481127
+ 65835  GO:2001317  GO:2001316    rdfs:subClassOf        0.000000
+
+ [65836 rows x 4 columns],
+ &#39;max_ICdiff_per_edge&#39;:             child      parent          predicate  max_ICdiff
+ 0      GO:0000001  GO:0005739  obo:GOREL_0002003    9.414945
+ 1      GO:0000001  GO:0048308    rdfs:subClassOf    1.982152
+ 2      GO:0000001  GO:0048311    rdfs:subClassOf    1.942707
+ 3      GO:0000002  GO:0007005    rdfs:subClassOf    4.650254
+ 4      GO:0000006  GO:0005385    rdfs:subClassOf    7.229558
+ ...           ...         ...                ...         ...
+ 65831  GO:2001316  GO:0120254    rdfs:subClassOf    9.466926
+ 65832  GO:2001317  GO:0034309    rdfs:subClassOf    7.176589
+ 65833  GO:2001317  GO:0042181    rdfs:subClassOf    9.716534
+ 65834  GO:2001317  GO:0120255    rdfs:subClassOf    6.481127
+ 65835  GO:2001317  GO:2001316    rdfs:subClassOf    0.000000
+
+ [65836 rows x 4 columns]}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>child</th>
+      <th>parent</th>
+      <th>predicate</th>
+      <th>9606</th>
+      <th>6239</th>
+      <th>7955</th>
+      <th>3702</th>
+      <th>559292</th>
+      <th>4896</th>
+      <th>7227</th>
+      <th>10090</th>
+      <th>ALL</th>
+      <th>child_label</th>
+      <th>parent_label</th>
+      <th>average_ICdiff</th>
+      <th>average_ICdiff_sp</th>
+      <th>max_ICdiff</th>
+      <th>max_ICdiff_sp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GO:0000001</td>
+      <td>GO:0005739</td>
+      <td>obo:GOREL_0002003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.872605</td>
+      <td>8.577429</td>
+      <td>7.812177</td>
+      <td>NaN</td>
+      <td>9.414945</td>
+      <td>mitochondrion inheritance</td>
+      <td>mitochondrion</td>
+      <td>7.919289</td>
+      <td>7.420737</td>
+      <td>9.414945</td>
+      <td>8.577429</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GO:0000001</td>
+      <td>GO:0048308</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.373458</td>
+      <td>0.584963</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>1.982152</td>
+      <td>mitochondrion inheritance</td>
+      <td>organelle inheritance</td>
+      <td>0.985143</td>
+      <td>0.652807</td>
+      <td>1.982152</td>
+      <td>1.373458</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GO:0000001</td>
+      <td>GO:0048311</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.241008</td>
+      <td>1.807355</td>
+      <td>1.459432</td>
+      <td>NaN</td>
+      <td>1.942707</td>
+      <td>mitochondrion inheritance</td>
+      <td>mitochondrion distribution</td>
+      <td>1.362625</td>
+      <td>1.169265</td>
+      <td>1.942707</td>
+      <td>1.807355</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GO:0000002</td>
+      <td>GO:0007005</td>
+      <td>rdfs:subClassOf</td>
+      <td>4.056831</td>
+      <td>4.38247</td>
+      <td>4.551796</td>
+      <td>3.658211</td>
+      <td>2.390915</td>
+      <td>2.929611</td>
+      <td>4.650254</td>
+      <td>3.865499</td>
+      <td>3.703148</td>
+      <td>mitochondrial genome maintenance</td>
+      <td>mitochondrion organization</td>
+      <td>3.798748</td>
+      <td>3.810698</td>
+      <td>4.650254</td>
+      <td>4.650254</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GO:0000006</td>
+      <td>GO:0005385</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.169925</td>
+      <td>2.584963</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.229558</td>
+      <td>high-affinity zinc transmembrane transporter a...</td>
+      <td>zinc ion transmembrane transporter activity</td>
+      <td>4.328149</td>
+      <td>2.877444</td>
+      <td>7.229558</td>
+      <td>3.169925</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>65831</th>
+      <td>GO:2001316</td>
+      <td>GO:0120254</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.466926</td>
+      <td>kojic acid metabolic process</td>
+      <td>olefinic compound metabolic process</td>
+      <td>9.466926</td>
+      <td>NaN</td>
+      <td>9.466926</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65832</th>
+      <td>GO:2001317</td>
+      <td>GO:0034309</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.176589</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>primary alcohol biosynthetic process</td>
+      <td>7.176589</td>
+      <td>NaN</td>
+      <td>7.176589</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65833</th>
+      <td>GO:2001317</td>
+      <td>GO:0042181</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.716534</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>ketone biosynthetic process</td>
+      <td>9.716534</td>
+      <td>NaN</td>
+      <td>9.716534</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65834</th>
+      <td>GO:2001317</td>
+      <td>GO:0120255</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.481127</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>olefinic compound biosynthetic process</td>
+      <td>6.481127</td>
+      <td>NaN</td>
+      <td>6.481127</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65835</th>
+      <td>GO:2001317</td>
+      <td>GO:2001316</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>kojic acid metabolic process</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>65836 rows × 18 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;max_ICdiff&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>child</th>
+      <th>parent</th>
+      <th>predicate</th>
+      <th>9606</th>
+      <th>6239</th>
+      <th>7955</th>
+      <th>3702</th>
+      <th>559292</th>
+      <th>4896</th>
+      <th>7227</th>
+      <th>10090</th>
+      <th>ALL</th>
+      <th>child_label</th>
+      <th>parent_label</th>
+      <th>average_ICdiff</th>
+      <th>average_ICdiff_sp</th>
+      <th>max_ICdiff</th>
+      <th>max_ICdiff_sp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>49</th>
+      <td>GO:0000036</td>
+      <td>GO:0044620</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>acyl carrier activity</td>
+      <td>ACP phosphopantetheine attachment site binding</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>GO:0000036</td>
+      <td>GO:0140414</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>acyl carrier activity</td>
+      <td>phosphopantetheine-dependent carrier activity</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>GO:0000073</td>
+      <td>GO:1905047</td>
+      <td>BFO:0000050</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>initial mitotic spindle pole body separation</td>
+      <td>mitotic spindle pole body organization</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>GO:0000073</td>
+      <td>GO:0110100</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>initial mitotic spindle pole body separation</td>
+      <td>spindle pole body separation</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>GO:0000080</td>
+      <td>GO:0051318</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>mitotic G1 phase</td>
+      <td>G1 phase</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>65782</th>
+      <td>GO:2001299</td>
+      <td>GO:2001298</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>N(omega),N(omega)-dimethyl-L-arginine cataboli...</td>
+      <td>N(omega),N(omega)-dimethyl-L-arginine metaboli...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>65806</th>
+      <td>GO:2001307</td>
+      <td>GO:2001305</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>xanthone-containing compound biosynthetic process</td>
+      <td>xanthone-containing compound metabolic process</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65820</th>
+      <td>GO:2001310</td>
+      <td>GO:2001308</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>gliotoxin biosynthetic process</td>
+      <td>gliotoxin metabolic process</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65828</th>
+      <td>GO:2001315</td>
+      <td>GO:2001313</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>UDP-4-deoxy-4-formamido-beta-L-arabinopyranose...</td>
+      <td>UDP-4-deoxy-4-formamido-beta-L-arabinopyranose...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65835</th>
+      <td>GO:2001317</td>
+      <td>GO:2001316</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>kojic acid biosynthetic process</td>
+      <td>kojic acid metabolic process</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>2259 rows × 18 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;max_ICdiff&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information_zero_ICdiff.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_only</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;max_ICdiff_sp&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ALL&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_only</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>child</th>
+      <th>parent</th>
+      <th>predicate</th>
+      <th>9606</th>
+      <th>6239</th>
+      <th>7955</th>
+      <th>3702</th>
+      <th>559292</th>
+      <th>4896</th>
+      <th>7227</th>
+      <th>10090</th>
+      <th>ALL</th>
+      <th>child_label</th>
+      <th>parent_label</th>
+      <th>average_ICdiff</th>
+      <th>average_ICdiff_sp</th>
+      <th>max_ICdiff</th>
+      <th>max_ICdiff_sp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>14</th>
+      <td>GO:0000015</td>
+      <td>GO:0004634</td>
+      <td>RO:0002215</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.048799</td>
+      <td>phosphopyruvate hydratase complex</td>
+      <td>phosphopyruvate hydratase activity</td>
+      <td>0.005422</td>
+      <td>0.0</td>
+      <td>0.048799</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>GO:0000032</td>
+      <td>GO:0006057</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.078305</td>
+      <td>cell wall mannoprotein biosynthetic process</td>
+      <td>mannoprotein biosynthetic process</td>
+      <td>0.026102</td>
+      <td>0.0</td>
+      <td>0.078305</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>GO:0000032</td>
+      <td>GO:0031506</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.011450</td>
+      <td>cell wall mannoprotein biosynthetic process</td>
+      <td>cell wall glycoprotein biosynthetic process</td>
+      <td>0.003817</td>
+      <td>0.0</td>
+      <td>0.011450</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>GO:0000088</td>
+      <td>GO:0000087</td>
+      <td>BFO:0000050</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.954196</td>
+      <td>mitotic prophase</td>
+      <td>mitotic M phase</td>
+      <td>1.977098</td>
+      <td>0.0</td>
+      <td>3.954196</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>GO:0000089</td>
+      <td>GO:0000087</td>
+      <td>BFO:0000050</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>1.632268</td>
+      <td>mitotic metaphase</td>
+      <td>mitotic M phase</td>
+      <td>0.816134</td>
+      <td>0.0</td>
+      <td>1.632268</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>65629</th>
+      <td>GO:2001229</td>
+      <td>GO:2001228</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.415037</td>
+      <td>negative regulation of response to gamma radia...</td>
+      <td>regulation of response to gamma radiation</td>
+      <td>0.138346</td>
+      <td>0.0</td>
+      <td>0.415037</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>65632</th>
+      <td>GO:2001230</td>
+      <td>GO:2001228</td>
+      <td>rdfs:subClassOf</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.000000</td>
+      <td>positive regulation of response to gamma radia...</td>
+      <td>regulation of response to gamma radiation</td>
+      <td>1.000000</td>
+      <td>0.0</td>
+      <td>2.000000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>65690</th>
+      <td>GO:2001250</td>
+      <td>GO:0045848</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.459432</td>
+      <td>positive regulation of ammonia assimilation cycle</td>
+      <td>positive regulation of nitrogen utilization</td>
+      <td>0.153144</td>
+      <td>0.0</td>
+      <td>0.459432</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>65691</th>
+      <td>GO:2001250</td>
+      <td>GO:2000213</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>1.584963</td>
+      <td>positive regulation of ammonia assimilation cycle</td>
+      <td>positive regulation of glutamate metabolic pro...</td>
+      <td>0.528321</td>
+      <td>0.0</td>
+      <td>1.584963</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>65804</th>
+      <td>GO:2001306</td>
+      <td>GO:2001304</td>
+      <td>rdfs:subClassOf</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.222392</td>
+      <td>lipoxin B4 biosynthetic process</td>
+      <td>lipoxin B4 metabolic process</td>
+      <td>0.074131</td>
+      <td>0.0</td>
+      <td>0.222392</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>1717 rows × 18 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_only</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information_zero_ICdiff_sp.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Agreement-between-species">
+<h1>Agreement between species<a class="headerlink" href="#Agreement-between-species" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
+
+
+<span class="c1"># Extract the taxa columns (assuming they are the columns with numeric names)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_rows</span><span class="p">)</span>
+<span class="n">taxa_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Fill NaN values with column means for distance calculation</span>
+<span class="n">df_filled</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="c1"># Calculate pairwise distances between taxa using Pearson correlation distance</span>
+<span class="n">pairwise_distances</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">df_filled</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;correlation&#39;</span><span class="p">)</span>
+
+<span class="c1"># Convert to a square matrix</span>
+<span class="n">pairwise_distances_matrix</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">pairwise_distances</span><span class="p">)</span>
+
+<span class="c1"># Create a DataFrame for better readability</span>
+<span class="n">taxa_pairwise_distances_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pairwise_distances_matrix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">taxa_columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">taxa_columns</span><span class="p">)</span>
+
+<span class="c1"># Identify the taxa pairs with the highest disagreement (largest distance)</span>
+<span class="n">max_disagreement</span> <span class="o">=</span> <span class="n">taxa_pairwise_distances_df</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">max_disagreement_pair</span> <span class="o">=</span> <span class="n">taxa_pairwise_distances_df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+
+<span class="c1"># Display the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pairwise Distance Matrix:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">taxa_pairwise_distances_df</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The taxa pair with the highest disagreement is: </span><span class="si">{</span><span class="n">max_disagreement_pair</span><span class="si">}</span><span class="s2"> with a distance of </span><span class="si">{</span><span class="n">max_disagreement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Pairwise Distance Matrix:
+            9606      6239      7955      3702    559292      4896      7227  \
+9606    0.000000  0.521991  0.384054  0.643245  0.615788  0.637006  0.489546
+6239    0.521991  0.000000  0.378123  0.495840  0.478491  0.499582  0.331505
+7955    0.384054  0.378123  0.000000  0.555535  0.549247  0.566367  0.382261
+3702    0.643245  0.495840  0.555535  0.000000  0.481308  0.488853  0.536048
+559292  0.615788  0.478491  0.549247  0.481308  0.000000  0.313815  0.512179
+4896    0.637006  0.499582  0.566367  0.488853  0.313815  0.000000  0.525220
+7227    0.489546  0.331505  0.382261  0.536048  0.512179  0.525220  0.000000
+10090   0.077110  0.530687  0.392722  0.651923  0.627839  0.651838  0.500718
+ALL     0.341423  0.655647  0.562346  0.613442  0.668773  0.679804  0.594839
+
+           10090       ALL
+9606    0.077110  0.341423
+6239    0.530687  0.655647
+7955    0.392722  0.562346
+3702    0.651923  0.613442
+559292  0.627839  0.668773
+4896    0.651838  0.679804
+7227    0.500718  0.594839
+10090   0.000000  0.333682
+ALL     0.333682  0.000000
+The taxa pair with the highest disagreement is: (&#39;4896&#39;, &#39;ALL&#39;) with a distance of 0.679803533659782
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

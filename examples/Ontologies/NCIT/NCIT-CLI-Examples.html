@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCIT tutorial &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="OBA Examples" href="../OBA/index.html" />
+    <link rel="prev" title="NCIT Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Commands/index.html">Commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Ontologies</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../CHEBI/index.html">CHEBI Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CL/index.html">CL Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ENVO/index.html">ENVO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../GO/index.html">GO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../HP/index.html">HP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LOINC/index.html">LOINC Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MAXO/index.html">MAXO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MONDO/index.html">MONDO Examples</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NCIT Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">NCIT tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../OBA/index.html">OBA Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../OMOP/index.html">OMOP Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../PHENIO/index.html">PhenIO Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SchemaDotOrg/index.html">Schema.org Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Ontologies</a></li>
+          <li class="breadcrumb-item"><a href="index.html">NCIT Examples</a></li>
+      <li class="breadcrumb-item active">NCIT tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/Ontologies/NCIT/NCIT-CLI-Examples.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="NCIT-tutorial">
+<h1>NCIT tutorial<a class="headerlink" href="#NCIT-tutorial" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>author: Chris Mungall</p></li>
+<li><p>created: 2022-11-11</p></li>
+</ul>
+<p>This tutorial walks through NCIT-OBO, the goals are:</p>
+<ul class="simple">
+<li><p>to help understand the structure of ncit</p></li>
+<li><p>to show how to do advanced OAK queries (CLI and programmatic) on NCIT</p></li>
+</ul>
+<section id="Create-an-alias">
+<h2>Create an alias<a class="headerlink" href="#Create-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set a bash alias.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">alias</span> ncit runoak -i sqlite:obo:ncit
+</pre></div>
+</div>
+</div>
+<section id="Basic-lookup-queries">
+<h3>Basic lookup queries<a class="headerlink" href="#Basic-lookup-queries" title="Link to this heading"></a></h3>
+<p>Let’s check it’s working:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ncit</span> <span class="n">info</span> <span class="n">NCIT</span><span class="p">:</span><span class="n">C4872</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+NCIT:C4872 ! Breast Carcinoma
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ncit</span> <span class="n">info</span> <span class="s2">&quot;Breast Carcinoma&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+NCIT:C4872 ! Breast Carcinoma
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Exploring-the-structure-of-NCIT">
+<h2>Exploring the structure of NCIT<a class="headerlink" href="#Exploring-the-structure-of-NCIT" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">relationships</span> <span class="n">NCIT</span><span class="p">:</span><span class="n">C4872</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   predicate       predicate_label object  object_label
+NCIT:C4872      Breast Carcinoma        NCIT:R101       Disease_Has_Primary_Anatomic_Site       NCIT:C12971     Breast
+NCIT:C4872      Breast Carcinoma        NCIT:R103       Disease_Has_Normal_Tissue_Origin        NCIT:C12937     Mammary Epithelium
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C2916      Carcinoma
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C9335      Malignant Breast Neoplasm
+NCIT:C4872      Breast Carcinoma        owl:equivalentClass     None    _:riog00972235  None
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phenio</span> <span class="n">relationships</span> <span class="o">--</span><span class="n">include</span><span class="o">-</span><span class="n">entailed</span> <span class="n">NCIT</span><span class="p">:</span><span class="n">C4872</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+subject subject_label   predicate       predicate_label object  object_label
+NCIT:C4872      Breast Carcinoma        NCIT:R100       Disease_Has_Associated_Anatomic_Site    NCIT:C12219     Anatomic Structure, System, or Substance
+NCIT:C4872      Breast Carcinoma        NCIT:R100       Disease_Has_Associated_Anatomic_Site    NCIT:C12971     Breast
+NCIT:C4872      Breast Carcinoma        NCIT:R100       Disease_Has_Associated_Anatomic_Site    NCIT:C13018     Organ
+NCIT:C4872      Breast Carcinoma        NCIT:R105       Disease_Has_Abnormal_Cell       NCIT:C12913     Abnormal Cell
+NCIT:C4872      Breast Carcinoma        NCIT:R105       Disease_Has_Abnormal_Cell       NCIT:C12922     Neoplastic Cell
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C26709     Breast Disorder
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C27551     Disorder by Site
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C2910      Breast Neoplasm
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C2916      Carcinoma
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C2991      Disease or Disorder
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C3262      Neoplasm
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C3263      Neoplasm by Site
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C3709      Epithelial Neoplasm
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C4741      Neoplasm by Morphology
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C4872      Breast Carcinoma
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C7057      Disease, Disorder or Finding
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C7062      Neoplasm by Special Category
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C9305      Malignant Neoplasm
+NCIT:C4872      Breast Carcinoma        rdfs:subClassOf None    NCIT:C9335      Malignant Breast Neoplasm
+NCIT:C4872      Breast Carcinoma        owl:equivalentClass     None    _:riog00922295  None
+</pre></div></div>
+</div>
+<p>Here we can see linkages to external ontologies using two relations</p>
+<section id="Querying-ancestors">
+<h3>Querying ancestors<a class="headerlink" href="#Querying-ancestors" title="Link to this heading"></a></h3>
+<p>We will try finding all ancestors of NCIT:C4872</p>
+<p><strong>IMPORTANT</strong> in OAK, all graph commands are parameterized by predicate lists. Consult the OAK docs if you don’t understand what this means!</p>
+<p>To find all is-a ancestors (i.e. ancestors following SubClassOf between named classes) we use <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">i</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ncit</span> <span class="n">ancestors</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">NCIT</span><span class="p">:</span><span class="n">C4872</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+NCIT:C26709 ! Breast Disorder
+NCIT:C27551 ! Disorder by Site
+NCIT:C2910 ! Breast Neoplasm
+NCIT:C2916 ! Carcinoma
+NCIT:C2991 ! Disease or Disorder
+NCIT:C3262 ! Neoplasm
+NCIT:C3263 ! Neoplasm by Site
+NCIT:C3709 ! Epithelial Neoplasm
+NCIT:C4741 ! Neoplasm by Morphology
+NCIT:C4872 ! Breast Carcinoma
+NCIT:C7057 ! Disease, Disorder or Finding
+NCIT:C7062 ! Neoplasm by Special Category
+NCIT:C9305 ! Malignant Neoplasm
+NCIT:C9335 ! Malignant Breast Neoplasm
+</pre></div></div>
+</div>
+<p>Next we will generate a visualization from this using the <code class="docutils literal notranslate"><span class="pre">viz</span></code> command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ncit</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">NCIT</span><span class="p">:</span><span class="n">C4872</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">NCIT_C4872</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/NCIT/output/NCIT_C4872_multirel.png" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ncit</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">NCIT</span><span class="p">:</span><span class="n">R101</span><span class="p">,</span><span class="n">NCIT</span><span class="p">:</span><span class="n">R103</span><span class="p">,</span><span class="n">NCIT</span><span class="p">:</span><span class="n">R82</span> <span class="n">NCIT</span><span class="p">:</span><span class="n">C4872</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">NCIT_C4872_multirel</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<p><img alt="img" src="examples/Ontologies/NCIT/output/NCIT_C4872_multirel.png" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="NCIT Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../OBA/index.html" class="btn btn-neutral float-right" title="OBA Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

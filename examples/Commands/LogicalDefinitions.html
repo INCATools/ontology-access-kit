@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK logical-definitions command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK mappings command" href="Mappings.html" />
+    <link rel="prev" title="OAK enrichment command" href="Enrichment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DiffViaMappings.html">OAK diff-via-mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK logical-definitions command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Set-up-an-alias">Set up an alias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fetching-logical-definitions-for-individual-terms">Fetching logical definitions for individual terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Matrix-views">Matrix views</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Analyzing-and-gap-filling">Analyzing and gap filling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK logical-definitions command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/LogicalDefinitions.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-logical-definitions-command">
+<h1>OAK logical-definitions command<a class="headerlink" href="#OAK-logical-definitions-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">logical-definitions</span></code> command, which can be used to <strong>lookup and summarize logical defs</strong></p>
+<p>For more on logical definitions, see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/guide/logical-definitions.html">Logical Definitions</a> in the OAK guide.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>logical-definitions<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak logical-definitions [OPTIONS] [TERMS]...
+
+  Show all logical definitions for a term or terms.
+
+  To show all logical definitions in an ontology, pass the &#34;.all&#34; query term
+
+  Example; first create an alias:
+
+      alias pato=&#34;runoak -i obo:sqlite:pato&#34;
+
+  Then run the query:
+
+      pato logical-definitions .all
+
+  By default, &#34;.all&#34; will query all axioms for all terms including merged
+  terms; to restrict to only the current terms, use an ID query:
+
+      pato logical-definitions i^PATO
+
+  You can also restrict to branches:
+
+      pato logical-definitions .desc//p=i &#34;physical object quality&#34;
+
+  By default, the output is a subset of OboGraph datamodel rendered as YAML,
+  e.g.
+
+    definedClassId: PATO:0045071     genusIds:     - PATO:0001439
+    restrictions:     - fillerId: PATO:0000461       propertyId: RO:0015010
+
+  You can also specify CSV to generate a flattened form of this.
+
+  Example:
+
+      pato logical-definitions .all --output-type csv
+
+  You can optionally choose to &#34;--matrix-axes&#34; to transform the output to a
+  matrix form. This is a comma-separated pair of axes, where each element is a
+  logical definition element type: &#34;f&#34; for filler, &#34;p&#34; for predicate, &#34;g&#34; for
+  genus, &#34;d&#34; for defined class.
+
+  Example:
+
+  - Each property/predicate is a column - For repeated properties, columns of
+  the form prop_1, prop_2, ... are generated
+
+  Example:
+
+      pato logical-definitions .all  --matrix-axes d,p --output-type csv
+
+  This will generate a row for each defined class with a logical definition,
+  with columns for each predicate (&#34;genus&#34; is treated as a predicate here).
+
+  Limitations:
+
+  Currently this only works for definitions that follow a basic genus-
+  differentia pattern, which is what is currently represented in the OboGraph
+  datamodel.
+
+  Consider using the &#34;axioms&#34; command for inspection of complex nested OWL
+  axioms.
+
+  More examples:
+
+     https://github.com/INCATools/ontology-access-
+     kit/blob/main/notebooks/Commands/LogicalDefinitions.ipynb
+
+  Python API:
+
+     https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
+  Data model:
+
+     https://w3id.org/oak/obograph
+
+Options:
+  --unmelt / --no-unmelt          Flatten to a wide table  [default: no-
+                                  unmelt]
+  --matrix-axes TEXT              If specified, transform results to matrix
+                                  using these row and column axes. Examples:
+                                  d,p; f,g
+  -p, --predicates TEXT           A comma-separated list of predicates. This
+                                  may be a shorthand (i, p) or CURIE
+  --autolabel / --no-autolabel    If set, results will automatically have
+                                  labels assigned  [default: autolabel]
+  -O, --output-type TEXT          Desired output type
+  -o, --output FILENAME           Output file, e.g. obo file
+  --if-absent [absent-only|present-only]
+                                  determines behavior when the value is not
+                                  present or is empty.
+  -S, --set-value TEXT            the value to set for all terms for the given
+                                  property.
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Set-up-an-alias">
+<h2>Set up an alias<a class="headerlink" href="#Set-up-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set up an alias for use in this notebook</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">uberon</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">uberon</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Fetching-logical-definitions-for-individual-terms">
+<h2>Fetching logical definitions for individual terms<a class="headerlink" href="#Fetching-logical-definitions-for-individual-terms" title="Link to this heading"></a></h2>
+<p>First we will pass in a simple list of terms to the command.</p>
+<p>Like most OAK commands, this command accepts lists of either IDs, labels, queries, or boolean combinations thereof</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uberon</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="n">fingernail</span> <span class="n">toenail</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+definedClassId: UBERON:0009565
+genusIds:
+- UBERON:0001705
+restrictions:
+- fillerId: UBERON:0002389
+  propertyId: BFO:0000050
+
+---
+definedClassId: UBERON:0009567
+genusIds:
+- UBERON:0001705
+restrictions:
+- fillerId: UBERON:0001466
+  propertyId: BFO:0000050
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uberon</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="n">fingernail</span> <span class="n">toenail</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uberon</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="n">fingernail</span> <span class="n">toenail</span> <span class="o">-</span><span class="n">O</span> <span class="n">obo</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[Term]
+id: UBERON:0009565 ! nail of manual digit
+intersection_of: UBERON:0001705 ! nail
+intersection_of: BFO:0000050 UBERON:0002389 ! manual digit
+
+
+[Term]
+id: UBERON:0009567 ! nail of pedal digit
+intersection_of: UBERON:0001705 ! nail
+intersection_of: BFO:0000050 UBERON:0001466 ! pedal digit
+
+
+</pre></div></div>
+</div>
+</section>
+<section id="Matrix-views">
+<h2>Matrix views<a class="headerlink" href="#Matrix-views" title="Link to this heading"></a></h2>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">--matrix-axes</span></code> option to summarize a large collection of logical definitions as a wide table.</p>
+<p>This takes two values, separated by a comma:</p>
+<ul class="simple">
+<li><p>d: defined_class</p></li>
+<li><p>f: filler</p></li>
+<li><p>g: genus</p></li>
+<li><p>p: predicate</p></li>
+</ul>
+<section id="Define-class-x-Predicate">
+<h3>Define class x Predicate<a class="headerlink" href="#Define-class-x-Predicate" title="Link to this heading"></a></h3>
+<p>In the following example <code class="docutils literal notranslate"><span class="pre">d,p</span></code> will create a matrix whose rows are defined classes and whose columns are predicates</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uberon</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="o">-</span><span class="n">p</span> <span class="n">p</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;bone element&quot;</span> <span class="o">.</span><span class="ow">and</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0002544</span> <span class="o">--</span><span class="n">matrix</span><span class="o">-</span><span class="n">axes</span> <span class="n">d</span><span class="p">,</span><span class="n">p</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">uberon</span><span class="o">-</span><span class="n">digit</span><span class="o">-</span><span class="n">defs</span><span class="o">-</span><span class="n">dp</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/uberon-digit-defs-dp.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>defined_class</th>
+      <th>defined_class_label</th>
+      <th>genus</th>
+      <th>genus_label</th>
+      <th>part_of</th>
+      <th>part_of_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>UBERON:0001436</td>
+      <td>phalanx of manus</td>
+      <td>UBERON:0003221</td>
+      <td>phalanx</td>
+      <td>UBERON:0002389</td>
+      <td>manual digit</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>UBERON:0002234</td>
+      <td>proximal phalanx of manus</td>
+      <td>UBERON:0004302</td>
+      <td>proximal phalanx</td>
+      <td>UBERON:0002389</td>
+      <td>manual digit</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>UBERON:0004328</td>
+      <td>proximal phalanx of manual digit 2</td>
+      <td>UBERON:0004302</td>
+      <td>proximal phalanx</td>
+      <td>UBERON:0003622</td>
+      <td>manual digit 2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>UBERON:0004329</td>
+      <td>proximal phalanx of manual digit 3</td>
+      <td>UBERON:0004302</td>
+      <td>proximal phalanx</td>
+      <td>UBERON:0003623</td>
+      <td>manual digit 3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>UBERON:0004330</td>
+      <td>proximal phalanx of manual digit 4</td>
+      <td>UBERON:0004302</td>
+      <td>proximal phalanx</td>
+      <td>UBERON:0003624</td>
+      <td>manual digit 4</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>UBERON:0014503</td>
+      <td>proximal phalanx of digit 3</td>
+      <td>UBERON:0004302</td>
+      <td>proximal phalanx</td>
+      <td>UBERON:0006050</td>
+      <td>digit 3</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>UBERON:0014504</td>
+      <td>proximal phalanx of digit 4</td>
+      <td>UBERON:0004302</td>
+      <td>proximal phalanx</td>
+      <td>UBERON:0006051</td>
+      <td>digit 4</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>UBERON:0014505</td>
+      <td>proximal phalanx of digit 5</td>
+      <td>UBERON:0004302</td>
+      <td>proximal phalanx</td>
+      <td>UBERON:0006052</td>
+      <td>digit 5</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>UBERON:0004248</td>
+      <td>pedal digit bone</td>
+      <td>UBERON:0001474</td>
+      <td>bone element</td>
+      <td>UBERON:0001466</td>
+      <td>pedal digit</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>UBERON:0004249</td>
+      <td>manual digit bone</td>
+      <td>UBERON:0001474</td>
+      <td>bone element</td>
+      <td>UBERON:0002389</td>
+      <td>manual digit</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 6 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Filler-x-Genus">
+<h3>Filler x Genus<a class="headerlink" href="#Filler-x-Genus" title="Link to this heading"></a></h3>
+<p>We can flip this around, and have each row be a filler (<code class="docutils literal notranslate"><span class="pre">f</span></code>) and each column be a genus (<code class="docutils literal notranslate"><span class="pre">g</span></code>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uberon</span> <span class="n">logical</span><span class="o">-</span><span class="n">definitions</span> <span class="o">-</span><span class="n">p</span> <span class="n">p</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;bone element&quot;</span> <span class="o">.</span><span class="ow">and</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0002544</span> <span class="o">--</span><span class="n">matrix</span><span class="o">-</span><span class="n">axes</span> <span class="n">f</span><span class="p">,</span><span class="n">g</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">uberon</span><span class="o">-</span><span class="n">digit</span><span class="o">-</span><span class="n">defs</span><span class="o">-</span><span class="n">fg</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/uberon-digit-defs-fg.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>filler</th>
+      <th>filler_label</th>
+      <th>phalanx</th>
+      <th>phalanx_label</th>
+      <th>proximal_phalanx</th>
+      <th>proximal_phalanx_label</th>
+      <th>middle_phalanx</th>
+      <th>middle_phalanx_label</th>
+      <th>distal_phalanx</th>
+      <th>distal_phalanx_label</th>
+      <th>bone_element</th>
+      <th>bone_element_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>UBERON:0002387</td>
+      <td>pes</td>
+      <td>UBERON:0001449</td>
+      <td>phalanx of pes</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>UBERON:0009563</td>
+      <td>pastern region of limb</td>
+      <td>UBERON:0009558</td>
+      <td>pastern bone</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>UBERON:0002389</td>
+      <td>manual digit</td>
+      <td>UBERON:0001436</td>
+      <td>phalanx of manus</td>
+      <td>UBERON:0002234</td>
+      <td>proximal phalanx of manus</td>
+      <td>UBERON:0003864</td>
+      <td>middle phalanx of manus</td>
+      <td>UBERON:0003865</td>
+      <td>distal phalanx of manus</td>
+      <td>UBERON:0004249</td>
+      <td>manual digit bone</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>UBERON:0003622</td>
+      <td>manual digit 2</td>
+      <td>UBERON:0003636</td>
+      <td>manual digit 2 phalanx</td>
+      <td>UBERON:0004328</td>
+      <td>proximal phalanx of manual digit 2</td>
+      <td>UBERON:0004320</td>
+      <td>middle phalanx of manual digit 2</td>
+      <td>UBERON:0004311</td>
+      <td>distal phalanx of manual digit 2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>UBERON:0003623</td>
+      <td>manual digit 3</td>
+      <td>UBERON:0003637</td>
+      <td>manual digit 3 phalanx</td>
+      <td>UBERON:0004329</td>
+      <td>proximal phalanx of manual digit 3</td>
+      <td>UBERON:0004321</td>
+      <td>middle phalanx of manual digit 3</td>
+      <td>UBERON:0004312</td>
+      <td>distal phalanx of manual digit 3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>UBERON:0003624</td>
+      <td>manual digit 4</td>
+      <td>UBERON:0003638</td>
+      <td>manual digit 4 phalanx</td>
+      <td>UBERON:0004330</td>
+      <td>proximal phalanx of manual digit 4</td>
+      <td>UBERON:0004322</td>
+      <td>middle phalanx of manual digit 4</td>
+      <td>UBERON:0004313</td>
+      <td>distal phalanx of manual digit 4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>UBERON:0001463</td>
+      <td>manual digit 1</td>
+      <td>UBERON:0003620</td>
+      <td>manual digit 1 phalanx</td>
+      <td>UBERON:0004338</td>
+      <td>proximal phalanx of manual digit 1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0004337</td>
+      <td>distal phalanx of manual digit 1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>UBERON:0003625</td>
+      <td>manual digit 5</td>
+      <td>UBERON:0003639</td>
+      <td>manual digit 5 phalanx</td>
+      <td>UBERON:0004331</td>
+      <td>proximal phalanx of manual digit 5</td>
+      <td>UBERON:0004323</td>
+      <td>middle phalanx of manual digit 5</td>
+      <td>UBERON:0004314</td>
+      <td>distal phalanx of manual digit 5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>UBERON:0001466</td>
+      <td>pedal digit</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0003868</td>
+      <td>proximal phalanx of pes</td>
+      <td>UBERON:0003866</td>
+      <td>middle phalanx of pes</td>
+      <td>UBERON:0003867</td>
+      <td>distal phalanx of pes</td>
+      <td>UBERON:0004248</td>
+      <td>pedal digit bone</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>UBERON:0003632</td>
+      <td>pedal digit 2</td>
+      <td>UBERON:0003641</td>
+      <td>pedal digit 2 phalanx</td>
+      <td>UBERON:0004333</td>
+      <td>proximal phalanx of pedal digit 2</td>
+      <td>UBERON:0004324</td>
+      <td>middle phalanx of pedal digit 2</td>
+      <td>UBERON:0004316</td>
+      <td>distal phalanx of pedal digit 2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>UBERON:0003633</td>
+      <td>pedal digit 3</td>
+      <td>UBERON:0003642</td>
+      <td>pedal digit 3 phalanx</td>
+      <td>UBERON:0004334</td>
+      <td>proximal phalanx of pedal digit 3</td>
+      <td>UBERON:0004325</td>
+      <td>middle phalanx of pedal digit 3</td>
+      <td>UBERON:0004317</td>
+      <td>distal phalanx of pedal digit 3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>UBERON:0003634</td>
+      <td>pedal digit 4</td>
+      <td>UBERON:0003862</td>
+      <td>pedal digit 4 phalanx</td>
+      <td>UBERON:0004335</td>
+      <td>proximal phalanx of pedal digit 4</td>
+      <td>UBERON:0004326</td>
+      <td>middle phalanx of pedal digit 4</td>
+      <td>UBERON:0004318</td>
+      <td>distal phalanx of pedal digit 4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>UBERON:0003631</td>
+      <td>pedal digit 1</td>
+      <td>UBERON:0003640</td>
+      <td>pedal digit 1 phalanx</td>
+      <td>UBERON:0004332</td>
+      <td>proximal phalanx of pedal digit 1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0004315</td>
+      <td>distal phalanx of pedal digit 1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>UBERON:0003635</td>
+      <td>pedal digit 5</td>
+      <td>UBERON:0003863</td>
+      <td>pedal digit 5 phalanx</td>
+      <td>UBERON:0004336</td>
+      <td>proximal phalanx of pedal digit 5</td>
+      <td>UBERON:0004327</td>
+      <td>middle phalanx of pedal digit 5</td>
+      <td>UBERON:0004319</td>
+      <td>distal phalanx of pedal digit 5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>UBERON:0012137</td>
+      <td>pedal digit 7</td>
+      <td>UBERON:4100009</td>
+      <td>pedal digit 7 phalanx</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>UBERON:0006049</td>
+      <td>digit 2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0014502</td>
+      <td>proximal phalanx of digit 2</td>
+      <td>UBERON:0014488</td>
+      <td>middle phalanx of digit 2</td>
+      <td>UBERON:0014484</td>
+      <td>distal phalanx of digit 2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>UBERON:0006050</td>
+      <td>digit 3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0014503</td>
+      <td>proximal phalanx of digit 3</td>
+      <td>UBERON:0014489</td>
+      <td>middle phalanx of digit 3</td>
+      <td>UBERON:0014485</td>
+      <td>distal phalanx of digit 3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>UBERON:0006051</td>
+      <td>digit 4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0014504</td>
+      <td>proximal phalanx of digit 4</td>
+      <td>UBERON:0014490</td>
+      <td>middle phalanx of digit 4</td>
+      <td>UBERON:0014486</td>
+      <td>distal phalanx of digit 4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>UBERON:0006048</td>
+      <td>digit 1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0014501</td>
+      <td>proximal phalanx of digit 1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0014483</td>
+      <td>distal phalanx of digit 1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>UBERON:0006052</td>
+      <td>digit 5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>UBERON:0014505</td>
+      <td>proximal phalanx of digit 5</td>
+      <td>UBERON:0014491</td>
+      <td>middle phalanx of digit 5</td>
+      <td>UBERON:0014487</td>
+      <td>distal phalanx of digit 5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Note that this view immediately shows the <em>density</em> of the lattice. We can identify what might potentially be gaps;</p>
+<p>for example, the cells for “middle phalanx” and digit 1 of the hand (manual) and foot (pedal) are empty. We might think this means we left out a potential term.</p>
+<p>However, this omission is actually intentional due to the lack of a middle/intermediate phalanx on the thumb / big toe:</p>
+<p><img alt="img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Scheme_human_hand_bones-en.svg/800px-Scheme_human_hand_bones-en.svg.png" /></p>
+<p>(it may be the case this phalanx is present in other species, in which case a term may be added with negative taxon constraints)</p>
+</section>
+</section>
+<section id="Analyzing-and-gap-filling">
+<h2>Analyzing and gap filling<a class="headerlink" href="#Analyzing-and-gap-filling" title="Link to this heading"></a></h2>
+<p>OAK has experimental features for analyzing and gap-filling logical definitions; these are not yet exposed on the command line</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Enrichment.html" class="btn btn-neutral float-left" title="OAK enrichment command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Mappings.html" class="btn btn-neutral float-right" title="OAK mappings command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

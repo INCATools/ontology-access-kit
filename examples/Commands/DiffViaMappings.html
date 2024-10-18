@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK diff-via-mappings command &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OAK disjoints command" href="Disjoints.html" />
+    <link rel="prev" title="OAK associations command" href="Associations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Apply.html">OAK apply command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Associations.html">OAK associations command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OAK diff-via-mappings command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Help-Option">Help Option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example:-Diff-between-two-anatomy-ontologies">Example: Diff between two anatomy ontologies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Analyzing-the-results-using-Pandas">Analyzing the results using Pandas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plotting-mapping-diff-categories">Plotting mapping diff categories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Exploring-categories">Exploring categories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Breaking-things-down-by-direction">Breaking things down by direction</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Disjoints.html">OAK disjoints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Enrichment.html">OAK enrichment command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LogicalDefinitions.html">OAK logical-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Mappings.html">OAK mappings command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Obsoletes.html">OAK obsoletes command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Paths.html">OAK paths command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Relationships.html">OAK relationships command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Rollup.html">OAK rollup command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Statistics.html">OAK statistics command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TaxonConstraints.html">OAK taxon-constraints command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TermsetSimilarity.html">OAK termset-similarity command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateDefinitions.html">OAK validate-definitions command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ValidateMappings.html">OAK validate-mappings command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Commands</a></li>
+      <li class="breadcrumb-item active">OAK diff-via-mappings command</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/DiffViaMappings.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="OAK-diff-via-mappings-command">
+<h1>OAK diff-via-mappings command<a class="headerlink" href="#OAK-diff-via-mappings-command" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">diff-via-mappings</span></code> command, which can be used to <strong>find differences between two ontologies based on mappings between them</strong></p>
+<p>For more on mappings, see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/guide/mappings.html">Mappings</a> in the OAK guide.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>diff-via-mappings<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak diff-via-mappings [OPTIONS] [TERMS]...
+
+  Calculates cross-ontology diff using mappings
+
+  Given a pair of ontologies, and mappings that connect terms in both
+  ontologies, this command will perform a structural comparison of all mapped
+  pairs of terms
+
+  Example:
+
+      runoak -i sqlite:obo:uberon diff-via-mappings --other-input
+      sqlite:obo:zfa  --source UBERON --source ZFA -O csv
+
+  Note the above command does not have any mapping file specified; the
+  mappings that are distributed within each ontology is used (in this case,
+  Uberon contains mappings to ZFA)
+
+  If the mappings are provided externally:
+
+      runoak -i ont1.obo diff-via-mappings --other-input ont2.obo --mapping-
+      input mappings.sssom.tsv
+
+  (in the above example, --source is not passed, so all mappings are tested)
+
+  If there are no existing mappings, you can use the lexmatch command to
+  generate them:
+
+      runoak -i ont1.obo diff-via-mappings -a ont2.obo lexmatch -o
+      mappings.sssom.tsv
+
+      runoak -i ont1.obo diff-via-mappings --other-input ont2.obo --mapping-
+      input mappings.sssom.tsv
+
+  The output from this command follows the cross-ontology-diff data model
+  (https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-
+  diff/index.html)
+
+  This can be serialized in YAML or TSV form
+
+Options:
+  -S, --source TEXT               ontology prefixes  e.g. HP, MP
+  --mapping-input TEXT            File of mappings in SSSOM format. If not
+                                  provided then mappings in ontology(ies) are
+                                  used
+  -X, --other-input TEXT          Additional input file
+  --other-input-type TEXT         Type of additional input file
+  --intra / --no-intra            If true, then all sources are in the main
+                                  input ontology  [default: no-intra]
+  --autolabel / --no-autolabel    If set, results will automatically have
+                                  labels assigned  [default: autolabel]
+  --include-identity-mappings / --no-include-identity-mappings
+                                  Use identity relation as mapping; use this
+                                  for two versions of the same ontology
+                                  [default: no-include-identity-mappings]
+  --filter-category-identical / --no-filter-category-identical
+                                  Do not report cases where a relationship has
+                                  not changed  [default: no-filter-category-
+                                  identical]
+  --bidirectional / --no-bidirectional
+                                  Show diff from both left and right
+                                  perspectives  [default: bidirectional]
+  -p, --predicates TEXT           A comma-separated list of predicates. This
+                                  may be a shorthand (i, p) or CURIE
+  -o, --output FILENAME           Output file, e.g. obo file
+  -O, --output-type TEXT          Desired output type
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Example:-Diff-between-two-anatomy-ontologies">
+<h2>Example: Diff between two anatomy ontologies<a class="headerlink" href="#Example:-Diff-between-two-anatomy-ontologies" title="Link to this heading"></a></h2>
+<p>To illustrate usage, we will calculate the diff between <a class="reference external" href="https://obofoundry.org/ontology/uberon">UBERON</a> (a multi-species anatomy ontology) and <a class="reference external" href="https://obofoundry.org/ontology/zfa">ZFA</a> (an anatomy ontology for zebrafish).</p>
+<p>Note that rather than provide a set of external mappings, we will use the mappings present in both ontologies (in this case, UBERON has xrefs to ZFA).</p>
+<p>To simplify the comparison, we will only consider <a class="reference external" href="https://incatools.github.io/ontology-access-kit/glossary.html#term-IS_A">is_a</a> and <a class="reference external" href="https://incatools.github.io/ontology-access-kit/glossary.html#term-Part-Of">part_of</a> relationships. This is specified using the <code class="docutils literal notranslate"><span class="pre">--predicates</span></code> (<code class="docutils literal notranslate"><span class="pre">-p</span></code>) option</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>diff-via-mappings<span class="w"> </span>--other-input<span class="w"> </span><span class="err">\</span>
+      <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">zfa</span>  <span class="o">--</span><span class="n">source</span> <span class="n">UBERON</span> <span class="o">--</span><span class="n">source</span> <span class="n">ZFA</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">uberon</span><span class="o">-</span><span class="n">zfa</span><span class="o">-</span><span class="n">diff</span><span class="o">.</span><span class="n">csv</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Analyzing-the-results-using-Pandas">
+<h2>Analyzing the results using Pandas<a class="headerlink" href="#Analyzing-the-results-using-Pandas" title="Link to this heading"></a></h2>
+<p>Note that we asked for the output as a tabular file (<code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">csv</span></code>), rather than native YAML. You could take the tabular output, analyze it in a spreadsheet, etc. Here we will use the Python pandas library.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/uberon-zfa-diff.csv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>left_subject_id</th>
+      <th>left_object_id</th>
+      <th>left_predicate_id</th>
+      <th>category</th>
+      <th>left_subject_label</th>
+      <th>left_object_label</th>
+      <th>left_predicate_label</th>
+      <th>right_subject_id</th>
+      <th>right_object_id</th>
+      <th>right_predicate_ids</th>
+      <th>right_subject_label</th>
+      <th>right_object_label</th>
+      <th>right_predicate_labels</th>
+      <th>left_subject_is_functional</th>
+      <th>left_object_is_functional</th>
+      <th>subject_mapping_predicate</th>
+      <th>object_mapping_predicate</th>
+      <th>right_intermediate_ids</th>
+      <th>subject_mapping_cardinality</th>
+      <th>object_mapping_cardinality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>UBERON:0000002</td>
+      <td>UBERON:0000995</td>
+      <td>BFO:0000050</td>
+      <td>MissingMapping</td>
+      <td>uterine cervix</td>
+      <td>uterus</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>UBERON:0000002</td>
+      <td>UBERON:0001560</td>
+      <td>rdfs:subClassOf</td>
+      <td>MissingMapping</td>
+      <td>uterine cervix</td>
+      <td>neck of organ</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>UBERON:0000002</td>
+      <td>UBERON:0005156</td>
+      <td>rdfs:subClassOf</td>
+      <td>MissingMapping</td>
+      <td>uterine cervix</td>
+      <td>reproductive structure</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>UBERON:0000003</td>
+      <td>UBERON:0000033</td>
+      <td>BFO:0000050</td>
+      <td>MissingMapping</td>
+      <td>naris</td>
+      <td>head</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>UBERON:0000003</td>
+      <td>UBERON:0005725</td>
+      <td>BFO:0000050</td>
+      <td>MissingMapping</td>
+      <td>naris</td>
+      <td>olfactory system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>36336</th>
+      <td>ZFA:0009401</td>
+      <td>ZFA:0009000</td>
+      <td>rdfs:subClassOf</td>
+      <td>MissingMapping</td>
+      <td>lens fiber cell</td>
+      <td>cell</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>36337</th>
+      <td>ZFA:0009402</td>
+      <td>ZFA:0005065</td>
+      <td>BFO:0000050</td>
+      <td>MissingMapping</td>
+      <td>heart valve cell</td>
+      <td>heart valve</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>36338</th>
+      <td>ZFA:0009402</td>
+      <td>ZFA:0009000</td>
+      <td>rdfs:subClassOf</td>
+      <td>MissingMapping</td>
+      <td>heart valve cell</td>
+      <td>cell</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>36339</th>
+      <td>ZFA:0009403</td>
+      <td>ZFA:0009402</td>
+      <td>rdfs:subClassOf</td>
+      <td>MissingMapping</td>
+      <td>heart valve interstitial cell</td>
+      <td>heart valve cell</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>36340</th>
+      <td>ZFA:0009404</td>
+      <td>ZFA:0009402</td>
+      <td>rdfs:subClassOf</td>
+      <td>MissingMapping</td>
+      <td>heart valve endothelial cell</td>
+      <td>heart valve cell</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1:0</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<p>36341 rows × 20 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;left_source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">left_subject_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Plotting-mapping-diff-categories">
+<h2>Plotting mapping diff categories<a class="headerlink" href="#Plotting-mapping-diff-categories" title="Link to this heading"></a></h2>
+<p>The diff tool works by taking each relationship/edge in the “left” ontology (here all UBERON and all ZFA edges are considered) and trying to map it to a relationship in the “right” ontology.</p>
+<p>The mapping is assigned a category from the <a class="reference external" href="https://w3id.org/oak/cross-ontology-diff/DiffCategory">cross-ontology-diff:DiffCategory</a> enumeration.</p>
+<p>(note that like many OAK operations, the output conforms to a data model that makes its semantics explicit)</p>
+<p>We will use seaborn/matplotlib to plot the category counts</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># set plot style: grey grid in the background:</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;darkgrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Set the figure size</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Count of each category&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Category&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_Commands_DiffViaMappings_9_0.png" src="../../_images/examples_Commands_DiffViaMappings_9_0.png" />
+</div>
+</div>
+<p>the dominant category is MissingMapping. This means that either/both subject and object of the left edge could not be matched in the right ontology. It is not surprising there are so many, because Uberon covers more species.</p>
+<section id="Breaking-down-by-predicate,-and-using-log-scale">
+<h3>Breaking down by predicate, and using log scale<a class="headerlink" href="#Breaking-down-by-predicate,-and-using-log-scale" title="Link to this heading"></a></h3>
+<p>We can get a more detailed view by breaking down the counts by the predicate of the left edge.</p>
+<p>We will also use a log scale</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;left_predicate_id&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Count of each category&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Category&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span> <span class="c1"># Make x-axis labels diagonal</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_Commands_DiffViaMappings_12_0.png" src="../../_images/examples_Commands_DiffViaMappings_12_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Exploring-categories">
+<h2>Exploring categories<a class="headerlink" href="#Exploring-categories" title="Link to this heading"></a></h2>
+<section id="Non-entailed-relationships">
+<h3>Non-entailed relationships<a class="headerlink" href="#Non-entailed-relationships" title="Link to this heading"></a></h3>
+<p>i.e. this is an edge in UBERON that corresponds to a different kind of edge in ZFA (or vice versa), where the former doesn’t subsume the latter.</p>
+<p>For example, in UBERON PNS <em>part_of</em> NS; in ZFA PNS <em>is_a</em> NS</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;category==&#39;NonEntailedRelationship&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>left_subject_id</th>
+      <th>left_object_id</th>
+      <th>left_predicate_id</th>
+      <th>category</th>
+      <th>left_subject_label</th>
+      <th>left_object_label</th>
+      <th>left_predicate_label</th>
+      <th>right_subject_id</th>
+      <th>right_object_id</th>
+      <th>right_predicate_ids</th>
+      <th>right_subject_label</th>
+      <th>right_object_label</th>
+      <th>right_predicate_labels</th>
+      <th>left_subject_is_functional</th>
+      <th>left_object_is_functional</th>
+      <th>subject_mapping_predicate</th>
+      <th>object_mapping_predicate</th>
+      <th>right_intermediate_ids</th>
+      <th>subject_mapping_cardinality</th>
+      <th>object_mapping_cardinality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>22</th>
+      <td>UBERON:0000010</td>
+      <td>UBERON:0001016</td>
+      <td>BFO:0000050</td>
+      <td>NonEntailedRelationship</td>
+      <td>peripheral nervous system</td>
+      <td>nervous system</td>
+      <td></td>
+      <td>ZFA:0000142</td>
+      <td>ZFA:0000396</td>
+      <td>rdfs:subClassOf</td>
+      <td>peripheral nervous system</td>
+      <td>nervous system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>UBERON:0000011</td>
+      <td>UBERON:0002410</td>
+      <td>BFO:0000050</td>
+      <td>NonEntailedRelationship</td>
+      <td>parasympathetic nervous system</td>
+      <td>autonomic nervous system</td>
+      <td></td>
+      <td>ZFA:0001575</td>
+      <td>ZFA:0001574</td>
+      <td>rdfs:subClassOf</td>
+      <td>parasympathetic nervous system</td>
+      <td>autonomic nervous system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>UBERON:0000013</td>
+      <td>UBERON:0002410</td>
+      <td>BFO:0000050</td>
+      <td>NonEntailedRelationship</td>
+      <td>sympathetic nervous system</td>
+      <td>autonomic nervous system</td>
+      <td></td>
+      <td>ZFA:0001576</td>
+      <td>ZFA:0001574</td>
+      <td>rdfs:subClassOf</td>
+      <td>sympathetic nervous system</td>
+      <td>autonomic nervous system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>UBERON:0000095</td>
+      <td>UBERON:0002342</td>
+      <td>BFO:0000050</td>
+      <td>NonEntailedRelationship</td>
+      <td>cardiac neural crest</td>
+      <td>neural crest</td>
+      <td></td>
+      <td>ZFA:0001648</td>
+      <td>ZFA:0000045</td>
+      <td>rdfs:subClassOf</td>
+      <td>cardiac neural crest</td>
+      <td>neural crest</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>725</th>
+      <td>UBERON:0000936</td>
+      <td>UBERON:0003931</td>
+      <td>BFO:0000050</td>
+      <td>NonEntailedRelationship</td>
+      <td>posterior commissure</td>
+      <td>diencephalic white matter</td>
+      <td></td>
+      <td>ZFA:0000320</td>
+      <td>ZFA:0000338</td>
+      <td>rdfs:subClassOf</td>
+      <td>caudal commissure</td>
+      <td>diencephalic white matter</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>35155</th>
+      <td>ZFA:0005661</td>
+      <td>ZFA:0001488</td>
+      <td>rdfs:subClassOf</td>
+      <td>NonEntailedRelationship</td>
+      <td>olfactory bulb glomerulus</td>
+      <td>multi-tissue structure</td>
+      <td></td>
+      <td>UBERON:0005387</td>
+      <td>UBERON:0000481</td>
+      <td>BFO:0000050|RO:0002131|RO:0002323</td>
+      <td>olfactory glomerulus</td>
+      <td>multi-tissue structure</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35458</th>
+      <td>ZFA:0005829</td>
+      <td>ZFA:0005249</td>
+      <td>rdfs:subClassOf</td>
+      <td>NonEntailedRelationship</td>
+      <td>Schlemm's canal</td>
+      <td>vasculature</td>
+      <td></td>
+      <td>UBERON:0004029</td>
+      <td>UBERON:0002049</td>
+      <td>BFO:0000050|RO:0002131|RO:0002323</td>
+      <td>canal of Schlemm</td>
+      <td>vasculature</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35680</th>
+      <td>ZFA:0007017</td>
+      <td>ZFA:0001477</td>
+      <td>rdfs:subClassOf</td>
+      <td>NonEntailedRelationship</td>
+      <td>posterior neural plate</td>
+      <td>portion of tissue</td>
+      <td></td>
+      <td>UBERON:0003057</td>
+      <td>UBERON:0000479</td>
+      <td>BFO:0000050|RO:0002131|RO:0002323</td>
+      <td>chordal neural plate</td>
+      <td>tissue</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35701</th>
+      <td>ZFA:0007037</td>
+      <td>ZFA:0001477</td>
+      <td>rdfs:subClassOf</td>
+      <td>NonEntailedRelationship</td>
+      <td>posterior neural tube</td>
+      <td>portion of tissue</td>
+      <td></td>
+      <td>UBERON:0003076</td>
+      <td>UBERON:0000479</td>
+      <td>BFO:0000050|RO:0002131|RO:0002202|RO:0002254|R...</td>
+      <td>posterior neural tube</td>
+      <td>tissue</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35702</th>
+      <td>ZFA:0007038</td>
+      <td>ZFA:0001477</td>
+      <td>rdfs:subClassOf</td>
+      <td>NonEntailedRelationship</td>
+      <td>anterior neural tube</td>
+      <td>portion of tissue</td>
+      <td></td>
+      <td>UBERON:0003080</td>
+      <td>UBERON:0000479</td>
+      <td>BFO:0000050|RO:0002131|RO:0002202|RO:0002254|R...</td>
+      <td>anterior neural tube</td>
+      <td>tissue</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<p>205 rows × 20 columns</p>
+</div></div>
+</div>
+</section>
+<section id="No-relationship">
+<h3>No relationship<a class="headerlink" href="#No-relationship" title="Link to this heading"></a></h3>
+<p>In this case, the edge in UBERON has no corresponding edge in ZFA (or vice versa), entailed or otherwise</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;category==&#39;NoRelationship&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>left_subject_id</th>
+      <th>left_object_id</th>
+      <th>left_predicate_id</th>
+      <th>category</th>
+      <th>left_subject_label</th>
+      <th>left_object_label</th>
+      <th>left_predicate_label</th>
+      <th>right_subject_id</th>
+      <th>right_object_id</th>
+      <th>right_predicate_ids</th>
+      <th>right_subject_label</th>
+      <th>right_object_label</th>
+      <th>right_predicate_labels</th>
+      <th>left_subject_is_functional</th>
+      <th>left_object_is_functional</th>
+      <th>subject_mapping_predicate</th>
+      <th>object_mapping_predicate</th>
+      <th>right_intermediate_ids</th>
+      <th>subject_mapping_cardinality</th>
+      <th>object_mapping_cardinality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>UBERON:0000004</td>
+      <td>UBERON:0000475</td>
+      <td>rdfs:subClassOf</td>
+      <td>NoRelationship</td>
+      <td>nose</td>
+      <td>organism subdivision</td>
+      <td></td>
+      <td>ZFA:0000047</td>
+      <td>ZFA:0001308</td>
+      <td></td>
+      <td>peripheral olfactory organ</td>
+      <td>organism subdivision</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>UBERON:0000089</td>
+      <td>UBERON:0004750</td>
+      <td>BFO:0000050</td>
+      <td>NoRelationship</td>
+      <td>hypoblast (generic)</td>
+      <td>blastoderm</td>
+      <td></td>
+      <td>ZFA:0000117</td>
+      <td>ZFA:0001176</td>
+      <td></td>
+      <td>hypoblast</td>
+      <td>blastoderm</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>647</th>
+      <td>UBERON:0000471</td>
+      <td>UBERON:0003103</td>
+      <td>BFO:0000050</td>
+      <td>NoRelationship</td>
+      <td>compound organ component</td>
+      <td>compound organ</td>
+      <td></td>
+      <td>ZFA:0001489</td>
+      <td>ZFA:0000496</td>
+      <td></td>
+      <td>compound organ component</td>
+      <td>compound organ</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>661</th>
+      <td>UBERON:0000479</td>
+      <td>UBERON:0000468</td>
+      <td>BFO:0000050</td>
+      <td>NoRelationship</td>
+      <td>tissue</td>
+      <td>multicellular organism</td>
+      <td></td>
+      <td>ZFA:0001477</td>
+      <td>ZFA:0001094</td>
+      <td></td>
+      <td>portion of tissue</td>
+      <td>whole organism</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>663</th>
+      <td>UBERON:0000480</td>
+      <td>UBERON:0000468</td>
+      <td>BFO:0000050</td>
+      <td>NoRelationship</td>
+      <td>anatomical group</td>
+      <td>multicellular organism</td>
+      <td></td>
+      <td>ZFA:0001512</td>
+      <td>ZFA:0001094</td>
+      <td></td>
+      <td>anatomical group</td>
+      <td>whole organism</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>35714</th>
+      <td>ZFA:0007057</td>
+      <td>ZFA:0005297</td>
+      <td>rdfs:subClassOf</td>
+      <td>NoRelationship</td>
+      <td>ocular blood vessel</td>
+      <td>cranial blood vessel</td>
+      <td></td>
+      <td>UBERON:0002203</td>
+      <td>UBERON:0011362</td>
+      <td></td>
+      <td>vasculature of eye</td>
+      <td>cranial blood vasculature</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35715</th>
+      <td>ZFA:0007058</td>
+      <td>ZFA:0000012</td>
+      <td>BFO:0000050</td>
+      <td>NoRelationship</td>
+      <td>roof plate</td>
+      <td>central nervous system</td>
+      <td></td>
+      <td>UBERON:0003054</td>
+      <td>UBERON:0001017</td>
+      <td></td>
+      <td>roof plate</td>
+      <td>central nervous system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35716</th>
+      <td>ZFA:0007058</td>
+      <td>ZFA:0001488</td>
+      <td>rdfs:subClassOf</td>
+      <td>NoRelationship</td>
+      <td>roof plate</td>
+      <td>multi-tissue structure</td>
+      <td></td>
+      <td>UBERON:0003054</td>
+      <td>UBERON:0000481</td>
+      <td></td>
+      <td>roof plate</td>
+      <td>multi-tissue structure</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35720</th>
+      <td>ZFA:0007071</td>
+      <td>ZFA:0001477</td>
+      <td>rdfs:subClassOf</td>
+      <td>NoRelationship</td>
+      <td>flexural organ</td>
+      <td>portion of tissue</td>
+      <td></td>
+      <td>UBERON:0011577</td>
+      <td>UBERON:0000479</td>
+      <td></td>
+      <td>flexural organ</td>
+      <td>tissue</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>35722</th>
+      <td>ZFA:0007072</td>
+      <td>ZFA:0001488</td>
+      <td>rdfs:subClassOf</td>
+      <td>NoRelationship</td>
+      <td>blood sinus</td>
+      <td>multi-tissue structure</td>
+      <td></td>
+      <td>UBERON:0006615</td>
+      <td>UBERON:0000481</td>
+      <td></td>
+      <td>venous sinus</td>
+      <td>multi-tissue structure</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<p>1375 rows × 20 columns</p>
+</div></div>
+</div>
+</section>
+<section id="LeftEntailedByRight">
+<h3>LeftEntailedByRight<a class="headerlink" href="#LeftEntailedByRight" title="Link to this heading"></a></h3>
+<p>in this case UBERON has a direct edge that corresponds to two or more direct edges in ZFA (or vice versa)</p>
+<p>In this case the edges must chain together via OWL semantics.</p>
+<p>for example, UBERON has <code class="docutils literal notranslate"><span class="pre">ganglion</span> <span class="pre">part-of</span> <span class="pre">nervous</span> <span class="pre">system</span></code>, ZFA has <code class="docutils literal notranslate"><span class="pre">ganglion</span> <span class="pre">part-of</span> <span class="pre">PNS</span> <span class="pre">is-a</span> <span class="pre">nervous</span> <span class="pre">system</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;category==&#39;LeftEntailedByRight&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>left_subject_id</th>
+      <th>left_object_id</th>
+      <th>left_predicate_id</th>
+      <th>category</th>
+      <th>left_subject_label</th>
+      <th>left_object_label</th>
+      <th>left_predicate_label</th>
+      <th>right_subject_id</th>
+      <th>right_object_id</th>
+      <th>right_predicate_ids</th>
+      <th>...</th>
+      <th>right_object_label</th>
+      <th>right_predicate_labels</th>
+      <th>left_subject_is_functional</th>
+      <th>left_object_is_functional</th>
+      <th>subject_mapping_predicate</th>
+      <th>object_mapping_predicate</th>
+      <th>right_intermediate_ids</th>
+      <th>subject_mapping_cardinality</th>
+      <th>object_mapping_cardinality</th>
+      <th>left_source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>35</th>
+      <td>UBERON:0000016</td>
+      <td>UBERON:0000949</td>
+      <td>BFO:0000050</td>
+      <td>LeftEntailedByRight</td>
+      <td>endocrine pancreas</td>
+      <td>endocrine system</td>
+      <td></td>
+      <td>ZFA:0001260</td>
+      <td>ZFA:0001158</td>
+      <td>BFO:0000050|RO:0002131|RO:0002202</td>
+      <td>...</td>
+      <td>endocrine system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>UBERON</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>UBERON:0000045</td>
+      <td>UBERON:0001016</td>
+      <td>BFO:0000050</td>
+      <td>LeftEntailedByRight</td>
+      <td>ganglion</td>
+      <td>nervous system</td>
+      <td></td>
+      <td>ZFA:0000190</td>
+      <td>ZFA:0000396</td>
+      <td>BFO:0000050|RO:0002131</td>
+      <td>...</td>
+      <td>nervous system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>UBERON</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>UBERON:0000086</td>
+      <td>UBERON:0000992</td>
+      <td>BFO:0000050</td>
+      <td>LeftEntailedByRight</td>
+      <td>zona pellucida</td>
+      <td>ovary</td>
+      <td></td>
+      <td>ZFA:0001111</td>
+      <td>ZFA:0000403</td>
+      <td>BFO:0000050|RO:0002131</td>
+      <td>...</td>
+      <td>ovary</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>UBERON</td>
+    </tr>
+    <tr>
+      <th>645</th>
+      <td>UBERON:0000467</td>
+      <td>UBERON:0000061</td>
+      <td>rdfs:subClassOf</td>
+      <td>LeftEntailedByRight</td>
+      <td>anatomical system</td>
+      <td>anatomical structure</td>
+      <td></td>
+      <td>ZFA:0001439</td>
+      <td>ZFA:0000037</td>
+      <td>BFO:0000050|RO:0002131|rdfs:subClassOf</td>
+      <td>...</td>
+      <td>anatomical structure</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>UBERON</td>
+    </tr>
+    <tr>
+      <th>658</th>
+      <td>UBERON:0000477</td>
+      <td>UBERON:0001062</td>
+      <td>rdfs:subClassOf</td>
+      <td>LeftEntailedByRight</td>
+      <td>anatomical cluster</td>
+      <td>anatomical entity</td>
+      <td></td>
+      <td>ZFA:0001478</td>
+      <td>ZFA:0100000</td>
+      <td>rdfs:subClassOf</td>
+      <td>...</td>
+      <td>zebrafish anatomical entity</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>UBERON</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>35706</th>
+      <td>ZFA:0007043</td>
+      <td>ZFA:0001477</td>
+      <td>rdfs:subClassOf</td>
+      <td>LeftEntailedByRight</td>
+      <td>hindbrain neural tube</td>
+      <td>portion of tissue</td>
+      <td></td>
+      <td>UBERON:2007043</td>
+      <td>UBERON:0000479</td>
+      <td>BFO:0000050|RO:0002131|RO:0002202|RO:0002254|R...</td>
+      <td>...</td>
+      <td>tissue</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>ZFA</td>
+    </tr>
+    <tr>
+      <th>35711</th>
+      <td>ZFA:0007048</td>
+      <td>ZFA:0005145</td>
+      <td>rdfs:subClassOf</td>
+      <td>LeftEntailedByRight</td>
+      <td>ventral intermandibularis posterior</td>
+      <td>muscle</td>
+      <td></td>
+      <td>UBERON:2007048</td>
+      <td>UBERON:0001630</td>
+      <td>RO:0002131|RO:0002202|RO:0002254|RO:0002258|RO...</td>
+      <td>...</td>
+      <td>muscle organ</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>ZFA</td>
+    </tr>
+    <tr>
+      <th>35717</th>
+      <td>ZFA:0007068</td>
+      <td>ZFA:0001486</td>
+      <td>rdfs:subClassOf</td>
+      <td>LeftEntailedByRight</td>
+      <td>otic epithelium</td>
+      <td>epithelium</td>
+      <td></td>
+      <td>UBERON:0003249</td>
+      <td>UBERON:0000483</td>
+      <td>RO:0002131|RO:0002323|rdfs:subClassOf</td>
+      <td>...</td>
+      <td>epithelium</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>ZFA</td>
+    </tr>
+    <tr>
+      <th>35721</th>
+      <td>ZFA:0007072</td>
+      <td>ZFA:0000010</td>
+      <td>BFO:0000050</td>
+      <td>LeftEntailedByRight</td>
+      <td>blood sinus</td>
+      <td>cardiovascular system</td>
+      <td></td>
+      <td>UBERON:0006615</td>
+      <td>UBERON:0004535</td>
+      <td>BFO:0000050|RO:0002131|RO:0002202|RO:0002254|R...</td>
+      <td>...</td>
+      <td>cardiovascular system</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>ZFA</td>
+    </tr>
+    <tr>
+      <th>35723</th>
+      <td>ZFA:0007073</td>
+      <td>ZFA:0001643</td>
+      <td>rdfs:subClassOf</td>
+      <td>LeftEntailedByRight</td>
+      <td>blood sinus cavity</td>
+      <td>anatomical space</td>
+      <td></td>
+      <td>UBERON:0034940</td>
+      <td>UBERON:0000464</td>
+      <td>rdfs:subClassOf</td>
+      <td>...</td>
+      <td>anatomical space</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>ZFA</td>
+    </tr>
+  </tbody>
+</table>
+<p>883 rows × 21 columns</p>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Breaking-things-down-by-direction">
+<h2>Breaking things down by direction<a class="headerlink" href="#Breaking-things-down-by-direction" title="Link to this heading"></a></h2>
+<p>By default, the command will do diffs in both directions, unless <code class="docutils literal notranslate"><span class="pre">--no-bidirectional</span></code> is passed.</p>
+<p>We can post-hoc break the summary statistics down based on the source of the left term</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unique_srcs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;left_source&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">n_unique</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_srcs</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">n_unique</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="o">*</span><span class="n">n_unique</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">left_source</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">unique_srcs</span><span class="p">):</span>
+    <span class="n">sub_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;left_source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">left_source</span><span class="p">]</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">sub_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;left_predicate_id&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Count of each type broken down by left_source = </span><span class="si">{</span><span class="n">left_source</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Type&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span> <span class="c1"># Make y-axis logarithmic</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span> <span class="c1"># Make x-axis labels diagonal</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span> <span class="c1"># Ensure layout is tight so labels don&#39;t get cut off</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_Commands_DiffViaMappings_20_0.png" src="../../_images/examples_Commands_DiffViaMappings_20_0.png" />
+</div>
+</div>
+<p>As expected <code class="docutils literal notranslate"><span class="pre">MissingMapping</span></code> dominates the Uberon-&gt;ZFA direction. Note this is not actually “missing” in the sense of incomplete, we expect most edges in uberon to be non-mappable to ZFA due to difference in taxonomic scope.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Associations.html" class="btn btn-neutral float-left" title="OAK associations command" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Disjoints.html" class="btn btn-neutral float-right" title="OAK disjoints command" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
