@@ -23,6 +23,15 @@ jobs:
     - name: install
       run: poetry install -E docs
 
+    - name: Install dependencies for nbsphinx
+      run: |
+        sudo apt update
+        sudo apt install -y pandoc
+        
+    - name: Run Pandoc
+      run: |
+        pandoc --version
+
     - name: Build documentation.
       run: |
         mkdir gh-pages
