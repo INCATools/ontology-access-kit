@@ -6,8 +6,9 @@ import logging
 import re
 import time
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple, Any
 
+import pystow
 from linkml_runtime.dumpers import yaml_dumper
 from sssom_schema import Mapping
 from tenacity import (
@@ -189,8 +190,10 @@ class LLMImplementation(
 
     default_model_id: str = "gpt-4o"
 
-    allow_direct_grounding: bool = False
-    """The point of this implementation is to perform NER and delegate to a grounded."""
+    _embeddings_collection: Optional["llm.Collection"] = None
+    """The collection used for embeddings."""
+
+    ground_using_llm: bool = True
 
     max_recursion_depth: int = 0
 
@@ -217,6 +220,8 @@ class LLMImplementation(
             from oaklib import get_adapter
 
             self.wrapped_adapter = get_adapter(slug)
+        if self.model_id is None:
+            self.model_id = self.default_model_id
         if self.model_id is not None:
             import llm
 
@@ -226,6 +231,13 @@ class LLMImplementation(
                 # TODO: openrouter just seems very flaky
                 # but it is too conservative
                 self.throttle_time = 10
+
+    @property
+    def _embeddings_collection_name(self) -> str:
+        name = self.wrapped_adapter.resource.slug
+        if not name:
+            raise ValueError(f"Wrapped adapter must have a slug: {self.wrapped_adapter} // {self.wrapped_adapter.resource}")
+        return name
 
     def entities(self, **kwargs) -> Iterator[CURIE]:
         """Return all entities in the ontology."""
@@ -262,26 +274,13 @@ class LLMImplementation(
             )
         yield from self.wrapped_adapter.sssom_mappings(*args, **kwargs)
 
-    def annotate_text(
-        self, text: TEXT, configuration: TextAnnotationConfiguration = None
-    ) -> Iterator[TextAnnotation]:
-        """
-        Implement the TextAnnotatorInterface using an LLM.
+    def _parse_response(self, json_str: str) -> Any:
+        if "```" in json_str:
+            json_str = json_str.split("```")[1].strip()
+            if json_str.startswith("json"):
+                json_str = json_str[4:].strip()
+        return json.loads(json_str)
 
-        :param text:
-        :param configuration:
-        :return:
-        """
-        if not configuration:
-            raise NotImplementedError("Missing text annotation configuration")
-        if configuration.matches_whole_text:
-            if not self.allow_direct_grounding:
-                raise NotImplementedError("LLM does not support whole-text matching")
-            else:
-                logging.info("Delegating directly to grounder, bypassing LLM")
-                yield from self.wrapped_adapter.annotate_text(text, configuration)
-        else:
-            yield from self._llm_annotate(text, configuration)
 
     def get_model(self):
         model = self.model
@@ -295,13 +294,128 @@ class LLMImplementation(
             model = llm.get_model(model_id)
         return model
 
+    def _embed_terms(self):
+        import llm
+        import sqlite_utils
+        adapter = self.wrapped_adapter
+        name = self._embeddings_collection_name
+        path_to_db = pystow.join("oaklib", "llm", "embeddings")
+        db = sqlite_utils.Database(f"{path_to_db}.db")
+        collection = llm.Collection(name, db=db, model_id="ada-002")
+        tuples = list(adapter.labels(adapter.entities(), allow_none=False))
+        collection.embed_multi(tuples)
+        self._embeddings_collection = collection
+
+    def _term_embedding(self, id: CURIE) -> Optional[tuple]:
+        import llm
+        db = self._embeddings_collection.db
+        name = self._embeddings_collection_name
+        collection_ids = list(db["collections"].rows_where("name = ?", (name,)))
+        collection_id = collection_ids[0]["id"]
+        matches = list(
+            db["embeddings"].rows_where(
+                "collection_id = ? and id = ?", (collection_id, id)
+            )
+        )
+        if not matches:
+            logger.debug(f"ID not found: {id} in {collection_id} ({name})")
+            return None
+        embedding = matches[0]["embedding"]
+        comparison_vector = llm.decode(embedding)
+        return comparison_vector
+
+
+    def pairwise_similarity(
+            self,
+            subject: CURIE,
+            object: CURIE,
+            predicates: List[PRED_CURIE] = None,
+            subject_ancestors: List[CURIE] = None,
+            object_ancestors: List[CURIE] = None,
+            min_jaccard_similarity: Optional[float] = None,
+            min_ancestor_information_content: Optional[float] = None,
+    ) -> Optional[TermPairwiseSimilarity]:
+        import llm
+        self._embed_terms()
+        subject_embedding = self._term_embedding(subject)
+        if not subject_embedding:
+            return None
+        object_embedding = self._term_embedding(object)
+        if not object_embedding:
+            return None
+        sim = llm.cosine_similarity(subject_embedding, object_embedding)
+        sim = TermPairwiseSimilarity(
+            subject_id=subject,
+            object_id=object,
+            cosine_similarity=sim,
+        )
+        return sim
+
+    def _ground_term(self, term: str, categories: Optional[List[str]] = None) -> Optional[Tuple[str, float]]:
+        matches = list(self._match_terms(term))
+        system = """
+        Given a list of ontology terms, find the one that best matches the given term.
+        Return a single JSON object {<TermID>, <ConfidenceScore>}.
+        For example, if the candidate matches for "heart" are:
+        - ANAT:001 pulmonary organ
+        - ANAT:002 pericardium
+        Then a valid response is {"id": "ANAT:001", "confidence": 0.8}.
+        """
+        prompt = f"Find the best match for the term: \"{term}\".\n"
+        if categories:
+            if len(categories) == 1:
+                prompt += f"Term Category: {categories[0]}.\n"
+            else:
+                prompt += f"Term Categories: {', '.join(categories)}.\n"
+        prompt += "Candidates:\n"
+        for m in matches:
+            id = m[0]
+            lbl = self.wrapped_adapter.label(id)
+            prompt += f"- {id} {lbl}\n"
+        logger.debug(f"Prompt: {prompt}")
+        response = self.model.prompt(prompt, system=system).text()
+        logger.info(f"Response: {response}")
+        obj = self._parse_response(response)
+        return obj["id"], obj["confidence"]
+
+    def annotate_text(
+        self, text: TEXT, configuration: TextAnnotationConfiguration = None
+    ) -> Iterator[TextAnnotation]:
+        """
+        Implement the TextAnnotatorInterface using an LLM.
+
+        Currently the workflow is as follows:
+
+         - A system prompt requesting JSON NER objects is generated (no grounding at this stage)
+         - The resulting text spans in the JSON object are grounded.
+
+        :param text:
+        :param configuration:
+        :return:
+        """
+        if not configuration:
+            raise NotImplementedError("Missing text annotation configuration")
+        if configuration.matches_whole_text:
+            logger.info(f"Annotating whole text: {text}")
+            if self.ground_using_llm:
+                grounded, _confidence = self._ground_term(text, configuration.categories)
+                logger.info(f"Grounded {text} to {grounded}")
+                if grounded:
+                    yield TextAnnotation(subject_label=text, object_id=grounded, object_label=self.wrapped_adapter.label(grounded))
+                    return
+            else:
+                logging.info("Delegating directly to grounder, bypassing LLM")
+                yield from self.wrapped_adapter.annotate_text(text, configuration)
+        else:
+            yield from self._llm_annotate(text, configuration)
+
     def _llm_annotate(
         self,
         text: str,
         configuration: TextAnnotationConfiguration = None,
         depth=0,
     ) -> Iterator[TextAnnotation]:
-        system_prompt = self._system_prompt(configuration)
+        system_prompt = self._annotation_system_prompt(configuration)
         model = self.model
         if not self.model:
             model_id = configuration.model or self.model_id
@@ -312,15 +426,16 @@ class LLMImplementation(
             model = llm.get_model(model_id)
         response = model.prompt(text, system=system_prompt)
         logging.info(f"LLM response: {response}")
-        terms = json.loads(response.text())
+        terms = self._parse_response(response.text())
 
         grounder_configuration = TextAnnotationConfiguration(matches_whole_text=True)
         while terms:
             term_obj = terms.pop(0)
             term = term_obj["term"]
             category = term_obj["category"]
+            grounder_configuration.categories = [category]
             ann = TextAnnotation(subject_label=term, object_categories=[category])
-            matches = list(self.wrapped_adapter.annotate_text(term, grounder_configuration))
+            matches = list(self.annotate_text(term, grounder_configuration))
             if not matches:
                 aliases = self._suggest_aliases(
                     term, model, configuration.categories, configuration
@@ -354,22 +469,34 @@ class LLMImplementation(
                 ann.end = ann.start + len(term)
             yield ann
 
-    def _system_prompt(self, configuration: TextAnnotationConfiguration = None) -> str:
+    def _annotation_system_prompt(self, configuration: TextAnnotationConfiguration = None) -> str:
         categories = configuration.categories
-        prompt = "Perform named entity recognition on the text, returning a list of terms. "
-        prompt += "Terms can be compound containing multiple words. "
+        prompt = "Perform named entity recognition on the text, returning a list of terms.\n"
+        prompt += "Terms can be compound containing multiple words.\n"
+        prompt += "Try and match the longest term, but it's OK to also return duplicative shorter strings.\n"
         prompt += (
-            "Use noun phrases or terms representing entire concepts rather than multiple words. "
+            "Use noun phrases or terms representing entire concepts rather than multiple words. d\n"
         )
         if configuration.sources:
             prompt += (
-                f"Include terms that might be found in the following: {configuration.sources}. "
+                f"Include terms that might be found in the following: {configuration.sources}.\n"
             )
         if categories:
-            prompt += f"Include only terms that are of type {categories}. "
+            prompt += f"Include only terms that are of type {categories}.\n"
         prompt += """Return results as a JSON list:
-                     [{"term:" "term1", "category": "category1"}, ... ]"""
+                     [{"term:" <term1>, "category": <category1>}, ... ]"""
         return prompt
+
+    def _match_terms(self, text: str) -> Iterator[Tuple[str, float]]:
+        self._embed_terms()
+        collection = self._embeddings_collection
+        logger.info(f"Finding similar terms to {text}")
+        for entry in collection.similar(text):
+            logger.debug(f"Similar: {entry}")
+            yield entry.id, entry.score
+
+
+
 
     def _suggest_aliases(
         self,
@@ -701,7 +828,7 @@ class LLMImplementation(
     def _term2id(self, term: str, annotator: Optional[TextAnnotatorInterface] = None) -> CURIE:
         return self._term2ids(term, annotator)[0]
 
-    def pairwise_similarity(
+    def old__pairwise_similarity(
         self,
         subject: CURIE,
         object: CURIE,

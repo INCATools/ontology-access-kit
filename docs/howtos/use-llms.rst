@@ -66,6 +66,8 @@ LLM CLI tools such as the datasette ``llm`` tool pair naturally
 OAK LLM Adapter
 ---------------
 
+See also the `LLM Notebook <https://incatools.github.io/ontology-access-kit/examples/Adapters/LLM/LLM-Tutorial.html>`_.
+
 OAK provides a number of different adapters (implementations) for each of its interfaces.
 Some adapters provide direct access to an ontology or collection of ontologies; others act as *wrappers*
 onto another adapter, and inject additional functionality.
@@ -246,7 +248,7 @@ Then you can use the model in OAK:
 Mixtral via groq and LiteLLM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-`groq <https://groq.com/>` provides an API over souped-up hardware running Llama2 and Mixtral.
+`groq <https://groq.com/>`_ provides an API over souped-up hardware running Llama2 and Mixtral.
 You can configure in a similar way to ollama above, but here we are proxying to a remote server:
 
 . code-block:: bash

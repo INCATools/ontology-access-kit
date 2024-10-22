@@ -36,6 +36,7 @@ from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from pydantic import BaseModel
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
+from tornado.gen import multi
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
@@ -1288,6 +1289,11 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     "-C",
     help="path to config file. Conforms to https://w3id.org/oak/text-annotator",
 )
+@click.option(
+    "--category",
+    multiple=True,
+    help="Categories of entities to annotate. If not specified, all categories are annotated.",
+)
 @output_option
 @output_type_option
 def annotate(
@@ -1299,6 +1305,7 @@ def annotate(
     exclude_tokens: str,
     rules_file: str,
     configuration_file: str,
+    category: str,
     text_file: TextIO,
     match_column: str,
     model: str,
@@ -1388,6 +1395,8 @@ def annotate(
     if model:
         configuration.model = model
     configuration.include_aliases = include_aliases
+    if category:
+        configuration.categories = list(category)
     # if plugin_config:
     #     with open(plugin_config, "r") as p:
     #         configuration.plugin_configuration = yaml.safe_load(p)
