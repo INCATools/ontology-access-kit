@@ -23,17 +23,17 @@ URI: [OBI:9991118](http://purl.obolibrary.org/obo/OBI_9991118)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Image](Image.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 | [Class](Class.md) |  |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 
 

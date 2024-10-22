@@ -1,0 +1,168 @@
+{
+ "cells": [
+  {
+   "metadata": {},
+   "cell_type": "markdown",
+   "source": [
+    "# LLM Tutorial\n",
+    "\n",
+    "This walks through using OAK through an LLM wrapper.\n",
+    "\n",
+    "See also [How-to guide](https://incatools.github.io/ontology-access-kit/howtos/use-llms.html).\n",
+    "\n",
+    "Note for this to work, you must either install OAK with llm extras, or do a separate install\n",
+    "of `pipx install llm`.\n",
+    "\n",
+    "You will also need the API keys for an LLM service, or a proxy to a local model.\n",
+    "\n",
+    " "
+   ],
+   "id": "cf2572dda785deed"
+  },
+  {
+   "metadata": {},
+   "cell_type": "markdown",
+   "source": [
+    "## Annotate Command\n",
+    "\n",
+    "Note the first time you run this it may be slow, as it needs to perform an initial embedding.\n",
+    "\n",
+    "Here we use the standard OAK `annotate` command, but instead of the usual adapter (e.g. `sqlite:obo:cl`), we pass in a wrapped adapter, using the `gpt4-o` model.\n",
+    "\n",
+    "We strongly recommend passing in categories, as this helps the model ground the kinds of terms you are interested in."
+   ],
+   "id": "95ff062ec749f629"
+  },
+  {
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-10-22T02:00:12.384637Z",
+     "start_time": "2024-10-22T01:59:41.305531Z"
+    }
+   },
+   "cell_type": "code",
+   "source": "!runoak --stacktrace -i llm:{gpt-4o}:sqlite:obo:cl annotate \"sequencing was performed on splenic and thymic macrophages\" --category CellType \n",
+   "id": "8044c89577c9625",
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "object_id: CL:0000871\r\n",
+      "object_label: splenic macrophage\r\n",
+      "object_categories:\r\n",
+      "- CellType\r\n",
+      "subject_label: splenic macrophages\r\n",
+      "\r\n",
+      "---\r\n",
+      "object_id: CL:0000866\r\n",
+      "object_label: thymic macrophage\r\n",
+      "object_categories:\r\n",
+      "- CellType\r\n",
+      "subject_label: thymic macrophages\r\n",
+      "start: 40\r\n",
+      "end: 58\r\n"
+     ]
+    }
+   ],
+   "execution_count": 3
+  },
+  {
+   "metadata": {},
+   "cell_type": "markdown",
+   "source": [
+    "Currently the specific span coordinates are only returns for concepts that can be clearly mapped back to the text.\n",
+    "\n",
+    "You can also use the standard `--whole-text` (`-W`) option to match the entire text span, rather than to annotate segments:"
+   ],
+   "id": "a014e2a04badc986"
+  },
+  {
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-10-22T02:04:59.758809Z",
+     "start_time": "2024-10-22T02:04:43.271571Z"
+    }
+   },
+   "cell_type": "code",
+   "source": "!runoak --stacktrace -i llm:{gpt-4o}:sqlite:obo:cl annotate -W \"macrophage found in the thymus\" --category CellType ",
+   "id": "4cdcabaad7e6268e",
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "object_id: CL:0000866\r\n",
+      "object_label: thymic macrophage\r\n",
+      "subject_label: macrophage found in the thymus\r\n"
+     ]
+    }
+   ],
+   "execution_count": 6
+  },
+  {
+   "metadata": {},
+   "cell_type": "markdown",
+   "source": [
+    "## Suggesting Definitions\n",
+    "\n"
+   ],
+   "id": "7f06875f274fbd06"
+  },
+  {
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2024-10-22T02:02:45.880910Z",
+     "start_time": "2024-10-22T02:02:27.963766Z"
+    }
+   },
+   "cell_type": "code",
+   "source": [
+    "!runoak -i llm:sqlite:obo:uberon generate-definitions \\\n",
+    "     finger toe \\\n",
+    "     --style-hints \"write definitions in formal genus-differentia form\""
+   ],
+   "id": "3a9f92f9e258b301",
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "add definition 'A manual digit is a type of anatomical structure characterized as one of the distal appendages found on the human hand, distinct from those structures on other limbs, and is primarily comprised of phalanges, a metacarpal bone, and associated soft tissue.' to UBERON:0002389\r\n",
+      "add definition 'A pedal digit is a type of anatomical structure that is a subdivision of the limb and is specifically located at the distal end of the pes, commonly known as the foot, in vertebrates.' to UBERON:0001466\r\n"
+     ]
+    }
+   ],
+   "execution_count": 5
+  },
+  {
+   "metadata": {},
+   "cell_type": "code",
+   "outputs": [],
+   "execution_count": null,
+   "source": "",
+   "id": "3f64b6dc3ae0a288"
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
