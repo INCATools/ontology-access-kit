@@ -6,7 +6,7 @@ import logging
 import re
 import time
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple, Any
+from typing import TYPE_CHECKING, Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 import pystow
 from linkml_runtime.dumpers import yaml_dumper
@@ -236,7 +236,9 @@ class LLMImplementation(
     def _embeddings_collection_name(self) -> str:
         name = self.wrapped_adapter.resource.slug
         if not name:
-            raise ValueError(f"Wrapped adapter must have a slug: {self.wrapped_adapter} // {self.wrapped_adapter.resource}")
+            raise ValueError(
+                f"Wrapped adapter must have a slug: {self.wrapped_adapter} // {self.wrapped_adapter.resource}"
+            )
         return name
 
     def entities(self, **kwargs) -> Iterator[CURIE]:
@@ -281,7 +283,6 @@ class LLMImplementation(
                 json_str = json_str[4:].strip()
         return json.loads(json_str)
 
-
     def get_model(self):
         model = self.model
         if not self.model:
@@ -297,6 +298,7 @@ class LLMImplementation(
     def _embed_terms(self):
         import llm
         import sqlite_utils
+
         adapter = self.wrapped_adapter
         name = self._embeddings_collection_name
         path_to_db = pystow.join("oaklib", "llm", "embeddings")
@@ -308,14 +310,13 @@ class LLMImplementation(
 
     def _term_embedding(self, id: CURIE) -> Optional[tuple]:
         import llm
+
         db = self._embeddings_collection.db
         name = self._embeddings_collection_name
         collection_ids = list(db["collections"].rows_where("name = ?", (name,)))
         collection_id = collection_ids[0]["id"]
         matches = list(
-            db["embeddings"].rows_where(
-                "collection_id = ? and id = ?", (collection_id, id)
-            )
+            db["embeddings"].rows_where("collection_id = ? and id = ?", (collection_id, id))
         )
         if not matches:
             logger.debug(f"ID not found: {id} in {collection_id} ({name})")
@@ -324,18 +325,18 @@ class LLMImplementation(
         comparison_vector = llm.decode(embedding)
         return comparison_vector
 
-
     def pairwise_similarity(
-            self,
-            subject: CURIE,
-            object: CURIE,
-            predicates: List[PRED_CURIE] = None,
-            subject_ancestors: List[CURIE] = None,
-            object_ancestors: List[CURIE] = None,
-            min_jaccard_similarity: Optional[float] = None,
-            min_ancestor_information_content: Optional[float] = None,
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        subject_ancestors: List[CURIE] = None,
+        object_ancestors: List[CURIE] = None,
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
     ) -> Optional[TermPairwiseSimilarity]:
         import llm
+
         self._embed_terms()
         subject_embedding = self._term_embedding(subject)
         if not subject_embedding:
@@ -351,7 +352,9 @@ class LLMImplementation(
         )
         return sim
 
-    def _ground_term(self, term: str, categories: Optional[List[str]] = None) -> Optional[Tuple[str, float]]:
+    def _ground_term(
+        self, term: str, categories: Optional[List[str]] = None
+    ) -> Optional[Tuple[str, float]]:
         matches = list(self._match_terms(term))
         system = """
         Given a list of ontology terms, find the one that best matches the given term.
@@ -361,7 +364,7 @@ class LLMImplementation(
         - ANAT:002 pericardium
         Then a valid response is {"id": "ANAT:001", "confidence": 0.8}.
         """
-        prompt = f"Find the best match for the term: \"{term}\".\n"
+        prompt = f'Find the best match for the term: "{term}".\n'
         if categories:
             if len(categories) == 1:
                 prompt += f"Term Category: {categories[0]}.\n"
@@ -401,7 +404,11 @@ class LLMImplementation(
                 grounded, _confidence = self._ground_term(text, configuration.categories)
                 logger.info(f"Grounded {text} to {grounded}")
                 if grounded:
-                    yield TextAnnotation(subject_label=text, object_id=grounded, object_label=self.wrapped_adapter.label(grounded))
+                    yield TextAnnotation(
+                        subject_label=text,
+                        object_id=grounded,
+                        object_label=self.wrapped_adapter.label(grounded),
+                    )
                     return
             else:
                 logging.info("Delegating directly to grounder, bypassing LLM")
@@ -494,9 +501,6 @@ class LLMImplementation(
         for entry in collection.similar(text):
             logger.debug(f"Similar: {entry}")
             yield entry.id, entry.score
-
-
-
 
     def _suggest_aliases(
         self,

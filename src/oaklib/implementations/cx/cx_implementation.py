@@ -73,5 +73,3 @@ class CXImplementation(OboGraphImplementation):
             locator = path
             cx = ndex2.create_nice_cx_from_file(path)
         self.obograph_document = from_cx(cx)
-
-

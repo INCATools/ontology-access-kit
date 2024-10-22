@@ -36,7 +36,6 @@ from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from pydantic import BaseModel
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
-from tornado.gen import multi
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
