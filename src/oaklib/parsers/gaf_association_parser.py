@@ -46,10 +46,3 @@ class GafAssociationParser(XafAssociationParser):
     expected_object_prefixes = ["GO"]
 
     other_column_mappings = {}
-
-    def OLD__post_process(
-        self, association: Association
-    ) -> List[Union[Association, NegatedAssociation]]:
-        if association.predicate and "NOT" in association.predicate.lower():
-            return [NegatedAssociation(**association.__dict__)]
-        return super().post_process(association)
