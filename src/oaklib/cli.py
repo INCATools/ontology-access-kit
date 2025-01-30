@@ -6641,8 +6641,9 @@ def diff_via_mappings(
 @click.option("--missing-value-token", help="Populate all missing values with this token")
 @click.option(
     "--schema",
-    help=("Path to linkml schema. This is used to infer which fields " 
-          "are identifiers and which are dependent columns, e.g labels"),
+    help=("Path to linkml schema. "
+          "This is used to infer which fields are identifiers and which are dependent columns, e.g labels"
+          ),
 )
 @click.option(
     "--delimiter",
