@@ -7,3 +7,4 @@ Adapter Examples
    :maxdepth: 2
 
    Ubergraph/Ubergraph-Tutorial
+   LLM/LLM-Tutorial

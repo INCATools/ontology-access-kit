@@ -43,6 +43,17 @@ class CXImplementation(OboGraphImplementation):
     This currently ignores node and edge attributes, and is read only.
 
     In future it will be possible to edit graphs you own, e.g. via KGCL commands.
+
+    Command Line:
+
+    .. code-block:: bash
+
+        runoak -i ndexbio:0f019be9-1e5f-11e8-b939-0ac135e8bacf terms
+
+        runoak -i ndexbio:0f019be9-1e5f-11e8-b939-0ac135e8bacf viz .all
+
+        runoak -i ndexbio:0f019be9-1e5f-11e8-b939-0ac135e8bacf dump -O obo
+
     """
 
     engine: Any = None
@@ -50,9 +61,11 @@ class CXImplementation(OboGraphImplementation):
     def __post_init__(self):
         locator = str(self.resource.slug)
         logging.info(f"Locator: {locator}")
+        cx = None
         if locator.startswith("ndexbio:") or self.resource.scheme == "ndexbio":
             uuid = locator.replace("ndexbio:", "")
-            cx = ndex2.create_nice_cx_from_server(server="public.ndexbio.org", uuid=uuid)
+            if uuid:
+                cx = ndex2.create_nice_cx_from_server(server="public.ndexbio.org", uuid=uuid)
         else:
             path = Path(locator.replace("cx:", "")).absolute()
             if not path.exists():
