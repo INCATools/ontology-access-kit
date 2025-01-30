@@ -553,13 +553,13 @@ class SimpleOboImplementation(
     ) -> Iterator[RELATIONSHIP]:
         if invert:
             for s, p, o in self.relationships(
-                    subjects=objects,
-                    predicates=predicates,
-                    objects=subjects,
-                    include_tbox=include_tbox,
-                    include_abox=include_abox,
-                    include_entailed=include_entailed,
-                    exclude_blank=exclude_blank,
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
             ):
                 yield o, p, s
             return

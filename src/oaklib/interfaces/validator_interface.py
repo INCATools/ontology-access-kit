@@ -247,11 +247,11 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
                                 )
 
     def validate_relationships(
-            self,
-            subjects: Optional[Iterable[CURIE]] = None,
-            predicates: Optional[Iterable[CURIE]] = None,
-            objects: Optional[Iterable[CURIE]] = None,
-            configuration: ValidationConfiguration = None,
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Optional[Iterable[CURIE]] = None,
+        objects: Optional[Iterable[CURIE]] = None,
+        configuration: ValidationConfiguration = None,
     ):
         raise NotImplementedError
 

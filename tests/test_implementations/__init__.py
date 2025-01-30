@@ -17,7 +17,6 @@ from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
-from nltk.misc.chomsky import subjects
 from sssom.constants import OWL_EQUIVALENT_CLASS
 
 from oaklib import BasicOntologyInterface, get_adapter
@@ -74,8 +73,9 @@ from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import (
     Distance,
+    EdgeTemplate,
     OboGraphInterface,
-    TraversalConfiguration, EdgeTemplate,
+    TraversalConfiguration,
 )
 from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -99,7 +99,6 @@ from tests import (
     CYTOPLASM,
     CYTOPLASMIC_REGION,
     ENDOMEMBRANE_SYSTEM,
-    ENVELOPE,
     EUKARYOTA,
     FAKE_ID,
     FUNGI,
@@ -124,7 +123,6 @@ from tests import (
     NUCLEUS,
     OPISTHOKONTA,
     ORGANELLE,
-    ORGANELLE_ENVELOPE,
     ORGANELLE_MEMBRANE,
     PHENOTYPIC_ABNORMALITY,
     PHOTORECEPTOR_OUTER_SEGMENT,
@@ -642,10 +640,12 @@ class ComplianceTester:
             test.assertIn(triple, oi.relationships(subjects=[s], predicates=[p], objects=[o]))
             test.assertIn(triple, oi.relationships(predicates=[p], objects=[o]))
             inv_triple = o, p, s
-            test.assertIn(inv_triple, list(oi.relationships(objects=[s], predicates=[p], invert=True)))
-            test.assertIn(inv_triple, list(oi.relationships(subjects=[o], predicates=[p], invert=True)))
-
-
+            test.assertIn(
+                inv_triple, list(oi.relationships(objects=[s], predicates=[p], invert=True))
+            )
+            test.assertIn(
+                inv_triple, list(oi.relationships(subjects=[o], predicates=[p], invert=True))
+            )
 
     def test_entailed_relationships(self, oi: OboGraphInterface):
         """
@@ -681,7 +681,9 @@ class ComplianceTester:
                 objs_by_pred[p].add(o)
                 assert s == curie
             for p in preds:
-                test.assertCountEqual(expected[p], objs_by_pred[p], f"for {p} in {preds}, from {curie}")
+                test.assertCountEqual(
+                    expected[p], objs_by_pred[p], f"for {p} in {preds}, from {curie}"
+                )
 
     def test_rbox_relationships(self, oi: BasicOntologyInterface):
         """
@@ -851,29 +853,23 @@ class ComplianceTester:
         test = self.test
         cases = [
             # simple case
-            ([EdgeTemplate(predicates=[IS_A])],
-             [
-                 [(VACUOLE, IS_A, IMBO)]
-             ],
-             [
-                 [(IMBO, PART_OF, INTRACELLULAR)]
-             ]),
+            (
+                [EdgeTemplate(predicates=[IS_A])],
+                [[(VACUOLE, IS_A, IMBO)]],
+                [[(IMBO, PART_OF, INTRACELLULAR)]],
+            ),
             # chain of length 2
-            ([EdgeTemplate(predicates=[IS_A]), EdgeTemplate(predicates=[PART_OF])],
-             [
-                 [(VACUOLE, IS_A, IMBO), (IMBO, PART_OF, INTRACELLULAR)]
-             ],
-             [
-                 [(VACUOLE, IS_A, IMBO), (IMBO, IS_A, INTRACELLULAR_ORGANELLE)]
-             ]),
+            (
+                [EdgeTemplate(predicates=[IS_A]), EdgeTemplate(predicates=[PART_OF])],
+                [[(VACUOLE, IS_A, IMBO), (IMBO, PART_OF, INTRACELLULAR)]],
+                [[(VACUOLE, IS_A, IMBO), (IMBO, IS_A, INTRACELLULAR_ORGANELLE)]],
+            ),
             # chain with inverse
-            ([EdgeTemplate(predicates=[IS_A]), EdgeTemplate(predicates=[IS_A], inverted=True)],
-             [
-                 [(VACUOLE, IS_A, IMBO), (IMBO, IS_A, NUCLEUS)]  # last is inverted
-             ],
-             [
-                 [(VACUOLE, IS_A, IMBO), (IMBO, IS_A, INTRACELLULAR_ORGANELLE)]
-             ]),
+            (
+                [EdgeTemplate(predicates=[IS_A]), EdgeTemplate(predicates=[IS_A], inverted=True)],
+                [[(VACUOLE, IS_A, IMBO), (IMBO, IS_A, NUCLEUS)]],  # last is inverted
+                [[(VACUOLE, IS_A, IMBO), (IMBO, IS_A, INTRACELLULAR_ORGANELLE)]],
+            ),
         ]
 
         for chain_query, included, excluded in cases:
@@ -894,7 +890,6 @@ class ComplianceTester:
             if excluded is not None:
                 for x in excluded:
                     test.assertNotIn(x, tuples_chains)
-
 
     def test_synonym_types(self, oi: OboGraphInterface):
         """
@@ -1615,7 +1610,7 @@ class ComplianceTester:
         if original_oi:
             diffs = original_oi.diff(oi2)
             for diff in diffs:
-                kgcl_diff = render(diff)
+                _kgcl_diff = render(diff)
                 logging.info(diff)
                 change_obj = _as_json_dict_no_id(diff)
                 if "old_value" in change_obj and "new_value" in change_obj:
@@ -1631,10 +1626,12 @@ class ComplianceTester:
 
         # test change-from vs direct change
         grouped_changes = [
-            (f"change definition of {MEMBRANE} to 'D1'",
-             f"change definition of {MEMBRANE} from 'D1' to 'D2'",
-             f"change definition of {MEMBRANE} from 'NOT CURRENT' to 'D3'",
-             )]
+            (
+                f"change definition of {MEMBRANE} to 'D1'",
+                f"change definition of {MEMBRANE} from 'D1' to 'D2'",
+                f"change definition of {MEMBRANE} from 'NOT CURRENT' to 'D3'",
+            )
+        ]
         for d_kgcl, tr_kgcl, e_kgcl in grouped_changes:
             d_change = kgcl_parser.parse_statement(d_kgcl)
             tr_change = kgcl_parser.parse_statement(tr_kgcl)
@@ -1646,9 +1643,6 @@ class ComplianceTester:
             except ValueError as e:
                 # TODO: this is to be expected, but some implementations may not raise
                 logging.error(e)
-
-
-
 
     def test_patcher_obsoletion_chains(self, get_adapter_function: Callable):
         """
@@ -2567,5 +2561,3 @@ class ComplianceTester:
             test.assertCountEqual(results[0], expected_result[0])
             for idx, result in enumerate(results):
                 test.assertEqual(result, expected_result[idx])
-
-

@@ -289,7 +289,7 @@ class AmiGOImplementation(
                 subject=_normalize(doc[BIOENTITY]),
                 subject_label=doc[BIOENTITY_LABEL],
                 # predicate="",
-                negated = cls == NegatedAssociation,
+                negated=cls == NegatedAssociation,
                 object=doc[ANNOTATION_CLASS],
                 object_label=doc[ANNOTATION_CLASS_LABEL],
                 publications=doc[REFERENCE],

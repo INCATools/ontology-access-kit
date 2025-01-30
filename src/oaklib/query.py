@@ -8,7 +8,6 @@ import logging
 import re
 import secrets
 import sys
-from collections import defaultdict
 from enum import Enum
 from typing import IO, Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
@@ -41,7 +40,6 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces import (
     OboGraphInterface,
-    OntologyInterface,
     SearchInterface,
     SubsetterInterface,
 )
@@ -169,6 +167,7 @@ class FunctionQuery(Query):
     """
     A query component that is a function call.
     """
+
     function: Optional[FunctionEnum] = None
     parameters: Optional[Dict[str, Any]] = None
     argument: Optional[Union[str, Query, List[str]]] = None
@@ -823,7 +822,12 @@ def query_terms_iterator(
             if not isinstance(adapter, SemanticSimilarityInterface):
                 raise NotImplementedError
             chain_results(
-                {ca for _s, _o, ca in adapter.multiset_most_recent_common_ancestors(rest, predicates=this_predicates)}
+                {
+                    ca
+                    for _s, _o, ca in adapter.multiset_most_recent_common_ancestors(
+                        rest, predicates=this_predicates
+                    )
+                }
             )
             if yaml.safe_load(params.get("reflexive", "false")):
                 chain_results(rest)
@@ -967,6 +971,7 @@ def _process_predicates_arg(
             preds.extend(next_preds)
         else:
             preds.append(next_preds)
+
     def _expand(p: str):
         if ":" in p:
             return p
@@ -978,6 +983,7 @@ def _process_predicates_arg(
         if p_ids:
             return p_ids[0]
         return p
+
     preds = [_expand(p) for p in preds]
     if exclude_predicates_str:
         if "," in exclude_predicates_str:

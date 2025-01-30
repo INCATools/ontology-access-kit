@@ -1,0 +1,41 @@
+# curie_map:
+#   CARO: http://purl.obolibrary.org/obo/CARO_
+#   CL: http://purl.obolibrary.org/obo/CL_
+#   GO: http://purl.obolibrary.org/obo/GO_
+#   UBERON: http://purl.obolibrary.org/obo/UBERON_
+#   XAO: http://purl.obolibrary.org/obo/XAO_
+#   oio: http://www.geneontology.org/formats/oboInOwl#
+#   owl: http://www.w3.org/2002/07/owl#
+#   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+#   rdfs: http://www.w3.org/2000/01/rdf-schema#
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   sssom: https://w3id.org/sssom/
+# license: https://w3id.org/sssom/license/unspecified
+# mapping_set_id: temp
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_source	object_source	mapping_cardinality	comment
+XAO:0000054	trunk region	oio:hasDbXref	UBERON:0002100	trunk	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0000100	cardiovascular system	oio:hasDbXref	UBERON:0004535	cardiovascular system	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0000204	peripheral nerve	oio:hasDbXref	UBERON:0002003	obsolete peripheral nerve	semapv:UnspecifiedMatching	XAO	UBERON	1:1	object is obsolete
+XAO:0000227	eye primordium	oio:hasDbXref	UBERON:0003071	eye primordium	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0000282	visceral pouch	oio:hasDbXref	UBERON:0004117	pharyngeal pouch	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0000376	omphalomesenteric vein	oio:hasDbXref	UBERON:0005487	vitelline vein	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0000427	gasserian ganglion	oio:hasDbXref	UBERON:0001675	trigeminal ganglion	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0000428	trigeminal ganglion	oio:hasDbXref	UBERON:0001675	trigeminal ganglion	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0001010	circulatory system	oio:hasDbXref	UBERON:0004535	cardiovascular system	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0003001	anatomical group	oio:hasDbXref	CARO:0000054	anatomical group	semapv:UnspecifiedMatching	XAO	CARO	1:1	object is obsolete
+XAO:0003012	cell	oio:hasDbXref	GO:0005623	obsolete cell	semapv:UnspecifiedMatching	XAO	GO	1:1	object is obsolete
+XAO:0003025	trunk	oio:hasDbXref	UBERON:0002100	trunk	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0003160	anatomical cluster	oio:hasDbXref	CARO:0000041	anatomical cluster	semapv:UnspecifiedMatching	XAO	CARO	1:1	object is obsolete
+XAO:0003163	basal lamina	oio:hasDbXref	CARO:0000065	basal lamina	semapv:UnspecifiedMatching	XAO	CARO	1:1	object is obsolete
+XAO:0003257	myelin accumulating cell	oio:hasDbXref	CL:0000328	obsolete myelin accumulating cell	semapv:UnspecifiedMatching	XAO	CL	1:1	object is obsolete
+XAO:0004090	optic field	oio:hasDbXref	UBERON:0003071	eye primordium	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0004147	vitelline vein	oio:hasDbXref	UBERON:0005487	vitelline vein	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0004165	intersomitic artery	oio:hasDbXref	UBERON:0006001		semapv:UnspecifiedMatching	XAO	UBERON	1:1	object is obsolete
+XAO:0004260	pharyngeal pouch	oio:hasDbXref	UBERON:0004117	pharyngeal pouch	semapv:UnspecifiedMatching	XAO	UBERON	1:n	cardinality is 1:n
+XAO:0004290	cell part	oio:hasDbXref	GO:0044464	obsolete cell part	semapv:UnspecifiedMatching	XAO	GO	1:1	object is obsolete
+XAO:0004615	basal body	oio:hasDbXref	GO:0005932		semapv:UnspecifiedMatching	XAO	GO	1:1	object is obsolete
+XAO:0004621	epidermal cell	oio:hasDbXref	CL:1000396		semapv:UnspecifiedMatching	XAO	CL	1:1	object is obsolete
+XAO:0005007	Muller cell	oio:hasDbXref	CL:0011107	obsolete Muller cell	semapv:UnspecifiedMatching	XAO	CL	1:1	object is obsolete
+XAO:1000007	tailbud stage	oio:hasDbXref	UBERON:0009741	obsolete tailbud stage	semapv:UnspecifiedMatching	XAO	UBERON	1:1	object is obsolete
+

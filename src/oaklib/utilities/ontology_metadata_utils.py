@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from oaklib import get_adapter, BasicOntologyInterface
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.vocabulary import RDFS_LABEL
 
 LICENSE_NAME_TO_URL_PREFIX = {
@@ -79,7 +79,7 @@ def map_license_url_to_name(url: str) -> str:
     else:
         version = None
         stem = url
-    for name, (this_stem, this_version) in LICENSE_NAME_TO_URL_PREFIX.items():
+    for name, (this_stem, _this_version) in LICENSE_NAME_TO_URL_PREFIX.items():
         if stem == this_stem:
             return name + "-" + version if version else name
     return url
@@ -89,7 +89,7 @@ def normalize_url(url: str, ensure_https=True) -> str:
     if url.startswith("<"):
         url = url[1:-1]
     if ensure_https and url.startswith("http://"):
-        url = "https://" + url[len("http://"):]
+        url = "https://" + url[len("http://") :]
     return url
 
 
@@ -104,6 +104,7 @@ class Person(BaseModel):
     email: Optional[str] = None
     label: Optional[str] = None
 
+
 def person_by_orcid(id: str, additional_metadata: dict = None) -> Optional[Person]:
     id = normalize_url(id)
     if id[0].isdigit():
@@ -116,11 +117,13 @@ def person_by_orcid(id: str, additional_metadata: dict = None) -> Optional[Perso
     metadata = adapter.entity_metadata_map(id)
     if not metadata:
         metadata = {}
+
     def _get(k: str) -> Optional[str]:
         v = metadata.get(k, [])
         if v:
             return v[0]
         return None
+
     d = {
         "orcid": id.replace("orcid:", ""),
         "github": _get("github"),
@@ -132,5 +135,3 @@ def person_by_orcid(id: str, additional_metadata: dict = None) -> Optional[Perso
         if x:
             d.update(x)
     return Person(**d)
-
-

@@ -82,7 +82,6 @@ class EdgeTemplate:
     entailed: bool = field(default=False)
 
 
-
 class OboGraphInterface(BasicOntologyInterface, ABC):
     """
     an interface that provides an Object Oriented view of an ontology, following the OBO Graph Datamodel
@@ -112,7 +111,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         self.transitive_query_cache = None
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> Optional[Node]:
+    def node(
+        self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
+    ) -> Optional[Node]:
         """
         Look up a node object by CURIE
 
@@ -569,13 +570,14 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             for intermediate in intermediates:
                 yield s, o, intermediate
 
-    def chains(self,
-               edge_templates: List[EdgeTemplate],
-               start_nodes: Optional[List[CURIE]] = None,
-               exclude_nodes: Optional[List[CURIE]] = None,
-               allow_cycles = False,
-               **kwargs,
-               ) -> Iterator[List[Edge]]:
+    def chains(
+        self,
+        edge_templates: List[EdgeTemplate],
+        start_nodes: Optional[List[CURIE]] = None,
+        exclude_nodes: Optional[List[CURIE]] = None,
+        allow_cycles=False,
+        **kwargs,
+    ) -> Iterator[List[Edge]]:
         if not edge_templates:
             yield []
             return
@@ -614,8 +616,6 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             # print(f".. Rest={rest} exclude={exclude_nodes} start={e.obj} // {rel}")
             for chain in self.chains(rest, start_nodes=[e.obj], exclude_nodes=new_exclude_nodes):
                 yield [e] + chain
-
-
 
     def logical_definitions(
         self,

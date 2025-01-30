@@ -1,0 +1,21 @@
+filler	filler_label	phalanx	phalanx_label	proximal_phalanx	proximal_phalanx_label	middle_phalanx	middle_phalanx_label	distal_phalanx	distal_phalanx_label	bone_element	bone_element_label
+UBERON:0002387	pes	UBERON:0001449	phalanx of pes								
+UBERON:0009563	pastern region of limb	UBERON:0009558	pastern bone								
+UBERON:0002389	manual digit	UBERON:0001436	phalanx of manus	UBERON:0002234	proximal phalanx of manus	UBERON:0003864	middle phalanx of manus	UBERON:0003865	distal phalanx of manus	UBERON:0004249	manual digit bone
+UBERON:0003622	manual digit 2	UBERON:0003636	manual digit 2 phalanx	UBERON:0004328	proximal phalanx of manual digit 2	UBERON:0004320	middle phalanx of manual digit 2	UBERON:0004311	distal phalanx of manual digit 2		
+UBERON:0003623	manual digit 3	UBERON:0003637	manual digit 3 phalanx	UBERON:0004329	proximal phalanx of manual digit 3	UBERON:0004321	middle phalanx of manual digit 3	UBERON:0004312	distal phalanx of manual digit 3		
+UBERON:0003624	manual digit 4	UBERON:0003638	manual digit 4 phalanx	UBERON:0004330	proximal phalanx of manual digit 4	UBERON:0004322	middle phalanx of manual digit 4	UBERON:0004313	distal phalanx of manual digit 4		
+UBERON:0001463	manual digit 1	UBERON:0003620	manual digit 1 phalanx	UBERON:0004338	proximal phalanx of manual digit 1			UBERON:0004337	distal phalanx of manual digit 1		
+UBERON:0003625	manual digit 5	UBERON:0003639	manual digit 5 phalanx	UBERON:0004331	proximal phalanx of manual digit 5	UBERON:0004323	middle phalanx of manual digit 5	UBERON:0004314	distal phalanx of manual digit 5		
+UBERON:0001466	pedal digit			UBERON:0003868	proximal phalanx of pes	UBERON:0003866	middle phalanx of pes	UBERON:0003867	distal phalanx of pes	UBERON:0004248	pedal digit bone
+UBERON:0003632	pedal digit 2	UBERON:0003641	pedal digit 2 phalanx	UBERON:0004333	proximal phalanx of pedal digit 2	UBERON:0004324	middle phalanx of pedal digit 2	UBERON:0004316	distal phalanx of pedal digit 2		
+UBERON:0003633	pedal digit 3	UBERON:0003642	pedal digit 3 phalanx	UBERON:0004334	proximal phalanx of pedal digit 3	UBERON:0004325	middle phalanx of pedal digit 3	UBERON:0004317	distal phalanx of pedal digit 3		
+UBERON:0003634	pedal digit 4	UBERON:0003862	pedal digit 4 phalanx	UBERON:0004335	proximal phalanx of pedal digit 4	UBERON:0004326	middle phalanx of pedal digit 4	UBERON:0004318	distal phalanx of pedal digit 4		
+UBERON:0003631	pedal digit 1	UBERON:0003640	pedal digit 1 phalanx	UBERON:0004332	proximal phalanx of pedal digit 1			UBERON:0004315	distal phalanx of pedal digit 1		
+UBERON:0003635	pedal digit 5	UBERON:0003863	pedal digit 5 phalanx	UBERON:0004336	proximal phalanx of pedal digit 5	UBERON:0004327	middle phalanx of pedal digit 5	UBERON:0004319	distal phalanx of pedal digit 5		
+UBERON:0012137	pedal digit 7	UBERON:4100009	pedal digit 7 phalanx								
+UBERON:0006049	digit 2			UBERON:0014502	proximal phalanx of digit 2	UBERON:0014488	middle phalanx of digit 2	UBERON:0014484	distal phalanx of digit 2		
+UBERON:0006050	digit 3			UBERON:0014503	proximal phalanx of digit 3	UBERON:0014489	middle phalanx of digit 3	UBERON:0014485	distal phalanx of digit 3		
+UBERON:0006051	digit 4			UBERON:0014504	proximal phalanx of digit 4	UBERON:0014490	middle phalanx of digit 4	UBERON:0014486	distal phalanx of digit 4		
+UBERON:0006048	digit 1			UBERON:0014501	proximal phalanx of digit 1			UBERON:0014483	distal phalanx of digit 1		
+UBERON:0006052	digit 5			UBERON:0014505	proximal phalanx of digit 5	UBERON:0014491	middle phalanx of digit 5	UBERON:0014487	distal phalanx of digit 5		

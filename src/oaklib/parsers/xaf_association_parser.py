@@ -196,7 +196,9 @@ class XafAssociationParser(AssociationParser):
                         is_negated = True
                     else:
                         if p:
-                            raise ValueError(f"Unexpected predicate {candidate} for {p} in line: {line}")
+                            raise ValueError(
+                                f"Unexpected predicate {candidate} for {p} in line: {line}"
+                            )
                         p = candidate
             if not p:
                 p = self.default_predicate_value

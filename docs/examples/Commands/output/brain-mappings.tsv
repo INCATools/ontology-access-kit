@@ -1,0 +1,85 @@
+# curie_map:
+#   AAO: http://purl.obolibrary.org/obo/AAO_
+#   ABA: http://w3id.org/sssom/unknown_prefix/aba/
+#   BAMS: http://w3id.org/sssom/unknown_prefix/bams/
+#   BILA: http://purl.obolibrary.org/obo/BILA_
+#   BIRNLEX: http://w3id.org/sssom/unknown_prefix/birnlex/
+#   BTO: http://purl.obolibrary.org/obo/BTO_
+#   CALOHA: http://w3id.org/sssom/unknown_prefix/caloha/
+#   DHBA: http://w3id.org/sssom/unknown_prefix/dhba/
+#   EFO: http://www.ebi.ac.uk/efo/EFO_
+#   EHDAA: http://purl.obolibrary.org/obo/EHDAA_
+#   EHDAA2: http://purl.obolibrary.org/obo/EHDAA2_
+#   EMAPA: http://purl.obolibrary.org/obo/EMAPA_
+#   EV: http://purl.obolibrary.org/obo/EV_
+#   FBbt: http://purl.obolibrary.org/obo/FBbt_
+#   FMA: http://purl.obolibrary.org/obo/FMA_
+#   GAID: http://w3id.org/sssom/unknown_prefix/gaid/
+#   HBA: http://w3id.org/sssom/unknown_prefix/hba/
+#   MA: http://purl.obolibrary.org/obo/MA_
+#   MAT: http://purl.obolibrary.org/obo/MAT_
+#   MBA: http://w3id.org/sssom/unknown_prefix/mba/
+#   MESH: http://id.nlm.nih.gov/mesh/
+#   MIAA: http://w3id.org/sssom/unknown_prefix/miaa/
+#   NCIT: http://purl.obolibrary.org/obo/NCIT_
+#   PBA: http://w3id.org/sssom/unknown_prefix/pba/
+#   SCTID: http://w3id.org/sssom/unknown_prefix/sctid/
+#   TAO: http://purl.obolibrary.org/obo/TAO_
+#   UBERON: http://purl.obolibrary.org/obo/UBERON_
+#   UMLS: http://w3id.org/sssom/unknown_prefix/umls/
+#   VHOG: http://purl.obolibrary.org/obo/VHOG_
+#   Wikipedia: http://w3id.org/sssom/unknown_prefix/wikipedia/
+#   XAO: http://purl.obolibrary.org/obo/XAO_
+#   ZFA: http://purl.obolibrary.org/obo/ZFA_
+#   _: http://w3id.org/sssom/unknown_prefix/_/
+#   galen: http://w3id.org/sssom/unknown_prefix/galen/
+#   neuronames: http://w3id.org/sssom/unknown_prefix/neuronames/
+#   oio: http://www.geneontology.org/formats/oboInOwl#
+#   owl: http://www.w3.org/2002/07/owl#
+#   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+#   rdfs: http://www.w3.org/2000/01/rdf-schema#
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   sssom: https://w3id.org/sssom/
+# license: https://w3id.org/sssom/license/unspecified
+# mapping_set_id: https://w3id.org/sssom/mappings/e89e6f97-28ed-4a64-b2a0-8468d2bd2c86
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_source	object_source
+UBERON:0000955	brain	oio:hasDbXref	AAO:0010478		semapv:UnspecifiedMatching	UBERON	AAO
+UBERON:0000955	brain	oio:hasDbXref	ABA:Brain		semapv:UnspecifiedMatching	UBERON	ABA
+UBERON:0000955	brain	oio:hasDbXref	BAMS:Br		semapv:UnspecifiedMatching	UBERON	BAMS
+UBERON:0000955	brain	oio:hasDbXref	BAMS:Brain		semapv:UnspecifiedMatching	UBERON	BAMS
+UBERON:0000955	brain	oio:hasDbXref	BILA:0000135		semapv:UnspecifiedMatching	UBERON	BILA
+UBERON:0000955	brain	oio:hasDbXref	BIRNLEX:796		semapv:UnspecifiedMatching	UBERON	BIRNLEX
+UBERON:0000955	brain	oio:hasDbXref	BTO:0000142		semapv:UnspecifiedMatching	UBERON	BTO
+UBERON:0000955	brain	oio:hasDbXref	CALOHA:TS-0095		semapv:UnspecifiedMatching	UBERON	CALOHA
+UBERON:0000955	brain	oio:hasDbXref	DHBA:10155		semapv:UnspecifiedMatching	UBERON	DHBA
+UBERON:0000955	brain	oio:hasDbXref	EFO:0000302		semapv:UnspecifiedMatching	UBERON	EFO
+UBERON:0000955	brain	oio:hasDbXref	EHDAA2:0000183		semapv:UnspecifiedMatching	UBERON	EHDAA2
+UBERON:0000955	brain	oio:hasDbXref	EHDAA:2641		semapv:UnspecifiedMatching	UBERON	EHDAA
+UBERON:0000955	brain	oio:hasDbXref	EHDAA:6485		semapv:UnspecifiedMatching	UBERON	EHDAA
+UBERON:0000955	brain	oio:hasDbXref	EMAPA:16894		semapv:UnspecifiedMatching	UBERON	EMAPA
+UBERON:0000955	brain	oio:hasDbXref	EV:0100164		semapv:UnspecifiedMatching	UBERON	EV
+UBERON:0000955	brain	oio:hasDbXref	FBbt:00005095		semapv:UnspecifiedMatching	UBERON	FBbt
+UBERON:0000955	brain	oio:hasDbXref	FMA:50801		semapv:UnspecifiedMatching	UBERON	FMA
+UBERON:0000955	brain	oio:hasDbXref	GAID:571		semapv:UnspecifiedMatching	UBERON	GAID
+UBERON:0000955	brain	oio:hasDbXref	HBA:4005		semapv:UnspecifiedMatching	UBERON	HBA
+UBERON:0000955	brain	oio:hasDbXref	MA:0000168		semapv:UnspecifiedMatching	UBERON	MA
+UBERON:0000955	brain	oio:hasDbXref	MAT:0000098		semapv:UnspecifiedMatching	UBERON	MAT
+UBERON:0000955	brain	oio:hasDbXref	MBA:8		semapv:UnspecifiedMatching	UBERON	MBA
+UBERON:0000955	brain	oio:hasDbXref	MBA:997		semapv:UnspecifiedMatching	UBERON	MBA
+UBERON:0000955	brain	oio:hasDbXref	MESH:D001921		semapv:UnspecifiedMatching	UBERON	MESH
+UBERON:0000955	brain	oio:hasDbXref	MIAA:0000098		semapv:UnspecifiedMatching	UBERON	MIAA
+UBERON:0000955	brain	oio:hasDbXref	NCIT:C12439		semapv:UnspecifiedMatching	UBERON	NCIT
+UBERON:0000955	brain	oio:hasDbXref	PBA:3999		semapv:UnspecifiedMatching	UBERON	PBA
+UBERON:0000955	brain	oio:hasDbXref	SCTID:258335003		semapv:UnspecifiedMatching	UBERON	SCTID
+UBERON:0000955	brain	oio:hasDbXref	TAO:0000008		semapv:UnspecifiedMatching	UBERON	TAO
+UBERON:0000955	brain	oio:hasDbXref	UMLS:C0006104		semapv:UnspecifiedMatching	UBERON	UMLS
+UBERON:0000955	brain	oio:hasDbXref	UMLS:C1269537		semapv:UnspecifiedMatching	UBERON	UMLS
+UBERON:0000955	brain	oio:hasDbXref	VHOG:0000157		semapv:UnspecifiedMatching	UBERON	VHOG
+UBERON:0000955	brain	oio:hasDbXref	Wikipedia:Brain		semapv:UnspecifiedMatching	UBERON	Wikipedia
+UBERON:0000955	brain	oio:hasDbXref	XAO:0000010		semapv:UnspecifiedMatching	UBERON	XAO
+UBERON:0000955	brain	oio:hasDbXref	ZFA:0000008		semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000955	brain	oio:hasDbXref	galen:Brain		semapv:UnspecifiedMatching	UBERON	galen
+UBERON:0000955	brain	oio:hasDbXref	neuronames:21		semapv:UnspecifiedMatching	UBERON	neuronames
+_:riog00027434		oio:hasDbXref	UBERON:0000955	brain	semapv:UnspecifiedMatching	_	UBERON
+

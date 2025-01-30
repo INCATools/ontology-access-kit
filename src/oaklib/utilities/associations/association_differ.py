@@ -2,7 +2,7 @@ import logging
 from collections import defaultdict
 from copy import copy
 from dataclasses import dataclass, field
-from typing import Collection, Iterator, List, Mapping, Set, Tuple, Optional, Dict
+from typing import Collection, Dict, Iterator, List, Mapping, Optional, Set, Tuple
 
 from oaklib.datamodels.association import Association, AssociationChange
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
@@ -20,6 +20,7 @@ class AssociationDiff:
     set1_terms: List[CURIE] = None
     set2_terms: List[CURIE] = None
 
+
 @dataclass
 class TermComparison:
     """
@@ -27,6 +28,7 @@ class TermComparison:
 
     Holds two indexes, both keyed by entity (e.g. gene), with values being lists of associations.
     """
+
     term_id: CURIE
     old_associations_by_entity: Mapping[CURIE, List[Association]]
     new_associations_by_entity: Mapping[CURIE, List[Association]]
@@ -105,8 +107,10 @@ class AssociationDiffer:
         # entities/subjects (e.g. genes)
         entities1 = set(subject_map1.keys())
         entities2 = set(subject_map2.keys())
-        logging.info(f"Comparing {len(entities1)} old subjects with {len(entities2)} new subjects; "
-                     f"Predicates: {predicates}")
+        logging.info(
+            f"Comparing {len(entities1)} old subjects with {len(entities2)} new subjects; "
+            f"Predicates: {predicates}"
+        )
 
         def _count_closure(o: CURIE, bg: Collection[CURIE]) -> int:
             if o in bg:
@@ -379,11 +383,11 @@ class AssociationDiffer:
         return self._obsoletion_map
 
     def index_by_term(
-            self,
-            assocs: List[Association],
-            ontology_predicates: Optional[List[PRED_CURIE]] = None,
-            cache: Optional[Mapping[CURIE, Set[CURIE]]] = None,
-                      ) -> Mapping[CURIE, Mapping[CURIE, List[Association]]]:
+        self,
+        assocs: List[Association],
+        ontology_predicates: Optional[List[PRED_CURIE]] = None,
+        cache: Optional[Mapping[CURIE, Set[CURIE]]] = None,
+    ) -> Mapping[CURIE, Mapping[CURIE, List[Association]]]:
         ix = defaultdict(dict)
         if cache is None:
             cache = {}
@@ -393,7 +397,9 @@ class AssociationDiffer:
             if a.negated:
                 continue
             if a.object not in cache:
-                cache[a.object] = set(self.adapter.ancestors([a.object], predicates=ontology_predicates))
+                cache[a.object] = set(
+                    self.adapter.ancestors([a.object], predicates=ontology_predicates)
+                )
             for o in cache[a.object]:
                 ix_for_o = ix[o]
                 if a.subject not in ix_for_o:
@@ -402,17 +408,17 @@ class AssociationDiffer:
         return ix
 
     def changes_by_terms(
-            self,
-            assocs1: List[Association],
-            assocs2: List[Association],
-            ontology_predicates: Optional[List[PRED_CURIE]] = None,
-            cache = None,
-            minimum_new_entities = 1,
-            minimum_old_entities = 1,
-            maximum_new_entities = None,
-            maximum_old_entities = None,
-            min_num_entities_changes = 0,
-                        ) -> Dict[CURIE, TermComparison]:
+        self,
+        assocs1: List[Association],
+        assocs2: List[Association],
+        ontology_predicates: Optional[List[PRED_CURIE]] = None,
+        cache=None,
+        minimum_new_entities=1,
+        minimum_old_entities=1,
+        maximum_new_entities=None,
+        maximum_old_entities=None,
+        min_num_entities_changes=0,
+    ) -> Dict[CURIE, TermComparison]:
         """
         Finds all changes by term.
 
@@ -444,8 +450,14 @@ class AssociationDiffer:
                 continue
             old_associations_by_entity = ix1.get(term, [])
             new_associations_by_entity = ix2.get(term, [])
-            all_genes = set(old_associations_by_entity.keys()).union(new_associations_by_entity.keys())
-            gene_id_diff = len(all_genes) - len(set(old_associations_by_entity.keys()).intersection(new_associations_by_entity.keys()))
+            all_genes = set(old_associations_by_entity.keys()).union(
+                new_associations_by_entity.keys()
+            )
+            gene_id_diff = len(all_genes) - len(
+                set(old_associations_by_entity.keys()).intersection(
+                    new_associations_by_entity.keys()
+                )
+            )
             if min_num_entities_changes and gene_id_diff < min_num_entities_changes:
                 continue
             changes_by_term[term] = TermComparison(
@@ -454,6 +466,3 @@ class AssociationDiffer:
                 new_associations_by_entity=new_associations_by_entity,
             )
         return changes_by_term
-
-
-

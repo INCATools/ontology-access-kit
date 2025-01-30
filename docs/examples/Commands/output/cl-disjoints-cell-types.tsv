@@ -1,0 +1,41 @@
+classIds	classIds_label	unionEquivalentTo	unionEquivalentToExpression	classExpressionPropertyIds	classExpressionFillerIds
+CL:0000000|GO:0043226	cell|organelle	None	None		
+CL:0000000|GO:0032991	cell|protein-containing complex	None	None		
+CL:0000000|GO:0031012	cell|extracellular matrix	None	None		
+CL:0000039|CL:0002371	germ line cell|somatic cell	None	None		
+CL:0000049|CL:0000557	common myeloid progenitor|granulocyte monocyte progenitor cell	None	None		
+CL:0000049|CL:0000051	common myeloid progenitor|common lymphoid progenitor	None	None		
+CL:0000049|CL:0000050	common myeloid progenitor|megakaryocyte-erythroid progenitor cell	None	None		
+CL:0000050|CL:0002009	megakaryocyte-erythroid progenitor cell|macrophage dendritic cell progenitor	None	None		
+CL:0000050|CL:0000557	megakaryocyte-erythroid progenitor cell|granulocyte monocyte progenitor cell	None	None		
+CL:0000066|CL:0000738	epithelial cell|leukocyte	None	None		
+CL:0000084|CL:0000945	T cell|lymphocyte of B lineage	None	None		
+CL:0000225|CL:0002242	anucleate cell|nucleate cell	None	None		
+CL:0000255|CL:0000520	eukaryotic cell|prokaryotic cell	None	None		
+CL:0000451|CL:0000542	dendritic cell|lymphocyte	None	None		
+CL:0000521|CL:0000548	fungal cell|animal cell	None	None		
+CL:0000542|CL:0000766	lymphocyte|myeloid leukocyte	None	None		
+CL:0000556|CL:0000764	megakaryocyte|erythroid lineage cell	None	None		
+CL:0000624|CL:0000625	CD4-positive, alpha-beta T cell|CD8-positive, alpha-beta T cell	None	None		
+CL:0000737|CL:0008000	striated muscle cell|non-striated muscle cell	None	None		
+CL:0000785|CL:0000818	mature B cell|transitional stage B cell	None	None		
+CL:0000785|CL:0000817	mature B cell|precursor B cell	None	None		
+CL:0000785|CL:0000816	mature B cell|immature B cell	None	None		
+CL:0000789|CL:0000798	alpha-beta T cell|gamma-delta T cell	None	None		
+CL:0000813|CL:0000898	memory T cell|naive T cell	None	None		
+CL:0000817|CL:0000826	precursor B cell|pro-B cell	None	None		
+CL:0000823|CL:0000937	immature natural killer cell|pre-natural killer cell	None	None		
+CL:0000823|CL:0000824	immature natural killer cell|mature natural killer cell	None	None		
+CL:0000837|CL:0002032	hematopoietic multipotent progenitor cell|hematopoietic oligopotent progenitor cell	None	None		
+CL:0000838|CL:0000839	lymphoid lineage restricted progenitor cell|myeloid lineage restricted progenitor cell	None	None		
+CL:0000851|CL:0000855	neuromast mantle cell|sensory hair cell	None	None		
+CL:0000852|CL:0000855	neuromast supporting cell|sensory hair cell	None	None		
+CL:0000955|CL:0000956	pre-B-II cell|pre-B-I cell	None	None		
+CL:0001008|CL:0001024	Kit and Sca1-positive hematopoietic stem cell|CD34-positive, CD38-negative hematopoietic stem cell	None	None		
+CL:0001021|CL:0001025	CD34-positive, CD38-positive common lymphoid progenitor|Kit-positive, Sca1-positive common lymphoid progenitor	None	None		
+CL:0001023|CL:0001026	Kit-positive, CD34-positive common myeloid progenitor|CD34-positive, CD38-positive common myeloid progenitor	None	None		
+CL:0002031|CL:0002032	hematopoietic lineage restricted progenitor cell|hematopoietic oligopotent progenitor cell	None	None		
+CL:0002036|CL:0002043	Slamf1-positive multipotent progenitor cell|CD34-positive, CD38-negative multipotent progenitor cell	None	None		
+CL:0008011|CL:0008020	skeletal muscle satellite stem cell|skeletal muscle satellite myogenic cell	None	None		
+CL:0008046|CL:0008047	extrafusal muscle fiber|intrafusal muscle fiber	None	None		
+_:riog00151338		None	None		

@@ -1,0 +1,66 @@
+classIds	classIds_label	unionEquivalentTo	unionEquivalentToExpression	classExpressionPropertyIds	classExpressionFillerIds
+ZFA:0000170|ZFA:0000658	basibranchial|epibranchial bone	None	None		
+ZFA:0000442|ZFA:0000658	supraneural|epibranchial bone	None	None		
+ZFA:0000442|ZFA:0000170	supraneural|basibranchial	None	None		
+ZFA:0001066|ZFA:0000658	neural arch|epibranchial bone	None	None		
+ZFA:0001066|ZFA:0000170	neural arch|basibranchial	None	None		
+ZFA:0001066|ZFA:0000442	neural arch|supraneural	None	None		
+ZFA:0000859|ZFA:0000658	specialized hemal arch and spine|epibranchial bone	None	None		
+ZFA:0000859|ZFA:0000170	specialized hemal arch and spine|basibranchial	None	None		
+ZFA:0000859|ZFA:0000442	specialized hemal arch and spine|supraneural	None	None		
+ZFA:0000859|ZFA:0001066	specialized hemal arch and spine|neural arch	None	None		
+ZFA:0000488|ZFA:0000658	ceratobranchial bone|epibranchial bone	None	None		
+ZFA:0000488|ZFA:0000170	ceratobranchial bone|basibranchial	None	None		
+ZFA:0000488|ZFA:0000442	ceratobranchial bone|supraneural	None	None		
+ZFA:0000488|ZFA:0001066	ceratobranchial bone|neural arch	None	None		
+ZFA:0000488|ZFA:0000859	ceratobranchial bone|specialized hemal arch and spine	None	None		
+ZFA:0000538|ZFA:0000658	rib|epibranchial bone	None	None		
+ZFA:0000538|ZFA:0000170	rib|basibranchial	None	None		
+ZFA:0000538|ZFA:0000442	rib|supraneural	None	None		
+ZFA:0000538|ZFA:0001066	rib|neural arch	None	None		
+ZFA:0000538|ZFA:0000859	rib|specialized hemal arch and spine	None	None		
+ZFA:0000538|ZFA:0000488	rib|ceratobranchial bone	None	None		
+ZFA:0000363|ZFA:0000658	hypobranchial bone|epibranchial bone	None	None		
+ZFA:0000363|ZFA:0000170	hypobranchial bone|basibranchial	None	None		
+ZFA:0000363|ZFA:0000442	hypobranchial bone|supraneural	None	None		
+ZFA:0000363|ZFA:0001066	hypobranchial bone|neural arch	None	None		
+ZFA:0000363|ZFA:0000859	hypobranchial bone|specialized hemal arch and spine	None	None		
+ZFA:0000363|ZFA:0000488	hypobranchial bone|ceratobranchial bone	None	None		
+ZFA:0000363|ZFA:0000538	hypobranchial bone|rib	None	None		
+ZFA:0001189|ZFA:0000658	vertebra|epibranchial bone	None	None		
+ZFA:0001189|ZFA:0000170	vertebra|basibranchial	None	None		
+ZFA:0001189|ZFA:0000442	vertebra|supraneural	None	None		
+ZFA:0001189|ZFA:0001066	vertebra|neural arch	None	None		
+ZFA:0001189|ZFA:0000859	vertebra|specialized hemal arch and spine	None	None		
+ZFA:0001189|ZFA:0000488	vertebra|ceratobranchial bone	None	None		
+ZFA:0001189|ZFA:0000538	vertebra|rib	None	None		
+ZFA:0001189|ZFA:0000363	vertebra|hypobranchial bone	None	None		
+ZFA:0000271|ZFA:0000658	radial|epibranchial bone	None	None		
+ZFA:0000271|ZFA:0000170	radial|basibranchial	None	None		
+ZFA:0000271|ZFA:0000442	radial|supraneural	None	None		
+ZFA:0000271|ZFA:0001066	radial|neural arch	None	None		
+ZFA:0000271|ZFA:0000859	radial|specialized hemal arch and spine	None	None		
+ZFA:0000271|ZFA:0000488	radial|ceratobranchial bone	None	None		
+ZFA:0000271|ZFA:0000538	radial|rib	None	None		
+ZFA:0000271|ZFA:0000363	radial|hypobranchial bone	None	None		
+ZFA:0000271|ZFA:0001189	radial|vertebra	None	None		
+ZFA:0001586|ZFA:0001647	pectoral fin radial|dorsal fin radial	None	None		
+ZFA:0000508|ZFA:0001647	pelvic radial|dorsal fin radial	None	None		
+ZFA:0000508|ZFA:0001586	pelvic radial|pectoral fin radial	None	None		
+ZFA:0000947|ZFA:0000936	dorsal fin proximal radial|dorsal fin distal radial	None	None		
+ZFA:0000263|ZFA:0000326	precaudal vertebra|caudal vertebra	None	None		
+ZFA:0001582|ZFA:0001190	non-Weberian precaudal vertebra|Weberian vertebra	None	None		
+ZFA:0001590|ZFA:0001636	dermal bone|membrane bone	None	None		
+ZFA:0001554|ZFA:0000376	lepidotrichium|infraorbital	None	None		
+ZFA:0000476|ZFA:0000376	branchiostegal ray|infraorbital	None	None		
+ZFA:0000476|ZFA:0001554	branchiostegal ray|lepidotrichium	None	None		
+ZFA:0001550|ZFA:0001552	caudal fin lepidotrichium|pelvic fin lepidotrichium	None	None		
+ZFA:0001551|ZFA:0001552	pectoral fin lepidotrichium|pelvic fin lepidotrichium	None	None		
+ZFA:0001551|ZFA:0001550	pectoral fin lepidotrichium|caudal fin lepidotrichium	None	None		
+ZFA:0001418|ZFA:0001552	dorsal fin lepidotrichium|pelvic fin lepidotrichium	None	None		
+ZFA:0001418|ZFA:0001550	dorsal fin lepidotrichium|caudal fin lepidotrichium	None	None		
+ZFA:0001418|ZFA:0001551	dorsal fin lepidotrichium|pectoral fin lepidotrichium	None	None		
+ZFA:0001421|ZFA:0001552	anal fin lepidotrichium|pelvic fin lepidotrichium	None	None		
+ZFA:0001421|ZFA:0001550	anal fin lepidotrichium|caudal fin lepidotrichium	None	None		
+ZFA:0001421|ZFA:0001551	anal fin lepidotrichium|pectoral fin lepidotrichium	None	None		
+ZFA:0001421|ZFA:0001418	anal fin lepidotrichium|dorsal fin lepidotrichium	None	None		

@@ -95,11 +95,14 @@ from oaklib.interfaces.differ_interface import (
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
-from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface, EdgeTemplate
+from oaklib.interfaces.obograph_interface import (
+    EdgeTemplate,
+    GraphTraversalMethod,
+    OboGraphInterface,
+)
 from oaklib.interfaces.ontology_generator_interface import OntologyGenerationInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
-from oaklib.interfaces.rdf_interface import TRIPLE
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
@@ -2133,8 +2136,7 @@ def chains(
             blocks[-1].append(t)
     query = []
     et = EdgeTemplate()
-    # print(blocks)
-    for i, block in enumerate(blocks):
+    for block in blocks:
         if isinstance(block, set):
             if et.predicates is not None:
                 query.append(et)
@@ -2156,10 +2158,9 @@ def chains(
                 et.object_nodes = terms
     if et.predicates is not None:
         query.append(et)
-    # print(query)
-    for chain in impl.chains(query):
+    for this_chain in impl.chains(query):
         obj = {}
-        for i, e in enumerate(chain):
+        for i, e in enumerate(this_chain):
             for k in ["sub", "pred", "obj"]:
                 unrolled_k = f"{k}_{i+1}"
                 obj[unrolled_k] = getattr(e, k)
@@ -2167,17 +2168,6 @@ def chains(
                     label_k = f"{k}_label_{i+1}"
                     obj[label_k] = impl.label(getattr(e, k)) or ""
         writer.emit(obj)
-
-
-
-
-
-
-
-
-
-
-
 
 
 @main.command()
@@ -3818,11 +3808,41 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
     help="If true then draw a graph",
 )
 @click.option("-d", "--directory", help="Directory to write output files")
-@click.option("--whole-ontology/--no-whole-ontology", default=False, show_default=True, help="Run over whole ontology")
+@click.option(
+    "--whole-ontology/--no-whole-ontology",
+    default=False,
+    show_default=True,
+    help="Run over whole ontology",
+)
 @click.option("-C", "--config-yaml")
 @click.argument("terms", nargs=-1)
-def crawl(terms, maps_to_source, adapters, autolabel: bool, output, output_type,
-          allowed_prefixes, mapping_predicates, viz, config_yaml, whole_ontology, directory, mapper, unmelt):
+def crawl(
+    terms,
+    maps_to_source,
+    adapters,
+    autolabel: bool,
+    output,
+    output_type,
+    allowed_prefixes,
+    mapping_predicates,
+    viz,
+    config_yaml,
+    whole_ontology,
+    directory,
+    mapper,
+    unmelt,
+):
+    """
+    Crawl one or more ontologies, hopping over edges and mappings
+
+    Crawl is a powerful command that allows for multi-ontology traversal, particularly
+    on mapping paths. Multiple ontologies and ontology sources (e.g. BioPortal, OLS)
+    provide mappings between terms. No single ontology is likely to have a complete source.
+    Using crawl, you can walk across the union of mappings in all ontologies, with custom rules
+    for each ontology (e.g. normalizing prefixes).
+
+    Documentation for this command will be provided in a separate notebook.
+    """
     impl = settings.impl
     if viz:
         writer = None
@@ -3861,6 +3881,7 @@ def crawl(terms, maps_to_source, adapters, autolabel: bool, output, output_type,
         mappings.append(mapping)
     if viz:
         from oaklib.utilities.mapping.mapping_obograph_utils import mappings_to_obograph
+
         graph = mappings_to_obograph(mappings)
         if output_type and output_type not in ["png", "svg", "dot", "jpeg"]:
             write_graph(graph, format=output_type, output=output)
@@ -3873,12 +3894,13 @@ def crawl(terms, maps_to_source, adapters, autolabel: bool, output, output_type,
                 seeds=terms,
                 imgfile=output,
                 stylemap=stylemap,
-                #configure=configure,
+                # configure=configure,
                 format=output_type,
                 view=True,
             )
     if writer:
         writer.finish()
+
 
 @main.command()
 @output_option
@@ -3973,6 +3995,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
 
     by_term = defaultdict(dict)
     subject_labels = {}
+
     def _emit(mapping):
         if autolabel:
             impl.inject_mapping_labels([mapping])
@@ -4006,9 +4029,9 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
                 _emit(mapping)
     if unmelt:
         for subject_id, mappings in by_term.items():
-            writer.emit(dict(id=str(subject_id),
-                             label=subject_labels.get(subject_id, None),
-                             **mappings))
+            writer.emit(
+                dict(id=str(subject_id), label=subject_labels.get(subject_id, None), **mappings)
+            )
     writer.finish()
 
 
@@ -4381,6 +4404,7 @@ def apply_taxon_constraints(
        https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Apply.ipynb
 
     """
+    impl = settings.impl
     actual_predicates = _process_predicates_arg(predicates, impl=impl)
     impl = settings.impl
     writer = StreamingYamlWriter(output)
@@ -6038,7 +6062,11 @@ def lexmatch(
         else:
             syn_rules = []
         logging.info(f"Synonymizer rules: {syn_rules}")
-        ix = create_lexical_index(impl, synonym_rules=syn_rules, add_steps=list(add_pipeline_step) if add_pipeline_step else None)
+        ix = create_lexical_index(
+            impl,
+            synonym_rules=syn_rules,
+            add_steps=list(add_pipeline_step) if add_pipeline_step else None,
+        )
     if lexical_index_file:
         if recreate:
             logging.info("Saving index")
@@ -6611,7 +6639,11 @@ def diff_via_mappings(
     help="Allow some dependent values to be blank, post-processing",
 )
 @click.option("--missing-value-token", help="Populate all missing values with this token")
-@click.option("--schema", help="Path to linkml schema. This is used to infer which fields are identifiers and which are dependent columns, e.g labels")
+@click.option(
+    "--schema",
+    help=("Path to linkml schema. This is used to infer which fields " 
+          "are identifiers and which are dependent columns, e.g labels"),
+)
 @click.option(
     "--delimiter",
     default="\t",
@@ -6771,9 +6803,11 @@ def fill_table(
                 metadata.dependencies.append(ColumnDependency(**d_args))
             if fields_to_label:
                 for field in fields_to_label.split(","):
-                    metadata.dependencies.append(ColumnDependency(primary_key=field,
-                                                                  dependent_column=field + "_label",
-                                                                  relation="label"))
+                    metadata.dependencies.append(
+                        ColumnDependency(
+                            primary_key=field, dependent_column=field + "_label", relation="label"
+                        )
+                    )
         else:
             metadata = tf.infer_metadata(input_table[0])
         metadata.set_allow_missing_values(allow_missing)

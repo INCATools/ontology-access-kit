@@ -110,9 +110,9 @@ class MonarchImplementation(
             return obograph.Node(id=curie)
         if response.status_code != 200:
             return None
-            #raise ValueError(
+            # raise ValueError(
             #    f"Error fetching issues: {response.status_code} from {url} // {response.text}"
-            #)
+            # )
         obj = response.json()
         meta = obograph.Meta()
         defn = obj.get("description", None)

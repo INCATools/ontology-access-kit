@@ -7,7 +7,8 @@ from oaklib.types import CURIE
 
 
 def mappings_to_obograph(
-    mappings: List[Mapping], graph_id="tmp",
+    mappings: List[Mapping],
+    graph_id="tmp",
 ) -> og.Graph:
     """
     Convert a list of mappings to an OboGraph.

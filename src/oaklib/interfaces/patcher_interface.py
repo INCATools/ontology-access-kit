@@ -42,7 +42,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
         activity: Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
         configuration: Configuration = None,
-        strict = False,
+        strict=False,
     ) -> Optional[Change]:
         """
         Applies a change description

@@ -1818,12 +1818,14 @@ class SqlImplementation(
         justification = str(SEMAPV.UnspecifiedMatching.value)
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
+
         def normalize(curie: Optional[CURIE]) -> Optional[CURIE]:
             if curie is None:
                 return None
             if curie.startswith("<"):
                 return curie[1:-1]
             return curie
+
         if curies is None:
             by_subject_query = base_query
         else:

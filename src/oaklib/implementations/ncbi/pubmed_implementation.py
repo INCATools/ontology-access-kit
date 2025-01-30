@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass
 
 from oaklib.datamodels import obograph
-from oaklib.datamodels.vocabulary import RDFS_LABEL, HAS_DEFINITION_CURIE
+from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE, RDFS_LABEL
 from oaklib.implementations.ncbi.eutils_implementation import EUtilsImplementation
 
 __all__ = [
@@ -18,7 +18,6 @@ __all__ = [
 ]
 
 from oaklib.interfaces.basic_ontology_interface import METADATA_MAP
-
 from oaklib.types import CURIE
 
 logger = logging.getLogger(__name__)

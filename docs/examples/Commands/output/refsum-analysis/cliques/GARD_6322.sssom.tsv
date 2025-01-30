@@ -1,0 +1,25 @@
+# curie_map:
+#   DOID: http://purl.obolibrary.org/obo/DOID_
+#   GARD: http://w3id.org/sssom/unknown_prefix/gard/
+#   NCIT: http://purl.obolibrary.org/obo/NCIT_
+#   OMIMPS: http://w3id.org/sssom/unknown_prefix/omimps/
+#   ORDO: http://w3id.org/sssom/unknown_prefix/ordo/
+#   obo: http://w3id.org/sssom/unknown_prefix/obo/
+#   oio: http://www.geneontology.org/formats/oboInOwl#
+#   owl: http://www.w3.org/2002/07/owl#
+#   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+#   rdfs: http://www.w3.org/2000/01/rdf-schema#
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   sssom: https://w3id.org/sssom/
+# license: https://w3id.org/sssom/license/unspecified
+# mapping_set_id: https://w3id.org/sssom/mappings/10bd5b5c-7380-4ca6-9caa-4d7d42b72c00
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	mapping_source	other
+DOID:13359	Ehlers-Danlos syndrome	oio:hasDbXref	GARD:6322	Ehlers-Danlos syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 0, direction: -1
+DOID:13359	Ehlers-Danlos syndrome	oio:hasDbXref	GARD:6322	Ehlers-Danlos syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 1, direction: 1
+DOID:13359	Ehlers-Danlos syndrome	oio:hasDbXref	NCIT:C34568	Ehlers-Danlos Syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 1, direction: 1
+DOID:13359	Ehlers-Danlos syndrome	oio:hasDbXref	NCIT:C34568	Ehlers-Danlos Syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 2, direction: -1
+DOID:13359	Ehlers-Danlos syndrome	oio:hasDbXref	OMIMPS:130000	Ehlers-Danlos syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 1, direction: 1
+DOID:13359	Ehlers-Danlos syndrome	oio:hasDbXref	OMIMPS:130000	Ehlers-Danlos syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 2, direction: -1
+GARD:6322	Ehlers-Danlos syndrome	skos:exactMatch	ORDO:98249	Ehlers-Danlos syndrome	semapv:UnspecifiedMatching	obo:GARD	distance: 0, direction: 1
+GARD:6322	Ehlers-Danlos syndrome	skos:exactMatch	ORDO:98249	Ehlers-Danlos syndrome	semapv:UnspecifiedMatching	obo:GARD	distance: 1, direction: -1

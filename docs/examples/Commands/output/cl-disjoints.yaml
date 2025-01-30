@@ -1,0 +1,1567 @@
+classIds:
+- BFO:0000002
+- BFO:0000003
+
+---
+classIds:
+- BFO:0000004
+- BFO:0000031
+
+---
+classIds:
+- BFO:0000004
+- BFO:0000020
+
+---
+classIds:
+- BFO:0000016
+- BFO:0000023
+
+---
+classIds:
+- BFO:0000017
+- BFO:0000019
+
+---
+classIds:
+- BFO:0000020
+- BFO:0000031
+
+---
+classIds:
+- BFO:0000040
+- BFO:0000141
+
+---
+classIds:
+- CARO:0000006
+- CARO:0000007
+
+---
+classIds:
+- CARO:0000013
+- CARO:0010000
+
+---
+classIds:
+- CARO:0000013
+- CARO:0001000
+
+---
+classIds:
+- CARO:0000013
+- CARO:0000042
+
+---
+classIds:
+- CARO:0000013
+- CARO:0000040
+
+---
+classIds:
+- CARO:0000013
+- CARO:0000014
+
+---
+classIds:
+- CARO:0000014
+- CARO:0010000
+
+---
+classIds:
+- CARO:0000014
+- CARO:0001000
+
+---
+classIds:
+- CARO:0000014
+- CARO:0000042
+
+---
+classIds:
+- CARO:0000014
+- CARO:0000040
+
+---
+classIds:
+- CARO:0000040
+- CARO:0010000
+
+---
+classIds:
+- CARO:0000040
+- CARO:0001000
+
+---
+classIds:
+- CARO:0000040
+- CARO:0000042
+
+---
+classIds:
+- CARO:0000042
+- CARO:0010000
+
+---
+classIds:
+- CARO:0000042
+- CARO:0001000
+
+---
+classIds:
+- CARO:0001000
+- CARO:0010000
+
+---
+classIds:
+- CL:0000000
+- GO:0043226
+
+---
+classIds:
+- CL:0000000
+- GO:0032991
+
+---
+classIds:
+- CL:0000000
+- GO:0031012
+
+---
+classIds:
+- CL:0000039
+- CL:0002371
+
+---
+classIds:
+- CL:0000049
+- CL:0000557
+
+---
+classIds:
+- CL:0000049
+- CL:0000051
+
+---
+classIds:
+- CL:0000049
+- CL:0000050
+
+---
+classIds:
+- CL:0000050
+- CL:0002009
+
+---
+classIds:
+- CL:0000050
+- CL:0000557
+
+---
+classIds:
+- CL:0000066
+- CL:0000738
+
+---
+classIds:
+- CL:0000084
+- CL:0000945
+
+---
+classIds:
+- CL:0000225
+- CL:0002242
+
+---
+classIds:
+- CL:0000255
+- CL:0000520
+
+---
+classIds:
+- CL:0000451
+- CL:0000542
+
+---
+classIds:
+- CL:0000521
+- CL:0000548
+
+---
+classIds:
+- CL:0000542
+- CL:0000766
+
+---
+classIds:
+- CL:0000556
+- CL:0000764
+
+---
+classIds:
+- CL:0000624
+- CL:0000625
+
+---
+classIds:
+- CL:0000737
+- CL:0008000
+
+---
+classIds:
+- CL:0000785
+- CL:0000818
+
+---
+classIds:
+- CL:0000785
+- CL:0000817
+
+---
+classIds:
+- CL:0000785
+- CL:0000816
+
+---
+classIds:
+- CL:0000789
+- CL:0000798
+
+---
+classIds:
+- CL:0000813
+- CL:0000898
+
+---
+classIds:
+- CL:0000817
+- CL:0000826
+
+---
+classIds:
+- CL:0000823
+- CL:0000937
+
+---
+classIds:
+- CL:0000823
+- CL:0000824
+
+---
+classIds:
+- CL:0000837
+- CL:0002032
+
+---
+classIds:
+- CL:0000838
+- CL:0000839
+
+---
+classIds:
+- CL:0000851
+- CL:0000855
+
+---
+classIds:
+- CL:0000852
+- CL:0000855
+
+---
+classIds:
+- CL:0000955
+- CL:0000956
+
+---
+classIds:
+- CL:0001008
+- CL:0001024
+
+---
+classIds:
+- CL:0001021
+- CL:0001025
+
+---
+classIds:
+- CL:0001023
+- CL:0001026
+
+---
+classIds:
+- CL:0002031
+- CL:0002032
+
+---
+classIds:
+- CL:0002036
+- CL:0002043
+
+---
+classIds:
+- CL:0008011
+- CL:0008020
+
+---
+classIds:
+- CL:0008046
+- CL:0008047
+
+---
+classIds:
+- GO:0003674
+- GO:0008150
+
+---
+classIds:
+- GO:0003674
+- GO:0005575
+
+---
+classIds:
+- GO:0005575
+- GO:0008150
+
+---
+classIds:
+- GO:0005583
+- GO:0030936
+
+---
+classIds:
+- GO:0005634
+- GO:0005737
+
+---
+classIds:
+- GO:0007610
+- GO:0032502
+
+---
+classIds:
+- GO:0008152
+- GO:0051179
+
+---
+classIds:
+- GO:0009653
+- GO:0071695
+
+---
+classIds:
+- GO:0009653
+- GO:0048856
+
+---
+classIds:
+- GO:0016020
+- GO:0031012
+
+---
+classIds:
+- GO:0019725
+- GO:0048872
+
+---
+classIds:
+- GO:0022411
+- GO:0022607
+
+---
+classIds:
+- GO:0031012
+- GO:0043226
+
+---
+classIds:
+- GO:0031012
+- GO:0032991
+
+---
+classIds:
+- GO:0031974
+- GO:0045202
+
+---
+classIds:
+- GO:0032504
+- GO:0032505
+
+---
+classIds:
+- GO:0032991
+- GO:0110165
+
+---
+classIds:
+- GO:0043227
+- GO:0043228
+
+---
+classIds:
+- GO:0043229
+- GO:0043230
+
+---
+classIds:
+- GO:1903046
+- GO:1903047
+
+---
+classIds:
+- PATO:0000608
+- PATO:0000610
+
+---
+classIds:
+- PATO:0070016
+- PATO:0070017
+
+---
+classIds:
+- UBERON:0000000
+- UBERON:0001062
+
+---
+classIds:
+- UBERON:0000045
+- UBERON:0002420
+
+---
+classIds:
+- UBERON:0000053
+- UBERON:0000054
+
+---
+classIds:
+- UBERON:0000062
+- UBERON:0034921
+
+---
+classIds:
+- UBERON:0000062
+- UBERON:0002095
+
+---
+classIds:
+- UBERON:0000068
+- UBERON:0000092
+
+---
+classIds:
+- UBERON:0000079
+- UBERON:0000474
+
+---
+classIds:
+- UBERON:0000153
+- UBERON:0000154
+
+---
+classIds:
+- UBERON:0000353
+- UBERON:0003891
+
+---
+classIds:
+- UBERON:0000382
+- UBERON:0000423
+
+---
+classIds:
+- UBERON:0000465
+- UBERON:0000466
+
+---
+classIds:
+- UBERON:0000473
+- UBERON:0009117
+
+---
+classIds:
+- UBERON:0000473
+- UBERON:0000992
+
+---
+classIds:
+- UBERON:0000476
+- UBERON:0010000
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0001434
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0001033
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0001016
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0001009
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0001007
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0001004
+
+---
+classIds:
+- UBERON:0000949
+- UBERON:0000990
+
+---
+classIds:
+- UBERON:0000982
+- UBERON:0001474
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0001434
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0001033
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0001016
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0001009
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0001007
+
+---
+classIds:
+- UBERON:0000990
+- UBERON:0001004
+
+---
+classIds:
+- UBERON:0000992
+- UBERON:0009117
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0001434
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0001033
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0001016
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0001009
+
+---
+classIds:
+- UBERON:0001004
+- UBERON:0001007
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0001434
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0001033
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0001016
+
+---
+classIds:
+- UBERON:0001007
+- UBERON:0001009
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0001434
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0001033
+
+---
+classIds:
+- UBERON:0001009
+- UBERON:0001016
+
+---
+classIds:
+- UBERON:0001013
+- UBERON:0003714
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0001434
+
+---
+classIds:
+- UBERON:0001016
+- UBERON:0001033
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0001033
+- UBERON:0001434
+
+---
+classIds:
+- UBERON:0001072
+- UBERON:0001585
+
+---
+classIds:
+- UBERON:0001133
+- UBERON:0001134
+
+---
+classIds:
+- UBERON:0001135
+- UBERON:0002036
+
+---
+classIds:
+- UBERON:0001143
+- UBERON:0001639
+
+---
+classIds:
+- UBERON:0001152
+- UBERON:0005171
+
+---
+classIds:
+- UBERON:0001194
+- UBERON:0001640
+
+---
+classIds:
+- UBERON:0001224
+- UBERON:0002355
+
+---
+classIds:
+- UBERON:0001230
+- UBERON:0002015
+
+---
+classIds:
+- UBERON:0001271
+- UBERON:0007832
+
+---
+classIds:
+- UBERON:0001421
+- UBERON:0007831
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0002204
+
+---
+classIds:
+- UBERON:0001434
+- UBERON:0001474
+
+---
+classIds:
+- UBERON:0001435
+- UBERON:0012358
+
+---
+classIds:
+- UBERON:0001442
+- UBERON:0001445
+
+---
+classIds:
+- UBERON:0001447
+- UBERON:0012359
+
+---
+classIds:
+- UBERON:0001473
+- UBERON:0001981
+
+---
+classIds:
+- UBERON:0001474
+- UBERON:0010538
+
+---
+classIds:
+- UBERON:0001474
+- UBERON:0005090
+
+---
+classIds:
+- UBERON:0001474
+- UBERON:0001630
+
+---
+classIds:
+- UBERON:0001709
+- UBERON:0001710
+
+---
+classIds:
+- UBERON:0001776
+- UBERON:0011892
+
+---
+classIds:
+- UBERON:0001790
+- UBERON:0005376
+
+---
+classIds:
+- UBERON:0001801
+- UBERON:0001802
+
+---
+classIds:
+- UBERON:0001890
+- UBERON:0002298
+
+---
+classIds:
+- UBERON:0002012
+- UBERON:0004573
+
+---
+classIds:
+- UBERON:0002063
+- UBERON:0006615
+
+---
+classIds:
+- UBERON:0002100
+- UBERON:0002464
+
+---
+classIds:
+- UBERON:0002196
+- UBERON:0002198
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0002204
+- UBERON:0002294
+
+---
+classIds:
+- UBERON:0002217
+- UBERON:0011134
+
+---
+classIds:
+- UBERON:0002256
+- UBERON:0002257
+
+---
+classIds:
+- UBERON:0002294
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0002294
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0002294
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0002294
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0002294
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0002294
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0002294
+- UBERON:0002330
+
+---
+classIds:
+- UBERON:0002330
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0002330
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0002330
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0002330
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0002330
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0002330
+- UBERON:0002390
+
+---
+classIds:
+- UBERON:0002385
+- UBERON:0003714
+
+---
+classIds:
+- UBERON:0002390
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0002390
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0002390
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0002390
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0002390
+- UBERON:0002405
+
+---
+classIds:
+- UBERON:0002405
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0002405
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0002405
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0002405
+- UBERON:0002416
+
+---
+classIds:
+- UBERON:0002416
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0002416
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0002416
+- UBERON:0002423
+
+---
+classIds:
+- UBERON:0002418
+- UBERON:0002481
+
+---
+classIds:
+- UBERON:0002423
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0002423
+- UBERON:0004456
+
+---
+classIds:
+- UBERON:0002464
+- UBERON:0003439
+
+---
+classIds:
+- UBERON:0002481
+- UBERON:0005090
+
+---
+classIds:
+- UBERON:0002529
+- UBERON:0010912
+
+---
+classIds:
+- UBERON:0002550
+- UBERON:0002770
+
+---
+classIds:
+- UBERON:0002828
+- UBERON:0002829
+
+---
+classIds:
+- UBERON:0002830
+- UBERON:0002831
+
+---
+classIds:
+- UBERON:0003076
+- UBERON:0003080
+
+---
+classIds:
+- UBERON:0003100
+- UBERON:0003101
+
+---
+classIds:
+- UBERON:0003714
+- UBERON:0004755
+
+---
+classIds:
+- UBERON:0003952
+- UBERON:0003953
+
+---
+classIds:
+- UBERON:0004022
+- UBERON:0006934
+
+---
+classIds:
+- UBERON:0004053
+- UBERON:0009196
+
+---
+classIds:
+- UBERON:0004053
+- UBERON:0005056
+
+---
+classIds:
+- UBERON:0004067
+- UBERON:0004068
+
+---
+classIds:
+- UBERON:0004288
+- UBERON:0004770
+
+---
+classIds:
+- UBERON:0004367
+- UBERON:0004370
+
+---
+classIds:
+- UBERON:0004456
+- UBERON:8450002
+
+---
+classIds:
+- UBERON:0004709
+- UBERON:0004710
+
+---
+classIds:
+- UBERON:0004715
+- UBERON:0006008
+
+---
+classIds:
+- UBERON:0004723
+- UBERON:0009885
+
+---
+classIds:
+- UBERON:0004763
+- UBERON:0004764
+
+---
+classIds:
+- UBERON:0005056
+- UBERON:0009196
+
+---
+classIds:
+- UBERON:0005168
+- UBERON:0009887
+
+---
+classIds:
+- UBERON:0005386
+- UBERON:0015786
+
+---
+classIds:
+- UBERON:0005417
+- UBERON:0005418
+
+---
+classIds:
+- UBERON:0006135
+- UBERON:0006136
+
+---
+classIds:
+- UBERON:0006334
+- UBERON:2001470
+
+---
+classIds:
+- UBERON:0007173
+- UBERON:0007174
+
+---
+classIds:
+- UBERON:0007845
+- UBERON:0011821
+
+---
+classIds:
+- UBERON:0008845
+- UBERON:0008846
+
+---
+classIds:
+- UBERON:0008895
+- UBERON:0011156
+
+---
+classIds:
+- UBERON:0008974
+- UBERON:0010243
+
+---
+classIds:
+- UBERON:0009204
+- UBERON:0009205
+
+---
+classIds:
+- UBERON:0009647
+- UBERON:0010070
+
+---
+classIds:
+- UBERON:0009955
+- UBERON:0011814
+
+---
+classIds:
+- UBERON:0010001
+- UBERON:0011216
+
+---
+classIds:
+- UBERON:0010304
+- UBERON:0012329
+
+---
+classIds:
+- UBERON:0010538
+- UBERON:0010912
+
+---
+classIds:
+- UBERON:0010544
+- UBERON:0010545
+
+---
+classIds:
+- UBERON:0010688
+- UBERON:0010696
+
+---
+classIds:
+- UBERON:0010703
+- UBERON:0010720
+
+---
+classIds:
+- UBERON:0011823
+- UBERON:0011825
+
+---
+classIds:
+- UBERON:0035165
+- UBERON:0035523
+
+---
+classIds:
+- UBERON:2001156
+- UBERON:2001316
+
+---
+classIds:
+- UBERON:2001314
+- UBERON:2001391
+
+---
+classIds:
+- UBERON:2001468
+- UBERON:2001471
+
+---
+classIds:
+- _:riog00151338

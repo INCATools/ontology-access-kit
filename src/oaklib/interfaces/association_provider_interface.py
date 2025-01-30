@@ -4,7 +4,11 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from oaklib.datamodels.association import Association, PairwiseCoAssociation, PositiveOrNegativeAssociation
+from oaklib.datamodels.association import (
+    Association,
+    PairwiseCoAssociation,
+    PositiveOrNegativeAssociation,
+)
 from oaklib.datamodels.similarity import TermSetPairwiseSimilarity
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
@@ -368,7 +372,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         symmetric = curies1 == curies2
         logging.info(f"Finding co-associations between {curies1} and {curies2}")
 
-        def _filter_negated(assocs: Iterable[PositiveOrNegativeAssociation]) -> List[PositiveOrNegativeAssociation]:
+        def _filter_negated(
+            assocs: Iterable[PositiveOrNegativeAssociation],
+        ) -> List[PositiveOrNegativeAssociation]:
             if include_negated:
                 return list(assocs)
             return [a for a in assocs if not a.negated]

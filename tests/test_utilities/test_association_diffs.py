@@ -230,7 +230,6 @@ class AssociationDiffsTest(unittest.TestCase):
             self.assertCountEqual(exp1, bt.old_entities, f"For term {t}")
             self.assertCountEqual(exp2, bt.new_entities, f"For term {t}")
 
-
     def test_diffs_by_publications(self):
         assocs1 = [
             Association(PROTEIN1, LOCATED_IN, NUCLEUS, publications=[PMID1]),

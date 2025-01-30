@@ -1,0 +1,315 @@
+classIds	classIds_label	unionEquivalentTo	unionEquivalentToExpression	classExpressionPropertyIds	classExpressionFillerIds
+BFO:0000002|BFO:0000003	continuant|occurrent	None	None		
+BFO:0000004|BFO:0000031	independent continuant|generically dependent continuant	None	None		
+BFO:0000004|BFO:0000020	independent continuant|specifically dependent continuant	None	None		
+BFO:0000016|BFO:0000023	disposition|role	None	None		
+BFO:0000017|BFO:0000019	realizable entity|quality	None	None		
+BFO:0000020|BFO:0000031	specifically dependent continuant|generically dependent continuant	None	None		
+BFO:0000040|BFO:0000141	material entity|immaterial entity	None	None		
+CARO:0000006|CARO:0000007	material anatomical entity|immaterial anatomical entity	None	None		
+CARO:0000013|CARO:0010000	cell|multicellular anatomical structure	None	None		
+CARO:0000013|CARO:0001000	cell|multi-cell-part structure	None	None		
+CARO:0000013|CARO:0000042	cell|extraembryonic structure	None	None		
+CARO:0000013|CARO:0000040	cell|acellular anatomical structure	None	None		
+CARO:0000013|CARO:0000014	cell|cell part	None	None		
+CARO:0000014|CARO:0010000	cell part|multicellular anatomical structure	None	None		
+CARO:0000014|CARO:0001000	cell part|multi-cell-part structure	None	None		
+CARO:0000014|CARO:0000042	cell part|extraembryonic structure	None	None		
+CARO:0000014|CARO:0000040	cell part|acellular anatomical structure	None	None		
+CARO:0000040|CARO:0010000	acellular anatomical structure|multicellular anatomical structure	None	None		
+CARO:0000040|CARO:0001000	acellular anatomical structure|multi-cell-part structure	None	None		
+CARO:0000040|CARO:0000042	acellular anatomical structure|extraembryonic structure	None	None		
+CARO:0000042|CARO:0010000	extraembryonic structure|multicellular anatomical structure	None	None		
+CARO:0000042|CARO:0001000	extraembryonic structure|multi-cell-part structure	None	None		
+CARO:0001000|CARO:0010000	multi-cell-part structure|multicellular anatomical structure	None	None		
+CL:0000000|GO:0043226	cell|organelle	None	None		
+CL:0000000|GO:0032991	cell|protein-containing complex	None	None		
+CL:0000000|GO:0031012	cell|extracellular matrix	None	None		
+CL:0000039|CL:0002371	germ line cell|somatic cell	None	None		
+CL:0000049|CL:0000557	common myeloid progenitor|granulocyte monocyte progenitor cell	None	None		
+CL:0000049|CL:0000051	common myeloid progenitor|common lymphoid progenitor	None	None		
+CL:0000049|CL:0000050	common myeloid progenitor|megakaryocyte-erythroid progenitor cell	None	None		
+CL:0000050|CL:0002009	megakaryocyte-erythroid progenitor cell|macrophage dendritic cell progenitor	None	None		
+CL:0000050|CL:0000557	megakaryocyte-erythroid progenitor cell|granulocyte monocyte progenitor cell	None	None		
+CL:0000066|CL:0000738	epithelial cell|leukocyte	None	None		
+CL:0000084|CL:0000945	T cell|lymphocyte of B lineage	None	None		
+CL:0000225|CL:0002242	anucleate cell|nucleate cell	None	None		
+CL:0000255|CL:0000520	eukaryotic cell|prokaryotic cell	None	None		
+CL:0000451|CL:0000542	dendritic cell|lymphocyte	None	None		
+CL:0000521|CL:0000548	fungal cell|animal cell	None	None		
+CL:0000542|CL:0000766	lymphocyte|myeloid leukocyte	None	None		
+CL:0000556|CL:0000764	megakaryocyte|erythroid lineage cell	None	None		
+CL:0000624|CL:0000625	CD4-positive, alpha-beta T cell|CD8-positive, alpha-beta T cell	None	None		
+CL:0000737|CL:0008000	striated muscle cell|non-striated muscle cell	None	None		
+CL:0000785|CL:0000818	mature B cell|transitional stage B cell	None	None		
+CL:0000785|CL:0000817	mature B cell|precursor B cell	None	None		
+CL:0000785|CL:0000816	mature B cell|immature B cell	None	None		
+CL:0000789|CL:0000798	alpha-beta T cell|gamma-delta T cell	None	None		
+CL:0000813|CL:0000898	memory T cell|naive T cell	None	None		
+CL:0000817|CL:0000826	precursor B cell|pro-B cell	None	None		
+CL:0000823|CL:0000937	immature natural killer cell|pre-natural killer cell	None	None		
+CL:0000823|CL:0000824	immature natural killer cell|mature natural killer cell	None	None		
+CL:0000837|CL:0002032	hematopoietic multipotent progenitor cell|hematopoietic oligopotent progenitor cell	None	None		
+CL:0000838|CL:0000839	lymphoid lineage restricted progenitor cell|myeloid lineage restricted progenitor cell	None	None		
+CL:0000851|CL:0000855	neuromast mantle cell|sensory hair cell	None	None		
+CL:0000852|CL:0000855	neuromast supporting cell|sensory hair cell	None	None		
+CL:0000955|CL:0000956	pre-B-II cell|pre-B-I cell	None	None		
+CL:0001008|CL:0001024	Kit and Sca1-positive hematopoietic stem cell|CD34-positive, CD38-negative hematopoietic stem cell	None	None		
+CL:0001021|CL:0001025	CD34-positive, CD38-positive common lymphoid progenitor|Kit-positive, Sca1-positive common lymphoid progenitor	None	None		
+CL:0001023|CL:0001026	Kit-positive, CD34-positive common myeloid progenitor|CD34-positive, CD38-positive common myeloid progenitor	None	None		
+CL:0002031|CL:0002032	hematopoietic lineage restricted progenitor cell|hematopoietic oligopotent progenitor cell	None	None		
+CL:0002036|CL:0002043	Slamf1-positive multipotent progenitor cell|CD34-positive, CD38-negative multipotent progenitor cell	None	None		
+CL:0008011|CL:0008020	skeletal muscle satellite stem cell|skeletal muscle satellite myogenic cell	None	None		
+CL:0008046|CL:0008047	extrafusal muscle fiber|intrafusal muscle fiber	None	None		
+GO:0003674|GO:0008150	molecular_function|biological_process	None	None		
+GO:0003674|GO:0005575	molecular_function|cellular_component	None	None		
+GO:0005575|GO:0008150	cellular_component|biological_process	None	None		
+GO:0005583|GO:0030936	fibrillar collagen trimer|transmembrane collagen trimer	None	None		
+GO:0005634|GO:0005737	nucleus|cytoplasm	None	None		
+GO:0007610|GO:0032502	behavior|developmental process	None	None		
+GO:0008152|GO:0051179	metabolic process|localization	None	None		
+GO:0009653|GO:0071695	anatomical structure morphogenesis|anatomical structure maturation	None	None		
+GO:0009653|GO:0048856	anatomical structure morphogenesis|anatomical structure development	None	None		
+GO:0016020|GO:0031012	membrane|extracellular matrix	None	None		
+GO:0019725|GO:0048872	cellular homeostasis|homeostasis of number of cells	None	None		
+GO:0022411|GO:0022607	cellular component disassembly|cellular component assembly	None	None		
+GO:0031012|GO:0043226	extracellular matrix|organelle	None	None		
+GO:0031012|GO:0032991	extracellular matrix|protein-containing complex	None	None		
+GO:0031974|GO:0045202	membrane-enclosed lumen|synapse	None	None		
+GO:0032504|GO:0032505	multicellular organism reproduction|reproduction of a single-celled organism	None	None		
+GO:0032991|GO:0110165	protein-containing complex|cellular anatomical entity	None	None		
+GO:0043227|GO:0043228	membrane-bounded organelle|non-membrane-bounded organelle	None	None		
+GO:0043229|GO:0043230	intracellular organelle|extracellular organelle	None	None		
+GO:1903046|GO:1903047	meiotic cell cycle process|mitotic cell cycle process	None	None		
+PATO:0000608|PATO:0000610	closed|open	None	None		
+PATO:0070016|PATO:0070017	horizontal pyramidal morphology|standard pyramidal morphology	None	None		
+UBERON:0000000|UBERON:0001062	processual entity|anatomical entity	None	None		
+UBERON:0000045|UBERON:0002420	ganglion|basal ganglion	None	None		
+UBERON:0000053|UBERON:0000054	macula lutea|macula	None	None		
+UBERON:0000062|UBERON:0034921	organ|multi organ part structure	None	None		
+UBERON:0000062|UBERON:0002095	organ|mesentery	None	None		
+UBERON:0000068|UBERON:0000092	embryo stage|post-embryonic stage	None	None		
+UBERON:0000079|UBERON:0000474	male reproductive system|female reproductive system	None	None		
+UBERON:0000153|UBERON:0000154	anterior region of body|posterior region of body	None	None		
+UBERON:0000353|UBERON:0003891	parenchyma|stroma	None	None		
+UBERON:0000382|UBERON:0000423	apocrine sweat gland|eccrine sweat gland	None	None		
+UBERON:0000465|UBERON:0000466	material anatomical entity|immaterial anatomical entity	None	None		
+UBERON:0000473|UBERON:0009117	testis|indifferent gonad	None	None		
+UBERON:0000473|UBERON:0000992	testis|ovary	None	None		
+UBERON:0000476|UBERON:0010000	acellular anatomical structure|multicellular anatomical structure	None	None		
+UBERON:0000949|UBERON:8450002	endocrine system|excretory system	None	None		
+UBERON:0000949|UBERON:0004456	endocrine system|entire sense organ system	None	None		
+UBERON:0000949|UBERON:0002423	endocrine system|hepatobiliary system	None	None		
+UBERON:0000949|UBERON:0002416	endocrine system|integumental system	None	None		
+UBERON:0000949|UBERON:0002405	endocrine system|immune system	None	None		
+UBERON:0000949|UBERON:0002390	endocrine system|hematopoietic system	None	None		
+UBERON:0000949|UBERON:0002330	endocrine system|exocrine system	None	None		
+UBERON:0000949|UBERON:0002294	endocrine system|biliary system	None	None		
+UBERON:0000949|UBERON:0002204	endocrine system|musculoskeletal system	None	None		
+UBERON:0000949|UBERON:0001434	endocrine system|skeletal system	None	None		
+UBERON:0000949|UBERON:0001033	endocrine system|gustatory system	None	None		
+UBERON:0000949|UBERON:0001016	endocrine system|nervous system	None	None		
+UBERON:0000949|UBERON:0001009	endocrine system|circulatory system	None	None		
+UBERON:0000949|UBERON:0001007	endocrine system|digestive system	None	None		
+UBERON:0000949|UBERON:0001004	endocrine system|respiratory system	None	None		
+UBERON:0000949|UBERON:0000990	endocrine system|reproductive system	None	None		
+UBERON:0000982|UBERON:0001474	skeletal joint|bone element	None	None		
+UBERON:0000990|UBERON:8450002	reproductive system|excretory system	None	None		
+UBERON:0000990|UBERON:0004456	reproductive system|entire sense organ system	None	None		
+UBERON:0000990|UBERON:0002423	reproductive system|hepatobiliary system	None	None		
+UBERON:0000990|UBERON:0002416	reproductive system|integumental system	None	None		
+UBERON:0000990|UBERON:0002405	reproductive system|immune system	None	None		
+UBERON:0000990|UBERON:0002390	reproductive system|hematopoietic system	None	None		
+UBERON:0000990|UBERON:0002330	reproductive system|exocrine system	None	None		
+UBERON:0000990|UBERON:0002294	reproductive system|biliary system	None	None		
+UBERON:0000990|UBERON:0002204	reproductive system|musculoskeletal system	None	None		
+UBERON:0000990|UBERON:0001434	reproductive system|skeletal system	None	None		
+UBERON:0000990|UBERON:0001033	reproductive system|gustatory system	None	None		
+UBERON:0000990|UBERON:0001016	reproductive system|nervous system	None	None		
+UBERON:0000990|UBERON:0001009	reproductive system|circulatory system	None	None		
+UBERON:0000990|UBERON:0001007	reproductive system|digestive system	None	None		
+UBERON:0000990|UBERON:0001004	reproductive system|respiratory system	None	None		
+UBERON:0000992|UBERON:0009117	ovary|indifferent gonad	None	None		
+UBERON:0001004|UBERON:8450002	respiratory system|excretory system	None	None		
+UBERON:0001004|UBERON:0004456	respiratory system|entire sense organ system	None	None		
+UBERON:0001004|UBERON:0002423	respiratory system|hepatobiliary system	None	None		
+UBERON:0001004|UBERON:0002416	respiratory system|integumental system	None	None		
+UBERON:0001004|UBERON:0002405	respiratory system|immune system	None	None		
+UBERON:0001004|UBERON:0002390	respiratory system|hematopoietic system	None	None		
+UBERON:0001004|UBERON:0002330	respiratory system|exocrine system	None	None		
+UBERON:0001004|UBERON:0002294	respiratory system|biliary system	None	None		
+UBERON:0001004|UBERON:0002204	respiratory system|musculoskeletal system	None	None		
+UBERON:0001004|UBERON:0001434	respiratory system|skeletal system	None	None		
+UBERON:0001004|UBERON:0001033	respiratory system|gustatory system	None	None		
+UBERON:0001004|UBERON:0001016	respiratory system|nervous system	None	None		
+UBERON:0001004|UBERON:0001009	respiratory system|circulatory system	None	None		
+UBERON:0001004|UBERON:0001007	respiratory system|digestive system	None	None		
+UBERON:0001007|UBERON:8450002	digestive system|excretory system	None	None		
+UBERON:0001007|UBERON:0004456	digestive system|entire sense organ system	None	None		
+UBERON:0001007|UBERON:0002423	digestive system|hepatobiliary system	None	None		
+UBERON:0001007|UBERON:0002416	digestive system|integumental system	None	None		
+UBERON:0001007|UBERON:0002405	digestive system|immune system	None	None		
+UBERON:0001007|UBERON:0002390	digestive system|hematopoietic system	None	None		
+UBERON:0001007|UBERON:0002330	digestive system|exocrine system	None	None		
+UBERON:0001007|UBERON:0002294	digestive system|biliary system	None	None		
+UBERON:0001007|UBERON:0002204	digestive system|musculoskeletal system	None	None		
+UBERON:0001007|UBERON:0001434	digestive system|skeletal system	None	None		
+UBERON:0001007|UBERON:0001033	digestive system|gustatory system	None	None		
+UBERON:0001007|UBERON:0001016	digestive system|nervous system	None	None		
+UBERON:0001007|UBERON:0001009	digestive system|circulatory system	None	None		
+UBERON:0001009|UBERON:8450002	circulatory system|excretory system	None	None		
+UBERON:0001009|UBERON:0004456	circulatory system|entire sense organ system	None	None		
+UBERON:0001009|UBERON:0002423	circulatory system|hepatobiliary system	None	None		
+UBERON:0001009|UBERON:0002416	circulatory system|integumental system	None	None		
+UBERON:0001009|UBERON:0002405	circulatory system|immune system	None	None		
+UBERON:0001009|UBERON:0002390	circulatory system|hematopoietic system	None	None		
+UBERON:0001009|UBERON:0002330	circulatory system|exocrine system	None	None		
+UBERON:0001009|UBERON:0002294	circulatory system|biliary system	None	None		
+UBERON:0001009|UBERON:0002204	circulatory system|musculoskeletal system	None	None		
+UBERON:0001009|UBERON:0001434	circulatory system|skeletal system	None	None		
+UBERON:0001009|UBERON:0001033	circulatory system|gustatory system	None	None		
+UBERON:0001009|UBERON:0001016	circulatory system|nervous system	None	None		
+UBERON:0001013|UBERON:0003714	adipose tissue|neural tissue	None	None		
+UBERON:0001016|UBERON:8450002	nervous system|excretory system	None	None		
+UBERON:0001016|UBERON:0004456	nervous system|entire sense organ system	None	None		
+UBERON:0001016|UBERON:0002423	nervous system|hepatobiliary system	None	None		
+UBERON:0001016|UBERON:0002416	nervous system|integumental system	None	None		
+UBERON:0001016|UBERON:0002405	nervous system|immune system	None	None		
+UBERON:0001016|UBERON:0002390	nervous system|hematopoietic system	None	None		
+UBERON:0001016|UBERON:0002330	nervous system|exocrine system	None	None		
+UBERON:0001016|UBERON:0002294	nervous system|biliary system	None	None		
+UBERON:0001016|UBERON:0002204	nervous system|musculoskeletal system	None	None		
+UBERON:0001016|UBERON:0001434	nervous system|skeletal system	None	None		
+UBERON:0001016|UBERON:0001033	nervous system|gustatory system	None	None		
+UBERON:0001033|UBERON:8450002	gustatory system|excretory system	None	None		
+UBERON:0001033|UBERON:0004456	gustatory system|entire sense organ system	None	None		
+UBERON:0001033|UBERON:0002423	gustatory system|hepatobiliary system	None	None		
+UBERON:0001033|UBERON:0002416	gustatory system|integumental system	None	None		
+UBERON:0001033|UBERON:0002405	gustatory system|immune system	None	None		
+UBERON:0001033|UBERON:0002390	gustatory system|hematopoietic system	None	None		
+UBERON:0001033|UBERON:0002330	gustatory system|exocrine system	None	None		
+UBERON:0001033|UBERON:0002294	gustatory system|biliary system	None	None		
+UBERON:0001033|UBERON:0002204	gustatory system|musculoskeletal system	None	None		
+UBERON:0001033|UBERON:0001434	gustatory system|skeletal system	None	None		
+UBERON:0001072|UBERON:0001585	posterior vena cava|anterior vena cava	None	None		
+UBERON:0001133|UBERON:0001134	cardiac muscle tissue|skeletal muscle tissue	None	None		
+UBERON:0001135|UBERON:0002036	smooth muscle tissue|striated muscle tissue	None	None		
+UBERON:0001143|UBERON:0001639	hepatic vein|hepatic portal vein	None	None		
+UBERON:0001152|UBERON:0005171	cystic duct|hepatic duct	None	None		
+UBERON:0001194|UBERON:0001640	splenic artery|celiac artery	None	None		
+UBERON:0001224|UBERON:0002355	renal pelvis|pelvic region of trunk	None	None		
+UBERON:0001230|UBERON:0002015	glomerular capsule|kidney capsule	None	None		
+UBERON:0001271|UBERON:0007832	pelvic girdle region|pelvic girdle skeleton	None	None		
+UBERON:0001421|UBERON:0007831	pectoral girdle region|pectoral girdle skeleton	None	None		
+UBERON:0001434|UBERON:8450002	skeletal system|excretory system	None	None		
+UBERON:0001434|UBERON:0004456	skeletal system|entire sense organ system	None	None		
+UBERON:0001434|UBERON:0002423	skeletal system|hepatobiliary system	None	None		
+UBERON:0001434|UBERON:0002416	skeletal system|integumental system	None	None		
+UBERON:0001434|UBERON:0002405	skeletal system|immune system	None	None		
+UBERON:0001434|UBERON:0002390	skeletal system|hematopoietic system	None	None		
+UBERON:0001434|UBERON:0002330	skeletal system|exocrine system	None	None		
+UBERON:0001434|UBERON:0002294	skeletal system|biliary system	None	None		
+UBERON:0001434|UBERON:0002204	skeletal system|musculoskeletal system	None	None		
+UBERON:0001434|UBERON:0001474	skeletal system|bone element	None	None		
+UBERON:0001435|UBERON:0012358	carpal bone|manual digitopodium bone	None	None		
+UBERON:0001442|UBERON:0001445	skeleton of manus|skeleton of pes	None	None		
+UBERON:0001447|UBERON:0012359	tarsal bone|pedal digitopodium bone	None	None		
+UBERON:0001473|UBERON:0001981	lymphatic vessel|blood vessel	None	None		
+UBERON:0001474|UBERON:0010538	bone element|paired limb/fin segment	None	None		
+UBERON:0001474|UBERON:0005090	bone element|muscle structure	None	None		
+UBERON:0001474|UBERON:0001630	bone element|muscle organ	None	None		
+UBERON:0001709|UBERON:0001710	upper jaw region|lower jaw region	None	None		
+UBERON:0001776|UBERON:0011892	optic choroid|anterior uvea	None	None		
+UBERON:0001790|UBERON:0005376	outer plexiform layer of retina|olfactory bulb external plexiform layer	None	None		
+UBERON:0001801|UBERON:0001802	anterior segment of eyeball|posterior segment of eyeball	None	None		
+UBERON:0001890|UBERON:0002298	forebrain|brainstem	None	None		
+UBERON:0002012|UBERON:0004573	pulmonary artery|systemic artery	None	None		
+UBERON:0002063|UBERON:0006615	sinus venosus|venous sinus	None	None		
+UBERON:0002100|UBERON:0002464	trunk|nerve trunk	None	None		
+UBERON:0002196|UBERON:0002198	adenohypophysis|neurohypophysis	None	None		
+UBERON:0002204|UBERON:8450002	musculoskeletal system|excretory system	None	None		
+UBERON:0002204|UBERON:0004456	musculoskeletal system|entire sense organ system	None	None		
+UBERON:0002204|UBERON:0002423	musculoskeletal system|hepatobiliary system	None	None		
+UBERON:0002204|UBERON:0002416	musculoskeletal system|integumental system	None	None		
+UBERON:0002204|UBERON:0002405	musculoskeletal system|immune system	None	None		
+UBERON:0002204|UBERON:0002390	musculoskeletal system|hematopoietic system	None	None		
+UBERON:0002204|UBERON:0002330	musculoskeletal system|exocrine system	None	None		
+UBERON:0002204|UBERON:0002294	musculoskeletal system|biliary system	None	None		
+UBERON:0002217|UBERON:0011134	synovial joint|nonsynovial joint	None	None		
+UBERON:0002256|UBERON:0002257	dorsal horn of spinal cord|ventral horn of spinal cord	None	None		
+UBERON:0002294|UBERON:8450002	biliary system|excretory system	None	None		
+UBERON:0002294|UBERON:0004456	biliary system|entire sense organ system	None	None		
+UBERON:0002294|UBERON:0002423	biliary system|hepatobiliary system	None	None		
+UBERON:0002294|UBERON:0002416	biliary system|integumental system	None	None		
+UBERON:0002294|UBERON:0002405	biliary system|immune system	None	None		
+UBERON:0002294|UBERON:0002390	biliary system|hematopoietic system	None	None		
+UBERON:0002294|UBERON:0002330	biliary system|exocrine system	None	None		
+UBERON:0002330|UBERON:8450002	exocrine system|excretory system	None	None		
+UBERON:0002330|UBERON:0004456	exocrine system|entire sense organ system	None	None		
+UBERON:0002330|UBERON:0002423	exocrine system|hepatobiliary system	None	None		
+UBERON:0002330|UBERON:0002416	exocrine system|integumental system	None	None		
+UBERON:0002330|UBERON:0002405	exocrine system|immune system	None	None		
+UBERON:0002330|UBERON:0002390	exocrine system|hematopoietic system	None	None		
+UBERON:0002385|UBERON:0003714	muscle tissue|neural tissue	None	None		
+UBERON:0002390|UBERON:8450002	hematopoietic system|excretory system	None	None		
+UBERON:0002390|UBERON:0004456	hematopoietic system|entire sense organ system	None	None		
+UBERON:0002390|UBERON:0002423	hematopoietic system|hepatobiliary system	None	None		
+UBERON:0002390|UBERON:0002416	hematopoietic system|integumental system	None	None		
+UBERON:0002390|UBERON:0002405	hematopoietic system|immune system	None	None		
+UBERON:0002405|UBERON:8450002	immune system|excretory system	None	None		
+UBERON:0002405|UBERON:0004456	immune system|entire sense organ system	None	None		
+UBERON:0002405|UBERON:0002423	immune system|hepatobiliary system	None	None		
+UBERON:0002405|UBERON:0002416	immune system|integumental system	None	None		
+UBERON:0002416|UBERON:8450002	integumental system|excretory system	None	None		
+UBERON:0002416|UBERON:0004456	integumental system|entire sense organ system	None	None		
+UBERON:0002416|UBERON:0002423	integumental system|hepatobiliary system	None	None		
+UBERON:0002418|UBERON:0002481	cartilage tissue|bone tissue	None	None		
+UBERON:0002423|UBERON:8450002	hepatobiliary system|excretory system	None	None		
+UBERON:0002423|UBERON:0004456	hepatobiliary system|entire sense organ system	None	None		
+UBERON:0002464|UBERON:0003439	nerve trunk|nerve of trunk region	None	None		
+UBERON:0002481|UBERON:0005090	bone tissue|muscle structure	None	None		
+UBERON:0002529|UBERON:0010912	limb segment|subdivision of skeleton	None	None		
+UBERON:0002550|UBERON:0002770	anterior hypothalamic region|posterior hypothalamic region	None	None		
+UBERON:0002828|UBERON:0002829	ventral cochlear nucleus|dorsal cochlear nucleus	None	None		
+UBERON:0002830|UBERON:0002831	anteroventral cochlear nucleus|posteroventral cochlear nucleus	None	None		
+UBERON:0003076|UBERON:0003080	posterior neural tube|anterior neural tube	None	None		
+UBERON:0003100|UBERON:0003101	female organism|male organism	None	None		
+UBERON:0003714|UBERON:0004755	neural tissue|skeletal tissue	None	None		
+UBERON:0003952|UBERON:0003953	anterior stroma of cornea|posterior stroma of cornea	None	None		
+UBERON:0004022|UBERON:0006934	germinal neuroepithelium|sensory epithelium	None	None		
+UBERON:0004053|UBERON:0009196	external male genitalia|indifferent external genitalia	None	None		
+UBERON:0004053|UBERON:0005056	external male genitalia|external female genitalia	None	None		
+UBERON:0004067|UBERON:0004068	lateral nasal prominence|medial nasal prominence	None	None		
+UBERON:0004288|UBERON:0004770	skeleton|articular system	None	None		
+UBERON:0004367|UBERON:0004370	Descemet's membrane|anterior limiting lamina of cornea	None	None		
+UBERON:0004456|UBERON:8450002	entire sense organ system|excretory system	None	None		
+UBERON:0004709|UBERON:0004710	pelvic appendage|pectoral appendage	None	None		
+UBERON:0004715|UBERON:0006008	annulus fibrosus disci intervertebralis|fibrous ring of heart	None	None		
+UBERON:0004723|UBERON:0009885	interlobular artery|interlobar artery	None	None		
+UBERON:0004763|UBERON:0004764	endochondral bone tissue|intramembranous bone tissue	None	None		
+UBERON:0005056|UBERON:0009196	external female genitalia|indifferent external genitalia	None	None		
+UBERON:0005168|UBERON:0009887	renal interlobular vein|interlobar vein	None	None		
+UBERON:0005386|UBERON:0015786	olfactory segment of nasal mucosa|respiratory segment of nasal mucosa	None	None		
+UBERON:0005417|UBERON:0005418	forelimb bud|hindlimb bud	None	None		
+UBERON:0006135|UBERON:0006136	myelinated nerve fiber|unmyelinated nerve fiber	None	None		
+UBERON:0006334|UBERON:2001470	posterior lateral line|anterior lateral line	None	None		
+UBERON:0007173|UBERON:0007174	lateral border of scapula|medial border of scapula	None	None		
+UBERON:0007845|UBERON:0011821	regular connective tissue|irregular connective tissue	None	None		
+UBERON:0008845|UBERON:0008846	nonskeletal ligament|skeletal ligament	None	None		
+UBERON:0008895|UBERON:0011156	splanchnocranium|facial skeleton	None	None		
+UBERON:0008974|UBERON:0010243	apocrine gland|merocrine gland	None	None		
+UBERON:0009204|UBERON:0009205	medial nasal process mesenchyme|lateral nasal process mesenchyme	None	None		
+UBERON:0009647|UBERON:0010070	tympanic membrane epithelium|intermediate layer of tympanic membrane	None	None		
+UBERON:0009955|UBERON:0011814	neurogenic placode|non-neurogenic ectodermal placode	None	None		
+UBERON:0010001|UBERON:0011216	cell cluster organ|organ system subdivision	None	None		
+UBERON:0010304|UBERON:0012329	non-keratinized stratified squamous epithelium|keratinized stratified squamous epithelium	None	None		
+UBERON:0010538|UBERON:0010912	paired limb/fin segment|subdivision of skeleton	None	None		
+UBERON:0010544|UBERON:0010545	metacarpus skeleton|metatarsus skeleton	None	None		
+UBERON:0010688|UBERON:0010696	skeleton of manual acropodium|skeleton of pedal acropodium	None	None		
+UBERON:0010703|UBERON:0010720	forelimb zeugopod skeleton|hindlimb zeugopod skeleton	None	None		
+UBERON:0011823|UBERON:0011825	dense connective tissue|loose connective tissue	None	None		
+UBERON:0035165|UBERON:0035523	posterior surface of prostate|anterior surface of prostate	None	None		
+UBERON:2001156|UBERON:2001316	posterior lateral line placode|anterior lateral line placode	None	None		
+UBERON:2001314|UBERON:2001391	posterior lateral line ganglion|anterior lateral line ganglion	None	None		
+UBERON:2001468|UBERON:2001471	anterior lateral line system|posterior lateral line system	None	None		
+_:riog00151338		None	None		

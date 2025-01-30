@@ -1,26 +1,25 @@
 import logging
 from collections import defaultdict
-from copy import copy
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional, Dict, Literal, Iterator, Tuple, Set, Any
+from typing import Any, Dict, Iterator, List, Literal, Optional, Set
 
 import pandas as pd
 from pydantic import BaseModel
 from sssom_schema import Mapping
 
-from oaklib import get_adapter, BasicOntologyInterface
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.vocabulary import SEMAPV
 from oaklib.interfaces import MappingProviderInterface, OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
-from oaklib.utilities.axioms.logical_definition_summarizer import Config
-from oaklib.utilities.mapping.mapping_validation import obsoletes
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 
 DIRECTION = Literal[1, -1]
 
+
 def curie_prefix(curie: CURIE) -> str:
     return curie.split(":")[0]
+
 
 class MappingCrawlerConfig(BaseModel):
     # make it strict, ie pydantic should raise errors if unspecified attrs used
@@ -40,10 +39,12 @@ class MappingCrawlerConfig(BaseModel):
     gap_fill: bool = True
     clique_directory: Optional[str] = None
 
+
 class MappingClique(BaseModel):
     """
     A set of mappings that are all connected in a graph.
     """
+
     class Config:
         extra = "forbid"
         arbitrary_types_allowed = True
@@ -137,7 +138,7 @@ class MappingClique(BaseModel):
 
         :return:
         """
-        return {k: len(v)-1 for k, v in self.entities_by_entity_source.items()}
+        return {k: len(v) - 1 for k, v in self.entities_by_entity_source.items()}
 
     @property
     def average_incoherency(self) -> float:
@@ -160,15 +161,23 @@ class MappingClique(BaseModel):
 
     def as_flat_dict(self) -> Dict[str, Any]:
         d = {}
-        for k in ["seed", "name", "mapping_count", "entity_count",
-                  "entities", "entity_labels",
-                  "predicates", "mapping_sources", "average_incoherency", "max_incoherency"]:
+        for k in [
+            "seed",
+            "name",
+            "mapping_count",
+            "entity_count",
+            "entities",
+            "entity_labels",
+            "predicates",
+            "mapping_sources",
+            "average_incoherency",
+            "max_incoherency",
+        ]:
             d[k] = getattr(self, k)
         d["sources"] = list(self.entities_by_entity_source.keys())
         for k, v in self.incoherency_by_entity_source.items():
             d[f"incoherency_{k}"] = v
         return d
-
 
 
 @dataclass
@@ -190,24 +199,27 @@ class MappingCrawler:
                     return adapter.label(x)
             return None
 
+        def get_sssom_path(seed: str):
+            if self.config.clique_directory:
+                base_name = seed.replace(":", "_")
+                path = Path(self.config.clique_directory)
+                sssom_path = path / "cliques" / f"{base_name}.sssom.tsv"
+                sssom_path.parent.mkdir(parents=True, exist_ok=True)
+                return sssom_path
+            else:
+                return None
+
         clique_by_entity = {}
         aliases = {}
         rows = []
         for seed in seeds:
             if seed in aliases:
                 continue
-            def get_sssom_path():
-                if self.config.clique_directory:
-                    base_name = seed.replace(":", "_")
-                    path = Path(self.config.clique_directory)
-                    sssom_path = path / "cliques" / f"{base_name}.sssom.tsv"
-                    sssom_path.parent.mkdir(parents=True, exist_ok=True)
-                    return sssom_path
-                else:
-                    return None
-            sssom_path = get_sssom_path()
-            if sssom_path and sssom_path.exists():
-                continue
+
+            sssom_path = get_sssom_path(seed)
+            # TODO: allow for caching
+            # if sssom_path and sssom_path.exists():
+            #     continue
             clique = self.crawl([seed])
             clique.seed = seed
             clique.name = get_label(seed)
@@ -221,17 +233,19 @@ class MappingCrawler:
                 path.mkdir(parents=True, exist_ok=True)
                 with open(sssom_path, "w") as file:
                     writer = StreamingSssomWriter()
-                    #writer.output = str(sssom_path)
+                    # writer.output = str(sssom_path)
                     writer.file = file
                     for m in clique.mappings:
                         writer.emit(m)
                     writer.finish()
-                    #writer.close()
+                    # writer.close()
                 rows.append(clique.as_flat_dict())
         df = pd.DataFrame(rows)
         if self.config.clique_directory:
             df.to_csv(Path(self.config.clique_directory) / "clique_results.csv", index=False)
-            df.describe().to_csv(Path(self.config.clique_directory) / "clique_summary.csv", index=True)
+            df.describe().to_csv(
+                Path(self.config.clique_directory) / "clique_summary.csv", index=True
+            )
 
     def adapters(self) -> Dict[str, BasicOntologyInterface]:
         if not self._adapters:
@@ -273,6 +287,7 @@ class MappingCrawler:
         max_dist_traversed = 0
 
         labels = {}
+
         def get_label(x) -> Optional[str]:
             if x not in labels:
                 for adapter in adapters.values():
@@ -295,7 +310,6 @@ class MappingCrawler:
                     x = x.replace(k, v)
             return x
 
-
         # main loop; pop a node from the stack, get its neighbors, and add them to the stack
         while stack:
             curie, distance = stack.pop()
@@ -315,16 +329,17 @@ class MappingCrawler:
                 if config.adapter_configs[name]:
                     override_dict = config.adapter_configs[name].model_dump(exclude_unset=True)
                     curr_dict = config.model_dump(exclude_unset=True)
-                    this_config = MappingCrawlerConfig(
-                        **{**curr_dict, **override_dict}
-                    )
+                    this_config = MappingCrawlerConfig(**{**curr_dict, **override_dict})
                 else:
                     this_config = config
                 # mappings
                 if this_config.mapping_directions and isinstance(adapter, MappingProviderInterface):
                     mapped_curie = normalize_id(curie, this_config, reverse=True)
                     for m in adapter.sssom_mappings(mapped_curie):
-                        if this_config.mapping_predicates and m.predicate_id not in this_config.mapping_predicates:
+                        if (
+                            this_config.mapping_predicates
+                            and m.predicate_id not in this_config.mapping_predicates
+                        ):
                             continue
                         # mappings are returned bi-directionally, so we need to check the direction
                         pred, obj = m.predicate_id, m.object_id
@@ -343,12 +358,14 @@ class MappingCrawler:
                         for _, p, o in adapter.relationships([curie], this_config.edge_predicates):
                             outgoing.append((p, 1, o, name, SEMAPV.ManualMappingCuration.value))
                     if -1 in this_config.edge_directions:
-                        for o, p, _ in adapter.relationships(None, this_config.edge_predicates, [curie]):
+                        for o, p, _ in adapter.relationships(
+                            None, this_config.edge_predicates, [curie]
+                        ):
                             outgoing.append((p, -1, o, name, SEMAPV.ManualMappingCuration.value))
             # add outgoing edges to the stack and yield them
-            for pred, dirn,  obj, src, mj in outgoing:
+            for pred, dirn, obj, src, mj in outgoing:
                 allowed_prefixes = config.allowed_prefixes
-                if allowed_prefixes and not any(obj.startswith(p+":") for p in allowed_prefixes):
+                if allowed_prefixes and not any(obj.startswith(p + ":") for p in allowed_prefixes):
                     continue
                 src_id = f"obo:{src}"
                 stack.append((obj, distance + 1))
@@ -386,7 +403,9 @@ class MappingCrawler:
                         ancs = list(adapter.ancestors(curie))
                         for curie2 in all_curies:
                             if curie2 != curie and curie2 in ancs:
-                                for rel in adapter.relationships([curie], None, [curie2], include_entailed=True):
+                                for rel in adapter.relationships(
+                                    [curie], None, [curie2], include_entailed=True
+                                ):
                                     yield Mapping(
                                         subject_id=curie,
                                         subject_label=get_label(curie),
@@ -394,10 +413,8 @@ class MappingCrawler:
                                         object_id=curie2,
                                         object_label=get_label(curie2),
                                         mapping_justification=SEMAPV.ManualMappingCuration.value,
-                                        mapping_source="obo:"+name,
+                                        mapping_source="obo:" + name,
                                     )
         logging.info(f"Visited {len(visited)} nodes")
         logging.info(f"Yielded {len(mappings)} mappings")
         logging.info(f"Max distance traversed: {max_dist_traversed}")
-
-

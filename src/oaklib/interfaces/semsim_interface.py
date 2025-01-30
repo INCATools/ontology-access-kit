@@ -5,8 +5,6 @@ from abc import ABC
 from collections import defaultdict
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
-import networkx as nx
-
 from oaklib.datamodels.similarity import (
     BestMatch,
     TermInfo,
@@ -131,7 +129,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                 if asymmetric and s >= o:
                     continue
                 pairs.append((s, o))
-        for (s, o) in pairs:
+        for s, o in pairs:
             for mrca in self.most_recent_common_ancestors(s, o, predicates=predicates):
                 yield s, o, mrca
 

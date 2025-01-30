@@ -1,0 +1,4 @@
+subject	subject_label	object	object_label	path_node	path_node_label
+CL:0000099	interneuron	CL:4023061	hippocampal CA4 neuron	CL:0000099	interneuron
+CL:0000099	interneuron	CL:4023061	hippocampal CA4 neuron	CL:0000540	neuron
+CL:0000099	interneuron	CL:4023061	hippocampal CA4 neuron	CL:4023061	hippocampal CA4 neuron

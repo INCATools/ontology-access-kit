@@ -1,0 +1,459 @@
+id: AllOntologies
+ontologies:
+- id: obo:chebi.owl
+  version: obo:chebi/231/chebi.owl
+was_generated_by:
+  started_at_time: '2024-03-26T17:29:56.627143'
+  was_associated_with: OAK
+  acted_on_behalf_of: cjm
+class_count: 217549
+deprecated_class_count: 18650
+non_deprecated_class_count: 198899
+class_count_with_text_definitions: 53575
+class_count_without_text_definitions: 163974
+object_property_count: 10
+annotation_property_count: 37
+named_individual_count: 0
+subset_count: 3
+rdf_triple_count: 6860047
+subclass_of_axiom_count: 368285
+equivalent_classes_axiom_count: 0
+edge_count_by_predicate:
+  BFO:0000051:
+    facet: BFO:0000051
+    filtered_count: 4029
+  RO:0000087:
+    facet: RO:0000087
+    filtered_count: 43636
+  obo:chebi#has_functional_parent:
+    facet: obo:chebi#has_functional_parent
+    filtered_count: 19632
+  obo:chebi#has_parent_hydride:
+    facet: obo:chebi#has_parent_hydride
+    filtered_count: 1799
+  obo:chebi#is_conjugate_acid_of:
+    facet: obo:chebi#is_conjugate_acid_of
+    filtered_count: 8484
+  obo:chebi#is_conjugate_base_of:
+    facet: obo:chebi#is_conjugate_base_of
+    filtered_count: 8484
+  obo:chebi#is_enantiomer_of:
+    facet: obo:chebi#is_enantiomer_of
+    filtered_count: 2754
+  obo:chebi#is_substituent_group_from:
+    facet: obo:chebi#is_substituent_group_from
+    filtered_count: 1287
+  obo:chebi#is_tautomer_of:
+    facet: obo:chebi#is_tautomer_of
+    filtered_count: 1886
+  rdfs:subClassOf:
+    facet: rdfs:subClassOf
+    filtered_count: 276294
+  rdfs:subPropertyOf:
+    facet: rdfs:subPropertyOf
+    filtered_count: 6
+distinct_synonym_count: 366057
+synonym_statement_count: 379805
+synonym_statement_count_by_predicate:
+  oio:hasExactSynonym:
+    facet: oio:hasExactSynonym
+    filtered_count: 132116
+  oio:hasRelatedSynonym:
+    facet: oio:hasRelatedSynonym
+    filtered_count: 235787
+class_count_by_subset:
+  obo:chebi#1_STAR:
+    facet: obo:chebi#1_STAR
+    filtered_count: 2942
+  obo:chebi#2_STAR:
+    facet: obo:chebi#2_STAR
+    filtered_count: 134777
+  obo:chebi#3_STAR:
+    facet: obo:chebi#3_STAR
+    filtered_count: 61180
+mapping_statement_count_by_predicate:
+  oio:hasDbXref:
+    facet: oio:hasDbXref
+    filtered_count: 345271
+mapping_statement_count_by_object_source:
+  BFO:
+    facet: BFO
+    filtered_count: 1
+  RO:
+    facet: RO
+    filtered_count: 1
+  KNApSAcK:
+    facet: KNApSAcK
+    filtered_count: 5185
+  KEGG:
+    facet: KEGG
+    filtered_count: 22228
+  CAS:
+    facet: CAS
+    filtered_count: 28938
+  KEGG_COMPOUND:
+    facet: KEGG_COMPOUND
+    filtered_count: 19870
+  Beilstein:
+    facet: Beilstein
+    filtered_count: 9187
+  IUPAC:
+    facet: IUPAC
+    filtered_count: 61013
+  ChemIDplus:
+    facet: ChemIDplus
+    filtered_count: 33383
+  UniProt:
+    facet: UniProt
+    filtered_count: 16047
+  LINCS:
+    facet: LINCS
+    filtered_count: 41392
+  Drug_Central:
+    facet: Drug_Central
+    filtered_count: 3784
+  DrugCentral:
+    facet: DrugCentral
+    filtered_count: 6202
+  Wikipedia:
+    facet: Wikipedia
+    filtered_count: 6475
+  PMID:
+    facet: PMID
+    filtered_count: 108877
+  LIPID_MAPS_instance:
+    facet: LIPID_MAPS_instance
+    filtered_count: 12240
+  Reaxys:
+    facet: Reaxys
+    filtered_count: 17705
+  MetaCyc:
+    facet: MetaCyc
+    filtered_count: 8069
+  DrugBank:
+    facet: DrugBank
+    filtered_count: 5174
+  KEGG_DRUG:
+    facet: KEGG_DRUG
+    filtered_count: 1407
+  ChEBI:
+    facet: ChEBI
+    filtered_count: 92712
+  VSDB:
+    facet: VSDB
+    filtered_count: 254
+  Patent:
+    facet: Patent
+    filtered_count: 5003
+  PDBeChem:
+    facet: PDBeChem
+    filtered_count: 5426
+  ChEMBL:
+    facet: ChEMBL
+    filtered_count: 456
+  Chemspider:
+    facet: Chemspider
+    filtered_count: 52215
+  WHO_MedNet:
+    facet: WHO_MedNet
+    filtered_count: 1976
+  HMDB:
+    facet: HMDB
+    filtered_count: 43560
+  Gmelin:
+    facet: Gmelin
+    filtered_count: 3457
+  Pesticides:
+    facet: Pesticides
+    filtered_count: 623
+  PPDB:
+    facet: PPDB
+    filtered_count: 1198
+  PMCID:
+    facet: PMCID
+    filtered_count: 206
+  FooDB:
+    facet: FooDB
+    filtered_count: 616
+  NIST_Chemistry_WebBook:
+    facet: NIST_Chemistry_WebBook
+    filtered_count: 6217
+  LIPID_MAPS:
+    facet: LIPID_MAPS
+    filtered_count: 2824
+  IUPHAR:
+    facet: IUPHAR
+    filtered_count: 79
+  CBA:
+    facet: CBA
+    filtered_count: 136
+  AGR:
+    facet: AGR
+    filtered_count: 1231
+  SUBMITTER:
+    facet: SUBMITTER
+    filtered_count: 105948
+  BPDB:
+    facet: BPDB
+    filtered_count: 92
+  JCBN:
+    facet: JCBN
+    filtered_count: 1229
+  YMDB:
+    facet: YMDB
+    filtered_count: 102
+  GlyTouCan:
+    facet: GlyTouCan
+    filtered_count: 11533
+  GlyGen:
+    facet: GlyGen
+    filtered_count: 10567
+  UM-BBD_compID:
+    facet: UM-BBD_compID
+    filtered_count: 621
+  IUBMB:
+    facet: IUBMB
+    filtered_count: 163
+  COMe:
+    facet: COMe
+    filtered_count: 133
+  CBN:
+    facet: CBN
+    filtered_count: 254
+  Alan_Wood's_Pesticides:
+    facet: Alan_Wood's_Pesticides
+    filtered_count: 684
+  Pubchem:
+    facet: Pubchem
+    filtered_count: 157
+  PDB:
+    facet: PDB
+    filtered_count: 158
+  LIPID_MAPS_class:
+    facet: LIPID_MAPS_class
+    filtered_count: 36
+  RESID:
+    facet: RESID
+    filtered_count: 155
+  KEGG_GLYCAN:
+    facet: KEGG_GLYCAN
+    filtered_count: 443
+  PubChem:
+    facet: PubChem
+    filtered_count: 2
+  ECMDB:
+    facet: ECMDB
+    filtered_count: 99
+  UM-BBD:
+    facet: UM-BBD
+    filtered_count: 271
+  MolBase:
+    facet: MolBase
+    filtered_count: 556
+  WebElements:
+    facet: WebElements
+    filtered_count: 111
+  FAO/WHO_standards:
+    facet: FAO/WHO_standards
+    filtered_count: 1
+  PPR:
+    facet: PPR
+    filtered_count: 2
+  CTX:
+    facet: CTX
+    filtered_count: 3
+  SMID:
+    facet: SMID
+    filtered_count: 307
+mapping_statement_count_subject_by_object_source:
+  BFO:
+    facet: BFO
+    filtered_count: 1
+  RO:
+    facet: RO
+    filtered_count: 1
+  KNApSAcK:
+    facet: KNApSAcK
+    filtered_count: 5091
+  KEGG:
+    facet: KEGG
+    filtered_count: 20233
+  CAS:
+    facet: CAS
+    filtered_count: 28615
+  KEGG_COMPOUND:
+    facet: KEGG_COMPOUND
+    filtered_count: 19870
+  Beilstein:
+    facet: Beilstein
+    filtered_count: 8704
+  IUPAC:
+    facet: IUPAC
+    filtered_count: 61013
+  ChemIDplus:
+    facet: ChemIDplus
+    filtered_count: 33383
+  UniProt:
+    facet: UniProt
+    filtered_count: 16047
+  LINCS:
+    facet: LINCS
+    filtered_count: 41389
+  Drug_Central:
+    facet: Drug_Central
+    filtered_count: 3783
+  DrugCentral:
+    facet: DrugCentral
+    filtered_count: 6202
+  Wikipedia:
+    facet: Wikipedia
+    filtered_count: 6463
+  PMID:
+    facet: PMID
+    filtered_count: 31164
+  LIPID_MAPS_instance:
+    facet: LIPID_MAPS_instance
+    filtered_count: 12225
+  Reaxys:
+    facet: Reaxys
+    filtered_count: 17505
+  MetaCyc:
+    facet: MetaCyc
+    filtered_count: 8066
+  DrugBank:
+    facet: DrugBank
+    filtered_count: 5169
+  KEGG_DRUG:
+    facet: KEGG_DRUG
+    filtered_count: 1407
+  ChEBI:
+    facet: ChEBI
+    filtered_count: 92712
+  VSDB:
+    facet: VSDB
+    filtered_count: 254
+  Patent:
+    facet: Patent
+    filtered_count: 2684
+  PDBeChem:
+    facet: PDBeChem
+    filtered_count: 5402
+  ChEMBL:
+    facet: ChEMBL
+    filtered_count: 456
+  Chemspider:
+    facet: Chemspider
+    filtered_count: 52042
+  WHO_MedNet:
+    facet: WHO_MedNet
+    filtered_count: 1976
+  HMDB:
+    facet: HMDB
+    filtered_count: 43540
+  Gmelin:
+    facet: Gmelin
+    filtered_count: 3351
+  Pesticides:
+    facet: Pesticides
+    filtered_count: 621
+  PPDB:
+    facet: PPDB
+    filtered_count: 1197
+  PMCID:
+    facet: PMCID
+    filtered_count: 166
+  FooDB:
+    facet: FooDB
+    filtered_count: 616
+  NIST_Chemistry_WebBook:
+    facet: NIST_Chemistry_WebBook
+    filtered_count: 6217
+  LIPID_MAPS:
+    facet: LIPID_MAPS
+    filtered_count: 2824
+  IUPHAR:
+    facet: IUPHAR
+    filtered_count: 79
+  CBA:
+    facet: CBA
+    filtered_count: 105
+  AGR:
+    facet: AGR
+    filtered_count: 735
+  SUBMITTER:
+    facet: SUBMITTER
+    filtered_count: 105948
+  BPDB:
+    facet: BPDB
+    filtered_count: 92
+  JCBN:
+    facet: JCBN
+    filtered_count: 1229
+  YMDB:
+    facet: YMDB
+    filtered_count: 102
+  GlyTouCan:
+    facet: GlyTouCan
+    filtered_count: 11506
+  GlyGen:
+    facet: GlyGen
+    filtered_count: 10541
+  UM-BBD_compID:
+    facet: UM-BBD_compID
+    filtered_count: 621
+  IUBMB:
+    facet: IUBMB
+    filtered_count: 163
+  COMe:
+    facet: COMe
+    filtered_count: 133
+  CBN:
+    facet: CBN
+    filtered_count: 254
+  Alan_Wood's_Pesticides:
+    facet: Alan_Wood's_Pesticides
+    filtered_count: 684
+  Pubchem:
+    facet: Pubchem
+    filtered_count: 155
+  PDB:
+    facet: PDB
+    filtered_count: 141
+  LIPID_MAPS_class:
+    facet: LIPID_MAPS_class
+    filtered_count: 36
+  RESID:
+    facet: RESID
+    filtered_count: 155
+  KEGG_GLYCAN:
+    facet: KEGG_GLYCAN
+    filtered_count: 443
+  PubChem:
+    facet: PubChem
+    filtered_count: 2
+  ECMDB:
+    facet: ECMDB
+    filtered_count: 99
+  UM-BBD:
+    facet: UM-BBD
+    filtered_count: 271
+  MolBase:
+    facet: MolBase
+    filtered_count: 553
+  WebElements:
+    facet: WebElements
+    filtered_count: 111
+  FAO/WHO_standards:
+    facet: FAO/WHO_standards
+    filtered_count: 1
+  PPR:
+    facet: PPR
+    filtered_count: 2
+  CTX:
+    facet: CTX
+    filtered_count: 3
+  SMID:
+    facet: SMID
+    filtered_count: 307
+merged_class_query: 18581
+deprecated_property_count: 0

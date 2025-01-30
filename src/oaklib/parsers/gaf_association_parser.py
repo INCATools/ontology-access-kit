@@ -2,9 +2,7 @@
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Union
 
-from oaklib.datamodels.association import Association, NegatedAssociation
 from oaklib.parsers.parser_base import ColumnReference
 from oaklib.parsers.xaf_association_parser import XafAssociationParser
 

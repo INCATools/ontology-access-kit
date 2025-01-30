@@ -1,7 +1,7 @@
 import logging
 import unittest
 
-from oaklib.datamodels.association import Association, ParserConfiguration, NegatedAssociation
+from oaklib.datamodels.association import Association, NegatedAssociation, ParserConfiguration
 from oaklib.parsers import GAF
 from oaklib.parsers.association_parser_factory import get_association_parser
 from tests import INPUT_DIR
@@ -16,7 +16,9 @@ class GafAssociationParserTest(unittest.TestCase):
         """Tests parsing associations."""
         parser = get_association_parser(GAF)
         for preserve_negated_associations in [True, False]:
-            config = ParserConfiguration(preserve_negated_associations=preserve_negated_associations)
+            config = ParserConfiguration(
+                preserve_negated_associations=preserve_negated_associations
+            )
             with open(INPUT_GAF) as file:
                 assocs = list(parser.parse(file, configuration=config))
                 for association in assocs:

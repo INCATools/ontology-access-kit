@@ -1,0 +1,43 @@
+type: https://w3id.org/oak/ontology-metadata/DCC.S20
+subject: GO:0000010
+severity: INFO
+predicate: IAO:0000115
+object_str: "id: PMID:9708911\ntitle: Biological significance of the side chain length\
+  \ of ubiquinone in Saccharomyces\n  cerevisiae.\nabstract: Ubiquinone (UQ), an important\
+  \ component of the electron transfer system,\n  is constituted of a quinone structure\
+  \ and a side chain isoprenoid. The side chain\n  length of UQ differs between microorganisms,\
+  \ and this difference has been used for\n  taxonomic study. In this study, we have\
+  \ addressed the importance of the length of\n  the side chain of UQ for cells, and\
+  \ examined the effect of chain length by producing\n  UQs with isoprenoid chain\
+  \ lengths between 5 and 10 in Saccharomyces cerevisiae.\n  To make the different\
+  \ UQ species, different types of prenyl diphosphate synthases\n  were expressed\
+  \ in a S. cerevisiae COQ1 mutant defective for hexaprenyl diphosphate\n  synthesis.\
+  \ As a result, we found that the original species of UQ (in this case UQ-6)\n  had\
+  \ maximum functionality. However, we found that other species of UQ could replace\n\
+  \  UQ-6. Thus a broad spectrum of different UQ species are biologically functional\n\
+  \  in yeast cells, although cells seem to display a preference for their own particular\n\
+  \  type of UQ.\npublication_type: Research Support, Non-U.S. Gov't\n"
+info: 'The term "trans-hexaprenyltranstransferase activity" has a HIGH level of alignment
+  with the cited reference PMID:9708911. The abstract supports the definition well,
+  as evidenced by these key points:
+
+
+  1. The study examines the importance of the side chain length of ubiquinone (UQ)
+  in Saccharomyces cerevisiae, which directly relates to the activity of trans-hexaprenyltranstransferase.
+
+
+  2. The abstract mentions "hexaprenyl diphosphate synthesis" in S. cerevisiae, which
+  is the product of trans-hexaprenyltranstransferase activity.
+
+
+  3. The study found that the original species of UQ (UQ-6) had maximum functionality
+  in yeast cells, suggesting a preference for the hexaprenyl side chain length produced
+  by trans-hexaprenyltranstransferase.
+
+
+  No sections of the abstract misalign with or contradict the term definition. The
+  definition is appropriately specific, focusing on the enzyme''s activity without
+  providing additional details about its structure or cellular role.'
+definition: 'Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+  diphosphate = 4 diphosphate + all-trans-heptaprenyl diphosphate.'
+definition_source: PMID:9708911

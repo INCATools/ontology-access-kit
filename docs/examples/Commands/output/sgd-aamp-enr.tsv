@@ -1,0 +1,285 @@
+class_id	p_value	class_label	p_value_adjusted	false_discovery_rate	fold_enrichment	sample_count	sample_total	background_count	background_total	label
+GO:0070127	6.554274525638257e-19	None	9.759314768675365e-16	None	None	13	263	13	6442	tRNA aminoacylation for mitochondrial protein translation
+GO:0006418	1.103231635035563e-54	None	1.6427119045679533e-51	None	None	38	263	38	6442	tRNA aminoacylation for protein translation
+GO:0006569	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	tryptophan catabolic process
+GO:0019509	1.6790432350560606e-17	None	2.500095376998474e-14	None	None	12	263	12	6442	L-methionine salvage from methylthioadenosine
+GO:0071267	6.554274525638257e-19	None	9.759314768675365e-16	None	None	13	263	13	6442	L-methionine salvage
+GO:0071265	3.0736520823537208e-30	None	4.57666795062469e-27	None	None	21	263	21	6442	L-methionine biosynthetic process
+GO:0019343	2.7589586875329247e-13	None	4.108089485736525e-10	None	None	9	263	9	6442	cysteine biosynthetic process via cystathionine
+GO:0002161	2.7589586875329247e-13	None	4.108089485736525e-10	None	None	9	263	9	6442	aminoacyl-tRNA editing activity
+GO:0009086	1.638161664466378e-60	None	2.439222718390437e-57	None	None	42	263	42	6442	methionine biosynthetic process
+GO:0019344	5.606686561743865e-26	None	8.348356290436615e-23	None	None	18	263	18	6442	cysteine biosynthetic process
+GO:0000947	4.284891684430001e-16	None	6.380203718116272e-13	None	None	11	263	11	6442	amino acid catabolic process to alcohol via Ehrlich pathway
+GO:0006530	6.554274525638257e-19	None	9.759314768675365e-16	None	None	13	263	13	6442	asparagine catabolic process
+GO:0006537	4.284891684430001e-16	None	6.380203718116272e-13	None	None	11	263	11	6442	glutamate biosynthetic process
+GO:0019878	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	lysine biosynthetic process via aminoadipic acid
+GO:0009085	2.5487146234582113e-20	None	3.7950360743292764e-17	None	None	14	263	14	6442	lysine biosynthetic process
+GO:0006526	4.284891684430001e-16	None	6.380203718116272e-13	None	None	11	263	11	6442	arginine biosynthetic process
+GO:0009097	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	isoleucine biosynthetic process
+GO:0071266	6.961231449315628e-12	None	1.036527362803097e-08	None	None	8	263	8	6442	'de novo' L-methionine biosynthetic process
+GO:0009084	3.0516570276799556e-40	None	4.543917314215454e-37	None	None	28	263	28	6442	glutamine family amino acid biosynthetic process
+GO:0009067	1.2561266894043685e-85	None	1.8703726405231048e-82	None	None	59	263	59	6442	aspartate family amino acid biosynthetic process
+GO:0009070	6.938177024536554e-49	None	1.0330945589534929e-45	None	None	34	263	34	6442	serine family amino acid biosynthetic process
+GO:0043039	1.638161664466378e-60	None	2.439222718390437e-57	None	None	42	263	42	6442	tRNA aminoacylation
+GO:0009073	3.809676251769442e-23	None	5.672607938884699e-20	None	None	16	263	16	6442	aromatic amino acid family biosynthetic process
+GO:0009074	1.6790432350560606e-17	None	2.500095376998474e-14	None	None	12	263	12	6442	aromatic amino acid family catabolic process
+GO:0006568	5.606686561743865e-26	None	8.348356290436615e-23	None	None	18	263	18	6442	tryptophan metabolic process
+GO:0009065	8.123042663754496e-29	None	1.2095210526330444e-25	None	None	20	263	20	6442	glutamine family amino acid catabolic process
+GO:1901607	2.2909620588965427e-184	None	3.411242505696952e-181	None	None	122	263	122	6442	alpha-amino acid biosynthetic process
+GO:0009068	2.1382911077521816e-27	None	3.1839154594429984e-24	None	None	19	263	19	6442	aspartate family amino acid catabolic process
+GO:0043102	6.554274525638257e-19	None	9.759314768675365e-16	None	None	13	263	13	6442	amino acid salvage
+GO:0009083	4.284891684430001e-16	None	6.380203718116272e-13	None	None	11	263	11	6442	branched-chain amino acid catabolic process
+GO:0000105	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	histidine biosynthetic process
+GO:0005759	3.5313648165205024e-12	None	5.258202211799028e-09	None	None	36	263	237	6442	mitochondrial matrix
+GO:0000955	4.284891684430001e-16	None	6.380203718116272e-13	None	None	11	263	11	6442	amino acid catabolic process via Ehrlich pathway
+GO:0009063	1.2561266894043685e-85	None	1.8703726405231048e-82	None	None	59	263	59	6442	amino acid catabolic process
+GO:1901606	7.696812902426665e-68	None	1.1460554411713303e-64	None	None	47	263	47	6442	alpha-amino acid catabolic process
+GO:0008652	1.818298920578393e-209	None	2.7074470927412273e-206	None	None	137	263	137	6442	amino acid biosynthetic process
+GO:0009082	3.809676251769442e-23	None	5.672607938884699e-20	None	None	16	263	16	6442	branched-chain amino acid biosynthetic process
+GO:0042436	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	indole-containing compound catabolic process
+GO:0019346	2.7589586875329247e-13	None	4.108089485736525e-10	None	None	9	263	9	6442	transsulfuration
+GO:0106074	2.7589586875329247e-13	None	4.108089485736525e-10	None	None	9	263	9	6442	aminoacyl-tRNA metabolism involved in translational fidelity
+GO:0009098	6.961231449315628e-12	None	1.036527362803097e-08	None	None	8	263	8	6442	leucine biosynthetic process
+GO:0000097	1.9448209712428003e-63	None	2.8958384261805294e-60	None	None	44	263	44	6442	sulfur amino acid biosynthetic process
+GO:0006558	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	L-phenylalanine metabolic process
+GO:0006555	7.696812902426665e-68	None	1.1460554411713303e-64	None	None	47	263	47	6442	methionine metabolic process
+GO:0006534	5.606686561743865e-26	None	8.348356290436615e-23	None	None	18	263	18	6442	cysteine metabolic process
+GO:0043650	3.560954784543642e-28	None	5.302261674185482e-25	None	None	23	263	28	6442	dicarboxylic acid biosynthetic process
+GO:0006536	9.872898899169711e-22	None	1.4700746460863701e-18	None	None	15	263	15	6442	glutamate metabolic process
+GO:0006399	4.1878470720569706e-20	None	6.235704290292829e-17	None	None	43	263	202	6442	tRNA metabolic process
+GO:0050667	1.6790432350560606e-17	None	2.500095376998474e-14	None	None	12	263	12	6442	homocysteine metabolic process
+GO:0005524	1.7762271220908543e-14	None	2.644802184793282e-11	None	None	70	263	666	6442	ATP binding
+GO:0005737	3.2922350739956647e-13	None	4.902138025179545e-10	None	None	239	263	4719	6442	cytoplasm
+GO:0009072	1.4824895941799608e-44	None	2.2074270057339617e-41	None	None	31	263	31	6442	aromatic amino acid metabolic process
+GO:0006541	4.348599555991084e-33	None	6.475064738870724e-30	None	None	23	263	23	6442	glutamine metabolic process
+GO:0006525	5.606686561743865e-26	None	8.348356290436615e-23	None	None	18	263	18	6442	arginine metabolic process
+GO:0006528	1.4643480145973033e-24	None	2.1804141937353846e-21	None	None	17	263	17	6442	asparagine metabolic process
+GO:0006553	9.872898899169711e-22	None	1.4700746460863701e-18	None	None	15	263	15	6442	lysine metabolic process
+GO:0009092	2.5487146234582113e-20	None	3.7950360743292764e-17	None	None	14	263	14	6442	homoserine metabolic process
+GO:0006549	1.6790432350560606e-17	None	2.500095376998474e-14	None	None	12	263	12	6442	isoleucine metabolic process
+GO:0006551	4.284891684430001e-16	None	6.380203718116272e-13	None	None	11	263	11	6442	leucine metabolic process
+GO:0006563	4.284891684430001e-16	None	6.380203718116272e-13	None	None	11	263	11	6442	L-serine metabolic process
+GO:0006566	2.7589586875329247e-13	None	4.108089485736525e-10	None	None	9	263	9	6442	threonine metabolic process
+GO:0009069	1.638161664466378e-60	None	2.439222718390437e-57	None	None	42	263	42	6442	serine family amino acid metabolic process
+GO:0009064	1.1241573088640076e-100	None	1.6738702328985072e-97	None	None	69	263	69	6442	glutamine family amino acid metabolic process
+GO:0009066	1.1714226676817847e-123	None	1.7442483521781775e-120	None	None	84	263	84	6442	aspartate family amino acid metabolic process
+GO:0046394	2.0979764662220494e-166	None	3.123886958204631e-163	None	None	140	263	194	6442	carboxylic acid biosynthetic process
+GO:0046395	5.349358176585937e-70	None	7.96519432493646e-67	None	None	64	263	92	6442	carboxylic acid catabolic process
+GO:0006586	5.606686561743865e-26	None	8.348356290436615e-23	None	None	18	263	18	6442	indolalkylamine metabolic process
+GO:1902221	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	erythrose 4-phosphate/phosphoenolpyruvate family amino acid metabolic process
+GO:0006591	2.7589586875329247e-13	None	4.108089485736525e-10	None	None	9	263	9	6442	ornithine metabolic process
+GO:0009081	2.2456206287089224e-37	None	3.3437291161475853e-34	None	None	26	263	26	6442	branched-chain amino acid metabolic process
+GO:1901605	8.50586299445e-313	None	1.266522999873643e-309	None	None	194	263	194	6442	alpha-amino acid metabolic process
+GO:0043038	1.638161664466378e-60	None	2.439222718390437e-57	None	None	42	263	42	6442	amino acid activation
+GO:0006547	1.0893447950232221e-14	None	1.6220343997895777e-11	None	None	10	263	10	6442	histidine metabolic process
+GO:0006520	0.0	None	0.0	None	None	263	263	263	6442	amino acid metabolic process
+GO:0032559	2.4203954433926814e-14	None	3.603968815211703e-11	None	None	70	263	670	6442	adenyl ribonucleotide binding
+GO:0016053	2.0979764662220494e-166	None	3.123886958204631e-163	None	None	140	263	194	6442	organic acid biosynthetic process
+GO:0016054	2.3978802423493422e-71	None	3.5704436808581706e-68	None	None	65	263	93	6442	organic acid catabolic process
+GO:0042430	5.606686561743865e-26	None	8.348356290436615e-23	None	None	18	263	18	6442	indole-containing compound metabolic process
+GO:0006570	6.961231449315628e-12	None	1.036527362803097e-08	None	None	8	263	8	6442	tyrosine metabolic process
+GO:0000096	2.926166465488867e-72	None	4.3570618671129225e-69	None	None	50	263	50	6442	sulfur amino acid metabolic process
+GO:0030170	5.561238953053383e-41	None	8.280684801096488e-38	None	None	35	263	45	6442	pyridoxal phosphate binding
+GO:0043648	1.99224801627208e-43	None	2.966457296229127e-40	None	None	39	263	54	6442	dicarboxylic acid metabolic process
+GO:0051287	6.58762841292216e-15	None	9.808978706841095e-12	None	None	16	263	31	6442	NAD binding
+GO:0006560	6.961231449315628e-12	None	1.036527362803097e-08	None	None	8	263	8	6442	proline metabolic process
+GO:0006573	6.961231449315628e-12	None	1.036527362803097e-08	None	None	8	263	8	6442	valine metabolic process
+GO:0006544	6.961231449315628e-12	None	1.036527362803097e-08	None	None	8	263	8	6442	glycine metabolic process
+GO:0019752	0.0	None	0.0	None	None	263	263	411	6442	carboxylic acid metabolic process
+GO:0030554	4.325342862798625e-22	None	6.440435522707152e-19	None	None	86	263	713	6442	adenyl nucleotide binding
+GO:0044271	1.9402584824827223e-14	None	2.8890448804167734e-11	None	None	113	263	1438	6442	cellular nitrogen compound biosynthetic process
+GO:1901566	1.7590100828885412e-98	None	2.619166013421038e-95	None	None	202	263	1201	6442	organonitrogen compound biosynthetic process
+GO:0004812	1.103231635035563e-54	None	1.6427119045679533e-51	None	None	38	263	38	6442	aminoacyl-tRNA ligase activity
+GO:0044272	5.0830859619471555e-52	None	7.568714997339315e-49	None	None	51	263	81	6442	sulfur compound biosynthetic process
+GO:0043436	0.0	None	0.0	None	None	263	263	429	6442	oxoacid metabolic process
+GO:1901565	1.9002338081799183e-26	None	2.8294481403798984e-23	None	None	68	263	390	6442	organonitrogen compound catabolic process
+GO:0017076	2.8061914747099676e-18	None	4.1784191058431416e-15	None	None	86	263	812	6442	purine nucleotide binding
+GO:0070279	5.561238953053383e-41	None	8.280684801096488e-38	None	None	35	263	45	6442	vitamin B6 binding
+GO:0006082	0.0	None	0.0	None	None	263	263	430	6442	organic acid metabolic process
+GO:0006576	1.683359716529594e-25	None	2.506522617912565e-22	None	None	21	263	26	6442	biogenic amine metabolic process
+GO:0000166	5.775831898966823e-20	None	8.600213697561599e-17	None	None	93	263	878	6442	nucleotide binding
+GO:0032553	2.2542785684398716e-12	None	3.3566207884069688e-09	None	None	73	263	784	6442	ribonucleotide binding
+GO:0044249	5.69546772286094e-84	None	8.48055143933994e-81	None	None	224	263	1867	6442	cellular biosynthetic process
+GO:0009308	7.302501805052289e-25	None	1.0873425187722858e-21	None	None	21	263	27	6442	amine metabolic process
+GO:0004067	6.554274525638257e-19	None	9.759314768675365e-16	None	None	13	263	13	6442	asparaginase activity
+GO:0044248	1.2139415041139493e-14	None	1.8075588996256704e-11	None	None	72	263	693	6442	cellular catabolic process
+GO:0006730	9.93835711672423e-14	None	1.4798213746802378e-10	None	None	13	263	21	6442	one-carbon metabolic process
+GO:1901564	3.14176238947157e-125	None	4.6780841979231676e-122	None	None	263	263	2254	6442	organonitrogen compound metabolic process
+GO:0006790	5.49776968512748e-45	None	8.186179061154818e-42	None	None	58	263	141	6442	sulfur compound metabolic process
+GO:1901576	3.9997487097239e-96	None	5.955625828778888e-93	None	None	236	263	1926	6442	organic substance biosynthetic process
+GO:0140101	2.918163595928818e-31	None	4.34514559433801e-28	None	None	42	263	108	6442	catalytic activity, acting on a tRNA
+GO:0044283	1.9868737952829983e-150	None	2.9584550811763844e-147	None	None	158	263	326	6442	small molecule biosynthetic process
+GO:0044282	3.0820073639732075e-55	None	4.5891089649561055e-52	None	None	66	263	144	6442	small molecule catabolic process
+GO:0008483	1.2885922780342435e-25	None	1.9187139019929885e-22	None	None	20	263	23	6442	transaminase activity
+GO:1901265	5.775831898966823e-20	None	8.600213697561599e-17	None	None	93	263	878	6442	nucleoside phosphate binding
+GO:0016811	3.0222140210750497e-16	None	4.500076677380749e-13	None	None	21	263	53	6442	hydrolase activity, acting on carbon-nitrogen (but not peptide) bonds, in linear amides
+GO:1901575	1.357429035040842e-15	None	2.0212118331758135e-12	None	None	73	263	681	6442	organic substance catabolic process
+GO:0016884	5.052853616665971e-13	None	7.52369903521563e-10	None	None	11	263	15	6442	carbon-nitrogen ligase activity, with glutamine as amido-N-donor
+GO:0043168	6.522985276724456e-38	None	9.712725077042716e-35	None	None	121	263	901	6442	anion binding
+GO:0019842	8.165631082799477e-46	None	1.2158624682288421e-42	None	None	42	263	60	6442	vitamin binding
+GO:0016875	1.103231635035563e-54	None	1.6427119045679533e-51	None	None	38	263	38	6442	ligase activity, forming carbon-oxygen bonds
+GO:0044237	5.6257148508722895e-67	None	8.376689412948839e-64	None	None	263	263	3665	6442	cellular metabolic process
+GO:0016769	1.2885922780342435e-25	None	1.9187139019929885e-22	None	None	20	263	23	6442	transferase activity, transferring nitrogenous groups
+GO:0016810	6.374074758111229e-16	None	9.49099731482762e-13	None	None	26	263	90	6442	hydrolase activity, acting on carbon-nitrogen (but not peptide) bonds
+GO:0016879	5.323757064983126e-15	None	7.927074269759874e-12	None	None	19	263	47	6442	ligase activity, forming carbon-nitrogen bonds
+GO:1901360	7.684545708142015e-14	None	1.144228855942346e-10	None	None	134	263	1900	6442	organic cyclic compound metabolic process
+GO:0140098	7.800585409703108e-14	None	1.1615071675047928e-10	None	None	42	263	281	6442	catalytic activity, acting on RNA
+GO:0006725	1.4290254328626441e-12	None	2.127818869532477e-09	None	None	128	263	1838	6442	cellular aromatic compound metabolic process
+GO:1901362	3.779786103021526e-12	None	5.628101507399052e-09	None	None	72	263	775	6442	organic cyclic compound biosynthetic process
+GO:0016874	1.3607822140410526e-46	None	2.0262047167071274e-43	None	None	57	263	128	6442	ligase activity
+GO:0036094	4.266496214060469e-48	None	6.352812862736039e-45	None	None	137	263	953	6442	small molecule binding
+GO:0043167	2.5988329614603064e-39	None	3.869662279614396e-36	None	None	161	263	1550	6442	ion binding
+GO:0006807	5.0446153161154e-76	None	7.51143220569583e-73	None	None	263	263	3396	6442	nitrogen compound metabolic process
+GO:0016829	2.4452127367592915e-31	None	3.640921765034585e-28	None	None	43	263	114	6442	lyase activity
+GO:0009058	7.640640851996132e-98	None	1.137691422862224e-94	None	None	238	263	1945	6442	biosynthetic process
+GO:0044281	7.011614241708345e-269	None	1.0440293605903725e-265	None	None	263	263	739	6442	small molecule metabolic process
+GO:0071704	1.1599831184747138e-63	None	1.727214863408849e-60	None	None	263	263	3769	6442	organic substance metabolic process
+GO:0044238	3.3879886123633545e-69	None	5.044715043809035e-66	None	None	263	263	3597	6442	primary metabolic process
+GO:0016491	8.827781492076532e-20	None	1.3144566641701957e-16	None	None	56	263	350	6442	oxidoreductase activity
+GO:1901363	6.522094470998282e-19	None	9.711398667316442e-16	None	None	165	263	2341	6442	heterocyclic compound binding
+GO:0097159	1.1181830276903925e-18	None	1.6649745282309943e-15	None	None	165	263	2352	6442	organic cyclic compound binding
+GO:0008152	1.6198119668512972e-57	None	2.4119000186415815e-54	None	None	263	263	3970	6442	metabolic process
+GO:0003824	2.3243265901961105e-85	None	3.4609222928020086e-82	None	None	245	263	2396	6442	catalytic activity
+GO:0009987	1.0373112003507517e-21	None	1.5445563773222693e-18	None	None	263	263	5383	6442	cellular process
+GO:0005488	1.6374519486004543e-15	None	2.4381659514660766e-12	None	None	198	263	3343	6442	binding
+GO:0097367	1.4299656426359318e-12	None	2.1292188418849027e-09	None	None	74	263	794	6442	carbohydrate derivative binding
+GO:0016616	4.631571150964922e-12	None	6.8964094437867685e-09	None	None	21	263	81	6442	oxidoreductase activity, acting on the CH-OH group of donors, NAD or NADP as acceptor
+GO:0009056	2.8389357058284188e-12	None	4.2271752659785156e-09	None	None	75	263	822	6442	catabolic process
+GO:0055114	2.3380373866336913e-21	None	3.481337668697567e-18	None	None	57	263	337	6442	obsolete oxidation-reduction process
+GO:0016620	7.52332273361124e-12	None	1.1202227550347135e-08	None	None	12	263	22	6442	oxidoreductase activity, acting on the aldehyde or oxo group of donors, NAD or NADP as acceptor
+GO:0035639	1.6346016810443118e-11	None	2.43392190307498e-08	None	None	70	263	764	6442	purine ribonucleoside triphosphate binding
+GO:0032555	2.094701883878113e-11	None	3.1190111050945103e-08	None	None	70	263	768	6442	purine ribonucleotide binding
+GO:0016903	1.4138208841592177e-11	None	2.105179296513075e-08	None	None	13	263	28	6442	oxidoreductase activity, acting on the aldehyde or oxo group of donors
+GO:0016740	1.5361956582701874e-11	None	2.287395335164309e-08	None	None	80	263	939	6442	transferase activity
+GO:0016614	2.0643484969041785e-11	None	3.0738149118903214e-08	None	None	21	263	87	6442	oxidoreductase activity, acting on CH-OH group of donors
+GO:0016645	2.7269458613511547e-11	None	4.060422387551869e-08	None	None	10	263	15	6442	oxidoreductase activity, acting on the CH-NH group of donors
+GO:0006575	3.7103398788378665e-11	None	5.524696079589583e-08	None	None	18	263	64	6442	cellular modified amino acid metabolic process
+GO:0016646	5.445499677343313e-11	None	8.108349019564193e-08	None	None	9	263	12	6442	oxidoreductase activity, acting on the CH-NH group of donors, NAD or NADP as acceptor
+GO:0019438	6.168031280680165e-11	None	9.184198576932765e-08	None	None	66	263	717	6442	aromatic compound biosynthetic process
+GO:0000103	6.044391609330393e-11	None	9.000099106292955e-08	None	None	8	263	9	6442	sulfate assimilation
+GO:0046483	6.533888299659127e-11	None	9.728959678192439e-08	None	None	124	263	1845	6442	heterocycle metabolic process
+GO:0016840	7.012045328717224e-11	None	1.0440935494459946e-07	None	None	10	263	16	6442	carbon-nitrogen lyase activity
+GO:0034627	1.7498251709443768e-10	None	2.605489679536177e-07	None	None	7	263	7	6442	'de novo' NAD biosynthetic process
+GO:0009099	1.7498251709443768e-10	None	2.605489679536177e-07	None	None	7	263	7	6442	valine biosynthetic process
+GO:0006531	1.7498251709443768e-10	None	2.605489679536177e-07	None	None	7	263	7	6442	aspartate metabolic process
+GO:0000287	3.573758934451535e-10	None	5.321327053398335e-07	None	None	17	263	64	6442	magnesium ion binding
+GO:0043094	4.310522954223036e-10	None	6.4183686788381e-07	None	None	13	263	35	6442	cellular metabolic compound salvage
+GO:0000959	6.503592706481868e-10	None	9.6838495399515e-07	None	None	13	263	36	6442	mitochondrial RNA metabolic process
+GO:0019627	1.3511315166171241e-09	None	2.011834828242898e-06	None	None	7	263	8	6442	urea metabolic process
+GO:0016830	1.4160814578696321e-09	None	2.1085452907678824e-06	None	None	13	263	38	6442	carbon-carbon lyase activity
+GO:0018130	2.971327966350496e-09	None	4.4243073418958885e-06	None	None	63	263	731	6442	heterocycle biosynthetic process
+GO:0000162	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	tryptophan biosynthetic process
+GO:0006559	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	L-phenylalanine catabolic process
+GO:0009088	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	threonine biosynthetic process
+GO:0046219	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	indolalkylamine biosynthetic process
+GO:0009071	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	serine family amino acid catabolic process
+GO:1902222	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	erythrose 4-phosphate/phosphoenolpyruvate family amino acid catabolic process
+GO:0042435	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	indole-containing compound biosynthetic process
+GO:0000050	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	urea cycle
+GO:0070189	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	kynurenine metabolic process
+GO:0070814	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	hydrogen sulfide biosynthetic process
+GO:0070813	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	hydrogen sulfide metabolic process
+GO:0016597	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	amino acid binding
+GO:0016841	4.382052451474111e-09	None	6.524876100244952e-06	None	None	6	263	6	6442	ammonia-lyase activity
+GO:0006521	5.868538118415236e-09	None	8.738253258320287e-06	None	None	7	263	9	6442	regulation of cellular amino acid metabolic process
+GO:0033238	5.868538118415236e-09	None	8.738253258320287e-06	None	None	7	263	9	6442	regulation of amine metabolic process
+GO:0016638	7.48920029918937e-09	None	1.1151419245492972e-05	None	None	8	263	13	6442	oxidoreductase activity, acting on the CH-NH2 group of donors
+GO:0043603	9.773997868655178e-09	None	1.4553482826427561e-05	None	None	66	263	807	6442	amide metabolic process
+GO:0032787	1.2255815288628606e-08	None	1.8248908964767995e-05	None	None	24	263	155	6442	monocarboxylic acid metabolic process
+GO:0043169	1.4426436801486392e-08	None	2.1480964397413237e-05	None	None	67	263	833	6442	cation binding
+GO:0043604	1.4680762520542658e-08	None	2.1859655393088018e-05	None	None	62	263	743	6442	amide biosynthetic process
+GO:0005622	1.561018834619086e-08	None	2.3243570447478192e-05	None	None	256	263	5654	6442	intracellular anatomical structure
+GO:0009435	1.6860166684725798e-08	None	2.5104788193556713e-05	None	None	8	263	14	6442	NAD biosynthetic process
+GO:0046653	1.6860166684725798e-08	None	2.5104788193556713e-05	None	None	8	263	14	6442	tetrahydrofolate metabolic process
+GO:0042401	1.8881449938591577e-08	None	2.811447895856286e-05	None	None	7	263	10	6442	biogenic amine biosynthetic process
+GO:0009309	1.8881449938591577e-08	None	2.811447895856286e-05	None	None	7	263	10	6442	amine biosynthetic process
+GO:0042537	1.8881449938591577e-08	None	2.811447895856286e-05	None	None	7	263	10	6442	benzene-containing compound metabolic process
+GO:0016846	1.8881449938591577e-08	None	2.811447895856286e-05	None	None	7	263	10	6442	carbon-sulfur lyase activity
+GO:0043649	2.962447205753417e-08	None	4.411083889366838e-05	None	None	6	263	7	6442	dicarboxylic acid catabolic process
+GO:0004022	2.962447205753417e-08	None	4.411083889366838e-05	None	None	6	263	7	6442	alcohol dehydrogenase (NAD+) activity
+GO:0016774	2.962447205753417e-08	None	4.411083889366838e-05	None	None	6	263	7	6442	phosphotransferase activity, carboxyl group as acceptor
+GO:0046112	3.233796481461104e-08	None	4.815122960895583e-05	None	None	10	263	26	6442	nucleobase biosynthetic process
+GO:0005739	3.481226304447572e-08	None	5.1835459673224344e-05	None	None	86	263	1217	6442	mitochondrion
+GO:0072525	3.7125216212956285e-08	None	5.527944694109191e-05	None	None	11	263	33	6442	pyridine-containing compound biosynthetic process
+GO:0071941	5.01189123919098e-08	None	7.46270605515537e-05	None	None	7	263	11	6442	nitrogen cycle metabolic process
+GO:0046165	5.028249209852079e-08	None	7.487063073469746e-05	None	None	15	263	67	6442	alcohol biosynthetic process
+GO:0016765	5.973922502606801e-08	None	8.895170606381527e-05	None	None	13	263	50	6442	transferase activity, transferring alkyl or aryl (other than methyl) groups
+GO:0034354	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	'de novo' NAD biosynthetic process from tryptophan
+GO:0000949	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	aromatic amino acid family catabolic process to alcohol via Ehrlich pathway
+GO:0006564	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	L-serine biosynthetic process
+GO:0006561	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	proline biosynthetic process
+GO:0009095	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	aromatic amino acid family biosynthetic process, prephenate pathway
+GO:0046416	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	D-amino acid metabolic process
+GO:0046417	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	chorismate metabolic process
+GO:0019202	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	amino acid kinase activity
+GO:0004123	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	cystathionine gamma-lyase activity
+GO:0003962	1.0933051019375301e-07	None	0.00016279312967849824	None	None	5	263	5	6442	cystathionine gamma-synthase activity
+GO:0016835	1.0961533624642176e-07	None	0.000163217235670922	None	None	12	263	44	6442	carbon-oxygen lyase activity
+GO:0030976	1.1444449368114118e-07	None	0.00017040785109121923	None	None	6	263	8	6442	thiamine pyrophosphate binding
+GO:0072350	1.1444449368114118e-07	None	0.00017040785109121923	None	None	6	263	8	6442	tricarboxylic acid metabolic process
+GO:0018455	1.1444449368114118e-07	None	0.00017040785109121923	None	None	6	263	8	6442	alcohol dehydrogenase [NAD(P)+] activity
+GO:0019359	1.2259483863254625e-07	None	0.00018254371472386136	None	None	8	263	17	6442	nicotinamide nucleotide biosynthetic process
+GO:0046872	1.2416059204442365e-07	None	0.0001848751215541468	None	None	64	263	823	6442	metal ion binding
+GO:0019363	2.12919621438259e-07	None	0.0003170373163215677	None	None	8	263	18	6442	pyridine nucleotide biosynthetic process
+GO:0006760	2.12919621438259e-07	None	0.0003170373163215677	None	None	8	263	18	6442	folic acid-containing compound metabolic process
+GO:0006066	2.4491265117757836e-07	None	0.0003646749376034142	None	None	18	263	107	6442	alcohol metabolic process
+GO:0055086	2.945163336977901e-07	None	0.00043853482087600945	None	None	28	263	237	6442	nucleobase-containing small molecule metabolic process
+GO:0035999	3.315964048042105e-07	None	0.0004937470467534695	None	None	6	263	9	6442	tetrahydrofolate interconversion
+GO:0043177	3.315964048042105e-07	None	0.0004937470467534695	None	None	6	263	9	6442	organic acid binding
+CL:0000000	3.465282678531689e-07	None	0.0005159805908333684	None	None	256	263	5738	6442	cell
+CARO:0000003	3.465282678531689e-07	None	0.0005159805908333684	None	None	256	263	5738	6442	connected anatomical structure
+CARO:0000006	3.465282678531689e-07	None	0.0005159805908333684	None	None	256	263	5738	6442	material anatomical entity
+GO:0019674	3.5485673980156704e-07	None	0.0005283816855645333	None	None	8	263	19	6442	NAD metabolic process
+GO:0042558	3.5485673980156704e-07	None	0.0005283816855645333	None	None	8	263	19	6442	pteridine-containing compound metabolic process
+GO:0072522	4.564355717042144e-07	None	0.0006796325662675753	None	None	16	263	89	6442	purine-containing compound biosynthetic process
+GO:0034308	4.6658167926835797e-07	None	0.000694740120430585	None	None	9	263	26	6442	primary alcohol metabolic process
+GO:0016831	4.6658167926835797e-07	None	0.000694740120430585	None	None	9	263	26	6442	carboxy-lyase activity
+GO:0016763	5.706683384225275e-07	None	0.0008497251559111434	None	None	8	263	20	6442	pentosyltransferase activity
+GO:0046500	6.340727989091925e-07	None	0.0009441343975757876	None	None	5	263	6	6442	S-adenosylmethionine metabolic process
+GO:0004617	6.340727989091925e-07	None	0.0009441343975757876	None	None	5	263	6	6442	phosphoglycerate dehydrogenase activity
+GO:0006067	8.006688370963769e-07	None	0.0011921958984365054	None	None	6	263	10	6442	ethanol metabolic process
+GO:0016861	8.006688370963769e-07	None	0.0011921958984365054	None	None	6	263	10	6442	intramolecular oxidoreductase activity, interconverting aldoses and ketoses
+GO:0050997	8.006688370963769e-07	None	0.0011921958984365054	None	None	6	263	10	6442	quaternary ammonium group binding
+GO:0010565	8.484793397238597e-07	None	0.001263385736848827	None	None	7	263	15	6442	regulation of cellular ketone metabolic process
+GO:1901681	8.484793397238597e-07	None	0.001263385736848827	None	None	7	263	15	6442	sulfur compound binding
+GO:0016836	1.0767118791646664e-06	None	0.0016032239880761883	None	None	10	263	36	6442	hydro-lyase activity
+GO:0140640	1.221619818688956e-06	None	0.0018189919100278556	None	None	42	263	477	6442	catalytic activity, acting on a nucleic acid
+GO:0072521	1.966746121417778e-06	None	0.002928484974791071	None	None	21	263	161	6442	purine-containing compound metabolic process
+GO:0009112	2.4156658536699934e-06	None	0.0035969264561146203	None	None	10	263	39	6442	nucleobase metabolic process
+GO:0006450	2.5144783678195313e-06	None	0.003744058289683282	None	None	9	263	31	6442	regulation of translational fidelity
+GO:0006432	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	phenylalanyl-tRNA aminoacylation
+GO:0009094	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	L-phenylalanine biosynthetic process
+GO:0055129	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	L-proline biosynthetic process
+GO:0006571	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	tyrosine biosynthetic process
+GO:0006532	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	aspartate biosynthetic process
+GO:0006529	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	asparagine biosynthetic process
+GO:0006546	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	glycine catabolic process
+GO:0006545	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	glycine biosynthetic process
+GO:1902223	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	erythrose 4-phosphate/phosphoenolpyruvate family amino acid biosynthetic process
+GO:0006592	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	ornithine biosynthetic process
+GO:0009423	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	chorismate biosynthetic process
+GO:0005960	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	glycine cleavage complex
+GO:0000820	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	regulation of glutamine family amino acid metabolic process
+GO:0004826	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	phenylalanine-tRNA ligase activity
+GO:0050177	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	phenylpyruvate decarboxylase activity
+GO:0047433	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	branched-chain-2-oxoacid decarboxylase activity
+GO:0047434	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	indolepyruvate decarboxylase activity
+GO:0046523	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	S-methyl-5-thioribose-1-phosphate isomerase activity
+GO:0004737	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	pyruvate decarboxylase activity
+GO:0004375	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	glycine dehydrogenase (decarboxylating) activity
+GO:0003941	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	L-serine ammonia-lyase activity
+GO:0016642	2.71764411052643e-06	None	0.004046572080573854	None	None	4	263	4	6442	oxidoreductase activity, acting on the CH-NH2 group of donors, disulfide as acceptor
+GO:0044273	3.2865518096060733e-06	None	0.004893675644503443	None	None	6	263	12	6442	sulfur compound catabolic process
+GO:0046912	3.2865518096060733e-06	None	0.004893675644503443	None	None	6	263	12	6442	acyltransferase activity, acyl groups converted into alkyl on transfer
+GO:1901617	3.2978491960126874e-06	None	0.004910497452862892	None	None	15	263	91	6442	organic hydroxy compound biosynthetic process
+GO:0042802	4.098902631932138e-06	None	0.006103266018946954	None	None	8	263	25	6442	identical protein binding
+GO:0003700	4.768072146608269e-06	None	0.007099659426299713	None	None	21	263	170	6442	DNA-binding transcription factor activity
+GO:0030287	5.529775486640246e-06	None	0.008233835699607327	None	None	5	263	8	6442	cell wall-bounded periplasmic space
+GO:0042398	7.83459781475969e-06	None	0.01166571614617718	None	None	8	263	27	6442	cellular modified amino acid biosynthetic process
+GO:0072524	8.547588323043194e-06	None	0.012727359013011315	None	None	11	263	54	6442	pyridine-containing compound metabolic process
+GO:0000049	1.2505964284480195e-05	None	0.01862138081959101	None	None	9	263	37	6442	tRNA binding
+GO:0016639	1.315089851189469e-05	None	0.019581687884211194	None	None	4	263	5	6442	oxidoreductase activity, acting on the CH-NH2 group of donors, NAD or NADP as acceptor
+GO:0032543	2.0209808245016893e-05	None	0.030092404476830155	None	None	19	263	158	6442	mitochondrial translation
+GO:0006164	2.658930504942678e-05	None	0.039591475218596475	None	None	13	263	83	6442	purine nucleotide biosynthetic process
+GO:1901615	2.874004446952904e-05	None	0.042793926215128744	None	None	18	263	148	6442	organic hydroxy compound metabolic process
+GO:0009165	3.160775626216536e-05	None	0.047063949074364224	None	None	16	263	122	6442	nucleotide biosynthetic process
