@@ -6,3 +6,4 @@ create edge X:3 is_a X:1
 create related synonym 'arm' for X:2
 create related synonym 'leg' for X:3
 # foo
+change definition of X:1 from 'abc def' to 'ghi jkl'

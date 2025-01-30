@@ -163,7 +163,21 @@ class UbergraphImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        exclude_blank: bool = True,
+        invert: bool = False,
     ) -> Iterator[RELATIONSHIP]:
+        if invert:
+            for s, p, o in self.relationships(
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
         if not include_entailed:
             query.graph = RelationGraphEnum.nonredundant.value

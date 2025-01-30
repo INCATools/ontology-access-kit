@@ -265,7 +265,7 @@ class TagValue:
 
         :return:
         """
-        if self.tag == TAG_NAME:
+        if self.tag in [TAG_NAME, TAG_NAMESPACE, TAG_COMMENT]:
             return [SimpleValue(self.value)]
         toks = [x for x in self.value.split(" ") if x]
         cmt = ""
@@ -303,6 +303,8 @@ class TagValue:
                 xrefs = []
                 while True:
                     if not toks:
+                        # components.append(SimpleValue("[" + " ".join(xrefs)))
+                        # break
                         raise ValueError(f"Xref list does not terminate: {self.value}")
                     next_tok = toks.pop(0)
                     if next_tok.endswith("]"):

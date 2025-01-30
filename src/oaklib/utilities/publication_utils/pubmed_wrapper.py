@@ -33,6 +33,7 @@ def extract_text_from_xml(xml_content):
     return extract_all_text(root).strip()
 
 
+
 @dataclass
 class PubmedWrapper(PubDBWrapper):
     """

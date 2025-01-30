@@ -3,6 +3,7 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Iterator, List
 
+from oaklib.datamodels.obograph import Graph
 from oaklib.interfaces import OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
@@ -82,7 +83,7 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         include_singletons: bool = True,
         **kwargs,
-    ) -> OboGraphInterface:
+    ) -> Graph:
         rels = list(self.gap_fill_relationships(seed_curies, predicates=predicates))
         logging.info(f"Gap filled relationships: {len(rels)}")
         if not isinstance(self, OboGraphInterface):

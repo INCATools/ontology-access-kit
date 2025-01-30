@@ -549,7 +549,20 @@ class SimpleOboImplementation(
         include_abox: bool = True,
         include_entailed: bool = False,
         exclude_blank: bool = True,
+        invert: bool = False,
     ) -> Iterator[RELATIONSHIP]:
+        if invert:
+            for s, p, o in self.relationships(
+                    subjects=objects,
+                    predicates=predicates,
+                    objects=subjects,
+                    include_tbox=include_tbox,
+                    include_abox=include_abox,
+                    include_entailed=include_entailed,
+                    exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
         ei = self.edge_index
         if include_entailed:
             ei = self.entailed_edge_index
@@ -1064,6 +1077,7 @@ class SimpleOboImplementation(
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
         configuration: kgcl.Configuration = None,
+        strict=False,
     ) -> kgcl.Change:
         od = self.obo_document
         tidy_change_object(patch)
@@ -1122,9 +1136,17 @@ class SimpleOboImplementation(
                     t.remove_tag_quoted_value(TAG_DEFINITION, t._quoted_value(tv.value))
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._stanza(patch.about_node, strict=True)
-            for tv in t.tag_values:
-                if tv.tag == TAG_DEFINITION:
-                    tv.replace_quoted_part(patch.new_value.strip("'"))
+            current = t.quoted_value(TAG_DEFINITION)
+            if patch.old_value and current != patch.old_value:
+                msg = f"Current definition {current} does not match expected {patch.old_value}"
+                if strict:
+                    raise ValueError(msg)
+                else:
+                    logging.error(msg)
+            else:
+                for tv in t.tag_values:
+                    if tv.tag == TAG_DEFINITION:
+                        tv.replace_quoted_part(patch.new_value.strip("'"))
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier

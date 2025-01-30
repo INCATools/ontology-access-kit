@@ -905,8 +905,21 @@ class SqlImplementation(
         include_entailed: bool = False,
         include_dangling: bool = True,
         exclude_blank: bool = True,
+        invert: bool = False,
         bypass_index: bool = False,
     ) -> Iterator[RELATIONSHIP]:
+        if invert:
+            for s, p, o in self.relationships(
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
         if subjects is not None:
             # materialize iterators
             subjects = list(subjects)
@@ -1805,6 +1818,12 @@ class SqlImplementation(
         justification = str(SEMAPV.UnspecifiedMatching.value)
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
+        def normalize(curie: Optional[CURIE]) -> Optional[CURIE]:
+            if curie is None:
+                return None
+            if curie.startswith("<"):
+                return curie[1:-1]
+            return curie
         if curies is None:
             by_subject_query = base_query
         else:
@@ -1813,7 +1832,7 @@ class SqlImplementation(
             try:
                 mpg = Mapping(
                     subject_id=row.subject,
-                    object_id=row.value if row.value is not None else row.object,
+                    object_id=normalize(row.value if row.value is not None else row.object),
                     predicate_id=row.predicate,
                     mapping_justification=justification,
                 )
@@ -2310,6 +2329,7 @@ class SqlImplementation(
         activity: kgcl.Activity = None,
         metadata: typing.Mapping[PRED_CURIE, Any] = None,
         configuration: kgcl.Configuration = None,
+        strict=False,
     ) -> Optional[kgcl.Change]:
         if isinstance(patch, kgcl.NodeChange):
             about = patch.about_node
@@ -2429,6 +2449,7 @@ class SqlImplementation(
                         kgcl.NodeTextDefinitionChange(subject=about, value=patch.new_value)
                     )
             elif isinstance(patch, kgcl.NodeTextDefinitionChange):
+                # TODO: if patch.new_value is provided, check.
                 stmt = (
                     update(Statements)
                     .where(

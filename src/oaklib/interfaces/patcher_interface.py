@@ -42,6 +42,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
         activity: Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
         configuration: Configuration = None,
+        strict = False,
     ) -> Optional[Change]:
         """
         Applies a change description
@@ -50,6 +51,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
         :param activity:
         :param metadata:
         :param configuration:
+        :param strict: if True, raise an exception if the change cannot be applied
         :return: if successful, return copy of change object with additional metadata attached
         """
         raise NotImplementedError

@@ -28,7 +28,7 @@ import requests
 
 from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.association import Association
-from oaklib.datamodels.vocabulary import OWL_SAME_AS, RDF_SEE_ALSO
+from oaklib.datamodels.vocabulary import OWL_SAME_AS, RDFS_SEE_ALSO
 from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
 )
@@ -108,7 +108,7 @@ class UniprotImplementation(
         return False
 
     def _mapping_predicates(self):
-        return [RDF_SEE_ALSO, OWL_SAME_AS]
+        return [RDFS_SEE_ALSO, OWL_SAME_AS]
 
     def prefix_map(self) -> PREFIX_MAP:
         pmap = super().prefix_map()

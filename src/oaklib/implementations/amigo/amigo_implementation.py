@@ -10,7 +10,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 import pysolr
 
-from oaklib.datamodels.association import Association
+from oaklib.datamodels.association import Association, NegatedAssociation
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL
 from oaklib.interfaces import OboGraphInterface, SearchInterface
@@ -49,6 +49,8 @@ TAXON_CLOSURE = "taxon_closure"
 ASSIGNED_BY = "assigned_by"
 REFERENCE = "reference"
 SUBSET = "subset"
+QUALIFIER = "qualifier"
+EVIDENCE_TYPE = "evidence_type"
 
 NEIGHBORHOOD_GRAPH_JSON = "neighborhood_graph_json"
 TOPOLOGY_GRAPH_JSON = "topology_graph_json"
@@ -63,6 +65,8 @@ DEFAULT_SELECT_FIELDS = [
     BIOENTITY_LABEL,
     ANNOTATION_CLASS,
     ANNOTATION_CLASS_LABEL,
+    EVIDENCE_TYPE,
+    QUALIFIER,
     ISA_PARTOF_CLOSURE,
     TAXON_CLOSURE,
     ASSIGNED_BY,
@@ -278,19 +282,25 @@ class AmiGOImplementation(
         # params = {"fq": fq_list, "fl": ",".join(SELECT_FIELDS)}
         # results = solr.search("*:*", rows=1000, **params)
         for doc in results:
-            assoc = Association(
+            cls = Association
+            if "not" in doc.get(QUALIFIER, []):
+                cls = NegatedAssociation
+            assoc = cls(
                 subject=_normalize(doc[BIOENTITY]),
                 subject_label=doc[BIOENTITY_LABEL],
                 # predicate="",
+                negated = cls == NegatedAssociation,
                 object=doc[ANNOTATION_CLASS],
                 object_label=doc[ANNOTATION_CLASS_LABEL],
                 publications=doc[REFERENCE],
+                evidence_type=doc.get(EVIDENCE_TYPE),
                 primary_knowledge_source=doc[ASSIGNED_BY],
                 aggregator_knowledge_source="infores:go",
             )
             if add_closure_fields:
                 assoc.object_closure = doc[ISA_PARTOF_CLOSURE]
                 assoc.object_closure_label = doc[ISA_PARTOF_CLOSURE_LABEL]
+
             yield assoc
 
     def _association_query(

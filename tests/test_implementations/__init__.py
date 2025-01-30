@@ -17,6 +17,7 @@ from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from nltk.misc.chomsky import subjects
 from sssom.constants import OWL_EQUIVALENT_CLASS
 
 from oaklib import BasicOntologyInterface, get_adapter
@@ -74,7 +75,7 @@ from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import (
     Distance,
     OboGraphInterface,
-    TraversalConfiguration,
+    TraversalConfiguration, EdgeTemplate,
 )
 from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -632,6 +633,19 @@ class ComplianceTester:
                 test.assertEqual([expected_rel], rels)
                 irels = list(oi.incoming_relationships(o, predicates=[p]))
                 test.assertIn((p, s), irels)
+        triple_cases = [(VACUOLE, IS_A, IMBO), (VACUOLE, PART_OF, CYTOPLASM)]
+        for triple in triple_cases:
+            s, p, o = triple
+            test.assertIn(triple, oi.relationships(subjects=[s]))
+            test.assertNotIn(triple, oi.relationships(objects=[s]))
+            test.assertIn(triple, oi.relationships(subjects=[s], predicates=[p]))
+            test.assertIn(triple, oi.relationships(subjects=[s], predicates=[p], objects=[o]))
+            test.assertIn(triple, oi.relationships(predicates=[p], objects=[o]))
+            inv_triple = o, p, s
+            test.assertIn(inv_triple, list(oi.relationships(objects=[s], predicates=[p], invert=True)))
+            test.assertIn(inv_triple, list(oi.relationships(subjects=[o], predicates=[p], invert=True)))
+
+
 
     def test_entailed_relationships(self, oi: OboGraphInterface):
         """
@@ -656,7 +670,7 @@ class ComplianceTester:
             (
                 NUCLEAR_MEMBRANE,
                 [PART_OF],
-                {PART_OF: {NUCLEAR_ENVELOPE, ORGANELLE_ENVELOPE, ENVELOPE}},
+                {PART_OF: {NUCLEAR_ENVELOPE}},
             ),
         ]
         for curie, preds, expected in cases:
@@ -667,7 +681,7 @@ class ComplianceTester:
                 objs_by_pred[p].add(o)
                 assert s == curie
             for p in preds:
-                test.assertCountEqual(expected[p], objs_by_pred[p])
+                test.assertCountEqual(expected[p], objs_by_pred[p], f"for {p} in {preds}, from {curie}")
 
     def test_rbox_relationships(self, oi: BasicOntologyInterface):
         """
@@ -832,6 +846,55 @@ class ComplianceTester:
             for anc in non_ancestors:
                 descendants = list(oi.descendants(anc, predicates=predicates, reflexive=reflexive))
                 test.assertNotIn(subject, descendants, f"{subject} in descendants of {anc}")
+
+    def test_chains(self, oi: OboGraphInterface):
+        test = self.test
+        cases = [
+            # simple case
+            ([EdgeTemplate(predicates=[IS_A])],
+             [
+                 [(VACUOLE, IS_A, IMBO)]
+             ],
+             [
+                 [(IMBO, PART_OF, INTRACELLULAR)]
+             ]),
+            # chain of length 2
+            ([EdgeTemplate(predicates=[IS_A]), EdgeTemplate(predicates=[PART_OF])],
+             [
+                 [(VACUOLE, IS_A, IMBO), (IMBO, PART_OF, INTRACELLULAR)]
+             ],
+             [
+                 [(VACUOLE, IS_A, IMBO), (IMBO, IS_A, INTRACELLULAR_ORGANELLE)]
+             ]),
+            # chain with inverse
+            ([EdgeTemplate(predicates=[IS_A]), EdgeTemplate(predicates=[IS_A], inverted=True)],
+             [
+                 [(VACUOLE, IS_A, IMBO), (IMBO, IS_A, NUCLEUS)]  # last is inverted
+             ],
+             [
+                 [(VACUOLE, IS_A, IMBO), (IMBO, IS_A, INTRACELLULAR_ORGANELLE)]
+             ]),
+        ]
+
+        for chain_query, included, excluded in cases:
+            print(f"Q={chain_query} I={included} E={excluded}")
+            chains = list(oi.chains(chain_query))
+            print(f". RESULTS={chains}")
+            # print(len(chains))
+            tuples_chains = []
+            for chain in chains:
+                # print(chain)
+                tuple_chain = []
+                for e in chain:
+                    tuple_chain.append((e.sub, e.pred, e.obj))
+                tuples_chains.append(tuple_chain)
+            if included is not None:
+                for x in included:
+                    test.assertIn(x, tuples_chains)
+            if excluded is not None:
+                for x in excluded:
+                    test.assertNotIn(x, tuples_chains)
+
 
     def test_synonym_types(self, oi: OboGraphInterface):
         """
@@ -1553,7 +1616,7 @@ class ComplianceTester:
             diffs = original_oi.diff(oi2)
             for diff in diffs:
                 kgcl_diff = render(diff)
-                logging.info(kgcl_diff)
+                logging.info(diff)
                 change_obj = _as_json_dict_no_id(diff)
                 if "old_value" in change_obj and "new_value" in change_obj:
                     del change_obj["old_value"]
@@ -1565,6 +1628,27 @@ class ComplianceTester:
                     logging.error(yaml_dumper.dumps(change_obj))
                     raise ValueError(f"Cannot find: {change_obj} in {expected_changes}")
             test.assertCountEqual([], expected_changes)
+
+        # test change-from vs direct change
+        grouped_changes = [
+            (f"change definition of {MEMBRANE} to 'D1'",
+             f"change definition of {MEMBRANE} from 'D1' to 'D2'",
+             f"change definition of {MEMBRANE} from 'NOT CURRENT' to 'D3'",
+             )]
+        for d_kgcl, tr_kgcl, e_kgcl in grouped_changes:
+            d_change = kgcl_parser.parse_statement(d_kgcl)
+            tr_change = kgcl_parser.parse_statement(tr_kgcl)
+            e_change = kgcl_parser.parse_statement(e_kgcl)
+            oi.apply_patch(d_change)
+            oi.apply_patch(tr_change)
+            try:
+                oi.apply_patch(e_change)
+            except ValueError as e:
+                # TODO: this is to be expected, but some implementations may not raise
+                logging.error(e)
+
+
+
 
     def test_patcher_obsoletion_chains(self, get_adapter_function: Callable):
         """
@@ -2483,3 +2567,5 @@ class ComplianceTester:
             test.assertCountEqual(results[0], expected_result[0])
             for idx, result in enumerate(results):
                 test.assertEqual(result, expected_result[idx])
+
+

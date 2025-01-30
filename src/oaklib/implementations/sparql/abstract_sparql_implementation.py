@@ -497,6 +497,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         include_abox: bool = True,
         include_entailed: bool = True,
         exclude_blank: bool = True,
+        invert: bool = False,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships
@@ -509,6 +510,18 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         :param include_entailed:
         :return:
         """
+        if invert:
+            for s, p, o in self.relationships(
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
         s_uris = [self.curie_to_sparql(x) for x in subjects] if subjects else None
         p_uris = [self.curie_to_sparql(x) for x in predicates] if predicates else None
         o_uris = [self.curie_to_sparql(x) for x in objects] if objects else None

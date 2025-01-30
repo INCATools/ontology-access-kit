@@ -422,7 +422,20 @@ class ProntoImplementation(
         include_abox: bool = True,
         include_entailed: bool = False,
         exclude_blank: bool = True,
+        invert: bool = False,
     ) -> Iterator[RELATIONSHIP]:
+        if invert:
+            for s, p, o in self.relationships(
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
         ei = self.edge_index
         if include_entailed:
             ei = self.entailed_edge_index
@@ -863,6 +876,7 @@ class ProntoImplementation(
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
         configuration: kgcl.Configuration = None,
+        strict=False,
     ) -> Optional[kgcl.Change]:
         tidy_change_object(patch)
         if isinstance(patch, kgcl.NodeRename):
@@ -892,8 +906,16 @@ class ProntoImplementation(
             t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._entity(patch.about_node, strict=True)
-            xrefs = t.definition.xrefs if t.definition else []
-            t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
+            current = t.definition
+            if patch.old_value and current != patch.old_value:
+                msg = f"Definition mismatch: {current} != {patch.old_value}"
+                if strict:
+                    raise ValueError(msg)
+                else:
+                    logging.error(msg)
+            else:
+                xrefs = t.definition.xrefs if t.definition else []
+                t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._entity(patch.about_node, strict=True)
             # Get scope from patch.qualifier

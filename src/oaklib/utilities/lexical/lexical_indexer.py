@@ -85,6 +85,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
 def create_lexical_index(
     oi: BasicOntologyInterface,
     pipelines: Optional[List[LexicalTransformationPipeline]] = None,
+    add_steps: Optional[List[str]] = None,
     synonym_rules: Optional[List[Synonymizer]] = None,
     mapping_rule_collection: Optional[MappingRuleCollection] = None,
 ) -> LexicalIndex:
@@ -111,6 +112,10 @@ def create_lexical_index(
             LexicalTransformation(TransformationType.WhitespaceNormalization),
             # LexicalTransformation(TransformationType.WordOrderNormalization),
         ]
+        if add_steps:
+            for step in add_steps:
+                tr = LexicalTransformation(TransformationType[step])
+                steps.append(tr)
         if synonym_rules:
             steps.append(
                 LexicalTransformation(TransformationType.Synonymization, params=synonym_rules)
@@ -512,6 +517,7 @@ def apply_transformation(
     elif typ == TransformationType.WordOrderNormalization.text:
         toks = term.split()
         toks = [x.rstrip(",;") for x in toks]
+        toks = [tok for tok in toks if tok not in ["of", "the", "a", "an"]]
         return " ".join(sorted(toks))
     elif typ == TransformationType.Synonymization.text:
         synonymized_results = apply_synonymizer(term, transformation.params)

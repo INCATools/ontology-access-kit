@@ -15,15 +15,14 @@ class HpoaG2DAssociationParser(XafAssociationParser):
 
     Usage:
 
-    >>> from oaklib.parsers.hpoa_g2d_association_parser import HpoaG2DAssociationParser
-    >>> parser = HpoaG2DAssociationParser()
-    >>> for assoc in parser.parse(open("tests/input/example-hpoa-g2d.csv")):
-    ...     print(assoc.subject, assoc.subject_label, assoc.object, assoc.object_label)
-    <BLANKLINE>
-    ...
-    HGNC:18806 CAMTA1 MONDO:0013886 nonprogressive cerebellar atxia with intellectual disability
-    HGNC:16369 PARK7 MONDO:0011658 autosomal recessive early-onset Parkinson disease 7
-    ...
+        >>> from oaklib.parsers.hpoa_g2d_association_parser import HpoaG2DAssociationParser
+        >>> parser = HpoaG2DAssociationParser()
+        >>> for assoc in parser.parse(open("tests/input/example-hpoa-g2d.tsv")):
+        ...     print(assoc.subject, assoc.subject_label, assoc.object)
+        <BLANKLINE>
+        ...
+        NCBIGene:4750 NEK1 OMIM:617892
+        ...
 
     """
 

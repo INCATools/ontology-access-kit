@@ -119,20 +119,21 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param asymmetric:
         :return:
         """
-        if isinstance(self, OboGraphInterface):
-            og = self.ancestor_graph(subjects, predicates)
-            dg = as_digraph(og)
-            pairs = []
-            subjects = [s for s in subjects if s in dg]
-            for s in subjects:
-                for o in subjects:
-                    if asymmetric and s >= o:
-                        continue
-                    pairs.append((s, o))
-            for (s, o), lca in nx.all_pairs_lowest_common_ancestor(dg, pairs=pairs):
-                yield s, o, lca
-        else:
+        graph_adapter = self
+        if not isinstance(graph_adapter, OboGraphInterface):
             raise NotImplementedError
+        og = graph_adapter.ancestor_graph(subjects, predicates)
+        dg = as_digraph(og)
+        pairs = []
+        subjects = [s for s in subjects if s in dg]
+        for s in subjects:
+            for o in subjects:
+                if asymmetric and s >= o:
+                    continue
+                pairs.append((s, o))
+        for (s, o) in pairs:
+            for mrca in self.most_recent_common_ancestors(s, o, predicates=predicates):
+                yield s, o, mrca
 
     def common_ancestors(
         self,

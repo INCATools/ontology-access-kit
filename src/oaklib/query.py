@@ -8,9 +8,11 @@ import logging
 import re
 import secrets
 import sys
+from collections import defaultdict
 from enum import Enum
 from typing import IO, Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
+import yaml
 from pydantic import BaseModel
 
 from oaklib import BasicOntologyInterface
@@ -82,6 +84,25 @@ class FunctionEnum(str, Enum):
 
 
 class Query(BaseModel):
+    """
+    Base class for query terms.
+
+    Queries can be composed recursively via operator overloading.
+
+    Example:
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import IS_A
+        >>> adapter = get_adapter("sqlite:obo:cl")
+        >>> neuron_q = ancestor_of("CL:0000540", predicates=[IS_A])
+        >>> forebrain_q = ancestor_of("UBERON:0001890", predicates=[IS_A, PART_OF])
+        >>> intersection_q = neuron_q & forebrain_q
+        >>> assert "CL:1001502" in q.execute(adapter)
+
+    The above code is equivalent to:
+
+        runoak -i sqlite:obo:cl info .sub CL:0000540 .and .desc//p=i,p UBERON:0001890
+    """
 
     description: Optional[str] = None
 
@@ -97,6 +118,13 @@ class Query(BaseModel):
     def execute(self, adapter: BasicOntologyInterface, labels=False, **kwargs):
         """
         Execute the query on the given adapter.
+
+         Example:
+
+            >>> from oaklib import get_adapter
+            >>> adapter = get_adapter("sqlite:obo:cl")
+            >>> q = subclass_of("CL:0000540")
+            >>> assert "CL:0000617" in q.execute(adapter)
 
         :param adapter:
         :param labels:
@@ -138,6 +166,9 @@ class SimpleQueryTerm(Query):
 
 
 class FunctionQuery(Query):
+    """
+    A query component that is a function call.
+    """
     function: Optional[FunctionEnum] = None
     parameters: Optional[Dict[str, Any]] = None
     argument: Optional[Union[str, Query, List[str]]] = None
@@ -286,7 +317,7 @@ def gap_fill(
     <BLANKLINE>
     ...
     (('CL:0002169', 'basal cell of olfactory epithelium'),
-     ('BFO:0000050', 'part_of'), ('UBERON:0001005', 'respiratory airway'))
+     ('BFO:0000050', 'part of'), ('UBERON:0001005', 'respiratory airway'))
     ...
 
     :param term:
@@ -610,7 +641,7 @@ def query_terms_iterator(
                 logging.error(f"Error sampling {sample_size} / {len(rest)}: {e}")
                 raise e
             chain_results(sample)
-        elif term.startswith(".in"):
+        elif term == ".in":
             logging.debug(f"IN: {term}")
             # subset query
             subset = query_terms[0]
@@ -726,6 +757,76 @@ def query_terms_iterator(
                 )
             else:
                 raise NotImplementedError
+        elif term.startswith(".numparent"):
+            logging.debug(f"NumParents: {term}")
+            # graph query: parents
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            this_max = params.get("max", None)
+            if this_max is not None:
+                this_max = int(this_max)
+            this_min = int(params.get("min", 0))
+            rest = list(query_terms_iterator([query_terms[0]], adapter))
+            query_terms = query_terms[1:]
+            matches = []
+            counts = {x: 0 for x in rest}
+            for s, _, _o in adapter.relationships(subjects=rest, predicates=this_predicates):
+                counts[s] += 1
+            for s, num in counts.items():
+                if this_max is not None and num > this_max:
+                    continue
+                if num >= this_min:
+                    matches.append(s)
+            chain_results(matches)
+        elif term.startswith(".numchild"):
+            logging.debug(f"NumChildren: {term}")
+            # graph query: parents
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            this_max = params.get("max", None)
+            if this_max is not None:
+                this_max = int(this_max)
+            this_min = int(params.get("min", 0))
+            rest = list(query_terms_iterator([query_terms[0]], adapter))
+            query_terms = query_terms[1:]
+            matches = []
+            counts = {x: 0 for x in rest}
+            for _s, _, o in adapter.relationships(objects=rest, predicates=this_predicates):
+                counts[o] += 1
+            for o, num in counts.items():
+                if this_max is not None and num > this_max:
+                    continue
+                if num >= this_min:
+                    matches.append(o)
+            chain_results(matches)
+        elif term.startswith(".intermediates"):
+            logging.debug(f"Intermediates: {term}")
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], adapter))
+            query_terms = query_terms[1:]
+            if not isinstance(adapter, SubsetterInterface):
+                raise NotImplementedError
+            gap_filled_nodes = set(rest)
+            for s, _p, o in adapter.gap_fill_relationships(rest, predicates=this_predicates):
+                gap_filled_nodes.add(s)
+                gap_filled_nodes.add(o)
+            if yaml.safe_load(params.get("reflexive", "false")):
+                chain_results(rest)
+            chain_results(gap_filled_nodes)
+        elif term.startswith(".multimrca"):
+            logging.debug(f"Multi-MRCA: {term}")
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], adapter))
+            query_terms = query_terms[1:]
+            if not isinstance(adapter, SemanticSimilarityInterface):
+                raise NotImplementedError
+            chain_results(
+                {ca for _s, _o, ca in adapter.multiset_most_recent_common_ancestors(rest, predicates=this_predicates)}
+            )
+            if yaml.safe_load(params.get("reflexive", "false")):
+                chain_results(rest)
         elif term.startswith(".mrca"):
             logging.debug(f"MRCA: {term}")
             # graph query: most recent common ancestors
@@ -733,12 +834,13 @@ def query_terms_iterator(
             this_predicates = params.get("predicates", predicates)
             rest = list(query_terms_iterator([query_terms[0]], adapter))
             query_terms = query_terms[1:]
-            if isinstance(adapter, SemanticSimilarityInterface):
-                chain_results(
-                    adapter.setwise_most_recent_common_ancestors(rest, predicates=this_predicates)
-                )
-            else:
+            if not isinstance(adapter, SemanticSimilarityInterface):
                 raise NotImplementedError
+            chain_results(
+                adapter.setwise_most_recent_common_ancestors(rest, predicates=this_predicates)
+            )
+            if yaml.safe_load(params.get("reflexive", "false")):
+                chain_results(rest)
         elif term.startswith(".nr"):
             logging.debug(f"Non-redundant: {term}")
             # graph query: non-redundant
@@ -756,6 +858,11 @@ def query_terms_iterator(
             rest = list(query_terms_iterator([query_terms[0]], adapter))
             query_terms = query_terms[1:]
             chain_results(adapter.gap_fill_relationships(rest, predicates=this_predicates))
+        elif term.startswith(".where"):
+            logging.debug(f"Where: {term}")
+            # graph query: descendants
+            params = _parse_params(term)
+            raise ValueError("`.where` is not implemented yet")
         else:
             logging.debug(f"Atomic term: {term}")
             # term is not query syntax: feed directly to search
@@ -843,7 +950,7 @@ def _process_predicates_arg(
     predicates_str: str,
     expected_number: Optional[int] = None,
     exclude_predicates_str: Optional[str] = None,
-    impl: Optional[OntologyInterface] = None,
+    impl: Optional[BasicOntologyInterface] = None,
 ) -> Optional[List[PRED_CURIE]]:
     if predicates_str is None and exclude_predicates_str is None:
         return None
@@ -860,6 +967,18 @@ def _process_predicates_arg(
             preds.extend(next_preds)
         else:
             preds.append(next_preds)
+    def _expand(p: str):
+        if ":" in p:
+            return p
+        if impl is None:
+            return p
+        p_ids = impl.curies_by_label(p)
+        if len(p_ids) > 1:
+            raise ValueError(f"Ambiguous: {p} => {p_ids}")
+        if p_ids:
+            return p_ids[0]
+        return p
+    preds = [_expand(p) for p in preds]
     if exclude_predicates_str:
         if "," in exclude_predicates_str:
             exclude_inputs = exclude_predicates_str.split(",")
