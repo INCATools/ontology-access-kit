@@ -103,8 +103,10 @@ or <a class="reference internal" href="#term-Subset"><span class="xref std std-t
 </dd>
 <dt id="term-Term">Term<a class="headerlink" href="#term-Term" title="Link to this term"></a></dt><dd><p>A core element in an ontology, typically a <a class="reference internal" href="#term-Class"><span class="xref std std-term">Class</span></a>, but sometimes used to include <span class="xref std std-term">Instances</span>
 or <a class="reference internal" href="#term-Relationship-Type"><span class="xref std std-term">Relationship Types</span></a>, depending on context. Note that in some contexts,
-the term “term” means something like a <a class="reference internal" href="#term-Label"><span class="xref std std-term">Label</span></a> or <span class="xref std std-term">Synonym</span>, but here we follow standard usage
+the term “term” means something like a <a class="reference internal" href="#term-Label"><span class="xref std std-term">Label</span></a> or <a class="reference internal" href="#term-Synonym"><span class="xref std std-term">Synonym</span></a>, but here we follow standard usage
 and use “term” to refer to the main elements in an ontology.</p>
+</dd>
+<dt id="term-Entity">Entity<a class="headerlink" href="#term-Entity" title="Link to this term"></a></dt><dd><p>See <a class="reference internal" href="#term-Term"><span class="xref std std-term">Term</span></a></p>
 </dd>
 <dt id="term-Concept">Concept<a class="headerlink" href="#term-Concept" title="Link to this term"></a></dt><dd><p>See <a class="reference internal" href="#term-Term"><span class="xref std std-term">Term</span></a></p>
 </dd>
@@ -146,6 +148,19 @@ sometimes <code class="docutils literal notranslate"><span class="pre">skos:pref
 <li><p>See also <a class="reference internal" href="guide/curies-and-uris.html#curies-and-uris"><span class="std std-ref">Identifying entities: CURIEs and URIs</span></a> in the Guide.</p></li>
 </ul>
 </dd>
+<dt id="term-Alias">Alias<a class="headerlink" href="#term-Alias" title="Link to this term"></a></dt><dd><p>An alternative label, name, or synonym for a <a class="reference internal" href="#term-Term"><span class="xref std std-term">Term</span></a>. The alias may be identical or close in meaning.
+Different ontologies use different properties
+for representing aliases, with or without metadata. Some ontologies might use a single property like
+<code class="docutils literal notranslate"><span class="pre">skos:altLabel</span></code>, others may adopt the richer OMO <a class="reference internal" href="#term-Synonym"><span class="xref std std-term">Synonym</span></a> model which allows different synonym
+predicates, as well as metadata about the synonym (who proposed it, what publications support it, etc).</p>
+<ul class="simple">
+<li><p>See also <a class="reference internal" href="guide/aliases.html#aliases"><span class="std std-ref">Aliases and Synonyms</span></a> in the Guide.</p></li>
+</ul>
+</dd>
+<dt id="term-Synonym">Synonym<a class="headerlink" href="#term-Synonym" title="Link to this term"></a></dt><dd><p>This is an alias for <a class="reference internal" href="#term-Alias"><span class="xref std std-term">Alias</span></a>. Note that some people use the term “synonym” to mean an alternative
+string that is strictly substitutable, but other ontologies, including many OBO ontologies use the term
+more loosely, and discriminate between exact, related, broad, and narrow synonyms.</p>
+</dd>
 <dt id="term-Category">Category<a class="headerlink" href="#term-Category" title="Link to this term"></a></dt><dd><p>The term <a class="reference internal" href="#term-Category"><span class="xref std std-term">Category</span></a> is frequently ambiguous. In the context of OAK it refers to a high-level grouping
 <a class="reference internal" href="#term-Class"><span class="xref std std-term">Class</span></a> that may come from an upper ontology like <span class="xref std std-term">COB</span> or a schema language like
 <span class="xref std std-term">Biolink</span> or schema.org.</p>
@@ -161,7 +176,7 @@ sometimes <code class="docutils literal notranslate"><span class="pre">skos:pref
 </dd>
 <dt id="term-Association">Association<a class="headerlink" href="#term-Association" title="Link to this term"></a></dt><dd><p>In the context of OAK, an <a class="reference internal" href="#term-Association"><span class="xref std std-term">Association</span></a> is a statement that connects some kind of named entity (such as
 a gene, a person, a sample, or a disease) to an <a class="reference internal" href="#term-Ontology-Element"><span class="xref std std-term">Ontology Element</span></a>. In the context of many bio-ontologies like
-the <span class="xref std std-term">Gene Ontology</span> or <span class="xref std std-term">Human Phenotype Ontology</span>, Associations are usually called
+the <a class="reference internal" href="#term-Gene-Ontology"><span class="xref std std-term">Gene Ontology</span></a> or <span class="xref std std-term">Human Phenotype Ontology</span>, Associations are usually called
 “annotations”. Associations can be seen as special cases of <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edges</span></a>, but it is often convenient to
 treat them differently (for example, associations frequently have additional metadata and evidence,
 and often have nuanced semantics that different from standard ontology edges).
@@ -339,7 +354,7 @@ For the tool, see <a class="reference external" href="https://github.com/INCAToo
 <dt id="term-Ontology-Format">Ontology Format<a class="headerlink" href="#term-Ontology-Format" title="Link to this term"></a></dt><dd><p>A syntax for serializing an <a class="reference internal" href="#term-Ontology"><span class="xref std std-term">Ontology</span></a> as text. Examples include <span class="xref std std-term">OWL Functional Syntax</span>,
 various <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> formats such as <span class="xref std std-term">Turtle</span>, or <a class="reference internal" href="#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>.
 In OAK we take a broad view of the term “Ontology”, and also include things
-such as RDF serializations of <span class="xref std std-term">SKOS</span>.</p>
+such as RDF serializations of <a class="reference internal" href="#term-SKOS"><span class="xref std std-term">SKOS</span></a>.</p>
 <ul class="simple">
 <li><p>See also <a class="reference internal" href="intro/tutorial01.html#basics"><span class="std std-ref">Basics</span></a> in the Guide.</p></li>
 <li><p>See also <a class="reference external" href="https://oboacademy.github.io/obook/explanation/owl-format-variants/">OWL Formats</a> in the OBook.</p></li>
@@ -431,6 +446,10 @@ referring to annotation properties.</p>
 a <span class="xref std std-term">Literal</span>. Datatype properties are not widely used in most bio-ontologies,
 and currently OAK has limited support for working with them.</p>
 </dd>
+<dt id="term-Definition">Definition<a class="headerlink" href="#term-Definition" title="Link to this term"></a></dt><dd><p>The term “definition” usually means a textual definition that provides clear, operational, necessary and sufficient
+conditions for a <a class="reference internal" href="#term-Term"><span class="xref std std-term">Term</span></a>. A <a class="reference internal" href="#term-Logical-Definition"><span class="xref std std-term">Logical Definition</span></a> refers to a definition that is written in some
+formal computable language such as FOL or <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a>.</p>
+</dd>
 <dt id="term-Logical-Definition">Logical Definition<a class="headerlink" href="#term-Logical-Definition" title="Link to this term"></a></dt><dd><p>A <a class="reference internal" href="#term-Logical-Definition"><span class="xref std std-term">Logical Definition</span></a> is a particular kind of <span class="xref std std-term">Axiom</span> that is used to provide a
 definition of a term that is <em>computable</em>.</p>
 <ul class="simple">
@@ -438,7 +457,7 @@ definition of a term that is <em>computable</em>.</p>
 </ul>
 </dd>
 <dt id="term-Subset">Subset<a class="headerlink" href="#term-Subset" title="Link to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-Element"><span class="xref std std-term">Ontology Element</span></a> that represents a named collection of elements, typically grouped for some purpose.
-Subsets are commonly used in ontologies like the <span class="xref std std-term">Gene Ontology</span>.</p>
+Subsets are commonly used in ontologies like the <a class="reference internal" href="#term-Gene-Ontology"><span class="xref std std-term">Gene Ontology</span></a>.</p>
 </dd>
 <dt id="term-Reasoner">Reasoner<a class="headerlink" href="#term-Reasoner" title="Link to this term"></a></dt><dd><p>An ontology tool that will perform inference over an ontology to yield new <em>axioms</em> (e.g. new <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edges</span></a>) or
 to determine if an ontology is logically <span class="xref std std-term">Coherent</span>.</p>
@@ -530,6 +549,17 @@ a database conforming to this schema from RDF/OWL files.</p>
 <li><p>See <a class="reference external" href="https://github.com/INCATools/semantic-sql">Semantic-SQL</a></p></li>
 </ul>
 </dd>
+<dt id="term-SKOS">SKOS<a class="headerlink" href="#term-SKOS" title="Link to this term"></a></dt><dd><p>Simple Knowledge Organization System (SKOS) is a lightweight vocabulary and data model for representing
+terminologies and ontologies. It has some high level similarities to <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a>, in that it organizes
+knowledge using units such as <a class="reference internal" href="#term-Concept"><span class="xref std std-term">Concepts</span></a>, together with relationships between them, but
+there are a number of differences and the systems are partly complementary.
+In the bio-ontology community and many other communities, OWL is
+predominantly used, but OWL ontologies are frequently augmented with SKOS in order to represent things
+like mappings and term metadata.</p>
+</dd>
+<dt id="term-Gene-Ontology">Gene Ontology<a class="headerlink" href="#term-Gene-Ontology" title="Link to this term"></a></dt><dd><p>Aka GO. A widely used ontology for bioinformatics and molecular biology. Many of the ontologies in <span class="xref std std-term">OBO</span> have
+adopted many of the conventions of the GO.</p>
+</dd>
 <dt id="term-Diff">Diff<a class="headerlink" href="#term-Diff" title="Link to this term"></a></dt><dd><p>A representation of an individual difference between two <a class="reference internal" href="#term-Ontology"><span class="xref std std-term">Ontologies</span></a>.</p>
 <ul class="simple">
 <li><p>See <a class="reference internal" href="packages/interfaces/differ.html#differ-interface"><span class="std std-ref">Differ Interface</span></a>.</p></li>
@@ -609,7 +639,7 @@ datamodels for different purposes. Examples include:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -637,7 +637,20 @@
         <span class="n">include_abox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">exclude_blank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">invert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">invert</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span>
+                <span class="n">subjects</span><span class="o">=</span><span class="n">objects</span><span class="p">,</span>
+                <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span>
+                <span class="n">objects</span><span class="o">=</span><span class="n">subjects</span><span class="p">,</span>
+                <span class="n">include_tbox</span><span class="o">=</span><span class="n">include_tbox</span><span class="p">,</span>
+                <span class="n">include_abox</span><span class="o">=</span><span class="n">include_abox</span><span class="p">,</span>
+                <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span><span class="p">,</span>
+                <span class="n">exclude_blank</span><span class="o">=</span><span class="n">exclude_blank</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">yield</span> <span class="n">o</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span>
+            <span class="k">return</span>
         <span class="n">ei</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span>
         <span class="k">if</span> <span class="n">include_entailed</span><span class="p">:</span>
             <span class="n">ei</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entailed_edge_index</span>
@@ -1152,6 +1165,7 @@
         <span class="n">activity</span><span class="p">:</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Activity</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">:</span>
         <span class="n">od</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span>
         <span class="n">tidy_change_object</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
@@ -1210,9 +1224,17 @@
                     <span class="n">t</span><span class="o">.</span><span class="n">remove_tag_quoted_value</span><span class="p">(</span><span class="n">TAG_DEFINITION</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">_quoted_value</span><span class="p">(</span><span class="n">tv</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeTextDefinitionChange</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">tv</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">tag_values</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">tv</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_DEFINITION</span><span class="p">:</span>
-                    <span class="n">tv</span><span class="o">.</span><span class="n">replace_quoted_part</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">))</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">quoted_value</span><span class="p">(</span><span class="n">TAG_DEFINITION</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">patch</span><span class="o">.</span><span class="n">old_value</span> <span class="ow">and</span> <span class="n">current</span> <span class="o">!=</span> <span class="n">patch</span><span class="o">.</span><span class="n">old_value</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Current definition </span><span class="si">{</span><span class="n">current</span><span class="si">}</span><span class="s2"> does not match expected </span><span class="si">{</span><span class="n">patch</span><span class="o">.</span><span class="n">old_value</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">tv</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">tag_values</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">tv</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_DEFINITION</span><span class="p">:</span>
+                        <span class="n">tv</span><span class="o">.</span><span class="n">replace_quoted_part</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NewSynonym</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="c1"># Get scope from patch.qualifier</span>
@@ -1295,7 +1317,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

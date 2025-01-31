@@ -87,6 +87,7 @@
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
@@ -161,6 +162,15 @@
 
 
 
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">EdgeTemplate</span><span class="p">:</span>
+    <span class="n">subject_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">object_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">inverted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="OboGraphInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">[docs]</a>
 <span class="k">class</span> <span class="nc">OboGraphInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -200,7 +210,9 @@
 
 <div class="viewcode-block" id="OboGraphInterface.node">
 <a class="viewcode-back" href="../../../packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">[docs]</a>
-    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Look up a node object by CURIE</span>
 
@@ -407,8 +419,9 @@
             <span class="n">rel_by_sp</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">objs</span> <span class="ow">in</span> <span class="n">rel_by_sp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">redundant_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">predicates_plus_isa</span> <span class="o">=</span> <span class="p">([</span><span class="n">IS_A</span><span class="p">]</span> <span class="o">+</span> <span class="n">predicates</span><span class="p">)</span> <span class="k">if</span> <span class="n">predicates</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
-                <span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+                <span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates_plus_isa</span><span class="p">,</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
                 <span class="n">redundant_set</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ancs</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">o</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">redundant_set</span><span class="p">:</span>
@@ -702,6 +715,53 @@
                 <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">intermediate</span></div>
 
 
+    <span class="k">def</span> <span class="nf">chains</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_templates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EdgeTemplate</span><span class="p">],</span>
+        <span class="n">start_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">exclude_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allow_cycles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">edge_templates</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="p">[]</span>
+            <span class="k">return</span>
+        <span class="n">et</span> <span class="o">=</span> <span class="n">edge_templates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="n">edge_templates</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">subjects</span> <span class="o">=</span> <span class="n">et</span><span class="o">.</span><span class="n">subject_nodes</span>
+        <span class="n">predicates</span> <span class="o">=</span> <span class="n">et</span><span class="o">.</span><span class="n">predicates</span>
+        <span class="n">objects</span> <span class="o">=</span> <span class="n">et</span><span class="o">.</span><span class="n">object_nodes</span>
+        <span class="c1"># print(f&quot;-- SN={start_nodes} SUBJS={subjects} PRED={predicates} OBJS={objects}&quot;)</span>
+        <span class="k">if</span> <span class="n">start_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">subjects</span><span class="p">:</span>
+                <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">start_nodes</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">subjects</span> <span class="o">=</span> <span class="n">start_nodes</span>
+        <span class="k">if</span> <span class="n">rest</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subject_nodes</span><span class="p">:</span>
+                <span class="n">objects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subject_nodes</span><span class="p">))</span>
+        <span class="c1"># print(f&quot;ZZ {subjects} {predicates} {objects} // x={exclude_nodes}&quot;)</span>
+        <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span>
+            <span class="n">subjects</span><span class="o">=</span><span class="n">subjects</span><span class="p">,</span>
+            <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span>
+            <span class="n">objects</span><span class="o">=</span><span class="n">objects</span><span class="p">,</span>
+            <span class="n">include_entailed</span><span class="o">=</span><span class="n">et</span><span class="o">.</span><span class="n">entailed</span><span class="p">,</span>
+            <span class="n">invert</span><span class="o">=</span><span class="n">et</span><span class="o">.</span><span class="n">inverted</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="n">exclude_nodes</span> <span class="ow">and</span> <span class="n">rel</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">exclude_nodes</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">new_exclude_nodes</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_cycles</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">exclude_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">new_exclude_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_exclude_nodes</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">exclude_nodes</span><span class="p">)</span>
+                <span class="n">new_exclude_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rel</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">Edge</span><span class="p">(</span><span class="o">*</span><span class="n">rel</span><span class="p">)</span>
+            <span class="c1"># print(f&quot;.. Rest={rest} exclude={exclude_nodes} start={e.obj} // {rel}&quot;)</span>
+            <span class="k">for</span> <span class="n">chain</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chains</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">start_nodes</span><span class="o">=</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">obj</span><span class="p">],</span> <span class="n">exclude_nodes</span><span class="o">=</span><span class="n">new_exclude_nodes</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+</span> <span class="n">chain</span>
+
 <div class="viewcode-block" id="OboGraphInterface.logical_definitions">
 <a class="viewcode-back" href="../../../packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.logical_definitions">[docs]</a>
     <span class="k">def</span> <span class="nf">logical_definitions</span><span class="p">(</span>
@@ -836,7 +896,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

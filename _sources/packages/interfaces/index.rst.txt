@@ -47,6 +47,7 @@ The most common operations are found in the :ref:`basic_ontology_interface`
    class-enrichment
    dumper
    owl
+   aggregator
 
 .. note::
 

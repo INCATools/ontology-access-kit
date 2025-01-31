@@ -108,14 +108,28 @@ which is the prefix (typically all uppercase) followed by a local identifier whi
 all numeric (typically zero-padded with 7 digits). However, this is not a requirement for OAK.
 
 Many semantic web ontologies such as schema.org use "semantic" URIs that a human
-can understand. These can be used in the same way:
+can understand. These can be used in the same way, as can be seen in the following example.
+
+First, download schema.org (as RDF):
 
 .. code-block:: bash
 
     $ wget https://schema.org/version/latest/schemaorg-all-http.ttl -O tests/output/schema.rdf
+
+Then, query it on the command line:
+
+.. code-block:: bash
+
     $ runoak --prefix schema=http://schema.org/ -i tests/output/schema.rdf relationships schema:Person
-    subject	subject_label	predicate	predicate_label	object	object_label
-    schema:Person	Person	rdfs:subClassOf	None	schema:Thing	Thing
+
+This will give a table:
+
+.. csv-table:: Query results
+    :header: subject, subject_label, predicate, predicate_label, object, object_label
+
+    schema:Person, Person, rdfs:subClassOf, None, schema:Thing, Thing
+
+Note that the URI is contracted to a prefixed ID for terms like `Person` and `subClassOf`
 
 Further reading
 --------------

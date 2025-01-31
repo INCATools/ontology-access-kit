@@ -24,17 +24,17 @@ URI: [IAO:0000111](http://purl.obolibrary.org/obo/IAO_0000111)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Class](Class.md) |  |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Property](Property.md) |  |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
 | [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
 | [Image](Image.md) |  |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 
 
 

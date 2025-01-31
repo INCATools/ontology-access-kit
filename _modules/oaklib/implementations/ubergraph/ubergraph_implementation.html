@@ -254,7 +254,21 @@
         <span class="n">include_tbox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">include_abox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">exclude_blank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">invert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">invert</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span>
+                <span class="n">subjects</span><span class="o">=</span><span class="n">objects</span><span class="p">,</span>
+                <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span>
+                <span class="n">objects</span><span class="o">=</span><span class="n">subjects</span><span class="p">,</span>
+                <span class="n">include_tbox</span><span class="o">=</span><span class="n">include_tbox</span><span class="p">,</span>
+                <span class="n">include_abox</span><span class="o">=</span><span class="n">include_abox</span><span class="p">,</span>
+                <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span><span class="p">,</span>
+                <span class="n">exclude_blank</span><span class="o">=</span><span class="n">exclude_blank</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">yield</span> <span class="n">o</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span>
+            <span class="k">return</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">SparqlQuery</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;?s&quot;</span><span class="p">,</span> <span class="s2">&quot;?p&quot;</span><span class="p">,</span> <span class="s2">&quot;?o&quot;</span><span class="p">],</span> <span class="n">where</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;?s ?p ?o&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">include_entailed</span><span class="p">:</span>
             <span class="n">query</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">nonredundant</span><span class="o">.</span><span class="n">value</span>
@@ -597,7 +611,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

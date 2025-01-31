@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>command: generate-synonyms &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">command: generate-synonyms</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/GenerateSynonyms.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command:-generate-synonyms">
+<h1>command: generate-synonyms<a class="headerlink" href="#command:-generate-synonyms" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">generate-synonyms</span></code> command, which is used to create new synonyms for a set of terms in an ontology, according to a set of rules.</p>
+<p>The command has two main modes of operation:</p>
+<ol class="arabic simple">
+<li><p>generate new synonyms and apply them, creating a new ontology</p></li>
+<li><p>creating new synonyms and outputting them as a set of <a class="reference external" href="https://w3id.org/kgcl">KGCL</a> change directives</p></li>
+</ol>
+<p>The advantage of using 2 is that it allows for more fine-grained control over the changes, and allows for manual inspection before applying the changes. The KGCL output can be fed back (using the <a class="reference external" href="Apply.html">apply</a> command), or if the ontology allows it via an issue, with ontobot applying the changes.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>generate-synonyms<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak generate-synonyms [OPTIONS] [TERMS]...
+
+  Generate synonyms based on a set of synonymizer rules.
+
+  If the `--apply-patch` flag is set, the output will be an ontology file with
+  the changes applied. Pass the `--patch` argument to lso get the patch file
+  in KGCL format.
+
+  Example:
+
+      runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl
+      --apply-patch -o foo_syn.obo
+
+  If the `apply-patch` flag is NOT set then the main input will be KGCL
+  commands
+
+  Example:
+
+      runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
+
+  see https://github.com/INCATools/kgcl.
+
+Options:
+  -R, --rules-file TEXT           path to rules file. Conforms to
+                                  rules_datamodel.        e.g.
+                                  https://github.com/INCATools/ontology-
+                                  access-
+                                  kit/blob/main/tests/input/matcher_rules.yaml
+                                  [required]
+  --apply-patch / --no-apply-patch
+                                  Apply KGCL syntax generated based on the
+                                  synonymizer rules file.  [default: no-apply-
+                                  patch]
+  --patch FILENAME                Path to where patch file will be written.
+  --patch-format TEXT             Output syntax for patches.
+  -o, --output FILENAME           Output file, e.g. obo file
+  -O, --output-type TEXT          Desired output type
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Synonymizer-rules">
+<h2>Synonymizer rules<a class="headerlink" href="#Synonymizer-rules" title="Link to this heading"></a></h2>
+<p>The rules YAML has a list of rules following the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/mapping-rules/Synonymizer.html">Synonymizer</a> class.</p>
+<p>An example rule file for GO, called <code class="docutils literal notranslate"><span class="pre">go-synonymizer-rules.yaml</span></code> is shown below:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">activity</span>
+<span class="w">    </span><span class="nt">match</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;(.*)</span><span class="nv"> </span><span class="s">activity&quot;</span>
+<span class="w">    </span><span class="nt">match_scope</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="w">    </span><span class="nt">replacement</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;\\1&quot;</span>
+<span class="w">    </span><span class="nt">qualifier</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">exact</span>
+</pre></div>
+</div>
+<p>This will match any term that ends in “activity” and remove that suffix, creating a new exact synonym.</p>
+<p>Note that while it’s possible to restrict the scope to only apply to some terms in the rule, this is often easier to do when running the command using <a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/use-oak-expression-language.html">OAK queries</a> on the command line.</p>
+</section>
+<section id="Test-ontology">
+<h2>Test ontology<a class="headerlink" href="#Test-ontology" title="Link to this heading"></a></h2>
+<p>The most likely scenario is to run this on edit files, although this isn’t necessary if you wish to apply the changes. But for test purposes we’ll use the GO edit file:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-L<span class="w"> </span>-s<span class="w"> </span>https://github.com/geneontology/go-ontology/raw/master/src/ontology/go-edit.obo<span class="w"> </span>&gt;<span class="w"> </span>input/go-edit.obo
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>-p<span class="w"> </span>output
+</pre></div>
+</div>
+</div>
+<p>Note that the go edit file is in <em>obo</em> format. A number of ontologies like GO, Uberon, and Mondo use obo format as the edit format due to the fact obo was designed to make human-readable diffs.</p>
+</section>
+<section id="Generate-changes-from-a-rule-file">
+<h2>Generate changes from a rule file<a class="headerlink" href="#Generate-changes-from-a-rule-file" title="Link to this heading"></a></h2>
+<p>We will run this over all non-obsolete terms in the ontology. The OAK query expression <code class="docutils literal notranslate"><span class="pre">.non_obsolete</span></code> is used to generate a list of all terms that are not obsolete.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>generate-synonyms<span class="w"> </span>-R<span class="w">  </span>input/go-synonym-rules.yaml<span class="w"> </span>-o<span class="w"> </span>output/changes.kgcl<span class="w"> </span>.non_obsolete
+</pre></div>
+</div>
+</div>
+<p>The changes were placed in a file called <code class="docutils literal notranslate"><span class="pre">output/changes.kgcl</span></code>. Let’s take a look at the first few lines:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head<span class="w"> </span>-25<span class="w"> </span>output/changes.kgcl
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+create exact synonym &#39;high-affinity zinc transmembrane transporter&#39; for GO:0000006
+create exact synonym &#39;high affinity zinc uptake transmembrane transporter&#39; for GO:0000006
+create exact synonym &#39;high-affinity zinc uptake transmembrane transporter&#39; for GO:0000006
+create exact synonym &#39;low-affinity zinc ion transmembrane transporter&#39; for GO:0000007
+create exact synonym &#39;alpha-1,6-mannosyltransferase&#39; for GO:0000009
+create exact synonym &#39;1,6-alpha-mannosyltransferase&#39; for GO:0000009
+create exact synonym &#39;trans-hexaprenyltranstransferase&#39; for GO:0000010
+create exact synonym &#39;all-trans-heptaprenyl-diphosphate synthase&#39; for GO:0000010
+create exact synonym &#39;HepPP synthase&#39; for GO:0000010
+create exact synonym &#39;heptaprenyl diphosphate synthase&#39; for GO:0000010
+create exact synonym &#39;heptaprenyl pyrophosphate synthase&#39; for GO:0000010
+create exact synonym &#39;heptaprenyl pyrophosphate synthetase&#39; for GO:0000010
+create exact synonym &#39;single-stranded DNA endodeoxyribonuclease&#39; for GO:0000014
+create exact synonym &#39;single-stranded DNA specific endodeoxyribonuclease&#39; for GO:0000014
+create exact synonym &#39;ssDNA-specific endodeoxyribonuclease&#39; for GO:0000014
+create exact synonym &#39;lactase&#39; for GO:0000016
+create exact synonym &#39;lactose galactohydrolase&#39; for GO:0000016
+create exact synonym &#39;alpha-1,2-mannosyltransferase&#39; for GO:0000026
+create exact synonym &#39;mannosyltransferase&#39; for GO:0000030
+create exact synonym &#39;mannosylphosphate transferase&#39; for GO:0000031
+create exact synonym &#39;alpha-1,3-mannosyltransferase&#39; for GO:0000033
+create exact synonym &#39;adenine deaminase&#39; for GO:0000034
+create exact synonym &#39;ADase&#39; for GO:0000034
+create exact synonym &#39;adenase&#39; for GO:0000034
+create exact synonym &#39;adenine aminase&#39; for GO:0000034
+</pre></div></div>
+</div>
+<p>We can then apply these as a separate step (we have the option of editing first)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>apply<span class="w"> </span>--changes-input<span class="w"> </span>output/changes.kgcl<span class="w"> </span>-o<span class="w"> </span>output/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+lark.exceptions.UnexpectedCharacters: No terminal matches &#39;-&#39; in the current parser context, at line 1 col 26
+
+create exact synonym &#39;3\&#39;-5\&#39;-RNA exonuclease&#39; for GO:0000175
+                         ^
+Expected one of:
+        * _WS
+        * AT
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>robot<span class="w"> </span>kgcl:apply<span class="w"> </span>--input<span class="w"> </span>input/go-edit.obo<span class="w"> </span>--kgcl<span class="w"> </span>output/changes.kgcl<span class="w"> </span>--output<span class="w"> </span>output/go-edit-modified.obo
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+org.semanticweb.owlapi.model.UnloadableImportException: Could not load imported ontology: &lt;http://purl.obolibrary.org/obo/go/imports/go-pattern-conformance.ttl&gt; Cause: http://current.geneontology.org/ontology/imports/go-pattern-conformance.ttl
+Use the -vvv option to show the stack trace.
+Use the --help option to see usage information.
+</pre></div></div>
+</div>
+</section>
+<section id="Generating-synonyms-and-applying-them-in-one-step">
+<h2>Generating synonyms and applying them in one step<a class="headerlink" href="#Generating-synonyms-and-applying-them-in-one-step" title="Link to this heading"></a></h2>
+<p>We don’t have to create the intermediate KGCL file. We can generate and apply in one step:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:input/go-edit.obo<span class="w"> </span>generate-synonyms<span class="w"> </span>-R<span class="w">  </span>input/go-synonym-rules.yaml<span class="w"> </span>--apply-patch<span class="w"> </span>-o<span class="w"> </span>output/go-edit-modified.obo<span class="w"> </span>--patch<span class="w"> </span>output/changes.kgcl<span class="w"> </span>.non_obsolete
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

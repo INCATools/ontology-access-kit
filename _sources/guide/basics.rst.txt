@@ -89,6 +89,15 @@ For example, on the command line, to list all terms a downloaded OBO Format file
 
 Note that each term has its own unique :term:`Identifier` (in this case, a :term:`CURIE`).
 
+If you prefer to do this in Python rather than the command line:
+
+.. code-block:: python
+
+    >>> from oaklib import get_adapter
+    >>> hpo = get_adapter("hp.obo")
+    >>> for term_id in hpo.entities():
+    ...    print(term_id, hpo.label(term_id))
+
 Even when ontologies are represented in OWL, *it doesn't mean that everything is standardized*.
 Two OWL ontologies could choose to indicate primary :term:`Labels<Label>`, synonyms, mappings, and definitions in
 different ways. OWL provides a framework for standardizing on the meaning of logical  :term:`Axioms<Axiom>`, but
@@ -101,7 +110,7 @@ See further sections of this guide for more details on how this is done.
 
     For more information on OWL and other ontology languages, see the
     `section on OWL <https://oboacademy.github.io/obook/explanation/owl-format-variants/>`_
-    in the `OBO Academy Book <https://oboacademy.github.io/obook/>_.
+    in the `OBO Academy Book <https://oboacademy.github.io/obook/>`_.
 
 Core OAK concepts
 ------------------

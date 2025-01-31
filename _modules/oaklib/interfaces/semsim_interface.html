@@ -91,8 +91,6 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">BestMatch</span><span class="p">,</span>
     <span class="n">TermInfo</span><span class="p">,</span>
@@ -215,20 +213,21 @@
 <span class="sd">        :param asymmetric:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
-            <span class="n">og</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span>
-            <span class="n">dg</span> <span class="o">=</span> <span class="n">as_digraph</span><span class="p">(</span><span class="n">og</span><span class="p">)</span>
-            <span class="n">pairs</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">subjects</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">dg</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">asymmetric</span> <span class="ow">and</span> <span class="n">s</span> <span class="o">&gt;=</span> <span class="n">o</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                    <span class="n">pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">))</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">),</span> <span class="n">lca</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">all_pairs_lowest_common_ancestor</span><span class="p">(</span><span class="n">dg</span><span class="p">,</span> <span class="n">pairs</span><span class="o">=</span><span class="n">pairs</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">lca</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="n">graph_adapter</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph_adapter</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">og</span> <span class="o">=</span> <span class="n">graph_adapter</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span>
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">as_digraph</span><span class="p">(</span><span class="n">og</span><span class="p">)</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">subjects</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">dg</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">asymmetric</span> <span class="ow">and</span> <span class="n">s</span> <span class="o">&gt;=</span> <span class="n">o</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">mrca</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">most_recent_common_ancestors</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">mrca</span></div>
 
 
 <div class="viewcode-block" id="SemanticSimilarityInterface.common_ancestors">
@@ -600,7 +599,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

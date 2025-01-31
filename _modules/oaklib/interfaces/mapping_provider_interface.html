@@ -100,7 +100,18 @@
 <a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">[docs]</a>
 <span class="k">class</span> <span class="nc">MappingProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An ontology interface that provides SSSOM mappings.</span>
+<span class="sd">    An ontology interface that provides mappings according to the SSSOM data model.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:go&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for mapping in adapter.sssom_mappings(&quot;GO:0016772&quot;):</span>
+<span class="sd">        ...     print(mapping.subject_id, mapping.predicate_id, mapping.object_id)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO:0016772 EC:2.7.-.-</span>
+<span class="sd">        ...</span>
 
 <span class="sd">    For more on the SSSOM Data Model, see `&lt;https://w3id.org/sssom/&gt;`_</span>
 
@@ -471,7 +482,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -118,16 +118,17 @@ Historically, mappings have been handled very differently depending on the ontol
 <li><p>for <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> ontologies, the <code class="docutils literal notranslate"><span class="pre">xref</span></code> tag is used, which corresponds to <code class="docutils literal notranslate"><span class="pre">oboInOwl:hasDbXref</span></code></p></li>
 <li><p>for many <span class="xref std std-term">Linked Data</span> resources, <code class="docutils literal notranslate"><span class="pre">owl:sameAs</span></code> is used</p></li>
 <li><p>for some ontologies, <code class="docutils literal notranslate"><span class="pre">owl:equivalentClass</span></code> <span class="xref std std-term">Axioms</span> are used</p></li>
-<li><p>in other cases, <span class="xref std std-term">SKOS</span> triples may be used</p></li>
+<li><p>in other cases, <a class="reference internal" href="../glossary.html#term-SKOS"><span class="xref std std-term">SKOS</span></a> triples may be used</p></li>
 <li><p>sometimes mappings are distributed as simple <span class="xref std std-term">CSV</span> files, outside the ontology</p></li>
 </ul>
 <p>In addition to the basic vocabulary used, the <a class="reference internal" href="../glossary.html#term-Datamodel"><span class="xref std std-term">Data Models</span></a> for mappings differs a lot.</p>
 <section id="sssom">
 <h2>SSSOM<a class="headerlink" href="#sssom" title="Link to this heading"></a></h2>
-<p>The <cite>Simple Standard for Sharing Ontological Mappings &lt;https://w3id.org/sssom&gt;</cite> (SSSOM) is a standard
+<p>The <a class="reference external" href="https://w3id.org/sssom">Simple Standard for Sharing Ontological Mappings</a> (SSSOM) is a standard
 for ontology mappings. It provides both a standard TSV/CSV format, and a standard way of encoding mappings in ontologies.</p>
 <p>OAK uses SSSOM as its primary data model for mappings, except in the <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> where
 mappings are represented as simple lists of mapped CURIEs, without any metadata.</p>
+<p>The <a class="reference internal" href="../packages/interfaces/mapping-provider.html#mapping-provider-interface"><span class="std std-ref">Mapping Provider Interface</span></a> provides a way to access mappings using the richer SSSOM model.</p>
 </section>
 <section id="mappings-in-oak">
 <h2>Mappings in OAK<a class="headerlink" href="#mappings-in-oak" title="Link to this heading"></a></h2>
@@ -193,7 +194,7 @@ commands, this also allows for other output formats.</p>
 </tbody>
 </table>
 <p>Under the hood, OAK will query using standard mapping predicates, including
-those from <span class="xref std std-term">SKOS</span> and <span class="xref std std-term">OboInOwl</span>.</p>
+those from <a class="reference internal" href="../glossary.html#term-SKOS"><span class="xref std std-term">SKOS</span></a> and <span class="xref std std-term">OboInOwl</span>.</p>
 <p>Using the Python interface, there are two levels in which to access mappings.</p>
 <ul class="simple">
 <li><p>The <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> provides a simple interface that exposes mappings as simple tuples</p></li>
@@ -261,8 +262,20 @@ object_source:<span class="w"> </span>TAO
 ...
 </pre></div>
 </div>
-<p>So ZFA bundles mappings to TAO.</p>
-<p>At the time of writing, ZFA does bundle mappings to CL.</p>
+<p>So ZFA bundles mappings to TAO, but not UBERON.</p>
+<p>At the time of writing, ZFA <em>does</em> bundle mappings to CL:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:zfa<span class="w"> </span>mappings<span class="w"> </span>CL:0000540
+...
+predicate_id:<span class="w"> </span>oio:hasDbXref
+mapping_justification:<span class="w"> </span>semapv:UnspecifiedMatching
+subject_id:<span class="w"> </span>ZFA:0009248
+subject_label:<span class="w"> </span>neuron
+object_id:<span class="w"> </span>CL:0000540
+subject_source:<span class="w"> </span>ZFA
+object_source:<span class="w"> </span>CL
+...
+</pre></div>
+</div>
 <p>In the future, OAK may have easier ways to query a union of ontologies, and OBO ontologies may
 redistribute reciprocal mappings, but for now it helps to know how each ontology handles mappings to
 use these effectively.</p>
@@ -301,7 +314,7 @@ a lot the rich metadata that is distributed with SSSOM.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

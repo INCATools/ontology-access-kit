@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>command: crawl &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">command: crawl</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Commands/Crawl.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command:-crawl">
+<h1>command: crawl<a class="headerlink" href="#command:-crawl" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples for the <code class="docutils literal notranslate"><span class="pre">crawl</span></code> command, which is used to walk over multiple ontologies and endpoints.</p>
+<section id="Help-Option">
+<h2>Help Option<a class="headerlink" href="#Help-Option" title="Link to this heading"></a></h2>
+<p>You can get help on any OAK command using <code class="docutils literal notranslate"><span class="pre">--help</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>crawl<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: runoak crawl [OPTIONS] [TERMS]...
+
+  Crawl one or more ontologies, hopping over edges and mappings
+
+  Crawl is a powerful command that allows for multi-ontology traversal,
+  particularly on mapping paths. Multiple ontologies and ontology sources
+  (e.g. BioPortal, OLS) provide mappings between terms. No single ontology is
+  likely to have a complete source. Using crawl, you can walk across the union
+  of mappings in all ontologies, with custom rules for each ontology (e.g.
+  normalizing prefixes).
+
+  Documentation for this command will be provided in a separate notebook.
+
+Options:
+  -o, --output TEXT               Path to output file
+  -O, --output-type TEXT          Desired output type
+  --autolabel / --no-autolabel    If set, results will automatically have
+                                  labels assigned  [default: autolabel]
+  -M, --maps-to-source TEXT       Return only mappings with subject or object
+                                  source equal to this
+  --mapper TEXT                   A selector for an adapter that is to be used
+                                  for the main lookup operation
+  --unmelt / --no-unmelt          Use a wide table for display.  [default: no-
+                                  unmelt]
+  --adapters TEXT                 A comma-separated list of adapters
+  --allowed-prefixes TEXT         A comma-separated list of prefixes to
+                                  traverse over
+  --mapping-predicates TEXT       A comma-separated list of mapping predicates
+                                  to traverse over
+  --viz / --no-viz                If true then draw a graph  [default: no-viz]
+  -d, --directory TEXT            Directory to write output files
+  --whole-ontology / --no-whole-ontology
+                                  Run over whole ontology  [default: no-whole-
+                                  ontology]
+  -C, --config-yaml TEXT
+  --help                          Show this message and exit.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>input/mapping-crawler-config.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+adapter_configs:
+  OMIM:
+  DOID:
+    prefix_normalization_map:
+      &#34;MIM:PS&#34;: &#34;OMIMPS:&#34;
+      MIM: OMIM
+      UMLS_CUI: UMLS
+      SNOMEDCT_US_2023_03_01: SCTID
+      NCI: NCIT
+  ORDO:
+    prefix_normalization_map:
+      MeSH: MESH
+  NCIT:
+  GARD:
+adapter_specs:
+  OMIM: /Users/cjm/repos/semantic-sql/db/omim.db
+allowed_prefixes: [OMIM, DOID, ORDO, OMIMPS, GARD, NCIT, OMIMPS]
+mapping_predicates:
+  - oio:hasDbXref
+  - skos:exactMatch
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w">  </span>crawl<span class="w"> </span>-C<span class="w"> </span>input/mapping-crawler-config.yaml<span class="w"> </span>-d<span class="w"> </span>output/refsum-analysis<span class="w"> </span>GARD:4648<span class="w">  </span>--viz<span class="w"> </span>-o<span class="w"> </span>output/refsum.png
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/refsum.png" />
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w">  </span>crawl<span class="w"> </span>-C<span class="w"> </span>input/mapping-crawler-config.yaml<span class="w"> </span>-d<span class="w"> </span>output/refsum-analysis<span class="w"> </span>--whole-ontology<span class="w"> </span>GARD:4648<span class="w"> </span>GARD:6322
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/sssom/util.py:162: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option(&#39;future.no_silent_downcasting&#39;, True)`
+  df.replace(&#34;&#34;, np.nan, inplace=True)
+/Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/sssom/util.py:162: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option(&#39;future.no_silent_downcasting&#39;, True)`
+  df.replace(&#34;&#34;, np.nan, inplace=True)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>find<span class="w"> </span>output/refsum-analysis
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+output/refsum-analysis
+output/refsum-analysis/clique_summary.csv
+output/refsum-analysis/clique_results.csv
+output/refsum-analysis/cliques
+output/refsum-analysis/cliques/GARD_4648.sssom.tsv
+output/refsum-analysis/cliques/GARD_6322.sssom.tsv
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/refsum-analysis/clique_summary.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>mapping_count</th>
+      <th>entity_count</th>
+      <th>average_incoherency</th>
+      <th>max_incoherency</th>
+      <th>incoherency_GARD</th>
+      <th>incoherency_ORDO</th>
+      <th>incoherency_OMIM</th>
+      <th>incoherency_DOID</th>
+      <th>incoherency_NCIT</th>
+      <th>incoherency_OMIMPS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>count</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>2.00000</td>
+      <td>2.00000</td>
+      <td>2.000000</td>
+      <td>1.0</td>
+      <td>2.00000</td>
+      <td>2.000000</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>mean</td>
+      <td>145.500000</td>
+      <td>44.500000</td>
+      <td>7.900000</td>
+      <td>12.50000</td>
+      <td>12.50000</td>
+      <td>2.000000</td>
+      <td>24.0</td>
+      <td>12.50000</td>
+      <td>0.500000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>std</td>
+      <td>194.454365</td>
+      <td>55.861436</td>
+      <td>11.172287</td>
+      <td>17.67767</td>
+      <td>17.67767</td>
+      <td>2.828427</td>
+      <td>NaN</td>
+      <td>17.67767</td>
+      <td>0.707107</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>min</td>
+      <td>8.000000</td>
+      <td>5.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>24.0</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25%</td>
+      <td>76.750000</td>
+      <td>24.750000</td>
+      <td>3.950000</td>
+      <td>6.25000</td>
+      <td>6.25000</td>
+      <td>1.000000</td>
+      <td>24.0</td>
+      <td>6.25000</td>
+      <td>0.250000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50%</td>
+      <td>145.500000</td>
+      <td>44.500000</td>
+      <td>7.900000</td>
+      <td>12.50000</td>
+      <td>12.50000</td>
+      <td>2.000000</td>
+      <td>24.0</td>
+      <td>12.50000</td>
+      <td>0.500000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>75%</td>
+      <td>214.250000</td>
+      <td>64.250000</td>
+      <td>11.850000</td>
+      <td>18.75000</td>
+      <td>18.75000</td>
+      <td>3.000000</td>
+      <td>24.0</td>
+      <td>18.75000</td>
+      <td>0.750000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>max</td>
+      <td>283.000000</td>
+      <td>84.000000</td>
+      <td>15.800000</td>
+      <td>25.00000</td>
+      <td>25.00000</td>
+      <td>4.000000</td>
+      <td>24.0</td>
+      <td>25.00000</td>
+      <td>1.000000</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/refsum-analysis/clique_results.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seed</th>
+      <th>name</th>
+      <th>mapping_count</th>
+      <th>entity_count</th>
+      <th>entities</th>
+      <th>entity_labels</th>
+      <th>predicates</th>
+      <th>mapping_sources</th>
+      <th>average_incoherency</th>
+      <th>max_incoherency</th>
+      <th>sources</th>
+      <th>incoherency_GARD</th>
+      <th>incoherency_ORDO</th>
+      <th>incoherency_OMIM</th>
+      <th>incoherency_DOID</th>
+      <th>incoherency_NCIT</th>
+      <th>incoherency_OMIMPS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GARD:4648</td>
+      <td>NaN</td>
+      <td>283</td>
+      <td>84</td>
+      <td>['OMIM:614867', 'ORDO:772', 'OMIM:614873', 'GA...</td>
+      <td>{'GARD:4648': 'Infantile Refsum disease', 'ORD...</td>
+      <td>['rdfs:subClassOf', 'oio:hasDbXref', 'skos:exa...</td>
+      <td>['obo:ORDO', 'obo:GARD', 'obo:DOID', 'obo:OMIM']</td>
+      <td>15.8</td>
+      <td>25</td>
+      <td>['GARD', 'ORDO', 'OMIM', 'DOID', 'NCIT']</td>
+      <td>25</td>
+      <td>4</td>
+      <td>24.0</td>
+      <td>25</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GARD:6322</td>
+      <td>NaN</td>
+      <td>8</td>
+      <td>5</td>
+      <td>['ORDO:98249', 'DOID:13359', 'NCIT:C34568', 'O...</td>
+      <td>{'DOID:13359': 'Ehlers-Danlos syndrome', 'GARD...</td>
+      <td>['oio:hasDbXref', 'skos:exactMatch']</td>
+      <td>['obo:DOID', 'obo:GARD']</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>['DOID', 'GARD', 'ORDO', 'OMIMPS', 'NCIT']</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;output/refsum-analysis/cliques/GARD_4648.sssom.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject_id</th>
+      <th>subject_label</th>
+      <th>predicate_id</th>
+      <th>object_id</th>
+      <th>object_label</th>
+      <th>mapping_justification</th>
+      <th>mapping_source</th>
+      <th>other</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>DOID:0080476</td>
+      <td>peroxisome biogenesis disorder 1A</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:214100</td>
+      <td>peroxisome biogenesis disorder 1a (zellweger)</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:DOID</td>
+      <td>distance: 6, direction: -1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>DOID:0080476</td>
+      <td>peroxisome biogenesis disorder 1A</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:214100</td>
+      <td>peroxisome biogenesis disorder 1a (zellweger)</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:DOID</td>
+      <td>distance: 7, direction: 1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>DOID:0080476</td>
+      <td>peroxisome biogenesis disorder 1A</td>
+      <td>rdfs:subClassOf</td>
+      <td>DOID:905</td>
+      <td>Zellweger syndrome</td>
+      <td>semapv:ManualMappingCuration</td>
+      <td>obo:DOID</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>DOID:0080477</td>
+      <td>peroxisome biogenesis disorder 2A</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:214110</td>
+      <td>peroxisome biogenesis disorder 2a (zellweger)</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:DOID</td>
+      <td>distance: 6, direction: -1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>DOID:0080477</td>
+      <td>peroxisome biogenesis disorder 2A</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:214110</td>
+      <td>peroxisome biogenesis disorder 2a (zellweger)</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:DOID</td>
+      <td>distance: 7, direction: 1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>278</th>
+      <td>ORDO:912</td>
+      <td>Zellweger syndrome</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:614887</td>
+      <td>peroxisome biogenesis disorder 13a (zellweger)</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:ORDO</td>
+      <td>distance: 3, direction: 1</td>
+    </tr>
+    <tr>
+      <th>279</th>
+      <td>ORDO:912</td>
+      <td>Zellweger syndrome</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:614887</td>
+      <td>peroxisome biogenesis disorder 13a (zellweger)</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:ORDO</td>
+      <td>distance: 4, direction: -1</td>
+    </tr>
+    <tr>
+      <th>280</th>
+      <td>ORDO:912</td>
+      <td>Zellweger syndrome</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:617370</td>
+      <td>peroxisome biogenesis disorder 10b</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:ORDO</td>
+      <td>distance: 2, direction: -1</td>
+    </tr>
+    <tr>
+      <th>281</th>
+      <td>ORDO:912</td>
+      <td>Zellweger syndrome</td>
+      <td>oio:hasDbXref</td>
+      <td>OMIM:617370</td>
+      <td>peroxisome biogenesis disorder 10b</td>
+      <td>semapv:UnspecifiedMatching</td>
+      <td>obo:ORDO</td>
+      <td>distance: 3, direction: 1</td>
+    </tr>
+    <tr>
+      <th>282</th>
+      <td>ORDO:912</td>
+      <td>Zellweger syndrome</td>
+      <td>rdfs:subClassOf</td>
+      <td>ORDO:79189</td>
+      <td>Peroxisome biogenesis disorder</td>
+      <td>semapv:ManualMappingCuration</td>
+      <td>obo:ORDO</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>283 rows × 8 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

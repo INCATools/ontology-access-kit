@@ -75,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dumper.html">Dumper Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregator.html">Aggregator Interface</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
@@ -122,7 +123,18 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.mapping_provider_interface.</span></span><span class="sig-name descname"><span class="pre">MappingProviderInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_prefix_map:</span> <span class="pre">~typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface" title="Link to this definition"></a></dt>
-<dd><p>An ontology interface that provides SSSOM mappings.</p>
+<dd><p>An ontology interface that provides mappings according to the SSSOM data model.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="s2">&quot;GO:0016772&quot;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span> <span class="n">mapping</span><span class="o">.</span><span class="n">predicate_id</span><span class="p">,</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
+
+<span class="go">...</span>
+<span class="go">GO:0016772 EC:2.7.-.-</span>
+<span class="go">...</span>
+</pre></div>
+</div>
 <p>For more on the SSSOM Data Model, see <a class="reference external" href="https://w3id.org/sssom/">https://w3id.org/sssom/</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -371,7 +383,7 @@ casing determined by the supplied prefixes:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

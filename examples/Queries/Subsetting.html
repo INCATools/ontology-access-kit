@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subsetting Queries &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Subsetting Queries</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Queries/Subsetting.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Subsetting-Queries">
+<h1>Subsetting Queries<a class="headerlink" href="#Subsetting-Queries" title="Link to this heading"></a></h1>
+<p>This notebook is intended as a supplement to the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html">main OAK CLI docs</a>.</p>
+<p>This notebook provides examples of subsetting and graph operations.</p>
+<p>For more background, see:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/use-oak-expression-language.html">OAK Expression Language</a></p></li>
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/guide/relationships-and-graphs.html">Relationships and Graphs</a></p></li>
+</ul>
+<section id="Set-up-an-alias">
+<h2>Set up an alias<a class="headerlink" href="#Set-up-an-alias" title="Link to this heading"></a></h2>
+<p>For convenience we will set up some aliases for use in this notebook</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">cl</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">cl</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Example-Terms">
+<h2>Example Terms<a class="headerlink" href="#Example-Terms" title="Link to this heading"></a></h2>
+<p>We’ll pick a few example terms from immune and nervous systems as examples:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000601 ! cochlear outer hair cell
+CL:0017006 ! B-lymphoblast
+CL:0002128 ! Tc17 cell
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>-p<span class="w"> </span>output
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Visualization-(no-subsetting)">
+<h2>Visualization (no subsetting)<a class="headerlink" href="#Visualization-(no-subsetting)" title="Link to this heading"></a></h2>
+<p>First we’ll visualize the graph and its is-a closure</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">cl</span><span class="o">-</span><span class="n">example</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="n">terms</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/cl-example-3-terms.png" />
+<p><strong>TODO</strong>: regenerate after this is fixed: <a class="reference external" href="https://github.com/obophenotype/cell-ontology/issues/2923">https://github.com/obophenotype/cell-ontology/issues/2923</a></p>
+<p>We can see that there are a lot of terms between each highlighted seed term and root. This notebook will explore ways of reducing that space.</p>
+<p>First, we will show the <code class="docutils literal notranslate"><span class="pre">--gap-fill</span></code> option in the <code class="docutils literal notranslate"><span class="pre">viz</span></code> command, as well as <code class="docutils literal notranslate"><span class="pre">--add-mrcas</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--add-mrcas</span></code> will extend the seed set with all MRCAs of all combinations of seeds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--gap-fill</span></code> will traverse intermediate nodes not in the extended seed set</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">viz</span> <span class="o">--</span><span class="n">gap</span><span class="o">-</span><span class="n">fill</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">mrcas</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">cl</span><span class="o">-</span><span class="n">example</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="n">terms</span><span class="o">-</span><span class="n">mrca</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/cl-example-3-terms-mrca.png" />
+<p>This looks a little imbalanced, we can balance it out with another neuron</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">viz</span> <span class="o">--</span><span class="n">gap</span><span class="o">-</span><span class="n">fill</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">mrcas</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="n">CL</span><span class="p">:</span><span class="mi">4023050</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">cl</span><span class="o">-</span><span class="n">example</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="n">terms</span><span class="o">-</span><span class="n">mrca</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/cl-example-4-terms-mrca.png" />
+<p>The <code class="docutils literal notranslate"><span class="pre">viz</span></code> command is doing a lot of work here. We’ll explore how this can be broken down and composed more flexibly</p>
+</section>
+<section id="Most-Recent-Common-Ancestors-(MRCAs)">
+<h2>Most Recent Common Ancestors (MRCAs)<a class="headerlink" href="#Most-Recent-Common-Ancestors-(MRCAs)" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">.mrca</span></code> expression finds the MRCA of <em>all</em> specified terms. Like many OAK commands and expressions, it is parameterized by predicate. This is important as we frequently want to use other relations such as part-of here.</p>
+<p>Note that we have to provide the list within <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">...</span> <span class="pre">]</span></code> brackets (the surrounding space is important for unix reasons)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="o">.</span><span class="n">mrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="p">[</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The history saving thread hit an unexpected error (OperationalError(&#39;attempt to write a readonly database&#39;)).History will not be written to the database.
+CL:0000255 ! eukaryotic cell
+BFO:0000002 ! None
+</pre></div></div>
+</div>
+<p>Let’s ignore the strange BFO class for now. The MRCA of our terms (from neuron and lymphocyte branches) is a very high level <em>eukaryotic cell</em>, indicating our selected terms don’t have much in common.</p>
+<p>We can restrict this to the two immune cells:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="o">.</span><span class="n">mrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="p">[</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000542 ! lymphocyte
+</pre></div></div>
+</div>
+<p>This makes sense, this is just a pairwise MRCA.</p>
+<p>If instead we want <em>all</em> pairwise MRCAs we can use <code class="docutils literal notranslate"><span class="pre">.multimrca</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="o">.</span><span class="n">mrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="p">[</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000255 ! eukaryotic cell
+BFO:0000002 ! None
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="o">.</span><span class="n">multimrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="p">[</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CL:0000542 ! lymphocyte
+BFO:0000002 ! None
+CL:0000255 ! eukaryotic cell
+</pre></div></div>
+</div>
+<p>We can also use the <code class="docutils literal notranslate"><span class="pre">reflexive</span></code> parameter (which takes boolean in YAML syntax as value) to include the initial terms. This is useful for composing operations together:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">info</span> <span class="o">.</span><span class="n">multimrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="o">//</span><span class="n">reflexive</span><span class="o">=</span><span class="n">true</span> <span class="p">[</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BFO:0000002 ! None
+CL:0000255 ! eukaryotic cell
+CL:0000542 ! lymphocyte
+CL:0000601 ! cochlear outer hair cell
+CL:0017006 ! B-lymphoblast
+CL:0002128 ! Tc17 cell
+</pre></div></div>
+</div>
+<p>Next we can use the output of the expression as an input to <code class="docutils literal notranslate"><span class="pre">viz</span></code>, with <code class="docutils literal notranslate"><span class="pre">--gap-fill</span></code> on:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="o">--</span><span class="n">gap</span><span class="o">-</span><span class="n">fill</span> <span class="o">.</span><span class="n">multimrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="o">//</span><span class="n">reflexive</span><span class="o">=</span><span class="n">true</span> <span class="p">[</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">cl</span><span class="o">-</span><span class="n">example</span><span class="o">-</span><span class="n">combined</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/cl-example-combined.png" />
+<p>This is the same as before, but we have broken this out into a query expression, which can be combined with others:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span> <span class="o">--</span><span class="n">gap</span><span class="o">-</span><span class="n">fill</span> <span class="o">.</span><span class="n">multimrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="o">//</span><span class="n">reflexive</span><span class="o">=</span><span class="n">true</span> <span class="p">[</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000601</span>  <span class="n">CL</span><span class="p">:</span><span class="mi">0017006</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0002128</span> <span class="p">]</span> <span class="o">.</span><span class="n">minus</span> <span class="n">BFO</span><span class="p">:</span><span class="mi">0000002</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">cl</span><span class="o">-</span><span class="n">example</span><span class="o">-</span><span class="n">filtered</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/cl-example-filtered.png" />
+<p>Much cleaner!</p>
+</section>
+<section id="ENVO-subsets-use-case">
+<h2>ENVO subsets use case<a class="headerlink" href="#ENVO-subsets-use-case" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">envo</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">envo</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">info</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">water_env_local_scale</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENVO:00012408 ! aquifer
+ENVO:00000067 ! cave
+ENVO:00000076 ! mine
+ENVO:00000025 ! reservoir
+ENVO:00000153 ! headwater
+ENVO:02000145 ! subterranean lake
+ENVO:03600052 ! water tap
+ENVO:01000142 ! wood fall
+ENVO:01000140 ! whale fall
+ENVO:01001871 ! pit
+ENVO:00000055 ! saline evaporation pond
+ENVO:01000002 ! water well
+ENVO:00000044 ! peatland
+ENVO:00002034 ! biofilm
+ENVO:00000035 ! marsh
+ENVO:03600074 ! aquaculture farm
+ENVO:00000133 ! glacier
+ENVO:00000054 ! saline marsh
+ENVO:00000244 ! abyssal plain
+ENVO:00001997 ! acid mine drainage
+ENVO:00000114 ! agricultural field
+ENVO:01001072 ! anoxic lake
+ENVO:00000220 ! archipelago
+ENVO:00000091 ! beach
+ENVO:00000218 ! black smoker
+ENVO:00000057 ! mangrove swamp
+ENVO:01000687 ! coast
+ENVO:01000263 ! cold seep
+ENVO:01000298 ! continental margin
+ENVO:00000150 ! coral reef
+ENVO:03600071 ! cyanobacterial bloom
+ENVO:02000139 ! desert spring
+ENVO:00002131 ! epilimnion
+ENVO:00000045 ! estuary
+ENVO:00000039 ! fjord
+ENVO:00000255 ! flood plain
+ENVO:00000021 ! freshwater lake
+ENVO:01000409 ! freshwater littoral zone
+ENVO:01000297 ! freshwater river
+ENVO:03605007 ! freshwater stream
+ENVO:00000488 ! glacial lake
+ENVO:00000214 ! hadalpelagic zone
+ENVO:00000463 ! harbour
+ENVO:01001209 ! wetland ecosystem
+ENVO:00000051 ! hot spring
+ENVO:00000215 ! hydrothermal vent
+ENVO:00002130 ! hypolimnion
+ENVO:00000475 ! inlet
+ENVO:00000316 ! intertidal zone
+ENVO:00000020 ! lake
+ENVO:01000407 ! littoral zone
+ENVO:00000210 ! marine aphotic zone
+ENVO:00000211 ! marine bathypelagic zone
+ENVO:03600041 ! marine lake
+ENVO:00000213 ! marine mesopelagic zone
+ENVO:00000206 ! marine neritic zone
+ENVO:00000208 ! marine pelagic zone
+ENVO:00000209 ! marine photic zone
+ENVO:03000040 ! melt pond
+ENVO:00002132 ! metalimnion
+ENVO:00001996 ! mine drainage
+ENVO:00000402 ! mud volcano
+ENVO:00000015 ! ocean
+ENVO:00000275 ! ocean trench
+ENVO:01000749 ! oceanic crust
+ENVO:00002063 ! oil seep
+ENVO:00002061 ! oil spill
+ENVO:00000232 ! fen
+ENVO:00000033 ! pond
+ENVO:01000871 ! puddle of water
+ENVO:00000148 ! riffle
+ENVO:00000022 ! river
+ENVO:01000008 ! microbial mat
+ENVO:00000016 ! sea
+ENVO:01000905 ! shrimp pond
+ENVO:00000195 ! sinkhole
+ENVO:00000027 ! spring
+ENVO:03600096 ! step pool
+ENVO:00000394 ! strait
+ENVO:00000023 ! stream
+ENVO:03600094 ! stream pool
+ENVO:03600095 ! stream run
+ENVO:03000120 ! subglacial lake
+ENVO:00000247 ! volcano
+ENVO:00000233 ! swamp ecosystem
+ENVO:01001191 ! water surface
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">viz</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">water_env_local_scale</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">envo</span><span class="o">-</span><span class="n">water</span><span class="o">-</span><span class="n">local</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/envo-water-local.png" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envo</span> <span class="n">viz</span> <span class="o">--</span><span class="n">gap</span><span class="o">-</span><span class="n">fill</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">mrcas</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">water_env_local_scale</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">envo</span><span class="o">-</span><span class="n">water</span><span class="o">-</span><span class="n">local</span><span class="o">-</span><span class="n">mrcas</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/envo-water-local-mrcas.png" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:envo<span class="w"> </span>viz<span class="w"> </span>--gap-fill<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span><span class="err">\</span>
+  <span class="o">.</span><span class="n">multimrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="p">[</span> <span class="o">.</span><span class="n">idfile</span> <span class="nb">input</span><span class="o">/</span><span class="n">water_env_local_scale</span><span class="o">.</span><span class="n">tsv</span> <span class="p">]</span> \
+  <span class="o">.</span><span class="n">minus</span> <span class="p">[</span> <span class="n">system</span> <span class="nb">object</span> <span class="n">l</span><span class="o">~</span><span class="n">astronomical</span> <span class="n">layer</span> <span class="n">planet</span> <span class="s1">&#39;environmental system&#39;</span> <span class="p">]</span> \
+  <span class="o">.</span><span class="ow">or</span> <span class="p">[</span> <span class="s1">&#39;manufactured product&#39;</span> <span class="p">]</span> \
+  <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">/</span><span class="n">envo</span><span class="o">-</span><span class="n">water</span><span class="o">-</span><span class="n">local</span><span class="o">-</span><span class="n">filtered</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</div>
+<img alt="img" src="../../_images/envo-water-local-filtered.png" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

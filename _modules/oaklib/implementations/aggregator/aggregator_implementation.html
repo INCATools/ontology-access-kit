@@ -139,21 +139,23 @@
 <span class="sd">    the aggregator farming out queries to multiple implementations, and weaving</span>
 <span class="sd">    the results together.</span>
 
-<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
-<span class="sd">    &gt;&gt;&gt; from oaklib.implementations import AggregatorImplementation</span>
-<span class="sd">    &gt;&gt;&gt; from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax</span>
-<span class="sd">    &gt;&gt;&gt; hp = get_adapter(&quot;sqlite:obo:hp&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; mp = get_adapter(&quot;sqlite:obo:mp&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)</span>
-<span class="sd">    &gt;&gt;&gt; agg = AggregatorImplementation(implementations=[hp, mp])</span>
-<span class="sd">    &gt;&gt;&gt; for entity in sorted(agg.basic_search(&quot;parathyroid&quot;, config=cfg)):</span>
-<span class="sd">    ...     print(entity, agg.label(entity))</span>
-<span class="sd">    &lt;BLANKLINE&gt;</span>
-<span class="sd">    ...</span>
-<span class="sd">    HP:0000860 Parathyroid hypoplasia</span>
-<span class="sd">    ...</span>
-<span class="sd">    MP:0000680 absent parathyroid glands</span>
-<span class="sd">    ...</span>
+<span class="sd">    Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.implementations import AggregatorImplementation</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax</span>
+<span class="sd">        &gt;&gt;&gt; hp = get_adapter(&quot;sqlite:obo:hp&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; mp = get_adapter(&quot;sqlite:obo:mp&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)</span>
+<span class="sd">        &gt;&gt;&gt; agg = AggregatorImplementation(implementations=[hp, mp])</span>
+<span class="sd">        &gt;&gt;&gt; for entity in sorted(agg.basic_search(&quot;parathyroid&quot;, config=cfg)):</span>
+<span class="sd">        ...     print(entity, agg.label(entity))</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        HP:0000860 Parathyroid hypoplasia</span>
+<span class="sd">        ...</span>
+<span class="sd">        MP:0000680 absent parathyroid glands</span>
+<span class="sd">        ...</span>
 
 <span class="sd">    Command Line Usage</span>
 <span class="sd">    ------------------</span>
@@ -294,7 +296,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -110,7 +110,7 @@
 <span id="identifying-entities-curies-and-uris"></span><h1>Identifying entities: CURIEs and URIs<a class="headerlink" href="#curies-and-uris" title="Link to this heading"></a></h1>
 <section id="prefix-maps">
 <h2>Prefix maps<a class="headerlink" href="#prefix-maps" title="Link to this heading"></a></h2>
-<p>Every <span class="xref std std-term">Entity</span> in OAK has a unique <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a>. OAK is consistent with semantic
+<p>Every <a class="reference internal" href="../glossary.html#term-Entity"><span class="xref std std-term">Entity</span></a> in OAK has a unique <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a>. OAK is consistent with semantic
 web formalisms where everything is identified by an <span class="xref std std-term">IRI</span>, but in OAK these are
 typically compressed into a <a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>, using a <span class="xref std std-term">Prefix Map</span>.</p>
 <p>For example, to reference the concept of “heart” in the <a class="reference external" href="http://obofoundry.org/ontology/uberon.html">Uberon</a> ontology,
@@ -169,7 +169,7 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 <td><p><a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a class="reference external" href="http://obofoundry.org/ontology/uberon.html">UBERON</a></p></td>
 </tr>
 <tr class="row-odd"><td><p>CL</p></td>
-<td><p><a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id2"><span class="problematic" id="id3">CL_</span></a></p></td>
+<td><p><a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id3"><span class="problematic" id="id4">CL_</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p>oio</p></td>
 <td><p><a class="reference external" href="http://www.geneontology.org/formats">http://www.geneontology.org/formats</a>/oboInOwl#</p></td>
@@ -206,13 +206,38 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 which is the prefix (typically all uppercase) followed by a local identifier which is
 all numeric (typically zero-padded with 7 digits). However, this is not a requirement for OAK.</p>
 <p>Many semantic web ontologies such as schema.org use “semantic” URIs that a human
-can understand. These can be used in the same way:</p>
+can understand. These can be used in the same way, as can be seen in the following example.</p>
+<p>First, download schema.org (as RDF):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://schema.org/version/latest/schemaorg-all-http.ttl<span class="w"> </span>-O<span class="w"> </span>tests/output/schema.rdf
-$<span class="w"> </span>runoak<span class="w"> </span>--prefix<span class="w"> </span><span class="nv">schema</span><span class="o">=</span>http://schema.org/<span class="w"> </span>-i<span class="w"> </span>tests/output/schema.rdf<span class="w"> </span>relationships<span class="w"> </span>schema:Person
-subject<span class="w">     </span>subject_label<span class="w">   </span>predicate<span class="w">       </span>predicate_label<span class="w"> </span>object<span class="w">  </span>object_label
-schema:Person<span class="w">       </span>Person<span class="w">  </span>rdfs:subClassOf<span class="w"> </span>None<span class="w">    </span>schema:Thing<span class="w">    </span>Thing
 </pre></div>
 </div>
+<p>Then, query it on the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>--prefix<span class="w"> </span><span class="nv">schema</span><span class="o">=</span>http://schema.org/<span class="w"> </span>-i<span class="w"> </span>tests/output/schema.rdf<span class="w"> </span>relationships<span class="w"> </span>schema:Person
+</pre></div>
+</div>
+<p>This will give a table:</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Query results</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>subject</p></th>
+<th class="head"><p>subject_label</p></th>
+<th class="head"><p>predicate</p></th>
+<th class="head"><p>predicate_label</p></th>
+<th class="head"><p>object</p></th>
+<th class="head"><p>object_label</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>schema:Person</p></td>
+<td><p>Person</p></td>
+<td><p>rdfs:subClassOf</p></td>
+<td><p>None</p></td>
+<td><p>schema:Thing</p></td>
+<td><p>Thing</p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that the URI is contracted to a prefixed ID for terms like <cite>Person</cite> and <cite>subClassOf</cite></p>
 </section>
 <section id="further-reading">
 <h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
@@ -233,7 +258,7 @@ schema:Person<span class="w">       </span>Person<span class="w">  </span>rdfs:s
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

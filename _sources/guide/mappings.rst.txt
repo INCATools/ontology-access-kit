@@ -17,11 +17,13 @@ In addition to the basic vocabulary used, the :term:`Data Models<Datamodel>` for
 SSSOM
 -----
 
-The `Simple Standard for Sharing Ontological Mappings <https://w3id.org/sssom>` (SSSOM) is a standard
+The `Simple Standard for Sharing Ontological Mappings <https://w3id.org/sssom>`_ (SSSOM) is a standard
 for ontology mappings. It provides both a standard TSV/CSV format, and a standard way of encoding mappings in ontologies.
 
 OAK uses SSSOM as its primary data model for mappings, except in the :ref:`basic_ontology_interface` where
 mappings are represented as simple lists of mapped CURIEs, without any metadata.
+
+The :ref:`mapping_provider_interface` provides a way to access mappings using the richer SSSOM model.
 
 Mappings in OAK
 ---------------
@@ -143,9 +145,22 @@ If we query for the ZFA ID we see the complete set of ZFA mappings for that term
     object_source: TAO
     ...
 
-So ZFA bundles mappings to TAO.
+So ZFA bundles mappings to TAO, but not UBERON.
 
-At the time of writing, ZFA does bundle mappings to CL.
+At the time of writing, ZFA *does* bundle mappings to CL:
+
+.. code-block:: bash
+
+    $ runoak -i sqlite:obo:zfa mappings CL:0000540
+    ...
+    predicate_id: oio:hasDbXref
+    mapping_justification: semapv:UnspecifiedMatching
+    subject_id: ZFA:0009248
+    subject_label: neuron
+    object_id: CL:0000540
+    subject_source: ZFA
+    object_source: CL
+    ...
 
 In the future, OAK may have easier ways to query a union of ontologies, and OBO ontologies may
 redistribute reciprocal mappings, but for now it helps to know how each ontology handles mappings to

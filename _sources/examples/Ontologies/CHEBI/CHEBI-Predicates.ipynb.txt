@@ -62,7 +62,7 @@
    "id": "42c30d49",
    "metadata": {},
    "source": [
-    "If we wanted to do the equivalen on the command line, we would do:\n",
+    "If we wanted to do the equivalent on the command line, we would do:\n",
     "\n",
     "```bash\n",
     "alias chebi=\"runoak -i sqlite:obo:chebi\"\n",

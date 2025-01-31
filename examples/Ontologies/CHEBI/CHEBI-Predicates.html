@@ -129,12 +129,12 @@
 <section id="Citric-acid">
 <h2>Citric acid<a class="headerlink" href="#Citric-acid" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="http://purl.obolibrary.org/obo/CHEBI_30769">CHEBI:30769</a></p>
-<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<img alt="img" src="https://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&amp;imageIndex=0&amp;chebiId=30769" />
 </section>
 <section id="Citrate(3-)">
 <h2>Citrate(3-)<a class="headerlink" href="#Citrate(3-)" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="http://purl.obolibrary.org/obo/CHEBI_16947">CHEBI:16947</a></p>
-<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<img alt="img" src="https://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&amp;imageIndex=0&amp;chebiId=16947" />
 </section>
 <section id="Accessing-CHEBI-through-OAK">
 <h2>Accessing CHEBI through OAK<a class="headerlink" href="#Accessing-CHEBI-through-OAK" title="Link to this heading"></a></h2>
@@ -150,7 +150,7 @@
 </pre></div>
 </div>
 </div>
-<p>If we wanted to do the equivalen on the command line, we would do:</p>
+<p>If we wanted to do the equivalent on the command line, we would do:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">chebi</span><span class="o">=</span><span class="s2">&quot;runoak -i sqlite:obo:chebi&quot;</span>
 </pre></div>
 </div>
@@ -370,7 +370,7 @@ subject_label: citrate(3-)
 </pre></div>
 </div>
 </div>
-<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<img alt="img" src="examples/Ontologies/CHEBI/output/citrate.png" />
 <p>As can be seen, the is-a graphs of these two terms are almost completely separated. You have to go all the way up to <code class="docutils literal notranslate"><span class="pre">heteroatomic</span> <span class="pre">molecular</span> <span class="pre">entity</span></code> to find the common ancestor, just like the similarity output told us.</p>
 </section>
 <section id="So-what's-going-on?">
@@ -437,7 +437,7 @@ RO:0000087 ! has role
 </pre></div>
 </div>
 </div>
-<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<img alt="img" src="examples/Ontologies/CHEBI/output/citrate-conj-acid-of.png" />
 <p>This time the terms are much closer together. However, they are not “next” to each other, which brings us to another lesson:</p>
 </section>
 <section id="Number-of-hops-is-often-meaningless-with-ontologies">
@@ -500,7 +500,7 @@ subject_label: citrate(3-)
 </pre></div>
 </div>
 </div>
-<p><img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" /></p>
+<img alt="img" src="examples/Ontologies/CHEBI/output/citrate-not-a-dag.png" />
 <p>This is definitely <strong>not a DAG</strong>.</p>
 <p>In fact there is no reason to assume that for an ontology or a <em>knowledge</em> graph the structure will be a DAG. A lot of relationships in real life are inherently cyclic, and this definitely holds for chemistry, we have cyclic structures and cyclic relationships, and chemicals cycle through these different protonation states.</p>
 </section>
@@ -809,7 +809,7 @@ UBERON:0001612|BFO:0000050|UBERON:0001637
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

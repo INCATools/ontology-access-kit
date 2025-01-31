@@ -123,10 +123,10 @@ serve as descriptors. For example, the <a class="reference external" href="http:
 consists of classes representing different environments or environmental features, such as
 glaciers, lakes, and oceans.</p>
 <p>These terms are often <span class="xref std std-term">hierarchically organized</span>, and may include other kinds of hierarchical information.</p>
-<figure class="align-default" id="id3">
+<figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/schema-article.png"><img alt="hierarchy of article types from schema.org" src="../_images/schema-article.png" style="width: 377.5px; height: 208.5px;" /></a>
 <figcaption>
-<p><span class="caption-text">Example of a part of a vocabulary: <a class="reference external" href="http://schema.org">Schema.org</a> article types.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-text">Example of a part of a vocabulary: <a class="reference external" href="http://schema.org">Schema.org</a> article types.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 <div class="legend">
 <p>This example shows a small example of the portion of schema.org with some
 types of article. The vocabulary is organized in a hierarchy, with hierarchical
@@ -177,6 +177,13 @@ HP:0005678<span class="w"> </span>!<span class="w"> </span>Anterior<span class="
 </pre></div>
 </div>
 <p>Note that each term has its own unique <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a> (in this case, a <a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>).</p>
+<p>If you prefer to do this in Python rather than the command line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hpo</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;hp.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">term_id</span> <span class="ow">in</span> <span class="n">hpo</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">term_id</span><span class="p">,</span> <span class="n">hpo</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
+</pre></div>
+</div>
 <p>Even when ontologies are represented in OWL, <em>it doesn’t mean that everything is standardized</em>.
 Two OWL ontologies could choose to indicate primary <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">Labels</span></a>, synonyms, mappings, and definitions in
 different ways. OWL provides a framework for standardizing on the meaning of logical  <span class="xref std std-term">Axioms</span>, but
@@ -187,21 +194,21 @@ See further sections of this guide for more details on how this is done.</p>
 <p class="admonition-title">Note</p>
 <p>For more information on OWL and other ontology languages, see the
 <a class="reference external" href="https://oboacademy.github.io/obook/explanation/owl-format-variants/">section on OWL</a>
-in the <a href="#id1"><span class="problematic" id="id2">`</span></a>OBO Academy Book &lt;<a class="reference external" href="https://oboacademy.github.io/obook/">https://oboacademy.github.io/obook/</a>&gt;_.</p>
+in the <a class="reference external" href="https://oboacademy.github.io/obook/">OBO Academy Book</a>.</p>
 </div>
 </section>
 <section id="core-oak-concepts">
 <h2>Core OAK concepts<a class="headerlink" href="#core-oak-concepts" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><span class="xref std std-term">Entity</span></p></li>
-<li><p><span class="xref std std-term">Alias</span></p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-Entity"><span class="xref std std-term">Entity</span></a></p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-Alias"><span class="xref std std-term">Alias</span></a></p></li>
 <li><p><a class="reference internal" href="../glossary.html#term-Relationship"><span class="xref std std-term">Relationship</span></a></p></li>
 <li><p><a class="reference internal" href="../glossary.html#term-Mapping"><span class="xref std std-term">Mapping</span></a></p></li>
-<li><p><span class="xref std std-term">Definition</span></p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-Definition"><span class="xref std std-term">Definition</span></a></p></li>
 <li><p><span class="xref std std-term">Metadata</span></p></li>
 <li><p>“other” logical constructs</p></li>
 </ul>
-<p>In OAK, <span class="xref std std-term">Entity</span> is a general grouping for any identifiable thing. This includes
+<p>In OAK, <a class="reference internal" href="../glossary.html#term-Entity"><span class="xref std std-term">Entity</span></a> is a general grouping for any identifiable thing. This includes
 <a class="reference internal" href="../glossary.html#term-Class"><span class="xref std std-term">Classes</span></a>, <span class="xref std std-term">Individuals</span>, and <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Relationship Types</span></a>,
 as well as ontologies themselves.</p>
 </section>
@@ -218,7 +225,7 @@ as well as ontologies themselves.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
