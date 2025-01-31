@@ -95,7 +95,11 @@ from oaklib.interfaces.differ_interface import (
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
-from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
+from oaklib.interfaces.obograph_interface import (
+    EdgeTemplate,
+    GraphTraversalMethod,
+    OboGraphInterface,
+)
 from oaklib.interfaces.ontology_generator_interface import OntologyGenerationInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -107,6 +111,7 @@ from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.html_writer import HTMLWriter
+from oaklib.io.obofoundry_markdown_writer import OboFoundryMarkdownWriter
 from oaklib.io.obograph_writer import write_graph
 from oaklib.io.rollup_report_writer import write_report
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
@@ -165,6 +170,7 @@ from oaklib.utilities.lexical.lexical_indexer import (
 from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
+from oaklib.utilities.mapping.mapping_crawler import MappingCrawler, MappingCrawlerConfig
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 from oaklib.utilities.ner_utilities import get_exclusion_token_list
 from oaklib.utilities.obograph_utils import (
@@ -300,7 +306,7 @@ add_option = click.option(
 )
 all_ontologies_option = click.option(
     "--all/--no-all",
-    default=False,
+    default=True,
     show_default=True,
     help="If true, show all ontologies. Use in place of passing an explicit list",
 )
@@ -1163,6 +1169,8 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
         writer = StreamingYamlWriter(output)
     elif output_type == "csv":
         writer = StreamingCsvWriter(output)
+    elif output_type == "md":
+        writer = OboFoundryMarkdownWriter(output)
     else:
         raise ValueError(f"No such format: {output_type}")
     if not isinstance(impl, BasicOntologyInterface):
@@ -2080,6 +2088,94 @@ def paths(
                 configure=configure,
                 view=viz,
             )
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@autolabel_option
+@output_type_option
+@click.option("-o", "--output", help="Path to output file")
+def chains(
+    terms,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+):
+    """
+    List all paths following a query template.
+
+    (Experimental)
+
+    Assume we have aliased `cl` to `runoak -i sqlite:obo:cl`:
+
+    All chains of is-a followed by develops from:
+
+        cl chains /rdfs:subClassOf /RO:0002202
+
+    Or using predicate shorthand:
+
+        cl chains /i /d
+
+    As above, but ending with "stem cell"
+
+        cl chains /i /d "stem cell"
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
+    if output:
+        writer.file = output
+    else:
+        writer.file = sys.stdout
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    # list(query_terms_iterator(terms[0:ix], impl))
+    blocks = [[]]
+    for t in terms:
+        if t.startswith("/"):
+            preds = t[1:]
+            if t.endswith("/"):
+                preds = t[0:-1]
+            actual_preds = _process_predicates_arg(preds, impl=impl) if preds else None
+            blocks.append(set(actual_preds or []))
+            blocks.append([])
+        else:
+            blocks[-1].append(t)
+    query = []
+    et = EdgeTemplate()
+    for block in blocks:
+        if isinstance(block, set):
+            if et.predicates is not None:
+                query.append(et)
+                et = EdgeTemplate()
+            if "{inverted}" in block:
+                et.inverted = True
+                block.remove("{inverted}")
+            if "{entailed}" in block:
+                et.entailed = True
+                block.remove("{entailed}")
+            if any([x.startswith("{") for x in block]):
+                raise ValueError(f"Unrecognized directive: {block}")
+            et.predicates = block
+        else:
+            terms = list(query_terms_iterator(list(block), impl))
+            if et.predicates is None:
+                et.subject_nodes = terms
+            else:
+                et.object_nodes = terms
+    if et.predicates is not None:
+        query.append(et)
+    for this_chain in impl.chains(query):
+        obj = {}
+        for i, e in enumerate(this_chain):
+            for k in ["sub", "pred", "obj"]:
+                unrolled_k = f"{k}_{i+1}"
+                obj[unrolled_k] = getattr(e, k)
+                if autolabel:
+                    label_k = f"{k}_label_{i+1}"
+                    obj[label_k] = impl.label(getattr(e, k)) or ""
+        writer.emit(obj)
 
 
 @main.command()
@@ -3152,7 +3248,7 @@ def relationships(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     if not (include_tbox or include_abox):
         raise ValueError("Cannot exclude both tbox AND abox")
     if not isinstance(impl, BasicOntologyInterface):
@@ -3330,7 +3426,7 @@ def logical_definitions(
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
     writer.autolabel = autolabel
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
 
     def _exclude_ldef(ldef: LogicalDefinitionAxiom) -> bool:
         if actual_predicates:
@@ -3393,6 +3489,10 @@ def logical_definitions(
         for curie in curies:
             if not has_relationships.get(curie, False):
                 writer.emit({"noLogicalDefinition": curie})
+    elif not if_absent:
+        for curie in curies:
+            if not has_relationships.get(curie, False):
+                writer.emit({"defined_class": curie}, label_fields=["defined_class"])
     writer.finish()
     writer.file.close()
 
@@ -3451,7 +3551,7 @@ def disjoints(
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
     writer.autolabel = autolabel
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
 
     label_fields = [
         "classIds",
@@ -3607,7 +3707,7 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
     writer.output = output
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     prefixes = list(has_prefix) if has_prefix else None
     for curie in impl.roots(
         actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes
@@ -3639,7 +3739,7 @@ def leafs(output: str, predicates: str, filter_obsoletes: bool):
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates)
+        actual_predicates = _process_predicates_arg(predicates, impl=impl)
         for curie in impl.leafs(actual_predicates, filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.label(curie)}")
     else:
@@ -3671,11 +3771,143 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates)
+        actual_predicates = _process_predicates_arg(predicates, impl=impl)
         for curie in impl.singletons(actual_predicates, filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@click.option("-o", "--output", help="Path to output file")
+@output_type_option
+@autolabel_option
+@click.option(
+    "--maps-to-source",
+    "-M",
+    help="Return only mappings with subject or object source equal to this",
+)
+@click.option(
+    "--mapper",
+    help="A selector for an adapter that is to be used for the main lookup operation",
+)
+@click.option(
+    "--unmelt/--no-unmelt",
+    default=False,
+    show_default=True,
+    help="Use a wide table for display.",
+)
+@click.option(
+    "--adapters",
+    help="A comma-separated list of adapters",
+)
+@click.option(
+    "--allowed-prefixes",
+    help="A comma-separated list of prefixes to traverse over",
+)
+@click.option(
+    "--mapping-predicates",
+    help="A comma-separated list of mapping predicates to traverse over",
+)
+@click.option(
+    "--viz/--no-viz",
+    default=False,
+    show_default=True,
+    help="If true then draw a graph",
+)
+@click.option("-d", "--directory", help="Directory to write output files")
+@click.option(
+    "--whole-ontology/--no-whole-ontology",
+    default=False,
+    show_default=True,
+    help="Run over whole ontology",
+)
+@click.option("-C", "--config-yaml")
+@click.argument("terms", nargs=-1)
+def crawl(
+    terms,
+    maps_to_source,
+    adapters,
+    autolabel: bool,
+    output,
+    output_type,
+    allowed_prefixes,
+    mapping_predicates,
+    viz,
+    config_yaml,
+    whole_ontology,
+    directory,
+    mapper,
+    unmelt,
+):
+    """
+    Crawl one or more ontologies, hopping over edges and mappings
+
+    Crawl is a powerful command that allows for multi-ontology traversal, particularly
+    on mapping paths. Multiple ontologies and ontology sources (e.g. BioPortal, OLS)
+    provide mappings between terms. No single ontology is likely to have a complete source.
+    Using crawl, you can walk across the union of mappings in all ontologies, with custom rules
+    for each ontology (e.g. normalizing prefixes).
+
+    Documentation for this command will be provided in a separate notebook.
+    """
+    impl = settings.impl
+    if viz:
+        writer = None
+    else:
+        writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
+        if unmelt:
+            writer.heterogeneous_keys = True
+        if isinstance(writer, StreamingSssomWriter) and unmelt:
+            raise ValueError("Cannot use --unmelt with SSSOM output")
+        writer.output = output
+        writer.autolabel = autolabel
+    if config_yaml:
+        with open(config_yaml) as f:
+            config = MappingCrawlerConfig(**yaml.safe_load(f))
+    else:
+        config = MappingCrawlerConfig()
+    if adapters:
+        config.adapter_configs = {k: None for k in adapters.split(",")}
+    if allowed_prefixes:
+        config.allowed_prefixes = allowed_prefixes.split(",")
+    if directory:
+        config.clique_directory = directory
+    if mapping_predicates:
+        config.mapping_predicates = mapping_predicates.split(",")
+    crawler = MappingCrawler(config)
+    if impl:
+        terms = list(query_terms_iterator(terms, impl))
+    if whole_ontology:
+        for clique in crawler.crawl_ontology_iter(terms):
+            logging.info(f"Got clique: {clique}")
+        return
+    mappings = []
+    for mapping in crawler.crawl_iter(terms):
+        if writer:
+            writer.emit(mapping)
+        mappings.append(mapping)
+    if viz:
+        from oaklib.utilities.mapping.mapping_obograph_utils import mappings_to_obograph
+
+        graph = mappings_to_obograph(mappings)
+        if output_type and output_type not in ["png", "svg", "dot", "jpeg"]:
+            write_graph(graph, format=output_type, output=output)
+        else:
+            stylemap = None
+            if stylemap is None:
+                stylemap = default_stylemap_path()
+            graph_to_image(
+                graph,
+                seeds=terms,
+                imgfile=output,
+                stylemap=stylemap,
+                # configure=configure,
+                format=output_type,
+                view=True,
+            )
+    if writer:
+        writer.finish()
 
 
 @main.command()
@@ -3691,8 +3923,14 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
     "--mapper",
     help="A selector for an adapter that is to be used for the main lookup operation",
 )
+@click.option(
+    "--unmelt/--no-unmelt",
+    default=False,
+    show_default=True,
+    help="Use a wide table for display.",
+)
 @click.argument("terms", nargs=-1)
-def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper):
+def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper, unmelt):
     """
     List all mappings encoded in the ontology
 
@@ -3709,9 +3947,32 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
 
         runoak -i sqlite:obo:envo mappings -O sssom
 
+    You can also "unmelt" (pivot) tabular output, such that each column/field
+    is a mapping object source.
+
+        runoak -i sqlite:obo:go mappings -O csv --unmelt
+
+    (this format is lossy as it doesn't include the predicate or provenance of the
+    mapping, but it can be useful for high level breakdowns)
+
     To constrain the mapped object source:
 
         runoak -i sqlite:obo:foodon mappings -O sssom --maps-to-source SUBSET_SIREN
+
+    Like most OAK commands, you can pass in lists of individidual IDs, term labels,
+    or OAK query expressions.
+
+    For example, to find all mappings for the MF branch of GO:
+
+        runoak -i sqlite:obo:go mappings .sub molecular_function
+
+    All parts of the brain in Uberon:
+
+        runoak -i sqlite:obo:uberon mappings .desc//p=i,p "brain"
+
+    To get all GO mappings for terms that are mapped to EC:
+
+        runoak -i sqlite:obo:go mappings x^EC
 
     Python API:
 
@@ -3728,6 +3989,10 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
+    if unmelt:
+        writer.heterogeneous_keys = True
+    if isinstance(writer, StreamingSssomWriter) and unmelt:
+        raise ValueError("Cannot use --unmelt with SSSOM output")
     writer.output = output
     writer.autolabel = autolabel
     if not isinstance(impl, MappingProviderInterface):
@@ -3736,9 +4001,23 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
     if mapper:
         mapper_impl = get_adapter(mapper)
 
+    by_term = defaultdict(dict)
+    subject_labels = {}
+
     def _emit(mapping):
         if autolabel:
             impl.inject_mapping_labels([mapping])
+        if unmelt:
+            if mapping.subject_label:
+                subject_labels[mapping.subject_id] = mapping.subject_label
+            k = mapping.object_source
+            if k not in by_term[mapping.subject_id]:
+                by_term[mapping.subject_id][k] = []
+            v = str(mapping.object_id)
+            if mapping.object_label:
+                v = f"{v} {mapping.object_label}"
+            by_term[mapping.subject_id][k].append(v)
+            return
         writer.emit(mapping)
 
     if len(terms) == 0:
@@ -3756,6 +4035,11 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
                 ):
                     continue
                 _emit(mapping)
+    if unmelt:
+        for subject_id, mappings in by_term.items():
+            writer.emit(
+                dict(id=str(subject_id), label=subject_labels.get(subject_id, None), **mappings)
+            )
     writer.finish()
 
 
@@ -3911,7 +4195,7 @@ def expand_subsets(subsets: list, output, predicates):
     impl = settings.impl
     # writer = StreamingCsvWriter(output)
     if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates)
+        actual_predicates = _process_predicates_arg(predicates, impl=impl)
         if not actual_predicates:
             actual_predicates = [IS_A, PART_OF]
         impl.enable_transitive_query_cache()
@@ -4074,7 +4358,7 @@ def taxon_constraints(
             impl.subject_graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
     if not isinstance(impl, TaxonConstraintInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     impl.precompute_lookups()
     impl.precompute_direct_constraint_cache()
     for curie in query_terms_iterator(terms, impl):
@@ -4128,7 +4412,8 @@ def apply_taxon_constraints(
        https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Apply.ipynb
 
     """
-    actual_predicates = _process_predicates_arg(predicates)
+    impl = settings.impl
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     impl = settings.impl
     writer = StreamingYamlWriter(output)
     curr = None
@@ -4335,7 +4620,7 @@ def associations(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -4500,7 +4785,7 @@ def associations_counts(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -4615,7 +4900,7 @@ def associations_matrix(
         if main_score_field == "2":
             main_score_field = "proportion_entity2_subjects_in_entity1"
         writer.value_field = main_score_field
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -4704,7 +4989,7 @@ def rollup(
         secondary_ids = (s[1].split(",") if len(s) > 1 else [] for s in split_ids)
         objects_dict = dict(zip(primary_ids, secondary_ids, strict=False))
 
-        object_closure_predicates = _process_predicates_arg(predicates)
+        object_closure_predicates = _process_predicates_arg(predicates, impl=impl)
 
         groups: List[RollupGroup] = []
         for primary, secondaries in objects_dict.items():
@@ -4852,7 +5137,7 @@ def enrichment(
 
     """
     impl = settings.impl
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     if sample_file:
         subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
@@ -4951,7 +5236,7 @@ def diff_associations(
     writer.heterogeneous_keys = True
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     logging.info(f"Fetching parser for {settings.associations_type}")
     association_parser = get_association_parser(settings.associations_type)
     if not isinstance(impl, AssociationProviderInterface):
@@ -5522,7 +5807,7 @@ def validate_subset(
     for config in configs:
         if information_content_adapter:
             config.ic_score_adapter_name = information_content_adapter
-        actual_predicates = _process_predicates_arg(predicates)
+        actual_predicates = _process_predicates_arg(predicates, impl=impl)
         if actual_predicates:
             config.predicates = actual_predicates
         if exclude_query:
@@ -5680,6 +5965,11 @@ def cache_clear(days_old: int):
     show_default=True,
     help="Return only mappings for subjects that have not been mapped",
 )
+@click.option(
+    "--add-pipeline-step",
+    multiple=True,
+    help="E.g. WordOrderNormalization",
+)
 @output_option
 @click.argument("terms", nargs=-1)
 def lexmatch(
@@ -5689,6 +5979,7 @@ def lexmatch(
     rules_file,
     lexical_index_file,
     add_labels,
+    add_pipeline_step,
     terms,
     exclude_mapped,
 ):
@@ -5779,7 +6070,11 @@ def lexmatch(
         else:
             syn_rules = []
         logging.info(f"Synonymizer rules: {syn_rules}")
-        ix = create_lexical_index(impl, synonym_rules=syn_rules)
+        ix = create_lexical_index(
+            impl,
+            synonym_rules=syn_rules,
+            add_steps=list(add_pipeline_step) if add_pipeline_step else None,
+        )
     if lexical_index_file:
         if recreate:
             logging.info("Saving index")
@@ -6323,7 +6618,7 @@ def diff_via_mappings(
     else:
         logging.info("No term list provided, will compare all mapped terms")
         entities = None
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=oi)
     n = 0
     for r in calculate_pairwise_relational_diff(
         oi,
@@ -6352,7 +6647,12 @@ def diff_via_mappings(
     help="Allow some dependent values to be blank, post-processing",
 )
 @click.option("--missing-value-token", help="Populate all missing values with this token")
-@click.option("--schema", help="Path to linkml schema")
+@click.option(
+    "--schema",
+    help=("Path to linkml schema. "
+          "This is used to infer which fields are identifiers and which are dependent columns, e.g labels"
+          ),
+)
 @click.option(
     "--delimiter",
     default="\t",
@@ -6376,6 +6676,10 @@ def diff_via_mappings(
     help="Path to YAML file corresponding to a list of normalized relation between two columns",
 )
 @click.option(
+    "--fields-to-label",
+    help="Comma-separated list of field names for identifiers which should be labeled.",
+)
+@click.option(
     "--autolabel/--no-autolabel",
     default=False,
     show_default=True,
@@ -6392,6 +6696,7 @@ def fill_table(
     allow_missing: bool,
     relation: tuple,
     relation_file: str,
+    fields_to_label: str,
     autolabel: bool,
     schema: str,
 ):
@@ -6493,7 +6798,7 @@ def fill_table(
                     hdr[col.replace("_id", "_label")] = None
         if schema:
             metadata = tf.extract_metadata_from_linkml(schema)
-        elif relation or relation_file:
+        elif relation or relation_file or fields_to_label:
             metadata = TableMetadata(dependencies=[])
             if relation_file:
                 for d_args in yaml.safe_load(relation_file):
@@ -6505,6 +6810,13 @@ def fill_table(
                 if "dependent_column" not in d_args:
                     d_args["dependent_column"] = d_args["primary_key"] + "_label"
                 metadata.dependencies.append(ColumnDependency(**d_args))
+            if fields_to_label:
+                for field in fields_to_label.split(","):
+                    metadata.dependencies.append(
+                        ColumnDependency(
+                            primary_key=field, dependent_column=field + "_label", relation="label"
+                        )
+                    )
         else:
             metadata = tf.infer_metadata(input_table[0])
         metadata.set_allow_missing_values(allow_missing)
@@ -6577,13 +6889,11 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 
     Example:
 
-
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
 
     If the `apply-patch` flag is NOT set then the main input will be KGCL commands
 
     Example:
-
 
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
 
@@ -6962,7 +7272,7 @@ def generate_disjoints(
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError
     curies = list(query_terms_iterator(terms, impl))
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(predicates, impl=impl)
     if not actual_predicates:
         actual_predicates = [IS_A]
     config = DisjointnessInducerConfig(

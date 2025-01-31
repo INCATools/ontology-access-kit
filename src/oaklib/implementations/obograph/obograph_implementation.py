@@ -309,7 +309,20 @@ class OboGraphImplementation(
         include_abox: bool = True,
         include_entailed: bool = False,
         exclude_blank: bool = True,
+        invert: bool = False,
     ) -> Iterator[RELATIONSHIP]:
+        if invert:
+            for s, p, o in self.relationships(
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
         ei = self.edge_index
         if include_entailed:
             raise NotImplementedError("Entailment not supported for pronto")

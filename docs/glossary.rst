@@ -24,6 +24,9 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     the term "term" means something like a :term:`Label` or :term:`Synonym`, but here we follow standard usage
     and use "term" to refer to the main elements in an ontology.
 
+   Entity
+    See :term:`Term`
+
    Concept
     See :term:`Term`
 
@@ -65,6 +68,20 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
 
     - See also :ref:`primary_labels` in the Guide.
     - See also :ref:`curies_and_uris` in the Guide.
+
+   Alias
+    An alternative label, name, or synonym for a :term:`Term`. The alias may be identical or close in meaning.
+    Different ontologies use different properties
+    for representing aliases, with or without metadata. Some ontologies might use a single property like
+    ``skos:altLabel``, others may adopt the richer OMO :term:`Synonym` model which allows different synonym
+    predicates, as well as metadata about the synonym (who proposed it, what publications support it, etc).
+
+    - See also :ref:`aliases` in the Guide.
+
+   Synonym
+    This is an alias for :term:`Alias`. Note that some people use the term "synonym" to mean an alternative
+    string that is strictly substitutable, but other ontologies, including many OBO ontologies use the term
+    more loosely, and discriminate between exact, related, broad, and narrow synonyms.
 
    Category
     The term :term:`Category` is frequently ambiguous. In the context of OAK it refers to a high-level grouping
@@ -352,6 +369,11 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     a :term:`Literal`. Datatype properties are not widely used in most bio-ontologies,
     and currently OAK has limited support for working with them.
 
+   Definition
+    The term "definition" usually means a textual definition that provides clear, operational, necessary and sufficient
+    conditions for a :term:`Term`. A :term:`Logical Definition` refers to a definition that is written in some
+    formal computable language such as FOL or :term:`OWL`.
+
    Logical Definition
     A :term:`Logical Definition` is a particular kind of :term:`Axiom` that is used to provide a
     definition of a term that is *computable*.
@@ -458,6 +480,19 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     a database conforming to this schema from RDF/OWL files.
 
     - See `Semantic-SQL <https://github.com/INCATools/semantic-sql>`_
+
+   SKOS
+    Simple Knowledge Organization System (SKOS) is a lightweight vocabulary and data model for representing
+    terminologies and ontologies. It has some high level similarities to :term:`OWL`, in that it organizes
+    knowledge using units such as :term:`Concepts<Concept>`, together with relationships between them, but
+    there are a number of differences and the systems are partly complementary.
+    In the bio-ontology community and many other communities, OWL is
+    predominantly used, but OWL ontologies are frequently augmented with SKOS in order to represent things
+    like mappings and term metadata.
+
+   Gene Ontology
+    Aka GO. A widely used ontology for bioinformatics and molecular biology. Many of the ontologies in :term:`OBO` have
+    adopted many of the conventions of the GO.
 
    Diff
     A representation of an individual difference between two :term:`Ontologies<Ontology>`.

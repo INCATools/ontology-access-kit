@@ -2,9 +2,7 @@
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Union
 
-from oaklib.datamodels.association import Association, NegatedAssociation
 from oaklib.parsers.parser_base import ColumnReference
 from oaklib.parsers.xaf_association_parser import XafAssociationParser
 
@@ -38,6 +36,7 @@ class GafAssociationParser(XafAssociationParser):
     subject_label_column: ColumnReference = field(default_factory=lambda: ColumnReference(2))
     predicate_column: ColumnReference = field(default_factory=lambda: ColumnReference(3))
     object_column: ColumnReference = field(default_factory=lambda: ColumnReference(4))
+    evidence_type_column: ColumnReference = field(default_factory=lambda: ColumnReference(6))
     publications_column: ColumnReference = field(default_factory=lambda: ColumnReference(5))
     primary_knowledge_source_column: ColumnReference = field(
         default_factory=lambda: ColumnReference(14)
@@ -45,10 +44,3 @@ class GafAssociationParser(XafAssociationParser):
     expected_object_prefixes = ["GO"]
 
     other_column_mappings = {}
-
-    def post_process(
-        self, association: Association
-    ) -> List[Union[Association, NegatedAssociation]]:
-        if association.predicate and "NOT" in association.predicate.lower():
-            return [NegatedAssociation(**association.__dict__)]
-        return super().post_process(association)

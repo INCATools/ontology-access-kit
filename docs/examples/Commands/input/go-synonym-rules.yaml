@@ -1,0 +1,6 @@
+rules:
+  - description: activity
+    match: "(.*) activity"
+    match_scope: "*"
+    replacement: "\\1"
+    qualifier: exact

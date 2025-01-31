@@ -1,0 +1,1565 @@
+[Term]
+id: BFO:0000002 ! continuant
+disjoint_from: BFO:0000003 ! occurrent
+
+
+[Term]
+id: BFO:0000004 ! independent continuant
+disjoint_from: BFO:0000031 ! generically dependent continuant
+
+
+[Term]
+id: BFO:0000004 ! independent continuant
+disjoint_from: BFO:0000020 ! specifically dependent continuant
+
+
+[Term]
+id: BFO:0000016 ! disposition
+disjoint_from: BFO:0000023 ! role
+
+
+[Term]
+id: BFO:0000017 ! realizable entity
+disjoint_from: BFO:0000019 ! quality
+
+
+[Term]
+id: BFO:0000020 ! specifically dependent continuant
+disjoint_from: BFO:0000031 ! generically dependent continuant
+
+
+[Term]
+id: BFO:0000040 ! material entity
+disjoint_from: BFO:0000141 ! immaterial entity
+
+
+[Term]
+id: CARO:0000006 ! material anatomical entity
+disjoint_from: CARO:0000007 ! immaterial anatomical entity
+
+
+[Term]
+id: CARO:0000013 ! cell
+disjoint_from: CARO:0010000 ! multicellular anatomical structure
+
+
+[Term]
+id: CARO:0000013 ! cell
+disjoint_from: CARO:0001000 ! multi-cell-part structure
+
+
+[Term]
+id: CARO:0000013 ! cell
+disjoint_from: CARO:0000042 ! extraembryonic structure
+
+
+[Term]
+id: CARO:0000013 ! cell
+disjoint_from: CARO:0000040 ! acellular anatomical structure
+
+
+[Term]
+id: CARO:0000013 ! cell
+disjoint_from: CARO:0000014 ! cell part
+
+
+[Term]
+id: CARO:0000014 ! cell part
+disjoint_from: CARO:0010000 ! multicellular anatomical structure
+
+
+[Term]
+id: CARO:0000014 ! cell part
+disjoint_from: CARO:0001000 ! multi-cell-part structure
+
+
+[Term]
+id: CARO:0000014 ! cell part
+disjoint_from: CARO:0000042 ! extraembryonic structure
+
+
+[Term]
+id: CARO:0000014 ! cell part
+disjoint_from: CARO:0000040 ! acellular anatomical structure
+
+
+[Term]
+id: CARO:0000040 ! acellular anatomical structure
+disjoint_from: CARO:0010000 ! multicellular anatomical structure
+
+
+[Term]
+id: CARO:0000040 ! acellular anatomical structure
+disjoint_from: CARO:0001000 ! multi-cell-part structure
+
+
+[Term]
+id: CARO:0000040 ! acellular anatomical structure
+disjoint_from: CARO:0000042 ! extraembryonic structure
+
+
+[Term]
+id: CARO:0000042 ! extraembryonic structure
+disjoint_from: CARO:0010000 ! multicellular anatomical structure
+
+
+[Term]
+id: CARO:0000042 ! extraembryonic structure
+disjoint_from: CARO:0001000 ! multi-cell-part structure
+
+
+[Term]
+id: CARO:0001000 ! multi-cell-part structure
+disjoint_from: CARO:0010000 ! multicellular anatomical structure
+
+
+[Term]
+id: CL:0000000 ! cell
+disjoint_from: GO:0043226 ! organelle
+
+
+[Term]
+id: CL:0000000 ! cell
+disjoint_from: GO:0032991 ! protein-containing complex
+
+
+[Term]
+id: CL:0000000 ! cell
+disjoint_from: GO:0031012 ! extracellular matrix
+
+
+[Term]
+id: CL:0000039 ! germ line cell
+disjoint_from: CL:0002371 ! somatic cell
+
+
+[Term]
+id: CL:0000049 ! common myeloid progenitor
+disjoint_from: CL:0000557 ! granulocyte monocyte progenitor cell
+
+
+[Term]
+id: CL:0000049 ! common myeloid progenitor
+disjoint_from: CL:0000051 ! common lymphoid progenitor
+
+
+[Term]
+id: CL:0000049 ! common myeloid progenitor
+disjoint_from: CL:0000050 ! megakaryocyte-erythroid progenitor cell
+
+
+[Term]
+id: CL:0000050 ! megakaryocyte-erythroid progenitor cell
+disjoint_from: CL:0002009 ! macrophage dendritic cell progenitor
+
+
+[Term]
+id: CL:0000050 ! megakaryocyte-erythroid progenitor cell
+disjoint_from: CL:0000557 ! granulocyte monocyte progenitor cell
+
+
+[Term]
+id: CL:0000066 ! epithelial cell
+disjoint_from: CL:0000738 ! leukocyte
+
+
+[Term]
+id: CL:0000084 ! T cell
+disjoint_from: CL:0000945 ! lymphocyte of B lineage
+
+
+[Term]
+id: CL:0000225 ! anucleate cell
+disjoint_from: CL:0002242 ! nucleate cell
+
+
+[Term]
+id: CL:0000255 ! eukaryotic cell
+disjoint_from: CL:0000520 ! prokaryotic cell
+
+
+[Term]
+id: CL:0000451 ! dendritic cell
+disjoint_from: CL:0000542 ! lymphocyte
+
+
+[Term]
+id: CL:0000521 ! fungal cell
+disjoint_from: CL:0000548 ! animal cell
+
+
+[Term]
+id: CL:0000542 ! lymphocyte
+disjoint_from: CL:0000766 ! myeloid leukocyte
+
+
+[Term]
+id: CL:0000556 ! megakaryocyte
+disjoint_from: CL:0000764 ! erythroid lineage cell
+
+
+[Term]
+id: CL:0000624 ! CD4-positive, alpha-beta T cell
+disjoint_from: CL:0000625 ! CD8-positive, alpha-beta T cell
+
+
+[Term]
+id: CL:0000737 ! striated muscle cell
+disjoint_from: CL:0008000 ! non-striated muscle cell
+
+
+[Term]
+id: CL:0000785 ! mature B cell
+disjoint_from: CL:0000818 ! transitional stage B cell
+
+
+[Term]
+id: CL:0000785 ! mature B cell
+disjoint_from: CL:0000817 ! precursor B cell
+
+
+[Term]
+id: CL:0000785 ! mature B cell
+disjoint_from: CL:0000816 ! immature B cell
+
+
+[Term]
+id: CL:0000789 ! alpha-beta T cell
+disjoint_from: CL:0000798 ! gamma-delta T cell
+
+
+[Term]
+id: CL:0000813 ! memory T cell
+disjoint_from: CL:0000898 ! naive T cell
+
+
+[Term]
+id: CL:0000817 ! precursor B cell
+disjoint_from: CL:0000826 ! pro-B cell
+
+
+[Term]
+id: CL:0000823 ! immature natural killer cell
+disjoint_from: CL:0000937 ! pre-natural killer cell
+
+
+[Term]
+id: CL:0000823 ! immature natural killer cell
+disjoint_from: CL:0000824 ! mature natural killer cell
+
+
+[Term]
+id: CL:0000837 ! hematopoietic multipotent progenitor cell
+disjoint_from: CL:0002032 ! hematopoietic oligopotent progenitor cell
+
+
+[Term]
+id: CL:0000838 ! lymphoid lineage restricted progenitor cell
+disjoint_from: CL:0000839 ! myeloid lineage restricted progenitor cell
+
+
+[Term]
+id: CL:0000851 ! neuromast mantle cell
+disjoint_from: CL:0000855 ! sensory hair cell
+
+
+[Term]
+id: CL:0000852 ! neuromast supporting cell
+disjoint_from: CL:0000855 ! sensory hair cell
+
+
+[Term]
+id: CL:0000955 ! pre-B-II cell
+disjoint_from: CL:0000956 ! pre-B-I cell
+
+
+[Term]
+id: CL:0001008 ! Kit and Sca1-positive hematopoietic stem cell
+disjoint_from: CL:0001024 ! CD34-positive, CD38-negative hematopoietic stem cell
+
+
+[Term]
+id: CL:0001021 ! CD34-positive, CD38-positive common lymphoid progenitor
+disjoint_from: CL:0001025 ! Kit-positive, Sca1-positive common lymphoid progenitor
+
+
+[Term]
+id: CL:0001023 ! Kit-positive, CD34-positive common myeloid progenitor
+disjoint_from: CL:0001026 ! CD34-positive, CD38-positive common myeloid progenitor
+
+
+[Term]
+id: CL:0002031 ! hematopoietic lineage restricted progenitor cell
+disjoint_from: CL:0002032 ! hematopoietic oligopotent progenitor cell
+
+
+[Term]
+id: CL:0002036 ! Slamf1-positive multipotent progenitor cell
+disjoint_from: CL:0002043 ! CD34-positive, CD38-negative multipotent progenitor cell
+
+
+[Term]
+id: CL:0008011 ! skeletal muscle satellite stem cell
+disjoint_from: CL:0008020 ! skeletal muscle satellite myogenic cell
+
+
+[Term]
+id: CL:0008046 ! extrafusal muscle fiber
+disjoint_from: CL:0008047 ! intrafusal muscle fiber
+
+
+[Term]
+id: GO:0003674 ! molecular_function
+disjoint_from: GO:0008150 ! biological_process
+
+
+[Term]
+id: GO:0003674 ! molecular_function
+disjoint_from: GO:0005575 ! cellular_component
+
+
+[Term]
+id: GO:0005575 ! cellular_component
+disjoint_from: GO:0008150 ! biological_process
+
+
+[Term]
+id: GO:0005583 ! fibrillar collagen trimer
+disjoint_from: GO:0030936 ! transmembrane collagen trimer
+
+
+[Term]
+id: GO:0005634 ! nucleus
+disjoint_from: GO:0005737 ! cytoplasm
+
+
+[Term]
+id: GO:0007610 ! behavior
+disjoint_from: GO:0032502 ! developmental process
+
+
+[Term]
+id: GO:0008152 ! metabolic process
+disjoint_from: GO:0051179 ! localization
+
+
+[Term]
+id: GO:0009653 ! anatomical structure morphogenesis
+disjoint_from: GO:0071695 ! anatomical structure maturation
+
+
+[Term]
+id: GO:0009653 ! anatomical structure morphogenesis
+disjoint_from: GO:0048856 ! anatomical structure development
+
+
+[Term]
+id: GO:0016020 ! membrane
+disjoint_from: GO:0031012 ! extracellular matrix
+
+
+[Term]
+id: GO:0019725 ! cellular homeostasis
+disjoint_from: GO:0048872 ! homeostasis of number of cells
+
+
+[Term]
+id: GO:0022411 ! cellular component disassembly
+disjoint_from: GO:0022607 ! cellular component assembly
+
+
+[Term]
+id: GO:0031012 ! extracellular matrix
+disjoint_from: GO:0043226 ! organelle
+
+
+[Term]
+id: GO:0031012 ! extracellular matrix
+disjoint_from: GO:0032991 ! protein-containing complex
+
+
+[Term]
+id: GO:0031974 ! membrane-enclosed lumen
+disjoint_from: GO:0045202 ! synapse
+
+
+[Term]
+id: GO:0032504 ! multicellular organism reproduction
+disjoint_from: GO:0032505 ! reproduction of a single-celled organism
+
+
+[Term]
+id: GO:0032991 ! protein-containing complex
+disjoint_from: GO:0110165 ! cellular anatomical entity
+
+
+[Term]
+id: GO:0043227 ! membrane-bounded organelle
+disjoint_from: GO:0043228 ! non-membrane-bounded organelle
+
+
+[Term]
+id: GO:0043229 ! intracellular organelle
+disjoint_from: GO:0043230 ! extracellular organelle
+
+
+[Term]
+id: GO:1903046 ! meiotic cell cycle process
+disjoint_from: GO:1903047 ! mitotic cell cycle process
+
+
+[Term]
+id: PATO:0000608 ! closed
+disjoint_from: PATO:0000610 ! open
+
+
+[Term]
+id: PATO:0070016 ! horizontal pyramidal morphology
+disjoint_from: PATO:0070017 ! standard pyramidal morphology
+
+
+[Term]
+id: UBERON:0000000 ! processual entity
+disjoint_from: UBERON:0001062 ! anatomical entity
+
+
+[Term]
+id: UBERON:0000045 ! ganglion
+disjoint_from: UBERON:0002420 ! basal ganglion
+
+
+[Term]
+id: UBERON:0000053 ! macula lutea
+disjoint_from: UBERON:0000054 ! macula
+
+
+[Term]
+id: UBERON:0000062 ! organ
+disjoint_from: UBERON:0034921 ! multi organ part structure
+
+
+[Term]
+id: UBERON:0000062 ! organ
+disjoint_from: UBERON:0002095 ! mesentery
+
+
+[Term]
+id: UBERON:0000068 ! embryo stage
+disjoint_from: UBERON:0000092 ! post-embryonic stage
+
+
+[Term]
+id: UBERON:0000079 ! male reproductive system
+disjoint_from: UBERON:0000474 ! female reproductive system
+
+
+[Term]
+id: UBERON:0000153 ! anterior region of body
+disjoint_from: UBERON:0000154 ! posterior region of body
+
+
+[Term]
+id: UBERON:0000353 ! parenchyma
+disjoint_from: UBERON:0003891 ! stroma
+
+
+[Term]
+id: UBERON:0000382 ! apocrine sweat gland
+disjoint_from: UBERON:0000423 ! eccrine sweat gland
+
+
+[Term]
+id: UBERON:0000465 ! material anatomical entity
+disjoint_from: UBERON:0000466 ! immaterial anatomical entity
+
+
+[Term]
+id: UBERON:0000473 ! testis
+disjoint_from: UBERON:0009117 ! indifferent gonad
+
+
+[Term]
+id: UBERON:0000473 ! testis
+disjoint_from: UBERON:0000992 ! ovary
+
+
+[Term]
+id: UBERON:0000476 ! acellular anatomical structure
+disjoint_from: UBERON:0010000 ! multicellular anatomical structure
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0001434 ! skeletal system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0001033 ! gustatory system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0001016 ! nervous system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0001009 ! circulatory system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0001007 ! digestive system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0001004 ! respiratory system
+
+
+[Term]
+id: UBERON:0000949 ! endocrine system
+disjoint_from: UBERON:0000990 ! reproductive system
+
+
+[Term]
+id: UBERON:0000982 ! skeletal joint
+disjoint_from: UBERON:0001474 ! bone element
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0001434 ! skeletal system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0001033 ! gustatory system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0001016 ! nervous system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0001009 ! circulatory system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0001007 ! digestive system
+
+
+[Term]
+id: UBERON:0000990 ! reproductive system
+disjoint_from: UBERON:0001004 ! respiratory system
+
+
+[Term]
+id: UBERON:0000992 ! ovary
+disjoint_from: UBERON:0009117 ! indifferent gonad
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0001434 ! skeletal system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0001033 ! gustatory system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0001016 ! nervous system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0001009 ! circulatory system
+
+
+[Term]
+id: UBERON:0001004 ! respiratory system
+disjoint_from: UBERON:0001007 ! digestive system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0001434 ! skeletal system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0001033 ! gustatory system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0001016 ! nervous system
+
+
+[Term]
+id: UBERON:0001007 ! digestive system
+disjoint_from: UBERON:0001009 ! circulatory system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0001434 ! skeletal system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0001033 ! gustatory system
+
+
+[Term]
+id: UBERON:0001009 ! circulatory system
+disjoint_from: UBERON:0001016 ! nervous system
+
+
+[Term]
+id: UBERON:0001013 ! adipose tissue
+disjoint_from: UBERON:0003714 ! neural tissue
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0001434 ! skeletal system
+
+
+[Term]
+id: UBERON:0001016 ! nervous system
+disjoint_from: UBERON:0001033 ! gustatory system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0001033 ! gustatory system
+disjoint_from: UBERON:0001434 ! skeletal system
+
+
+[Term]
+id: UBERON:0001072 ! posterior vena cava
+disjoint_from: UBERON:0001585 ! anterior vena cava
+
+
+[Term]
+id: UBERON:0001133 ! cardiac muscle tissue
+disjoint_from: UBERON:0001134 ! skeletal muscle tissue
+
+
+[Term]
+id: UBERON:0001135 ! smooth muscle tissue
+disjoint_from: UBERON:0002036 ! striated muscle tissue
+
+
+[Term]
+id: UBERON:0001143 ! hepatic vein
+disjoint_from: UBERON:0001639 ! hepatic portal vein
+
+
+[Term]
+id: UBERON:0001152 ! cystic duct
+disjoint_from: UBERON:0005171 ! hepatic duct
+
+
+[Term]
+id: UBERON:0001194 ! splenic artery
+disjoint_from: UBERON:0001640 ! celiac artery
+
+
+[Term]
+id: UBERON:0001224 ! renal pelvis
+disjoint_from: UBERON:0002355 ! pelvic region of trunk
+
+
+[Term]
+id: UBERON:0001230 ! glomerular capsule
+disjoint_from: UBERON:0002015 ! kidney capsule
+
+
+[Term]
+id: UBERON:0001271 ! pelvic girdle region
+disjoint_from: UBERON:0007832 ! pelvic girdle skeleton
+
+
+[Term]
+id: UBERON:0001421 ! pectoral girdle region
+disjoint_from: UBERON:0007831 ! pectoral girdle skeleton
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0002204 ! musculoskeletal system
+
+
+[Term]
+id: UBERON:0001434 ! skeletal system
+disjoint_from: UBERON:0001474 ! bone element
+
+
+[Term]
+id: UBERON:0001435 ! carpal bone
+disjoint_from: UBERON:0012358 ! manual digitopodium bone
+
+
+[Term]
+id: UBERON:0001442 ! skeleton of manus
+disjoint_from: UBERON:0001445 ! skeleton of pes
+
+
+[Term]
+id: UBERON:0001447 ! tarsal bone
+disjoint_from: UBERON:0012359 ! pedal digitopodium bone
+
+
+[Term]
+id: UBERON:0001473 ! lymphatic vessel
+disjoint_from: UBERON:0001981 ! blood vessel
+
+
+[Term]
+id: UBERON:0001474 ! bone element
+disjoint_from: UBERON:0010538 ! paired limb/fin segment
+
+
+[Term]
+id: UBERON:0001474 ! bone element
+disjoint_from: UBERON:0005090 ! muscle structure
+
+
+[Term]
+id: UBERON:0001474 ! bone element
+disjoint_from: UBERON:0001630 ! muscle organ
+
+
+[Term]
+id: UBERON:0001709 ! upper jaw region
+disjoint_from: UBERON:0001710 ! lower jaw region
+
+
+[Term]
+id: UBERON:0001776 ! optic choroid
+disjoint_from: UBERON:0011892 ! anterior uvea
+
+
+[Term]
+id: UBERON:0001790 ! outer plexiform layer of retina
+disjoint_from: UBERON:0005376 ! olfactory bulb external plexiform layer
+
+
+[Term]
+id: UBERON:0001801 ! anterior segment of eyeball
+disjoint_from: UBERON:0001802 ! posterior segment of eyeball
+
+
+[Term]
+id: UBERON:0001890 ! forebrain
+disjoint_from: UBERON:0002298 ! brainstem
+
+
+[Term]
+id: UBERON:0002012 ! pulmonary artery
+disjoint_from: UBERON:0004573 ! systemic artery
+
+
+[Term]
+id: UBERON:0002063 ! sinus venosus
+disjoint_from: UBERON:0006615 ! venous sinus
+
+
+[Term]
+id: UBERON:0002100 ! trunk
+disjoint_from: UBERON:0002464 ! nerve trunk
+
+
+[Term]
+id: UBERON:0002196 ! adenohypophysis
+disjoint_from: UBERON:0002198 ! neurohypophysis
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0002204 ! musculoskeletal system
+disjoint_from: UBERON:0002294 ! biliary system
+
+
+[Term]
+id: UBERON:0002217 ! synovial joint
+disjoint_from: UBERON:0011134 ! nonsynovial joint
+
+
+[Term]
+id: UBERON:0002256 ! dorsal horn of spinal cord
+disjoint_from: UBERON:0002257 ! ventral horn of spinal cord
+
+
+[Term]
+id: UBERON:0002294 ! biliary system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0002294 ! biliary system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0002294 ! biliary system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0002294 ! biliary system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0002294 ! biliary system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0002294 ! biliary system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0002294 ! biliary system
+disjoint_from: UBERON:0002330 ! exocrine system
+
+
+[Term]
+id: UBERON:0002330 ! exocrine system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0002330 ! exocrine system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0002330 ! exocrine system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0002330 ! exocrine system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0002330 ! exocrine system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0002330 ! exocrine system
+disjoint_from: UBERON:0002390 ! hematopoietic system
+
+
+[Term]
+id: UBERON:0002385 ! muscle tissue
+disjoint_from: UBERON:0003714 ! neural tissue
+
+
+[Term]
+id: UBERON:0002390 ! hematopoietic system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0002390 ! hematopoietic system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0002390 ! hematopoietic system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0002390 ! hematopoietic system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0002390 ! hematopoietic system
+disjoint_from: UBERON:0002405 ! immune system
+
+
+[Term]
+id: UBERON:0002405 ! immune system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0002405 ! immune system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0002405 ! immune system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0002405 ! immune system
+disjoint_from: UBERON:0002416 ! integumental system
+
+
+[Term]
+id: UBERON:0002416 ! integumental system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0002416 ! integumental system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0002416 ! integumental system
+disjoint_from: UBERON:0002423 ! hepatobiliary system
+
+
+[Term]
+id: UBERON:0002418 ! cartilage tissue
+disjoint_from: UBERON:0002481 ! bone tissue
+
+
+[Term]
+id: UBERON:0002423 ! hepatobiliary system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0002423 ! hepatobiliary system
+disjoint_from: UBERON:0004456 ! entire sense organ system
+
+
+[Term]
+id: UBERON:0002464 ! nerve trunk
+disjoint_from: UBERON:0003439 ! nerve of trunk region
+
+
+[Term]
+id: UBERON:0002481 ! bone tissue
+disjoint_from: UBERON:0005090 ! muscle structure
+
+
+[Term]
+id: UBERON:0002529 ! limb segment
+disjoint_from: UBERON:0010912 ! subdivision of skeleton
+
+
+[Term]
+id: UBERON:0002550 ! anterior hypothalamic region
+disjoint_from: UBERON:0002770 ! posterior hypothalamic region
+
+
+[Term]
+id: UBERON:0002828 ! ventral cochlear nucleus
+disjoint_from: UBERON:0002829 ! dorsal cochlear nucleus
+
+
+[Term]
+id: UBERON:0002830 ! anteroventral cochlear nucleus
+disjoint_from: UBERON:0002831 ! posteroventral cochlear nucleus
+
+
+[Term]
+id: UBERON:0003076 ! posterior neural tube
+disjoint_from: UBERON:0003080 ! anterior neural tube
+
+
+[Term]
+id: UBERON:0003100 ! female organism
+disjoint_from: UBERON:0003101 ! male organism
+
+
+[Term]
+id: UBERON:0003714 ! neural tissue
+disjoint_from: UBERON:0004755 ! skeletal tissue
+
+
+[Term]
+id: UBERON:0003952 ! anterior stroma of cornea
+disjoint_from: UBERON:0003953 ! posterior stroma of cornea
+
+
+[Term]
+id: UBERON:0004022 ! germinal neuroepithelium
+disjoint_from: UBERON:0006934 ! sensory epithelium
+
+
+[Term]
+id: UBERON:0004053 ! external male genitalia
+disjoint_from: UBERON:0009196 ! indifferent external genitalia
+
+
+[Term]
+id: UBERON:0004053 ! external male genitalia
+disjoint_from: UBERON:0005056 ! external female genitalia
+
+
+[Term]
+id: UBERON:0004067 ! lateral nasal prominence
+disjoint_from: UBERON:0004068 ! medial nasal prominence
+
+
+[Term]
+id: UBERON:0004288 ! skeleton
+disjoint_from: UBERON:0004770 ! articular system
+
+
+[Term]
+id: UBERON:0004367 ! Descemet's membrane
+disjoint_from: UBERON:0004370 ! anterior limiting lamina of cornea
+
+
+[Term]
+id: UBERON:0004456 ! entire sense organ system
+disjoint_from: UBERON:8450002 ! excretory system
+
+
+[Term]
+id: UBERON:0004709 ! pelvic appendage
+disjoint_from: UBERON:0004710 ! pectoral appendage
+
+
+[Term]
+id: UBERON:0004715 ! annulus fibrosus disci intervertebralis
+disjoint_from: UBERON:0006008 ! fibrous ring of heart
+
+
+[Term]
+id: UBERON:0004723 ! interlobular artery
+disjoint_from: UBERON:0009885 ! interlobar artery
+
+
+[Term]
+id: UBERON:0004763 ! endochondral bone tissue
+disjoint_from: UBERON:0004764 ! intramembranous bone tissue
+
+
+[Term]
+id: UBERON:0005056 ! external female genitalia
+disjoint_from: UBERON:0009196 ! indifferent external genitalia
+
+
+[Term]
+id: UBERON:0005168 ! renal interlobular vein
+disjoint_from: UBERON:0009887 ! interlobar vein
+
+
+[Term]
+id: UBERON:0005386 ! olfactory segment of nasal mucosa
+disjoint_from: UBERON:0015786 ! respiratory segment of nasal mucosa
+
+
+[Term]
+id: UBERON:0005417 ! forelimb bud
+disjoint_from: UBERON:0005418 ! hindlimb bud
+
+
+[Term]
+id: UBERON:0006135 ! myelinated nerve fiber
+disjoint_from: UBERON:0006136 ! unmyelinated nerve fiber
+
+
+[Term]
+id: UBERON:0006334 ! posterior lateral line
+disjoint_from: UBERON:2001470 ! anterior lateral line
+
+
+[Term]
+id: UBERON:0007173 ! lateral border of scapula
+disjoint_from: UBERON:0007174 ! medial border of scapula
+
+
+[Term]
+id: UBERON:0007845 ! regular connective tissue
+disjoint_from: UBERON:0011821 ! irregular connective tissue
+
+
+[Term]
+id: UBERON:0008845 ! nonskeletal ligament
+disjoint_from: UBERON:0008846 ! skeletal ligament
+
+
+[Term]
+id: UBERON:0008895 ! splanchnocranium
+disjoint_from: UBERON:0011156 ! facial skeleton
+
+
+[Term]
+id: UBERON:0008974 ! apocrine gland
+disjoint_from: UBERON:0010243 ! merocrine gland
+
+
+[Term]
+id: UBERON:0009204 ! medial nasal process mesenchyme
+disjoint_from: UBERON:0009205 ! lateral nasal process mesenchyme
+
+
+[Term]
+id: UBERON:0009647 ! tympanic membrane epithelium
+disjoint_from: UBERON:0010070 ! intermediate layer of tympanic membrane
+
+
+[Term]
+id: UBERON:0009955 ! neurogenic placode
+disjoint_from: UBERON:0011814 ! non-neurogenic ectodermal placode
+
+
+[Term]
+id: UBERON:0010001 ! cell cluster organ
+disjoint_from: UBERON:0011216 ! organ system subdivision
+
+
+[Term]
+id: UBERON:0010304 ! non-keratinized stratified squamous epithelium
+disjoint_from: UBERON:0012329 ! keratinized stratified squamous epithelium
+
+
+[Term]
+id: UBERON:0010538 ! paired limb/fin segment
+disjoint_from: UBERON:0010912 ! subdivision of skeleton
+
+
+[Term]
+id: UBERON:0010544 ! metacarpus skeleton
+disjoint_from: UBERON:0010545 ! metatarsus skeleton
+
+
+[Term]
+id: UBERON:0010688 ! skeleton of manual acropodium
+disjoint_from: UBERON:0010696 ! skeleton of pedal acropodium
+
+
+[Term]
+id: UBERON:0010703 ! forelimb zeugopod skeleton
+disjoint_from: UBERON:0010720 ! hindlimb zeugopod skeleton
+
+
+[Term]
+id: UBERON:0011823 ! dense connective tissue
+disjoint_from: UBERON:0011825 ! loose connective tissue
+
+
+[Term]
+id: UBERON:0035165 ! posterior surface of prostate
+disjoint_from: UBERON:0035523 ! anterior surface of prostate
+
+
+[Term]
+id: UBERON:2001156 ! posterior lateral line placode
+disjoint_from: UBERON:2001316 ! anterior lateral line placode
+
+
+[Term]
+id: UBERON:2001314 ! posterior lateral line ganglion
+disjoint_from: UBERON:2001391 ! anterior lateral line ganglion
+
+
+[Term]
+id: UBERON:2001468 ! anterior lateral line system
+disjoint_from: UBERON:2001471 ! posterior lateral line system
+
+

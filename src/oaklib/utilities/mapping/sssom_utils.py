@@ -6,6 +6,7 @@ from sssom.util import MappingSetDataFrame
 from sssom.writers import write_table
 from sssom_schema import Mapping
 
+from oaklib import BasicOntologyInterface
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix
@@ -71,9 +72,11 @@ class StreamingSssomWriter(StreamingWriter):
         self.mappings.append(obj)
 
     def finish(self):
-        converter = self.ontology_interface.converter if self.ontology_interface else None
+        adapter = self.ontology_interface
+        if not adapter:
+            adapter = BasicOntologyInterface()
         # default metadata, including an auto-generated mapping set URI and
         # a license, are automatically added with this function
-        msdf = MappingSetDataFrame.from_mappings(self.mappings, converter=converter)
+        msdf = MappingSetDataFrame.from_mappings(self.mappings, converter=adapter.converter)
         msdf.clean_prefix_map(strict=False)
         write_table(msdf, self.file)

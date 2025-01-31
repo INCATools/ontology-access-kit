@@ -1,0 +1,5 @@
+class_id	p_value	class_label	rank	p_value_adjusted	false_discovery_rate	fold_enrichment	probability	sample_count	sample_total	background_count	background_total	ancestor_of_more_informative_result	descendant_of_more_informative_result
+HP:0000974	2.121426176245904e-37	Hyperextensible skin	1	2.895746730575659e-34	None	None	None	19	19	68	5011	None	None
+HP:0001075	1.2456658452888536e-36	Atrophic scars	2	1.7003338788192853e-33	None	None	None	17	19	37	5011	None	None
+HP:0008067	9.834711833703666e-29	Abnormally lax or hyperextensible skin	3	1.3424381653005505e-25	None	None	None	19	19	177	5011	True	None
+HP:0100699	1.9169852893465609e-28	Scarring	4	2.6166849199580557e-25	None	None	None	19	19	183	5011	True	None

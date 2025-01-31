@@ -2,9 +2,10 @@ import logging
 from collections import defaultdict
 from copy import copy
 from dataclasses import dataclass, field
-from typing import Collection, Iterator, List, Mapping, Set, Tuple
+from typing import Collection, Dict, Iterator, List, Mapping, Optional, Set, Tuple
 
 from oaklib.datamodels.association import Association, AssociationChange
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
@@ -18,6 +19,35 @@ class AssociationDiff:
     changes: List[CHANGE] = None
     set1_terms: List[CURIE] = None
     set2_terms: List[CURIE] = None
+
+
+@dataclass
+class TermComparison:
+    """
+    Annotation diff by term.
+
+    Holds two indexes, both keyed by entity (e.g. gene), with values being lists of associations.
+    """
+
+    term_id: CURIE
+    old_associations_by_entity: Mapping[CURIE, List[Association]]
+    new_associations_by_entity: Mapping[CURIE, List[Association]]
+
+    @property
+    def old_entities(self) -> Set[CURIE]:
+        return set(self.old_associations_by_entity.keys())
+
+    @property
+    def new_entities(self) -> Set[CURIE]:
+        return set(self.new_associations_by_entity.keys())
+
+    @property
+    def unique_new_entities(self) -> Set[CURIE]:
+        return self.new_entities.difference(self.old_entities)
+
+    @property
+    def unique_old_entities(self) -> Set[CURIE]:
+        return self.old_entities.difference(self.new_entities)
 
 
 @dataclass
@@ -74,8 +104,13 @@ class AssociationDiffer:
         obsoletion_map = self.obsoletion_map
         subject_map1 = pairs_as_dict([(a.subject, a) for a in assocs1])
         subject_map2 = pairs_as_dict([(a.subject, a) for a in assocs2])
+        # entities/subjects (e.g. genes)
         entities1 = set(subject_map1.keys())
         entities2 = set(subject_map2.keys())
+        logging.info(
+            f"Comparing {len(entities1)} old subjects with {len(entities2)} new subjects; "
+            f"Predicates: {predicates}"
+        )
 
         def _count_closure(o: CURIE, bg: Collection[CURIE]) -> int:
             if o in bg:
@@ -85,6 +120,8 @@ class AssociationDiffer:
             return len(diff)
 
         for entity in entities2.difference(entities1):
+            # subjects unique to assocs2 (target/new);
+            # because it is unique to target, it is always created as Creation
             objects1 = set([a.object for a in subject_map1[entity]])
             for a in subject_map2[entity]:
                 yield AssociationChange(
@@ -94,6 +131,8 @@ class AssociationDiffer:
                     closure_delta=_count_closure(a.object, objects1),
                 )
         for entity in entities1.difference(entities2):
+            # subjects unique to assocs1 (source/old)
+            # because it is unique to source, it is always treated as Deletion
             objects2 = set([a.object for a in subject_map2[entity]])
             for a in subject_map1[entity]:
                 yield AssociationChange(
@@ -103,12 +142,16 @@ class AssociationDiffer:
                     closure_delta=-_count_closure(a.object, objects2),
                 )
         for entity in entities1.intersection(entities2):
+            # for subjects in both, compare terms (objects) (e.g. GO IDs)
+            # this is not a straight-up term intersection, as we want to account
+            # for deepening/shallowing/obsoletion rewiring
             objects1 = set([a.object for a in subject_map1[entity]])
             objects2 = set([a.object for a in subject_map2[entity]])
             common = objects1.intersection(objects2)
             accounted_for_in_objects2 = set()
             for o in objects1.difference(objects2):
                 logging.debug(f"Trying to account for {o} (unique to old) in {entity}")
+                # Case 1: obsoletion rewiring
                 old_object_obsolete = False
                 if o in obsoletion_map:
                     old_object_obsolete = True
@@ -126,20 +169,25 @@ class AssociationDiffer:
                             )
                     continue
                 if not predicates:
+                    logging.debug(f"Object terms diff for {entity}; excluding graph comparison")
                     yield AssociationChange(
                         subject=entity,
                         old_object=o,
                         is_deletion=True,
+                        is_migration=False,
                         old_object_obsolete=old_object_obsolete,
                         closure_predicates=[],
                         closure_delta=-1,
                     )
                     continue
+                # Case 2: Graph move
+                # First find closure over o (old_object)
                 o_ancestors = list(
                     self.adapter.ancestors([o], predicates=predicates, reflexive=True)
                 )
                 # candidate generalizations: any ancestor of o that is
-                # not accounted for in the common set
+                # not accounted for in the common set.
+                # Note that this doesn't attempt to track individual annotations.
                 ixn = objects2.intersection(o_ancestors).difference(common)
                 if ixn:
                     o2 = ixn.pop()
@@ -333,3 +381,88 @@ class AssociationDiffer:
             for obs, _rel, replacement in self.adapter.obsoletes_migration_relationships(obsoletes):
                 self._obsoletion_map[obs].append(replacement)
         return self._obsoletion_map
+
+    def index_by_term(
+        self,
+        assocs: List[Association],
+        ontology_predicates: Optional[List[PRED_CURIE]] = None,
+        cache: Optional[Mapping[CURIE, Set[CURIE]]] = None,
+    ) -> Mapping[CURIE, Mapping[CURIE, List[Association]]]:
+        ix = defaultdict(dict)
+        if cache is None:
+            cache = {}
+        if not ontology_predicates:
+            ontology_predicates = [IS_A, PART_OF]
+        for a in assocs:
+            if a.negated:
+                continue
+            if a.object not in cache:
+                cache[a.object] = set(
+                    self.adapter.ancestors([a.object], predicates=ontology_predicates)
+                )
+            for o in cache[a.object]:
+                ix_for_o = ix[o]
+                if a.subject not in ix_for_o:
+                    ix_for_o[a.subject] = []
+                ix_for_o[a.subject].append(a)
+        return ix
+
+    def changes_by_terms(
+        self,
+        assocs1: List[Association],
+        assocs2: List[Association],
+        ontology_predicates: Optional[List[PRED_CURIE]] = None,
+        cache=None,
+        minimum_new_entities=1,
+        minimum_old_entities=1,
+        maximum_new_entities=None,
+        maximum_old_entities=None,
+        min_num_entities_changes=0,
+    ) -> Dict[CURIE, TermComparison]:
+        """
+        Finds all changes by term.
+
+        :param assocs1: old assocs
+        :param assocs2: new assocs
+        :param ontology_predicates: ontology closure predicates to use
+        :param minimum_new_entities:
+        :param minimum_old_entities:
+        :param maximum_new_entities:
+        :param maximum_old_entities:
+        :return: mapping from term to comparison
+        """
+        changes_by_term = {}
+        if cache is None:
+            cache = {}
+        ix1 = self.index_by_term(assocs1, ontology_predicates=ontology_predicates, cache=cache)
+        ix2 = self.index_by_term(assocs2, ontology_predicates=ontology_predicates, cache=cache)
+        all_terms = set(ix1.keys()).union(set(ix2.keys()))
+        for term in all_terms:
+            by_gene_old = ix1.get(term, [])
+            by_gene_new = ix2.get(term, [])
+            if not by_gene_old and not by_gene_new:
+                continue
+            if len(by_gene_old) < minimum_old_entities or len(by_gene_new) < minimum_new_entities:
+                continue
+            if maximum_old_entities and len(by_gene_old) > maximum_old_entities:
+                continue
+            if maximum_new_entities and len(by_gene_new) > maximum_new_entities:
+                continue
+            old_associations_by_entity = ix1.get(term, [])
+            new_associations_by_entity = ix2.get(term, [])
+            all_genes = set(old_associations_by_entity.keys()).union(
+                new_associations_by_entity.keys()
+            )
+            gene_id_diff = len(all_genes) - len(
+                set(old_associations_by_entity.keys()).intersection(
+                    new_associations_by_entity.keys()
+                )
+            )
+            if min_num_entities_changes and gene_id_diff < min_num_entities_changes:
+                continue
+            changes_by_term[term] = TermComparison(
+                term_id=term,
+                old_associations_by_entity=old_associations_by_entity,
+                new_associations_by_entity=new_associations_by_entity,
+            )
+        return changes_by_term

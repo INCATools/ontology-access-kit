@@ -117,6 +117,11 @@ class XafAssociationParser(AssociationParser):
     If specified, then this value is used as the predicate if the predicate_column is not specified
     """
 
+    evidence_type_column: Optional[ColumnReference] = None
+    """
+    Column that contains the evidence type (e.g. GAF code like IEA)
+    """
+
     publications_column: Optional[ColumnReference] = None
     """
     Column that contains the publications (e.g. PMID, DOI).
@@ -157,6 +162,7 @@ class XafAssociationParser(AssociationParser):
         lookup_predicate = self.index_lookup_function(self.predicate_column)
         lookup_object = self.index_lookup_function(self.object_column)
         lookup_publications = self.index_lookup_function(self.publications_column)
+        lookup_evidence_type = self.index_lookup_function(self.evidence_type_column)
         lookup_primary_knowledge_source = self.index_lookup_function(
             self.primary_knowledge_source_column
         )
@@ -188,10 +194,11 @@ class XafAssociationParser(AssociationParser):
                 for candidate in ps:
                     if candidate.lower() == "not":
                         is_negated = True
-                        print(f"Negated association: {line}")
                     else:
                         if p:
-                            raise ValueError(f"Unexpected predicate {p} in line: {line}")
+                            raise ValueError(
+                                f"Unexpected predicate {candidate} for {p} in line: {line}"
+                            )
                         p = candidate
             if not p:
                 p = self.default_predicate_value
@@ -209,13 +216,17 @@ class XafAssociationParser(AssociationParser):
                 # TODO: make this more configurable
                 s = s.replace("MGI:MGI:", "MGI:")
             if is_negated:
-                association = NegatedAssociation(s, p, o)
+                association = NegatedAssociation(s, p, o, negated=True)
             else:
                 association = Association(s, p, o)
             if lookup_publications:
                 pub = lookup_publications(vals)
                 if pub:
                     association.publications = pub.split("|")
+            if lookup_evidence_type:
+                ev = lookup_evidence_type(vals)
+                if ev:
+                    association.evidence_type = ev
             if lookup_primary_knowledge_source:
                 src = lookup_primary_knowledge_source(vals)
                 if src:

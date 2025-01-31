@@ -51,21 +51,23 @@ class AggregatorImplementation(
     the aggregator farming out queries to multiple implementations, and weaving
     the results together.
 
-    >>> from oaklib import get_adapter
-    >>> from oaklib.implementations import AggregatorImplementation
-    >>> from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax
-    >>> hp = get_adapter("sqlite:obo:hp")
-    >>> mp = get_adapter("sqlite:obo:mp")
-    >>> cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
-    >>> agg = AggregatorImplementation(implementations=[hp, mp])
-    >>> for entity in sorted(agg.basic_search("parathyroid", config=cfg)):
-    ...     print(entity, agg.label(entity))
-    <BLANKLINE>
-    ...
-    HP:0000860 Parathyroid hypoplasia
-    ...
-    MP:0000680 absent parathyroid glands
-    ...
+    Example:
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.implementations import AggregatorImplementation
+        >>> from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax
+        >>> hp = get_adapter("sqlite:obo:hp")
+        >>> mp = get_adapter("sqlite:obo:mp")
+        >>> cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        >>> agg = AggregatorImplementation(implementations=[hp, mp])
+        >>> for entity in sorted(agg.basic_search("parathyroid", config=cfg)):
+        ...     print(entity, agg.label(entity))
+        <BLANKLINE>
+        ...
+        HP:0000860 Parathyroid hypoplasia
+        ...
+        MP:0000680 absent parathyroid glands
+        ...
 
     Command Line Usage
     ------------------

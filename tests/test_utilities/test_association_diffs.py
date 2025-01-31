@@ -203,6 +203,33 @@ class AssociationDiffsTest(unittest.TestCase):
             [(PROTEIN1, "set2", NUCLEAR_MEMBRANE), (PROTEIN1, "set1", VACUOLE)], diff.changes
         )
 
+    def test_diffs_by_term(self):
+        # old set
+        assocs1 = [
+            Association(PROTEIN1, LOCATED_IN, NUCLEUS),  # will be refined
+            Association(PROTEIN2, LOCATED_IN, NUCLEAR_MEMBRANE),  # will be generalized
+            Association(PROTEIN3, LOCATED_IN, VACUOLE),  # will be lost
+        ]
+        # new set
+        assocs2 = [
+            Association(PROTEIN1, LOCATED_IN, NUCLEAR_MEMBRANE),
+            Association(PROTEIN2, LOCATED_IN, IMBO),
+        ]
+
+        # by terms
+        by_term = self.differ.changes_by_terms(
+            assocs1,
+            assocs2,
+            min_num_entities_changes=1,
+        )
+        for t, exp1, exp2 in [
+            (NUCLEAR_MEMBRANE, [PROTEIN2], [PROTEIN1]),
+            (IMBO, [PROTEIN1, PROTEIN2, PROTEIN3], [PROTEIN2, PROTEIN1]),
+        ]:
+            bt = by_term[t]
+            self.assertCountEqual(exp1, bt.old_entities, f"For term {t}")
+            self.assertCountEqual(exp2, bt.new_entities, f"For term {t}")
+
     def test_diffs_by_publications(self):
         assocs1 = [
             Association(PROTEIN1, LOCATED_IN, NUCLEUS, publications=[PMID1]),

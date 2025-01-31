@@ -10,7 +10,7 @@
     "relationProperties": {
         "rdfs:subClassOf": {
             "color": "black",
-            "penwidth": 3,
+            "penwidth": 1,
             "arrowhead": "open",
             "label": "ⓘ"
         },
@@ -42,6 +42,16 @@
             "color": "blue",
             "arrowhead": "open",
             "label": "ⓣ"
+        },
+        "oio:hasDbXref": {
+            "color": "red",
+            "arrowhead": "open",
+            "label": "ⓧ"
+        },
+        "skos:exactMatch": {
+            "color": "red",
+            "arrowhead": "open",
+            "label": "Ⓔ"
         },
         "RO:0002473": {
             "color": "gray",
@@ -194,7 +204,7 @@
             "fillcolor": "pink"
         },
         "ENVO": {
-            "fillcolor": "cyan"
+            "fillcolor": "lightgreen"
         },
         "CHEBI": {
             "fillcolor": "mediumturquoise"

@@ -1,0 +1,10 @@
+classIds	unionEquivalentTo	unionEquivalentToExpression	classExpressionPropertyIds	classExpressionPropertyIds_label	classExpressionFillerIds	classExpressionFillerIds_label
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0000943|ZFA:0001387	pectoral fin skeleton|pelvic fin skeleton
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0000257|ZFA:0001586	pectoral fin cartilage|pectoral fin radial
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0001551|ZFA:0001586	pectoral fin lepidotrichium|pectoral fin radial
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0001551|ZFA:0000257	pectoral fin lepidotrichium|pectoral fin cartilage
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0000407|ZFA:0001586	pectoral girdle|pectoral fin radial
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0000407|ZFA:0001551	pectoral girdle|pectoral fin lepidotrichium
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0001552|ZFA:0000508	pelvic fin lepidotrichium|pelvic radial
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0001459|ZFA:0000508	pelvic fin cartilage|pelvic radial
+	None	None	BFO:0000050|BFO:0000050	part of|part of	ZFA:0001459|ZFA:0001552	pelvic fin cartilage|pelvic fin lepidotrichium

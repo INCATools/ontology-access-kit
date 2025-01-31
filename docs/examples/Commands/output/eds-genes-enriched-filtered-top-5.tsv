@@ -1,0 +1,5 @@
+class_id	p_value	class_label	rank	p_value_adjusted	false_discovery_rate	fold_enrichment	probability	sample_count	sample_total	background_count	background_total	ancestor_of_more_informative_result	descendant_of_more_informative_result
+HP:0000974	2.121426176245904e-37	Hyperextensible skin	1	2.895746730575659e-34	None	None	None	19	19	68	5011	None	None
+HP:0001075	1.2456658452888536e-36	Atrophic scars	2	1.7003338788192853e-33	None	None	None	17	19	37	5011	None	None
+HP:0000978	3.578556724678709e-24	Bruising susceptibility	8	4.884729929186438e-21	None	None	None	17	19	163	5011	None	None
+HP:0000592	5.359589209309892e-23	Blue sclerae	9	7.315839270708003e-20	None	None	None	15	19	102	5011	None	None

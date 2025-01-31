@@ -1152,6 +1152,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         include_abox: bool = True,
         include_entailed: bool = False,
         exclude_blank: bool = True,
+        invert: bool = False,
     ) -> Iterator[RELATIONSHIP]:
         """
         Yields all relationships matching query constraints.
@@ -1172,6 +1173,18 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param exclude_blank: do not include blank nodes/anonymous expressions
         :return:
         """
+        if invert:
+            for s, p, o in self.relationships(
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
         if not subjects:
             subjects = list(self.entities())
         logging.info(f"Subjects: {len(subjects)}")

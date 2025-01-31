@@ -1,0 +1,299 @@
+# curie_map:
+#   UBERON: http://purl.obolibrary.org/obo/UBERON_
+#   ZFA: http://purl.obolibrary.org/obo/ZFA_
+#   oio: http://www.geneontology.org/formats/oboInOwl#
+#   owl: http://www.w3.org/2002/07/owl#
+#   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+#   rdfs: http://www.w3.org/2000/01/rdf-schema#
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   sssom: https://w3id.org/sssom/
+# license: https://w3id.org/sssom/license/unspecified
+# mapping_set_id: https://w3id.org/sssom/mappings/16742bea-f654-4d5a-8433-46c7c4bc047e
+subject_id	subject_label	predicate_id	object_id	mapping_justification	subject_source	object_source
+UBERON:0000007	pituitary gland	oio:hasDbXref	ZFA:0000118	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000203	pallium	oio:hasDbXref	ZFA:0000505	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000204	ventral part of telencephalon	oio:hasDbXref	ZFA:0000304	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000430	ventral intermediate nucleus of thalamus	oio:hasDbXref	ZFA:0000370	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000935	anterior commissure	oio:hasDbXref	ZFA:0001108	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000936	posterior commissure	oio:hasDbXref	ZFA:0000320	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000955	brain	oio:hasDbXref	ZFA:0000008	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0000959	optic chiasma	oio:hasDbXref	ZFA:0000556	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001672	anterior cerebral vein	oio:hasDbXref	ZFA:0001067	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001699	sensory root of facial nerve	oio:hasDbXref	ZFA:0000679	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001715	oculomotor nuclear complex	oio:hasDbXref	ZFA:0000553	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001718	mesencephalic nucleus of trigeminal nerve	oio:hasDbXref	ZFA:0000312	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001720	cochlear nucleus	oio:hasDbXref	ZFA:0001638	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001886	choroid plexus	oio:hasDbXref	ZFA:0001443	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001890	forebrain	oio:hasDbXref	ZFA:0000109	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001891	midbrain	oio:hasDbXref	ZFA:0000128	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001893	telencephalon	oio:hasDbXref	ZFA:0000079	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001894	diencephalon	oio:hasDbXref	ZFA:0000101	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001896	medulla oblongata	oio:hasDbXref	ZFA:0000545	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001897	dorsal plus ventral thalamus	oio:hasDbXref	ZFA:0001215	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001898	hypothalamus	oio:hasDbXref	ZFA:0000032	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001899	epithalamus	oio:hasDbXref	ZFA:0000509	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001900	ventral thalamus	oio:hasDbXref	ZFA:0000458	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001904	habenula	oio:hasDbXref	ZFA:0000213	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001905	pineal body	oio:hasDbXref	ZFA:0000019	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001908	optic tract	oio:hasDbXref	ZFA:0000252	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001909	habenular commissure	oio:hasDbXref	ZFA:0000359	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001910	medial forebrain bundle	oio:hasDbXref	ZFA:0005111	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001925	ventral lateral nucleus of thalamus	oio:hasDbXref	ZFA:0000306	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001928	preoptic area	oio:hasDbXref	ZFA:0000470	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001937	lateral hypothalamic nucleus	oio:hasDbXref	ZFA:0000227	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001943	midbrain tegmentum	oio:hasDbXref	ZFA:0000160	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001944	pretectal region	oio:hasDbXref	ZFA:0000418	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001945	superior colliculus	oio:hasDbXref	ZFA:0000445	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0001947	red nucleus	oio:hasDbXref	ZFA:0000552	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002028	hindbrain	oio:hasDbXref	ZFA:0000029	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002034	suprachiasmatic nucleus	oio:hasDbXref	ZFA:0000441	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002037	cerebellum	oio:hasDbXref	ZFA:0000100	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002043	dorsal raphe nucleus	oio:hasDbXref	ZFA:0000366	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002127	inferior olivary complex	oio:hasDbXref	ZFA:0000215	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002138	habenulo-interpeduncular tract	oio:hasDbXref	ZFA:0000353	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002139	subcommissural organ	oio:hasDbXref	ZFA:0000683	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002141	parvocellular oculomotor nucleus	oio:hasDbXref	ZFA:0000244	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002143	dorsal tegmental nucleus	oio:hasDbXref	ZFA:0000346	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002145	interpeduncular nucleus	oio:hasDbXref	ZFA:0000903	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002148	locus ceruleus	oio:hasDbXref	ZFA:0000539	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002154	lateral reticular nucleus	oio:hasDbXref	ZFA:0000535	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002162	area postrema	oio:hasDbXref	ZFA:0005146	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002164	tectobulbar tract	oio:hasDbXref	ZFA:0000446	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002196	adenohypophysis	oio:hasDbXref	ZFA:0001282	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002198	neurohypophysis	oio:hasDbXref	ZFA:0001271	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002206	mammillary body	oio:hasDbXref	ZFA:0000334	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002264	olfactory bulb	oio:hasDbXref	ZFA:0000402	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002270	hyaloid artery	oio:hasDbXref	ZFA:0005045	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002285	telencephalic ventricle	oio:hasDbXref	ZFA:0000696	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002286	third ventricle	oio:hasDbXref	ZFA:0000161	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002287	optic recess of third ventricle	oio:hasDbXref	ZFA:0000049	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002288	choroid plexus of third ventricle	oio:hasDbXref	ZFA:0001444	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002289	midbrain cerebral aqueduct	oio:hasDbXref	ZFA:0000159	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002290	choroid plexus of fourth ventricle	oio:hasDbXref	ZFA:0001446	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002298	brainstem	oio:hasDbXref	ZFA:0001707	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002307	choroid plexus of lateral ventricle	oio:hasDbXref	ZFA:0001447	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002308	nucleus of brain	oio:hasDbXref	ZFA:0005575	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002309	medial longitudinal fasciculus	oio:hasDbXref	ZFA:0000543	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002322	periventricular nucleus	oio:hasDbXref	ZFA:0000260	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002422	fourth ventricle	oio:hasDbXref	ZFA:0000110	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002432	pars intermedia of adenohypophysis	oio:hasDbXref	ZFA:0001197	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002434	pituitary stalk	oio:hasDbXref	ZFA:0001199	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002438	ventral tegmental nucleus	oio:hasDbXref	ZFA:0000275	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002559	medullary reticular formation	oio:hasDbXref	ZFA:0000421	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002583	commissure of superior colliculus	oio:hasDbXref	ZFA:0000684	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002633	motor nucleus of trigeminal nerve	oio:hasDbXref	ZFA:0001365	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002682	abducens nucleus	oio:hasDbXref	ZFA:0000713	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002722	trochlear nucleus	oio:hasDbXref	ZFA:0000450	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002768	vestibulospinal tract	oio:hasDbXref	ZFA:0000709	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002776	ventral nuclear group	oio:hasDbXref	ZFA:0005576	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002788	anterior nuclear group	oio:hasDbXref	ZFA:0000427	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002796	motor root of trigeminal nerve	oio:hasDbXref	ZFA:0000650	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0002954	dorsal hypothalamic area	oio:hasDbXref	ZFA:0000347	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003011	facial motor nucleus	oio:hasDbXref	ZFA:0000206	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003030	posterior nucleus of thalamus	oio:hasDbXref	ZFA:0000325	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003040	central gray substance of midbrain	oio:hasDbXref	ZFA:0000518	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003045	dorsal longitudinal fasciculus	oio:hasDbXref	ZFA:0005266	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003052	midbrain-hindbrain boundary	oio:hasDbXref	ZFA:0000042	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003053	ventricular zone	oio:hasDbXref	ZFA:0001083	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003098	optic stalk	oio:hasDbXref	ZFA:0000137	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003299	roof plate of midbrain	oio:hasDbXref	ZFA:0000355	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003301	roof plate of diencephalon	oio:hasDbXref	ZFA:0001358	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003307	floor plate of midbrain	oio:hasDbXref	ZFA:0001677	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003308	floor plate of telencephalon	oio:hasDbXref	ZFA:0000914	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003309	floor plate of diencephalon	oio:hasDbXref	ZFA:0000871	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003931	diencephalic white matter	oio:hasDbXref	ZFA:0000338	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0003936	postoptic commissure	oio:hasDbXref	ZFA:0000059	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0004132	trigeminal sensory nucleus	oio:hasDbXref	ZFA:0000433	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0004673	trigeminal nerve root	oio:hasDbXref	ZFA:0000192	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0004684	raphe nuclei	oio:hasDbXref	ZFA:0001429	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0004703	dorsal thalamus	oio:hasDbXref	ZFA:0000653	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005075	forebrain-midbrain boundary	oio:hasDbXref	ZFA:0001367	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005286	tela choroidea of midbrain cerebral aqueduct	oio:hasDbXref	ZFA:0005157	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005287	tela choroidea of fourth ventricle	oio:hasDbXref	ZFA:0005158	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005288	tela choroidea of third ventricle	oio:hasDbXref	ZFA:0005159	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005289	tela choroidea of telencephalic ventricle	oio:hasDbXref	ZFA:0005160	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005377	olfactory bulb glomerular layer	oio:hasDbXref	ZFA:0000357	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005387	olfactory glomerulus	oio:hasDbXref	ZFA:0005661	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005412	optic fissure	oio:hasDbXref	ZFA:0001284	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005495	midbrain lateral wall	oio:hasDbXref	ZFA:0000906	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005561	telencephalon lateral wall	oio:hasDbXref	ZFA:0000785	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0005591	diencephalon lateral wall	oio:hasDbXref	ZFA:0000780	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006215	rhombic lip	oio:hasDbXref	ZFA:0001440	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006569	diencephalic nucleus	oio:hasDbXref	ZFA:0001659	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006787	middle white layer of superior colliculus	oio:hasDbXref	ZFA:0001351	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006788	middle gray layer of superior colliculus	oio:hasDbXref	ZFA:0001350	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006790	deep white layer of superior colliculus	oio:hasDbXref	ZFA:0000494	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006791	superficial layer of superior colliculus	oio:hasDbXref	ZFA:0000686	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006792	intermediate layer of superior colliculus	oio:hasDbXref	ZFA:0000327	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006840	nucleus of lateral lemniscus	oio:hasDbXref	ZFA:0000380	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0006964	pars distalis of adenohypophysis	oio:hasDbXref	ZFA:0001195	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0007299	choroid plexus of tectal ventricle	oio:hasDbXref	ZFA:0001445	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0008902	lateral recess of third ventricle	oio:hasDbXref	ZFA:0000231	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0008998	vasculature of brain	oio:hasDbXref	ZFA:0000099	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009661	midbrain nucleus	oio:hasDbXref	ZFA:0001665	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009662	hindbrain nucleus	oio:hasDbXref	ZFA:0001658	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009663	telencephalic nucleus	oio:hasDbXref	ZFA:0001660	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009776	intermediate reticular formation	oio:hasDbXref	ZFA:0000219	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009840	lower rhombic lip	oio:hasDbXref	ZFA:0001441	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009841	upper rhombic lip	oio:hasDbXref	ZFA:0001442	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009848	zona limitans intrathalamica	oio:hasDbXref	ZFA:0001344	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009908	caudal root of abducens nerve	oio:hasDbXref	ZFA:0000179	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0009909	rostral root of abducens nerve	oio:hasDbXref	ZFA:0000665	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0011299	white matter of telencephalon	oio:hasDbXref	ZFA:0000597	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0011768	pineal gland stalk	oio:hasDbXref	ZFA:0001292	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0011778	motor nucleus of vagal nerve	oio:hasDbXref	ZFA:0000387	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0014738	medial pallium	oio:hasDbXref	ZFA:0000536	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0014740	dorsal pallium	oio:hasDbXref	ZFA:0000506	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0014741	lateral pallium	oio:hasDbXref	ZFA:0000391	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0014912	thalamic eminence	oio:hasDbXref	ZFA:0007010	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0015238	pineal complex	oio:hasDbXref	ZFA:0001359	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0015241	parapineal organ	oio:hasDbXref	ZFA:0001360	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0034730	olfactory tract linking bulb to ipsilateral dorsal telencephalon	oio:hasDbXref	ZFA:0000229	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0034763	hindbrain commissure	oio:hasDbXref	ZFA:0001692	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0035563	magnocellular superficial pretectal nucleus	oio:hasDbXref	ZFA:0000235	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0035564	parvocellular superficial pretectal nucleus	oio:hasDbXref	ZFA:0000406	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0035565	caudal pretectal nucleus	oio:hasDbXref	ZFA:0000631	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0035566	central pretectal nucleus	oio:hasDbXref	ZFA:0000635	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0035567	accessory pretectal nucleus	oio:hasDbXref	ZFA:0000714	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0035569	periventricular pretectal nucleus	oio:hasDbXref	ZFA:0000601	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:0035577	paracommissural periventricular pretectal nucleus	oio:hasDbXref	ZFA:0000404	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000165	inferior lobe	oio:hasDbXref	ZFA:0000165	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000182	central caudal thalamic nucleus	oio:hasDbXref	ZFA:0000182	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000183	central pretectum	oio:hasDbXref	ZFA:0000183	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000185	commissura rostral, pars ventralis	oio:hasDbXref	ZFA:0000185	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000188	corpus cerebelli	oio:hasDbXref	ZFA:0000188	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000193	diffuse nuclei	oio:hasDbXref	ZFA:0000193	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000194	dorsal accessory optic nucleus	oio:hasDbXref	ZFA:0000194	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000199	dorsal periventricular hypothalamus	oio:hasDbXref	ZFA:0000199	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000209	lateral preglomerular nucleus	oio:hasDbXref	ZFA:0000209	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000210	gigantocellular part of magnocellular preoptic nucleus	oio:hasDbXref	ZFA:0000210	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000212	granular eminence	oio:hasDbXref	ZFA:0000212	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000222	isthmic primary nucleus	oio:hasDbXref	ZFA:0000222	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000238	olfactory tract linking bulb to ipsilateral ventral telencephalon	oio:hasDbXref	ZFA:0000238	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000241	midline column	oio:hasDbXref	ZFA:0000241	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000245	nucleus of the descending root	oio:hasDbXref	ZFA:0000245	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000248	magnocellular preoptic nucleus	oio:hasDbXref	ZFA:0000248	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000267	primary olfactory fiber layer	oio:hasDbXref	ZFA:0000267	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000274	rostral octaval nerve sensory nucleus	oio:hasDbXref	ZFA:0000274	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000276	rostrolateral thalamic nucleus of Butler & Saidel	oio:hasDbXref	ZFA:0000276	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000278	secondary gustatory nucleus medulla oblongata	oio:hasDbXref	ZFA:0000278	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000280	medial division	oio:hasDbXref	ZFA:0000280	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000291	medial octavolateralis nucleus	oio:hasDbXref	ZFA:0000291	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000293	synencephalon	oio:hasDbXref	ZFA:0000293	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000294	torus lateralis	oio:hasDbXref	ZFA:0000294	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000296	uncrossed tecto-bulbar tract	oio:hasDbXref	ZFA:0000296	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000305	ventral sulcus	oio:hasDbXref	ZFA:0000305	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000307	vestibulolateralis lobe	oio:hasDbXref	ZFA:0000307	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000322	caudal octaval nerve sensory nucleus	oio:hasDbXref	ZFA:0000322	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000324	caudal periventricular hypothalamus	oio:hasDbXref	ZFA:0000324	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000335	crossed tecto-bulbar tract	oio:hasDbXref	ZFA:0000335	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000347	dorsal zone of median tuberal portion of hypothalamus	oio:hasDbXref	ZFA:0000347	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000352	external cellular layer	oio:hasDbXref	ZFA:0000352	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000358	granular layer corpus cerebelli	oio:hasDbXref	ZFA:0000358	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000372	interpeduncular nucleus medulla oblongata	oio:hasDbXref	ZFA:0000372	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000381	lateral line sensory nucleus	oio:hasDbXref	ZFA:0000381	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000388	medial caudal lobe	oio:hasDbXref	ZFA:0000388	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000389	medial funicular nucleus medulla oblongata	oio:hasDbXref	ZFA:0000389	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000390	medial preglomerular nucleus	oio:hasDbXref	ZFA:0000390	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000392	median tuberal portion	oio:hasDbXref	ZFA:0000392	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000394	molecular layer corpus cerebelli	oio:hasDbXref	ZFA:0000394	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000397	nucleus subglomerulosis	oio:hasDbXref	ZFA:0000397	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000398	nucleus isthmi	oio:hasDbXref	ZFA:0000398	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000399	secondary gustatory nucleus trigeminal nuclei	oio:hasDbXref	ZFA:0000399	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000401	octaval nerve sensory nucleus	oio:hasDbXref	ZFA:0000401	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000408	periventricular nucleus of caudal tuberculum	oio:hasDbXref	ZFA:0000408	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000426	rostral parvocellular preoptic nucleus	oio:hasDbXref	ZFA:0000426	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000430	secondary gustatory tract	oio:hasDbXref	ZFA:0000430	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000440	superior raphe nucleus	oio:hasDbXref	ZFA:0000440	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000448	tertiary gustatory nucleus	oio:hasDbXref	ZFA:0000448	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000449	torus longitudinalis	oio:hasDbXref	ZFA:0000449	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000454	ventral accessory optic nucleus	oio:hasDbXref	ZFA:0000454	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000459	ventromedial thalamic nucleus	oio:hasDbXref	ZFA:0000459	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000475	paraventricular organ	oio:hasDbXref	ZFA:0000475	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000480	caudal octavolateralis nucleus	oio:hasDbXref	ZFA:0000480	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000481	caudal preglomerular nucleus	oio:hasDbXref	ZFA:0000481	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000482	caudal tuberal nucleus	oio:hasDbXref	ZFA:0000482	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000485	central nucleus inferior lobe	oio:hasDbXref	ZFA:0000485	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000502	dorsal motor nucleus trigeminal nerve	oio:hasDbXref	ZFA:0000502	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000512	facial lobe	oio:hasDbXref	ZFA:0000512	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000516	periventricular grey zone	oio:hasDbXref	ZFA:0000516	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000517	glossopharyngeal lobe	oio:hasDbXref	ZFA:0000517	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000523	inferior reticular formation	oio:hasDbXref	ZFA:0000523	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000532	lateral division	oio:hasDbXref	ZFA:0000532	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000540	magnocellular octaval nucleus	oio:hasDbXref	ZFA:0000540	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000542	medial column	oio:hasDbXref	ZFA:0000542	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000551	nucleus lateralis valvulae	oio:hasDbXref	ZFA:0000551	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000573	internal cellular layer	oio:hasDbXref	ZFA:0000573	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000580	rostral preglomerular nucleus	oio:hasDbXref	ZFA:0000580	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000581	rostral tuberal nucleus	oio:hasDbXref	ZFA:0000581	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000582	saccus dorsalis	oio:hasDbXref	ZFA:0000582	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000589	sulcus ypsiloniformis	oio:hasDbXref	ZFA:0000589	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000593	superior reticular formation medial column	oio:hasDbXref	ZFA:0000593	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000597	telencephalic tracts	oio:hasDbXref	ZFA:0000597	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000599	torus semicircularis	oio:hasDbXref	ZFA:0000599	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000603	valvula cerebelli	oio:hasDbXref	ZFA:0000603	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000609	ventrolateral nucleus	oio:hasDbXref	ZFA:0000609	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000611	visceromotor column	oio:hasDbXref	ZFA:0000611	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000629	caudal motor nucleus of abducens	oio:hasDbXref	ZFA:0000629	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000630	caudal parvocellular preoptic nucleus	oio:hasDbXref	ZFA:0000630	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000633	caudal tuberculum	oio:hasDbXref	ZFA:0000633	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000636	cerebellar crest	oio:hasDbXref	ZFA:0000636	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000638	commissura rostral, pars dorsalis	oio:hasDbXref	ZFA:0000638	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000645	descending octaval nucleus	oio:hasDbXref	ZFA:0000645	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000647	dorsal caudal thalamic nucleus	oio:hasDbXref	ZFA:0000647	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000654	rostral motor nucleus of abducens	oio:hasDbXref	ZFA:0000654	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000687	superficial pretectum	oio:hasDbXref	ZFA:0000687	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000693	tangential nucleus	oio:hasDbXref	ZFA:0000693	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000703	ventral motor nucleus trigeminal nerve	oio:hasDbXref	ZFA:0000703	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000707	ventral zone	oio:hasDbXref	ZFA:0000707	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000710	viscerosensory commissural nucleus of Cajal	oio:hasDbXref	ZFA:0000710	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000766	granular layer valvula cerebelli	oio:hasDbXref	ZFA:0000766	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000779	lateral forebrain bundle telencephalon	oio:hasDbXref	ZFA:0000779	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000815	nucleus of medial longitudinal fasciculus of medulla	oio:hasDbXref	ZFA:0000815	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000826	central nucleus torus semicircularis	oio:hasDbXref	ZFA:0000826	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000910	medial forebrain bundle telencephalon	oio:hasDbXref	ZFA:0000910	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000913	molecular layer valvula cerebelli	oio:hasDbXref	ZFA:0000913	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000941	nucleus of the medial longitudinal fasciculus synencephalon	oio:hasDbXref	ZFA:0000941	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000984	superior reticular formation tegmentum	oio:hasDbXref	ZFA:0000984	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000985	ventral rhombencephalic commissure medulla oblongata	oio:hasDbXref	ZFA:0000985	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2000997	medial funicular nucleus trigeminal nuclei	oio:hasDbXref	ZFA:0000997	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001340	nucleus of the tract of the postoptic commissure	oio:hasDbXref	ZFA:0001340	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001341	intervening zone	oio:hasDbXref	ZFA:0001341	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001343	telencephalon diencephalon boundary	oio:hasDbXref	ZFA:0001343	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001347	stratum fibrosum et griseum superficiale	oio:hasDbXref	ZFA:0001347	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001348	stratum marginale	oio:hasDbXref	ZFA:0001348	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001349	stratum opticum	oio:hasDbXref	ZFA:0001349	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001352	stratum periventriculare	oio:hasDbXref	ZFA:0001352	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001357	alar plate midbrain	oio:hasDbXref	ZFA:0001357	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2001366	tract of the postoptic commissure	oio:hasDbXref	ZFA:0001366	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002174	octaval nerve motor nucleus	oio:hasDbXref	ZFA:0001697	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002175	rostral octaval nerve motor nucleus	oio:hasDbXref	ZFA:0001698	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002176	caudal octaval nerve motor nucleus	oio:hasDbXref	ZFA:0001699	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002185	climbing fiber	oio:hasDbXref	ZFA:0001711	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002192	dorsolateral motor nucleus of vagal nerve	oio:hasDbXref	ZFA:0001695	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002202	intermediate nucleus	oio:hasDbXref	ZFA:0001669	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002207	medial motor nucleus of vagal nerve	oio:hasDbXref	ZFA:0001696	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002210	mossy fiber	oio:hasDbXref	ZFA:0001710	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002218	parallel fiber, teleost	oio:hasDbXref	ZFA:0001713	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002219	parvocellular preoptic nucleus	oio:hasDbXref	ZFA:0001680	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002226	preglomerular nucleus	oio:hasDbXref	ZFA:0001662	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002240	Purkinje cell layer corpus cerebelli	oio:hasDbXref	ZFA:0001706	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002241	Purkinje cell layer valvula cerebelli	oio:hasDbXref	ZFA:0001709	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2002244	supraoptic tract	oio:hasDbXref	ZFA:0001657	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005020	central artery	oio:hasDbXref	ZFA:0005020	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005021	cerebellar central artery	oio:hasDbXref	ZFA:0005021	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005031	dorsal longitudinal vein	oio:hasDbXref	ZFA:0005031	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005052	anterior mesencephalic central artery	oio:hasDbXref	ZFA:0005052	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005078	middle mesencephalic central artery	oio:hasDbXref	ZFA:0005078	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005079	posterior mesencephalic central artery	oio:hasDbXref	ZFA:0005079	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005219	choroid plexus vascular circuit	oio:hasDbXref	ZFA:0005219	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005248	trans-choroid plexus branch	oio:hasDbXref	ZFA:0005248	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005338	posterior recess	oio:hasDbXref	ZFA:0005338	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005339	nucleus of the lateral recess	oio:hasDbXref	ZFA:0005339	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2005340	nucleus of the posterior recess	oio:hasDbXref	ZFA:0005340	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2007001	dorso-rostral cluster	oio:hasDbXref	ZFA:0007001	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2007002	ventro-rostral cluster	oio:hasDbXref	ZFA:0007002	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2007003	ventro-caudal cluster	oio:hasDbXref	ZFA:0007003	semapv:UnspecifiedMatching	UBERON	ZFA
+UBERON:2007004	epiphysial cluster	oio:hasDbXref	ZFA:0007004	semapv:UnspecifiedMatching	UBERON	ZFA
+

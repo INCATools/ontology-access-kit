@@ -1,0 +1,242 @@
+id	label
+CL:0000002	obsolete immortal cell line cell
+CL:0000004	obsolete cell by organism
+CL:0000009	obsolete fusiform initial
+CL:0000012	obsolete cell by class
+CL:0000013	obsolete dentine secreting cell
+CL:0000045	obsolete thymus processed stem cell
+CL:0000046	obsolete bursa processed stem cell
+CL:0000063	obsolete cell by histology
+CL:0000070	obsolete epithelial cell of gland
+CL:0000074	obsolete epithem cell
+CL:0000093	obsolete osteochondroclast
+CL:0000111	obsolete peripheral neuron
+CL:0000124	obsolete glial cell (sensu Nematoda and Protostomia)
+CL:0000144	obsolete cell by function
+CL:0000156	obsolete antibody secreting cell
+CL:0000181	obsolete metabolising cell
+CL:0000194	obsolete nodal cardiac cell
+CL:0000195	obsolete Purkinje fiber
+CL:0000220	obsolete cell by lineage
+CL:0000224	obsolete cell by nuclear number
+CL:0000229	obsolete lymphoblast
+CL:0000230	obsolete T lymphoblast
+CL:0000231	obsolete B lymphoblast
+CL:0000243	obsolete glial cell (sensu Vertebrata)
+CL:0000245	obsolete passage cell
+CL:0000248	obsolete microsporocyte
+CL:0000250	obsolete megaspore
+CL:0000252	obsolete microspore
+CL:0000254	obsolete egg cell
+CL:0000258	obsolete fiber tracheid
+CL:0000259	obsolete aggregate cell
+CL:0000260	obsolete mucilage cell
+CL:0000261	obsolete anterior cell
+CL:0000262	obsolete guard mother cell
+CL:0000263	obsolete vegetative cell (sensu Mycetozoa)
+CL:0000264	obsolete phloem initial
+CL:0000265	obsolete anterior like cell
+CL:0000266	obsolete meristemoid
+CL:0000267	obsolete prespore cell
+CL:0000268	obsolete sieve element
+CL:0000269	obsolete prestalk cell
+CL:0000270	obsolete subsidiary cell
+CL:0000271	obsolete prestalk A cell
+CL:0000272	obsolete cambial initial
+CL:0000273	obsolete prestalk AB cell
+CL:0000275	obsolete prestalk B cell
+CL:0000276	obsolete sclerenchyma cell
+CL:0000277	obsolete prestalk I cell
+CL:0000278	obsolete central cell
+CL:0000279	obsolete prestalk 0 cell
+CL:0000280	obsolete generative cell
+CL:0000281	obsolete pstAB/ALC
+CL:0000282	obsolete trichome
+CL:0000283	obsolete pstO/ALC
+CL:0000284	obsolete companion cell
+CL:0000285	obsolete stalk cell
+CL:0000288	obsolete synergid
+CL:0000289	obsolete chemotactic amoeboid cell (sensu Mycetozoa)
+CL:0000290	obsolete xylem fiber cell
+CL:0000291	obsolete spore (sensu Mycetozoa)
+CL:0000292	obsolete guard cell
+CL:0000294	obsolete sieve cell
+CL:0000296	obsolete vegetative cell
+CL:0000297	obsolete socket cell
+CL:0000298	obsolete xylem element
+CL:0000299	obsolete trichoblast
+CL:0000302	obsolete IgM B cell
+CL:0000303	obsolete IgG B cell
+CL:0000304	obsolete IgA B cell
+CL:0000305	obsolete IgE B cell
+CL:0000316	obsolete ray initial
+CL:0000320	obsolete megasporocyte
+CL:0000328	obsolete myelin accumulating cell
+CL:0000330	obsolete collenchymal cell
+CL:0000331	obsolete tracheid
+CL:0000332	obsolete atrichoblast
+CL:0000344	obsolete non-visual cell (sensu Vertebrata)
+CL:0000363	obsolete axial cell
+CL:0000364	obsolete ray cell
+CL:0000366	obsolete sperm cell (sensu Viridiplantae)
+CL:0000368	obsolete myrosin cell
+CL:0000370	obsolete transfer cell
+CL:0000375	obsolete osteoprogenitor cell
+CL:0000399	obsolete phloem element
+CL:0000400	obsolete pavement cell
+CL:0000414	obsolete cell by ploidy
+CL:0000426	obsolete scaffold cell
+CL:0000433	obsolete functional megaspore
+obo:cl#has_high_plasma_membrane_amount	obsolete has_high_plasma_membrane_amount
+obo:cl#has_low_plasma_membrane_amount	obsolete has_low_plasma_membrane_amount
+CL:0000044	None
+CL:0000053	None
+CL:0000139	None
+CL:0000184	None
+CL:0000191	None
+CL:0000201	None
+CL:0000274	None
+CL:0000337	None
+CL:0000369	None
+CL:0000403	None
+CL:0000455	obsolete starch sheath cell
+CL:0000472	obsolete chlorenchyma cell
+CL:0000475	obsolete degenerate megaspore
+CL:0000491	obsolete cytotoxic T cell
+CL:0000493	obsolete regulatory T cell
+CL:0000522	obsolete spore
+CL:0000537	obsolete antipodal cell
+CL:0000538	obsolete epidermal initial
+CL:0000539	obsolete idioblast
+CL:0000543	obsolete sieve tube member
+CL:0000585	obsolete null cell
+CL:0000610	obsolete plant cell
+CL:0000616	obsolete sporangiospore
+CL:0000620	obsolete zoospore
+CL:0000663	obsolete valve cell
+CL:0000664	obsolete closable valve cell
+CL:0000665	obsolete permanently open valve cell
+CL:0000668	obsolete parenchymal cell
+CL:0000672	obsolete tracheary element
+CL:0000685	obsolete meristematic cell
+CL:0000698	obsolete paraganglial cell
+CL:0000717	obsolete fusimotor neuron
+CL:0002245	obsolete null lymphocyte
+CL:0002276	obsolete PP cell of pancreatic acinus
+CL:0002392	obsolete plant spore
+CL:0002609	obsolete neuron of cerebral cortex
+CL:0002646	obsolete epithelial cell of buccal part of viscerocranial mucosa
+CL:0002647	obsolete epithelial cell of anterior palatal part of viscerocranial mucosa
+CL:0002648	obsolete epithelial cell of nasal part of viscerocranial mucosa
+CL:0002649	obsolete epithelial cell of gingival part of viscerocranial mucosa
+CL:0002650	obsolete epithelial cell of paranasal sinus part of viscerocranial mucosa
+CL:0005016	obsolete apical cell
+CL:0005017	obsolete plant basal cell
+CL:0007014	obsolete cell line cell
+CL:0007015	obsolete mortal cell line cell
+CL:0008014	obsolete excitatory motor neuron
+CL:0008023	obsolete cardiac fibroblast
+CL:0008029	obsolete inhibitory neuron
+CL:0008030	obsolete excitatory neuron
+CL:0011107	obsolete Muller cell
+CL:0011112	obsolete magnocellular neurosecretory cell
+CL:0017501	obsolete lobed nucleus
+CL:0700009	obsolete kidney collecting duct beta-intercalated cell
+CL:1000316	obsolete goblet cell of epithelium of small intestine
+CL:1000318	obsolete small intestine crypt goblet cell
+CL:1000319	obsolete goblet cell of epithelium proper of small intestine
+CL:1000328	obsolete goblet cell of epithelium proper of large intestine
+CL:1000416	obsolete myoepithelial cell of lactiferous gland
+CL:0000450	None
+CL:0000461	None
+CL:0000466	None
+CL:0000471	None
+CL:0000572	None
+CL:0000640	None
+CL:0000643	None
+CL:0000714	None
+CL:0000739	None
+CL:0000804	None
+CL:0000812	None
+CL:0000859	None
+CL:0002065	None
+CL:0002156	None
+CL:0002185	None
+CL:0002186	None
+CL:0002230	None
+CL:0002331	None
+CL:0002452	None
+CL:0002542	None
+CL:0002587	None
+CL:1000036	None
+CL:1000292	None
+CL:1000293	None
+CL:1000294	None
+CL:1000295	None
+CL:1000297	None
+CL:1000336	None
+CL:1000386	None
+CL:1000387	None
+CL:1000388	None
+CL:1000389	None
+CL:1000390	None
+CL:1000393	None
+CL:1000395	None
+CL:1000396	None
+CL:1000399	None
+CL:1000400	None
+CL:1000401	None
+CL:1000402	None
+CL:1000403	None
+CL:1000404	None
+CL:1000406	None
+CL:1000407	None
+CL:1000408	None
+CL:1000421	None
+CL:1000422	None
+CL:1000423	None
+CL:1000429	None
+CL:1000430	None
+CL:1000431	None
+CL:1000439	None
+CL:1000451	obsolete epithelial cell of visceral layer of glomerular capsule
+CL:1001566	obsolete bronchioalveolar stem cells
+CL:1001583	obsolete breast adipocyte
+CL:2000009	obsolete microvascular endothelium blood vessel endothelial cell
+CL:2000026	obsolete cerebellum Golgi cell
+CL:2000050	obsolete retina retinal ganglion cell
+CL:4023034	obsolete L2/3 pvalb-like sst GABAergic cortical interneuron (Mus musculus)
+CL:4023067	obsolete Martinotti morphology L2/3 pvalb-like sst GABAergic cortical interneuron (Mus musculus)
+CL:4023078	obsolete basket morphology L2/3 pvalb-like sst GABAergic cortical interneuron (Mus musculus)
+CL:4023098	obsolete L2/3 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Homo sapiens)
+CL:4023099	obsolete L5 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Homo sapiens)
+CL:4023100	obsolete L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Homo sapiens)
+CL:4023101	obsolete L5/6 near-projecting glutamatergic neuron of the primary motor cortex (Homo sapiens)
+CL:4023102	obsolete L5/6 near-projecting glutamatergic neuron of the primary motor cortex (Callithrix jacchus)
+CL:4023103	obsolete L2/3 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Callithrix jacchus)
+CL:4023104	obsolete L5 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Callithrix jacchus)
+CL:4023105	obsolete L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex (Callithrix jacchus)
+CL:4023106	obsolete meis2 expressing cortical GABAergic cell (Callithrix jacchus)
+GO:0098537	obsolete lobed nucleus
+obo:CP_0000000	obsolete CP:0000000
+obo:CP_0000025	obsolete CP:0000025
+obo:CP_0000027	obsolete CP:0000027
+obo:CP_0000028	obsolete CP:0000028
+obo:CP_0000035	obsolete CP:0000035
+obo:CP_0000037	obsolete CP:0000037
+obo:CP_0000039	obsolete CP:0000039
+obo:CP_0000040	obsolete CP:0000040
+obo:CP_0000043	obsolete CP:0000043
+obo:D96882F1-8709-49AB-BCA9-772A67EA6C33	obsolete D96882F1-8709-49AB-BCA9-772A67EA6C33
+CL:1000440	None
+CL:1000446	None
+CL:1000459	None
+CL:1000461	None
+CL:1000462	None
+CL:1000463	None
+CL:1000464	None
+CL:1000474	None
+CL:1000475	None
+CL:1000476	None
+CL:1000897	None
+GO:0051024	None

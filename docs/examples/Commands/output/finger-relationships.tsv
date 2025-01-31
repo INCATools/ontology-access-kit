@@ -1,0 +1,65 @@
+subject	subject_label	predicate	predicate_label	object	object_label
+UBERON:0001463	manual digit 1	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0001463	manual digit 1	BFO:0000050	part of	UBERON:0012141	manual digitopodium region
+UBERON:0001463	manual digit 1	BFO:0000050	part of	UBERON:5001463	manual digit 1 plus metapodial segment
+UBERON:0001463	manual digit 1	BSPO:0001113	preaxialmost part of	UBERON:0002398	manus
+UBERON:0001463	manual digit 1	rdfs:subClassOf	None	UBERON:0006048	digit 1
+UBERON:0001463	manual digit 1	rdfs:subClassOf	None	UBERON:0019231	manual digit 1 or 5
+UBERON:0002389	manual digit	BFO:0000050	part of	UBERON:0002102	forelimb
+UBERON:0002389	manual digit	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0002389	manual digit	BFO:0000050	part of	UBERON:0012141	manual digitopodium region
+UBERON:0002389	manual digit	BFO:0000050	part of	UBERON:5002389	manual digit plus metapodial segment
+UBERON:0002389	manual digit	rdfs:subClassOf	None	UBERON:0002544	digit
+UBERON:0003622	manual digit 2	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0003622	manual digit 2	BFO:0000050	part of	UBERON:0012141	manual digitopodium region
+UBERON:0003622	manual digit 2	BFO:0000050	part of	UBERON:5003622	manual digit 2 plus metapodial segment
+UBERON:0003622	manual digit 2	rdfs:subClassOf	None	UBERON:0006049	digit 2
+UBERON:0003622	manual digit 2	rdfs:subClassOf	None	UBERON:0019232	manual digit 2, 3 or 4
+UBERON:0003623	manual digit 3	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0003623	manual digit 3	BFO:0000050	part of	UBERON:0012141	manual digitopodium region
+UBERON:0003623	manual digit 3	BFO:0000050	part of	UBERON:5003623	manual digit 3 plus metapodial segment
+UBERON:0003623	manual digit 3	rdfs:subClassOf	None	UBERON:0006050	digit 3
+UBERON:0003623	manual digit 3	rdfs:subClassOf	None	UBERON:0019232	manual digit 2, 3 or 4
+UBERON:0003624	manual digit 4	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0003624	manual digit 4	BFO:0000050	part of	UBERON:0012141	manual digitopodium region
+UBERON:0003624	manual digit 4	BFO:0000050	part of	UBERON:5003624	manual digit 4 plus metapodial segment
+UBERON:0003624	manual digit 4	rdfs:subClassOf	None	UBERON:0006051	digit 4
+UBERON:0003624	manual digit 4	rdfs:subClassOf	None	UBERON:0019232	manual digit 2, 3 or 4
+UBERON:0003625	manual digit 5	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0003625	manual digit 5	BFO:0000050	part of	UBERON:0012141	manual digitopodium region
+UBERON:0003625	manual digit 5	BFO:0000050	part of	UBERON:5003625	manual digit 5 plus metapodial segment
+UBERON:0003625	manual digit 5	rdfs:subClassOf	None	UBERON:0006052	digit 5
+UBERON:0003625	manual digit 5	rdfs:subClassOf	None	UBERON:0019231	manual digit 1 or 5
+UBERON:0008444	webbed manual digit	BFO:0000050	part of	UBERON:0008441	webbed manus
+UBERON:0008444	webbed manual digit	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0008444	webbed manual digit	rdfs:subClassOf	None	UBERON:0008443	webbed digit
+UBERON:0011981	manual digit 6	BFO:0000050	part of	UBERON:5011981	manual digit 6 plus metapodial segment
+UBERON:0011981	manual digit 6	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0011981	manual digit 6	rdfs:subClassOf	None	UBERON:0016856	digit 6
+UBERON:0011982	manual digit 7	BFO:0000050	part of	UBERON:5011982	manual digit 7 plus metapodial segment
+UBERON:0011982	manual digit 7	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0011982	manual digit 7	rdfs:subClassOf	None	UBERON:0016857	digit 7
+UBERON:0011983	manual digit 8	BFO:0000050	part of	UBERON:5011983	manual digit 8 plus metapodial segment
+UBERON:0011983	manual digit 8	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0011983	manual digit 8	rdfs:subClassOf	None	UBERON:0016858	digit 8
+UBERON:0012260	alular digit	BFO:0000050	part of	UBERON:5012260	alular digit plus metapodial segment
+UBERON:0012260	alular digit	BSPO:0001113	preaxialmost part of	UBERON:0002398	manus
+UBERON:0012260	alular digit	RO:0002160	only in taxon	NCBITaxon:8782	Aves
+UBERON:0012260	alular digit	RO:0002254	has developmental contribution from	UBERON:0005692	manual digit 2 mesenchyme
+UBERON:0012260	alular digit	RO:0002254	has developmental contribution from	UBERON:0010564	manual digit 1 mesenchyme
+UBERON:0012260	alular digit	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0012261	manual major digit (Aves)	BFO:0000050	part of	UBERON:5012261	manual major digit (Aves) plus metapodial segment
+UBERON:0012261	manual major digit (Aves)	RO:0002160	only in taxon	NCBITaxon:8782	Aves
+UBERON:0012261	manual major digit (Aves)	RO:0002254	has developmental contribution from	UBERON:0005693	manual digit 3 mesenchyme
+UBERON:0012261	manual major digit (Aves)	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0012262	manual minor digit (Aves)	BFO:0000050	part of	UBERON:5012262	manual minor digit (Aves) plus metapodial segment
+UBERON:0012262	manual minor digit (Aves)	BSPO:0001115	postaxialmost part of	UBERON:0002398	manus
+UBERON:0012262	manual minor digit (Aves)	RO:0002160	only in taxon	NCBITaxon:8782	Aves
+UBERON:0012262	manual minor digit (Aves)	RO:0002254	has developmental contribution from	UBERON:0005694	manual digit 4 mesenchyme
+UBERON:0012262	manual minor digit (Aves)	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0019231	manual digit 1 or 5	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0019231	manual digit 1 or 5	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0019231	manual digit 1 or 5	rdfs:subClassOf	None	UBERON:0019221	digit 1 or 5
+UBERON:0019232	manual digit 2, 3 or 4	BFO:0000050	part of	UBERON:0002398	manus
+UBERON:0019232	manual digit 2, 3 or 4	rdfs:subClassOf	None	UBERON:0002389	manual digit
+UBERON:0019232	manual digit 2, 3 or 4	rdfs:subClassOf	None	UBERON:0019222	digit 2, 3 or 4

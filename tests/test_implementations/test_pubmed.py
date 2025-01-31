@@ -20,3 +20,5 @@ class TestPubMed(unittest.TestCase):
         desc = self.adapter.definition(TEST_PMID)
         self.assertTrue(label.startswith("Phylogenetic-based propagation"))
         self.assertTrue(desc.startswith("The goal of the Gene Ontology"))
+        md = self.adapter.entity_metadata_map(TEST_PMID)
+        assert md["year"] == "2011"

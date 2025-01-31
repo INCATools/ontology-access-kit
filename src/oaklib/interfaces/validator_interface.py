@@ -246,6 +246,15 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
                                     info=f"publication is retracted: {obj.get('title', obj)}",
                                 )
 
+    def validate_relationships(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Optional[Iterable[CURIE]] = None,
+        objects: Optional[Iterable[CURIE]] = None,
+        configuration: ValidationConfiguration = None,
+    ):
+        raise NotImplementedError
+
     def repair(
         self, configuration: RepairConfiguration = None, dry_run=False
     ) -> Iterable[RepairOperation]:

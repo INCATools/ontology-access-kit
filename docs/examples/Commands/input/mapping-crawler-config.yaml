@@ -1,0 +1,20 @@
+adapter_configs:
+  OMIM:
+  DOID:
+    prefix_normalization_map:
+      "MIM:PS": "OMIMPS:"
+      MIM: OMIM
+      UMLS_CUI: UMLS
+      SNOMEDCT_US_2023_03_01: SCTID
+      NCI: NCIT
+  ORDO:
+    prefix_normalization_map:
+      MeSH: MESH
+  NCIT:
+  GARD:
+adapter_specs:
+  OMIM: /Users/cjm/repos/semantic-sql/db/omim.db
+allowed_prefixes: [OMIM, DOID, ORDO, OMIMPS, GARD, NCIT, OMIMPS]
+mapping_predicates:
+  - oio:hasDbXref
+  - skos:exactMatch

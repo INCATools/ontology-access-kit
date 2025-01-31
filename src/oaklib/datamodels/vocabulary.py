@@ -80,7 +80,8 @@ RDF_TYPE = "rdf:type"
 RDFS_LABEL = "rdfs:label"
 EQUIVALENT_CLASS = "owl:equivalentClass"
 OWL_SAME_AS = "owl:sameAs"
-RDF_SEE_ALSO = "rdfs:seeAlso"
+RDFS_SEE_ALSO = "rdfs:seeAlso"
+RDF_SEE_ALSO = "rdfs:seeAlso" ## DEPRECATED
 OWL_RESTRICTION = "owl:Restriction"
 OWL_ON_PROPERTY = "owl:onProperty"
 OWL_SOME_VALUES_FROM = "owl:someValuesFrom"
@@ -109,6 +110,8 @@ STANDARD_ANNOTATION_PROPERTIES = [
     HAS_ONTOLOGY_ROOT_TERM,
     HAS_OBO_NAMESPACE,
     LABEL_PREDICATE,
+    RDFS_COMMENT,
+    RDFS_SEE_ALSO,
 ]
 
 PART_OF = "BFO:0000050"
@@ -165,6 +168,8 @@ DEFINITION_SOURCE = omd.slots.definition_source.curie
 ENTITY_LEVEL_DEFINITION_PREDICATES = [DEFINITION_SOURCE]
 
 TERM_TRACKER_ITEM = omd.slots.term_tracker_item.curie
+TITLE = "dcterms:title"
+DESCRIPTION = "dcterms:description"
 
 OIO_CREATED_BY = "oio:created_by"
 OIO_CREATION_DATE = "oio:creation_date"

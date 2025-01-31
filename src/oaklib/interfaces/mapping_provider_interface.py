@@ -12,7 +12,18 @@ from oaklib.types import CURIE
 
 class MappingProviderInterface(BasicOntologyInterface, ABC):
     """
-    An ontology interface that provides SSSOM mappings.
+    An ontology interface that provides mappings according to the SSSOM data model.
+
+    Example:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:go")
+        >>> for mapping in adapter.sssom_mappings("GO:0016772"):
+        ...     print(mapping.subject_id, mapping.predicate_id, mapping.object_id)
+        <BLANKLINE>
+        ...
+        GO:0016772 EC:2.7.-.-
+        ...
 
     For more on the SSSOM Data Model, see `<https://w3id.org/sssom/>`_
 

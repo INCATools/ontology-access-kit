@@ -1,0 +1,300 @@
+# curie_map:
+#   DOID: http://purl.obolibrary.org/obo/DOID_
+#   GARD: http://w3id.org/sssom/unknown_prefix/gard/
+#   NCIT: http://purl.obolibrary.org/obo/NCIT_
+#   OMIM: http://w3id.org/sssom/unknown_prefix/omim/
+#   ORDO: http://w3id.org/sssom/unknown_prefix/ordo/
+#   obo: http://w3id.org/sssom/unknown_prefix/obo/
+#   oio: http://www.geneontology.org/formats/oboInOwl#
+#   owl: http://www.w3.org/2002/07/owl#
+#   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+#   rdfs: http://www.w3.org/2000/01/rdf-schema#
+#   semapv: https://w3id.org/semapv/vocab/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   sssom: https://w3id.org/sssom/
+# license: https://w3id.org/sssom/license/unspecified
+# mapping_set_id: https://w3id.org/sssom/mappings/09645c4b-3c6c-4358-9bea-250f81877a6b
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	mapping_source	other
+DOID:0080476	peroxisome biogenesis disorder 1A	oio:hasDbXref	OMIM:214100	peroxisome biogenesis disorder 1a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080476	peroxisome biogenesis disorder 1A	oio:hasDbXref	OMIM:214100	peroxisome biogenesis disorder 1a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080476	peroxisome biogenesis disorder 1A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080477	peroxisome biogenesis disorder 2A	oio:hasDbXref	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080477	peroxisome biogenesis disorder 2A	oio:hasDbXref	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080477	peroxisome biogenesis disorder 2A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080478	peroxisome biogenesis disorder 3A	oio:hasDbXref	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080478	peroxisome biogenesis disorder 3A	oio:hasDbXref	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080478	peroxisome biogenesis disorder 3A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080479	peroxisome biogenesis disorder 4A	oio:hasDbXref	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080479	peroxisome biogenesis disorder 4A	oio:hasDbXref	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080479	peroxisome biogenesis disorder 4A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080480	peroxisome biogenesis disorder 5A	oio:hasDbXref	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080480	peroxisome biogenesis disorder 5A	oio:hasDbXref	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080480	peroxisome biogenesis disorder 5A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080481	peroxisome biogenesis disorder 6A	oio:hasDbXref	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080481	peroxisome biogenesis disorder 6A	oio:hasDbXref	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080481	peroxisome biogenesis disorder 6A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080482	peroxisome biogenesis disorder 7A	oio:hasDbXref	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080482	peroxisome biogenesis disorder 7A	oio:hasDbXref	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080482	peroxisome biogenesis disorder 7A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080483	peroxisome biogenesis disorder 8A	oio:hasDbXref	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080483	peroxisome biogenesis disorder 8A	oio:hasDbXref	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080483	peroxisome biogenesis disorder 8A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080484	peroxisome biogenesis disorder 10A	oio:hasDbXref	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080484	peroxisome biogenesis disorder 10A	oio:hasDbXref	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080484	peroxisome biogenesis disorder 10A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080485	peroxisome biogenesis disorder 11A	oio:hasDbXref	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080485	peroxisome biogenesis disorder 11A	oio:hasDbXref	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080485	peroxisome biogenesis disorder 11A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080486	peroxisome biogenesis disorder 12A	oio:hasDbXref	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0080486	peroxisome biogenesis disorder 12A	oio:hasDbXref	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0080486	peroxisome biogenesis disorder 12A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080487	peroxisome biogenesis disorder 13A	oio:hasDbXref	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 4, direction: -1
+DOID:0080487	peroxisome biogenesis disorder 13A	oio:hasDbXref	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:DOID	distance: 5, direction: 1
+DOID:0080487	peroxisome biogenesis disorder 13A	rdfs:subClassOf	DOID:905	Zellweger syndrome	semapv:ManualMappingCuration	obo:DOID	
+DOID:0080622	peroxisome biogenesis disorder 2B	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0080622	peroxisome biogenesis disorder 2B	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081240	peroxisome biogenesis disorder 1B	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081240	peroxisome biogenesis disorder 1B	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081241	peroxisome biogenesis disorder 3B	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081241	peroxisome biogenesis disorder 3B	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081274	peroxisome biogenesis disorder 14B	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0081274	peroxisome biogenesis disorder 14B	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0081433	Peroxisome biogenesis disorder 4B	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081433	Peroxisome biogenesis disorder 4B	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081434	Peroxisome biogenesis disorder 5B	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081434	Peroxisome biogenesis disorder 5B	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081435	Peroxisome biogenesis disorder 6B	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081435	Peroxisome biogenesis disorder 6B	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081436	Peroxisome biogenesis disorder 7B	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081436	Peroxisome biogenesis disorder 7B	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081437	Peroxisome biogenesis disorder 8B	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081437	Peroxisome biogenesis disorder 8B	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081438	Peroxisome biogenesis disorder 9B	oio:hasDbXref	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:0081438	Peroxisome biogenesis disorder 9B	oio:hasDbXref	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: 1
+DOID:0081439	Peroxisome biogenesis disorder 11B	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:0081439	Peroxisome biogenesis disorder 11B	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:0081440	Peroxisome biogenesis disorder 10B	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:DOID	distance: 2, direction: -1
+DOID:0081440	Peroxisome biogenesis disorder 10B	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:DOID	distance: 3, direction: 1
+DOID:10582	Refsum disease	oio:hasDbXref	GARD:5691	Refsum disease	semapv:UnspecifiedMatching	obo:DOID	distance: 8, direction: -1
+DOID:10582	Refsum disease	oio:hasDbXref	GARD:5691	Refsum disease	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:10582	Refsum disease	oio:hasDbXref	NCIT:C85043	Refsum Disease	semapv:UnspecifiedMatching	obo:DOID	distance: 10, direction: -1
+DOID:10582	Refsum disease	oio:hasDbXref	NCIT:C85043	Refsum Disease	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:10582	Refsum disease	oio:hasDbXref	OMIM:266500	refsum disease, classic	semapv:UnspecifiedMatching	obo:DOID	distance: 10, direction: -1
+DOID:10582	Refsum disease	oio:hasDbXref	OMIM:266500	refsum disease, classic	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:10582	Refsum disease	oio:hasDbXref	ORDO:773	Refsum disease	semapv:UnspecifiedMatching	obo:DOID	distance: 7, direction: -1
+DOID:10582	Refsum disease	oio:hasDbXref	ORDO:773	Refsum disease	semapv:UnspecifiedMatching	obo:DOID	distance: 9, direction: 1
+DOID:905	Zellweger syndrome	oio:hasDbXref	GARD:7917	Zellweger syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 4, direction: -1
+DOID:905	Zellweger syndrome	oio:hasDbXref	GARD:7917	Zellweger syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 5, direction: 1
+DOID:905	Zellweger syndrome	oio:hasDbXref	NCIT:C85239	Zellweger Syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 5, direction: 1
+DOID:905	Zellweger syndrome	oio:hasDbXref	NCIT:C85239	Zellweger Syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 6, direction: -1
+DOID:905	Zellweger syndrome	oio:hasDbXref	ORDO:912	Zellweger syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 3, direction: -1
+DOID:905	Zellweger syndrome	oio:hasDbXref	ORDO:912	Zellweger syndrome	semapv:UnspecifiedMatching	obo:DOID	distance: 5, direction: 1
+GARD:11890	Peroxisome biogenesis disorder	skos:exactMatch	ORDO:79189	Peroxisome biogenesis disorder	semapv:UnspecifiedMatching	obo:GARD	distance: 5, direction: -1
+GARD:11890	Peroxisome biogenesis disorder	skos:exactMatch	ORDO:79189	Peroxisome biogenesis disorder	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: 1
+GARD:15134	Peroxisome biogenesis disorder 2b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15134	Peroxisome biogenesis disorder 2b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15134	Peroxisome biogenesis disorder 2b	skos:exactMatch	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15134	Peroxisome biogenesis disorder 2b	skos:exactMatch	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15149	Peroxisome biogenesis disorder 2a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15149	Peroxisome biogenesis disorder 2a (zellweger)	skos:exactMatch	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15149	Peroxisome biogenesis disorder 2a (zellweger)	skos:exactMatch	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15226	Peroxisome biogenesis disorder 3b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15226	Peroxisome biogenesis disorder 3b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15226	Peroxisome biogenesis disorder 3b	skos:exactMatch	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15226	Peroxisome biogenesis disorder 3b	skos:exactMatch	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15858	Peroxisome biogenesis disorder 3a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15858	Peroxisome biogenesis disorder 3a (zellweger)	skos:exactMatch	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15858	Peroxisome biogenesis disorder 3a (zellweger)	skos:exactMatch	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15859	Peroxisome biogenesis disorder 4a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15859	Peroxisome biogenesis disorder 4a (zellweger)	skos:exactMatch	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15859	Peroxisome biogenesis disorder 4a (zellweger)	skos:exactMatch	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15860	Peroxisome biogenesis disorder 4b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15860	Peroxisome biogenesis disorder 4b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15860	Peroxisome biogenesis disorder 4b	skos:exactMatch	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15860	Peroxisome biogenesis disorder 4b	skos:exactMatch	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15861	Peroxisome biogenesis disorder 5a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15861	Peroxisome biogenesis disorder 5a (zellweger)	skos:exactMatch	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15861	Peroxisome biogenesis disorder 5a (zellweger)	skos:exactMatch	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15862	Peroxisome biogenesis disorder 5b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15862	Peroxisome biogenesis disorder 5b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15862	Peroxisome biogenesis disorder 5b	skos:exactMatch	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15862	Peroxisome biogenesis disorder 5b	skos:exactMatch	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15864	Peroxisome biogenesis disorder 6a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15864	Peroxisome biogenesis disorder 6a (zellweger)	skos:exactMatch	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15864	Peroxisome biogenesis disorder 6a (zellweger)	skos:exactMatch	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15865	Peroxisome biogenesis disorder 6b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15865	Peroxisome biogenesis disorder 6b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15865	Peroxisome biogenesis disorder 6b	skos:exactMatch	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15865	Peroxisome biogenesis disorder 6b	skos:exactMatch	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15866	Peroxisome biogenesis disorder 7a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15866	Peroxisome biogenesis disorder 7a (zellweger)	skos:exactMatch	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15866	Peroxisome biogenesis disorder 7a (zellweger)	skos:exactMatch	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15867	Peroxisome biogenesis disorder 7b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15867	Peroxisome biogenesis disorder 7b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15867	Peroxisome biogenesis disorder 7b	skos:exactMatch	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15867	Peroxisome biogenesis disorder 7b	skos:exactMatch	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15869	Peroxisome biogenesis disorder 8a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15869	Peroxisome biogenesis disorder 8a (zellweger)	skos:exactMatch	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15869	Peroxisome biogenesis disorder 8a (zellweger)	skos:exactMatch	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15870	Peroxisome biogenesis disorder 8b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15870	Peroxisome biogenesis disorder 8b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15870	Peroxisome biogenesis disorder 8b	skos:exactMatch	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15870	Peroxisome biogenesis disorder 8b	skos:exactMatch	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15871	Peroxisome biogenesis disorder 9b	rdfs:subClassOf	GARD:5691	Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15871	Peroxisome biogenesis disorder 9b	skos:exactMatch	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15871	Peroxisome biogenesis disorder 9b	skos:exactMatch	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15873	Peroxisome biogenesis disorder 10a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15873	Peroxisome biogenesis disorder 10a (zellweger)	skos:exactMatch	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15873	Peroxisome biogenesis disorder 10a (zellweger)	skos:exactMatch	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15874	Peroxisome biogenesis disorder 11a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15874	Peroxisome biogenesis disorder 11a (zellweger)	skos:exactMatch	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15874	Peroxisome biogenesis disorder 11a (zellweger)	skos:exactMatch	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15875	Peroxisome biogenesis disorder 11b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15875	Peroxisome biogenesis disorder 11b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15875	Peroxisome biogenesis disorder 11b	skos:exactMatch	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: -1
+GARD:15875	Peroxisome biogenesis disorder 11b	skos:exactMatch	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:GARD	distance: 9, direction: 1
+GARD:15876	Peroxisome biogenesis disorder 12a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15876	Peroxisome biogenesis disorder 12a (zellweger)	skos:exactMatch	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15876	Peroxisome biogenesis disorder 12a (zellweger)	skos:exactMatch	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:15877	Peroxisome biogenesis disorder 13a (zellweger)	rdfs:subClassOf	GARD:7917	Zellweger syndrome	semapv:ManualMappingCuration	obo:GARD	
+GARD:15877	Peroxisome biogenesis disorder 13a (zellweger)	skos:exactMatch	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 4, direction: -1
+GARD:15877	Peroxisome biogenesis disorder 13a (zellweger)	skos:exactMatch	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:GARD	distance: 5, direction: 1
+GARD:15881	Peroxisome biogenesis disorder 14b	rdfs:subClassOf	GARD:4648	Infantile Refsum disease	semapv:ManualMappingCuration	obo:GARD	
+GARD:15881	Peroxisome biogenesis disorder 14b	rdfs:subClassOf	GARD:559	Neonatal adrenoleukodystrophy	semapv:ManualMappingCuration	obo:GARD	
+GARD:15881	Peroxisome biogenesis disorder 14b	skos:exactMatch	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:GARD	distance: 6, direction: -1
+GARD:15881	Peroxisome biogenesis disorder 14b	skos:exactMatch	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: 1
+GARD:4648	Infantile Refsum disease	skos:exactMatch	ORDO:772	Infantile Refsum disease	semapv:UnspecifiedMatching	obo:GARD	distance: 0, direction: 1
+GARD:4648	Infantile Refsum disease	skos:exactMatch	ORDO:772	Infantile Refsum disease	semapv:UnspecifiedMatching	obo:GARD	distance: 1, direction: -1
+GARD:559	Neonatal adrenoleukodystrophy	skos:exactMatch	ORDO:44	Neonatal adrenoleukodystrophy	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: -1
+GARD:559	Neonatal adrenoleukodystrophy	skos:exactMatch	ORDO:44	Neonatal adrenoleukodystrophy	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: 1
+GARD:5691	Refsum disease	skos:exactMatch	ORDO:773	Refsum disease	semapv:UnspecifiedMatching	obo:GARD	distance: 7, direction: -1
+GARD:5691	Refsum disease	skos:exactMatch	ORDO:773	Refsum disease	semapv:UnspecifiedMatching	obo:GARD	distance: 8, direction: 1
+GARD:7917	Zellweger syndrome	skos:exactMatch	ORDO:912	Zellweger syndrome	semapv:UnspecifiedMatching	obo:GARD	distance: 3, direction: -1
+GARD:7917	Zellweger syndrome	skos:exactMatch	ORDO:912	Zellweger syndrome	semapv:UnspecifiedMatching	obo:GARD	distance: 4, direction: 1
+OMIM:614920	peroxisome biogenesis disorder 14b	skos:exactMatch	ORDO:44	Neonatal adrenoleukodystrophy	semapv:UnspecifiedMatching	obo:OMIM	distance: 6, direction: 1
+OMIM:614920	peroxisome biogenesis disorder 14b	skos:exactMatch	ORDO:44	Neonatal adrenoleukodystrophy	semapv:UnspecifiedMatching	obo:OMIM	distance: 7, direction: -1
+OMIM:614920	peroxisome biogenesis disorder 14b	skos:exactMatch	ORDO:772	Infantile Refsum disease	semapv:UnspecifiedMatching	obo:OMIM	distance: 1, direction: -1
+OMIM:614920	peroxisome biogenesis disorder 14b	skos:exactMatch	ORDO:772	Infantile Refsum disease	semapv:UnspecifiedMatching	obo:OMIM	distance: 6, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:ORDO	distance: 2, direction: -1
+ORDO:44	Neonatal adrenoleukodystrophy	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:44	Neonatal adrenoleukodystrophy	rdfs:subClassOf	ORDO:79189	Peroxisome biogenesis disorder	semapv:ManualMappingCuration	obo:ORDO	
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:ORDO	distance: 1, direction: 1
+ORDO:772	Infantile Refsum disease	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:ORDO	distance: 2, direction: -1
+ORDO:772	Infantile Refsum disease	rdfs:subClassOf	ORDO:79189	Peroxisome biogenesis disorder	semapv:ManualMappingCuration	obo:ORDO	
+ORDO:773	Refsum disease	oio:hasDbXref	OMIM:266500	refsum disease, classic	semapv:UnspecifiedMatching	obo:ORDO	distance: 10, direction: -1
+ORDO:773	Refsum disease	oio:hasDbXref	OMIM:266500	refsum disease, classic	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:773	Refsum disease	oio:hasDbXref	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:773	Refsum disease	oio:hasDbXref	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:ORDO	distance: 7, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:202370	peroxisome biogenesis disorder 2b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:214100	peroxisome biogenesis disorder 1a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:214100	peroxisome biogenesis disorder 1a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:266510	peroxisome biogenesis disorder 3b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:601539	peroxisome biogenesis disorder 1b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614863	peroxisome biogenesis disorder 4b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614867	peroxisome biogenesis disorder 5b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614871	peroxisome biogenesis disorder 6b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614873	peroxisome biogenesis disorder 7b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614877	peroxisome biogenesis disorder 8b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614879	peroxisome biogenesis disorder 9b	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614885	peroxisome biogenesis disorder 11b	semapv:UnspecifiedMatching	obo:ORDO	distance: 8, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 4, direction: -1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:ORDO	distance: 5, direction: 1
+ORDO:79189	Peroxisome biogenesis disorder	oio:hasDbXref	OMIM:614920	peroxisome biogenesis disorder 14b	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:214100	peroxisome biogenesis disorder 1a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:214100	peroxisome biogenesis disorder 1a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:214110	peroxisome biogenesis disorder 2a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614859	peroxisome biogenesis disorder 3a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614862	peroxisome biogenesis disorder 4a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614866	peroxisome biogenesis disorder 5a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614870	peroxisome biogenesis disorder 6a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614872	peroxisome biogenesis disorder 7a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614876	peroxisome biogenesis disorder 8a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614882	peroxisome biogenesis disorder 10a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614883	peroxisome biogenesis disorder 11a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614886	peroxisome biogenesis disorder 12a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 6, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:614887	peroxisome biogenesis disorder 13a (zellweger)	semapv:UnspecifiedMatching	obo:ORDO	distance: 4, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:ORDO	distance: 2, direction: -1
+ORDO:912	Zellweger syndrome	oio:hasDbXref	OMIM:617370	peroxisome biogenesis disorder 10b	semapv:UnspecifiedMatching	obo:ORDO	distance: 3, direction: 1
+ORDO:912	Zellweger syndrome	rdfs:subClassOf	ORDO:79189	Peroxisome biogenesis disorder	semapv:ManualMappingCuration	obo:ORDO	

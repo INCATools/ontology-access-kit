@@ -102,16 +102,17 @@ class MonarchImplementation(
 
     def node(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
-    ) -> obograph.Node:
+    ) -> Optional[obograph.Node]:
         session = self.requests_session()
         url = f"{BASE_URL}/entity/{curie }"
         response = session.get(url)
         if response.status_code == 500 and not strict:
             return obograph.Node(id=curie)
         if response.status_code != 200:
-            raise ValueError(
-                f"Error fetching issues: {response.status_code} from {url} // {response.text}"
-            )
+            return None
+            # raise ValueError(
+            #    f"Error fetching issues: {response.status_code} from {url} // {response.text}"
+            # )
         obj = response.json()
         meta = obograph.Meta()
         defn = obj.get("description", None)

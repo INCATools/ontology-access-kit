@@ -1,6 +1,7 @@
 import logging
 from abc import ABC
 from collections import defaultdict
+from copy import copy
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
@@ -72,6 +73,15 @@ class TraversalConfiguration:
     down_distance: Distance = field(default_factory=lambda: Distance.TRANSITIVE)
 
 
+@dataclass
+class EdgeTemplate:
+    subject_nodes: Optional[List[CURIE]] = None
+    predicates: Optional[List[PRED_CURIE]] = None
+    object_nodes: Optional[List[CURIE]] = None
+    inverted: bool = field(default=False)
+    entailed: bool = field(default=False)
+
+
 class OboGraphInterface(BasicOntologyInterface, ABC):
     """
     an interface that provides an Object Oriented view of an ontology, following the OBO Graph Datamodel
@@ -101,7 +111,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         self.transitive_query_cache = None
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> Node:
+    def node(
+        self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
+    ) -> Optional[Node]:
         """
         Look up a node object by CURIE
 
@@ -287,8 +299,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             rel_by_sp[(s, p)].append(o)
         for (s, p), objs in rel_by_sp.items():
             redundant_set = set()
+            predicates_plus_isa = ([IS_A] + predicates) if predicates else None
             for o in objs:
-                ancs = list(self.ancestors(o, predicates=predicates, reflexive=False))
+                ancs = list(self.ancestors(o, predicates=predicates_plus_isa, reflexive=False))
                 redundant_set.update(ancs)
             for o in objs:
                 if o not in redundant_set:
@@ -556,6 +569,53 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         ):
             for intermediate in intermediates:
                 yield s, o, intermediate
+
+    def chains(
+        self,
+        edge_templates: List[EdgeTemplate],
+        start_nodes: Optional[List[CURIE]] = None,
+        exclude_nodes: Optional[List[CURIE]] = None,
+        allow_cycles=False,
+        **kwargs,
+    ) -> Iterator[List[Edge]]:
+        if not edge_templates:
+            yield []
+            return
+        et = edge_templates[0]
+        rest = edge_templates[1:]
+        subjects = et.subject_nodes
+        predicates = et.predicates
+        objects = et.object_nodes
+        # print(f"-- SN={start_nodes} SUBJS={subjects} PRED={predicates} OBJS={objects}")
+        if start_nodes:
+            if subjects:
+                subjects = list(set(subjects).intersection(start_nodes))
+            else:
+                subjects = start_nodes
+        if rest:
+            if rest[0].subject_nodes:
+                objects = list(set(objects).intersection(rest[0].subject_nodes))
+        # print(f"ZZ {subjects} {predicates} {objects} // x={exclude_nodes}")
+        for rel in self.relationships(
+            subjects=subjects,
+            predicates=predicates,
+            objects=objects,
+            include_entailed=et.entailed,
+            invert=et.inverted,
+        ):
+            if exclude_nodes and rel[2] in exclude_nodes:
+                continue
+            new_exclude_nodes = None
+            if not allow_cycles:
+                if exclude_nodes is None:
+                    new_exclude_nodes = []
+                else:
+                    new_exclude_nodes = copy(exclude_nodes)
+                new_exclude_nodes.append(rel[0])
+            e = Edge(*rel)
+            # print(f".. Rest={rest} exclude={exclude_nodes} start={e.obj} // {rel}")
+            for chain in self.chains(rest, start_nodes=[e.obj], exclude_nodes=new_exclude_nodes):
+                yield [e] + chain
 
     def logical_definitions(
         self,

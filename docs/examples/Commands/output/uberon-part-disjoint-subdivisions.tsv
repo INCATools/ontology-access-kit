@@ -1,0 +1,12 @@
+classIds	unionEquivalentTo	unionEquivalentToExpression	classExpressionPropertyIds	classExpressionPropertyIds_label	classExpressionFillerIds	classExpressionFillerIds_label
+	None	None	BFO:0000050|BFO:0000050	part of|part of	UBERON:0000026|UBERON:0000915	appendage|thoracic segment of trunk
+	None	None	BFO:0000050|BFO:0000050	part of|part of	UBERON:0000026|UBERON:0002100	appendage|trunk
+	None	None	BFO:0000050|BFO:0000050	part of|part of	UBERON:0000033|UBERON:0000915	head|thoracic segment of trunk
+	None	None	BFO:0000050|BFO:0000050	part of|part of	UBERON:0000033|UBERON:0000948	head|heart
+	None	None	BFO:0000050|BFO:0000050	part of|part of	UBERON:0000033|UBERON:0002100	head|trunk
+	None	None	BFO:0000050|BFO:0000050	part of|part of	UBERON:0000033|UBERON:0005886	head|post-hyoid pharyngeal arch skeleton
+	None	None	BFO:0000050|BFO:0000050	part of|part of	UBERON:0000915|UBERON:0002417	thoracic segment of trunk|abdominal segment of trunk
+_:riog00226101	None	None				
+_:riog00226236	None	None				
+_:riog00226251	None	None				
+_:riog00226988	None	None				
