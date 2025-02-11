@@ -178,7 +178,7 @@ HP:0005678<span class="w"> </span>!<span class="w"> </span>Anterior<span class="
 </div>
 <p>Note that each term has its own unique <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a> (in this case, a <a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>).</p>
 <p>If you prefer to do this in Python rather than the command line:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hpo</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;hp.obo&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">term_id</span> <span class="ow">in</span> <span class="n">hpo</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
 <span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">term_id</span><span class="p">,</span> <span class="n">hpo</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>

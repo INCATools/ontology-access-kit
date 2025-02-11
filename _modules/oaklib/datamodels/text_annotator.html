@@ -92,45 +92,45 @@
 <span class="c1"># description: A datamodel for representing the results of textual named entity recognition annotation results. This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/</span>
 <span class="c1"># license: https://creativecommons.org/publicdomain/zero/1.0/</span>
 
-<span class="kn">import</span> <span class="nn">dataclasses</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">jsonasobj2</span> <span class="kn">import</span> <span class="n">JsonObj</span><span class="p">,</span> <span class="n">as_dict</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.meta</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jsonasobj2</span><span class="w"> </span><span class="kn">import</span> <span class="n">JsonObj</span><span class="p">,</span> <span class="n">as_dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.linkml_model.meta</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">EnumDefinition</span><span class="p">,</span>
     <span class="n">PermissibleValue</span><span class="p">,</span>
     <span class="n">PvFormulaOptions</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.types</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.linkml_model.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Boolean</span><span class="p">,</span>
     <span class="n">Float</span><span class="p">,</span>
     <span class="n">Integer</span><span class="p">,</span>
     <span class="n">String</span><span class="p">,</span>
     <span class="n">Uriorcurie</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.curienamespace</span> <span class="kn">import</span> <span class="n">CurieNamespace</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.dataclass_extensions_376</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.curienamespace</span><span class="w"> </span><span class="kn">import</span> <span class="n">CurieNamespace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.dataclass_extensions_376</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">dataclasses_init_fn_with_kwargs</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.enumerations</span> <span class="kn">import</span> <span class="n">EnumDefinitionImpl</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.formatutils</span> <span class="kn">import</span> <span class="n">camelcase</span><span class="p">,</span> <span class="n">sfx</span><span class="p">,</span> <span class="n">underscore</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.enumerations</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnumDefinitionImpl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.formatutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">camelcase</span><span class="p">,</span> <span class="n">sfx</span><span class="p">,</span> <span class="n">underscore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.metamodelcore</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Bool</span><span class="p">,</span>
     <span class="n">URIorCURIE</span><span class="p">,</span>
     <span class="n">bnode</span><span class="p">,</span>
     <span class="n">empty_dict</span><span class="p">,</span>
     <span class="n">empty_list</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.slot</span> <span class="kn">import</span> <span class="n">Slot</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.yamlutils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.slot</span><span class="w"> </span><span class="kn">import</span> <span class="n">Slot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.yamlutils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">YAMLRoot</span><span class="p">,</span>
     <span class="n">extended_float</span><span class="p">,</span>
     <span class="n">extended_int</span><span class="p">,</span>
     <span class="n">extended_str</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">URIRef</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rdflib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">URIRef</span>
 
 <span class="n">metamodel_version</span> <span class="o">=</span> <span class="s2">&quot;1.7.0&quot;</span>
 <span class="n">version</span> <span class="o">=</span> <span class="kc">None</span>
@@ -157,7 +157,7 @@
 
 
 <span class="c1"># Types</span>
-<span class="k">class</span> <span class="nc">Position</span><span class="p">(</span><span class="n">Integer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Position</span><span class="p">(</span><span class="n">Integer</span><span class="p">):</span>
     <span class="n">type_class_uri</span> <span class="o">=</span> <span class="n">XSD</span><span class="o">.</span><span class="n">integer</span>
     <span class="n">type_class_curie</span> <span class="o">=</span> <span class="s2">&quot;xsd:integer&quot;</span>
     <span class="n">type_name</span> <span class="o">=</span> <span class="s2">&quot;Position&quot;</span>
@@ -165,12 +165,12 @@
 
 
 <span class="c1"># Class references</span>
-<span class="k">class</span> <span class="nc">TextualElementId</span><span class="p">(</span><span class="n">URIorCURIE</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TextualElementId</span><span class="p">(</span><span class="n">URIorCURIE</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">TextAnnotationConfiguration</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TextAnnotationConfiguration</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    configuration for search</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -190,7 +190,7 @@
     <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">include_aliases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span> <span class="n">Bool</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">)</span>
 
@@ -223,7 +223,7 @@
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">TextAnnotationResultSet</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TextAnnotationResultSet</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A collection of annotation results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -239,7 +239,7 @@
         <span class="n">Union</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;TextAnnotation&quot;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;TextAnnotation&quot;</span><span class="p">]]]</span>
     <span class="p">]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="p">[</span>
@@ -251,7 +251,7 @@
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">TextualElement</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TextualElement</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
     <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextualElement</span>
@@ -264,7 +264,7 @@
     <span class="n">source_text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">parent_document</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">URIorCURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">MissingRequiredField</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">TextualElementId</span><span class="p">):</span>
@@ -283,7 +283,7 @@
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">HasSpan</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HasSpan</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
     <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">HasSpan</span>
@@ -297,7 +297,7 @@
     <span class="n">subject_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">subject_text_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TextualElementId</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject_start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_start</span><span class="p">,</span> <span class="n">Position</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subject_start</span> <span class="o">=</span> <span class="n">Position</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_start</span><span class="p">)</span>
 
@@ -321,7 +321,7 @@
 <div class="viewcode-block" id="TextAnnotation">
 <a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.datamodels.text_annotator.TextAnnotation">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">TextAnnotation</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TextAnnotation</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An individual text annotation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -351,7 +351,7 @@
     <span class="n">subject_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">subject_text_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TextualElementId</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">predicate_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predicate_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">predicate_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predicate_id</span><span class="p">)</span>
 
@@ -416,7 +416,7 @@
 
 
 <span class="c1"># Enumerations</span>
-<span class="k">class</span> <span class="nc">TransformationType</span><span class="p">(</span><span class="n">EnumDefinitionImpl</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TransformationType</span><span class="p">(</span><span class="n">EnumDefinitionImpl</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A controlled datamodels of the types of transformation that can be applied to</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -456,7 +456,7 @@
 
 
 <span class="c1"># Slots</span>
-<span class="k">class</span> <span class="nc">slots</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">slots</span><span class="p">:</span>
     <span class="k">pass</span>
 
 

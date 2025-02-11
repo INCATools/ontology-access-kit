@@ -23,7 +23,7 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Edge](Edge.md) | An edge is a simple typed relationship between two nodes |  no  |
+| [Edge](Edge.md) | An edge is a simple typed relationship between two nodes |  yes  |
 
 
 

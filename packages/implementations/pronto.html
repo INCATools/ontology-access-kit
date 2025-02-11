@@ -151,13 +151,13 @@ for parsing obo format 1.4 and other formats.</p>
 </section>
 <section id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProntoImplementation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go-nucleus.obo&#39;</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s1">&#39;tests/input&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or use a selector:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;pronto:tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
 </pre></div>
 </div>

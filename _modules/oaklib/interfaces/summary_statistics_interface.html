@@ -84,16 +84,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.summary_statistics_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">getpass</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="n">XSDDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.utils.metamodelcore</span><span class="w"> </span><span class="kn">import</span> <span class="n">XSDDateTime</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.summary_statistics_datamodel</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.summary_statistics_datamodel</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">FacetedCount</span><span class="p">,</span>
     <span class="n">GroupedStatistics</span><span class="p">,</span>
     <span class="n">Ontology</span><span class="p">,</span>
@@ -101,17 +101,17 @@
     <span class="n">SummaryStatisticsReport</span><span class="p">,</span>
     <span class="n">UngroupedStatistics</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">OWL_CLASS</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">OWL_CLASS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
 
 <span class="n">SUMMARY_STATISTICS_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="SummaryStatisticsInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface">[docs]</a>
-<span class="k">class</span> <span class="nc">SummaryStatisticsInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SummaryStatisticsInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    generates summary statistics</span>
 
@@ -123,7 +123,7 @@
 
 <div class="viewcode-block" id="SummaryStatisticsInterface.global_summary_statistics">
 <a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">[docs]</a>
-    <span class="k">def</span> <span class="nf">global_summary_statistics</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">global_summary_statistics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">branches</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">group_by</span><span class="p">:</span> <span class="n">PRED_CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -190,7 +190,7 @@
 
 <div class="viewcode-block" id="SummaryStatisticsInterface.branch_summary_statistics">
 <a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.branch_summary_statistics">[docs]</a>
-    <span class="k">def</span> <span class="nf">branch_summary_statistics</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">branch_summary_statistics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">branch_roots</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -220,7 +220,7 @@
             <span class="n">filtered_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">branch_roots</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">property_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">_match</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">_match</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">property_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">[]):</span>
                         <span class="k">return</span> <span class="kc">False</span>
@@ -260,7 +260,7 @@
         <span class="k">return</span> <span class="n">ssc</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_add_statistics_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="n">SummaryStatisticsReport</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_statistics_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="n">SummaryStatisticsReport</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds metadata to a report</span>
 
@@ -275,7 +275,7 @@
             <span class="n">started_at_time</span><span class="o">=</span><span class="n">XSDDateTime</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_ontologies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Ontology</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ontologies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Ontology</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Maps ontology metadata to Ontology object in stats datamodel.</span>
 
@@ -297,7 +297,7 @@
 
 <div class="viewcode-block" id="SummaryStatisticsInterface.metadata_property_summary_statistics">
 <a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">[docs]</a>
-    <span class="k">def</span> <span class="nf">metadata_property_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata_property_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed</span>
 <span class="sd">        by ontology CURIE</span>
@@ -315,7 +315,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">metadata_property</span><span class="p">]</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_add_derived_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssc</span><span class="p">:</span> <span class="n">UngroupedStatistics</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_derived_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssc</span><span class="p">:</span> <span class="n">UngroupedStatistics</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds derived statistics to the summary statistics collection</span>
 
@@ -330,7 +330,7 @@
 
 <div class="viewcode-block" id="SummaryStatisticsInterface.summary_statistic_description">
 <a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">[docs]</a>
-    <span class="k">def</span> <span class="nf">summary_statistic_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary_statistic_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Examines the data dictionary to retrieve the definition of a metric</span>
 

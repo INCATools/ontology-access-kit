@@ -106,7 +106,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use python to mkdir</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">OUTDIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -115,15 +115,15 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[123]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">semsql.sqla.semsql</span> <span class="kn">import</span> <span class="n">Statements</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">semsql.sqla.semsql</span><span class="w"> </span><span class="kn">import</span> <span class="n">Statements</span>
 
-<span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="n">AssociationProviderInterface</span>
-<span class="kn">from</span> <span class="nn">tests</span> <span class="kn">import</span> <span class="n">CATALYTIC_ACTIVITY</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.association_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociationProviderInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">CATALYTIC_ACTIVITY</span>
 </pre></div>
 </div>
 </div>
@@ -286,9 +286,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[133]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="k">def</span> <span class="nf">rels_to_df</span><span class="p">(</span><span class="n">rels</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rels_to_df</span><span class="p">(</span><span class="n">rels</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rels</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lr_to_canonical</span><span class="p">:</span>
@@ -1310,7 +1310,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[141]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">annotate_edges_with_rank</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">annotate_edges_with_rank</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Annotate edges with a rank based on the count of the chemical, grouped by reaction.</span>
 
@@ -1344,15 +1344,15 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[144]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
-<span class="kn">import</span> <span class="nn">base64</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
 
 
-<span class="k">def</span> <span class="nf">basic_plot</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">basic_plot</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;Process (undetermined)&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">24</span><span class="p">))</span>
@@ -1457,7 +1457,7 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">amigo_adapter</span><span class="p">:</span> <span class="n">AssociationProviderInterface</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;amigo:NCBITaxon:</span><span class="si">{</span><span class="n">TAXID</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="n">AssociationProviderInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.association_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociationProviderInterface</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">amigo_adapter</span><span class="p">,</span> <span class="n">AssociationProviderInterface</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">ValueError</span>
@@ -1511,10 +1511,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[151]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
 
 
-<span class="k">def</span> <span class="nf">create_go_participant_df</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_go_participant_df</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="n">parent_label</span> <span class="o">=</span> <span class="n">go_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_label</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -1671,7 +1671,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[155]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">query_genes</span><span class="p">(</span><span class="n">go_id</span><span class="p">,</span> <span class="n">evidence_codes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">query_genes</span><span class="p">(</span><span class="n">go_id</span><span class="p">,</span> <span class="n">evidence_codes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Query AmiGO for genes associated with a GO term.</span>
 
@@ -1899,7 +1899,7 @@
 
 
 <span class="nd">@lru_cache</span>
-<span class="k">def</span> <span class="nf">make_annotons</span><span class="p">(</span><span class="n">process</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_genes</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">taxid</span><span class="o">=</span><span class="n">TAXID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_annotons</span><span class="p">(</span><span class="n">process</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_genes</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">taxid</span><span class="o">=</span><span class="n">TAXID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a DataFrame of annotons for a given process.</span>
 
@@ -2010,7 +2010,7 @@ Genes 5
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[162]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_bipartite_graph</span><span class="p">(</span><span class="n">annoton_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">max_chem_occurrence</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_bipartite_graph</span><span class="p">(</span><span class="n">annoton_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">max_chem_occurrence</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a bipartite graph of chemicals and reactions from an annoton DataFrame.</span>
 
@@ -2046,7 +2046,7 @@ Genes 5
     <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">genes</span> <span class="ow">in</span> <span class="n">genes_by_reaction</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1"># label each reaction node based on genes/complexes that enable it,</span>
         <span class="c1"># plus the evidence codes for the gene being associated to the process</span>
-        <span class="k">def</span> <span class="nf">ev_tuples_to_compact</span><span class="p">(</span><span class="n">ev</span><span class="p">:</span> <span class="nb">set</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">ev_tuples_to_compact</span><span class="p">(</span><span class="n">ev</span><span class="p">:</span> <span class="nb">set</span><span class="p">):</span>
             <span class="n">ev_compact</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">ev</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;IBA&quot;</span><span class="p">:</span>
@@ -2104,7 +2104,7 @@ Genes 5
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">g</span>
 
-<span class="k">def</span> <span class="nf">create_bipartite_graph_for_process_id</span><span class="p">(</span><span class="n">process</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_bipartite_graph_for_process_id</span><span class="p">(</span><span class="n">process</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">annoton_df</span> <span class="o">=</span> <span class="n">make_annotons</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">create_bipartite_graph</span><span class="p">(</span><span class="n">annoton_df</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
@@ -2219,7 +2219,7 @@ Genes 1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[167]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean_graph</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">clean_graph</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
     <span class="c1"># Clean node attributes</span>
     <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>  <span class="c1"># Use list to avoid RuntimeError during iteration</span>
@@ -36065,8 +36065,8 @@ ANNOTON 9
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[171]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_graph</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">lbl</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_graph</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lbl</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">G</span><span class="p">)):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# Component </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -36159,7 +36159,7 @@ EdgeView([(&#39;CHEBI:32966&#39;, &#39;RHEA:14729&#39;), (&#39;RHEA:14729&#39;, 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[175]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_process_graph</span><span class="p">(</span><span class="n">process</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_process_graph</span><span class="p">(</span><span class="n">process</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
     <span class="n">annoton_df</span> <span class="o">=</span> <span class="n">make_annotons</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">create_graph_from_annoton_df</span><span class="p">(</span><span class="n">annoton_df</span><span class="p">)</span>
 </pre></div>

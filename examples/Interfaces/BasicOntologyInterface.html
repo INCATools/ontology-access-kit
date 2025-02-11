@@ -87,6 +87,7 @@
 <li class="toctree-l3"><a class="reference internal" href="MappingProviderInterface.html#Get-mappings-using-lexmatch">Get mappings using <code class="docutils literal notranslate"><span class="pre">lexmatch</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../AdHoc/index.html">Ad Hoc Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
@@ -133,8 +134,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.pronto.pronto_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProntoImplementation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.resource</span><span class="w"> </span><span class="kn">import</span> <span class="n">OntologyResource</span>
 </pre></div>
 </div>
 </div>
@@ -218,7 +219,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.sqldb.sql_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">SqlImplementation</span>
 <br/></pre></div>
 </div>
 </div>
@@ -311,7 +312,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">UbergraphImplementation</span>
 <span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -369,7 +370,7 @@ WARNING:root:Multiple labels for BFO:0000050 = [&#39;part of&#39;, &#39;part_of&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">OntobeeImplementation</span>
 <span class="n">oi</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -441,7 +442,7 @@ GO:0005575 ! cellular_component
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
 
 <span class="n">ancs</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
 <span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ancs</span><span class="p">):</span>
@@ -469,7 +470,7 @@ GO:0005575 ! cellular_component
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> &quot;</span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 <span class="k">for</span> <span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">o</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">walk_up_relationship_graph</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">render</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s1"> -</span><span class="si">{</span><span class="n">render</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">}</span><span class="s1">-&gt; </span><span class="si">{</span><span class="n">render</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -501,7 +502,7 @@ GO:0043227 &#34;membrane-bounded organelle&#34; -rdfs:subClassOf &#34;subClassOf
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">graph_to_image</span><span class="p">,</span> <span class="n">default_stylemap_path</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.obograph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_to_image</span><span class="p">,</span> <span class="n">default_stylemap_path</span>
 <span class="n">stylemap</span> <span class="o">=</span> <span class="n">default_stylemap_path</span><span class="p">()</span>
 </pre></div>
 </div>

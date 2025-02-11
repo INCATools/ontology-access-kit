@@ -143,7 +143,7 @@ the instructions.</p>
 <h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Link to this heading"></a></h2>
 <p>We are going to use an example from the <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>, using the Cell Ontology (CL).</p>
 <p>Then create a python program: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.py</span></code> and add the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -171,8 +171,8 @@ the instructions.</p>
 <li><p>a term ID (term:<cite>CURIE</cite>)</p></li>
 </ul>
 <p>And write out information about that term</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">show_info</span><span class="p">(</span><span class="n">adapter</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">term_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">show_info</span><span class="p">(</span><span class="n">adapter</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">term_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ID: </span><span class="si">{</span><span class="n">term_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Name: </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Definition: </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">term_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

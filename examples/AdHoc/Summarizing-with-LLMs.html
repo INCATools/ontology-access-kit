@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summarizing with LLMs &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Analyzing Text Content of all Ontologies" href="Text-Content-Analysis.html" />
+    <link rel="prev" title="Ad Hoc Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Ad Hoc Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Summarizing with LLMs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Install-the-LLM-command-line-tool">Install the LLM command line tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Summarize-outputs">Summarize outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Templates">Templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gene-summaries">Gene summaries</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Text-Content-Analysis.html">Analyzing Text Content of all Ontologies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Ad Hoc Examples</a></li>
+      <li class="breadcrumb-item active">Summarizing with LLMs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/AdHoc/Summarizing-with-LLMs.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Summarizing-with-LLMs">
+<h1>Summarizing with LLMs<a class="headerlink" href="#Summarizing-with-LLMs" title="Link to this heading"></a></h1>
+<p>This notebook demonstrates how to summarize the output of LLMs using the <a class="reference external" href="https://llm.datasette.io/en/stable/">datasette LLM command line tool</a>.</p>
+<p>See also:</p>
+<ul class="simple">
+<li><p>[How to use LLMs with OAK](<a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/use-llms.html">https://incatools.github.io/ontology-access-kit/howtos/use-llms.html</a></p></li>
+</ul>
+<section id="Install-the-LLM-command-line-tool">
+<h2>Install the LLM command line tool<a class="headerlink" href="#Install-the-LLM-command-line-tool" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install llm
+</pre></div>
+</div>
+<p>You may also want to install plugins for your models of choice:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install llm-deepseek
+</pre></div>
+</div>
+</section>
+<section id="Summarize-outputs">
+<h2>Summarize outputs<a class="headerlink" href="#Summarize-outputs" title="Link to this heading"></a></h2>
+<p>You can redirect any output you like to <code class="docutils literal notranslate"><span class="pre">llm</span></code>. For example, consider this OAK query to get definition of all kinds of hearts in Uberon:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id      label   definition
+UBERON:0000948  heart   A myogenic muscular circulatory organ found in the vertebrate cardiovascular system composed of chambers of cardiac muscle. It is the primary circulatory organ.
+UBERON:0007100  primary circulatory organ       A hollow, muscular organ, which, by contracting rhythmically, keeps up the circulation of the blood or analogs[GO,modified].
+UBERON:0015202  lymph heart     A circulatory organ that is reponsible for pumping lymph throughout the body.
+UBERON:0015227  peristaltic circulatory vessel  A vessel down which passes a wave of muscular contraction, that forces the flow of haemolymphatic fluid.
+UBERON:0015228  circulatory organ       A hollow, muscular organ, which, by contracting rhythmically, contributes to the circulation of lymph, blood or analogs. Examples: a chambered vertebrate heart; the tubular peristaltic heart of ascidians; the dorsal vessel of an insect; the lymoh heart of a reptile.
+UBERON:0015229  accessory circulatory organ     A circulatory organ that is not responsible for primary circulation.
+UBERON:0015230  dorsal vessel heart     The caudal, pulsatile region of the dorsal vessel of the arthropod circulatory system.
+UBERON:0034961  embryonic lymph heart   A lymph heart that is part of an embryo.
+UBERON:0034962  copulatory lymph heart  A lymph heart that assists in the return of lymph from the penis to the venous system.
+UBERON:0036259  cardial lymph propulsor A lymphatic propulsor that lies tightly against the truncus arteriosus, the major outflow tract of the amphibian heart.
+UBERON:0034959  right lymph heart       None
+UBERON:0034960  left lymph heart        None
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;give a summary of these terms and critical comments on definitions&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The terms provided mainly describe various structures within the circulatory system, both in vertebrates and invertebrates, with a focus on definitions from anatomical and biological perspectives. Here is a summary of the terms along with critical comments on their definitions:
+
+1. **Heart (UBERON:0000948):** Defined as a myogenic muscular organ in vertebrates, responsible for circulating blood through cardiac muscle chambers. The term appropriately highlights the heart’s primary function and structural characteristics.
+
+2. **Primary Circulatory Organ (UBERON:0007100):** Described as a hollow, muscular organ that maintains blood circulation through rhythmic contractions. The definition is clear, albeit a bit redundant with the general concept of a &#34;heart.&#34;
+
+3. **Lymph Heart (UBERON:0015202):** Defined as an organ pumping lymph throughout the body. The definition clearly states its function, but it might benefit from specifying its presence in particular animal groups.
+
+4. **Peristaltic Circulatory Vessel (UBERON:0015227):** A vessel where muscular contractions propel fluid, specifically haemolymph. The definition is clear, but could use more context or examples of organisms in which such structures are found.
+
+5. **Circulatory Organ (UBERON:0015228):** Broadly covers any hollow, muscular organ aiding blood, lymph, or fluid circulation. The examples provided enhance understanding, though the broad nature of the definition might necessitate more clarity or distinction between types.
+
+6. **Accessory Circulatory Organ (UBERON:0015229):** An organ not primarily responsible for circulation, suggesting a supportive role. This generally makes sense, but would benefit from specific examples for clarity.
+
+7. **Dorsal Vessel Heart (UBERON:0015230):** Describes the pulsatile region of the arthropod dorsal vessel, indicating its role in the circulatory system. The definition is precise for those familiar with arthropod anatomy but could confuse those without such background.
+
+8. **Embryonic Lymph Heart (UBERON:0034961):** Specifies a lymph heart within an embryo. This is straightforward, however, further description of its role during development could enhance understanding.
+
+9. **Copulatory Lymph Heart (UBERON:0034962):** Involves lymph return from the penis to the venous system. The definition is clear, yet specialized, relevant mostly to anatomy involving reproductive systems.
+
+10. **Cardial Lymph Propulsor (UBERON:0036259):** A lymph structure associated with the amphibian heart’s major outflow tract. The definition is precise for specific studies of amphibian physiology.
+
+11. **Right Lymph Heart (UBERON:0034959) &amp; Left Lymph Heart (UBERON:0034960):** These terms lack definitions, which raises questions about their specific roles and anatomical details; adding definitions would improve completeness and understanding.
+
+Critical observations indicate that many definitions would benefit from contextual enlargement or specification of their presence and role in different species, enhancing educational value. Furthermore, terms without definitions need elaboration for comprehensive utility.
+</pre></div></div>
+</div>
+</section>
+<section id="Templates">
+<h2>Templates<a class="headerlink" href="#Templates" title="Link to this heading"></a></h2>
+<p>The llm tool allows you to define templates.</p>
+<p><code class="docutils literal notranslate"><span class="pre">llm</span> <span class="pre">templates</span> <span class="pre">edit</span> <span class="pre">summarize-definitions</span></code></p>
+<p>Then in your editor:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">system</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">give a summary of these terms and critical comments on definitions</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-t<span class="w"> </span>summarize-definitions
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The dataset provides definitions for various types of circulatory organs and structures within the UBERON ontology, which is a comprehensive multi-species anatomy ontology encompassing multiple biological domains. Here is a summary of each term included:
+
+1. **Heart (UBERON:0000948)**: Described as a myogenic muscular organ within the vertebrate cardiovascular system. It is the primary circulatory organ that functions by moving blood throughout the body via chambers of cardiac muscle.
+
+2. **Primary Circulatory Organ (UBERON:0007100)**: A hollow, muscular organ that maintains blood circulation through rhythmic contractions. The definition is adapted from the Gene Ontology (GO).
+
+3. **Lymph Heart (UBERON:0015202)**: A circulatory organ tasked with pumping lymphatic fluid throughout the body. It serves a function analogous to the heart but specific to lymph circulation.
+
+4. **Peristaltic Circulatory Vessel (UBERON:0015227)**: Described as a vessel in which muscular contractions send waves that propel haemolymphatic fluid forward, common in certain invertebrates.
+
+5. **Circulatory Organ (UBERON:0015228)**: This broader category includes any hollow, muscular organ that contributes to the circulation of blood, lymph, or their analogs. Examples include the vertebrate heart, ascidian peristaltic heart, the insect dorsal vessel, and a reptile&#39;s lymph heart.
+
+6. **Accessory Circulatory Organ (UBERON:0015229)**: Any circulatory organ that does not play the primary role in circulation, implying a supportive or secondary role.
+
+7. **Dorsal Vessel Heart (UBERON:0015230)**: A section of the dorsal vessel in arthropods, it is characterized as pulsatile, assisting in their circulatory system.
+
+8. **Embryonic Lymph Heart (UBERON:0034961)**: A lymph heart that is active during the embryonic stage of development.
+
+9. **Copulatory Lymph Heart (UBERON:0034962)**: A specialized lymph heart aiding in returning lymph from the penis to the venous system.
+
+10. **Cardial Lymph Propulsor (UBERON:0036259)**: Positioned closely against the truncus arteriosus in amphibians, it helps propel lymphatic fluid, acting near the heart&#39;s outflow tract.
+
+11. **Right Lymph Heart (UBERON:0034959)** and **Left Lymph Heart (UBERON:0034960)**: These entries lack defined descriptions in the dataset, suggesting they might represent specific anatomical structures known in certain species but not yet fully characterized in this context.
+
+**Critical Comments on Definitions:**
+
+- **Incompleteness and Specificity:** Some entries, like the right and left lymph heart, are missing definitions, which indicate a need for further research or input in these areas. Definitions should be expanded to clarify their unique roles or confirm their existence in various species.
+
+- **Overlap and Clarity:** There is potential overlap in the definitions of terms like &#34;circulatory organ&#34; and &#34;primary circulatory organ,&#34; which might cause confusion regarding their distinct functionalities and hierarchies. It would be beneficial to delineate these more clearly within the ontology.
+
+- **Use of Examples and Context:** The use of examples, such as the mention of ascidians and insects in the circulatory organ definition, enriches understanding but might require caveats for context-specific interpretations.
+
+Overall, while the given definitions are fairly descriptive of the various components of circulatory systems across different organisms, further refinement and detail, particularly where missing or vague, could improve comprehensiveness and usability in biological research and applications.
+</pre></div></div>
+</div>
+</section>
+<section id="Gene-summaries">
+<h2>Gene summaries<a class="headerlink" href="#Gene-summaries" title="Link to this heading"></a></h2>
+<p>Create a template for summarizing gene annotations:</p>
+<p><code class="docutils literal notranslate"><span class="pre">llm</span> <span class="pre">templates</span> <span class="pre">edit</span> <span class="pre">summarize-gaf-for-gene</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">system</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">I will provide you with GAF for a gene. Summarize the function of the gene.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Give a one short description a biologist would understand.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">You may weave together multiple terms where there is redundancy.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">You should aim to be faithful to the GAF, but be aware that mistakes and over-annotation happens.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">If you see things that are unlikely, you can omit these.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">You may also produce some commentary at the end</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">(e.g. &#39;the GAF showed annotation to X but this contradicts what is known about the gene&#39;)</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Do not focus on the evidence, or names, or IDs, or metadata about the annotation,</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">just write the biological narrative.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">The exception is if this is really relevant (e.g. you may call into question a very old annotation if it</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">does not make sense).</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Be aware that historically there has been over-annotation with experimental codes, for example, phenotypes from downstream effects.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">These are less relevant, and you should focus on the core activity, cellular process, and localization.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">You may however choose to briefly summarize phenotypic annotations (e.g. the role of G in process P has downstream effects E1, ...).</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Use your judgment to explain the story biologically rather than simply regurgitating terms.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Note that the IBA code (inferred from biological ancestor) reflects high quality annotations in many species because these terms</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">have been reviewed in a phylogenetic context and checked for over-annotation.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">But note that IBAs may sometimes be less complete, especially for organism-specific knowledge.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Use your own biological knowledge.</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">If aspects of the model are not clear, or you think there are errors, then at the end of your summary report on problems or anything that was not clear.</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>amigo:NCBITaxon:9606<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-H<span class="w">  </span>--expand<span class="w"> </span>GO:0009229
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# Query IDs: GO:0009229
+# Ontology closure predicates: rdfs:subClassOf, BFO:0000050
+#
+# The results include a round of expansion
+#
+subject predicate       object  property_values subject_label   predicate_label object_label    negated publications    evidence_type   supporting_objects      primary_knowledge_source        aggregator_knowledge_source     subject_closure subject_closure_label   object_closure  object_closure_label    comments
+UniProtKB:Q9BZV2        biolink:related_to      GO:0009229              SLC19A3 None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   GO_REF:0000041  IEA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   PMID:11342111   IDA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   PMID:38547260   IDA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0009229              SLC25A19        None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:O60779        biolink:related_to      GO:0009229              SLC19A2 None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0009229              THTPA   None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005515              SLC19A3 None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0015234              SLC19A3 None    thiamine transmembrane transporter activity     False   GO_REF:0000024  ISS             BHF-UCL infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0015234              SLC19A3 None    thiamine transmembrane transporter activity     False   Reactome:R-HSA-199626   TAS             Reactome        infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0009229              SLC19A3 None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0015888              SLC19A3 None    thiamine transport      False   PMID:11731220   IDA             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0015888              SLC19A3 None    thiamine transport      False   PMID:33008889   IDA             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0015888              SLC19A3 None    thiamine transport      False   PMID:35512554   IDA             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0015888              SLC19A3 None    thiamine transport      False   PMID:35724964   IMP             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0031923              SLC19A3 None    pyridoxine transport    False   PMID:33008889   IDA             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0031923              SLC19A3 None    pyridoxine transport    False   PMID:35512554   IDA             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0031923              SLC19A3 None    pyridoxine transport    False   PMID:35724964   IMP             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0031923              SLC19A3 None    pyridoxine transport    False   PMID:36456177   IDA             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0042723              SLC19A3 None    thiamine-containing compound metabolic process  False   Reactome:R-HSA-196819   TAS             Reactome        infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0071934              SLC19A3 None    thiamine transmembrane transport        False   GO_REF:0000024  ISS             BHF-UCL infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005886              SLC19A3 None    plasma membrane False   Reactome:R-HSA-199626   TAS             Reactome        infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0016020              SLC19A3 None    membrane        False   PMID:11136550   NAS             UniProt infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0005886              SLC19A3 None    plasma membrane False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0055085              SLC19A3 None    transmembrane transport False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9BZV2        biolink:related_to      GO:0015234              SLC19A3 None    thiamine transmembrane transporter activity     False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0004788              TPK1    None    thiamine diphosphokinase activity       False   PMID:11342111   IDA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0004788              TPK1    None    thiamine diphosphokinase activity       False   PMID:38547260   IDA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0005515              TPK1    None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0005524              TPK1    None    ATP binding     False   GO_REF:0000043  IEA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0016301              TPK1    None    kinase activity False   GO_REF:0000043  IEA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0030975              TPK1    None    thiamine binding        False   GO_REF:0000002  IEA             InterPro        infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0042802              TPK1    None    identical protein binding       False   PMID:25502805   IPI             IntAct  infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0042802              TPK1    None    identical protein binding       False   PMID:29892012   IPI             IntAct  infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0042802              TPK1    None    identical protein binding       False   PMID:31515488   IPI             IntAct  infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0042802              TPK1    None    identical protein binding       False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0141200              TPK1    None    UTP thiamine diphosphokinase activity   False   PMID:38547260   IDA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0006772              TPK1    None    thiamine metabolic process      False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   GO_REF:0000041  IEA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   PMID:11342111   IDA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   PMID:38547260   IDA             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0010510              TPK1    None    regulation of acetyl-CoA biosynthetic process from pyruvate     False   PMID:38547260   IMP             UniProt infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0005829              TPK1    None    cytosol False   Reactome:R-HSA-196761   TAS             Reactome        infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0004788              TPK1    None    thiamine diphosphokinase activity       False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9H3S4        biolink:related_to      GO:0009229              TPK1    None    thiamine diphosphate biosynthetic process       False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9HC21        biolink:not     GO:0030233              SLC25A19        None    deoxynucleotide transmembrane transporter activity      True    PMID:15539640   IDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:not     GO:0030233              SLC25A19        None    deoxynucleotide transmembrane transporter activity      True    PMID:17035501   IDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:not     GO:0030302              SLC25A19        None    deoxynucleotide transport       True    PMID:15539640   IDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0015297              SLC25A19        None    antiporter activity     False   GO_REF:0000043  IEA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0030233              SLC25A19        None    deoxynucleotide transmembrane transporter activity      False   PMID:11226231   TAS             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0090422              SLC25A19        None    thiamine pyrophosphate transmembrane transporter activity       False   PMID:17035501   IDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0090422              SLC25A19        None    thiamine pyrophosphate transmembrane transporter activity       False   Reactome:R-HSA-8875838  TAS             Reactome        infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0009229              SLC25A19        None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0030302              SLC25A19        None    deoxynucleotide transport       False   PMID:11226231   NAS             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0030974              SLC25A19        None    thiamine pyrophosphate transmembrane transport  False   PMID:17035501   IDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0042723              SLC25A19        None    thiamine-containing compound metabolic process  False   Reactome:R-HSA-196819   TAS             Reactome        infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005634              SLC25A19        None    nucleus False   PMID:21630459   HDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005739              SLC25A19        None    mitochondrion   False   GO_REF:0000052  IDA             HPA     infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005739              SLC25A19        None    mitochondrion   False   GO_REF:0000052  IDA             HPA     infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005739              SLC25A19        None    mitochondrion   False   GO_REF:0000052  IDA             HPA     infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005739              SLC25A19        None    mitochondrion   False   PMID:15539640   IDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005739              SLC25A19        None    mitochondrion   False   PMID:31506564   IDA             UniProt infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005739              SLC25A19        None    mitochondrion   False   PMID:34800366   HTP             FlyBase infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005743              SLC25A19        None    mitochondrial inner membrane    False   Reactome:R-HSA-8875838  TAS             Reactome        infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0030974              SLC25A19        None    thiamine pyrophosphate transmembrane transport  False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0015234              SLC25A19        None    thiamine transmembrane transporter activity     False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9HC21        biolink:related_to      GO:0005743              SLC25A19        None    mitochondrial inner membrane    False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:O60779        biolink:related_to      GO:0005515              SLC19A2 None    protein binding False   PMID:21836059   IPI             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0005515              SLC19A2 None    protein binding False   PMID:21836059   IPI             IntAct  infores:go
+UniProtKB:O60779        biolink:related_to      GO:0008517              SLC19A2 None    folic acid transmembrane transporter activity   False   PMID:10542220   NAS             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015234              SLC19A2 None    thiamine transmembrane transporter activity     False   GO_REF:0000024  ISS             BHF-UCL infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015234              SLC19A2 None    thiamine transmembrane transporter activity     False   PMID:10542220   TAS             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015234              SLC19A2 None    thiamine transmembrane transporter activity     False   PMID:21836059   IDA             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015234              SLC19A2 None    thiamine transmembrane transporter activity     False   Reactome:R-HSA-199626   TAS             Reactome        infores:go
+UniProtKB:O60779        biolink:related_to      GO:0007283              SLC19A2 None    spermatogenesis False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:O60779        biolink:related_to      GO:0009229              SLC19A2 None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015884              SLC19A2 None    folic acid transport    False   GO_REF:0000108  IEA             GOC     infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015888              SLC19A2 None    thiamine transport      False   PMID:10391222   IMP             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015888              SLC19A2 None    thiamine transport      False   PMID:10542220   IDA             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015888              SLC19A2 None    thiamine transport      False   PMID:10542220   NAS             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015888              SLC19A2 None    thiamine transport      False   PMID:33008889   IDA             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015888              SLC19A2 None    thiamine transport      False   PMID:35512554   IDA             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015888              SLC19A2 None    thiamine transport      False   PMID:35724964   IMP             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0031923              SLC19A2 None    pyridoxine transport    False   PMID:33008889   IDA             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0031923              SLC19A2 None    pyridoxine transport    False   PMID:35512554   IDA             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0042723              SLC19A2 None    thiamine-containing compound metabolic process  False   Reactome:R-HSA-196819   TAS             Reactome        infores:go
+UniProtKB:O60779        biolink:related_to      GO:0071934              SLC19A2 None    thiamine transmembrane transport        False   GO_REF:0000024  ISS             BHF-UCL infores:go
+UniProtKB:O60779        biolink:related_to      GO:0005886              SLC19A2 None    plasma membrane False   PMID:21836059   IDA             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0005886              SLC19A2 None    plasma membrane False   Reactome:R-HSA-199626   TAS             Reactome        infores:go
+UniProtKB:O60779        biolink:related_to      GO:0016020              SLC19A2 None    membrane        False   PMID:10542220   NAS             UniProt infores:go
+UniProtKB:O60779        biolink:related_to      GO:0005886              SLC19A2 None    plasma membrane False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015888              SLC19A2 None    thiamine transport      False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:O60779        biolink:related_to      GO:0015234              SLC19A2 None    thiamine transmembrane transporter activity     False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:O60779        biolink:related_to      GO:0055085              SLC19A2 None    transmembrane transport False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0000287              THTPA   None    magnesium ion binding   False   GO_REF:0000024  ISS             UniProt infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0005515              THTPA   None    protein binding False   PMID:32296183   IPI             IntAct  infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0016787              THTPA   None    hydrolase activity      False   PMID:11827967   TAS             UniProt infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0050333              THTPA   None    thiamine triphosphate phosphatase activity      False   PMID:11827967   IDA             UniProt infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0006091              THTPA   None    generation of precursor metabolites and energy  False   PMID:11827967   NAS             UniProt infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0006772              THTPA   None    thiamine metabolic process      False   PMID:11827967   TAS             UniProt infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0009229              THTPA   None    thiamine diphosphate biosynthetic process       False   GO_REF:0000107  IEA             Ensembl infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0016311              THTPA   None    dephosphorylation       False   PMID:11827967   IDA             UniProt infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0042357              THTPA   None    thiamine diphosphate metabolic process  False   GO_REF:0000024  ISS             UniProt infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0005829              THTPA   None    cytosol False   Reactome:R-HSA-965067   TAS             Reactome        infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0000287              THTPA   None    magnesium ion binding   False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0050333              THTPA   None    thiamine triphosphate phosphatase activity      False   GO_REF:0000033  IBA             GO_Central      infores:go
+UniProtKB:Q9BU02        biolink:related_to      GO:0042357              THTPA   None    thiamine diphosphate metabolic process  False   GO_REF:0000033  IBA             GO_Central      infores:go
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>amigo:NCBITaxon:9606<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-H<span class="w">  </span>--expand<span class="w"> </span>GO:0009229<span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-t<span class="w"> </span>summarize-gaf-for-gene
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The gene products associated with the thiamine diphosphate biosynthetic process (GO:0009229) involve several proteins including SLC19A3, TPK1, SLC25A19, SLC19A2, and THTPA, each contributing to the synthesis and transport of thiamine-related compounds in different capacities.
+
+SLC19A3 is primarily involved in the transport of thiamine and pyridoxine across the plasma membrane, displaying thiamine transmembrane transporter activity. It facilitates thiamine transmembrane transport and is located on the plasma membrane. This protein also plays a role in thiamine transport in general, contributing to the overall metabolic process of thiamine-containing compounds.
+
+TPK1 (thiamine pyrophosphate kinase) catalyzes the ATP-dependent phosphorylation of thiamine to form thiamine diphosphate, which is the active form of thiamine used as a coenzyme in various enzymatic reactions. It has been detected in the cytosol and also possesses kinase and ATP binding activity.
+
+SLC25A19 is responsible for the transmembrane transport of thiamine pyrophosphate into mitochondria. It shows activity as a thiamine pyrophosphate transmembrane transporter, indicating its critical role in mitochondrial functions related to thiamine metabolism. This protein is associated with the mitochondrial inner membrane, further evidencing its role in mitochondrial transport processes.
+
+SLC19A2 serves as both a thiamine and folic acid transporter at the plasma membrane, contributing to the transport of these vitamins into cells, supporting both thiamine and folic acid metabolic processes.
+
+THTPA functions in the conversion of thiamine triphosphate to thiamine diphosphate, acting as a thiamine triphosphate phosphatase. Involved in broad thiamine metabolic processes, it possesses hydrolase activity, with a focus on dephosphorylation reactions. It has been primarily located in the cytosol.
+
+Anomalous annotations include SLC19A2 being associated with spermatogenesis, which may not directly relate to its primary functions in vitamin transport. Additionally, some annotations suggest contradictory activities, such as SLC25A19 annotations to deoxynucleotide transport, which have been negated in other studies.
+
+Overall, these genes coordinate to manage the cellular and systemic availability of thiamine diphosphate, ensuring proper metabolic processes that utilize this crucial co-factor.
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Ad Hoc Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Text-Content-Analysis.html" class="btn btn-neutral float-right" title="Analyzing Text Content of all Ontologies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

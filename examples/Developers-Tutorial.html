@@ -164,7 +164,7 @@ tests/input/go-nucleus.obo
 <img alt="images/oak-docs-code.png" src="examples/images/oak-docs-code.png" />
 <p>If you click the “copy” button it will copy the code only (no <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code>s, and no output) such that you can paste directly into a Python REPL or a notebook (provided the paths are preserved).</p>
 <p>E.g. try copying this section from the docs</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;tests/input/go-nucleus.db&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">))</span>
 </pre></div>
@@ -173,7 +173,7 @@ tests/input/go-nucleus.obo
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;tests/input/go-nucleus.db&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">))</span>
 </pre></div>
@@ -193,7 +193,7 @@ nucleus
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;tests/input/go-nucleus.obo&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">))</span>
 </pre></div>
@@ -224,7 +224,7 @@ nucleus
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">))</span>
 </pre></div>
@@ -253,7 +253,7 @@ neuron
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span>
 <span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">anc</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">anc</span><span class="p">))</span>
 </pre></div>
@@ -337,7 +337,7 @@ PROBLEM: object of type &#39;generator&#39; has no len()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
 <span class="n">parts_of_forebrain</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;UBERON:0001890&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]))</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parts_of_forebrain</span><span class="p">))</span>
 </pre></div>
@@ -528,7 +528,7 @@ CL:4023057 cerebellar inhibitory GABAergic interneuron
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="n">forebrain_neurons</span> <span class="o">=</span> <span class="n">parts_of_forebrain</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">neurons</span><span class="p">)</span>
 
@@ -1104,10 +1104,10 @@ GO:0003016 respiratory system process
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -1203,7 +1203,7 @@ CL:0000540
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchTermSyntax</span><span class="p">,</span> <span class="n">SearchProperty</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchTermSyntax</span><span class="p">,</span> <span class="n">SearchProperty</span>
 </pre></div>
 </div>
 </div>
@@ -1447,7 +1447,7 @@ Mapping(subject_id=&#39;CL:0000099&#39;, predicate_id=&#39;oio:hasDbXref&#39;, o
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">yaml_dumper</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.dumpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">yaml_dumper</span>
 </pre></div>
 </div>
 </div>
@@ -1566,7 +1566,7 @@ Mapping(subject_id=&#39;CL:0000099&#39;, predicate_id=&#39;oio:hasDbXref&#39;, o
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">graph_to_image</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.obograph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_to_image</span>
 </pre></div>
 </div>
 </div>
@@ -1588,7 +1588,7 @@ Mapping(subject_id=&#39;CL:0000099&#39;, predicate_id=&#39;oio:hasDbXref&#39;, o
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">default_stylemap_path</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.obograph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_stylemap_path</span>
 </pre></div>
 </div>
 </div>

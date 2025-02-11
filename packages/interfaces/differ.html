@@ -151,8 +151,8 @@
 <p>Note that this is not guaranteed to diff every axiom in both ontologies. Different implementations
 may implement different subsets.</p>
 <p>Example usage:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">yaml_dumper</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.dumpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">yaml_dumper</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path1</span> <span class="o">=</span> <span class="s2">&quot;simpleobo:tests/input/go-nucleus.obo&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path2</span> <span class="o">=</span> <span class="s2">&quot;simpleobo:tests/input/go-nucleus-modified.obo&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ont1</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">path1</span><span class="p">)</span>

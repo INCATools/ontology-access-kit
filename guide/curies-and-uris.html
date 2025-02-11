@@ -125,7 +125,7 @@ UBERON:0000948<span class="w"> </span>!<span class="w"> </span>heart
 <p>Under the hood, on the backend (in this case, <a class="reference internal" href="../packages/implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a>), the concept is stored
 as a full URI.</p>
 <p>Similarly, in Python:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0000948&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ont</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
@@ -189,7 +189,7 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 <p>For most purposes, the default prefixmap should suffice.</p>
 <p>You can also choose to override the default prefixmap with your own, using the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> or <code class="docutils literal notranslate"><span class="pre">--named-prefix-map</span></code> options.</p>
 <p>In python this can be done by accessing the prefixmap directly:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/soil-profile.skos.nt&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
 <span class="gp">&gt;&gt;&gt;</span>

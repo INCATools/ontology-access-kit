@@ -91,8 +91,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.associations.edge_information_util</span> <span class="kn">import</span> <span class="n">associations_to_matrix</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.edge_information_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">associations_to_matrix</span>
 
 
 <span class="n">ont_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
@@ -265,7 +265,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.utilities.associations.edge_information_util</span> <span class="kn">import</span> <span class="n">calculate_edge_information</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.edge_information_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_edge_information</span>
 <br/><br/></pre></div>
 </div>
 </div>
@@ -407,7 +407,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <br/></pre></div>
 </div>
 </div>
@@ -415,7 +415,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">has_val</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">has_val</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

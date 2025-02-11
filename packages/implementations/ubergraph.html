@@ -162,12 +162,12 @@ iterative queries, attempting instead to batch queries into larger SPARQL query<
 <p>This is a specialization of the more generic <a class="reference internal" href="sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation" title="oaklib.implementations.sparql.sparql_implementation.SparqlImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparqlImplementation</span></code></a>, which
 has knowledge of some of the specialized patterns found in Ubergraph</p>
 <p>An UbergraphImplementation can be initialed by:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">UbergraphImplementation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>or</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ubergraph:&quot;</span><span class="p">)</span>
 </pre></div>
 </div>

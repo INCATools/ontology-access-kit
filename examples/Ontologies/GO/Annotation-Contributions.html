@@ -84,6 +84,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../AdHoc/index.html">Ad Hoc Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
@@ -124,13 +125,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="n">Association</span>
-<span class="kn">from</span> <span class="nn">oaklib.parsers.gaf_association_parser</span> <span class="kn">import</span> <span class="n">GafAssociationColumns</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.associations.association_differ</span> <span class="kn">import</span> <span class="n">AssociationDiffer</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.subsets.slimmer_utils</span> <span class="kn">import</span> <span class="n">filter_redundant</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.association</span><span class="w"> </span><span class="kn">import</span> <span class="n">Association</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.parsers.gaf_association_parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">GafAssociationColumns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.association_differ</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociationDiffer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.subsets.slimmer_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">filter_redundant</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="c1"># Get a GO handle</span>
 <span class="n">go</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
@@ -152,7 +153,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cache HTTP requests</span>
-<span class="kn">import</span> <span class="nn">requests_cache</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests_cache</span>
 <span class="n">requests_cache</span><span class="o">.</span><span class="n">install_cache</span><span class="p">(</span><span class="s2">&quot;output/requests_cache&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -179,7 +180,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gaf2df</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gaf2df</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;!&quot;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">GafAssociationColumns</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;|&#39; not in qualifiers&quot;</span><span class="p">)</span>
 
@@ -623,7 +624,7 @@
 <span class="n">UNIQUE1</span> <span class="o">=</span> <span class="s2">&quot;unique1&quot;</span>
 <span class="n">UNIQUE2</span> <span class="o">=</span> <span class="s2">&quot;unique2&quot;</span>
 
-<span class="k">def</span> <span class="nf">old_compare_gene_dfs</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">preds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">old_compare_gene_dfs</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">preds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">terms1</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="n">TERM</span><span class="p">])</span>
     <span class="n">terms2</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="n">TERM</span><span class="p">])</span>
     <span class="n">closure1</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">terms1</span><span class="p">),</span> <span class="n">preds</span><span class="p">)))</span>
@@ -634,7 +635,7 @@
     <span class="n">unique2</span> <span class="o">=</span> <span class="n">nr_closure2</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">nr_closure1</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">GENE</span><span class="p">:</span> <span class="n">gene</span><span class="p">,</span> <span class="n">UNIQUE1</span><span class="p">:</span> <span class="n">unique1</span><span class="p">,</span> <span class="n">UNIQUE2</span><span class="p">:</span> <span class="n">unique2</span><span class="p">}</span>
 
-<span class="k">def</span> <span class="nf">old_compare_gaf_dfs</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">preds</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">old_compare_gaf_dfs</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">preds</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
     <span class="n">genes1</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="n">GENE</span><span class="p">])</span>
     <span class="n">genes2</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="n">GENE</span><span class="p">])</span>
     <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -747,12 +748,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">df2assocs</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">df2assocs</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="c1"># TODO: why not use GAF adapter?</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="k">yield</span> <span class="n">Association</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="n">GENE</span><span class="p">],</span> <span class="nb">object</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="n">TERM</span><span class="p">])</span>
 
-<span class="k">def</span> <span class="nf">compare_gaf_dfs</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">preds</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_gaf_dfs</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">preds</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform an association diff between two GAF DataFrames</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1418,7 +1419,7 @@ Cell <span class="ansi-green-fg">In[10], line 18</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_labels</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_labels</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Annotate Diff DataFrame with labels for the objects that are &quot;lost&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1430,7 +1431,7 @@ Cell <span class="ansi-green-fg">In[10], line 18</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analyze_iea</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_iea</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulate deleting the IEAs with the stated reference.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12446,7 +12447,7 @@ dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[129]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analyze_gaf</span><span class="p">(</span><span class="n">gaf_path</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_gaf</span><span class="p">(</span><span class="n">gaf_path</span><span class="p">):</span>
     <span class="n">species_df</span> <span class="o">=</span> <span class="n">gaf2df</span><span class="p">(</span><span class="n">gaf_path</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">species_df</span><span class="p">))</span>
     <span class="n">by_ref</span> <span class="o">=</span> <span class="p">{}</span>
@@ -14081,7 +14082,7 @@ GO_REF:0000043
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[168]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span>
 
 <span class="n">pivot</span> <span class="o">=</span> <span class="n">smry</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;closure_delta&quot;</span><span class="p">)</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">pivot</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">)</span>

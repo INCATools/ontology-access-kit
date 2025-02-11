@@ -91,12 +91,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.pronto.pronto_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProntoImplementation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.resource</span><span class="w"> </span><span class="kn">import</span> <span class="n">OntologyResource</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="c1">#from pandasql import sqldf</span>
-<span class="kn">import</span> <span class="nn">duckdb</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
 </pre></div>
 </div>
 </div>
@@ -382,7 +382,7 @@ Name: sysName, dtype: object
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#removed: inferred_types=None,</span>
-<span class="k">def</span> <span class="nf">enrichment_test</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hypotheses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">ontology_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;greater&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">enrichment_test</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hypotheses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">ontology_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;greater&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs term enrichment analysis.</span>
 

@@ -92,15 +92,15 @@
 <span class="sd">- Conversion examples: https://drive.google.com/drive/folders/1lwGQ63_fedfWlGlRemq8OeZhZsvIXN01</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">rdflib</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rdflib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.dumpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_dumper</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.converters.data_model_converter</span> <span class="kn">import</span> <span class="n">DataModelConverter</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.fhir</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.converters.data_model_converter</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataModelConverter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.fhir</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CodeSystem</span><span class="p">,</span>
     <span class="n">CodeSystemProperty</span><span class="p">,</span>
     <span class="n">Coding</span><span class="p">,</span>
@@ -108,15 +108,15 @@
     <span class="n">ConceptDesignation</span><span class="p">,</span>
     <span class="n">ConceptProperty</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">Node</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.obograph</span><span class="w"> </span><span class="kn">import</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">Node</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">HAS_BROAD_SYNONYM</span><span class="p">,</span>
     <span class="n">HAS_EXACT_SYNONYM</span><span class="p">,</span>
     <span class="n">HAS_NARROW_SYNONYM</span><span class="p">,</span>
     <span class="n">HAS_RELATED_SYNONYM</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">URI</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">index_graph_edges_by_subject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">URI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.obograph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">index_graph_edges_by_subject</span>
 
 <span class="n">TRIPLE</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">,</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 
@@ -142,7 +142,7 @@
 <div class="viewcode-block" id="OboGraphToFHIRConverter">
 <a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">OboGraphToFHIRConverter</span><span class="p">(</span><span class="n">DataModelConverter</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OboGraphToFHIRConverter</span><span class="p">(</span><span class="n">DataModelConverter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts from OboGraph to FHIR.</span>
 
@@ -169,7 +169,7 @@
 
 <div class="viewcode-block" id="OboGraphToFHIRConverter.dump">
 <a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">[docs]</a>
-    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dump</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -197,7 +197,7 @@
     <span class="c1"># todo: id/url: any way to try to ascertain ID or URL if not passed? and warn if not determined?</span>
 <div class="viewcode-block" id="OboGraphToFHIRConverter.convert">
 <a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">[docs]</a>
-    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -281,7 +281,7 @@
 
 <div class="viewcode-block" id="OboGraphToFHIRConverter.code">
 <a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">[docs]</a>
-    <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a packages.</span>
 
@@ -295,7 +295,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">passthrough</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_convert_graph</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">,</span>
@@ -334,7 +334,7 @@
         <span class="p">]</span>
         <span class="k">return</span> <span class="n">target</span>
 
-    <span class="k">def</span> <span class="nf">_convert_node</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_node</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span>
         <span class="n">index</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">URI</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">]],</span>
@@ -370,7 +370,7 @@
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping edge </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">concept</span>
 
-    <span class="k">def</span> <span class="nf">_convert_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">concept</span><span class="p">:</span> <span class="n">Concept</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">concept</span><span class="p">:</span> <span class="n">Concept</span><span class="p">):</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">meta</span>
         <span class="k">if</span> <span class="n">meta</span><span class="o">.</span><span class="n">definition</span><span class="p">:</span>
             <span class="n">concept</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">val</span>

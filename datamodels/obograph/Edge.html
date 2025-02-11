@@ -121,17 +121,17 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="sub.html"><span class="std std-doc">sub</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>the subject of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pred.html"><span class="std std-doc">pred</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>the predicate of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="obj.html"><span class="std std-doc">obj</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>the object of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -217,6 +217,16 @@ slots:
 - pred
 - obj
 - meta
+slot_usage:
+  sub:
+    name: sub
+    required: true
+  pred:
+    name: pred
+    required: true
+  obj:
+    name: obj
+    required: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -229,6 +239,16 @@ description: An edge is a simple typed relationship between two nodes. When mapp
   s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
   (f) s type o
 from_schema: https://github.com/geneontology/obographs
+slot_usage:
+  sub:
+    name: sub
+    required: true
+  pred:
+    name: pred
+    required: true
+  obj:
+    name: obj
+    required: true
 attributes:
   sub:
     name: sub
@@ -246,6 +266,7 @@ attributes:
     domain_of:
     - Edge
     range: string
+    required: true
   pred:
     name: pred
     description: the predicate of an edge
@@ -260,6 +281,7 @@ attributes:
     - PropertyValue
     - SynonymTypeDefinition
     range: string
+    required: true
   obj:
     name: obj
     description: the object of an edge
@@ -276,6 +298,7 @@ attributes:
     domain_of:
     - Edge
     range: string
+    required: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

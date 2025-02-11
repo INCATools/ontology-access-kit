@@ -48,9 +48,9 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [sub](sub.md) | 0..1 <br/> [String](String.md) | the subject of an edge | direct |
-| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
-| [obj](obj.md) | 0..1 <br/> [String](String.md) | the object of an edge | direct |
+| [sub](sub.md) | 1 <br/> [String](String.md) | the subject of an edge | direct |
+| [pred](pred.md) | 1 <br/> [String](String.md) | the predicate of an edge | direct |
+| [obj](obj.md) | 1 <br/> [String](String.md) | the object of an edge | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 
 
@@ -118,6 +118,16 @@ slots:
 - pred
 - obj
 - meta
+slot_usage:
+  sub:
+    name: sub
+    required: true
+  pred:
+    name: pred
+    required: true
+  obj:
+    name: obj
+    required: true
 
 ```
 </details>
@@ -132,6 +142,16 @@ description: An edge is a simple typed relationship between two nodes. When mapp
   s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
   (f) s type o
 from_schema: https://github.com/geneontology/obographs
+slot_usage:
+  sub:
+    name: sub
+    required: true
+  pred:
+    name: pred
+    required: true
+  obj:
+    name: obj
+    required: true
 attributes:
   sub:
     name: sub
@@ -149,6 +169,7 @@ attributes:
     domain_of:
     - Edge
     range: string
+    required: true
   pred:
     name: pred
     description: the predicate of an edge
@@ -163,6 +184,7 @@ attributes:
     - PropertyValue
     - SynonymTypeDefinition
     range: string
+    required: true
   obj:
     name: obj
     description: the object of an edge
@@ -179,6 +201,7 @@ attributes:
     domain_of:
     - Edge
     range: string
+    required: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

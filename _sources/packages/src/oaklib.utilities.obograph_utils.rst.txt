@@ -28,6 +28,7 @@
       graph_id_iterator
       graph_ids
       graph_info
+      graph_node_ids_from_subject_and_objects
       graph_to_d3viz_objects
       graph_to_image
       graph_to_tree_display
@@ -44,6 +45,7 @@
       mutate_graph_ids
       reflexive
       remove_nodes_from_graph
+      remove_unlabeled_nodes
       shortest_paths
       topological_sort
       tree_node_to_d3viz_object

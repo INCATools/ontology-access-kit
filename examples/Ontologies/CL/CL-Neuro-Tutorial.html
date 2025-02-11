@@ -84,6 +84,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../AdHoc/index.html">Ad Hoc Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
@@ -259,8 +260,8 @@ GO:0097154 ! GABAergic neuron differentiation
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;output/tmp.tsv&quot;</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;output/tmp.tsv&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;helper function to turn most recent TSV output into a dataframe&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>

@@ -84,41 +84,41 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.subsetter_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Graph</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.obograph</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
     <span class="n">BasicOntologyInterface</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">index_graph_nodes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.obograph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">index_graph_nodes</span>
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SubsetStrategy</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubsetStrategy</span><span class="p">:</span>
     <span class="k">pass</span>
 
 
-<span class="k">class</span> <span class="nc">SyntacticLocalityModuleExtraction</span><span class="p">(</span><span class="n">SubsetStrategy</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SyntacticLocalityModuleExtraction</span><span class="p">(</span><span class="n">SubsetStrategy</span><span class="p">):</span>
     <span class="n">module_type</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># TODO enum</span>
 
 
-<span class="k">class</span> <span class="nc">GraphWalkExtraction</span><span class="p">(</span><span class="n">SubsetStrategy</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GraphWalkExtraction</span><span class="p">(</span><span class="n">SubsetStrategy</span><span class="p">):</span>
     <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span>
 
 
-<span class="k">class</span> <span class="nc">MireotExtraction</span><span class="p">(</span><span class="n">SubsetStrategy</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MireotExtraction</span><span class="p">(</span><span class="n">SubsetStrategy</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="SubsetterInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface">[docs]</a>
-<span class="k">class</span> <span class="nc">SubsetterInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubsetterInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    an interface that provides subsetting operations.</span>
 
@@ -133,7 +133,7 @@
 
 <div class="viewcode-block" id="SubsetterInterface.extract_subset_ontology">
 <a class="viewcode-back" href="../../../packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology">[docs]</a>
-    <span class="k">def</span> <span class="nf">extract_subset_ontology</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_subset_ontology</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">SubsetStrategy</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -150,7 +150,7 @@
 
 <div class="viewcode-block" id="SubsetterInterface.gap_fill_relationships">
 <a class="viewcode-back" href="../../../packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.gap_fill_relationships">[docs]</a>
-    <span class="k">def</span> <span class="nf">gap_fill_relationships</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gap_fill_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -171,7 +171,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
-    <span class="k">def</span> <span class="nf">extract_gap_filled_graph</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_gap_filled_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

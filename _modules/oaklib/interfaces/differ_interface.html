@@ -84,15 +84,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.differ_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">import</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="k">as</span> <span class="nn">kgcl</span>
-<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">kgcl_schema.datamodel.kgcl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">kgcl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kgcl_schema.datamodel.kgcl</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AddNodeToSubset</span><span class="p">,</span>
     <span class="n">Change</span><span class="p">,</span>
     <span class="n">ClassCreation</span><span class="p">,</span>
@@ -120,16 +120,16 @@
     <span class="n">SynonymPredicateChange</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># OIO_SYNONYM_TYPE_PROPERTY,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># OIO_SYNONYM_TYPE_PROPERTY,</span>
     <span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span>
     <span class="n">HAS_OBSOLESCENCE_REASON</span><span class="p">,</span>
     <span class="n">OWL_CLASS</span><span class="p">,</span>
     <span class="n">TERM_REPLACED_BY</span><span class="p">,</span>
     <span class="n">TERMS_MERGED</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.kgcl_utilities</span> <span class="kn">import</span> <span class="n">generate_change_id</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.kgcl_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_change_id</span>
 
 <span class="n">TERM_LIST_DIFF</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]</span>
 <span class="n">RESIDUAL_KEY</span> <span class="o">=</span> <span class="s2">&quot;__RESIDUAL__&quot;</span>
@@ -138,27 +138,27 @@
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">DiffConfiguration</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiffConfiguration</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for the differ.&quot;&quot;&quot;</span>
 
     <span class="n">simple</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">group_by_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<span class="k">def</span> <span class="nf">_gen_id</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_gen_id</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">generate_change_id</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="DifferInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface">[docs]</a>
-<span class="k">class</span> <span class="nc">DifferInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DifferInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates Change objects between one ontology and another.</span>
 
 <span class="sd">    This uses the KGCL datamodel, see `&lt;https://w3id.org/kgcl/&gt;`_ for more information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">changed_nodes</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">changed_nodes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">DiffConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -168,7 +168,7 @@
 
 <div class="viewcode-block" id="DifferInterface.grouped_diff">
 <a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.grouped_diff">[docs]</a>
-    <span class="k">def</span> <span class="nf">grouped_diff</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grouped_diff</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -192,7 +192,7 @@
 
 <div class="viewcode-block" id="DifferInterface.diff">
 <a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff">[docs]</a>
-    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">diff</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">DiffConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -449,7 +449,7 @@
 
 <div class="viewcode-block" id="DifferInterface.diff_summary">
 <a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff_summary">[docs]</a>
-    <span class="k">def</span> <span class="nf">diff_summary</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">diff_summary</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">DiffConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -516,14 +516,14 @@
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">different_from</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">different_from</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="DifferInterface.compare_ontology_term_lists">
 <a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.compare_ontology_term_lists">[docs]</a>
-    <span class="k">def</span> <span class="nf">compare_ontology_term_lists</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_ontology_term_lists</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -544,7 +544,7 @@
             <span class="k">yield</span> <span class="n">NodeCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">compare_term_in_two_ontologies</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_term_in_two_ontologies</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span>
         <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
@@ -556,7 +556,7 @@
 
 
 <span class="c1"># ! Helper functions for the diff method</span>
-<span class="k">def</span> <span class="nf">_generate_synonym_changes</span><span class="p">(</span><span class="n">self_entities</span><span class="p">,</span> <span class="n">self_aliases</span><span class="p">,</span> <span class="n">other_aliases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_synonym_changes</span><span class="p">(</span><span class="n">self_entities</span><span class="p">,</span> <span class="n">self_aliases</span><span class="p">,</span> <span class="n">other_aliases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
     <span class="k">for</span> <span class="n">e1</span> <span class="ow">in</span> <span class="n">self_entities</span><span class="p">:</span>
         <span class="n">e1_arels</span> <span class="o">=</span> <span class="n">self_aliases</span><span class="p">[</span><span class="n">e1</span><span class="p">]</span>
         <span class="n">e2_arels</span> <span class="o">=</span> <span class="n">other_aliases</span><span class="p">[</span><span class="n">e1</span><span class="p">]</span>
@@ -591,7 +591,7 @@
             <span class="k">yield</span> <span class="n">synonym_change</span>
 
 
-<span class="k">def</span> <span class="nf">_process_deprecation_data</span><span class="p">(</span><span class="n">deprecation_data_item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_process_deprecation_data</span><span class="p">(</span><span class="n">deprecation_data_item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
     <span class="n">e1</span><span class="p">,</span> <span class="n">e1_dep</span><span class="p">,</span> <span class="n">e2_dep</span><span class="p">,</span> <span class="n">e2_meta</span> <span class="o">=</span> <span class="n">deprecation_data_item</span>
     <span class="k">if</span> <span class="n">e1_dep</span> <span class="o">!=</span> <span class="n">e2_dep</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">e1_dep</span> <span class="ow">and</span> <span class="n">e2_dep</span><span class="p">:</span>
@@ -616,7 +616,7 @@
             <span class="k">yield</span> <span class="n">NodeUnobsoletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_generate_obsoletion_changes</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_obsoletion_changes</span><span class="p">(</span>
     <span class="n">entities</span><span class="p">,</span> <span class="n">self_entity_metadata_map</span><span class="p">,</span> <span class="n">other_ontology_entity_metadata_map</span>
 <span class="p">):</span>
     <span class="n">self_metadata_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">entity</span><span class="p">:</span> <span class="n">self_entity_metadata_map</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">}</span>
@@ -639,7 +639,7 @@
                 <span class="k">yield</span> <span class="n">result</span>
 
 
-<span class="k">def</span> <span class="nf">_generate_relation_changes</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">self_out_rels</span><span class="p">,</span> <span class="n">other_out_rels</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_relation_changes</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">self_out_rels</span><span class="p">,</span> <span class="n">other_out_rels</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
     <span class="n">e1_rels</span> <span class="o">=</span> <span class="n">self_out_rels</span><span class="p">[</span><span class="n">e1</span><span class="p">]</span>
     <span class="n">e2_rels</span> <span class="o">=</span> <span class="n">other_out_rels</span><span class="p">[</span><span class="n">e1</span><span class="p">]</span>
     <span class="n">changes</span> <span class="o">=</span> <span class="p">[]</span>
@@ -668,7 +668,7 @@
     <span class="k">return</span> <span class="n">changes</span>
 
 
-<span class="k">def</span> <span class="nf">_parallely_get_relationship_changes</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_parallely_get_relationship_changes</span><span class="p">(</span>
     <span class="n">self_entities</span><span class="p">,</span> <span class="n">self_out_rels</span><span class="p">,</span> <span class="n">other_out_rels</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
     <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
@@ -680,7 +680,7 @@
             <span class="k">yield from</span> <span class="n">result</span>
 
 
-<span class="k">def</span> <span class="nf">_find_mapping_changes</span><span class="p">(</span><span class="n">set1</span><span class="p">,</span> <span class="n">set2</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_find_mapping_changes</span><span class="p">(</span><span class="n">set1</span><span class="p">,</span> <span class="n">set2</span><span class="p">):</span>
     <span class="c1"># Convert sets to dictionaries for easier lookup</span>
     <span class="n">dict1</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">set1</span><span class="p">}</span>
     <span class="n">dict2</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">set2</span><span class="p">}</span>

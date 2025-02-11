@@ -84,32 +84,33 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.association_provider_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.association</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Association</span><span class="p">,</span>
     <span class="n">PairwiseCoAssociation</span><span class="p">,</span>
     <span class="n">PositiveOrNegativeAssociation</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="n">TermSetPairwiseSimilarity</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.semsim_interface</span> <span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.associations.association_index</span> <span class="kn">import</span> <span class="n">AssociationIndex</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.iterator_utils</span> <span class="kn">import</span> <span class="n">chunk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.similarity</span><span class="w"> </span><span class="kn">import</span> <span class="n">TermSetPairwiseSimilarity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.semsim_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.association_index</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociationIndex</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.iterator_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">chunk</span>
 
 <span class="n">ASSOCIATION_CORRELATION</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span>
     <span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Association</span><span class="p">]]</span>
 <span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">associations_subjects</span><span class="p">(</span><span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">associations_subjects</span><span class="p">(</span><span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Yields distinct subjects for all associations.</span>
 
@@ -124,7 +125,7 @@
         <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">associations_objects</span><span class="p">(</span><span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">associations_objects</span><span class="p">(</span><span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Yields distinct subjects for all associations.</span>
 
@@ -140,7 +141,7 @@
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">EntityNormalizer</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EntityNormalizer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Describes how identifier fields should be normalized</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -161,7 +162,7 @@
 <div class="viewcode-block" id="AssociationProviderInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">AssociationProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AssociationProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An ontology provider that provides associations.</span>
 
@@ -224,7 +225,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.associations">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations">[docs]</a>
-    <span class="k">def</span> <span class="nf">associations</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">associations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -295,7 +296,7 @@
         <span class="k">yield from</span> <span class="n">ix</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_inject_subject_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">association_iterator</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inject_subject_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">association_iterator</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">]):</span>
         <span class="k">for</span> <span class="n">assoc_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">association_iterator</span><span class="p">):</span>
             <span class="n">associations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assoc_it</span><span class="p">)</span>
             <span class="n">subjects</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">}</span>
@@ -308,7 +309,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.associations_subjects">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations_subjects">[docs]</a>
-    <span class="k">def</span> <span class="nf">associations_subjects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">associations_subjects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all distinct subjects.</span>
 
@@ -338,7 +339,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.associations_subject_search">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations_subject_search">[docs]</a>
-    <span class="k">def</span> <span class="nf">associations_subject_search</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">associations_subject_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -430,7 +431,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.association_pairwise_coassociations">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_pairwise_coassociations">[docs]</a>
-    <span class="k">def</span> <span class="nf">association_pairwise_coassociations</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">association_pairwise_coassociations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">curies1</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">curies2</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
@@ -471,7 +472,7 @@
         <span class="n">symmetric</span> <span class="o">=</span> <span class="n">curies1</span> <span class="o">==</span> <span class="n">curies2</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finding co-associations between </span><span class="si">{</span><span class="n">curies1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">curies2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">_filter_negated</span><span class="p">(</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_filter_negated</span><span class="p">(</span>
             <span class="n">assocs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PositiveOrNegativeAssociation</span><span class="p">],</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PositiveOrNegativeAssociation</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">include_negated</span><span class="p">:</span>
@@ -529,7 +530,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.add_associations">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_associations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">],</span>
         <span class="n">normalizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -558,7 +559,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.association_counts">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_counts">[docs]</a>
-    <span class="k">def</span> <span class="nf">association_counts</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">association_counts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -619,7 +620,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.association_subject_counts">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_subject_counts">[docs]</a>
-    <span class="k">def</span> <span class="nf">association_subject_counts</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">association_subject_counts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -689,7 +690,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.map_associations">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.map_associations">[docs]</a>
-    <span class="k">def</span> <span class="nf">map_associations</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">map_associations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -749,7 +750,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.normalize_associations">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.normalize_associations">[docs]</a>
-    <span class="k">def</span> <span class="nf">normalize_associations</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">normalize_associations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">],</span>
         <span class="n">normalizers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -804,7 +805,7 @@
 
 <div class="viewcode-block" id="AssociationProviderInterface.normalize_association">
 <a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.normalize_association">[docs]</a>
-    <span class="k">def</span> <span class="nf">normalize_association</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">normalize_association</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">association</span><span class="p">:</span> <span class="n">Association</span><span class="p">,</span>
         <span class="n">normalizers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -836,6 +837,17 @@
         <span class="k">return</span> <span class="n">association</span></div>
 </div>
 
+
+
+<span class="nd">@unique</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubjectOrObjectRole</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Role of terms in the term list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SUBJECT</span> <span class="o">=</span> <span class="s2">&quot;subject&quot;</span>
+    <span class="n">OBJECT</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span>
+    <span class="n">BOTH</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span>
 </pre></div>
 
            </div>

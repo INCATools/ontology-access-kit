@@ -93,8 +93,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
-<span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 
 <span class="n">go</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
 <span class="n">amigo</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;amigo:&quot;</span><span class="p">)</span>
@@ -105,8 +105,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -429,7 +429,7 @@ Summary for evidence code: All
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">REGULATES</span><span class="p">,</span> <span class="n">NEGATIVELY_REGULATES</span><span class="p">,</span> <span class="n">POSITIVELY_REGULATES</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">REGULATES</span><span class="p">,</span> <span class="n">NEGATIVELY_REGULATES</span><span class="p">,</span> <span class="n">POSITIVELY_REGULATES</span>
 
 <span class="n">all_leafs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">leafs</span><span class="p">(</span><span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">,</span> <span class="n">REGULATES</span><span class="p">,</span> <span class="n">NEGATIVELY_REGULATES</span><span class="p">,</span> <span class="n">POSITIVELY_REGULATES</span><span class="p">],</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <br/></pre></div>

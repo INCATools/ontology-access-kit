@@ -23,9 +23,9 @@ URI: [ontoassoc:negated](https://w3id.org/oak/association/negated)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  yes  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  yes  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  yes  |
 
 
 

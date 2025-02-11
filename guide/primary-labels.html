@@ -112,7 +112,7 @@
 <h2>Looking up labels<a class="headerlink" href="#looking-up-labels" title="Link to this heading"></a></h2>
 <p>The <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> provides a way to look up the primary <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">Label</span></a> for an
 entity or set of entities. For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0000948&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ont</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
@@ -138,8 +138,8 @@ other ontologies. Some ontologies may use a different property like:</p>
 <p>Some adapters will allow you to use custom mappings from rdfs:label to these
 other properties. Here you can either specify a specific <em>profiles</em>, or
 provide a set of mappings in SSSOM form.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.mappers</span> <span class="kn">import</span> <span class="n">OntologyMetadataMapper</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.mappers</span><span class="w"> </span><span class="kn">import</span> <span class="n">OntologyMetadataMapper</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># use the standard sparql adapter over local files</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/soil-profile.skos.nt&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># add a custom prefix</span>

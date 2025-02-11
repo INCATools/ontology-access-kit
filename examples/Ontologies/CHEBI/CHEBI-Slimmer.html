@@ -84,6 +84,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../AdHoc/index.html">Ad Hoc Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
@@ -127,14 +128,14 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">reflexive</span>
-<span class="kn">from</span> <span class="nn">tests.test_converters.test_obo_format</span> <span class="kn">import</span> <span class="n">canonical_path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.obograph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">reflexive</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tests.test_converters.test_obo_format</span><span class="w"> </span><span class="kn">import</span> <span class="n">canonical_path</span>
 
 <span class="n">chebi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:chebi&quot;</span><span class="p">)</span>
 <span class="c1"># session = get_adapter(&quot;sqlite:obo:chebi&quot;).session</span>
@@ -146,8 +147,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">HAS_PART</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">HAS_PART</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
 
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chebi</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">)</span>
 <br/></pre></div>
@@ -246,7 +247,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">semsql.sqla.semsql</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">HasDbxrefStatement</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">semsql.sqla.semsql</span><span class="w"> </span><span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">HasDbxrefStatement</span>
 <span class="n">q</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">HasDbxrefStatement</span><span class="p">)</span>
 <span class="n">xrefs</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
@@ -334,7 +335,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">semsql.sqla.semsql</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">HasDbxrefStatement</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">semsql.sqla.semsql</span><span class="w"> </span><span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">HasDbxrefStatement</span>
 
 <span class="n">session</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:chebi&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">session</span>
 <span class="n">q</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="s2">&quot;obo:chebi/charge&quot;</span><span class="p">)</span>
@@ -566,11 +567,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
 <span class="c1"># find strongly connected components using cbos</span>
 
-<span class="k">def</span> <span class="nf">calculate_conj_graph</span><span class="p">(</span><span class="n">conjrels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_conj_graph</span><span class="p">(</span><span class="n">conjrels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">:</span>
     <span class="n">conj_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">conjrels</span><span class="p">:</span>
         <span class="n">conj_graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
@@ -691,20 +692,20 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 
 <span class="c1"># stem to chem is a mapping between a stem (e.g. &quot;L-lysine&quot;)</span>
 <span class="c1"># and a dictionary of suffixes to CHEBI IDs</span>
 <span class="n">stem_to_chem</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">stem_to_chem</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">_norm</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_norm</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="c1"># CHEBI is inconsistent, e.g. &quot;amino-acid&quot; vs &quot;amino acid&quot;</span>
     <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-acid&quot;</span><span class="p">,</span> <span class="s2">&quot; acid&quot;</span><span class="p">)</span>
     <span class="c1"># label = label.replace(&quot; acid&quot;, &quot;&quot;)</span>
     <span class="k">return</span> <span class="n">label</span>
 
-<span class="k">def</span> <span class="nf">_de_acid</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_de_acid</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot; acid&quot;</span><span class="p">):</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; acid&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;ic&quot;</span><span class="p">):</span>
@@ -863,7 +864,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">NO_REL</span> <span class="o">=</span> <span class="s2">&quot;NO_REL&quot;</span>
 <span class="n">INVERSES</span> <span class="o">=</span> <span class="p">{</span>
@@ -874,7 +875,7 @@
 <span class="p">}</span>
 
 <span class="n">charge_problems</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">def</span> <span class="nf">make_conjrefs</span><span class="p">(</span><span class="n">clique_suffix_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_conjrefs</span><span class="p">(</span><span class="n">clique_suffix_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">suffix1</span><span class="p">,</span> <span class="n">chem1</span> <span class="ow">in</span> <span class="n">clique_suffix_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">ch1</span> <span class="o">=</span> <span class="n">suffixes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">suffix1</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -1173,7 +1174,7 @@
 </div>
 <div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">chem_to_stem</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">lexical_conj_pairs</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">_assign</span><span class="p">(</span><span class="n">chem</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stem</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assign</span><span class="p">(</span><span class="n">chem</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stem</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">chem</span> <span class="ow">in</span> <span class="n">chem_to_stem</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">chem_to_stem</span><span class="p">[</span><span class="n">chem</span><span class="p">]</span> <span class="o">!=</span> <span class="n">stem</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Conflicting stems for </span><span class="si">{</span><span class="n">chem</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">chem_to_stem</span><span class="p">[</span><span class="n">chem</span><span class="p">]</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">stem</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1222,15 +1223,15 @@
 <span class="c1"># - rhea_sccs</span>
 <span class="c1"># - full_sccs</span>
 
-<span class="kn">from</span> <span class="nn">matplotlib_venn</span> <span class="kn">import</span> <span class="n">venn3</span>
-<span class="kn">from</span> <span class="nn">matplotlib_venn</span> <span class="kn">import</span> <span class="n">venn3_unweighted</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib_venn</span><span class="w"> </span><span class="kn">import</span> <span class="n">venn3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib_venn</span><span class="w"> </span><span class="kn">import</span> <span class="n">venn3_unweighted</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="k">def</span> <span class="nf">hashable_scc</span><span class="p">(</span><span class="n">scc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hashable_scc</span><span class="p">(</span><span class="n">scc</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">])</span>
 
-<span class="k">def</span> <span class="nf">my_venn3</span><span class="p">(</span><span class="n">sccs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_venn3</span><span class="p">(</span><span class="n">sccs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">scc_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">hashable_scc</span><span class="p">(</span><span class="n">scc</span><span class="p">)</span> <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">sccs</span><span class="p">]</span>
     <span class="n">venn3_unweighted</span><span class="p">(</span><span class="n">scc_sets</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -1263,7 +1264,7 @@ Cell <span class="ansi-green-fg">In[43], line 21</span>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># same as Euler diagram</span>
-<span class="kn">from</span> <span class="nn">matplotlib_venn</span> <span class="kn">import</span> <span class="n">venn3_unweighted</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib_venn</span><span class="w"> </span><span class="kn">import</span> <span class="n">venn3_unweighted</span>
 <br/></pre></div>
 </div>
 </div>
@@ -1271,7 +1272,7 @@ Cell <span class="ansi-green-fg">In[43], line 21</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lexical_conj_pairs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1416,9 +1417,9 @@ Length: 424, dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">entropy</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">entropy</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">df</span>
 
@@ -1426,7 +1427,7 @@ Length: 424, dtype: int64
 <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
 <span class="c1"># Create a function to calculate entropy for each group</span>
-<span class="k">def</span> <span class="nf">calculate_entropy</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_entropy</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
     <span class="n">counts</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">entropy</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
 
@@ -1960,7 +1961,7 @@ Length: 424, dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">semsql.sqla.semsql</span> <span class="kn">import</span> <span class="n">OwlAxiomAnnotation</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">semsql.sqla.semsql</span><span class="w"> </span><span class="kn">import</span> <span class="n">OwlAxiomAnnotation</span>
 
 <span class="n">q</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">OwlAxiomAnnotation</span><span class="p">)</span>
 <span class="n">axiom_anns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
@@ -2052,7 +2053,7 @@ Length: 424, dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pystow</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pystow</span>
 <span class="n">ph_mapping_df</span> <span class="o">=</span> <span class="n">pystow</span><span class="o">.</span><span class="n">ensure_csv</span><span class="p">(</span><span class="s2">&quot;rhea&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://ftp.expasy.org/databases/rhea/tsv/chebi_pH7_3_mapping.tsv&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;CHEBI&quot;</span><span class="p">,</span> <span class="s2">&quot;CHEBI_PH7_3&quot;</span><span class="p">]:</span>
     <span class="n">ph_mapping_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CHEBI:&quot;</span> <span class="o">+</span> <span class="n">ph_mapping_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
@@ -2302,7 +2303,7 @@ Length: 424, dtype: int64
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">arbitrary_canonical_map</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">def</span> <span class="nf">pick_canonical</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pick_canonical</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pick the canonical term from a list of ids.</span>
 
@@ -2375,10 +2376,10 @@ Length: 424, dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
 
 
-<span class="k">def</span> <span class="nf">create_canonical_map</span><span class="p">(</span><span class="n">scc_sets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_canonical_map</span><span class="p">(</span><span class="n">scc_sets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a mapping between canonical and members of the strongly connected components</span>
 <span class="sd">    :param scc_sets:</span>
@@ -2605,7 +2606,7 @@ Length: 424, dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rewire</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">rewire</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rewire an ID to its canonical form, if it is not in the exclusion list</span>
 <span class="sd">    :param id:</span>
@@ -2659,12 +2660,12 @@ Length: 424, dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 
 
 
-<span class="k">class</span> <span class="nc">Term</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Term</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">stanza_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Term&quot;</span>
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
@@ -2677,7 +2678,7 @@ Length: 424, dtype: int64
     <span class="n">physiologically_stable_form</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">comments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">as_obo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_obo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\{&#39;</span><span class="p">)</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
             <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stanza_type</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
@@ -2696,10 +2697,10 @@ Length: 424, dtype: int64
         <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">Ontology</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Ontology</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">as_obo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_obo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
             <span class="sa">f</span><span class="s2">&quot;ontology: chebi-slim&quot;</span><span class="p">,</span>
              <span class="s2">&quot;idspace: chemrof https://w3id.org/chemrof/&quot;</span><span class="p">,</span>
@@ -2715,7 +2716,7 @@ Length: 424, dtype: int64
 </div>
 <div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">BAD_SUFFIXES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;zwitterion&quot;</span><span class="p">,</span> <span class="s2">&quot;ion&quot;</span><span class="p">,</span> <span class="s2">&quot;(1+)&quot;</span><span class="p">,</span> <span class="s2">&quot;(2+)&quot;</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">make_term</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Term</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_term</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Term</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make a term from an ID</span>
 
@@ -3079,7 +3080,7 @@ xref: Wikipedia:Pesticide
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">roots</span><span class="p">(</span><span class="n">terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">]):</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">roots</span><span class="p">(</span><span class="n">terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">]):</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terms</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span><span class="o">.</span><span class="n">parents</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -3096,7 +3097,7 @@ xref: Wikipedia:Pesticide
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span> <span class="nf">make_terms_for_ids</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">]:</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_terms_for_ids</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make terms for a list of IDs</span>
 
@@ -3128,7 +3129,7 @@ xref: Wikipedia:Pesticide
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">write_terms</span><span class="p">(</span><span class="n">terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">],</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">write_terms</span><span class="p">(</span><span class="n">terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">],</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write terms to a file</span>
 
@@ -3146,7 +3147,7 @@ xref: Wikipedia:Pesticide
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_write_all</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">]:</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">generate_write_all</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Term</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run whole pipeline</span>
 
@@ -3249,7 +3250,7 @@ property_value: chemrof:has_physiologically_stable_form CHEBI:35235
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[109]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">OWL_CLASS</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">OWL_CLASS</span>
 
 <span class="c1"># all_ids = list(chebi.descendants(ROOT))</span>
 <span class="n">all_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chebi</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">))</span>

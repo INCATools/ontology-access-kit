@@ -27,7 +27,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Glossary" href="../../glossary.html" />
+    <link rel="prev" title="Summarizing with LLMs" href="Summarizing-with-LLMs.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,7 +52,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
@@ -58,7 +60,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Ad Hoc Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Summarizing-with-LLMs.html">Summarizing with LLMs</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Analyzing Text Content of all Ontologies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-Results">Plot Results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
@@ -77,6 +93,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Ad Hoc Examples</a></li>
       <li class="breadcrumb-item active">Analyzing Text Content of all Ontologies</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/examples/AdHoc/Text-Content-Analysis.ipynb.txt" rel="nofollow"> View page source</a>
@@ -117,7 +135,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;output/ontologies-tc.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
@@ -216,7 +234,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># replace ontology column (which is currently file path) with ontology name (stemmed file name)</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ontology&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ontology&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.db&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
 <span class="n">df</span>
 </pre></div>
@@ -420,8 +438,8 @@
 <span class="c1"># y-axis: text_content</span>
 <span class="c1"># order by text_content</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;text_content&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
@@ -457,7 +475,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Summarizing-with-LLMs.html" class="btn btn-neutral float-left" title="Summarizing with LLMs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

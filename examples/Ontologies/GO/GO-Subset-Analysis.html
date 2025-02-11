@@ -84,6 +84,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Adapters/index.html">Adapter Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../AdHoc/index.html">Ad Hoc Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
@@ -125,8 +126,8 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Basic OAK setup</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
-<span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 
 <span class="n">go</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
 </pre></div>
@@ -136,8 +137,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -161,10 +162,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="n">AssociationProviderInterface</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.association_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociationProviderInterface</span>
 
 <span class="n">_amigos</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">def</span> <span class="nf">get_amigo</span><span class="p">(</span><span class="n">taxon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AssociationProviderInterface</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_amigo</span><span class="p">(</span><span class="n">taxon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AssociationProviderInterface</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">taxon</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_amigos</span><span class="p">:</span>
         <span class="n">_amigos</span><span class="p">[</span><span class="n">taxon</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;amigo:</span><span class="si">{</span><span class="n">taxon</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_amigos</span><span class="p">[</span><span class="n">taxon</span><span class="p">]</span>
@@ -176,7 +177,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_ribbon_terms</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">def</span> <span class="nf">get_ribbon_terms</span><span class="p">(</span><span class="n">ribbon</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_ribbon_terms</span><span class="p">(</span><span class="n">ribbon</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">ribbon</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_ribbon_terms</span><span class="p">:</span>
         <span class="n">_ribbon_terms</span><span class="p">[</span><span class="n">ribbon</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">subset_members</span><span class="p">(</span><span class="n">ribbon</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">_ribbon_terms</span><span class="p">[</span><span class="n">ribbon</span><span class="p">]</span>
@@ -187,7 +188,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span> <span class="nf">fetch_matrix</span><span class="p">(</span><span class="n">taxon</span><span class="p">,</span> <span class="n">ribbon</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fetch_matrix</span><span class="p">(</span><span class="n">taxon</span><span class="p">,</span> <span class="n">ribbon</span><span class="p">):</span>
     <span class="n">amigo</span> <span class="o">=</span> <span class="n">get_amigo</span><span class="p">(</span><span class="n">taxon</span><span class="p">)</span>
     <span class="n">terms</span> <span class="o">=</span> <span class="n">get_ribbon_terms</span><span class="p">(</span><span class="n">ribbon</span><span class="p">)</span>
     <span class="n">coassocs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">amigo</span><span class="o">.</span><span class="n">association_pairwise_coassociations</span><span class="p">(</span><span class="n">terms</span><span class="p">,</span> <span class="n">terms</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
@@ -1211,7 +1212,7 @@
     <span class="s2">&quot;molecular_function&quot;</span><span class="p">:</span> <span class="s2">&quot;GO:0003674&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="n">_terms_to_roots</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">def</span> <span class="nf">get_term_category</span><span class="p">(</span><span class="n">term_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_term_category</span><span class="p">(</span><span class="n">term_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">term_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_terms_to_roots</span><span class="p">:</span>
         <span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">term_id</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
         <span class="k">for</span> <span class="n">root_name</span><span class="p">,</span> <span class="n">root_id</span> <span class="ow">in</span> <span class="n">roots</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1228,10 +1229,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">linkml_runtime.dumpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_dumper</span>
 
 
-<span class="k">def</span> <span class="nf">coassoc_to_df</span><span class="p">(</span><span class="n">coassocs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">coassoc_to_df</span><span class="p">(</span><span class="n">coassocs</span><span class="p">):</span>
     <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">coassoc</span> <span class="ow">in</span> <span class="n">coassocs</span><span class="p">:</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">json_dumper</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">coassoc</span><span class="p">)</span>
@@ -1652,7 +1653,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">by_aspect</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">aspect</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">by_aspect</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">aspect</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;aspect1 == &#39;</span><span class="si">{</span><span class="n">aspect</span><span class="si">}</span><span class="s2">&#39; and aspect2 == &#39;</span><span class="si">{</span><span class="n">aspect</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1865,7 +1866,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>  <span class="c1"># Adjust the size as needed</span>
 <br/></pre></div>
 </div>
@@ -1891,9 +1892,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
-<span class="k">def</span> <span class="nf">plot_matrix</span><span class="p">(</span><span class="n">filtered</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">aspect</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_matrix</span><span class="p">(</span><span class="n">filtered</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">aspect</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="n">pivoted</span> <span class="o">=</span> <span class="n">by_aspect</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">aspect</span><span class="p">)</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;label1&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;label2&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;proportion_subjects_in_common&quot;</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">pivoted</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">)</span>
     <span class="c1"># ax.get_figure().savefig(f&quot;output/{aspect}-heatmap.png&quot;, bbox_inches=&quot;tight&quot;</span>
@@ -1922,10 +1923,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="n">coassoc_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">all_coassocs</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">all_coassocs</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">ribbon</span><span class="p">,</span> <span class="n">taxa</span> <span class="ow">in</span> <span class="n">ribbons</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">taxon</span> <span class="ow">in</span> <span class="n">taxa</span><span class="p">:</span>
             <span class="n">pair</span> <span class="o">=</span> <span class="p">(</span><span class="n">ribbon</span><span class="p">,</span> <span class="n">taxon</span><span class="p">)</span>

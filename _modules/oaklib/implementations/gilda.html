@@ -86,16 +86,16 @@
   <h1>Source code for oaklib.implementations.gilda</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;A text annotator based on Gilda.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Iterator</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.text_annotator</span> <span class="kn">import</span> <span class="n">TextAnnotation</span><span class="p">,</span> <span class="n">TextAnnotationConfiguration</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.text_annotator_interface</span> <span class="kn">import</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">nen_annotation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.text_annotator</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextAnnotation</span><span class="p">,</span> <span class="n">TextAnnotationConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.text_annotator_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">nen_annotation</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">gilda</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">gilda</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;GildaImplementation&quot;</span><span class="p">,</span>
@@ -105,7 +105,7 @@
 <div class="viewcode-block" id="GildaImplementation">
 <a class="viewcode-back" href="../../../packages/implementations/gilda.html#oaklib.implementations.gilda.GildaImplementation">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">GildaImplementation</span><span class="p">(</span><span class="n">TextAnnotatorInterface</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GildaImplementation</span><span class="p">(</span><span class="n">TextAnnotatorInterface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform named entity normalization on text strings with Gilda [gyori2021]_.</span>
 
@@ -128,9 +128,9 @@
 <span class="sd">    3. Otherwise, it gets instantiated with the default Gilda term index</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grounder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">gilda.grounder</span> <span class="kn">import</span> <span class="n">Grounder</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">gilda.grounder</span><span class="w"> </span><span class="kn">import</span> <span class="n">Grounder</span>
 
             <span class="c1"># The slug corresponds to the path to a gzipped terms TSV</span>
             <span class="c1"># when parsed from a descriptor like ``gilda:&lt;path&gt;` via</span>
@@ -142,7 +142,7 @@
                 <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Gilda grounder will use default term index.&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">grounder</span> <span class="o">=</span> <span class="n">Grounder</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">annotate_text</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TextAnnotationConfiguration</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -160,8 +160,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gilda_annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_gilda_annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
-        <span class="kn">from</span> <span class="nn">gilda.ner</span> <span class="kn">import</span> <span class="n">annotate</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gilda_annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">gilda.ner</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotate</span>
 
         <span class="k">for</span> <span class="n">match_text</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">grounder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grounder</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">TextAnnotation</span><span class="p">(</span>
@@ -173,7 +173,7 @@
                 <span class="n">matches_whole_text</span><span class="o">=</span><span class="n">start</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">end</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_ground</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ground</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grounder</span><span class="o">.</span><span class="n">ground</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">nen_annotation</span><span class="p">(</span>
                 <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>

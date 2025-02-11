@@ -84,35 +84,35 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.implementations.ubergraph.ubergraph_implementation</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">OWL</span><span class="p">,</span> <span class="n">RDF</span><span class="p">,</span> <span class="n">RDFS</span><span class="p">,</span> <span class="n">URIRef</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rdflib</span><span class="w"> </span><span class="kn">import</span> <span class="n">OWL</span><span class="p">,</span> <span class="n">RDF</span><span class="p">,</span> <span class="n">RDFS</span><span class="p">,</span> <span class="n">URIRef</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="n">TermPairwiseSimilarity</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.abstract_sparql_implementation</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels</span><span class="w"> </span><span class="kn">import</span> <span class="n">obograph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.similarity</span><span class="w"> </span><span class="kn">import</span> <span class="n">TermPairwiseSimilarity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.sparql.abstract_sparql_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AbstractSparqlImplementation</span><span class="p">,</span>
     <span class="n">_as_rdf_obj</span><span class="p">,</span>
     <span class="n">_sparql_values</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.sparql_query</span> <span class="kn">import</span> <span class="n">SparqlQuery</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">SubsetterInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">RELATIONSHIP</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">GraphTraversalMethod</span><span class="p">,</span> <span class="n">OboGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.rdf_interface</span> <span class="kn">import</span> <span class="n">TRIPLE</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.semsim_interface</span> <span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.usages_interface</span> <span class="kn">import</span> <span class="n">UsagesInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.graph.networkx_bridge</span> <span class="kn">import</span> <span class="n">transitive_reduction_by_predicate</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.semsim.similarity_utils</span> <span class="kn">import</span> <span class="n">setwise_jaccard_similarity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.sparql.sparql_query</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparqlQuery</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubsetterInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">RELATIONSHIP</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.mapping_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphTraversalMethod</span><span class="p">,</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.rdf_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">TRIPLE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.relation_graph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">RelationGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.search_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.semsim_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.usages_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsagesInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.graph.networkx_bridge</span><span class="w"> </span><span class="kn">import</span> <span class="n">transitive_reduction_by_predicate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.semsim.similarity_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">setwise_jaccard_similarity</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;RelationGraphEnum&quot;</span><span class="p">,</span>
@@ -122,7 +122,7 @@
 
 <div class="viewcode-block" id="RelationGraphEnum">
 <a class="viewcode-back" href="../../../../packages/implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">[docs]</a>
-<span class="k">class</span> <span class="nc">RelationGraphEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RelationGraphEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    triples in UG are organized into different graphs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -137,7 +137,7 @@
 <div class="viewcode-block" id="UbergraphImplementation">
 <a class="viewcode-back" href="../../../../packages/implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">UbergraphImplementation</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">UbergraphImplementation</span><span class="p">(</span>
     <span class="n">AbstractSparqlImplementation</span><span class="p">,</span>
     <span class="n">RelationGraphInterface</span><span class="p">,</span>
     <span class="n">SearchInterface</span><span class="p">,</span>
@@ -171,17 +171,17 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_default_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_default_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;https://ubergraph.apps.renci.org/sparql&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_is_blazegraph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_blazegraph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Currently Ubergraph uses blazegraph</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">named_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">named_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
@@ -196,7 +196,7 @@
     <span class="c1"># Implements: RelationGraph</span>
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
-    <span class="k">def</span> <span class="nf">_get_outgoing_edges_by_curie</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_outgoing_edges_by_curie</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">RelationGraphEnum</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="n">query_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
@@ -213,7 +213,7 @@
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;o&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
             <span class="k">yield</span> <span class="n">pred</span><span class="p">,</span> <span class="n">obj</span>
 
-    <span class="k">def</span> <span class="nf">_get_incoming_edges_by_curie</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_incoming_edges_by_curie</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">RelationGraphEnum</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="n">query_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
@@ -230,7 +230,7 @@
             <span class="n">subj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
             <span class="k">yield</span> <span class="n">pred</span><span class="p">,</span> <span class="n">subj</span>
 
-    <span class="k">def</span> <span class="nf">outgoing_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outgoing_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="n">rmap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_outgoing_edges_by_curie</span><span class="p">(</span>
             <span class="n">curie</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">nonredundant</span>
@@ -238,7 +238,7 @@
             <span class="n">rmap</span><span class="p">[</span><span class="n">pred</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rmap</span>
 
-    <span class="k">def</span> <span class="nf">incoming_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">incoming_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="n">rmap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_incoming_edges_by_curie</span><span class="p">(</span>
             <span class="n">curie</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">nonredundant</span>
@@ -246,7 +246,7 @@
             <span class="n">rmap</span><span class="p">[</span><span class="n">pred</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rmap</span>
 
-    <span class="k">def</span> <span class="nf">relationships</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -285,14 +285,14 @@
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;o&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
             <span class="k">yield</span> <span class="n">sub</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">obj</span>
 
-    <span class="k">def</span> <span class="nf">entailed_outgoing_relationships</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entailed_outgoing_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_outgoing_edges_by_curie</span><span class="p">(</span>
             <span class="n">curie</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">redundant</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">entailed_incoming_relationships</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entailed_incoming_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_incoming_edges_by_curie</span><span class="p">(</span>
@@ -303,13 +303,13 @@
     <span class="c1"># Implements: OboGraph</span>
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
-    <span class="k">def</span> <span class="nf">_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">in_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">in_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">in_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;VALUES ?</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1"> </span><span class="se">{{</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">in_list</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="se">}}</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="nf">_from_subjects_chunked</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_from_subjects_chunked</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
         <span class="n">size</span> <span class="o">=</span> <span class="mi">10</span>
@@ -319,7 +319,7 @@
             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_subjects</span><span class="p">(</span><span class="n">next_subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">r</span>
 
-    <span class="k">def</span> <span class="nf">_from_subjects</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_from_subjects</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -353,10 +353,10 @@
                 <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">yield</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]),</span> <span class="n">v</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_object_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_object_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_triples</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">RDF</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">OWL</span><span class="o">.</span><span class="n">ObjectProperty</span><span class="p">)]))</span>
 
-    <span class="k">def</span> <span class="nf">ancestor_graph</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ancestor_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
         <span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">))</span>
@@ -374,7 +374,7 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NUM NODES: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">relationships_to_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">relationships_to_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
         <span class="n">relationships</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">relationships</span><span class="p">)</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">obograph</span><span class="o">.</span><span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">relationships</span><span class="p">]</span>
         <span class="n">node_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -388,7 +388,7 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NUM EDGES: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">ancestors</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ancestors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -415,7 +415,7 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;o&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">descendants</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">descendants</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -435,14 +435,14 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">syntax</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">syntax</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Dump not allowed on ubergraph&quot;</span><span class="p">)</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: Subsetter</span>
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
-    <span class="k">def</span> <span class="nf">gap_fill_relationships</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gap_fill_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="c1"># TODO: compare with https://api.triplydb.com/s/_mZ9q_-rg</span>
@@ -470,7 +470,7 @@
     <span class="c1"># Implements: SemSim</span>
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
-    <span class="k">def</span> <span class="nf">common_ancestors</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">common_ancestors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">s_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
@@ -485,7 +485,7 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">most_recent_common_ancestors</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">most_recent_common_ancestors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">s_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
@@ -506,7 +506,7 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">get_information_content</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_information_content</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">background</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">predicates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -516,7 +516,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Multiple ICs for </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ics</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">ics</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">pairwise_similarity</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pairwise_similarity</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermPairwiseSimilarity</span><span class="p">:</span>
         <span class="n">s_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
@@ -563,7 +563,7 @@
     <span class="c1"># Implements: RdfInterface</span>
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
-    <span class="k">def</span> <span class="nf">extract_triples</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_triples</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

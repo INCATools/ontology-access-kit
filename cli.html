@@ -76,6 +76,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply-taxon-constraints">apply-taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-associations">associations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-associations-counts">associations-counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-associations-graph">associations-graph</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-associations-matrix">associations-matrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-cache-clear">cache-clear</a></li>
@@ -1146,6 +1147,28 @@ can use input specifications to bundle common combinations of inputs together.</
 </dl>
 </dd></dl>
 
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-expand">
+<span class="sig-name descname"><span class="pre">--expand</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-expand</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-expand" title="Link to this definition"></a></dt>
+<dd><p>Expand by feeding results into subsequent query</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-H">
+<span class="sig-name descname"><span class="pre">-H</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--header</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-header</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-H</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-H" title="Link to this definition"></a></dt>
+<dd><p>Show a header</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Arguments</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-associations-arg-TERMS">
@@ -1301,6 +1324,113 @@ the docs for this command for details.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-arg-TERMS">
 <span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-arg-TERMS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-associations-graph">
+<h4>associations-graph<a class="headerlink" href="#runoak-associations-graph" title="Link to this heading"></a></h4>
+<p>Query associations and fill out ontology graph.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i amigo: associations-graph -p i,p -A sqlite:obo:go -Q subject WB:WBGene00001187 -o gene.json</p>
+</div></blockquote>
+<p>This queries for associations whose subject is the gene WBGene00001187 in AmiGO, and uses
+the GO ontology to fill out the graph, following is-a and part-of relationships.</p>
+<p>To immediately visualize, add –view to the end:</p>
+<blockquote>
+<div><p>runoak -i amigo: associations-graph -p i,p -A sqlite:obo:go -Q subject WB:WBGene00001187 –view</p>
+</div></blockquote>
+<p>You can use –gap-fill to trim the graph to only pairwise MRCAs and span the gaps:</p>
+<blockquote>
+<div><p>runoak -i amigo: associations-graph -p i,p -A sqlite:obo:go -Q subject WB:WBGene00001187 –gap-fill –view</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations-graph<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-p">
+<span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-p" title="Link to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates. This may be a shorthand (i, p) or CURIE</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-O">
+<span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-o">
+<span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-o" title="Link to this definition"></a></dt>
+<dd><p>Output file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-association-predicates">
+<span class="sig-name descname"><span class="pre">--association-predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;association_predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-association-predicates" title="Link to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates for the association relation</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-A">
+<span class="sig-name descname"><span class="pre">-A</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--ontology-adapter</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;ontology_adapter&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-A" title="Link to this definition"></a></dt>
+<dd><p>Adapter to use for traversing ontology graph</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-gap-fill">
+<span class="sig-name descname"><span class="pre">--gap-fill</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-gap-fill</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-gap-fill" title="Link to this definition"></a></dt>
+<dd><p>Fill in missing nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-Q">
+<span class="sig-name descname"><span class="pre">-Q</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--terms-role</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;terms_role&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-Q" title="Link to this definition"></a></dt>
+<dd><p>How to interpret query terms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'object'</span></code></p>
+</dd>
+<dt class="field-even">Options<span class="colon">:</span></dt>
+<dd class="field-even"><p>subject | object | both</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-view">
+<span class="sig-name descname"><span class="pre">--view</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-view</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-view" title="Link to this definition"></a></dt>
+<dd><p>if view is set then open the image after rendering</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-S">
+<span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--stylemap</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;stylemap&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-S" title="Link to this definition"></a></dt>
+<dd><p>a json file to configure visualization. See <a class="reference external" href="https://berkeleybop.github.io/kgviz-model/">https://berkeleybop.github.io/kgviz-model/</a></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-C">
+<span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-C" title="Link to this definition"></a></dt>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-graph-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-graph-arg-TERMS" title="Link to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
@@ -4343,7 +4473,7 @@ results to viz, using the fill-gaps option.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-paths-C">
 <span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-paths-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -4385,7 +4515,7 @@ simple dictionaries:</p>
 <p>For RDF exports, the prefix declaration should appear in BOTH prefix declarations, AND also as
 instances of SHACL PrefixDeclarations, e.g.</p>
 <blockquote>
-<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id7"><span class="problematic" id="id8">CL_</span></a>&gt; .
+<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id9"><span class="problematic" id="id10">CL_</span></a>&gt; .
 …
 [] a sh:PrefixDeclaration ;</p>
 <blockquote>
@@ -5891,7 +6021,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-C">
 <span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id5"><span class="problematic" id="id6">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -6626,7 +6756,7 @@ to a distance of 2:</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-viz-C">
 <span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id5"><span class="problematic" id="id6">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id7"><span class="problematic" id="id8">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">

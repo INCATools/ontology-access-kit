@@ -18,11 +18,11 @@ URI: [oio:is_class_level](http://www.geneontology.org/formats/oboInOwl#is_class_
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [Property](Property.md) |  |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 

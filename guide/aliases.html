@@ -216,7 +216,7 @@ as either lists of strings associated with entities, or predicate-string tuples.
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">entity_aliases</span></code> method returns a list of strings.</p>
 <p>Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">)):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>

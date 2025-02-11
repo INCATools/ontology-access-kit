@@ -84,11 +84,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.patcher_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kgcl_schema.datamodel.kgcl</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Activity</span><span class="p">,</span>
     <span class="n">Change</span><span class="p">,</span>
     <span class="n">Configuration</span><span class="p">,</span>
@@ -100,16 +100,16 @@
     <span class="n">NodeRename</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.kgcl_utilities</span> <span class="kn">import</span> <span class="n">generate_change_id</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.kgcl_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_change_id</span>
 
 
 <div class="viewcode-block" id="PatcherInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">[docs]</a>
-<span class="k">class</span> <span class="nc">PatcherInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatcherInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Applies diffs</span>
 
@@ -126,7 +126,7 @@
 
 <div class="viewcode-block" id="PatcherInterface.apply_patch">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">[docs]</a>
-    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_patch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">patch</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span>
         <span class="n">activity</span><span class="p">:</span> <span class="n">Activity</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -149,7 +149,7 @@
 
 <div class="viewcode-block" id="PatcherInterface.migrate_curies">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies">[docs]</a>
-    <span class="k">def</span> <span class="nf">migrate_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">migrate_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rewire an ontology replacing all usages of some CURIEs</span>
 
@@ -161,7 +161,7 @@
 
 <div class="viewcode-block" id="PatcherInterface.save">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.save">[docs]</a>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Commits all changes</span>
 
@@ -171,7 +171,7 @@
 
 <div class="viewcode-block" id="PatcherInterface.expand_changes">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_changes">[docs]</a>
-    <span class="k">def</span> <span class="nf">expand_changes</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expand_changes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">],</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">apply</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -194,7 +194,7 @@
 
 <div class="viewcode-block" id="PatcherInterface.expand_change">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">[docs]</a>
-    <span class="k">def</span> <span class="nf">expand_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">change</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expand_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">change</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expand a complex change object to a list of atomic changes.</span>
 
@@ -300,7 +300,7 @@
 
 <div class="viewcode-block" id="PatcherInterface.undo">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.undo">[docs]</a>
-    <span class="k">def</span> <span class="nf">undo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">],</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">undo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">],</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Undo a list of changes</span>
 
@@ -324,7 +324,7 @@
 
 <div class="viewcode-block" id="PatcherInterface.reverse_changes">
 <a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.reverse_changes">[docs]</a>
-    <span class="k">def</span> <span class="nf">reverse_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reverse_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates reciprocal Undo operations for a list of changes</span>
 
@@ -334,10 +334,10 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
-    <span class="k">def</span> <span class="nf">add_contributors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">agents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_contributors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">agents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">set_creator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_creator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 </pre></div>

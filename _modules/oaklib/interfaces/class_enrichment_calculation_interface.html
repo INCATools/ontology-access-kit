@@ -84,29 +84,29 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.class_enrichment_calculation_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">ClassVar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="n">Association</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.class_enrichment</span> <span class="kn">import</span> <span class="n">ClassEnrichmentResult</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.item_list</span> <span class="kn">import</span> <span class="n">ItemList</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">EQUIVALENT_CLASS</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.association</span><span class="w"> </span><span class="kn">import</span> <span class="n">Association</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.class_enrichment</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassEnrichmentResult</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.item_list</span><span class="w"> </span><span class="kn">import</span> <span class="n">ItemList</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">EQUIVALENT_CLASS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.association_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AssociationProviderInterface</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.stats.hypergeometric</span> <span class="kn">import</span> <span class="n">hypergeometric_p_value</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.stats.hypergeometric</span><span class="w"> </span><span class="kn">import</span> <span class="n">hypergeometric_p_value</span>
 
 
 <div class="viewcode-block" id="ClassEnrichmentCalculationInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">ClassEnrichmentCalculationInterface</span><span class="p">(</span><span class="n">AssociationProviderInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ClassEnrichmentCalculationInterface</span><span class="p">(</span><span class="n">AssociationProviderInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An interface that provides services to test for over representation of class membership in a set of entities.</span>
 
@@ -120,7 +120,7 @@
 
 <div class="viewcode-block" id="ClassEnrichmentCalculationInterface.enriched_classes">
 <a class="viewcode-back" href="../../../packages/interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes">[docs]</a>
-    <span class="k">def</span> <span class="nf">enriched_classes</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">enriched_classes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">item_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ItemList</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -278,7 +278,7 @@
 
 <div class="viewcode-block" id="ClassEnrichmentCalculationInterface.create_self_associations">
 <a class="viewcode-back" href="../../../packages/interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.create_self_associations">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_self_associations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_self_associations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create self associations for all terms in the ontology.</span>
 

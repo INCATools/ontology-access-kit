@@ -143,13 +143,13 @@ Ontobee has also been used for many non-OBO ontologies.</p>
 <p>To see the full range of methods implemented, see the documentation for the interfaces above.</p>
 </div>
 <p>An OntobeeImplementation can be initialized directly:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations</span><span class="w"> </span><span class="kn">import</span> <span class="n">OntobeeImplementation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The default ontobee endpoint will be assumed</p>
 <p>Alternatively, use a selector:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ontobee:&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -158,7 +158,7 @@ Ontobee has also been used for many non-OBO ontologies.</p>
 </pre></div>
 </div>
 <p>After that you can use any of the methods that OntoBee implements; e.g.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># uncomment to test</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># for a in oi.ancestors(&quot;UBERON:0002398&quot;, predicates=[IS_A]):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#    print(a)</span>

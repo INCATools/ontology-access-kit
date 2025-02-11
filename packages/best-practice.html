@@ -93,7 +93,7 @@
 <h3>Iterators<a class="headerlink" href="#iterators" title="Link to this heading"></a></h3>
 <p>Most interface methods that provide more that one result will return :term:<a href="#id2"><span class="problematic" id="id3">`</span></a>Iterator`s which yield individual elements.
 You can iterate over these in exactly the same way you iterate over lists, for example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hsapdv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ENTITY: </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -132,7 +132,7 @@ issue one network call for each result, which may be inefficient.</p>
 <section id="chunking">
 <h3>Chunking<a class="headerlink" href="#chunking" title="Link to this heading"></a></h3>
 <p>The <span class="xref std std-ref">.chunk</span> utility function will chunk iterator calls into sizeable amounts:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.utilities.iterator_utils</span> <span class="kn">import</span> <span class="n">chunk</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.iterator_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">chunk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">entities</span><span class="p">()):</span>
 <span class="gp">... </span>    <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">curie_it</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>

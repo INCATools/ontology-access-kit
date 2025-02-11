@@ -28,7 +28,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Glossary" href="../../glossary.html" />
+    <link rel="next" title="Ad Hoc Examples" href="../AdHoc/index.html" />
     <link rel="prev" title="ClassEnrichmentCalculationInterface Examples" href="ClassEnrichmentCalculationInterface.html" /> 
 </head>
 
@@ -83,6 +83,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#Get-mappings-using-lexmatch">Get mappings using <code class="docutils literal notranslate"><span class="pre">lexmatch</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../AdHoc/index.html">Ad Hoc Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
@@ -132,13 +133,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_resource_from_shorthand</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.sssom_utils</span> <span class="kn">import</span> <span class="n">StreamingSssomWriter</span>
-<span class="kn">from</span> <span class="nn">oaklib.cli</span> <span class="kn">import</span> <span class="n">lexmatch</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.lexical.lexical_indexer</span> <span class="kn">import</span> <span class="n">create_lexical_index</span><span class="p">,</span> <span class="n">lexical_index_to_sssom</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.selector</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_resource_from_shorthand</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.mapping.sssom_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">StreamingSssomWriter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">lexmatch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.lexical.lexical_indexer</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_lexical_index</span><span class="p">,</span> <span class="n">lexical_index_to_sssom</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 <br/></pre></div>
 </div>
@@ -169,7 +170,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_implementation</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_implementation</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
     <span class="n">resource</span> <span class="o">=</span> <span class="n">get_resource_from_shorthand</span><span class="p">(</span><span class="n">rsrc</span><span class="p">)</span>
     <span class="n">oi</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">implementation_class</span><span class="p">()</span>
 
@@ -181,7 +182,7 @@
 
     <span class="k">return</span> <span class="n">oi</span>
 
-<span class="k">def</span> <span class="nf">render_sssom</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">render_sssom</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
     <span class="n">writer</span> <span class="o">=</span> <span class="n">StreamingSssomWriter</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
     <span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation</span><span class="p">(</span><span class="n">rsrc</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
@@ -189,7 +190,7 @@
 
     <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<span class="k">def</span> <span class="nf">get_lexmatch</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_lexmatch</span><span class="p">(</span><span class="n">rsrc</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
     <span class="n">impl</span> <span class="o">=</span> <span class="n">get_implementation</span><span class="p">(</span><span class="n">rsrc</span><span class="p">)</span>
     <span class="n">ix</span> <span class="o">=</span> <span class="n">create_lexical_index</span><span class="p">(</span><span class="n">impl</span><span class="p">)</span>
     <span class="n">msdf</span> <span class="o">=</span> <span class="n">lexical_index_to_sssom</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">ix</span><span class="p">)</span>
@@ -1275,7 +1276,7 @@ MA:0000007      skos:closeMatch EMAPS:1640528   Unspecified
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="ClassEnrichmentCalculationInterface.html" class="btn btn-neutral float-left" title="ClassEnrichmentCalculationInterface Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../AdHoc/index.html" class="btn btn-neutral float-right" title="Ad Hoc Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -152,7 +152,7 @@
 <td><p>Create a subgraph that has only edges whose predicates are in the predicate list</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_as_dict</span></code>(graph)</p></td>
-<td><p>Serialize a graph to a dict.</p></td>
+<td><p>Serialize graph nodes to a dict.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_id_iterator</span></code>(graph)</p></td>
 <td><p>Iterate over the ids in a graph</p></td>
@@ -163,53 +163,59 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_info</span></code>(graph)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_d3viz_objects</span></code>(graph[, predicates, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_node_ids_from_subject_and_objects</span></code>(g)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_image</span></code>(graph[, seeds, configure, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_d3viz_objects</span></code>(graph[, predicates, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_image</span></code>(graph[, seeds, configure, ...])</p></td>
 <td><p>Renders a graph to png using obographviz.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_tree_display</span></code>(graph[, predicates, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_tree_display</span></code>(graph[, predicates, ...])</p></td>
 <td><p>Translate a graph to a textual tree representation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_tree_structure</span></code>(graph[, predicates, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_tree_structure</span></code>(graph[, predicates, ...])</p></td>
 <td><p>Linearizes a graph to a list of trees.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_object</span></code>(graph)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_object</span></code>(graph)</p></td>
 <td><p>Returns an index of lists of edges keyed by object id</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_predicate</span></code>(graph)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_predicate</span></code>(graph)</p></td>
 <td><p>Returns an index of lists of edges keyed by predicate id</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_subject</span></code>(graph)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_subject</span></code>(graph)</p></td>
 <td><p>Returns an index of lists of edges keyed by subject id</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_subject_object</span></code>(graph)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_subject_object</span></code>(graph)</p></td>
 <td><p>Returns an index of lists of edges keyed by subject and object</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_nodes</span></code>(graph)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_nodes</span></code>(graph)</p></td>
 <td><p>Returns an index of all nodes key by node id</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">induce_graph_prefix_map</span></code>(graph, converter)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">induce_graph_prefix_map</span></code>(graph, converter)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_obograph_document</span></code>(path)</p></td>
-<td><p>Load an OBOGraph document from a file</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_obograph_document</span></code>(path)</p></td>
+<td><p>Load an OBOGraph document from a file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_graph_nodes</span></code>(target, source)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_graph_nodes</span></code>(target, source)</p></td>
 <td><p>Merge two nodes into a single node</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_graphs</span></code>(source, target[, replace])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_graphs</span></code>(source, target[, replace])</p></td>
 <td><p>Merge two graphs into a single graph</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mutate_graph_ids</span></code>(graph, func)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mutate_graph_ids</span></code>(graph, func)</p></td>
 <td><p>Iterate over the ids in a graph and modify them.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflexive</span></code>(edge)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflexive</span></code>(edge)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_nodes_from_graph</span></code>(graph, node_ids)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_nodes_from_graph</span></code>(graph, node_ids)</p></td>
 <td><p>Remove the specified nodes from the graph, and cascade to any edges that reference these nodes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_unlabeled_nodes</span></code>(g[, ...])</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortest_paths</span></code>(graph, start_curies[, ...])</p></td>
 <td><p>Finds all shortest paths from a set of start nodes to a set of end nodes</p></td>
