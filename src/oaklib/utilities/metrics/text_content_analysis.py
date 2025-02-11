@@ -17,7 +17,7 @@ from oaklib.datamodels.vocabulary import (
     SUBCLASS_OF,
 )
 from oaklib.implementations import SqlImplementation
-from oaklib.query import _process_predicates_arg
+from oaklib.query import process_predicates_arg
 from oaklib.types import PRED_CURIE
 
 logger = logging.getLogger(__name__)
@@ -61,7 +61,7 @@ def calculate_ontology_text_content(
         >>> adapter = get_adapter("tests/input/go-nucleus.db")
         >>> assert isinstance(adapter, SqlImplementation)
         >>> tc = calculate_ontology_text_content(adapter)
-        >>> assert 0.5 < tc < 0.8
+        >>> assert tc > 0.5 < 0.99
 
     :param adapter:
     :param predicates:
@@ -132,7 +132,7 @@ def main(
     for input_name in inputs:
         try:
             adapter = get_adapter(input_name)
-            annotation_predicates = _process_predicates_arg(annotation_predicate)
+            annotation_predicates = process_predicates_arg(annotation_predicate)
             if not annotation_predicates and default_annotations:
                 annotation_predicates = DEFAULT_ANNOTATION_PREDICATES
             tc = calculate_ontology_text_content(

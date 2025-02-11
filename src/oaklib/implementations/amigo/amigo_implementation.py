@@ -12,7 +12,7 @@ import pysolr
 
 from oaklib.datamodels.association import Association, NegatedAssociation
 from oaklib.datamodels.search import SearchConfiguration
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL, RELATED_TO
 from oaklib.interfaces import OboGraphInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -72,6 +72,13 @@ DEFAULT_SELECT_FIELDS = [
     ASSIGNED_BY,
     REFERENCE,
 ]
+
+
+def map_predicate(qualifiers: Iterable[str]) -> PRED_CURIE:
+    for q in qualifiers:
+        if q != "NOT":
+            return f"biolink:{q.lower()}"
+    return RELATED_TO
 
 
 def _fq_element(k, vs):
@@ -283,12 +290,13 @@ class AmiGOImplementation(
         # results = solr.search("*:*", rows=1000, **params)
         for doc in results:
             cls = Association
-            if "not" in doc.get(QUALIFIER, []):
+            quals = set(doc.get(QUALIFIER, []))
+            if "not" in quals:
                 cls = NegatedAssociation
             assoc = cls(
                 subject=_normalize(doc[BIOENTITY]),
                 subject_label=doc[BIOENTITY_LABEL],
-                # predicate="",
+                predicate=map_predicate(quals),
                 negated=cls == NegatedAssociation,
                 object=doc[ANNOTATION_CLASS],
                 object_label=doc[ANNOTATION_CLASS_LABEL],

@@ -24,7 +24,6 @@ import networkx as nx
 import yaml
 from curies import Converter
 from linkml_runtime.dumpers import json_dumper
-from linkml_runtime.loaders import json_loader
 from pydantic import BaseModel
 
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
@@ -48,14 +47,52 @@ class TreeFormatEnum(Enum):
     text = "text"
 
 
-def load_obograph_document(path: str) -> GraphDocument:
+def graph_node_ids_from_subject_and_objects(g: Graph) -> List[CURIE]:
+    node_ids = set()
+    for edge in g.edges:
+        node_ids.add(edge.sub)
+        node_ids.add(edge.obj)
+    return list(node_ids)
+
+
+def remove_unlabeled_nodes(g: Union[GraphDocument, Graph], rescue_connected_nodes=True) -> None:
+    if isinstance(g, GraphDocument):
+        for graph in g.graphs:
+            remove_unlabeled_nodes(graph, rescue_connected_nodes=rescue_connected_nodes)
+    else:
+        if rescue_connected_nodes:
+            rescued = graph_node_ids_from_subject_and_objects(g)
+            g.nodes = [n for n in g.nodes if n.lbl is not None or n.id in rescued]
+        else:
+            g.nodes = [n for n in g.nodes if n.lbl is not None]
+
+
+def load_obograph_document(path: Union[str, Path]) -> GraphDocument:
     """
-    Load an OBOGraph document from a file
+    Load an OBOGraph document from a file.
+
+    Example:
+
+        >>> from oaklib.utilities.obograph_utils import load_obograph_document
+        >>> doc = load_obograph_document("tests/input/go-nucleus.json")
+        >>> g = doc.graphs[0]
+        >>> nucleus_terms = [n for n in g.nodes if n.lbl == "nucleus"]
+        >>> len(nucleus_terms)
+        1
 
     :param path:
     :return:
     """
-    return json_loader.load(str(path), target_class=GraphDocument)
+    raw_obj = json.load(open(path))
+    if "@type" in raw_obj:
+        del raw_obj["@type"]
+    for g in raw_obj["graphs"]:
+        for n in g["nodes"]:
+            # workaround for json_loader issue
+            if len(n.keys()) == 1 and "id" in n:
+                n["lbl"] = None
+    return GraphDocument(**raw_obj)
+    # return json_loader.load(str(path), target_class=GraphDocument)
 
 
 def default_stylemap_path():
@@ -65,7 +102,16 @@ def default_stylemap_path():
 
 def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     """
-    Serialize a graph to a dict.
+    Serialize graph nodes to a dict.
+
+    Example:
+
+        >>> from oaklib.utilities.obograph_utils import load_obograph_document
+        >>> doc = load_obograph_document("tests/input/go-nucleus.json")
+        >>> g = doc.graphs[0]
+        >>> obj = graph_as_dict(g)
+        >>> node_map = {n["id"]: n for n in obj["nodes"]}
+        >>> assert len(node_map) > 20
 
     :param graph:
     """
@@ -105,6 +151,11 @@ def graph_to_image(
 ) -> None:
     """
     Renders a graph to png using obographviz.
+
+        >>> from oaklib.utilities.obograph_utils import load_obograph_document
+        >>> doc = load_obograph_document("tests/input/go-nucleus.json")
+        >>> g = doc.graphs[0]
+        >>> graph_to_image(g, imgfile="tests/output/go-nucleus-for-g2i.png")
 
     :param graph: OboGraph object to visualize
     :param seeds: list of node ids to highlight

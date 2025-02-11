@@ -15,6 +15,7 @@ from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.input_specification import InputSpecification, Normalizer
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
+from oaklib.implementations.obograph.obograph_implementation import OboGraphImplementation
 from oaklib.interfaces import OntologyInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -347,6 +348,8 @@ def get_resource_imp_class_from_suffix_descriptor(
         logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
     elif suffix == "ofn":
         impl_class = FunOwlImplementation
+    elif suffix == "json":
+        impl_class = OboGraphImplementation
     # elif suffix == "obo":
     #     impl_class = SimpleOboImplementation
     else:

@@ -54,6 +54,7 @@ HAS_OBO_NAMESPACE = omd.slots.has_obo_namespace.curie
 
 BIOLINK_CATEGORY = "biolink:category"
 IN_CATEGORY_PREDS = [BIOLINK_CATEGORY, "dbont:category"]
+RELATED_TO = "biolink:related_to"
 
 OWL_CLASS = "owl:Class"
 OWL_NAMED_INDIVIDUAL = "owl:NamedIndividual"
