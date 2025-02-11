@@ -164,3 +164,14 @@ class StreamingWriter:
         :return:
         """
         raise NotImplementedError
+
+    def emit_header(self, *header: str):
+        """
+        Emit a header row
+
+        :param header:
+        :return:
+        """
+        for line in header:
+            self.line(f"# {line}")
+        self.line("#")

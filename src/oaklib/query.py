@@ -12,6 +12,7 @@ from enum import Enum
 from typing import IO, Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import yaml
+
 from pydantic import BaseModel
 
 from oaklib import BasicOntologyInterface
@@ -36,7 +37,7 @@ from oaklib.datamodels.vocabulary import (
     RDF_TYPE,
     RDFS_DOMAIN,
     RDFS_RANGE,
-    REGULATES,
+    REGULATES, SUBPROPERTY_OF,
 )
 from oaklib.interfaces import (
     OboGraphInterface,
@@ -92,10 +93,15 @@ class Query(BaseModel):
         >>> from oaklib import get_adapter
         >>> from oaklib.datamodels.vocabulary import IS_A
         >>> adapter = get_adapter("sqlite:obo:cl")
-        >>> neuron_q = ancestor_of("CL:0000540", predicates=[IS_A])
-        >>> forebrain_q = ancestor_of("UBERON:0001890", predicates=[IS_A, PART_OF])
+        >>> neuron_q = descendant_of("CL:0000540", predicates=[IS_A])
+        >>> forebrain_q = descendant_of("UBERON:0001890", predicates=[IS_A, PART_OF])
         >>> intersection_q = neuron_q & forebrain_q
-        >>> assert "CL:1001502" in q.execute(adapter)
+        >>> for x in sorted(intersection_q.execute(adapter)):
+        ...     print(x, adapter.label(x))
+        <BLANKLINE>
+        ...
+        CL:1001502 mitral cell
+        ...
 
     The above code is equivalent to:
 
@@ -418,7 +424,7 @@ def onto_query(
     ...    print(x, cl.label(x))
     <BLANKLINE>
     ...
-    CL:0000749 ON-bipolar cell
+    CL:0004217 H1 horizontal cell
     ...
 
 
@@ -436,7 +442,7 @@ def onto_query(
     ...    print(x, cl.label(x))
     <BLANKLINE>
     ...
-    CL:0000749 ON-bipolar cell
+    CL:0004217 H1 horizontal cell
     ...
     >>> assert set(both2) == both
 
@@ -518,7 +524,7 @@ def query_terms_iterator(
                 if k == "p":
                     k = "predicates"
                 if k == "predicates":
-                    v = _process_predicates_arg(v)
+                    v = process_predicates_arg(v)
                 if k == "prefixes":
                     v = v.split(",")
                 d[k] = v
@@ -577,7 +583,7 @@ def query_terms_iterator(
             logging.debug(f"Predicates: {term}")
             logging.warning("Deprecated: pass as parameter instead")
             m = re.match(r"^\.predicates=(\S*)$", term)
-            predicates = _process_predicates_arg(m.group(1))
+            predicates = process_predicates_arg(m.group(1))
         elif term == ".and":
             logging.debug("AND")
             # boolean term: consume the result of the query and intersect
@@ -950,20 +956,80 @@ def _nest_list_of_terms(terms: List[str]) -> Tuple[NESTED_LIST, List[str]]:
     return nested, []
 
 
-def _process_predicates_arg(
+def process_predicates_arg(
     predicates_str: str,
     expected_number: Optional[int] = None,
     exclude_predicates_str: Optional[str] = None,
     impl: Optional[BasicOntologyInterface] = None,
 ) -> Optional[List[PRED_CURIE]]:
+    """
+    Process a string of predicates into a list of PRED_CURIEs.
+
+    Example:
+
+        >>> process_predicates_arg("FOO:123")
+        ['FOO:123']
+
+        >>> process_predicates_arg("i")
+        ['rdfs:subClassOf']
+
+        >>> process_predicates_arg("i,p")
+        ['rdfs:subClassOf', 'BFO:0000050']
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:ro")
+        >>> process_predicates_arg("i,part of", impl=adapter)
+        ['rdfs:subClassOf', 'BFO:0000050']
+
+    Include entailed subproperties:
+
+        >>> for p in sorted(process_predicates_arg("sub(i, connected to)", impl=adapter)):
+        ...     print(p, adapter.label(p))
+        <BLANKLINE>
+        ...
+        RO:0002103 synapsed by
+        ...
+        rdfs:subClassOf None
+
+
+    :param predicates_str:
+    :param expected_number:
+    :param exclude_predicates_str:
+    :param impl:
+    :return:
+    """
     if predicates_str is None and exclude_predicates_str is None:
         return None
+    if predicates_str.startswith("sub("):
+        if not isinstance(impl, OboGraphInterface):
+            raise ValueError("Must provide an BasicOntologyInterface to use sub()")
+
+        # sub(FOO:123) => FOO:123
+        preds = process_predicates_arg(
+            predicates_str[4:-1],
+            expected_number=expected_number,
+            exclude_predicates_str=exclude_predicates_str,
+            impl=impl,
+        )
+        preds_expanded = set(preds)
+        # note that RG doesn't pre-computed relation closure;
+        # use HOP method
+        for desc_p in impl.descendants(
+            preds,
+                predicates=[SUBPROPERTY_OF],
+                method=GraphTraversalMethod.HOP,
+                reflexive=True,
+        ):
+            preds_expanded.add(desc_p)
+        return list(preds_expanded)
+
     if predicates_str is None:
         inputs = []
     elif "," in predicates_str:
         inputs = predicates_str.split(",")
     else:
         inputs = predicates_str.split("+")
+    inputs = [i.strip() for i in inputs]
     preds = []
     for p in inputs:
         next_preds = _shorthand_to_pred_curie(p)
@@ -1028,3 +1094,4 @@ def _shorthand_to_pred_curie(shorthand: str) -> Union[PRED_CURIE, List[PRED_CURI
         return [IS_A, RDF_TYPE, EQUIVALENT_CLASS, DISJOINT_WITH, RDFS_DOMAIN, RDFS_RANGE]
     else:
         return shorthand
+

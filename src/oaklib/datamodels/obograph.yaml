@@ -409,6 +409,13 @@ classes:
       - pred
       - obj
       - meta
+    slot_usage:
+      sub:
+        required: true
+      pred:
+        required: true
+      obj:
+        required: true
 
   Meta:
     aliases:

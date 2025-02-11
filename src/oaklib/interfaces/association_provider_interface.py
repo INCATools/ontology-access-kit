@@ -2,6 +2,7 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
+from enum import unique, Enum
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.association import (
@@ -717,3 +718,14 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                     strict=normalizer.strict,
                 )
         return association
+
+
+@unique
+class SubjectOrObjectRole(Enum):
+    """
+    Role of terms in the term list
+    """
+
+    SUBJECT = "subject"
+    OBJECT = "object"
+    BOTH = "both"

@@ -16,7 +16,7 @@ from oaklib.datamodels.obograph import (
     Node,
     SynonymPropertyValue,
 )
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, OWL_CLASS
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,
@@ -221,6 +221,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         self,
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
+        method: Optional[GraphTraversalMethod] = None,
         **kwargs,
     ) -> Graph:
         """
@@ -232,6 +233,28 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param predicates: if supplied then only follow edges with these predicates
         :return: ancestor graph
         """
+        if method and method == GraphTraversalMethod.ENTAILMENT:
+            ancs = self.ancestors(
+                start_curies, predicates=predicates, method=method,
+            )
+            node_map = {}
+            edges = []
+            for s, p, o in self.relationships(
+                subjects=ancs,
+                predicates=predicates,
+            ):
+                node_map[s] = None
+                node_map[o] = None
+                edges.append(Edge(sub=s, pred=p, obj=o))
+            labels = {k: v for k, v in self.labels(list(node_map.keys()))}
+            for n in node_map.keys():
+                node_map[n] = Node(n, lbl=labels.get(n), type="CLASS")
+            g = Graph(id="ancestor_graph")
+            g.nodes = list(node_map.values())
+            g.edges = edges
+            return g
+        if not isinstance(start_curies, list):
+            start_curies = [start_curies]
         key = (
             "ancestor_graph",
             tuple(start_curies),
@@ -246,6 +269,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         logging.info(
             f"Computing ancestor graph for {start_curies} / {predicates} using graph walking"
         )
+        logging.info(f"Walking up from {len(start_curies)} over {predicates}")
         g = self._graph(walk_up(self, start_curies, predicates=predicates, **kwargs))
         if self.transitive_query_cache is not None:
             self.transitive_query_cache[key] = g

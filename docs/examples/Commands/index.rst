@@ -8,6 +8,7 @@ Commands
 
    Apply
    Associations
+   Crawl
    DiffViaMappings
    Disjoints
    Enrichment

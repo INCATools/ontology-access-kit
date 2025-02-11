@@ -52,6 +52,7 @@ from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.obograph_utils import load_obograph_document
 
 RDFLIB_FORMAT_MAP = {
     "ttl": "ttl",
@@ -61,6 +62,9 @@ RDFLIB_FORMAT_MAP = {
     "owl": "xml",
 }
 
+def clean_doc(gd: GraphDocument) -> None:
+    for g in gd.graphs:
+        g.nodes = [n for n in g.nodes if n.lbl]
 
 @dataclass
 class OboGraphImplementation(
@@ -99,7 +103,8 @@ class OboGraphImplementation(
         if self.obograph_document is None:
             resource = self.resource
             if resource and resource.local_path:
-                gd = json_loader.load(str(resource.local_path), target_class=GraphDocument)
+                gd = load_obograph_document(resource.local_path)
+                # gd = json_loader.load(str(resource.local_path), target_class=GraphDocument)
             else:
                 gd = GraphDocument()
             self.obograph_document = gd
@@ -143,6 +148,8 @@ class OboGraphImplementation(
         od = self.obograph_document
         for g in od.graphs:
             for e in g.edges:
+                if not e.pred:
+                    raise ValueError(f"Missing predicate in {e}")
                 yield self._tuple_to_curies((e.sub, e.pred, e.obj))
             for ens in g.equivalentNodesSets:
                 for n1 in ens.nodeIds:
@@ -411,6 +418,7 @@ class OboGraphImplementation(
         logging.info(f"Dumping graph to {path} syntax: {syntax}")
         if syntax == "json" or syntax == "obojson":
             if path is None:
+                clean_doc(self.obograph_document)
                 print(json_dumper.dumps(self.obograph_document))
             else:
                 json_dumper.dump(self.obograph_document, to_file=str(path))

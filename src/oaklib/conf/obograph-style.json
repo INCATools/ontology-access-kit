@@ -91,6 +91,26 @@
             "color": "green",
             "penwidth": 3
         },
+        "biolink:related_to": {
+            "color": "chartreuse3",
+            "penwidth": 2,
+            "arrowhead": "crow",
+            "label": "Ⓡ"
+        },
+        "obo:chebi#is_conjugate_acid_of": {
+            "color": "green",
+            "penwidth": 2,
+            "arrowhead": "tee",
+            "arrowtail": "odot",
+            "label": "⊕⇌⊖"
+        },
+        "obo:chebi#is_conjugate_base_of": {
+            "color": "red",
+            "penwidth": 2,
+            "arrowhead": "odot",
+            "arrowtail": "tee",
+            "label": "⊖⇌⊕"
+        },
         "UPHENO:0000001": {
             "color": "gray",
             "label": "Ⓐ"

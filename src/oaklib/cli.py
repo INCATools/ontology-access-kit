@@ -46,6 +46,7 @@ from oaklib.datamodels.association import RollupGroup
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.obograph import (
     BasicPropertyValue,
+    Node,
     Edge,
     Graph,
     GraphDocument,
@@ -82,7 +83,7 @@ from oaklib.interfaces import (
     ValidatorInterface,
 )
 from oaklib.interfaces.association_provider_interface import (
-    AssociationProviderInterface,
+    AssociationProviderInterface, SubjectOrObjectRole,
 )
 from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
@@ -112,7 +113,7 @@ from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.html_writer import HTMLWriter
 from oaklib.io.obofoundry_markdown_writer import OboFoundryMarkdownWriter
-from oaklib.io.obograph_writer import write_graph
+from oaklib.io.obograph_writer import write_graph, write_graph_document
 from oaklib.io.rollup_report_writer import write_report
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
@@ -131,7 +132,8 @@ from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
-from oaklib.query import _process_predicates_arg, curies_from_file, query_terms_iterator
+from oaklib.query import process_predicates_arg, curies_from_file, query_terms_iterator
+from oaklib.utilities.associations.association_queries import get_association_iterator
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter, get_resource_from_shorthand
 from oaklib.transformers.transformers_factory import (
@@ -180,7 +182,7 @@ from oaklib.utilities.obograph_utils import (
     graph_to_image,
     graph_to_tree_display,
     shortest_paths,
-    trim_graph,
+    trim_graph, remove_unlabeled_nodes,
 )
 from oaklib.utilities.publication_utils.pubmed_wrapper import PubmedWrapper
 from oaklib.utilities.subsets.slimmer_utils import (
@@ -253,17 +255,6 @@ class Direction(Enum):
     up = "up"
     down = "down"
     both = "both"
-
-
-@unique
-class SubjectOrObjectRole(Enum):
-    """
-    Role of terms in the term list
-    """
-
-    SUBJECT = "subject"
-    OBJECT = "object"
-    BOTH = "both"
 
 
 @unique
@@ -1235,7 +1226,7 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
                 metadata = impl.entity_metadata_map(curie)
                 if predicates:
                     metadata = {
-                        p: metadata.get(p, None) for p in _process_predicates_arg(predicates)
+                        p: metadata.get(p, None) for p in process_predicates_arg(predicates)
                     }
                 writer.emit(metadata)
         writer.finish()
@@ -1534,7 +1525,7 @@ def viz(
     impl.precompute_lookups()
     if stylemap is None:
         stylemap = default_stylemap_path()
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     curies_highlight = None
     if "@" in terms:
         ix = terms.index("@")
@@ -1712,7 +1703,7 @@ def tree(
     curies = list(query_terms_iterator(terms, impl))
     if stylemap is None:
         stylemap = default_stylemap_path()
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     if add_mrcas:
         if isinstance(impl, SemanticSimilarityInterface):
             curies_to_add = [
@@ -1825,7 +1816,7 @@ def ancestors(
             graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
             if graph_traversal_method == GraphTraversalMethod.HOP:
                 impl.precompute_lookups()
-        actual_predicates = _process_predicates_arg(predicates)
+        actual_predicates = process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         logging.info(f"Ancestor seed: {curies}")
         if statistics:
@@ -1972,14 +1963,14 @@ def paths(
         writer.file = sys.stdout
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(
+    actual_predicates = process_predicates_arg(
         predicates, exclude_predicates_str=exclude_predicates, impl=impl
     )
     logging.info(f"Using predicates {actual_predicates}")
     if predicate_weights:
         pw = {}
         for k, v in yaml.safe_load(predicate_weights).items():
-            [p] = _process_predicates_arg(k, expected_number=1)
+            [p] = process_predicates_arg(k, expected_number=1)
             pw[k] = v
     else:
         pw = None
@@ -2137,7 +2128,7 @@ def chains(
             preds = t[1:]
             if t.endswith("/"):
                 preds = t[0:-1]
-            actual_preds = _process_predicates_arg(preds, impl=impl) if preds else None
+            actual_preds = process_predicates_arg(preds, impl=impl) if preds else None
             blocks.append(set(actual_preds or []))
             blocks.append([])
         else:
@@ -2199,7 +2190,7 @@ def siblings(terms, predicates, output_type: str, output: str):
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.file = output
     if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates)
+        actual_predicates = process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         logging.info(f"seed: {curies}")
         sibs = []
@@ -2254,7 +2245,7 @@ def descendants(
         graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     curies = list(query_terms_iterator(terms, impl))
     result_it = impl.descendants(
         curies, predicates=actual_predicates, method=graph_traversal_method
@@ -2509,7 +2500,7 @@ def extract(terms, predicates, dangling: bool, output, output_type, **kwargs):
     impl = settings.impl
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     curies = list(set(query_terms_iterator(terms, impl)))
     graph = impl.extract_graph(curies, predicates=actual_predicates, dangling=dangling, **kwargs)
     graph_impl = OboGraphImplementation(obograph_document=GraphDocument(graphs=[graph]))
@@ -2568,7 +2559,7 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     object = list(query_terms_iterator([terms[1]], impl))[0]
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
     if autolabel:
         if not sim.subject_label:
@@ -2714,7 +2705,7 @@ def similarity(
                 set2it = list(curies_from_file(file))
         else:
             set2it = query_terms_iterator(terms, impl)
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     for sim in impl.all_by_all_pairwise_similarity(
         set1it,
         set2it,
@@ -2782,7 +2773,7 @@ def termset_similarity(
     set2 = list(query_terms_iterator(terms[ix + 1 :], impl))
     logging.info(f"Set1={set1}")
     logging.info(f"Set2={set2}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     sim = impl.termset_pairwise_similarity(
         set1, set2, predicates=actual_predicates, labels=autolabel
     )
@@ -2831,7 +2822,7 @@ def information_content(
     writer.file = output
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this with {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = process_predicates_arg(predicates)
     n = 0
     logging.info("Fetching ICs...")
     if terms:
@@ -3248,7 +3239,7 @@ def relationships(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
     if not (include_tbox or include_abox):
         raise ValueError("Cannot exclude both tbox AND abox")
     if not isinstance(impl, BasicOntologyInterface):
@@ -3426,7 +3417,7 @@ def logical_definitions(
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
     writer.autolabel = autolabel
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
 
     def _exclude_ldef(ldef: LogicalDefinitionAxiom) -> bool:
         if actual_predicates:
@@ -3551,7 +3542,7 @@ def disjoints(
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
     writer.autolabel = autolabel
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
 
     label_fields = [
         "classIds",
@@ -3707,7 +3698,7 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
     writer.output = output
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
     prefixes = list(has_prefix) if has_prefix else None
     for curie in impl.roots(
         actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes
@@ -3739,7 +3730,7 @@ def leafs(output: str, predicates: str, filter_obsoletes: bool):
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates, impl=impl)
+        actual_predicates = process_predicates_arg(predicates, impl=impl)
         for curie in impl.leafs(actual_predicates, filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.label(curie)}")
     else:
@@ -3771,7 +3762,7 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates, impl=impl)
+        actual_predicates = process_predicates_arg(predicates, impl=impl)
         for curie in impl.singletons(actual_predicates, filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.label(curie)}")
     else:
@@ -4195,7 +4186,7 @@ def expand_subsets(subsets: list, output, predicates):
     impl = settings.impl
     # writer = StreamingCsvWriter(output)
     if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates, impl=impl)
+        actual_predicates = process_predicates_arg(predicates, impl=impl)
         if not actual_predicates:
             actual_predicates = [IS_A, PART_OF]
         impl.enable_transitive_query_cache()
@@ -4358,7 +4349,7 @@ def taxon_constraints(
             impl.subject_graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
     if not isinstance(impl, TaxonConstraintInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
     impl.precompute_lookups()
     impl.precompute_direct_constraint_cache()
     for curie in query_terms_iterator(terms, impl):
@@ -4413,7 +4404,7 @@ def apply_taxon_constraints(
 
     """
     impl = settings.impl
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
     impl = settings.impl
     writer = StreamingYamlWriter(output)
     curr = None
@@ -4568,6 +4559,19 @@ def usages(
     show_default=True,
     help="How to interpret query terms.",
 )
+@click.option(
+    "--expand/--no-expand",
+    default=False,
+    show_default=True,
+    help="Expand by feeding results into subsequent query",
+)
+@click.option(
+    "--header/--no-header",
+    "-H/--no-H",
+    default=False,
+    show_default=True,
+    help="Show a header",
+)
 @click.argument("terms", nargs=-1)
 def associations(
     terms,
@@ -4579,6 +4583,8 @@ def associations(
     output: str,
     if_absent: bool,
     set_value: str,
+    expand: bool,
+    header: bool,
     **kwargs,
 ):
     """
@@ -4620,11 +4626,20 @@ def associations(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
-    actual_association_predicates = _process_predicates_arg(association_predicates)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
+    actual_association_predicates = process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     curies = list(query_terms_iterator(terms, impl))
+    if header:
+        writer.emit_header(
+            f"Query IDs: {', '.join(curies)}",
+            f"Ontology closure predicates: {', '.join(actual_predicates or [])}",
+        )
+        if expand:
+            writer.emit_header(
+                "The results include a round of expansion"
+            )
     qs_it = impl.associations(
         curies,
         predicates=actual_association_predicates,
@@ -4644,21 +4659,42 @@ def associations(
     else:
         logging.info("Using query terms to query both subject and object")
         it = chain(qs_it, qo_it)
+    # track which nodes have relationships (used for if_absent)
     has_relationships = defaultdict(bool)
+    entities_to_expand = set()
     for assoc in it:
         if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
             has_relationships[assoc.subject] = True
+            entities_to_expand.add(assoc.object)
         elif terms_role == SubjectOrObjectRole.OBJECT.value:
             has_relationships[assoc.object] = True
+            entities_to_expand.add(assoc.subject)
         else:
             has_relationships[assoc.subject] = True
             has_relationships[assoc.object] = True
+            entities_to_expand.add(assoc.subject)
+            entities_to_expand.add(assoc.object)
         if if_absent and if_absent == IfAbsent.absent_only.value:
             continue
         writer.emit(
             assoc,
             label_fields=["subject", "predicate", "object"],
         )
+    if expand:
+        logging.info(f"Expanding using {len(entities_to_expand)} nodes")
+        exp_it = get_association_iterator(
+            impl,
+            list(entities_to_expand),
+            terms_role=SubjectOrObjectRole.SUBJECT.value if terms_role == SubjectOrObjectRole.OBJECT.value else SubjectOrObjectRole.OBJECT.value,
+            association_predicates=actual_association_predicates,
+            ontology_predicates=actual_predicates,
+            **kwargs,
+        )
+        for assoc in exp_it:
+            writer.emit(
+                assoc,
+                label_fields=["subject", "predicate", "object"],
+            )
     if if_absent and if_absent == IfAbsent.absent_only.value:
         for curie in curies:
             if not has_relationships[curie]:
@@ -4676,6 +4712,148 @@ def associations(
                 kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
             )
         _apply_changes(impl, changes)
+
+
+@main.command()
+@predicates_option
+@output_type_option
+@click.option(
+    "-o",
+    "--output",
+    help="Output file",
+)
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@click.option(
+    "-A",
+    "--ontology-adapter",
+    help="Adapter to use for traversing ontology graph",
+)
+@click.option(
+    "--gap-fill/--no-gap-fill",
+    default=False,
+    show_default=True,
+    help="Fill in missing nodes",
+)
+@click.option(
+    "--terms-role",
+    "-Q",
+    type=click.Choice([x.value for x in SubjectOrObjectRole]),
+    default=SubjectOrObjectRole.OBJECT.value,
+    show_default=True,
+    help="How to interpret query terms.",
+)
+@click.option(
+    "--view/--no-view",
+    default=True,
+    show_default=True,
+    help="if view is set then open the image after rendering",
+)
+@stylemap_otion
+@stylemap_configure_option
+@click.argument("terms", nargs=-1)
+def associations_graph(
+    terms,
+    predicates: str,
+    association_predicates: str,
+    terms_role: str,
+    gap_fill: bool,
+    output_type: str,
+    output: str,
+    view: bool,
+    stylemap: str,
+    ontology_adapter,
+    **kwargs,
+):
+    """
+    Query associations and fill out ontology graph.
+
+    Example:
+
+        runoak -i amigo: associations-graph -p i,p -A sqlite:obo:go -Q subject WB:WBGene00001187 -o gene.json
+
+    This queries for associations whose subject is the gene WBGene00001187 in AmiGO, and uses
+    the GO ontology to fill out the graph, following is-a and part-of relationships.
+
+    To immediately visualize, add --view to the end:
+
+        runoak -i amigo: associations-graph -p i,p -A sqlite:obo:go -Q subject WB:WBGene00001187 --view
+
+    You can use --gap-fill to trim the graph to only pairwise MRCAs and span the gaps:
+
+        runoak -i amigo: associations-graph -p i,p -A sqlite:obo:go -Q subject WB:WBGene00001187 --gap-fill --view
+    """
+    impl = settings.impl
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
+    actual_association_predicates = process_predicates_arg(association_predicates)
+    if not isinstance(impl, AssociationProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    # TODO: consider abstracting this into a method
+    qs_it = impl.associations(
+        curies,
+        predicates=actual_association_predicates,
+        subject_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    qo_it = impl.associations(
+        objects=curies,
+        predicates=actual_association_predicates,
+        object_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+        it = qs_it
+    elif terms_role == SubjectOrObjectRole.OBJECT.value:
+        it = qo_it
+    else:
+        logging.info("Using query terms to query both subject and object")
+        it = chain(qs_it, qo_it)
+    node_map = {}
+    edges = []
+    for assoc in it:
+        node_map[assoc.subject] = Node(id=assoc.subject, lbl=assoc.subject_label)
+        node_map[assoc.object] = Node(id=assoc.object, lbl=assoc.object_label)
+        edges.append(Edge(sub=assoc.subject, obj=assoc.object, pred=assoc.predicate))
+    logging.info(f"Initial AG, num_nodes={len(node_map)}, num_edges={len(edges)}")
+    curies = list(node_map.keys())
+    if ontology_adapter:
+        oa = get_adapter(ontology_adapter)
+    else:
+        oa = impl
+    if gap_fill:
+        if not isinstance(oa, SemanticSimilarityInterface):
+            raise NotImplementedError(f"{oa} does not implement SemanticSimilarityInterface")
+        curies_to_add = [
+            lca
+            for s, o, lca in oa.multiset_most_recent_common_ancestors(
+                curies, predicates=actual_predicates
+            )
+        ]
+        curies = list(set(curies + curies_to_add))
+        logging.info(f"Expanded CURIEs = {curies}")
+        if not isinstance(oa, SubsetterInterface):
+            raise NotImplementedError(f"{oa} does not implement SubsetterInterface")
+        graph = oa.extract_gap_filled_graph(curies, predicates=actual_predicates)
+    else:
+        # walk up
+        if not isinstance(oa, OboGraphInterface):
+            raise NotImplementedError(f"Cannot execute this using {oa} of type {type(oa)}")
+
+        graph = oa.ancestor_graph(curies, predicates=actual_predicates, method=GraphTraversalMethod.ENTAILMENT)
+    graph.edges.extend(edges)
+    existing_nodes = set([node.id for node in graph.nodes])
+    for node in node_map.values():
+        if node.id not in existing_nodes:
+            graph.nodes.append(node)
+    logging.info(f"Final AG, num_nodes={len(graph.nodes)}, num_edges={len(graph.edges)}")
+    remove_unlabeled_nodes(graph)
+    gd = GraphDocument(graphs=[graph])
+    if stylemap is None:
+        stylemap = default_stylemap_path()
+    write_graph_document(gd, output, format=output_type, view=view, stylemap=stylemap, seeds=curies, **kwargs)
 
 
 @main.command()
@@ -4785,8 +4963,8 @@ def associations_counts(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
-    actual_association_predicates = _process_predicates_arg(association_predicates)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
+    actual_association_predicates = process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     curies = list(query_terms_iterator(terms, impl))
@@ -4900,8 +5078,8 @@ def associations_matrix(
         if main_score_field == "2":
             main_score_field = "proportion_entity2_subjects_in_entity1"
         writer.value_field = main_score_field
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
-    actual_association_predicates = _process_predicates_arg(association_predicates)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
+    actual_association_predicates = process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     if "@" in terms:
@@ -4989,7 +5167,7 @@ def rollup(
         secondary_ids = (s[1].split(",") if len(s) > 1 else [] for s in split_ids)
         objects_dict = dict(zip(primary_ids, secondary_ids, strict=False))
 
-        object_closure_predicates = _process_predicates_arg(predicates, impl=impl)
+        object_closure_predicates = process_predicates_arg(predicates, impl=impl)
 
         groups: List[RollupGroup] = []
         for primary, secondaries in objects_dict.items():
@@ -5137,8 +5315,8 @@ def enrichment(
 
     """
     impl = settings.impl
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
-    actual_association_predicates = _process_predicates_arg(association_predicates)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
+    actual_association_predicates = process_predicates_arg(association_predicates)
     if sample_file:
         subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
         curies = list(query_terms_iterator(terms, impl))
@@ -5236,7 +5414,7 @@ def diff_associations(
     writer.heterogeneous_keys = True
     writer.autolabel = autolabel
     writer.output = output
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
     logging.info(f"Fetching parser for {settings.associations_type}")
     association_parser = get_association_parser(settings.associations_type)
     if not isinstance(impl, AssociationProviderInterface):
@@ -5807,7 +5985,7 @@ def validate_subset(
     for config in configs:
         if information_content_adapter:
             config.ic_score_adapter_name = information_content_adapter
-        actual_predicates = _process_predicates_arg(predicates, impl=impl)
+        actual_predicates = process_predicates_arg(predicates, impl=impl)
         if actual_predicates:
             config.predicates = actual_predicates
         if exclude_query:
@@ -6618,7 +6796,7 @@ def diff_via_mappings(
     else:
         logging.info("No term list provided, will compare all mapped terms")
         entities = None
-    actual_predicates = _process_predicates_arg(predicates, impl=oi)
+    actual_predicates = process_predicates_arg(predicates, impl=oi)
     n = 0
     for r in calculate_pairwise_relational_diff(
         oi,
@@ -7272,7 +7450,7 @@ def generate_disjoints(
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError
     curies = list(query_terms_iterator(terms, impl))
-    actual_predicates = _process_predicates_arg(predicates, impl=impl)
+    actual_predicates = process_predicates_arg(predicates, impl=impl)
     if not actual_predicates:
         actual_predicates = [IS_A]
     config = DisjointnessInducerConfig(

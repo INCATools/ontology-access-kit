@@ -274,6 +274,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]
         :return: contracted URI, or original URI if no contraction possible
         """
+        if not uri:
+            raise ValueError("URI cannot be None")
         rv = self.converter.compress(uri, passthrough=use_uri_fallback)
         if rv is None and strict:
             prefix_map_text = "\n".join(

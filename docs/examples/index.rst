@@ -12,3 +12,5 @@ All the examples here are Jupyter notebooks that can be run interactively.
    Ontologies/index
    Adapters/index
    Interfaces/index
+   OntologyEditorsGraph/index
+   AdHoc/index
