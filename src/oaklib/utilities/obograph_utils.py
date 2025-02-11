@@ -24,7 +24,6 @@ import networkx as nx
 import yaml
 from curies import Converter
 from linkml_runtime.dumpers import json_dumper
-from linkml_runtime.loaders import json_loader
 from pydantic import BaseModel
 
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
@@ -66,6 +65,7 @@ def remove_unlabeled_nodes(g: Union[GraphDocument, Graph], rescue_connected_node
             g.nodes = [n for n in g.nodes if n.lbl is not None or n.id in rescued]
         else:
             g.nodes = [n for n in g.nodes if n.lbl is not None]
+
 
 def load_obograph_document(path: Union[str, Path]) -> GraphDocument:
     """

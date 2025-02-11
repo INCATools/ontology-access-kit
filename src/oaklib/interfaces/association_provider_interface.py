@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
-from enum import unique, Enum
+from enum import Enum, unique
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.association import (

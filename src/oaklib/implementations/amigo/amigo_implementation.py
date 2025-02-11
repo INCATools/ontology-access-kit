@@ -73,11 +73,13 @@ DEFAULT_SELECT_FIELDS = [
     REFERENCE,
 ]
 
+
 def map_predicate(qualifiers: Iterable[str]) -> PRED_CURIE:
     for q in qualifiers:
         if q != "NOT":
             return f"biolink:{q.lower()}"
     return RELATED_TO
+
 
 def _fq_element(k, vs):
     v = " OR ".join([f'"{v}"' for v in vs]) if isinstance(vs, list) else f'"{vs}"'

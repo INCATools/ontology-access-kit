@@ -12,7 +12,6 @@ from enum import Enum
 from typing import IO, Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import yaml
-
 from pydantic import BaseModel
 
 from oaklib import BasicOntologyInterface
@@ -37,7 +36,8 @@ from oaklib.datamodels.vocabulary import (
     RDF_TYPE,
     RDFS_DOMAIN,
     RDFS_RANGE,
-    REGULATES, SUBPROPERTY_OF,
+    REGULATES,
+    SUBPROPERTY_OF,
 )
 from oaklib.interfaces import (
     OboGraphInterface,
@@ -1016,9 +1016,9 @@ def process_predicates_arg(
         # use HOP method
         for desc_p in impl.descendants(
             preds,
-                predicates=[SUBPROPERTY_OF],
-                method=GraphTraversalMethod.HOP,
-                reflexive=True,
+            predicates=[SUBPROPERTY_OF],
+            method=GraphTraversalMethod.HOP,
+            reflexive=True,
         ):
             preds_expanded.add(desc_p)
         return list(preds_expanded)
@@ -1094,4 +1094,3 @@ def _shorthand_to_pred_curie(shorthand: str) -> Union[PRED_CURIE, List[PRED_CURI
         return [IS_A, RDF_TYPE, EQUIVALENT_CLASS, DISJOINT_WITH, RDFS_DOMAIN, RDFS_RANGE]
     else:
         return shorthand
-

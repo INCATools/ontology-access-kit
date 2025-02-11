@@ -159,6 +159,7 @@ class UniprotImplementation(
         :return:
         """
         from bioservices import UniProt
+
         u = UniProt()
         exclude_predicates = [
             "up:mappedCitation",

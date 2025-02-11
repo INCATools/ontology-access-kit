@@ -16,7 +16,7 @@ from oaklib.datamodels.obograph import (
     Node,
     SynonymPropertyValue,
 )
-from oaklib.datamodels.vocabulary import IS_A, OWL_CLASS
+from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,
@@ -235,7 +235,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         if method and method == GraphTraversalMethod.ENTAILMENT:
             ancs = self.ancestors(
-                start_curies, predicates=predicates, method=method,
+                start_curies,
+                predicates=predicates,
+                method=method,
             )
             node_map = {}
             edges = []

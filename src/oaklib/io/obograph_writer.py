@@ -2,6 +2,7 @@
 Utilities for writing out obo graphs
 
 """
+
 import logging
 from typing import Optional, TextIO, Union
 
@@ -18,6 +19,7 @@ OG_FORMATS = ["json", "yaml", "obojson", "obograph"]
 RENDER_FORMATS = ["png", "svg", "dot"]
 
 logger = logging.getLogger(__name__)
+
 
 def write_graph_document(
     doc: GraphDocument,

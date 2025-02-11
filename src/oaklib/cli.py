@@ -46,12 +46,12 @@ from oaklib.datamodels.association import RollupGroup
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.obograph import (
     BasicPropertyValue,
-    Node,
     Edge,
     Graph,
     GraphDocument,
     LogicalDefinitionAxiom,
     Meta,
+    Node,
     PrefixDeclaration,
 )
 from oaklib.datamodels.settings import Settings
@@ -83,7 +83,8 @@ from oaklib.interfaces import (
     ValidatorInterface,
 )
 from oaklib.interfaces.association_provider_interface import (
-    AssociationProviderInterface, SubjectOrObjectRole,
+    AssociationProviderInterface,
+    SubjectOrObjectRole,
 )
 from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
@@ -132,8 +133,7 @@ from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
-from oaklib.query import process_predicates_arg, curies_from_file, query_terms_iterator
-from oaklib.utilities.associations.association_queries import get_association_iterator
+from oaklib.query import curies_from_file, process_predicates_arg, query_terms_iterator
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter, get_resource_from_shorthand
 from oaklib.transformers.transformers_factory import (
@@ -144,6 +144,7 @@ from oaklib.types import CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.associations.association_differ import AssociationDiffer
+from oaklib.utilities.associations.association_queries import get_association_iterator
 from oaklib.utilities.axioms import (
     logical_definition_analyzer,
     logical_definition_summarizer,
@@ -181,8 +182,9 @@ from oaklib.utilities.obograph_utils import (
     graph_to_d3viz_objects,
     graph_to_image,
     graph_to_tree_display,
+    remove_unlabeled_nodes,
     shortest_paths,
-    trim_graph, remove_unlabeled_nodes,
+    trim_graph,
 )
 from oaklib.utilities.publication_utils.pubmed_wrapper import PubmedWrapper
 from oaklib.utilities.subsets.slimmer_utils import (
@@ -4637,9 +4639,7 @@ def associations(
             f"Ontology closure predicates: {', '.join(actual_predicates or [])}",
         )
         if expand:
-            writer.emit_header(
-                "The results include a round of expansion"
-            )
+            writer.emit_header("The results include a round of expansion")
     qs_it = impl.associations(
         curies,
         predicates=actual_association_predicates,
@@ -4685,7 +4685,11 @@ def associations(
         exp_it = get_association_iterator(
             impl,
             list(entities_to_expand),
-            terms_role=SubjectOrObjectRole.SUBJECT.value if terms_role == SubjectOrObjectRole.OBJECT.value else SubjectOrObjectRole.OBJECT.value,
+            terms_role=(
+                SubjectOrObjectRole.SUBJECT.value
+                if terms_role == SubjectOrObjectRole.OBJECT.value
+                else SubjectOrObjectRole.OBJECT.value
+            ),
             association_predicates=actual_association_predicates,
             ontology_predicates=actual_predicates,
             **kwargs,
@@ -4842,7 +4846,9 @@ def associations_graph(
         if not isinstance(oa, OboGraphInterface):
             raise NotImplementedError(f"Cannot execute this using {oa} of type {type(oa)}")
 
-        graph = oa.ancestor_graph(curies, predicates=actual_predicates, method=GraphTraversalMethod.ENTAILMENT)
+        graph = oa.ancestor_graph(
+            curies, predicates=actual_predicates, method=GraphTraversalMethod.ENTAILMENT
+        )
     graph.edges.extend(edges)
     existing_nodes = set([node.id for node in graph.nodes])
     for node in node_map.values():
@@ -4853,7 +4859,9 @@ def associations_graph(
     gd = GraphDocument(graphs=[graph])
     if stylemap is None:
         stylemap = default_stylemap_path()
-    write_graph_document(gd, output, format=output_type, view=view, stylemap=stylemap, seeds=curies, **kwargs)
+    write_graph_document(
+        gd, output, format=output_type, view=view, stylemap=stylemap, seeds=curies, **kwargs
+    )
 
 
 @main.command()
@@ -6827,9 +6835,10 @@ def diff_via_mappings(
 @click.option("--missing-value-token", help="Populate all missing values with this token")
 @click.option(
     "--schema",
-    help=("Path to linkml schema. "
-          "This is used to infer which fields are identifiers and which are dependent columns, e.g labels"
-          ),
+    help=(
+        "Path to linkml schema. "
+        "This is used to infer which fields are identifiers and which are dependent columns, e.g labels"
+    ),
 )
 @click.option(
     "--delimiter",

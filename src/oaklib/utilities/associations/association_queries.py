@@ -1,19 +1,22 @@
 import itertools
 import logging
-from typing import List, Optional, Iterator
+from typing import Iterator, List, Optional
 
 from oaklib.datamodels.association import Association
-from oaklib.interfaces.association_provider_interface import AssociationProviderInterface, SubjectOrObjectRole
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+    SubjectOrObjectRole,
+)
 from oaklib.types import CURIE, PRED_CURIE
 
 
 def get_association_iterator(
-        impl: AssociationProviderInterface,
-        curies: List[CURIE],
-        terms_role: Optional[str] = None,
-        association_predicates: Optional[List[PRED_CURIE]] = None,
-        ontology_predicates: Optional[List[PRED_CURIE]] = None,
-        **kwargs,
+    impl: AssociationProviderInterface,
+    curies: List[CURIE],
+    terms_role: Optional[str] = None,
+    association_predicates: Optional[List[PRED_CURIE]] = None,
+    ontology_predicates: Optional[List[PRED_CURIE]] = None,
+    **kwargs,
 ) -> Iterator[Association]:
     """
     Query associations for a list of curies.
