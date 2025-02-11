@@ -158,9 +158,7 @@ class UniprotImplementation(
         :param include_entailed: TODO
         :return:
         """
-        from bioservices import UniProt
 
-        u = UniProt()
         exclude_predicates = [
             "up:mappedCitation",
             "up:mappedAnnotation",

@@ -58,7 +58,7 @@ def graph_node_ids_from_subject_and_objects(g: Graph) -> List[CURIE]:
 def remove_unlabeled_nodes(g: Union[GraphDocument, Graph], rescue_connected_nodes=True) -> None:
     if isinstance(g, GraphDocument):
         for graph in g.graphs:
-            remove_unlabeled(graph, rescue_connected_nodes=rescue_connected_nodes)
+            remove_unlabeled_nodes(graph, rescue_connected_nodes=rescue_connected_nodes)
     else:
         if rescue_connected_nodes:
             rescued = graph_node_ids_from_subject_and_objects(g)
