@@ -276,6 +276,12 @@ def validate_mappings(
                 m.predicate_id == HAS_DBXREF and xref_is_bijective
             ):
                 comments.append(f"cardinality is {m.mapping_cardinality}")
+        if object_adapter:
+            object_label = object_adapter.label(m.object_id)
+            if not object_label:
+                comments.append(f"no label for object")
+            elif m.object_label and m.object_label != object_label:
+                comments.append(f"object label mismatch")
         if comments:
             if autolabel:
                 if not m.subject_label and subject_adapter:
