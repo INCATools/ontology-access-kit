@@ -41,7 +41,6 @@ class MappingCrawlerConfig(BaseModel):
     stylemap_overrides: Optional[Dict[str, Any]] = None
 
 
-
 class MappingClique(BaseModel):
     """
     A set of mappings that are all connected in a graph.
