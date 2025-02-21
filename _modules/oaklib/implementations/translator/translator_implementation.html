@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oaklib.implementations.translator.translator_implementation &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oaklib.implementations.translator.translator_implementation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for oaklib.implementations.translator.translator_implementation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Adapter for NCATS Biomedical Translator endpoints (experimental).</span>
+
+<span class="sd">Provides wrappers for</span>
+
+<span class="sd">- Node Normalization</span>
+<span class="sd">- Name Resolution</span>
+
+<span class="sd">Examples:</span>
+
+<span class="sd">Name resolution:</span>
+
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        runoak -i translator: info &quot;citrate&quot;</span>
+<span class="sd">        CHEBI:16947 ! citrate(3-)</span>
+<span class="sd">        CHEBI:31602 ! FENTANYL CITRATE</span>
+<span class="sd">        CHEBI:30769 ! Citric acid</span>
+<span class="sd">        CHEBI:64733 ! Potassium citrate</span>
+<span class="sd">        CHEBI:131391 ! Magnesium citrate</span>
+<span class="sd">        UNII:LXN6S3999X ! MAROPITANT CITRATE</span>
+<span class="sd">        CHEBI:190513 ! Calcium citrate</span>
+<span class="sd">        CHEBI:71197 ! TOFACITINIB CITRATE</span>
+<span class="sd">        CHEBI:9139 ! Sildenafil</span>
+<span class="sd">        CHEBI:3752 ! Clomifene</span>
+
+
+<span class="sd">Aliases:</span>
+
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        runoak -i translator: aliases &quot;CHEBI:16947&quot;</span>
+<span class="sd">        curie	pred	alias</span>
+<span class="sd">        CHEBI:16947	oio:hasRelatedSynonym	cit</span>
+<span class="sd">        CHEBI:16947	oio:hasRelatedSynonym	Citrate</span>
+<span class="sd">        CHEBI:16947	oio:hasRelatedSynonym	citrate</span>
+<span class="sd">        CHEBI:16947	oio:hasRelatedSynonym	cit(3-)</span>
+<span class="sd">        CHEBI:16947	oio:hasRelatedSynonym	citrate(3-)</span>
+<span class="sd">        ...</span>
+
+<span class="sd">Mappings:</span>
+
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        runoak -i translator: mappings &quot;CHEBI:16947&quot; -O sssom</span>
+<span class="sd">        # curie_map:</span>
+<span class="sd">        #   CAS: http://w3id.org/sssom/unknown_prefix/cas/</span>
+<span class="sd">        #   CHEBI: http://purl.obolibrary.org/obo/CHEBI_</span>
+<span class="sd">        #   INCHIKEY: http://w3id.org/sssom/unknown_prefix/inchikey/</span>
+<span class="sd">        #   PUBCHEM.COMPOUND: http://w3id.org/sssom/unknown_prefix/pubchem.compound/</span>
+<span class="sd">        #   UNII: http://w3id.org/sssom/unknown_prefix/unii/</span>
+<span class="sd">        #   owl: http://www.w3.org/2002/07/owl#</span>
+<span class="sd">        #   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#</span>
+<span class="sd">        #   rdfs: http://www.w3.org/2000/01/rdf-schema#</span>
+<span class="sd">        #   semapv: https://w3id.org/semapv/vocab/</span>
+<span class="sd">        #   skos: http://www.w3.org/2004/02/skos/core#</span>
+<span class="sd">        #   sssom: https://w3id.org/sssom/</span>
+<span class="sd">        # license: https://w3id.org/sssom/license/unspecified</span>
+<span class="sd">        # mapping_set_id: https://w3id.org/sssom/mappings/6b8c0caf-98d7-4c08-b499-8922be3405db</span>
+<span class="sd">        subject_id	subject_label	predicate_id	object_id</span>
+<span class="sd">        CHEBI:16947	citrate(3-)	skos:exactMatch	CAS:126-44-3</span>
+<span class="sd">        CHEBI:16947	citrate(3-)	skos:exactMatch	CHEBI:16947</span>
+<span class="sd">        CHEBI:16947	citrate(3-)	skos:exactMatch	INCHIKEY:KRKNYBCHXYNGOX-UHFFFAOYSA-K</span>
+<span class="sd">        CHEBI:16947	citrate(3-)	skos:exactMatch	PUBCHEM.COMPOUND:31348</span>
+<span class="sd">        CHEBI:16947	citrate(3-)	skos:exactMatch	UNII:664CCH53PI</span>
+
+<span class="sd">Term categories:</span>
+
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        runoak -i translator: term-categories PUBCHEM.COMPOUND:31348</span>
+<span class="sd">        curie	subset</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:SmallMolecule</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:MolecularEntity</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:ChemicalEntity</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:PhysicalEssence</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:ChemicalOrDrugOrTreatment</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:ChemicalEntityOrGeneOrGeneProduct</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:ChemicalEntityOrProteinOrPolypeptide</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:NamedThing</span>
+<span class="sd">        PUBCHEM.COMPOUND:31348	biolink:PhysicalEssenceOrOccurrent</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sssom_schema.datamodel.sssom_schema</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sssom</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">TIMEOUT_SECONDS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">HAS_RELATED_SYNONYM</span><span class="p">,</span>
+    <span class="n">RDFS_LABEL</span><span class="p">,</span>
+    <span class="n">SEMAPV</span><span class="p">,</span>
+    <span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
+    <span class="n">SKOS_EXACT_MATCH</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> <span class="n">LANGUAGE_TAG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.mapping_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.semsim_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CATEGORY_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;TranslatorImplementation&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.mapping.sssom_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">inject_mapping_sources</span>
+
+<span class="n">NODE_NORMALIZER_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://nodenormalization-sri.renci.org/1.4/get_normalized_nodes&quot;</span>
+<span class="n">NAME_RESOLUTION_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://name-resolution-sri.renci.org&quot;</span>
+<span class="n">ARS_SUBMIT_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://ars-prod.transltr.io/ars/api/submit&quot;</span>
+
+
+<div class="viewcode-block" id="TranslatorImplementation">
+<a class="viewcode-back" href="../../../../packages/implementations/translator.html#oaklib.implementations.translator.translator_implementation.TranslatorImplementation">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TranslatorImplementation</span><span class="p">(</span>
+    <span class="n">MappingProviderInterface</span><span class="p">,</span>
+    <span class="n">SearchInterface</span><span class="p">,</span>
+    <span class="n">SemanticSimilarityInterface</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wraps Translator SRI endpoints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">terms_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CATEGORY_CURIE</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">):</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">curies</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">NODE_NORMALIZER_ENDPOINT</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;curie&quot;</span><span class="p">:</span> <span class="n">curies</span><span class="p">,</span> <span class="s2">&quot;conflate&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;detail&quot;</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Not found.&quot;</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">t</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">information_content_scores</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">object_closure_predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_associations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">term_to_entities_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">):</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">curies</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">NODE_NORMALIZER_ENDPOINT</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;curie&quot;</span><span class="p">:</span> <span class="n">curies</span><span class="p">,</span> <span class="s2">&quot;conflate&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;detail&quot;</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Not found.&quot;</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">ic</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;information_content&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ic</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">ic</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">sssom_mappings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">):</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">curies</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">NODE_NORMALIZER_ENDPOINT</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;curie&quot;</span><span class="p">:</span> <span class="n">curies</span><span class="p">,</span> <span class="s2">&quot;conflate&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">non_conflated_results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">NODE_NORMALIZER_ENDPOINT</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;curie&quot;</span><span class="p">:</span> <span class="n">curies</span><span class="p">,</span> <span class="s2">&quot;conflate&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">objects</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">subjects</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;detail&quot;</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Not found.&quot;</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No results for </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">curies</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">nc_data</span> <span class="o">=</span> <span class="n">non_conflated_results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">equiv_identifiers</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;equivalent_identifiers&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">equiv_identifiers</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">curie</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">equiv_identifiers</span><span class="p">:</span>
+                <span class="n">object_id</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span>
+                <span class="n">pred</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">SKOS_EXACT_MATCH</span>
+                    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+                        <span class="n">x2</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">object_id</span>
+                        <span class="k">for</span> <span class="n">x2</span> <span class="ow">in</span> <span class="n">nc_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;equivalent_identifiers&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="p">)</span>
+                    <span class="k">else</span> <span class="n">SKOS_CLOSE_MATCH</span>
+                <span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span>
+                    <span class="n">subject_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
+                    <span class="n">subject_label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">predicate_id</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span>
+                    <span class="n">object_id</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
+                    <span class="n">object_label</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                    <span class="n">mapping_justification</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">ManualMappingCuration</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">source</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">object_source</span> <span class="o">!=</span> <span class="n">source</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">m</span>
+                <span class="n">objects</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
+                <span class="n">subjects</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find any mappings for </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">inject_mapping_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">basic_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SearchConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">NAME_RESOLUTION_ENDPOINT</span><span class="si">}</span><span class="s2">/lookup&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">search_term</span><span class="p">,</span> <span class="s2">&quot;autocomplete&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="n">curie</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;curie&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">property_cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">RDFS_LABEL</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
+            <span class="k">yield</span> <span class="n">curie</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_cache</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">RDFS_LABEL</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">RDFS_LABEL</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">NAME_RESOLUTION_ENDPOINT</span><span class="si">}</span><span class="s2">/reverse_lookup&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;curies&quot;</span><span class="p">:</span> <span class="n">curie</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="n">curie</span><span class="p">][</span><span class="s2">&quot;preferred_name&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">entity_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">NAME_RESOLUTION_ENDPOINT</span><span class="si">}</span><span class="s2">/reverse_lookup&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;curies&quot;</span><span class="p">:</span> <span class="n">curie</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="n">curie</span><span class="p">][</span><span class="s2">&quot;names&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">entity_alias_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ALIAS_MAP</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">HAS_RELATED_SYNONYM</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="n">curie</span><span class="p">)}</span></div>
+
+
+    <span class="c1"># def relationships(</span>
+    <span class="c1">#         self,</span>
+    <span class="c1">#         subjects: Iterable[CURIE] = None,</span>
+    <span class="c1">#         predicates: Iterable[PRED_CURIE] = None,</span>
+    <span class="c1">#         objects: Iterable[CURIE] = None,</span>
+    <span class="c1">#         include_tbox: bool = True,</span>
+    <span class="c1">#         include_abox: bool = True,</span>
+    <span class="c1">#         include_entailed: bool = False,</span>
+    <span class="c1">#         exclude_blank: bool = True,</span>
+    <span class="c1"># ) -&gt; Iterator[RELATIONSHIP]:</span>
+    <span class="c1">#     query = {</span>
+    <span class="c1">#         &quot;message&quot;: {</span>
+    <span class="c1">#             &quot;query_graph&quot;: {</span>
+    <span class="c1">#                 &quot;edges&quot;: {</span>
+    <span class="c1">#                     &quot;e00&quot;: {</span>
+    <span class="c1">#                         &quot;subject&quot;: &quot;n00&quot;,</span>
+    <span class="c1">#                         &quot;object&quot;: &quot;n01&quot;,</span>
+    <span class="c1">#                         &quot;predicates&quot;: [&quot;biolink:entity_negatively_regulates_entity&quot;]</span>
+    <span class="c1">#                     },</span>
+    <span class="c1">#                     &quot;e01&quot;: {</span>
+    <span class="c1">#                         &quot;subject&quot;: &quot;n01&quot;,</span>
+    <span class="c1">#                         &quot;object&quot;: &quot;n02&quot;,</span>
+    <span class="c1">#                         &quot;predicates&quot;: [&quot;biolink:related_to&quot;]</span>
+    <span class="c1">#                     }</span>
+    <span class="c1">#                 },</span>
+    <span class="c1">#                 &quot;nodes&quot;: {</span>
+    <span class="c1">#                     &quot;n00&quot;: {</span>
+    <span class="c1">#                         &quot;ids&quot;: [&quot;PUBCHEM.COMPOUND:644073&quot;],</span>
+    <span class="c1">#                         &quot;categories&quot;: [&quot;biolink:ChemicalEntity&quot;]</span>
+    <span class="c1">#                     },</span>
+    <span class="c1">#                     &quot;n01&quot;: {</span>
+    <span class="c1">#                         &quot;categories&quot;: [&quot;biolink:BiologicalProcessOrActivity&quot;, &quot;biolink:Gene&quot;, &quot;biolink:Pathway&quot;]</span>
+    <span class="c1">#                     },</span>
+    <span class="c1">#                     &quot;n02&quot;: {</span>
+    <span class="c1">#                         &quot;ids&quot;: [&quot;HP:0000217&quot;],</span>
+    <span class="c1">#                         &quot;categories&quot;: [&quot;biolink:DiseaseOrPhenotypicFeature&quot;]</span>
+    <span class="c1">#                     }</span>
+    <span class="c1">#                 }</span>
+    <span class="c1">#             }</span>
+    <span class="c1">#         }</span>
+    <span class="c1">#     }</span>
+    <span class="c1">#     r = requests.post(ARS_SUBMIT_ENDPOINT, json=query, timeout=TIMEOUT_SECONDS)</span>
+    <span class="c1">#     pk = r.get(&#39;pk&#39;)</span>
+    <span class="c1">#     import yaml</span>
+    <span class="c1">#     print(yaml.dump(r.json()))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

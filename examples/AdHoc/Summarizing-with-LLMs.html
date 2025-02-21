@@ -113,7 +113,7 @@
 <p>This notebook demonstrates how to summarize the output of LLMs using the <a class="reference external" href="https://llm.datasette.io/en/stable/">datasette LLM command line tool</a>.</p>
 <p>See also:</p>
 <ul class="simple">
-<li><p>[How to use LLMs with OAK](<a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/use-llms.html">https://incatools.github.io/ontology-access-kit/howtos/use-llms.html</a></p></li>
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/use-llms.html">How to use LLMs with OAK</a></p></li>
 </ul>
 <section id="Install-the-LLM-command-line-tool">
 <h2>Install the LLM command line tool<a class="headerlink" href="#Install-the-LLM-command-line-tool" title="Link to this heading"></a></h2>
@@ -129,10 +129,10 @@
 <h2>Summarize outputs<a class="headerlink" href="#Summarize-outputs" title="Link to this heading"></a></h2>
 <p>You can redirect any output you like to <code class="docutils literal notranslate"><span class="pre">llm</span></code>. For example, consider this OAK query to get definition of all kinds of hearts in Uberon:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -157,10 +157,10 @@ UBERON:0034960  left lymph heart        None
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;give a summary of these terms and critical comments on definitions&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;give a summary of these terms and critical comments on definitions&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -169,31 +169,32 @@ UBERON:0034960  left lymph heart        None
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The terms provided mainly describe various structures within the circulatory system, both in vertebrates and invertebrates, with a focus on definitions from anatomical and biological perspectives. Here is a summary of the terms along with critical comments on their definitions:
+This dataset contains definitions and critical comments on various anatomical terms related to circulatory and lymphatic organs. Here&#39;s a summary of the terms listed:
 
-1. **Heart (UBERON:0000948):** Defined as a myogenic muscular organ in vertebrates, responsible for circulating blood through cardiac muscle chambers. The term appropriately highlights the heart’s primary function and structural characteristics.
+1. **Heart (UBERON:0000948):** Defined as a myogenic muscular organ in vertebrates, responsible for circulating blood through its chambers of cardiac muscle. It is characterized as the primary circulatory organ.
 
-2. **Primary Circulatory Organ (UBERON:0007100):** Described as a hollow, muscular organ that maintains blood circulation through rhythmic contractions. The definition is clear, albeit a bit redundant with the general concept of a &#34;heart.&#34;
+2. **Primary Circulatory Organ (UBERON:0007100):** Described as a hollow, muscular organ that rhythmically contracts to maintain blood circulation. This definition emphasizes the functional role of the heart or equivalent structures in different organisms.
 
-3. **Lymph Heart (UBERON:0015202):** Defined as an organ pumping lymph throughout the body. The definition clearly states its function, but it might benefit from specifying its presence in particular animal groups.
+. **Lymph Heart (UBERON:0015202):** A type of circulatory organ whose main function is to pump lymph throughout the body, highlighting its role in the lymphatic system rather than the blood circulatory system.
 
-4. **Peristaltic Circulatory Vessel (UBERON:0015227):** A vessel where muscular contractions propel fluid, specifically haemolymph. The definition is clear, but could use more context or examples of organisms in which such structures are found.
+4. **Peristaltic Circulatory Vessel (UBERON:0015227):** A vessel that uses waves of muscular contraction to move haemolymphatic fluid, commonly found in invertebrates.
 
-5. **Circulatory Organ (UBERON:0015228):** Broadly covers any hollow, muscular organ aiding blood, lymph, or fluid circulation. The examples provided enhance understanding, though the broad nature of the definition might necessitate more clarity or distinction between types.
+5. **Circulatory Organ (UBERON:0015228):** Describes a general category of muscle-based organs that contribute to the circulation of lymph, blood, or analogous fluids. Examples cover a range of biological structures beyond vertebrate hearts, such as insect dorsal vessels and reptilian lymph hearts.
 
-6. **Accessory Circulatory Organ (UBERON:0015229):** An organ not primarily responsible for circulation, suggesting a supportive role. This generally makes sense, but would benefit from specific examples for clarity.
+. **Accessory Circulatory Organ (UBERON:0015229):** Defined as any circulatory organ that does not play a central role in primary circulation, indicating auxiliary support components within circulatory systems.
 
-7. **Dorsal Vessel Heart (UBERON:0015230):** Describes the pulsatile region of the arthropod dorsal vessel, indicating its role in the circulatory system. The definition is precise for those familiar with arthropod anatomy but could confuse those without such background.
+. **Dorsal Vessel Heart (UBERON:0015230):** This is explained as the pulsatile section of an arthropod&#39;s dorsal vessel, emphasizing its role within the insect circulatory system.
 
-8. **Embryonic Lymph Heart (UBERON:0034961):** Specifies a lymph heart within an embryo. This is straightforward, however, further description of its role during development could enhance understanding.
+8. **Embryonic Lymph Heart (UBERON:0034961):** A lymph heart that functions within an embryo, which likely plays a role in early circulatory system development.
 
-9. **Copulatory Lymph Heart (UBERON:0034962):** Involves lymph return from the penis to the venous system. The definition is clear, yet specialized, relevant mostly to anatomy involving reproductive systems.
+9. **Copulatory Lymph Heart (UBERON:0034962):** This organ assists in returning lymph from the penis to the venous system, underlining a specific physiological function.
 
-10. **Cardial Lymph Propulsor (UBERON:0036259):** A lymph structure associated with the amphibian heart’s major outflow tract. The definition is precise for specific studies of amphibian physiology.
+10. **Cardial Lymph Propulsor (UBERON:0036259):** Located against the truncus arteriosus in amphibians, it functions in conjunction with the main outflow tract of the heart.
 
-11. **Right Lymph Heart (UBERON:0034959) &amp; Left Lymph Heart (UBERON:0034960):** These terms lack definitions, which raises questions about their specific roles and anatomical details; adding definitions would improve completeness and understanding.
+11. **Right Lymph Heart (UBERON:0034959) &amp; Left Lymph Heart (UBERON:0034960):** These entries lack definitions, suggesting areas where further information and research are needed.
 
-Critical observations indicate that many definitions would benefit from contextual enlargement or specification of their presence and role in different species, enhancing educational value. Furthermore, terms without definitions need elaboration for comprehensive utility.
+**Critical Comments on Definitions:**
+ definitions provided in this dataset are generally concise and specify the structural and functional characteristics of each organ. However, some definitions could benefit from more context about their biological significance and differences across species. The absence of information for the &#34;Right Lymph Heart&#34; and &#34;Left Lymph Heart&#34; suggests that these terms might either be very specific anatomical components not yet well-characterized, or they may need further clarification and research to accurately define their roles and significance within the biological taxonomy provided by UBERON.
 </pre></div></div>
 </div>
 </section>
@@ -206,10 +207,10 @@ Critical observations indicate that many definitions would benefit from contextu
 </pre></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-t<span class="w"> </span>summarize-definitions
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>definitions<span class="w"> </span>.sub<span class="w"> </span><span class="s2">&quot;circulatory organ&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-t<span class="w"> </span>summarize-definitions
 <br/></pre></div>
 </div>
 </div>
@@ -218,39 +219,31 @@ Critical observations indicate that many definitions would benefit from contextu
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The dataset provides definitions for various types of circulatory organs and structures within the UBERON ontology, which is a comprehensive multi-species anatomy ontology encompassing multiple biological domains. Here is a summary of each term included:
+This dataset provides definitions for various anatomical terms related to circulatory organs across different species, especially focusing on aspects of their structure and functions.
 
-1. **Heart (UBERON:0000948)**: Described as a myogenic muscular organ within the vertebrate cardiovascular system. It is the primary circulatory organ that functions by moving blood throughout the body via chambers of cardiac muscle.
+ **Heart (UBERON:0000948)**: Defined as a myogenic muscular organ in vertebrates responsible for circulating blood, it&#39;s depicted as the primary organ in the cardiovascular system. Critical insight could involve the need for clarification on variations in structure and function across different vertebrate species.
 
-2. **Primary Circulatory Organ (UBERON:0007100)**: A hollow, muscular organ that maintains blood circulation through rhythmic contractions. The definition is adapted from the Gene Ontology (GO).
+2. **Primary Circulatory Organ (UBERON:0007100)**: Essentially an organ responsible for keeping blood or similar substances circulating via rhythmic contractions. The definition emphasizes its hollow and muscular nature. Critiques might focus on the broad definition that necessitates specifying how it differs from accessory organs in terms of function.
 
-3. **Lymph Heart (UBERON:0015202)**: A circulatory organ tasked with pumping lymphatic fluid throughout the body. It serves a function analogous to the heart but specific to lymph circulation.
+3. **Lymph Heart (UBERON:0015202)**: A specialized organ pumping lymph, reflecting its distinct role from blood-circulating hearts. The definition broadly indicates its role but leaves out specific biological distinctions that might benefit more from context about lymphatic roles and species specifics.
 
-4. **Peristaltic Circulatory Vessel (UBERON:0015227)**: Described as a vessel in which muscular contractions send waves that propel haemolymphatic fluid forward, common in certain invertebrates.
+4. **Peristaltic Circulatory Vessel (UBERON:0015227)**: Characterized by its peristalsis-driven movement of haemolymphatic fluid, typical in certain invertebrates. Critical comments could address potential confusion with non-circulatory peristaltic functions and necessitate additional context on organism diversity.
 
-5. **Circulatory Organ (UBERON:0015228)**: This broader category includes any hollow, muscular organ that contributes to the circulation of blood, lymph, or their analogs. Examples include the vertebrate heart, ascidian peristaltic heart, the insect dorsal vessel, and a reptile&#39;s lymph heart.
+ **Circulatory Organ (UBERON:0015228)**: A broader category encompassing organs that use rhythmic contractions to aid circulation, including various heart types across species. This definition could be clearer with distinctions in organ origins (e.g., evolutionary paths) and functioning mechanisms.
 
-6. **Accessory Circulatory Organ (UBERON:0015229)**: Any circulatory organ that does not play the primary role in circulation, implying a supportive or secondary role.
+. **Accessory Circulatory Organ (UBERON:0015229)**: These are defined as supportive rather than primary organs in aiding circulation. Critical comments may suggest defining criteria for what constitutes &#34;accessory&#34; and potential overlap with primary functions in certain conditions.
 
-7. **Dorsal Vessel Heart (UBERON:0015230)**: A section of the dorsal vessel in arthropods, it is characterized as pulsatile, assisting in their circulatory system.
+. **Dorsal Vessel Heart (UBERON:0015230)**: Specific to arthropods, it describes the pulsatile nature of their dorsal vessel system. Insights could focus on comparing this with vertebrate systems and clarifying its unique contributions to arthropod physiology.
 
-8. **Embryonic Lymph Heart (UBERON:0034961)**: A lymph heart that is active during the embryonic stage of development.
+. **Embryonic Lymph Heart (UBERON:0034961)**: This represents a lymph heart in an embryonic stage, underscoring developmental stages in lymphatic systems. Further definition could include comparative development timing across species.
 
-9. **Copulatory Lymph Heart (UBERON:0034962)**: A specialized lymph heart aiding in returning lymph from the penis to the venous system.
+. **Copulatory Lymph Heart (UBERON:0034962)**: Highlights a role in returning lymph from the penis to the venous system, particularly in reproductive context. Critical engagement might probe its existence across species and correlation to reproductive strategies.
 
-10. **Cardial Lymph Propulsor (UBERON:0036259)**: Positioned closely against the truncus arteriosus in amphibians, it helps propel lymphatic fluid, acting near the heart&#39;s outflow tract.
+. **Cardial Lymph Propulsor (UBERON:0036259)**: Applies to amphibians, lying against the truncus arteriosus, emphasizing a distinct lymphatic role. Definitions could improve by providing more detail on its structural uniqueness and interaction with other circulatory elements.
 
-11. **Right Lymph Heart (UBERON:0034959)** and **Left Lymph Heart (UBERON:0034960)**: These entries lack defined descriptions in the dataset, suggesting they might represent specific anatomical structures known in certain species but not yet fully characterized in this context.
+. **Right/Left Lymph Heart (UBERON:0034959 and UBERON:0034960)**: Currently lack definitions, necessitating clarification or investigation into whether these terms need unique definitions or if they are context-specific adaptations or roles.
 
-**Critical Comments on Definitions:**
-
-- **Incompleteness and Specificity:** Some entries, like the right and left lymph heart, are missing definitions, which indicate a need for further research or input in these areas. Definitions should be expanded to clarify their unique roles or confirm their existence in various species.
-
-- **Overlap and Clarity:** There is potential overlap in the definitions of terms like &#34;circulatory organ&#34; and &#34;primary circulatory organ,&#34; which might cause confusion regarding their distinct functionalities and hierarchies. It would be beneficial to delineate these more clearly within the ontology.
-
-- **Use of Examples and Context:** The use of examples, such as the mention of ascidians and insects in the circulatory organ definition, enriches understanding but might require caveats for context-specific interpretations.
-
-Overall, while the given definitions are fairly descriptive of the various components of circulatory systems across different organisms, further refinement and detail, particularly where missing or vague, could improve comprehensiveness and usability in biological research and applications.
+Overall, while the dataset adequately defines the basic function and category of each term, critical comments might emphasize the need to offer more biological diversity context, specify differences between analogous structures across species, and clarify evolutionary or developmental stages mentioned but not detailed.
 </pre></div></div>
 </div>
 </section>
@@ -281,10 +274,10 @@ Overall, while the given definitions are fairly descriptive of the various compo
 </pre></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>amigo:NCBITaxon:9606<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-H<span class="w">  </span>--expand<span class="w"> </span>GO:0009229
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>amigo:NCBITaxon:9606<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-H<span class="w">  </span>--expand<span class="w"> </span>GO:0009229
 </pre></div>
 </div>
 </div>
@@ -420,10 +413,10 @@ UniProtKB:Q9BU02        biolink:related_to      GO:0042357              THTPA   
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>amigo:NCBITaxon:9606<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-H<span class="w">  </span>--expand<span class="w"> </span>GO:0009229<span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-t<span class="w"> </span>summarize-gaf-for-gene
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>amigo:NCBITaxon:9606<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-H<span class="w">  </span>--expand<span class="w"> </span>GO:0009229<span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>-m<span class="w"> </span>4o<span class="w"> </span>-t<span class="w"> </span>summarize-gaf-for-gene
 </pre></div>
 </div>
 </div>
@@ -432,28 +425,26 @@ UniProtKB:Q9BU02        biolink:related_to      GO:0042357              THTPA   
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The gene products associated with the thiamine diphosphate biosynthetic process (GO:0009229) involve several proteins including SLC19A3, TPK1, SLC25A19, SLC19A2, and THTPA, each contributing to the synthesis and transport of thiamine-related compounds in different capacities.
+The gene annotated with the process &#34;thiamine diphosphate biosynthetic process&#34; is involved in the synthesis of thiamine diphosphate (TDP), a coenzyme form of thiamine (vitamin B1) critical for various enzymatic reactions. Here&#39;s a summary of the functions of related gene products:
 
-SLC19A3 is primarily involved in the transport of thiamine and pyridoxine across the plasma membrane, displaying thiamine transmembrane transporter activity. It facilitates thiamine transmembrane transport and is located on the plasma membrane. This protein also plays a role in thiamine transport in general, contributing to the overall metabolic process of thiamine-containing compounds.
+TPK1 (Thiamine Pyrophosphokinase 1)**: TPK1 plays a direct role in the thiamine diphosphate biosynthetic process by catalyzing the conversion of thiamine (vitamin B1) into thiamine diphosphate. This enzyme exhibits thiamine diphosphokinase activity, utilizing ATP in the phosphorylation process. It is also involved in the regulation of acetyl-CoA biosynthesis from pyruvate, a crucial step in energy metabolism. It predominantly localizes in the cytosol.
 
-TPK1 (thiamine pyrophosphate kinase) catalyzes the ATP-dependent phosphorylation of thiamine to form thiamine diphosphate, which is the active form of thiamine used as a coenzyme in various enzymatic reactions. It has been detected in the cytosol and also possesses kinase and ATP binding activity.
+2. **SLC19A2 and SLC19A3 (Thiamine Transporters)**: These are integral membrane proteins that primarily facilitate the transmembrane transport of thiamine and its derivatives. They exhibit thiamine transmembrane transporter activity and localize to the plasma membrane. They also partake in transport processes of other vitamin B compounds, like pyridoxine. SLC19A2 is also implicated in folic acid transport and localized to the plasma membrane.
 
-SLC25A19 is responsible for the transmembrane transport of thiamine pyrophosphate into mitochondria. It shows activity as a thiamine pyrophosphate transmembrane transporter, indicating its critical role in mitochondrial functions related to thiamine metabolism. This protein is associated with the mitochondrial inner membrane, further evidencing its role in mitochondrial transport processes.
+SLC25A19**: This gene encodes a transporter responsible for the transmembrane transport of thiamine pyrophosphate (TPP), particularly across the mitochondrial inner membrane. Although associated with thiamine diphosphate biosynthetic processes, it primarily functions as a thiamine pyrophosphate transmembrane transporter, ensuring TPP availability within mitochondria for enzymatic processes.
 
-SLC19A2 serves as both a thiamine and folic acid transporter at the plasma membrane, contributing to the transport of these vitamins into cells, supporting both thiamine and folic acid metabolic processes.
+ **THTPA (Thiamine Triphosphate Phosphatase)**: This enzyme is involved in the breakdown of thiamine triphosphate to thiamine diphosphate, contributing to the overall maintenance of thiamine phosphate balance within the cell. THTPA exhibits thiamine triphosphate phosphatase and general hydrolase activity with a prominent role in the cytosol.
 
-THTPA functions in the conversion of thiamine triphosphate to thiamine diphosphate, acting as a thiamine triphosphate phosphatase. Involved in broad thiamine metabolic processes, it possesses hydrolase activity, with a focus on dephosphorylation reactions. It has been primarily located in the cytosol.
+ these proteins coordinate in the transport, synthesis, and utilization of thiamine derivatives, ensuring the bioavailability of thiamine diphosphate for critical metabolic pathways.
 
-Anomalous annotations include SLC19A2 being associated with spermatogenesis, which may not directly relate to its primary functions in vitamin transport. Additionally, some annotations suggest contradictory activities, such as SLC25A19 annotations to deoxynucleotide transport, which have been negated in other studies.
-
-Overall, these genes coordinate to manage the cellular and systemic availability of thiamine diphosphate, ensuring proper metabolic processes that utilize this crucial co-factor.
+**Commentary**: The annotations broadly reflect the core function of these genes in thiamine metabolism and transport. The GAF suggests some erroneous and overlapping annotations, such as the inclusion of folic acid transport for SLC19A2, which primarily functions as a thiamine transporter. Additionally, the &#34;thiamine diphosphate biosynthetic process&#34; might not directly apply to the transporters like SLC19A2 and SLC19A3, as these are more focused on the transport aspect rather than direct synthesis.
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>

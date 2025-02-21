@@ -1770,6 +1770,18 @@ for each ontology (e.g. normalizing prefixes).</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-crawl-S">
+<span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--stylemap</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;stylemap&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-crawl-S" title="Link to this definition"></a></dt>
+<dd><p>a json file to configure visualization. See <a class="reference external" href="https://berkeleybop.github.io/kgviz-model/">https://berkeleybop.github.io/kgviz-model/</a></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-crawl-C">
+<span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-crawl-C" title="Link to this definition"></a></dt>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-crawl-d">
 <span class="sig-name descname"><span class="pre">-d</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--directory</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;directory&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-crawl-d" title="Link to this definition"></a></dt>
 <dd><p>Directory to write output files</p>
@@ -1787,8 +1799,8 @@ for each ontology (e.g. normalizing prefixes).</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-crawl-C">
-<span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--config-yaml</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;config_yaml&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-crawl-C" title="Link to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-crawl-0">
+<span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--config-yaml</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;config_yaml&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-crawl-0" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -4473,7 +4485,7 @@ results to viz, using the fill-gaps option.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-paths-C">
 <span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-paths-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id5"><span class="problematic" id="id6">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -4515,7 +4527,7 @@ simple dictionaries:</p>
 <p>For RDF exports, the prefix declaration should appear in BOTH prefix declarations, AND also as
 instances of SHACL PrefixDeclarations, e.g.</p>
 <blockquote>
-<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id9"><span class="problematic" id="id10">CL_</span></a>&gt; .
+<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id11"><span class="problematic" id="id12">CL_</span></a>&gt; .
 …
 [] a sh:PrefixDeclaration ;</p>
 <blockquote>
@@ -6021,7 +6033,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-C">
 <span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id5"><span class="problematic" id="id6">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id7"><span class="problematic" id="id8">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -6756,7 +6768,7 @@ to a distance of 2:</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-viz-C">
 <span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id7"><span class="problematic" id="id8">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id9"><span class="problematic" id="id10">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">

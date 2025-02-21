@@ -23,8 +23,8 @@ URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 | [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 | [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
