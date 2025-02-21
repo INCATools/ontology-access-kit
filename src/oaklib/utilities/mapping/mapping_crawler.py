@@ -38,6 +38,7 @@ class MappingCrawlerConfig(BaseModel):
     max_visits: Optional[int] = 10000
     gap_fill: bool = True
     clique_directory: Optional[str] = None
+    stylemap_overrides: Optional[Dict[str, Any]] = None
 
 
 class MappingClique(BaseModel):

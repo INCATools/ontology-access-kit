@@ -48,6 +48,7 @@ class MonarchImplementation(
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        **kwargs,
     ) -> Iterator[Association]:
         if subjects and not isinstance(subjects, list):
             subjects = list(subjects)
@@ -140,6 +141,7 @@ class MonarchImplementation(
         include_abox: bool = True,
         include_entailed: bool = False,
         exclude_blank: bool = True,
+        **kwargs,
     ) -> Iterator[RELATIONSHIP]:
         for a in self.associations(subjects=subjects, predicates=predicates, objects=objects):
             yield a.subject, a.predicate, a.object

@@ -24,4 +24,5 @@ Implementations (also known as *adapters*) implement one or more :ref:`interface
    aggregator
    pantherdb
    robot-template
+   translator
    llm

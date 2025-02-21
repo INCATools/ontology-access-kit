@@ -401,7 +401,7 @@ display_option = click.option(
     default="",
     help="A comma-separated list of display options. Use 'all' for all",
 )
-stylemap_otion = click.option(
+stylemap_option = click.option(
     "-S",
     "--stylemap",
     help="a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/",
@@ -1440,7 +1440,7 @@ def annotate(
     show_default=True,
     help="If set then extend input seed list to include all pairwise MRCAs",
 )
-@stylemap_otion
+@stylemap_option
 @stylemap_configure_option
 @click.option(
     "--max-hops",
@@ -1884,7 +1884,7 @@ def ancestors(
     "--predicate-weights",
     help="key-value pairs specified in YAML where keys are predicates or shorthands and values are weights",
 )
-@stylemap_otion
+@stylemap_option
 @stylemap_configure_option
 @click.option("-o", "--output", help="Path to output file")
 def paths(
@@ -3808,6 +3808,8 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
     show_default=True,
     help="If true then draw a graph",
 )
+@stylemap_option
+@stylemap_configure_option
 @click.option("-d", "--directory", help="Directory to write output files")
 @click.option(
     "--whole-ontology/--no-whole-ontology",
@@ -3827,6 +3829,8 @@ def crawl(
     allowed_prefixes,
     mapping_predicates,
     viz,
+    stylemap,
+    configure,
     config_yaml,
     whole_ontology,
     directory,
@@ -3844,6 +3848,8 @@ def crawl(
 
     Documentation for this command will be provided in a separate notebook.
     """
+    # TODO: normalize this option; avoid confusing with 'config'
+    stylemap_configure = configure
     impl = settings.impl
     if viz:
         writer = None
@@ -3887,15 +3893,19 @@ def crawl(
         if output_type and output_type not in ["png", "svg", "dot", "jpeg"]:
             write_graph(graph, format=output_type, output=output)
         else:
-            stylemap = None
             if stylemap is None:
                 stylemap = default_stylemap_path()
+            if config.stylemap_overrides:
+                stylemap_configure = config.stylemap_overrides
+            if stylemap_configure:
+                # TODO: this is a bit backwards
+                stylemap_configure = yaml.dump(stylemap_configure)
             graph_to_image(
                 graph,
                 seeds=terms,
                 imgfile=output,
                 stylemap=stylemap,
-                # configure=configure,
+                configure=stylemap_configure,
                 format=output_type,
                 view=True,
             )
@@ -4755,7 +4765,7 @@ def associations(
     show_default=True,
     help="if view is set then open the image after rendering",
 )
-@stylemap_otion
+@stylemap_option
 @stylemap_configure_option
 @click.argument("terms", nargs=-1)
 def associations_graph(
