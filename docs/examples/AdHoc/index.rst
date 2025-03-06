@@ -8,3 +8,4 @@ Ad Hoc Examples
 
    Summarizing-with-LLMs
    Text-Content-Analysis
+   ValueSets

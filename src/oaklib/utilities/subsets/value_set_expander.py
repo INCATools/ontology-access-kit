@@ -306,10 +306,16 @@ def expand(config: str, schema: str, value_set_names: List[str], output: str, pv
     render all value sets.
 
     Examples:
-    -------
+
         vskit expand -c config.yaml -s schema.yaml -o expanded.yaml my_value_set1 my_value_set2
 
+    Custom permissible value syntax:
+
         vskit expand -s schema.yaml -o expanded.yaml --pv-syntax '{label} [{id}] my_value_set1
+
+    For more examples, see:
+
+       https://incatools.github.io/ontology-access-kit/examples/AdHoc/ValueSets.html
 
     """
     value_set_names = None if not value_set_names else value_set_names
