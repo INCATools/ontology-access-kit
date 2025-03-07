@@ -23,11 +23,11 @@ URI: [rdfs:domain](http://www.w3.org/2000/01/rdf-schema#domain)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Property](Property.md) |  |  no  |
 
 
 

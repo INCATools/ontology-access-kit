@@ -23,8 +23,8 @@ URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [HasSpan](HasSpan.md) |  |  no  |
 | [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [HasSpan](HasSpan.md) |  |  no  |
 
 
 

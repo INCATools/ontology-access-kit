@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Value Set Expansion examples &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Glossary" href="../../glossary.html" />
+    <link rel="prev" title="Analyzing Text Content of all Ontologies" href="Text-Content-Analysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Ad Hoc Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Summarizing-with-LLMs.html">Summarizing with LLMs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Text-Content-Analysis.html">Analyzing Text Content of all Ontologies</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Value Set Expansion examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#VSKit-command">VSKit command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-Value-Set">Example Value Set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Expansion">Expansion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Customizing-permissible-values">Customizing permissible values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Ad Hoc Examples</a></li>
+      <li class="breadcrumb-item active">Value Set Expansion examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/AdHoc/ValueSets.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Value-Set-Expansion-examples">
+<h1>Value Set Expansion examples<a class="headerlink" href="#Value-Set-Expansion-examples" title="Link to this heading"></a></h1>
+<p>Value sets are enumerated permissible values (aka subsets) that are used for purposes such as filtering ontologies or defining a subset of terms that are valid for data entry for a particular field.</p>
+<p>Dynamical (extensional) value sets are value sets that are defined by a query (including boolean graph queries) rather than a fixed list of terms. Because handling dynamic value sets at runtime can be complex, a value set expander (materializer) can be used to turn a dynamic value set into a static one.</p>
+<p>Value sets are found in formalisms such as LinkML and FHIR. Currently the OAK Value Set expander only supports LinkML value sets.</p>
+<p>See:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://linkml.io/linkml/schemas/enums.html#dynamic-enums">https://linkml.io/linkml/schemas/enums.html#dynamic-enums</a></p></li>
+</ul>
+<section id="VSKit-command">
+<h2>VSKit command<a class="headerlink" href="#VSKit-command" title="Link to this heading"></a></h2>
+<p>Currently there is a command with a single subcommand (others may be added later)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+vskit<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: vskit [OPTIONS] COMMAND [ARGS]...
+
+  Run the ValueSet CLI.
+
+Options:
+  -v, --verbose
+  -q, --quiet TEXT
+  --help            Show this message and exit.
+
+Commands:
+  expand  Expand a value set.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+vskit<span class="w"> </span>expand<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Usage: vskit expand [OPTIONS] [VALUE_SET_NAMES]...
+
+  Expand a value set. EXPERIMENTAL.
+
+  This will expand an *intentional value set* (aka *dynamic enum*), running a
+  query against an ontology backend or backends to materialize the value set
+  (permissible values).
+
+  Currently the value set must be specified as LinkML, but in future this will
+  be possible with other specifications such as FHIR ValueSet objects.
+
+  Each expression in a dynamic enum has a *source ontology*, this is specified
+  as a CURIE such as:
+
+  - obo:mondo - bioregistry:wikidata
+
+  These can be mapped to specific OAK selectors. By default, any obo prefix is
+  mapped to the semsql implementation of that. You can use a configuration
+  file to map to other backends, such as BioPortal or Wikidata. However, note
+  that not all backends are capable of being able to render all value sets.
+
+  Examples:
+
+      vskit expand -c config.yaml -s schema.yaml -o expanded.yaml
+      my_value_set1 my_value_set2
+
+  Custom permissible value syntax:
+
+      vskit expand -s schema.yaml -o expanded.yaml --pv-syntax &#39;{label} [{id}]
+      my_value_set1
+
+Options:
+  -c, --config PATH
+  -s, --schema PATH
+  -o, --output PATH
+  --pv-syntax TEXT   Enter a LinkML structured_pattern.syntax-style string
+  --help             Show this message and exit.
+</pre></div></div>
+</div>
+</section>
+<section id="Example-Value-Set">
+<h2>Example Value Set<a class="headerlink" href="#Example-Value-Set" title="Link to this heading"></a></h2>
+<p>The test inputs folder has an example of multiple different kinds of value sets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+yq<span class="w"> </span>.<span class="w"> </span>../../../tests/input/value_set_example.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id: https://w3id.org/linkml/examples/enums
+title: Dynamic Enums Example
+name: dynamicenums-example
+description: This demonstrates the use of dynamic enums
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  ex: https://w3id.org/linkml/examples/enums/
+  sh: https://w3id.org/shacl/
+  bioregistry: https://bioregistry.io/registry/
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  loinc: http://loinc.org/
+default_prefix: ex
+default_range: string
+default_curi_maps:
+  - semweb_context
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+imports:
+  - linkml:types
+#==================================
+# Classes                         #
+#==================================
+classes:
+  HumanSample:
+    slots:
+      - name
+      - disease
+#==================================
+# Slots                           #
+#==================================
+slots:
+  name:
+    range: string
+  disease:
+    range: HumanDisease
+  vital_status:
+    enum_range:
+      permissible_values:
+        LIVING:
+        DEAD:
+        UNDEAD:
+#==================================
+# Enums
+#==================================
+enums:
+  GoMembrane:
+    pv_formula: CURIE
+    reachable_from:
+      include_self: true
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0016020 ## membrane
+  OnlyInEukaryotes:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - NCBITaxon:2759 ## Eukaryota
+      relationship_types:
+        - rdfs:subClassOf
+        - RO:0002162 ## in taxon
+        - BFO:0000050 ## part of
+  MembraneExcludingEukaryotes:
+    inherits: GoMembrane
+    minus:
+      - inherits: OnlyInEukaryotes
+  Disease:
+    reachable_from:
+      source_ontology: bioregistry:mondo
+      source_nodes:
+        - MONDO:0000001 ## disease or disorder
+      is_direct: false
+      relationship_types:
+        - rdfs:subClassOf
+    minus:
+      permissible_values:
+        root_node:
+          meaning: MONDO:0000001 ## disease or disorder
+  HumanDisease:
+    description: Extends the Disease value set, including NCIT neoplasms, excluding non-human diseases
+    inherits:
+      - Disease
+    include:
+      - reachable_from:
+          source_ontology: bioregistry:ncit
+          source_nodes:
+            - NCIT:C3262
+    minus:
+      - reachable_from:
+          source_ontology: bioregistry:mondo
+          source_nodes:
+            - MONDO:0005583 ## non-human animal disease
+          relationship_types:
+            - rdfs:subClassOf
+      - permissible_values:
+          NOT_THIS_ONE:
+            meaning: MONDO:9999
+            description: Example of excluding a single node
+  LoincExample:
+    enum_uri: http://hl7.org/fhir/ValueSet/example-intensional
+    see_also:
+      - https://build.fhir.org/valueset-example-intensional.json.html
+    include:
+      - reachable_from:
+          source_ontology: &#34;loinc:&#34;
+          source_nodes:
+            - loinc:LP43571-6
+          is_direct: true
+    minus:
+      concepts:
+        - LOINC:5932-9
+  HCAExample:
+    see_also:
+      - https://github.com/linkml/linkml/issues/274
+    include:
+      - reachable_from:
+          source_ontology: bioregistry:go
+          source_nodes:
+            - GO:0007049
+            - GO:0022403
+          include_self: false
+          relationship_types:
+            - rdfs:subClassOf
+    minus:
+      concepts:
+        - LOINC:5932-9
+  BodyPartEnum:
+    reachable_from:
+      source_ontology: obo:cl
+      source_nodes:
+        - CL:0000540 ## neuron
+      include_self: false
+      relationship_types:
+        - rdfs:subClassOf
+  Brand:
+    enum_uri: wikidata:Q431289
+    include:
+      - reachable_from:
+          source_ontology: bioregistry:wikidata
+          source_nodes:
+            - wikidata:Q431289
+          include_self: false
+          relationship_types:
+            - wdp:P31
+            - wdp:P279
+  SerumCholesterolExample:
+    description: &gt;
+      This is an example value set that includes all the LOINC codes for serum/plasma cholesterol from v2.36.
+
+    code_set: http://hl7.org/fhir/ValueSet/serum-cholesterol
+    code_set_version: &#34;1.0.0&#34;
+    pv_formula: CODE
+    include:
+      - concepts:
+          - LP43571-6
+    minus:
+      - concepts:
+          - 5932-9
+    reachable_from:
+      source_ontology: http://loinc.org
+      source_nodes:
+        - LP43571-6
+      relationship_types: null
+      is_direct: true
+      include_self: true
+      traverse_up: false
+    concepts:
+      - http://loinc.org/LP43571-6
+</pre></div></div>
+</div>
+<section id="Example-value-set:-membranes-in-GO">
+<h3>Example value set: membranes in GO<a class="headerlink" href="#Example-value-set:-membranes-in-GO" title="Link to this heading"></a></h3>
+<p>Let’s examine the value set called GoMembrane:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+yq<span class="w"> </span>.enums.GoMembrane<span class="w"> </span>../../../tests/input/value_set_example.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pv_formula: CURIE
+reachable_from:
+  include_self: true
+  source_ontology: obo:go
+  source_nodes:
+    - GO:0016020 ## membrane
+</pre></div></div>
+</div>
+<p>You can see this is defined as a simple query that selects all terms that are a subclass of <a class="reference external" href="GO:0016020">GO:0016020</a> (membrane); i.e. an ontology <em>branch</em>. Other value sets are more complex involving boolean combinations.</p>
+</section>
+</section>
+<section id="Configuration">
+<h2>Configuration<a class="headerlink" href="#Configuration" title="Link to this heading"></a></h2>
+<p>Because the LinkML language is independent of OAK we need to bind the logical names used for vocabularies to OAK selector syntax. This is done in a configuration file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">resource_resolvers:</span>
+<span class="s2">  obo:go:</span>
+<span class="s2">    shorthand: sqlite:obo:go</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;output/vskit-config.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+yq<span class="w"> </span>.<span class="w"> </span>output/vskit-config.yaml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+resource_resolvers:
+  obo:go:
+    shorthand: sqlite:obo:go
+</pre></div></div>
+</div>
+</section>
+<section id="Expansion">
+<h2>Expansion<a class="headerlink" href="#Expansion" title="Link to this heading"></a></h2>
+<p>Now we will expand the value set, into a new materialized file</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+vskit<span class="w"> </span>expand<span class="w"> </span>--config<span class="w"> </span>output/vskit-config.yaml<span class="w"> </span>--schema<span class="w"> </span>../../../tests/input/value_set_example.yaml<span class="w"> </span>GoMembrane<span class="w"> </span>-o<span class="w"> </span>output/GoMembrane.yaml
+</pre></div>
+</div>
+</div>
+<p>We can see the expanded value set below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+yq<span class="w"> </span>.enums.GoMembrane.permissible_values<span class="w"> </span>output/GoMembrane.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GO:0120201:
+  text: GO:0120201
+  description: Stack of disc membranes located inside a cone photoreceptor outer segment, and containing densely packed molecules of opsin photoreceptor proteins that traverse the lipid bilayer. Cone disc membranes arise as evaginations of the ciliary membrane during the development of the cone outer segment and remain contiguous with the ciliary membrane.
+  meaning: GO:0120201
+  title: cone photoreceptor disc membrane
+GO:0060171:
+  text: GO:0060171
+  description: The portion of the plasma membrane surrounding a stereocilium.
+  meaning: GO:0060171
+  title: stereocilium membrane
+GO:0042717:
+  text: GO:0042717
+  description: The lipid bilayer associated with a plasma membrane-derived chromatophore; surrounds chromatophores that form complete vesicles.
+  meaning: GO:0042717
+  title: plasma membrane-derived chromatophore membrane
+GO:0035579:
+  text: GO:0035579
+  description: The lipid bilayer surrounding a specific granule, a granule with a membranous, tubular internal structure, found primarily in mature neutrophil cells. Most are released into the extracellular fluid. Specific granules contain lactoferrin, lysozyme, vitamin B12 binding protein and elastase.
+  meaning: GO:0035579
+  title: specific granule membrane
+</pre></div></div>
+</div>
+<p>note that technically the key value does not need repeated, but the default serialization is to include it.</p>
+</section>
+<section id="Customizing-permissible-values">
+<h2>Customizing permissible values<a class="headerlink" href="#Customizing-permissible-values" title="Link to this heading"></a></h2>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">--pv-syntax</span></code> to customize the permissible value serialization. A python-style format string is used to specify how the permissible values are serialized. The default is <code class="docutils literal notranslate"><span class="pre">{id}</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+vskit<span class="w"> </span>expand<span class="w"> </span>--pv-syntax<span class="w"> </span><span class="s1">&#39;{label} [{id}]&#39;</span><span class="w"> </span>--config<span class="w"> </span>output/vskit-config.yaml<span class="w"> </span>--schema<span class="w"> </span>../../../tests/input/value_set_example.yaml<span class="w"> </span>GoMembrane<span class="w"> </span>-o<span class="w"> </span>output/GoMembrane2.yaml
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+yq<span class="w"> </span>.enums.GoMembrane.permissible_values<span class="w"> </span>output/GoMembrane2.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cone photoreceptor disc membrane [GO:0120201]:
+  text: cone photoreceptor disc membrane [GO:0120201]
+  description: Stack of disc membranes located inside a cone photoreceptor outer segment, and containing densely packed molecules of opsin photoreceptor proteins that traverse the lipid bilayer. Cone disc membranes arise as evaginations of the ciliary membrane during the development of the cone outer segment and remain contiguous with the ciliary membrane.
+  meaning: GO:0120201
+  title: cone photoreceptor disc membrane
+stereocilium membrane [GO:0060171]:
+  text: stereocilium membrane [GO:0060171]
+  description: The portion of the plasma membrane surrounding a stereocilium.
+  meaning: GO:0060171
+  title: stereocilium membrane
+plasma membrane-derived chromatophore membrane [GO:0042717]:
+  text: plasma membrane-derived chromatophore membrane [GO:0042717]
+  description: The lipid bilayer associated with a plasma membrane-derived chromatophore; surrounds chromatophores that form complete vesicles.
+  meaning: GO:0042717
+  title: plasma membrane-derived chromatophore membrane
+specific granule membrane [GO:0035579]:
+  text: specific granule membrane [GO:0035579]
+  description: The lipid bilayer surrounding a specific granule, a granule with a membranous, tubular internal structure, found primarily in mature neutrophil cells. Most are released into the extracellular fluid. Specific granules contain lactoferrin, lysozyme, vitamin B12 binding protein and elastase.
+  meaning: GO:0035579
+  title: specific granule membrane
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Text-Content-Analysis.html" class="btn btn-neutral float-left" title="Analyzing Text Content of all Ontologies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

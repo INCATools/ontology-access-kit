@@ -36,6 +36,7 @@ not need this.
    association/index
    fhir/index
    item-lists/index
+   value_set_configuration/index
 
 
 
