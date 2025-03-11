@@ -78,7 +78,7 @@ class TestOlsImplementation(unittest.TestCase):
         # Setup the mock return value
         mock_definition.return_value = (
             "A membrane-bounded organelle of eukaryotic cells"
-            "in which chromosomes are housed and replicated."
+            " in which chromosomes are housed and replicated."
         )
 
         # Test definition retrieval
