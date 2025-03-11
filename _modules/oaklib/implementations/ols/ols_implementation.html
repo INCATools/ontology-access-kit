@@ -86,7 +86,7 @@
   <h1>Source code for oaklib.implementations.ols.ols_implementation</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChainMap</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ols_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">EBIClient</span><span class="p">,</span> <span class="n">TIBClient</span>
@@ -104,7 +104,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.mapping_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.search_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.text_annotator_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">LANGUAGE_TAG</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># Abstract classes</span>
@@ -126,13 +126,14 @@
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">BaseOlsImplementation</span><span class="p">(</span><span class="n">TextAnnotatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseOlsImplementation</span><span class="p">(</span><span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">TextAnnotatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation over OLS and OxO APIs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ols_client_class</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Client</span><span class="p">]]</span>
     <span class="n">label_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{})</span>
+    <span class="n">definition_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{})</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.ebi.ac.uk/spot/oxo/api/mappings&quot;</span>
     <span class="n">_prefix_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{})</span>
     <span class="n">focus_ontology</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
@@ -152,9 +153,84 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ChainMap</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prefix_map</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch the label for a CURIE from OLS.</span>
+
+<span class="sd">        :param curie: The CURIE to fetch the label for</span>
+<span class="sd">        :param lang: Optional language tag (not currently supported by this implementation)</span>
+<span class="sd">        :return: The label for the CURIE, or None if not found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span>
+
+        <span class="n">ontology</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span>
+        <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_term</span><span class="p">(</span><span class="n">ontology</span><span class="o">=</span><span class="n">ontology</span><span class="p">,</span> <span class="n">iri</span><span class="o">=</span><span class="n">iri</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">term</span> <span class="ow">and</span> <span class="s2">&quot;label&quot;</span> <span class="ow">in</span> <span class="n">term</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">term</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">term</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">labels</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">LANGUAGE_TAG</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch labels for multiple CURIEs.</span>
+
+<span class="sd">        :param curies: The CURIEs to fetch labels for</span>
+<span class="sd">        :param allow_none: Whether to include CURIEs with no label</span>
+<span class="sd">        :param lang: Optional language tag (not currently supported by this implementation)</span>
+<span class="sd">        :return: Iterator of (CURIE, label) tuples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allow_none</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch the definition for a CURIE from OLS.</span>
+
+<span class="sd">        :param curie: The CURIE to fetch the definition for</span>
+<span class="sd">        :param lang: Optional language tag (not currently supported by this implementation)</span>
+<span class="sd">        :return: The definition for the CURIE, or None if not found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition_cache</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span>
+
+        <span class="n">ontology</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span>
+        <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_term</span><span class="p">(</span><span class="n">ontology</span><span class="o">=</span><span class="n">ontology</span><span class="p">,</span> <span class="n">iri</span><span class="o">=</span><span class="n">iri</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">term</span> <span class="ow">and</span> <span class="s2">&quot;description&quot;</span> <span class="ow">in</span> <span class="n">term</span> <span class="ow">and</span> <span class="n">term</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">definition_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">term</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">term</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">definitions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch definitions for multiple CURIEs from OLS.</span>
+
+<span class="sd">        :param curies: The CURIEs to fetch definitions for</span>
+<span class="sd">        :param include_metadata: Whether to include metadata (currently not supported)</span>
+<span class="sd">        :param include_missing: Whether to include CURIEs with no definition</span>
+<span class="sd">        :param lang: Optional language tag (not currently supported by this implementation)</span>
+<span class="sd">        :return: Iterator of (CURIE, definition, metadata) tuples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
+            <span class="n">definition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">definition</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">include_missing</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># Currently OLS doesn&#39;t provide metadata for definitions through the API</span>
+            <span class="c1"># So we&#39;re just returning an empty dict</span>
+            <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">definition</span><span class="p">,</span> <span class="p">{}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">annotate_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
