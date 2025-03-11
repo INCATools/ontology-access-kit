@@ -14,12 +14,18 @@ TERM_DATA = {
     "GO:0005634": {
         "iri": "http://purl.obolibrary.org/obo/GO_0005634",
         "label": "nucleus",
-        "description": "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated.",
+        "description": (
+            "A membrane-bounded organelle of eukaryotic cells in which "
+            "chromosomes are housed and replicated."
+        ),
     },
     "GO:0005635": {
         "iri": "http://purl.obolibrary.org/obo/GO_0005635",
         "label": "nuclear envelope",
-        "description": "The double lipid bilayer enclosing the nucleus and separating its contents from the rest of the cytoplasm.",
+        "description": (
+            "The double lipid bilayer enclosing the nucleus and separating "
+            "its contents from the rest of the cytoplasm."
+        ),
     },
 }
 
@@ -90,12 +96,18 @@ class TestOlsImplementation(unittest.TestCase):
         mock_definitions.return_value = [
             (
                 "GO:0005634",
-                "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated.",
+                (
+                    "A membrane-bounded organelle of eukaryotic cells in which "
+                    "chromosomes are housed and replicated."
+                ),
                 {},
             ),
             (
                 "GO:0005635",
-                "The double lipid bilayer enclosing the nucleus and separating its contents from the rest of the cytoplasm.",
+                (
+                    "The double lipid bilayer enclosing the nucleus and separating "
+                    "its contents from the rest of the cytoplasm."
+                ),
                 {},
             ),
         ]
@@ -110,7 +122,10 @@ class TestOlsImplementation(unittest.TestCase):
         self.assertEqual(definitions[0][0], "GO:0005634")
         self.assertEqual(
             definitions[0][1],
-            "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated.",
+            (
+                "A membrane-bounded organelle of eukaryotic cells in which "
+                "chromosomes are housed and replicated."
+            ),
         )
         self.assertEqual(definitions[0][2], {})  # Empty metadata dict
 
@@ -118,7 +133,10 @@ class TestOlsImplementation(unittest.TestCase):
         self.assertEqual(definitions[1][0], "GO:0005635")
         self.assertEqual(
             definitions[1][1],
-            "The double lipid bilayer enclosing the nucleus and separating its contents from the rest of the cytoplasm.",
+            (
+                "The double lipid bilayer enclosing the nucleus and separating "
+                "its contents from the rest of the cytoplasm."
+            ),
         )
         self.assertEqual(definitions[1][2], {})  # Empty metadata dict
 
