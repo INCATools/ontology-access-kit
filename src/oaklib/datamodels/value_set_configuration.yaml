@@ -2,7 +2,7 @@ id: https://w3id.org/linkml/value-set-configuration
 title: Value Set Configuration
 name: value-set-configuration
 description: >-
-  A datamodel for configuring value sets and value set expabsions
+  A datamodel for configuring value sets and value set expansions
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
@@ -24,11 +24,12 @@ imports:
 #==================================
 classes:
   ValueSetConfiguration:
-    description: configuration for value sets
+    description: configuration for value set expansion
     attributes:
       default_resolver:
         range: Resolver
         inlined: true
+        description: The default resolver to use for value set expansion
       resource_resolvers:
         range: Resolver
         multivalued: true
@@ -37,6 +38,7 @@ classes:
         range: Resolver
         multivalued: true
         inlined: true
+        description: Mapping of prefixes to resolvers
 
   Resolver:
     description: A mechanism for resolving using an ontology
@@ -47,7 +49,7 @@ classes:
         description: The name of the resource or prefix
       shorthand_prefix:
       shorthand:
-        description: A shorthand for the resolver, using the OAK shorthand syntax
+        description: A shorthand for the resolver, using the OAK shorthand syntax, for example, 'obo:sqlite:cl'
       method:
         range: ResolverMethod
         description: >-
