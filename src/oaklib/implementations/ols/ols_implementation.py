@@ -14,7 +14,7 @@ from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.datamodels.vocabulary import IS_A, SEMAPV
 from oaklib.implementations.ols.constants import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, PREFIX_MAP
+from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
@@ -70,14 +70,14 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         """
         Fetch the label for a CURIE from OLS.
-        
+
         :param curie: The CURIE to fetch the label for
         :param lang: Optional language tag (not currently supported by this implementation)
         :return: The label for the CURIE, or None if not found
         """
         if curie in self.label_cache:
             return self.label_cache[curie]
-        
+
         try:
             ontology = self.focus_ontology
             iri = self.curie_to_uri(curie)
@@ -85,15 +85,18 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
             if term and "label" in term:
                 self.label_cache[curie] = term["label"]
                 return term["label"]
-        except Exception as e:
+        except Exception:
+            # Failed to retrieve label, could log error here
             pass
-        
+
         return None
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
         """
         Fetch labels for multiple CURIEs.
-        
+
         :param curies: The CURIEs to fetch labels for
         :param allow_none: Whether to include CURIEs with no label
         :param lang: Optional language tag (not currently supported by this implementation)
@@ -104,18 +107,18 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
             if label is None and not allow_none:
                 continue
             yield curie, label
-    
+
     def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         """
         Fetch the definition for a CURIE from OLS.
-        
+
         :param curie: The CURIE to fetch the definition for
         :param lang: Optional language tag (not currently supported by this implementation)
         :return: The definition for the CURIE, or None if not found
         """
         if curie in self.definition_cache:
             return self.definition_cache[curie]
-        
+
         try:
             ontology = self.focus_ontology
             iri = self.curie_to_uri(curie)
@@ -125,9 +128,9 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
                 return term["description"]
         except Exception:
             pass
-        
+
         return None
-        
+
     def definitions(
         self,
         curies: Iterable[CURIE],
@@ -137,7 +140,7 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
     ) -> Iterator[Tuple[CURIE, Optional[str], Dict]]:
         """
         Fetch definitions for multiple CURIEs from OLS.
-        
+
         :param curies: The CURIEs to fetch definitions for
         :param include_metadata: Whether to include metadata (currently not supported)
         :param include_missing: Whether to include CURIEs with no definition
