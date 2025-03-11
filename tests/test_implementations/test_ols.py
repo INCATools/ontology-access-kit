@@ -8,7 +8,6 @@ from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.resource import OntologyResource
 from tests import CELLULAR_COMPONENT, CYTOPLASM, VACUOLE
 
-
 # Example term data for mocking OLS API responses
 TERM_DATA = {
     "GO:0005634": {
@@ -77,7 +76,10 @@ class TestOlsImplementation(unittest.TestCase):
     def test_definition(self, mock_definition):
         """Test the implementation of the definition method"""
         # Setup the mock return value
-        mock_definition.return_value = "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated."
+        mock_definition.return_value = (
+            "A membrane-bounded organelle of eukaryotic cells"
+            "in which chromosomes are housed and replicated."
+        )
 
         # Test definition retrieval
         definition = self.oi.definition("GO:0005634")

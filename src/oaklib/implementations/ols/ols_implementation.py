@@ -18,7 +18,7 @@ from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
-from oaklib.types import CURIE, PRED_CURIE, LANGUAGE_TAG
+from oaklib.types import CURIE, LANGUAGE_TAG, PRED_CURIE
 
 __all__ = [
     # Abstract classes
@@ -78,17 +78,12 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         if curie in self.label_cache:
             return self.label_cache[curie]
 
-        try:
-            ontology = self.focus_ontology
-            iri = self.curie_to_uri(curie)
-            term = self.client.get_term(ontology=ontology, iri=iri)
-            if term and "label" in term:
-                self.label_cache[curie] = term["label"]
-                return term["label"]
-        except Exception:
-            # Failed to retrieve label, could log error here
-            pass
-
+        ontology = self.focus_ontology
+        iri = self.curie_to_uri(curie)
+        term = self.client.get_term(ontology=ontology, iri=iri)
+        if term and "label" in term:
+            self.label_cache[curie] = term["label"]
+            return term["label"]
         return None
 
     def labels(
@@ -119,16 +114,12 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         if curie in self.definition_cache:
             return self.definition_cache[curie]
 
-        try:
-            ontology = self.focus_ontology
-            iri = self.curie_to_uri(curie)
-            term = self.client.get_term(ontology=ontology, iri=iri)
-            if term and "description" in term and term["description"]:
-                self.definition_cache[curie] = term["description"]
-                return term["description"]
-        except Exception:
-            pass
-
+        ontology = self.focus_ontology
+        iri = self.curie_to_uri(curie)
+        term = self.client.get_term(ontology=ontology, iri=iri)
+        if term and "description" in term and term["description"]:
+            self.definition_cache[curie] = term["description"]
+            return term["description"]
         return None
 
     def definitions(
