@@ -185,12 +185,10 @@ class TestOlsImplementation(unittest.TestCase):
 
         # Test with exact match setting
         config = SearchConfiguration(is_complete=True)
-        
         # Mock search results for exact search
         self.mock_client.search.return_value = [
             {"iri": "http://purl.obolibrary.org/obo/OMIT_0014415", "label": "Swimming"}
         ]
-        
         results = list(itertools.islice(self.oi.basic_search("swimming", config), 20))
         self.assertIn("OMIT:0014415", results)  # OMIT:0014415 == Swimming
         self.assertNotIn("OMIT:0014416", results)  # OMIT:0014416 == Swimming Pools
