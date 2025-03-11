@@ -63,6 +63,8 @@ gendoc-itemlist: src/oaklib/datamodels/item_list.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/item-list
 gendoc-ce: src/oaklib/datamodels/class_enrichment.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/class-enrichment
+gendoc-vsc: src/oaklib/datamodels/value_set_configuration.yaml
+	$(RUN_GENDOC)  $< -d docs/datamodels/value-set-configuration
 
 nb:
 	$(RUN) jupyter notebook

@@ -1,6 +1,6 @@
 from collections import ChainMap
 from dataclasses import dataclass, field
-from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Tuple, Union
+from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import requests
 from ols_client import Client, EBIClient, TIBClient
@@ -18,7 +18,7 @@ from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
-from oaklib.types import CURIE, PRED_CURIE
+from oaklib.types import CURIE, LANGUAGE_TAG, PRED_CURIE
 
 __all__ = [
     # Abstract classes
@@ -40,13 +40,14 @@ oxo_pred_mappings = {
 
 
 @dataclass
-class BaseOlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProviderInterface):
+class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, SearchInterface):
     """
     Implementation over OLS and OxO APIs
     """
 
     ols_client_class: ClassVar[type[Client]]
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
+    definition_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     base_url = "https://www.ebi.ac.uk/spot/oxo/api/mappings"
     _prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
@@ -66,9 +67,84 @@ class BaseOlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProv
     def prefix_map(self) -> PREFIX_MAP:
         return ChainMap(super().prefix_map(), self._prefix_map)
 
-    def labels(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        """
+        Fetch the label for a CURIE from OLS.
+
+        :param curie: The CURIE to fetch the label for
+        :param lang: Optional language tag (not currently supported by this implementation)
+        :return: The label for the CURIE, or None if not found
+        """
+        if curie in self.label_cache:
+            return self.label_cache[curie]
+
+        ontology = self.focus_ontology
+        iri = self.curie_to_uri(curie)
+        term = self.client.get_term(ontology=ontology, iri=iri)
+        if term and "label" in term:
+            self.label_cache[curie] = term["label"]
+            return term["label"]
+        return None
+
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
+        """
+        Fetch labels for multiple CURIEs.
+
+        :param curies: The CURIEs to fetch labels for
+        :param allow_none: Whether to include CURIEs with no label
+        :param lang: Optional language tag (not currently supported by this implementation)
+        :return: Iterator of (CURIE, label) tuples
+        """
         for curie in curies:
-            yield curie, self.label_cache[curie]
+            label = self.label(curie, lang)
+            if label is None and not allow_none:
+                continue
+            yield curie, label
+
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        """
+        Fetch the definition for a CURIE from OLS.
+
+        :param curie: The CURIE to fetch the definition for
+        :param lang: Optional language tag (not currently supported by this implementation)
+        :return: The definition for the CURIE, or None if not found
+        """
+        if curie in self.definition_cache:
+            return self.definition_cache[curie]
+
+        ontology = self.focus_ontology
+        iri = self.curie_to_uri(curie)
+        term = self.client.get_term(ontology=ontology, iri=iri)
+        if term and "description" in term and term["description"]:
+            self.definition_cache[curie] = term["description"]
+            return term["description"]
+        return None
+
+    def definitions(
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
+    ) -> Iterator[Tuple[CURIE, Optional[str], Dict]]:
+        """
+        Fetch definitions for multiple CURIEs from OLS.
+
+        :param curies: The CURIEs to fetch definitions for
+        :param include_metadata: Whether to include metadata (currently not supported)
+        :param include_missing: Whether to include CURIEs with no definition
+        :param lang: Optional language tag (not currently supported by this implementation)
+        :return: Iterator of (CURIE, definition, metadata) tuples
+        """
+        for curie in curies:
+            definition = self.definition(curie, lang)
+            if definition is None and not include_missing:
+                continue
+            # Currently OLS doesn't provide metadata for definitions through the API
+            # So we're just returning an empty dict
+            yield curie, definition, {}
 
     def annotate_text(self, text: str) -> Iterator[TextAnnotation]:
         raise NotImplementedError
