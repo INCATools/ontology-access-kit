@@ -23,18 +23,18 @@ URI: [skos:narrowMatch](http://www.w3.org/2004/02/skos/core#narrowMatch)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Class](Class.md) |  |  yes  |
 | [Agent](Agent.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [HasMappings](HasMappings.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Image](Image.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Image](Image.md) |  |  no  |
-| [Class](Class.md) |  |  yes  |
 | [Property](Property.md) |  |  yes  |
-| [HasMappings](HasMappings.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 
 
 

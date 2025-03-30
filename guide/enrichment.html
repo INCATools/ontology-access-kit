@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enrichment and Over-Representation Analysis &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Computing Similarity between Entities" href="similarity.html" />
+    <link rel="prev" title="Associations and Curated Annotations" href="associations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The OAK Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">OAK Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="associations.html">Associations and Curated Annotations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Enrichment and Over-Representation Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#statistical-significance-in-enrichment">Statistical Significance in Enrichment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#redundancy-filtering">Redundancy Filtering</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#performing-enrichment-analysis">Performing Enrichment Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-command-line">Using the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visualizing-results">Visualizing Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#programmatic-interface">Programmatic Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#interpreting-results">Interpreting Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-options">Advanced Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pseudo-enrichment">Pseudo-enrichment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-background-sets">Custom Background Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cross-ontology-enrichment">Cross-Ontology Enrichment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#companion-notebooks">Companion Notebooks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="similarity.html">Computing Similarity between Entities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">The OAK Guide</a></li>
+      <li class="breadcrumb-item active">Enrichment and Over-Representation Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/enrichment.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="enrichment-and-over-representation-analysis">
+<span id="enrichment"></span><h1>Enrichment and Over-Representation Analysis<a class="headerlink" href="#enrichment-and-over-representation-analysis" title="Link to this heading"></a></h1>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>Enrichment analysis (also known as over-representation analysis) is a statistical method used to identify ontology terms that are significantly over-represented in a set of entities. This is a common technique in bioinformatics and other fields to gain biological insights from large datasets, such as gene expression experiments or genetic studies.</p>
+<p>The basic idea behind enrichment analysis is to:</p>
+<ol class="arabic simple">
+<li><p>Take a set of entities of interest (e.g., genes from a disease study)</p></li>
+<li><p>Find the ontology terms associated with these entities (see the <a class="reference internal" href="associations.html#associations"><span class="std std-ref">OAK guide on associations</span></a> for more details on how entities like genes are linked to ontology terms)</p></li>
+<li><p>Determine which terms are statistically over-represented compared to what would be expected by chance</p></li>
+<li><p>Rank and filter these terms to identify meaningful patterns</p></li>
+</ol>
+<p>OAK provides a comprehensive suite of tools for performing enrichment analysis with any ontology and association set. This makes it possible to identify patterns in your data using domain knowledge encoded in ontologies.</p>
+<p>An important aspect of OAK’s enrichment analysis is that it takes into account the full ontology graph structure when performing calculations. As described in the <span class="xref std std-ref">guide on relationships and graphs</span>, the choice of <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a> (edge types) is critical. For example, when analyzing gene annotations to GO terms, you typically want to include both <span class="xref std std-term">SubClassOf</span> and <span class="xref std std-term">PartOf</span> relationships for roll-up, whereas in disease-phenotype analysis, typically only <span class="xref std std-term">SubClassOf</span> relationships are used. This “rolling up” of annotations ensures that if an entity is associated with a specific term, it is also considered to be associated with all ancestors of that term following the selected predicates.</p>
+</section>
+<section id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Link to this heading"></a></h2>
+<section id="statistical-significance-in-enrichment">
+<h3>Statistical Significance in Enrichment<a class="headerlink" href="#statistical-significance-in-enrichment" title="Link to this heading"></a></h3>
+<p>The core of enrichment analysis is determining if an ontology term is statistically over-represented in your entity set. This is typically done using statistical tests like the hypergeometric test (Fisher’s exact test).</p>
+<p>Given:</p>
+<ul class="simple">
+<li><p>N: Total number of entities in the background</p></li>
+<li><p>n: Number of entities in your study set</p></li>
+<li><p>K: Number of entities associated with a specific term in the background</p></li>
+<li><p>k: Number of entities associated with that term in your study set</p></li>
+</ul>
+<p>The probability (p-value) of observing at least k entities associated with the term by chance is:</p>
+<div class="math notranslate nohighlight">
+\[P(X \geq k) = \sum_{i=k}^{min(n, K)} \frac{{K \choose i}{N-K \choose n-i}}{{N \choose n}}\]</div>
+<p>Lower p-values indicate that the term is significantly over-represented in your study set.</p>
+</section>
+<section id="redundancy-filtering">
+<h3>Redundancy Filtering<a class="headerlink" href="#redundancy-filtering" title="Link to this heading"></a></h3>
+<p>A common challenge in enrichment analysis is dealing with redundant results. Because ontologies have hierarchical structures as described in the <span class="xref std std-ref">guide on relationships and graphs</span>, terms that are closely related in the hierarchy often appear together in the results. This can make it difficult to interpret the findings.</p>
+<p>OAK provides redundancy filtering to address this issue. When enabled, it removes terms that are either:</p>
+<ul class="simple">
+<li><p>Ancestors of more significant terms (subsumed by a child term)</p></li>
+<li><p>Descendants of more significant terms (subsumed by a parent term)</p></li>
+</ul>
+<p>Just like with other graph traversal operations in OAK, redundancy filtering considers the specific <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a> you select. For example, when working with GO, you typically want to use both <span class="xref std std-term">SubClassOf</span> and <span class="xref std std-term">PartOf</span> relationships for redundancy filtering, whereas with HPO, you might only use <span class="xref std std-term">SubClassOf</span>.</p>
+<p>This filtering helps to produce a more concise and interpretable set of enriched terms, focusing on the most specific and statistically significant results.</p>
+</section>
+</section>
+<section id="performing-enrichment-analysis">
+<h2>Performing Enrichment Analysis<a class="headerlink" href="#performing-enrichment-analysis" title="Link to this heading"></a></h2>
+<section id="using-the-command-line">
+<h3>Using the Command Line<a class="headerlink" href="#using-the-command-line" title="Link to this heading"></a></h3>
+<p>The basic syntax for enrichment analysis in OAK is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span><span class="o">[</span>ONTOLOGY<span class="o">]</span><span class="w"> </span>-g<span class="w"> </span><span class="o">[</span>ASSOCIATION_FILE<span class="o">]</span><span class="w"> </span>-G<span class="w"> </span><span class="o">[</span>ASSOCIATION_TYPE<span class="o">]</span><span class="w"> </span>enrichment<span class="w"> </span>-p<span class="w"> </span><span class="o">[</span>PREDICATES<span class="o">]</span><span class="w"> </span>-U<span class="w"> </span><span class="o">[</span>ENTITY_SET<span class="o">]</span>
+</pre></div>
+</div>
+<p>Notice the <code class="docutils literal notranslate"><span class="pre">-p</span></code> parameter, which specifies which <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a> to follow when traversing the ontology graph. As explained in the <span class="xref std std-ref">relationships and graphs guide</span>, selecting appropriate predicates is crucial for correct semantic interpretation.</p>
+<p>Here’s a practical example using the Human Phenotype Ontology (HPO) and gene-phenotype associations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, normalize our gene IDs to a standard format</span>
+runoak<span class="w"> </span>-i<span class="w"> </span>translator:<span class="w"> </span>normalize<span class="w"> </span>.idfile<span class="w"> </span>genes-list.txt<span class="w"> </span>-M<span class="w"> </span>NCBIGene<span class="w"> </span>-o<span class="w"> </span>normalized-genes.tsv
+
+<span class="c1"># Then perform enrichment analysis (using only is-a/subClassOf relationships)</span>
+runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>-G<span class="w"> </span>hpoa_g2p<span class="w"> </span>-g<span class="w"> </span>hpoa_g2p.tsv<span class="w"> </span>enrichment<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>-U<span class="w"> </span>normalized-genes.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-O<span class="w"> </span>csv<span class="w"> </span>--autolabel<span class="w"> </span>-o<span class="w"> </span>results.tsv
+</pre></div>
+</div>
+<p>To apply redundancy filtering:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>-G<span class="w"> </span>hpoa_g2p<span class="w"> </span>-g<span class="w"> </span>hpoa_g2p.tsv<span class="w"> </span>enrichment<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>-U<span class="w"> </span>normalized-genes.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-O<span class="w"> </span>csv<span class="w"> </span>--autolabel<span class="w"> </span>--filter-redundant<span class="w"> </span>-o<span class="w"> </span>filtered-results.tsv
+</pre></div>
+</div>
+<p>For Gene Ontology enrichment, you would typically include both is-a and part-of relationships:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>-G<span class="w"> </span>gaf<span class="w"> </span>-g<span class="w"> </span>gene_associations.gaf<span class="w"> </span>enrichment<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>-U<span class="w"> </span>gene-list.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-O<span class="w"> </span>csv<span class="w"> </span>--autolabel<span class="w"> </span>--filter-redundant<span class="w"> </span>-o<span class="w"> </span>go-enrichment.tsv
+</pre></div>
+</div>
+</section>
+<section id="visualizing-results">
+<h3>Visualizing Results<a class="headerlink" href="#visualizing-results" title="Link to this heading"></a></h3>
+<p>OAK provides visualization capabilities for enrichment results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a visualization of the top 15 enriched terms</span>
+runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>viz<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>.idfile<span class="w"> </span>top-15-results.tsv<span class="w"> </span>-O<span class="w"> </span>png<span class="w"> </span>-o<span class="w"> </span>enrichment-results.png
+</pre></div>
+</div>
+</section>
+<section id="programmatic-interface">
+<h3>Programmatic Interface<a class="headerlink" href="#programmatic-interface" title="Link to this heading"></a></h3>
+<p>You can also perform enrichment analysis programmatically using the Python API. The <code class="xref py py-class docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface</span></code> provides methods for sophisticated enrichment analysis, with access to all the same parameters available in the command line.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassEnrichmentCalculationInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+
+<span class="c1"># Initialize adapters</span>
+<span class="n">ontology_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="n">enrichment_adapter</span> <span class="o">=</span> <span class="n">ClassEnrichmentCalculationInterface</span><span class="p">(</span><span class="n">ontology_adapter</span><span class="p">)</span>
+
+<span class="c1"># Load your entity set</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;normalized-genes.tsv&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">study_set</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
+
+<span class="c1"># Perform enrichment analysis</span>
+<span class="c1"># Note how we explicitly specify which predicates to follow</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">enrichment_adapter</span><span class="o">.</span><span class="n">calculate_enrichment</span><span class="p">(</span>
+    <span class="n">subjects</span><span class="o">=</span><span class="n">study_set</span><span class="p">,</span>
+    <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span>  <span class="c1"># For HPO, we use only is-a relationships</span>
+    <span class="n">filter_redundant</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># For GO, we would use both is-a and part-of:</span>
+<span class="c1"># predicates=[IS_A, PART_OF]</span>
+
+<span class="c1"># Process results</span>
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">term_id</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">term_label</span><span class="si">}</span><span class="s2"> | p-value: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">p_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="interpreting-results">
+<h2>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Link to this heading"></a></h2>
+<p>Enrichment results typically include the following information for each term:</p>
+<ul class="simple">
+<li><p><strong>Term ID and Label</strong>: The ontology term identifier and its readable name</p></li>
+<li><p><strong>p-value</strong>: The statistical significance (lower is more significant)</p></li>
+<li><p><strong>Adjusted p-value</strong>: Corrected for multiple testing (e.g., using Benjamini-Hochberg)</p></li>
+<li><p><strong>Fold Enrichment</strong>: How many times more frequent the term is in your set vs. expected by chance</p></li>
+<li><p><strong>Study Count</strong>: Number of entities in your set associated with this term</p></li>
+<li><p><strong>Study Total</strong>: Total number of entities in your study set</p></li>
+<li><p><strong>Population Count</strong>: Number of entities in the background associated with this term</p></li>
+<li><p><strong>Population Total</strong>: Total number of entities in the background</p></li>
+</ul>
+<p>When interpreting results, consider:</p>
+<ol class="arabic simple">
+<li><p>Focus on terms with low p-values (typically &lt; 0.05 after adjustment)</p></li>
+<li><p>Look for biological patterns among the significant terms</p></li>
+<li><p>Consider the fold enrichment to understand the magnitude of over-representation</p></li>
+<li><p>Examine redundancy-filtered results to get a clearer picture of distinct patterns</p></li>
+</ol>
+</section>
+<section id="advanced-options">
+<h2>Advanced Options<a class="headerlink" href="#advanced-options" title="Link to this heading"></a></h2>
+<section id="pseudo-enrichment">
+<h3>Pseudo-enrichment<a class="headerlink" href="#pseudo-enrichment" title="Link to this heading"></a></h3>
+<p>In some cases, you may want to perform enrichment analysis without having actual association files. OAK supports “pseudo-enrichment” where each term is associated with itself:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>enrichment<span class="w"> </span>--pseudo-enrichment<span class="w"> </span>-U<span class="w"> </span>term-list.txt
+</pre></div>
+</div>
+</section>
+<section id="custom-background-sets">
+<h3>Custom Background Sets<a class="headerlink" href="#custom-background-sets" title="Link to this heading"></a></h3>
+<p>By default, the background set includes all entities in the association file. You can specify a custom background:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>-G<span class="w"> </span>hpoa_g2p<span class="w"> </span>-g<span class="w"> </span>hpoa_g2p.tsv<span class="w"> </span>enrichment<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-U<span class="w"> </span>study-genes.tsv<span class="w"> </span>-B<span class="w"> </span>background-genes.tsv
+</pre></div>
+</div>
+</section>
+<section id="cross-ontology-enrichment">
+<h3>Cross-Ontology Enrichment<a class="headerlink" href="#cross-ontology-enrichment" title="Link to this heading"></a></h3>
+<p>OAK can perform enrichment analysis across different ontologies if you have the appropriate association data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enrichment of GO terms using HPO gene associations</span>
+runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>-G<span class="w"> </span>hpoa_g2p<span class="w"> </span>-g<span class="w"> </span>hpoa_g2p.tsv<span class="w"> </span>enrichment<span class="w"> </span>-U<span class="w"> </span>gene-list.tsv
+</pre></div>
+</div>
+</section>
+</section>
+<section id="companion-notebooks">
+<h2>Companion Notebooks<a class="headerlink" href="#companion-notebooks" title="Link to this heading"></a></h2>
+<p>To explore enrichment analysis in more depth, check out the following notebooks:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/examples/Commands/Enrichment.html">Enrichment Analysis Command Examples</a></p></li>
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/examples/Ontologies/GO/Annotation-Analysis.html">GO Annotation Enrichment</a></p></li>
+</ul>
+<p>These notebooks provide practical examples that demonstrate how to apply the concepts discussed in this guide, particularly how to correctly specify <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a> for different ontologies and analysis contexts.</p>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btp713">Gene Ontology enrichment analysis</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1093/nar/gkaa1113">The Gene Ontology resource: enriching a GOld mine</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1186/s12859-020-03923-6">A comparative evaluation of annotation-based and expression-based phenotypic similarities for human diseases</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="associations.html" class="btn btn-neutral float-left" title="Associations and Curated Annotations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="similarity.html" class="btn btn-neutral float-right" title="Computing Similarity between Entities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
