@@ -1,11 +1,9 @@
 import collections
+import itertools
 import logging
 from abc import ABC
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
-import itertools
-
-from oaklib.datamodels.obograph import Node, SynonymPropertyValue, Graph
 from urllib.parse import quote
 
 import requests
@@ -13,6 +11,7 @@ from ontoportal_client.api import PreconfiguredOntoPortalClient
 from prefixmaps.io.parser import load_multi_context
 from sssom_schema import Mapping
 
+from oaklib.datamodels.obograph import Graph, Node, SynonymPropertyValue
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.datamodels.vocabulary import SEMAPV
@@ -27,8 +26,8 @@ from oaklib.interfaces.basic_ontology_interface import (
     PREFIX_MAP,
     RELATIONSHIP,
 )
-from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE, URI
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.rate_limiter import check_limit
@@ -438,7 +437,7 @@ class OntoPortalImplementationBase(
                                                 obj_id = self.uri_to_curie(value, strict=False)
                                                 if objects is None or obj_id in objects:
                                                     yield subject, prop_id, obj_id
-                                            except Exception as e:
+                                            except Exception:
                                                 # If we can't parse as a URI, treat as a literal
                                                 if not exclude_blank:
                                                     yield subject, prop_id, value
