@@ -81,28 +81,30 @@ class TestBioportal(unittest.TestCase):
         self.assertTrue(ontologies)
         self.assertIn("OBI", ontologies)
         self.assertIn("UBERON", ontologies)
-        
+
     @integration_test
     def test_node(self):
         # Test retrieving a node from a real API endpoint
-        self.impl.focus_ontology = "STY"  # Use the Semantic Types ontology which is relatively small
+        self.impl.focus_ontology = (
+            "STY"  # Use the Semantic Types ontology which is relatively small
+        )
         node = self.impl.node("STY:T116", include_metadata=True)
-        
+
         # Verify we got a node back
         self.assertIsNotNone(node)
         self.assertEqual(node.id, "STY:T116")
         self.assertEqual(node.type, "CLASS")
-        
+
         # The label should be present
         self.assertIsNotNone(node.lbl)
-        
+
         # Check that metadata was included
         self.assertTrue(hasattr(node, "meta") and node.meta is not None)
-        
+
         # This node should have at least one synonym
         if "synonyms" in node.meta:
             self.assertTrue(len(node.meta["synonyms"]) > 0)
-            
+
         # Check if definition exists
         if "definition" in node.meta:
             self.assertIsInstance(node.meta["definition"], str)
@@ -113,7 +115,7 @@ class TestBioportal(unittest.TestCase):
         self.assertTrue(versions)
         self.assertIn("5.0.0", versions)
         self.assertIn("v3.2.1", versions)
-        
+
     @integration_test
     def test_entities(self):
         # Testing with a small ontology to keep test execution time reasonable
@@ -137,7 +139,7 @@ class TestBioportal(unittest.TestCase):
             "synonym": [
                 {"value": "Amino Acids", "scope": "RELATED"},
                 {"value": "Peptides", "scope": "RELATED"},
-                {"value": "Proteins", "scope": "RELATED"}
+                {"value": "Proteins", "scope": "RELATED"},
             ],
             "definition": [
                 {"value": "Amino acids and chains of amino acids connected by peptide linkages."}
@@ -146,52 +148,49 @@ class TestBioportal(unittest.TestCase):
             "properties": [
                 {
                     "property": "rdfs:subClassOf",
-                    "values": ["http://purl.bioontology.org/ontology/STY/T123"]
+                    "values": ["http://purl.bioontology.org/ontology/STY/T123"],
                 }
-            ]
+            ],
         }
-        
+
         # Set up the mock response
         mock_get_response.return_value = mock_response
-        
+
         # Call the node method
-        node = self.impl.node(
-            "STY:T116", 
-            include_metadata=True
-        )
-        
+        node = self.impl.node("STY:T116", include_metadata=True)
+
         # Verify the node was created correctly
         self.assertEqual(node.id, "STY:T116")
         self.assertEqual(node.lbl, "Amino Acid, Peptide, or Protein")
         self.assertEqual(node.type, "CLASS")
-        
+
         # Check metadata is parsed correctly
         self.assertTrue(hasattr(node, "meta"))
-        
+
         # Check definition
         self.assertEqual(
-            node.meta["definition"], 
-            "Amino acids and chains of amino acids connected by peptide linkages."
+            node.meta["definition"],
+            "Amino acids and chains of amino acids connected by peptide linkages.",
         )
-        
+
         # Check not obsolete
         self.assertEqual(node.meta["obsolete"], False)
-        
+
         # Check synonyms
         self.assertEqual(len(node.meta["synonyms"]), 3)
-        
+
         # Verify all synonyms were parsed correctly
         found_synonyms = {s.val: s.pred for s in node.meta["synonyms"]}
         self.assertEqual(found_synonyms["Amino Acids"], "hasRelatedSynonym")
         self.assertEqual(found_synonyms["Peptides"], "hasRelatedSynonym")
         self.assertEqual(found_synonyms["Proteins"], "hasRelatedSynonym")
-        
+
         # Verify request was made with correct URL and parameters
         mock_get_response.assert_called_once()
         call_args = mock_get_response.call_args[0]
         self.assertIn("/ontologies/STY/classes/", call_args[0])
         self.assertIn("include", mock_get_response.call_args[1]["params"])
-        
+
     @mock.patch("ontoportal_client.api.PreconfiguredOntoPortalClient.get_response")
     def test_entities_mock(self, mock_get_response):
         # Create mock response for the first page
@@ -205,14 +204,12 @@ class TestBioportal(unittest.TestCase):
                 },
                 {
                     "@id": "http://purl.bioontology.org/ontology/STY/T002",
-                    "prefLabel": "Entity 2", 
-                }
+                    "prefLabel": "Entity 2",
+                },
             ],
-            "links": {
-                "nextPage": "https://data.bioontology.org/ontologies/STY/classes?page=2"
-            }
+            "links": {"nextPage": "https://data.bioontology.org/ontologies/STY/classes?page=2"},
         }
-        
+
         # Create mock response for the second page
         mock_response2 = mock.MagicMock()
         mock_response2.status_code = 200
@@ -220,55 +217,50 @@ class TestBioportal(unittest.TestCase):
             "collection": [
                 {
                     "@id": "http://purl.bioontology.org/ontology/STY/T003",
-                    "prefLabel": "Entity 3", 
+                    "prefLabel": "Entity 3",
                 },
                 {
                     "@id": "http://purl.bioontology.org/ontology/STY/T004",
-                    "prefLabel": "Entity 4", 
-                }
+                    "prefLabel": "Entity 4",
+                },
             ],
-            "links": {
-                "nextPage": None
-            }
+            "links": {"nextPage": None},
         }
-        
+
         # Set up the side effect to return different responses for different calls
         mock_get_response.side_effect = [mock_response1, mock_response2]
-        
+
         # Set up the implementation
         self.impl.focus_ontology = "STY"
-        
+
         # Call the entities method and check results
         entities = list(self.impl.entities())
-        
+
         # We should have 4 entities
         self.assertEqual(len(entities), 4)
-        
+
         # Check specific entities are present
         self.assertIn("STY:T001", entities)
         self.assertIn("STY:T002", entities)
         self.assertIn("STY:T003", entities)
         self.assertIn("STY:T004", entities)
-        
+
         # Check that labels were cached
         self.assertEqual(self.impl.label_cache["STY:T001"], "Entity 1")
         self.assertEqual(self.impl.label_cache["STY:T002"], "Entity 2")
         self.assertEqual(self.impl.label_cache["STY:T003"], "Entity 3")
         self.assertEqual(self.impl.label_cache["STY:T004"], "Entity 4")
-        
+
         # Check that get_response was called twice (once for each page)
         self.assertEqual(mock_get_response.call_count, 2)
-        
+
         # Verify first call was to the base URL with appropriate parameters
-        self.assertEqual(
-            mock_get_response.call_args_list[0][0][0], 
-            "/ontologies/STY/classes"
-        )
-        
+        self.assertEqual(mock_get_response.call_args_list[0][0][0], "/ontologies/STY/classes")
+
         # Verify second call was to the next page URL
         self.assertEqual(
-            mock_get_response.call_args_list[1][0][0], 
-            "https://data.bioontology.org/ontologies/STY/classes?page=2"
+            mock_get_response.call_args_list[1][0][0],
+            "https://data.bioontology.org/ontologies/STY/classes?page=2",
         )
 
     @mock.patch(
