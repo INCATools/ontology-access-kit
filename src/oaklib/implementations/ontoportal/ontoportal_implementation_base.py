@@ -24,7 +24,8 @@ from oaklib.interfaces import (
 from oaklib.interfaces.basic_ontology_interface import (
     LANGUAGE_TAG,
     METADATA_MAP,
-    PREFIX_MAP, RELATIONSHIP,
+    PREFIX_MAP,
+    RELATIONSHIP,
 )
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
@@ -47,7 +48,12 @@ SOURCE_TO_PREDICATE = {
 
 @dataclass
 class OntoPortalImplementationBase(
-    DumperInterface, TextAnnotatorInterface, OboGraphInterface, SearchInterface, MappingProviderInterface, ABC
+    DumperInterface,
+    TextAnnotatorInterface,
+    OboGraphInterface,
+    SearchInterface,
+    MappingProviderInterface,
+    ABC,
 ):
     ontoportal_client_class: ClassVar[type[PreconfiguredOntoPortalClient]] = None
     api_key: Union[str, None] = None
@@ -323,7 +329,7 @@ class OntoPortalImplementationBase(
         for ancestor in body:
             self.add_uri_to_ontology_mapping(ancestor)
             yield self.uri_to_curie(ancestor["@id"], strict=False, use_uri_fallback=True)
-            
+
     def relationships(
         self,
         subjects: Iterable[CURIE] = None,
@@ -337,9 +343,9 @@ class OntoPortalImplementationBase(
     ) -> Iterator[RELATIONSHIP]:
         """
         Yields all relationships matching query constraints from Ontoportal.
-        
+
         This implementation will fetch the class hierarchy and properties for the specified subjects.
-        
+
         :param subjects: constrain search to these subjects (i.e outgoing edges)
         :param predicates: constrain search to these predicates
         :param objects: constrain search to these objects (i.e incoming edges)
@@ -362,16 +368,18 @@ class OntoPortalImplementationBase(
             ):
                 yield o, p, s
             return
-            
+
         if subjects is None and objects is None:
             # We need at least subjects or objects
             if self.focus_ontology:
                 # Get some entities to use as subjects if focus_ontology is set
-                subjects = list(itertools.islice(self.entities(), 100))  # Limit to first 100 to avoid overwhelming the API
+                subjects = list(
+                    itertools.islice(self.entities(), 100)
+                )  # Limit to first 100 to avoid overwhelming the API
             else:
                 logging.warning("No subjects or objects specified, and no focus_ontology set")
                 return
-                
+
         # If objects is specified but not subjects, we need to handle this specially
         if subjects is None and objects is not None:
             # For each object, look for subjects that have a relationship to it
@@ -379,29 +387,29 @@ class OntoPortalImplementationBase(
                 ontology, uri = self._get_ontology_and_uri_from_id(obj)
                 quoted_uri = quote(uri, safe="")
                 req_url = f"/ontologies/{ontology}/classes/{quoted_uri}/children"
-                
+
                 response = self._get_response(req_url, params={"display_context": "false"})
                 if response.status_code != requests.codes.ok:
                     logging.warning(f"Could not fetch children for {obj}")
                     continue
-                    
+
                 results = response.json()
                 for child in results:
                     child_id = self.uri_to_curie(child["@id"], strict=False)
                     if predicates is None or "rdfs:subClassOf" in predicates:
                         yield child_id, "rdfs:subClassOf", obj
             return
-            
+
         # Process subjects
         if subjects is not None:
             for subject in subjects:
                 ontology, uri = self._get_ontology_and_uri_from_id(subject)
                 quoted_uri = quote(uri, safe="")
-                
+
                 # Get subClassOf relationships from parents
                 req_url = f"/ontologies/{ontology}/classes/{quoted_uri}/parents"
                 response = self._get_response(req_url, params={"display_context": "false"})
-                
+
                 if response.status_code == requests.codes.ok:
                     parents = response.json()
                     for parent in parents:
@@ -409,15 +417,15 @@ class OntoPortalImplementationBase(
                         if objects is None or parent_id in objects:
                             if predicates is None or "rdfs:subClassOf" in predicates:
                                 yield subject, "rdfs:subClassOf", parent_id
-                
+
                 # Get property relationships
                 req_url = f"/ontologies/{ontology}/classes/{quoted_uri}"
                 params = {"display_context": "false", "include": "properties,children"}
                 response = self._get_response(req_url, params=params)
-                
+
                 if response.status_code == requests.codes.ok:
                     cls_data = response.json()
-                    
+
                     # Process properties if available
                     if "properties" in cls_data:
                         for prop in cls_data.get("properties", []):
@@ -447,11 +455,11 @@ class OntoPortalImplementationBase(
             elif ontology.lower() == "wbbt":
                 ontology = "WB-BT"
         return ontology, uri
-        
+
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """
         Yields all known entity CURIEs from the ontology.
-        
+
         :param filter_obsoletes: if True, exclude any obsolete/deprecated element
         :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
         :return: iterator over CURIEs
@@ -461,18 +469,18 @@ class OntoPortalImplementationBase(
             params = {"include": "prefLabel", "display_context": "false", "display_links": "false"}
             req_url = f"/ontologies/{ontology}/classes"
             logging.debug(f"Fetching classes for ontology {ontology}")
-            
+
             current_page_url = req_url
-            
+
             while current_page_url:
                 response = self._get_response(current_page_url, params=params)
                 if response.status_code != requests.codes.ok:
                     logging.warning(f"Could not fetch classes for ontology {ontology}")
                     return
-                    
+
                 results = response.json()
                 collection = results.get("collection", [])
-                
+
                 for result in collection:
                     entity_id = self.uri_to_curie(result["@id"], strict=False)
                     if entity_id:
@@ -480,11 +488,11 @@ class OntoPortalImplementationBase(
                         if label:
                             self.label_cache[entity_id] = label
                         yield entity_id
-                
+
                 # Check for next page
                 links = results.get("links", {})
                 next_page = links.get("nextPage")
-                
+
                 if next_page:
                     current_page_url = next_page
                     # Clear params for subsequent requests as they're included in the nextPage URL
@@ -494,31 +502,31 @@ class OntoPortalImplementationBase(
         else:
             logging.warning("No focus_ontology specified; cannot list all entities")
             yield from []
-            
+
     def as_obograph(self, expand_curies=False) -> Graph:
         """
         Convert entire resource to an OBO Graph object
-        
+
         :param expand_curies: if True expand CURIEs to URIs
         :return: Graph object
         """
         if self.focus_ontology:
             # For OntoPortal, we consider the focus ontology as the graph to convert
             ontology = self.focus_ontology.upper()
-            
+
             # Create a graph with the ontology ID
             g = Graph(id=ontology)
-            
+
             # Collect nodes (limited to avoid overwhelming the API)
             entities = list(itertools.islice(self.entities(), 1000))
-            
+
             # Get nodes with metadata
             nodes = []
             for entity in entities:
                 node = self.node(entity, include_metadata=True, expand_curies=expand_curies)
                 if node:
                     nodes.append(node)
-            
+
             # Get edges for these entities
             edges = []
             for entity in entities:
@@ -527,20 +535,20 @@ class OntoPortalImplementationBase(
                     if p == "rdfs:subClassOf":
                         p = "is_a"  # OboGraph expects "is_a" for subClassOf
                     edges.append(Edge(sub=s, pred=p, obj=o))
-            
+
             g.nodes = nodes
             g.edges = edges
-            
+
             return g
         else:
             raise ValueError("No focus_ontology specified for as_obograph()")
-    
+
     def dump(self, path: str = None, syntax: str = "obojson", **kwargs):
         """
         Exports current contents in the specified syntax.
-        
+
         This is a simplified implementation that supports JSON-based formats.
-        
+
         :param path: Path to file to write to. If None, then write to stdout.
         :param syntax: Syntax to use (default: obojson)
         :param kwargs: Additional arguments
@@ -548,18 +556,20 @@ class OntoPortalImplementationBase(
         """
         if not self.focus_ontology:
             raise ValueError("No focus_ontology specified for dump()")
-            
+
         if syntax in ["obo", "obojson", "json"]:
             return super().dump(path, syntax, **kwargs)
         else:
-            raise ValueError(f"Unsupported syntax for Ontoportal dump: {syntax}. Try 'obojson' instead.")
-    
+            raise ValueError(
+                f"Unsupported syntax for Ontoportal dump: {syntax}. Try 'obojson' instead."
+            )
+
     def node(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> Optional[Node]:
         """
         Look up a node object by CURIE in the ontoportal implementation
-        
+
         :param curie: identifier of node
         :param strict: raise exception if node not found
         :param include_metadata: include detailed metadata
@@ -568,43 +578,43 @@ class OntoPortalImplementationBase(
         """
         ontology, class_uri = self._get_ontology_and_uri_from_id(curie)
         logging.debug(f"Fetching node for {ontology} class = {class_uri}")
-        
+
         # Build the parameters for the API request
         params = {"display_context": "false"}
         if include_metadata:
             # Include additional information like synonyms, definitions, etc.
             params["include"] = "prefLabel,synonym,definition,obsolete,properties"
-            
+
         quoted_class_uri = quote(class_uri, safe="")
         req_url = f"/ontologies/{ontology}/classes/{quoted_class_uri}"
-        
+
         logging.debug(req_url)
         response = self._get_response(req_url, params=params, raise_for_status=False)
-        
+
         if response.status_code != requests.codes.ok:
             if strict:
                 raise ValueError(f"Could not fetch node for {curie}")
             return None
-            
+
         result = response.json()
-        
+
         # Get node ID (either expanded URI or CURIE)
         node_id = result["@id"]
         if not expand_curies:
             node_id = self.uri_to_curie(node_id, strict=False)
-            
+
         # Get the label
         label = result.get("prefLabel", None)
         if label:
             self.label_cache[curie] = label
-            
+
         # Create the basic node with ID and label
         node = Node(id=node_id, lbl=label, type="CLASS")
-        
+
         # Add metadata if requested
         if include_metadata:
             meta = {}
-            
+
             # Add synonyms if available
             if "synonym" in result:
                 synonyms = []
@@ -623,9 +633,9 @@ class OntoPortalImplementationBase(
                         elif scope == "RELATED":
                             pred = "hasRelatedSynonym"
                         synonyms.append(SynonymPropertyValue(pred=pred, val=syn["value"]))
-                        
+
                 meta["synonyms"] = synonyms
-                
+
             # Add definition if available
             if "definition" in result:
                 definition = result.get("definition", [])
@@ -634,11 +644,11 @@ class OntoPortalImplementationBase(
                         meta["definition"] = definition[0]
                     elif isinstance(definition[0], dict) and "value" in definition[0]:
                         meta["definition"] = definition[0]["value"]
-                        
+
             # Add obsolete flag if available
             if "obsolete" in result:
                 meta["obsolete"] = result.get("obsolete", False)
-                
+
             # Add any additional properties
             if "properties" in result:
                 for prop in result.get("properties", []):
@@ -648,7 +658,7 @@ class OntoPortalImplementationBase(
                         if expand_curies:
                             prop_id = self.curie_to_uri(prop_id)
                         meta[prop_id] = prop_values
-                        
+
             node.meta = meta
-            
+
         return node
