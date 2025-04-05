@@ -11,6 +11,7 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
+
 # Helper function to mark integration tests
 def integration_test(test_method):
     """Decorator to mark integration tests that require API access."""
