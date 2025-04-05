@@ -4,11 +4,11 @@ import unittest
 from unittest import mock
 
 from linkml_runtime.dumpers import yaml_dumper
+
 from oaklib.implementations.ontoportal.bioportal_implementation import (
     BioPortalImplementation,
 )
 from oaklib.utilities.apikey_manager import get_apikey_value
-
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
@@ -85,9 +85,7 @@ class TestBioportal(unittest.TestCase):
     @integration_test
     def test_node(self):
         # Test retrieving a node from a real API endpoint
-        self.impl.focus_ontology = (
-            "GO"
-        )
+        self.impl.focus_ontology = "GO"
         node = self.impl.node("GO:0004022", include_metadata=True)
 
         # Verify we got a node back
