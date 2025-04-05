@@ -11,16 +11,17 @@ from ontoportal_client.api import PreconfiguredOntoPortalClient
 from prefixmaps.io.parser import load_multi_context
 from sssom_schema import Mapping
 
-from oaklib.datamodels.obograph import Edge, Graph, Node, SynonymPropertyValue
+from oaklib.datamodels.obograph import DefinitionPropertyValue, Edge, Graph, Meta, Node, SynonymPropertyValue
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
-from oaklib.datamodels.vocabulary import SEMAPV
+from oaklib.datamodels.vocabulary import LABEL_PREDICATE, SEMAPV
 from oaklib.interfaces import (
     MappingProviderInterface,
     SearchInterface,
     TextAnnotatorInterface,
 )
 from oaklib.interfaces.basic_ontology_interface import (
+    ALIAS_MAP,
     LANGUAGE_TAG,
     METADATA_MAP,
     PREFIX_MAP,
@@ -542,6 +543,26 @@ class OntoPortalImplementationBase(
         else:
             raise ValueError("No focus_ontology specified for as_obograph()")
 
+    def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
+        meta = self.node(curie).meta
+        m = collections.defaultdict(list)
+        lbl = self.label(curie)
+        if lbl:
+            m[LABEL_PREDICATE] = [lbl]
+        if meta is not None:
+            for syn in meta.synonyms:
+                from oaklib.converters.obo_graph_to_rdf_owl_converter import SCOPE_MAP
+                pred = SCOPE_MAP.get(syn.pred, None)
+                m[pred].append(syn.val)
+        return m
+
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
+        m = self.node(curie).meta
+        if m:
+            return m.definition.val
+
     def dump(self, path: str = None, syntax: str = "obojson", **kwargs):
         """
         Exports current contents in the specified syntax.
@@ -584,6 +605,11 @@ class OntoPortalImplementationBase(
             # Include additional information like synonyms, definitions, etc.
             params["include"] = "prefLabel,synonym,definition,obsolete,properties"
 
+        if not class_uri:
+            # If class_uri is empty, return None
+            if strict:
+                raise ValueError(f"Could not fetch node for {curie}")
+            return None
         quoted_class_uri = quote(class_uri, safe="")
         req_url = f"/ontologies/{ontology}/classes/{quoted_class_uri}"
 
@@ -640,24 +666,24 @@ class OntoPortalImplementationBase(
                 definition = result.get("definition", [])
                 if definition and len(definition) > 0:
                     if isinstance(definition[0], str):
-                        meta["definition"] = definition[0]
+                        meta["definition"] = DefinitionPropertyValue(val=definition[0])
                     elif isinstance(definition[0], dict) and "value" in definition[0]:
-                        meta["definition"] = definition[0]["value"]
+                        meta["definition"] = DefinitionPropertyValue(val=definition[0]["value"])
 
             # Add obsolete flag if available
             if "obsolete" in result:
-                meta["obsolete"] = result.get("obsolete", False)
+                meta["deprecated"] = result.get("obsolete", False)
 
             # Add any additional properties
-            if "properties" in result:
-                for prop in result.get("properties", []):
-                    if isinstance(prop, dict) and "property" in prop and "values" in prop:
-                        prop_id = prop["property"]
-                        prop_values = prop["values"]
-                        if expand_curies:
-                            prop_id = self.curie_to_uri(prop_id)
-                        meta[prop_id] = prop_values
+            # if "properties" in result:
+            #     for prop in result.get("properties", []):
+            #         if isinstance(prop, dict) and "property" in prop and "values" in prop:
+            #             prop_id = prop["property"]
+            #             prop_values = prop["values"]
+            #             if expand_curies:
+            #                 prop_id = self.curie_to_uri(prop_id)
+            #             meta[prop_id] = prop_values
 
-            node.meta = meta
+            node.meta = Meta(**meta)
 
         return node

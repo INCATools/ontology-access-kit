@@ -4,11 +4,11 @@ import unittest
 from unittest import mock
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.implementations.ontoportal.bioportal_implementation import (
     BioPortalImplementation,
 )
 from oaklib.utilities.apikey_manager import get_apikey_value
+
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
@@ -86,13 +86,13 @@ class TestBioportal(unittest.TestCase):
     def test_node(self):
         # Test retrieving a node from a real API endpoint
         self.impl.focus_ontology = (
-            "STY"  # Use the Semantic Types ontology which is relatively small
+            "GO"
         )
-        node = self.impl.node("STY:T116", include_metadata=True)
+        node = self.impl.node("GO:0004022", include_metadata=True)
 
         # Verify we got a node back
         self.assertIsNotNone(node)
-        self.assertEqual(node.id, "STY:T116")
+        self.assertEqual(node.id, "GO:0004022")
         self.assertEqual(node.type, "CLASS")
 
         # The label should be present
@@ -102,12 +102,10 @@ class TestBioportal(unittest.TestCase):
         self.assertTrue(hasattr(node, "meta") and node.meta is not None)
 
         # This node should have at least one synonym
-        if "synonyms" in node.meta:
-            self.assertTrue(len(node.meta["synonyms"]) > 0)
+        self.assertTrue(len(node.meta.synonyms) > 0)
 
-        # Check if definition exists
-        if "definition" in node.meta:
-            self.assertIsInstance(node.meta["definition"], str)
+        # Check that the definition is present
+        self.assertIsInstance(node.meta.definition.val, str)
 
     @integration_test
     def test_ontology_versions(self):
@@ -145,12 +143,6 @@ class TestBioportal(unittest.TestCase):
                 {"value": "Amino acids and chains of amino acids connected by peptide linkages."}
             ],
             "obsolete": False,
-            "properties": [
-                {
-                    "property": "rdfs:subClassOf",
-                    "values": ["http://purl.bioontology.org/ontology/STY/T123"],
-                }
-            ],
         }
 
         # Set up the mock response
@@ -169,15 +161,15 @@ class TestBioportal(unittest.TestCase):
 
         # Check definition
         self.assertEqual(
-            node.meta["definition"],
+            node.meta.definition.val,
             "Amino acids and chains of amino acids connected by peptide linkages.",
         )
 
         # Check not obsolete
-        self.assertEqual(node.meta["obsolete"], False)
+        self.assertEqual(node.meta.deprecated, False)
 
         # Check synonyms
-        self.assertEqual(len(node.meta["synonyms"]), 3)
+        self.assertEqual(len(node.meta.synonyms), 3)
 
         # Verify all synonyms were parsed correctly
         found_synonyms = {s.val: s.pred for s in node.meta["synonyms"]}
