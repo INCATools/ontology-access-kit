@@ -7,4 +7,5 @@ NCIT Examples
    :maxdepth: 1
 
    NCIT-CLI-Examples
+   NCIT-Subset-Analysis
 

@@ -209,7 +209,7 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
             params["ontology"] = self.focus_ontology.lower()
 
         for record in self.client.search(search_term, params=params):
-            curie = self.uri_to_curie(record["iri"])
+            curie = self.uri_to_curie(record["iri"], strict=False)
             self.label_cache[curie] = record["label"]
             yield curie
 

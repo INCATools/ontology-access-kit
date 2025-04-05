@@ -70,7 +70,7 @@ rules:
 
   - synonymizer:
       description: Remove box brackets bound info from the label.
-      match: r'\[[^)]*\]'
+      match: r'\[[^]]*\]'
       match_scope: "*"
       replacement: ""
 

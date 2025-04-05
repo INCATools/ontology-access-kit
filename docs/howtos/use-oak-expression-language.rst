@@ -182,6 +182,11 @@ For example:
 
    runoak -i sqlite:obo:fbbt info .mrca//p=i,p wing vein, wing
 
+Subproperties
+^^^^^^^^^^^^^
+
+
+
 
 Boolean Combinations
 --------------------

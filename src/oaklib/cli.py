@@ -2135,6 +2135,7 @@ def chains(
             blocks.append([])
         else:
             blocks[-1].append(t)
+    logging.info(f"Blocks: {blocks}")
     query = []
     et = EdgeTemplate()
     for block in blocks:

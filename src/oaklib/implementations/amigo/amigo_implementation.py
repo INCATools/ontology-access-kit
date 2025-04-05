@@ -12,7 +12,7 @@ import pysolr
 
 from oaklib.datamodels.association import Association, NegatedAssociation
 from oaklib.datamodels.search import SearchConfiguration
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL, RELATED_TO
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL, REGULATES, RELATED_TO
 from oaklib.interfaces import OboGraphInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -45,6 +45,10 @@ ANNOTATION_CLASS = "annotation_class"
 ANNOTATION_CLASS_LABEL = "annotation_class_label"
 ISA_PARTOF_CLOSURE = "isa_partof_closure"
 ISA_PARTOF_CLOSURE_LABEL = "isa_partof_closure_label"
+REGULATES_CLOSURE = "regulates_closure"
+REGULATES_CLOSURE_LABEL = "regulates_closure_label"
+ISA_PARTOF_CLOSURE_PAIR = (ISA_PARTOF_CLOSURE, ISA_PARTOF_CLOSURE_LABEL)
+REGULATES_CLOSURE_PAIR = (REGULATES_CLOSURE, REGULATES_CLOSURE_LABEL)
 TAXON_CLOSURE = "taxon_closure"
 ASSIGNED_BY = "assigned_by"
 REFERENCE = "reference"
@@ -253,6 +257,21 @@ class AmiGOImplementation(
         for doc in results:
             yield doc[ANNOTATION_CLASS]
 
+    def _closure_fields(
+        self, object_closure_predicates: Optional[List[PRED_CURIE]] = None
+    ) -> Tuple[str, str]:
+        if object_closure_predicates is None:
+            return ISA_PARTOF_CLOSURE_PAIR
+        if REGULATES in object_closure_predicates:
+            return REGULATES_CLOSURE_PAIR
+        if object_closure_predicates == [IS_A]:
+            raise ValueError("object_closure_predicates must include IS_A and PART_OF")
+        if not object_closure_predicates:
+            return ANNOTATION_CLASS, ANNOTATION_CLASS_LABEL
+        if not {IS_A, PART_OF, REGULATES}.intersection(object_closure_predicates):
+            return ANNOTATION_CLASS, ANNOTATION_CLASS_LABEL
+        return ISA_PARTOF_CLOSURE_PAIR
+
     def associations(
         self,
         subjects: Iterable[CURIE] = None,
@@ -267,6 +286,7 @@ class AmiGOImplementation(
         **kwargs,
     ) -> Iterator[Association]:
         solr = self._solr
+        closure_field, closure_label_field = self._closure_fields(object_closure_predicates)
         # TODO: use _association_query
         fq = {DOCUMENT_CATEGORY: ["annotation"]}
         if subjects:
@@ -274,14 +294,14 @@ class AmiGOImplementation(
             fq[BIOENTITY] = subjects
         if objects:
             objects = list(objects)
-            fq[ISA_PARTOF_CLOSURE] = objects
+            fq[closure_field] = objects
         if self._source:
             fq[TAXON_CLOSURE] = [self._source]
 
         select_fields = DEFAULT_SELECT_FIELDS
         if add_closure_fields:
-            select_fields.append(ISA_PARTOF_CLOSURE)
-            select_fields.append(ISA_PARTOF_CLOSURE_LABEL)
+            select_fields.append(closure_field)
+            select_fields.append(closure_label_field)
 
         results = _query(solr, fq, select_fields)
 
@@ -306,8 +326,8 @@ class AmiGOImplementation(
                 aggregator_knowledge_source="infores:go",
             )
             if add_closure_fields:
-                assoc.object_closure = doc[ISA_PARTOF_CLOSURE]
-                assoc.object_closure_label = doc[ISA_PARTOF_CLOSURE_LABEL]
+                assoc.object_closure = doc[closure_field]
+                assoc.object_closure_label = doc[closure_label_field]
 
             yield assoc
 
@@ -324,13 +344,14 @@ class AmiGOImplementation(
         document_category: str = "annotation",
         **kwargs,
     ) -> Dict[str, Any]:
+        closure_field, _ = self._closure_fields(object_closure_predicates)
         fq = {DOCUMENT_CATEGORY: [document_category]}
         if subjects:
             subjects = [_unnnormalize(s) for s in subjects]
             fq[BIOENTITY] = subjects
         if objects:
             objects = list(objects)
-            fq[ISA_PARTOF_CLOSURE] = objects
+            fq[closure_field] = objects
         if self._source:
             fq[TAXON_CLOSURE] = [self._source]
         if property_filter:
@@ -371,6 +392,7 @@ class AmiGOImplementation(
         :param kwargs:
         :return:
         """
+        closure_field, _ = self._closure_fields(object_closure_predicates)
         fq = self._association_query(
             subjects=subjects,
             predicates=predicates,
@@ -385,7 +407,7 @@ class AmiGOImplementation(
             if object_closure_predicates:
                 if {IS_A, PART_OF}.difference(object_closure_predicates):
                     raise ValueError("object_closure_predicates must include IS_A and PART_OF")
-                ff = ISA_PARTOF_CLOSURE
+                ff = closure_field
             else:
                 ff = ANNOTATION_CLASS
         elif group_by == "subject":
@@ -513,6 +535,7 @@ class AmiGOImplementation(
         term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
         **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
+        closure_field, _ = self._closure_fields(object_closure_predicates)
         if curies and not isinstance(curies, list):
             curies = list(curies)
         fq = self._association_query(
@@ -543,7 +566,7 @@ class AmiGOImplementation(
         for term, count in _faceted_query(
             solr,
             fq,
-            facet_field=ISA_PARTOF_CLOSURE,
+            facet_field=closure_field,
             rows=0,
             facet_limit=-1,
             min_facet_count=1,
