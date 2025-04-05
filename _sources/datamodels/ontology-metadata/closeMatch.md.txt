@@ -23,17 +23,17 @@ URI: [skos:closeMatch](http://www.w3.org/2004/02/skos/core#closeMatch)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Agent](Agent.md) |  |  no  |
 | [Class](Class.md) |  |  yes  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Property](Property.md) |  |  yes  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [Property](Property.md) |  |  yes  |
-| [HasMappings](HasMappings.md) |  |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Image](Image.md) |  |  no  |
 | [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Image](Image.md) |  |  no  |
+| [HasMappings](HasMappings.md) |  |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 

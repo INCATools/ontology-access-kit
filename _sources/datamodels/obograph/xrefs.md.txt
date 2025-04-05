@@ -23,12 +23,12 @@ URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  yes  |
 | [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |  yes  |
 | [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |  no  |
-| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
 | [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
 | [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |  no  |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  yes  |
 
 
 
