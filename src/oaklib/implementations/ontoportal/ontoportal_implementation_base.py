@@ -11,7 +11,7 @@ from ontoportal_client.api import PreconfiguredOntoPortalClient
 from prefixmaps.io.parser import load_multi_context
 from sssom_schema import Mapping
 
-from oaklib.datamodels.obograph import Graph, Node, SynonymPropertyValue, Edge
+from oaklib.datamodels.obograph import Edge, Graph, Node, SynonymPropertyValue
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.datamodels.vocabulary import SEMAPV
