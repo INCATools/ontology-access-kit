@@ -28,19 +28,19 @@ URI: [omoschema:id](https://w3id.org/oak/ontology-metadata/id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [NamedObject](NamedObject.md) | Anything with an IRI |  no  |
-| [Class](Class.md) |  |  no  |
-| [Agent](Agent.md) |  |  yes  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  yes  |
-| [Image](Image.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Class](Class.md) |  |  no  |
 | [Ontology](Ontology.md) | An OWL ontology |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 | [Property](Property.md) |  |  no  |
+| [NamedObject](NamedObject.md) | Anything with an IRI |  no  |
+| [Agent](Agent.md) |  |  yes  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Image](Image.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  yes  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 

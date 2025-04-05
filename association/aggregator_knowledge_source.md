@@ -23,11 +23,11 @@ URI: [biolink:aggregator_knowledge_source](https://w3id.org/biolink/vocab/aggreg
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
-| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
-| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
 | [ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |  no  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 
 
 
