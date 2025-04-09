@@ -1,7 +1,7 @@
 import logging
 import shutil
 import unittest
-
+import logging
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
@@ -611,7 +611,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_integration_create_from_hpo_input_specification(self):
         spec = yaml_loader.load(str(CONF_DIR_PATH / "hpoa-input-spec.yaml"), InputSpecification)
         oi = get_adapter(spec)
-        print(oi)
+        logging.info(oi)
 
     def test_store_associations(self):
         shutil.copyfile(DB, MUTABLE_DB)

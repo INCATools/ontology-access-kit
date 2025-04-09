@@ -69,6 +69,8 @@ def _outpath(test: str, fmt: str = "tmp") -> str:
     return str(OUTPUT_DIR / test) + "." + fmt
 
 
+
+
 class TestCommandLineInterface(unittest.TestCase):
     """
     Tests all command-line subcommands
@@ -87,7 +89,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
-        print("STDERR", result.stderr)
+        logging.info("STDERR", result.stderr)
         self.assertIn("search", out)
         self.assertIn("subset", out)
         self.assertIn("validate", out)
@@ -138,8 +140,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 main,
                 ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"],
             )
-            print("STDERR", result.stdout)
-            print("STDERR", result.stderr)
+            logging.info("STDERR", result.stdout)
+            logging.info("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -149,8 +151,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x"]
             )
-            print("STDERR", result.stdout)
-            print("STDERR", result.stderr)
+            logging.info("STDERR", result.stdout)
+            logging.info("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -383,8 +385,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_OUT,
             ],
         )
-        print("STDERR", result.stdout)
-        print("STDERR", result.stderr)
+        logging.info("STDERR", result.stdout)
+        logging.info("STDERR", result.stderr)
         self.assertEqual(0, result.exit_code)
         contents = self._out()
         self.assertIn(NUCLEUS, contents)
@@ -428,7 +430,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(main, all_args, catch_exceptions=False)
                 self.assertEqual(0, result.exit_code)
                 out = result.stdout
-                # print(input_arg, case, out)
+                # logging.info(input_arg, case, out)
                 self.assertIn(expected, out)
                 if unexpected:
                     self.assertNotIn(unexpected, out)
@@ -610,8 +612,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 cmd.extend(["-c", conf_path])
             result = self.runner.invoke(main, cmd)
             if result.exit_code != 0:
-                print("STDOUT", result.stdout)
-                print("STDERR", result.stderr)
+                logging.info("STDOUT", result.stdout)
+                logging.info("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code, f"input={input}, output_format={output_format}")
             if output_format == "obojson":
                 obj: obograph.GraphDocument
@@ -722,7 +724,7 @@ class TestCommandLineInterface(unittest.TestCase):
                     "-O",
                     output_format,
                 ] + query
-                # print(cmd)
+                # logging.info(cmd)
                 if dangling:
                     cmd += ["--dangling"]
                 result = self.runner.invoke(main, cmd)
@@ -736,7 +738,7 @@ class TestCommandLineInterface(unittest.TestCase):
                     nucleus_node = [n for n in g.nodes if n.lbl == "nucleus"][0]
                     self.assertTrue(nucleus_node is not None)
                     # TODO
-                    # print(nucleus_node)
+                    # logging.info(nucleus_node)
                     # self.assertTrue(nucleus_node.meta.definition.val.startswith("A membrane-bounded organelle"))
                 elif output_format == "fhirjson":
                     obj: fhir.CodeSystem
@@ -1040,8 +1042,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_validate_help(self):
         result = self.runner.invoke(main, ["validate", "--help"])
-        print("STDERR", result.stdout)
-        print("STDERR", result.stderr)
+        logging.info("STDERR", result.stdout)
+        logging.info("STDERR", result.stderr)
         self.assertEqual(0, result.exit_code)
 
     def test_validate_bad_ontology(self):
@@ -1179,7 +1181,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "--no-ensure-strict-prefixes",
             ],
         )
-        print("STDERR", result.stdout)
+        logging.info("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         with open(outfile) as stream:
@@ -1207,7 +1209,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "--no-ensure-strict-prefixes",
             ],
         )
-        print("STDERR", result.stdout)
+        logging.info("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -1495,7 +1497,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 args = ["-i", str(input_arg), "statistics", "-o", str(out_path)] + opts
                 result = self.runner.invoke(main, args)
                 err = result.stderr
-                # print(" ".join(args))
+                # logging.info(" ".join(args))
                 logging.info(f"ERR={err}")
                 self.assertEqual(0, result.exit_code)
                 with open(out_path) as file:
@@ -1521,7 +1523,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        print("STDERR", result.stdout)
+        logging.info("STDERR", result.stdout)
         err = "\n".join(
             [line for line in result.stderr.split("\n") if not line.startswith("WARNING")]
         )
@@ -1550,7 +1552,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        print("STDERR", result.stdout)
+        logging.info("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
