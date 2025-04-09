@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0.0"
 curies = ">=0.6.6"
-pronto = ">=2.5.0"
+pronto = "2.5.8"
 SPARQLWrapper = "*"
 SQLAlchemy = ">=1.4.32"
 linkml-runtime = "1.9.1-rc1"

@@ -1301,46 +1301,57 @@ devel = ["colorama", "json-spec", "jsonschema", "pylint", "pytest", "pytest-benc
 
 [[package]]
 name = "fastobo"
-version = "0.13.0"
+version = "0.12.3"
 description = "Faultless AST for Open Biomedical Ontologies in Python."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "fastobo-0.13.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:4620527cb6575a844dd244c725984f2d3d9b41d32140026782d18e1666f8228d"},
-    {file = "fastobo-0.13.0-cp310-cp310-macosx_12_0_x86_64.whl", hash = "sha256:4e126c58378c9df1c3f3c2f21f62b4badcd97076656e6f708ee5d0ec776c960c"},
-    {file = "fastobo-0.13.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9a2976412a05939ea57ecdd7d60ede6d97d20f18f89131e9c182c26484738cd8"},
-    {file = "fastobo-0.13.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5431b840dba3aac04cb7a70704bb0453eabfec71f407937cc93f49fa8daac7cc"},
-    {file = "fastobo-0.13.0-cp310-cp310-win_amd64.whl", hash = "sha256:ee6011d23097bbb234e4d054c922ad61f3ab0f781315503ae3aa41cff956504b"},
-    {file = "fastobo-0.13.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:eb2021500483fab3b7c756412bf1d27f8b991f16661943bfb281a83ecab2cfc8"},
-    {file = "fastobo-0.13.0-cp311-cp311-macosx_12_0_x86_64.whl", hash = "sha256:50a42abc476c1a9c0831e015abd53328705f8289de406c807b6f54b0b436e90e"},
-    {file = "fastobo-0.13.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d6ca19f7e81dc5c369ffee2f5b5a03658302a3d1b8520b8b655fe5af8995be0b"},
-    {file = "fastobo-0.13.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bcbc0ae0c74feb9e0bcaba305026bb8f03cbebf71a13b1dda5e06a29e0dfcf64"},
-    {file = "fastobo-0.13.0-cp311-cp311-win_amd64.whl", hash = "sha256:4f812fd9392d1049323ce73270885e81b6fb330035acdeb2488bc5aad326d6db"},
-    {file = "fastobo-0.13.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:80fe72f334801e9815ba59565210501a8f614283c4d8b6151b63ffa9aef3167a"},
-    {file = "fastobo-0.13.0-cp312-cp312-macosx_12_0_x86_64.whl", hash = "sha256:c3d457ce4b54686f299811b921b3ce9ad4d25bb6cdd72a71bbe4bcad56693543"},
-    {file = "fastobo-0.13.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:8c389fa99ca7a941cde2f72743a12dbc586be73a6ebc0b84f0fa7b7651892ccc"},
-    {file = "fastobo-0.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4d525e3fe1ca321a1a59671947827fb431822f5f7a467aa03f22d86437505bb1"},
-    {file = "fastobo-0.13.0-cp312-cp312-win_amd64.whl", hash = "sha256:72572abcea0c01bc7c004553ac3fa80df8938be1013f7a514701b13d89f788a1"},
-    {file = "fastobo-0.13.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:7ad230422eec31aa668081a9cdd0030058ed200e79181f132c74536fbe7f066b"},
-    {file = "fastobo-0.13.0-cp313-cp313-macosx_12_0_x86_64.whl", hash = "sha256:ff01175bb43745c089b4249e18af15d9955b31a88dd6ba69f63ad25161d80175"},
-    {file = "fastobo-0.13.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:728014987eff7c3e05249b3ea59830fb9cb24293947c9a05a85f21853baa4304"},
-    {file = "fastobo-0.13.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:65885c095c2260e011cfbca197ee68710e6cc3cb31bdc6d470b0ae5c8382de2b"},
-    {file = "fastobo-0.13.0-cp313-cp313-win_amd64.whl", hash = "sha256:ffa708db4157c40f8ff61edc228f5bfae30f88b8d96d3d3ea4a1f0eb01cba474"},
-    {file = "fastobo-0.13.0-cp37-cp37m-macosx_12_0_x86_64.whl", hash = "sha256:026d2e4f841248aaa58f61667a2bdb6ec4950f6ef06ccf23f4bc48bab52696bb"},
-    {file = "fastobo-0.13.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f520caef3b577427c4f3cafbd3726b256df0b2bda849d15861c7a63d65e835c3"},
-    {file = "fastobo-0.13.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e5ada41082672560373e2657e3b5a7258b863a3a4fe6f20efdf291c43221dd59"},
-    {file = "fastobo-0.13.0-cp37-cp37m-win_amd64.whl", hash = "sha256:6092c1847f76809245c0611fde93931552311011194b3f630b133de419858abc"},
-    {file = "fastobo-0.13.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:2f23da932a20bd28bc0815c0ac652341eeb9689d247f78f1fde01df3c85f404c"},
-    {file = "fastobo-0.13.0-cp38-cp38-macosx_12_0_x86_64.whl", hash = "sha256:d89baa235d13dedb4d081d103c1cc40e90c5c6a9a7404a60775b6cf92857fa31"},
-    {file = "fastobo-0.13.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e40faeafa83840fdb14035b1ab3cea06e4da6bed4ef2cfb32f9bb6261cf04160"},
-    {file = "fastobo-0.13.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f5b2bb2482d9d10a003a8b5c633b7d7711e8d1bb12c7747aa1bb5a970e8fe969"},
-    {file = "fastobo-0.13.0-cp38-cp38-win_amd64.whl", hash = "sha256:292705768e77588469e9137f110e3cb04afb5d0da07d53a3afff02aff321d4a0"},
-    {file = "fastobo-0.13.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:4045e5cb2d016d00ada73a4a1e34165d0ab6b28f0416f892eacc67d370c0cd7d"},
-    {file = "fastobo-0.13.0-cp39-cp39-macosx_12_0_x86_64.whl", hash = "sha256:e6ac03ec93d165626ad70238a0d3c5345c94f03858b42af4462f8468418ffa41"},
-    {file = "fastobo-0.13.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7be08e40821c3b83d57a5fa55126ec935ac7402a07cdd670f873c2df7901c6b9"},
-    {file = "fastobo-0.13.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b8a3bf6fd683a37d7768c261aea855f1be2e55b295f33ebbba78fa5cfeb008f4"},
-    {file = "fastobo-0.13.0-cp39-cp39-win_amd64.whl", hash = "sha256:699da60c277c02ce8db253d37fe05b1ba1388483f7b521c3a0a6eedc4f761f8a"},
-    {file = "fastobo-0.13.0.tar.gz", hash = "sha256:c4548bcfb7f9f87188bf5d8e4c7fd530162707265a8d644ee75259d305cd6964"},
+    {file = "fastobo-0.12.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:79fe4f5ba1ec1a2bc1ca0d65834cfc622db639128ba89019328937e623c54094"},
+    {file = "fastobo-0.12.3-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:21c347ec270d0ef6e120ba701370a8ef20953654b397d2814f62595d4d7c0062"},
+    {file = "fastobo-0.12.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:42b5cc3676bfbe902632075455eb8faef2e3c2812423bb172e0c9bb905e93e04"},
+    {file = "fastobo-0.12.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:922e61874e3c436c1990fb741f69b15c8395d1c760c569f2b4f024c7d315a0f4"},
+    {file = "fastobo-0.12.3-cp310-cp310-win_amd64.whl", hash = "sha256:c8f73c80ae92fd7ba8e0532880b53308200563a7ce2137ed751dd3bfb5dcde88"},
+    {file = "fastobo-0.12.3-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:7862627caf2deda767a8b5278f7da3bf6cb8173130505f7aed03c41d5b512de9"},
+    {file = "fastobo-0.12.3-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:b496e003db5ae1d27de3c5078a3a00d1bcb84b436eb68461a55efd3af979bbc6"},
+    {file = "fastobo-0.12.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2fed9875760ea2f0d7d9a3697f83a3168c3cd46005b41096dafbae97220a9637"},
+    {file = "fastobo-0.12.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:debab1d3144506a9b4c0d98261ecf7bdcadb5f420843358188b11bc9312aec90"},
+    {file = "fastobo-0.12.3-cp311-cp311-win_amd64.whl", hash = "sha256:5566f9f54f836e29edbdae15d22b11982db73fedfaefcbe5cc9f10f2568179a4"},
+    {file = "fastobo-0.12.3-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:a9d6502e397bcb644ada900e33ea70683006c23598758f829be7210e375f7952"},
+    {file = "fastobo-0.12.3-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:673aa41d260869ba6ae07aaa716c78cb26203662e61b3e401b006d85d748cf76"},
+    {file = "fastobo-0.12.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:68841568868408ac1b020d436ce29de50c7457031051d8d7389dc8d838cb244f"},
+    {file = "fastobo-0.12.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:09714ec07d4b0211a3ada40b7b1bfcca64aa01ba24c50d39c4d367bea058f996"},
+    {file = "fastobo-0.12.3-cp312-cp312-win_amd64.whl", hash = "sha256:fa6aaa4380825692c863f2cf9a0ad667973af8dd9162fd8282331464489b3f6c"},
+    {file = "fastobo-0.12.3-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:fa546543209f3ce95b23c767dd4c2ae4181a81526e8ab2df4a0c079b4073ef72"},
+    {file = "fastobo-0.12.3-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9739bb54c025679108a1ba8638f327ddddb68d7cdd666fd9009a72597a590560"},
+    {file = "fastobo-0.12.3-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d7cce0096b09a73fef542c17899f84db1234aff7d6bc12c1b8b86e109613bfa0"},
+    {file = "fastobo-0.12.3-cp37-cp37m-win_amd64.whl", hash = "sha256:64e028355b7ca9fb4d2b8f688759e04a7c48c08db55aaafdc599dca9bc4d70fe"},
+    {file = "fastobo-0.12.3-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:525cf2eebb584e5e2a2fe7c9aca4172109a8bdc008cf5699d14ffbd15a136cae"},
+    {file = "fastobo-0.12.3-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:727743ff6353eb5d2982568e585b7b69fed9f6e63a141ebbbbd3f5d79a4ea8bd"},
+    {file = "fastobo-0.12.3-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5a73ba3d593d420675691e53698cdc21b4500b17036ee80bd26b5acea03192e8"},
+    {file = "fastobo-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:377ecc157842a10ecc8a00c8d9ea9f380010cbb1ee123db42b7aca78d6c12cd9"},
+    {file = "fastobo-0.12.3-cp38-cp38-win_amd64.whl", hash = "sha256:bd6d4c7be54900022f85403b5c65f80b2b27997e185920a5e50471bf66e7ff08"},
+    {file = "fastobo-0.12.3-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:eea6e991a4e9c0f9e4c752125f72c22ed27fb8ea3c08e4610b1264c3a3100979"},
+    {file = "fastobo-0.12.3-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:e1ea49a9f0b8c8a51d920cb2782c88ddb66f44e81db55ee876ccbc6a2c3a12d2"},
+    {file = "fastobo-0.12.3-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5cdbd0c52a5d0d43035b21294579b73439889e4af08eb5739dc94a59caaa861f"},
+    {file = "fastobo-0.12.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c6acd98a335375c384e236b1e37867150b3b067f3a161c0cfe6a3dcf74aa9bd0"},
+    {file = "fastobo-0.12.3-cp39-cp39-win_amd64.whl", hash = "sha256:32ce37ba36f3b5e7b6642b6c0e5b9a0a6d95f78e5e98901f45cbbc958665fe46"},
+    {file = "fastobo-0.12.3-pp310-pypy310_pp73-macosx_10_9_x86_64.whl", hash = "sha256:c8fba47c98201d0c3b0c515e1ded7608a1f3015a5a0a34df8d6cbf201d58a00e"},
+    {file = "fastobo-0.12.3-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4071609ee8c8e87b03b2e786c6bd6d6845eb3580410bf95ee29c445699a99530"},
+    {file = "fastobo-0.12.3-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:34781dd51ad9589e6b73bf6c3854edd22a6aba4d78d9ef17fcba3448b8501abe"},
+    {file = "fastobo-0.12.3-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:958da0f135270da6fcfb8181114e5f631e77bc11ad897112039764af19085183"},
+    {file = "fastobo-0.12.3-pp37-pypy37_pp73-macosx_10_9_x86_64.whl", hash = "sha256:75977f4cbdfd7b371b9c4107de953c3bd1a57201cec7c877a9a64eff7817b8ce"},
+    {file = "fastobo-0.12.3-pp37-pypy37_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4589124050eab5517416a357b8e0c50ecbd36a7caaf3428b3b403f8147858986"},
+    {file = "fastobo-0.12.3-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4c3bdbc447398a21b5ea35195bf1541f8634d86680ed763b71aa99928859bc2e"},
+    {file = "fastobo-0.12.3-pp37-pypy37_pp73-win_amd64.whl", hash = "sha256:29f5180c37428af74ff80f08a4889d13fb716a6ee858debd00ac805f7c4f792b"},
+    {file = "fastobo-0.12.3-pp38-pypy38_pp73-macosx_10_9_x86_64.whl", hash = "sha256:9e6d701d9f69a94222c621c86ef47fa7d2cebed0a0f455a2c9144a0a8227d4ea"},
+    {file = "fastobo-0.12.3-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d21581d8a22b0acf2db2b987e76c19be3b9e5a714e290690e2858b533bd882a5"},
+    {file = "fastobo-0.12.3-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3b676acbf95579a72b1fae985442a583a15f2cc358efd061ab304a1f6e14269a"},
+    {file = "fastobo-0.12.3-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:3f245df99769d08c007aa2630b9ca0c2aca628371512f48aaf61953f67625b05"},
+    {file = "fastobo-0.12.3-pp39-pypy39_pp73-macosx_10_9_x86_64.whl", hash = "sha256:dc566c24d891ab21eb985fbc73d1b5ef3bfa3f096473060cfddbab8b00669756"},
+    {file = "fastobo-0.12.3-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:75205475ce0d6cedd5074107c3719b2c8df4e14cc5d481b1a28a5639418705cd"},
+    {file = "fastobo-0.12.3-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e180e7dcf53e6fc774230d8a53212c7f710b2265ef2b3b07fe4fc75226bae17c"},
+    {file = "fastobo-0.12.3-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:5e6f20a884c9409e9968e77ee74d407564814f2360dfc35440de268d753ad85e"},
+    {file = "fastobo-0.12.3.tar.gz", hash = "sha256:f375932a24b078706797eb9296740f2d2e6987a34309bda7c9f235aba1d74217"},
 ]
 
 [[package]]
@@ -4383,18 +4394,18 @@ wcwidth = "*"
 
 [[package]]
 name = "pronto"
-version = "2.7.0"
+version = "2.5.8"
 description = "Python frontend to ontologies."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pronto-2.7.0-py3-none-any.whl", hash = "sha256:da4fb4a6fd67ed7958cc3fc02ad0360ef81e48d2282b8e3fb9715209fcc64952"},
-    {file = "pronto-2.7.0.tar.gz", hash = "sha256:8454b89094f20eb74b3dadfd23d09ac3722a47d40c6ef3f6a1b462bc3faa030b"},
+    {file = "pronto-2.5.8-py2.py3-none-any.whl", hash = "sha256:91445cd2c2000729e9b23be47b1e142fd967239700284f1375ee2b78d54a3416"},
+    {file = "pronto-2.5.8.tar.gz", hash = "sha256:5283ec5b35ddc12d34f2e50098b9900bb7b80172b7f769ccc93f5d82b7022799"},
 ]
 
 [package.dependencies]
 chardet = ">=5.0,<6.0"
-fastobo = ">=0.13.0,<0.14.0"
+fastobo = ">=0.12.2,<0.13.0"
 networkx = ">=2.3,<4.0"
 python-dateutil = ">=2.8,<3.0"
 
@@ -7225,4 +7236,4 @@ semsimian = ["semsimian"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "cda5d8a8f9e5cccf61bf8719154d6c873845af0bf5765bda3d04bde373e6e8b0"
+content-hash = "d6ec72a2a61eeb65ad919817a28204320f926719d387e6cf53b4a61ae2894888"
