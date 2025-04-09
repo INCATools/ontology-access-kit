@@ -1036,13 +1036,13 @@ toml = ["tomli"]
 
 [[package]]
 name = "curies"
-version = "0.10.4"
+version = "0.10.6"
 description = "Idiomatic conversion between URIs and compact URIs (CURIEs)"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "curies-0.10.4-py3-none-any.whl", hash = "sha256:bbb8059b7e0bababa8ee40108201b1e89649b6312a4f3b013dd33f21a792b0bc"},
-    {file = "curies-0.10.4.tar.gz", hash = "sha256:07d65db6b9b916729f22fb06d23b5cb98f3ba7768e643d04c654a449467c3bc5"},
+    {file = "curies-0.10.6-py3-none-any.whl", hash = "sha256:00963de4724c7c9a78c71cf96c9c0c039a40478cb221bb4150f405de93c46091"},
+    {file = "curies-0.10.6.tar.gz", hash = "sha256:90ac761c5f0646582cc24280e699c226a2ae45e08da7ab20a3dea0cdbce2f652"},
 ]
 
 [package.dependencies]
@@ -7236,4 +7236,4 @@ semsimian = ["semsimian"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "15cc78a9e422975aefb1a50460f991a5594e5295a36a11f04cd859a5920498d5"
+content-hash = "6bf1656fce604847e3ed7e9897d2d899c4f00f50b7cfdf243f793eeb66cdb324"
