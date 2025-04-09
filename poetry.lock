@@ -7202,4 +7202,4 @@ semsimian = ["semsimian"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "7b7e0ca45d676da9c02d0b18d9bbcd8e4da8039447336fd9a2a8ab2a115c5f31"
+content-hash = "ec94fb66b9948886a9530ca3b6dfd6e8e82d36f962110dc06c4c96db3dc1ba7b"
