@@ -1,7 +1,7 @@
 import logging
 import shutil
 import unittest
-import logging
+
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader

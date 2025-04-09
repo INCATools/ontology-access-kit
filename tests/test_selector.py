@@ -5,7 +5,6 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-import logging
 
 try:
     from gilda.grounder import Grounder

@@ -69,8 +69,6 @@ def _outpath(test: str, fmt: str = "tmp") -> str:
     return str(OUTPUT_DIR / test) + "." + fmt
 
 
-
-
 class TestCommandLineInterface(unittest.TestCase):
     """
     Tests all command-line subcommands

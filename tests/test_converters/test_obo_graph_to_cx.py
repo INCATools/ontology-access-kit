@@ -1,10 +1,11 @@
 import json
+import logging
 import unittest
 
 import curies
 from linkml_runtime.loaders import json_loader
 from ndex2 import create_nice_cx_from_file
-import logging
+
 from oaklib.converters.obo_graph_to_cx_converter import OboGraphToCXConverter
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
