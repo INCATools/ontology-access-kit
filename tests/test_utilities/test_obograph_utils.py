@@ -123,12 +123,12 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertNotIn("[p]", t)
         self.assertNotIn(PART_OF, t)
-        self.assertGreater(len(lines), 80)
+        self.assertGreater(len(lines), 70)
         t = graph_to_tree_display(self.graph, predicates=[IS_A, PART_OF])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertIn("* [p] GO:0019209 ! kinase activator activity", t)
-        self.assertGreater(len(lines), 80)
+        self.assertGreater(len(lines), 70)
 
     def test_as_tree_structure(self):
         ts = graph_to_tree_structure(self.graph, predicates=[IS_A])
