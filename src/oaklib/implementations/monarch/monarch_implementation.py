@@ -113,6 +113,7 @@ class MonarchImplementation(
                 if map_from in item:
                     item[map_to] = item[map_from]
                     del item[map_from]
+
             def _get(k, item=item):
                 v = item.get(k, None)
                 if isinstance(v, list):
@@ -121,11 +122,19 @@ class MonarchImplementation(
                     else:
                         return None
                 return v
-            pvs = [PropertyValue(k, _get(k)) for k in item.keys() if k not in keys and k not in exclude_keys_from_pv]
+
+            pvs = [
+                PropertyValue(k, _get(k))
+                for k in item.keys()
+                if k not in keys and k not in exclude_keys_from_pv
+            ]
             c = Association
             if item.get("negated", False):
                 c = NegatedAssociation
-            yield c(**{k: _get(k) for k in keys}, property_values=[pv for pv in pvs if pv.value_or_object is not None])
+            yield c(
+                **{k: _get(k) for k in keys},
+                property_values=[pv for pv in pvs if pv.value_or_object is not None],
+            )
         if offset + limit < total:
             time.sleep(1)
             yield from self._associations_from_url(url, offset=offset + limit, limit=limit)

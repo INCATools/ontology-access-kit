@@ -6,7 +6,6 @@ from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.resource import OntologyResource
-
 from tests import CELLULAR_COMPONENT, CYTOPLASM, VACUOLE
 
 # Example term data for mocking OLS API responses

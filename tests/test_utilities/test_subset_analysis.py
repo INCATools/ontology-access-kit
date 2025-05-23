@@ -9,7 +9,6 @@ from oaklib.utilities.subsets.subset_analysis import (
     compare_all_subsets,
     terms_by_subsets,
 )
-
 from tests import INPUT_DIR, OUTPUT_DIR
 
 DB = INPUT_DIR / "go-nucleus.db"

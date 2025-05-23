@@ -60,8 +60,6 @@ def _satisfies(c, minimum_confidence: Optional[float], maximum_confidence: Optio
     return True
 
 
-
-
 @dataclass
 class BoomerEngine:
     """
@@ -278,7 +276,6 @@ def ptable(input_sssom, **kwargs):
         if row is None:
             continue
         print("\t".join([str(x) for x in row]))
-
 
 
 @main.command()

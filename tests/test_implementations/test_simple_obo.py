@@ -3,6 +3,7 @@ import unittest
 from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
+
 from oaklib import get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
@@ -34,7 +35,6 @@ from oaklib.utilities.obograph_utils import (
     index_graph_edges_by_subject,
     index_graph_nodes,
 )
-
 from tests import (
     BIOLOGICAL_ENTITY,
     CELL,

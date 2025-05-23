@@ -286,8 +286,8 @@ class MappingCrawler:
                         file.write(f"id: {e}\n")
                         file.write(f"name: {get_label(e)}\n")
                         if defn:
-                            defn = defn.replace('"', '')
-                            file.write(f"def: \"{defn}\" []\n")
+                            defn = defn.replace('"', "")
+                            file.write(f'def: "{defn}" []\n')
                         for p in get_parents_iter(e):
                             file.write(f"is_a: {p} ! {get_label(p)}\n")
                         file.write("\n")

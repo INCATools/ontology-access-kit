@@ -4,7 +4,6 @@ import unittest
 from oaklib.datamodels.association import Association
 from oaklib.parsers.parser_base import ColumnReference
 from oaklib.parsers.xaf_association_parser import XafAssociationParser
-
 from tests import INPUT_DIR
 
 GAF = INPUT_DIR / "test-uniprot.gaf"

@@ -4,7 +4,6 @@ from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
-
 from tests import INPUT_DIR, OUTPUT_DIR
 
 DB = INPUT_DIR / "go-nucleus.db"

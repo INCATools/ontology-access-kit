@@ -92,9 +92,9 @@ from typing import Optional, Tuple, Union
 
 import pytest
 import rdflib
-from oaklib import get_adapter
 from rdflib.compare import isomorphic
 
+from oaklib import get_adapter
 from tests import INPUT_DIR, OUTPUT_DIR
 
 logger = logging.getLogger(__name__)

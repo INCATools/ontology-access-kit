@@ -25,7 +25,6 @@ from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
 from oaklib.selector import get_adapter, get_resource_from_shorthand
-
 from tests import INPUT_DIR
 
 

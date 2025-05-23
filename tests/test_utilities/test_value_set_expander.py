@@ -2,9 +2,9 @@ import unittest
 
 from linkml_runtime.linkml_model import EnumDefinition, SchemaDefinition
 from linkml_runtime.loaders import yaml_loader
+
 from oaklib.datamodels.value_set_configuration import ValueSetConfiguration
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
-
 from tests import (
     BACTERIA,
     EXAMPLE_ONTOLOGY_DB,

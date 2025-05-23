@@ -1,10 +1,10 @@
 import unittest
 
+from sssom_schema import Mapping
+
 from oaklib import get_adapter
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, SEMAPV, SKOS_EXACT_MATCH
 from oaklib.utilities.mapping.mapping_validation import validate_mappings
-from sssom_schema import Mapping
-
 from tests import CYTOPLASM, FUNGI, INPUT_DIR, NUCLEUS, OUTPUT_DIR, VACUOLE
 
 DB = INPUT_DIR / "go-nucleus.db"

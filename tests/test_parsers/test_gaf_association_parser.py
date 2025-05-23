@@ -4,7 +4,6 @@ import unittest
 from oaklib.datamodels.association import Association, NegatedAssociation, ParserConfiguration
 from oaklib.parsers import GAF
 from oaklib.parsers.association_parser_factory import get_association_parser
-
 from tests import INPUT_DIR
 
 INPUT_GAF = INPUT_DIR / "test-uniprot.gaf"

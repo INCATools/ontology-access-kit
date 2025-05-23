@@ -17,7 +17,6 @@ from oaklib.utilities.obograph_utils import (
     index_graph_edges_by_subject,
     index_graph_nodes,
 )
-
 from tests import (
     CATALYTIC_ACTIVITY,
     CELL_CORTEX,

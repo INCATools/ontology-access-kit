@@ -4,8 +4,8 @@ import unittest
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.introspection import package_schemaview
-from oaklib.datamodels import ontology_metadata
 
+from oaklib.datamodels import ontology_metadata
 from tests import output_path
 
 

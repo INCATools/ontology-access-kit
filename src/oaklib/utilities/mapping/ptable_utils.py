@@ -23,7 +23,6 @@ DEFAULT_CONFIDENCE_BY_PREDICATE = {
     SKOS_CLOSE_MATCH: 0.8,
     SKOS_BROAD_MATCH: 0.9,
     SKOS_NARROW_MATCH: 0.9,
-
 }
 
 
@@ -76,6 +75,6 @@ def mappings_to_ptable(
                 pos = 1
         residual = (1 - conf) / 3.0
         row = [subj, obj, residual, residual, residual, residual]
-        row[pos+2] = conf
+        row[pos + 2] = conf
         assert row[2] + row[3] + row[4] + row[5] == 1.0
         yield row

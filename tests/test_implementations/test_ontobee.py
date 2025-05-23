@@ -6,7 +6,6 @@ from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.resource import OntologyResource
-
 from tests import CELLULAR_COMPONENT, DIGIT, INPUT_DIR, OUTPUT_DIR, SHAPE, VACUOLE
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
