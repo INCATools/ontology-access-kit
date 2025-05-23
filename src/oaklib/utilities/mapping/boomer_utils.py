@@ -11,6 +11,7 @@ import sssom_schema as sssom
 import yaml
 from linkml_renderer.style.model import RenderRule
 from sssom.constants import SEMAPV, SKOS_EXACT_MATCH
+from sssom.parsers import parse_sssom_table
 
 from oaklib import get_implementation_from_shorthand
 from oaklib.cli import _get_writer, output_option, output_type_option
@@ -19,13 +20,14 @@ from oaklib.datamodels.mapping_cluster_datamodel import (
     MappingCluster,
     MappingClusterReport,
 )
-from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_CLOSE_MATCH
+from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_CLOSE_MATCH, EQUIVALENT_CLASS, IS_A, SKOS_RELATED_MATCH
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.io.html_writer import HTMLWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.parsers.boomer_parser import BoomerParser
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.mapping.ptable_utils import mappings_to_ptable
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 
 logger = logging.getLogger(__name__)
@@ -56,6 +58,8 @@ def _satisfies(c, minimum_confidence: Optional[float], maximum_confidence: Optio
     if maximum_confidence is not None and conf > maximum_confidence:
         return False
     return True
+
+
 
 
 @dataclass
@@ -256,6 +260,25 @@ def main(verbose: int, quiet: bool, prefix_map):
         with open(prefix_map) as f:
             global global_prefix_map
             global_prefix_map = yaml.safe_load(f)
+
+
+@main.command()
+@click.argument("input_sssom")
+def ptable(input_sssom, **kwargs):
+    """
+    Converts a boomer SSSOM file to a ptable.
+
+    Example:
+    -------
+        boomerang ptable tests/input/boomer-example.sssom.tsv
+    """
+    msdf = parse_sssom_table(input_sssom)
+    mappings = msdf.to_mappings()
+    for row in mappings_to_ptable(mappings):
+        if row is None:
+            continue
+        print("\t".join([str(x) for x in row]))
+
 
 
 @main.command()

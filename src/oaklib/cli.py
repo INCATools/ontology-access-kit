@@ -3849,6 +3849,8 @@ def crawl(
 
     Documentation for this command will be provided in a separate notebook.
     """
+    if directory and not whole_ontology:
+        raise ValueError("Cannot use --directory without --whole-ontology")
     # TODO: normalize this option; avoid confusing with 'config'
     stylemap_configure = configure
     impl = settings.impl
