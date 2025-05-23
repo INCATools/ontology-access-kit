@@ -1,9 +1,9 @@
 import pytest
 from kgcl_schema.grammar.render_operations import render
-
 from oaklib import get_adapter
 from oaklib.datamodels.synonymizer_datamodel import RuleSet, Synonymizer
 from oaklib.utilities.lexical.synonymizer import apply_synonymizer, apply_synonymizer_to_terms
+
 from tests import CYTOPLASM, INPUT_DIR, NUCLEAR_MEMBRANE, NUCLEUS
 
 TEST_SIMPLE_ONT = INPUT_DIR / "go-nucleus-simple.obo"

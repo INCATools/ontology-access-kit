@@ -1,10 +1,10 @@
 import logging
 import unittest
 
+import oaklib.datamodels.validation_datamodel as vdm
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 
-import oaklib.datamodels.validation_datamodel as vdm
 from tests import output_path
 
 

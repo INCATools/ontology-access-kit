@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from sssom_schema import Mapping
 
 from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.datamodels.vocabulary import SEMAPV, IS_A
+from oaklib.datamodels.vocabulary import IS_A, SEMAPV
 from oaklib.interfaces import MappingProviderInterface, OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.mapping.ptable_utils import mappings_to_ptable
@@ -282,7 +282,7 @@ class MappingCrawler:
                 with open(ont_path, "w") as file:
                     for e in clique.entities:
                         defn = get_defn(e)
-                        file.write(f"[Term]\n")
+                        file.write("[Term]\n")
                         file.write(f"id: {e}\n")
                         file.write(f"name: {get_label(e)}\n")
                         if defn:

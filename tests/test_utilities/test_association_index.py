@@ -7,6 +7,7 @@ from oaklib.interfaces.association_provider_interface import (
 from oaklib.parsers.parser_base import ColumnReference
 from oaklib.parsers.xaf_association_parser import XafAssociationParser
 from oaklib.utilities.associations.association_index import AssociationIndex
+
 from tests import INPUT_DIR
 
 GAF = INPUT_DIR / "test-uniprot.gaf"

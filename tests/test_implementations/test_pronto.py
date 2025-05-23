@@ -3,7 +3,6 @@ import unittest
 
 import pronto
 from kgcl_schema.datamodel import kgcl
-
 from oaklib import get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
@@ -23,6 +22,7 @@ from oaklib.utilities.obograph_utils import (
 from oaklib.utilities.validation.definition_ontology_rule import (
     DefinitionOntologyRule,
 )
+
 from tests import (
     CELL,
     CELLULAR_COMPONENT,

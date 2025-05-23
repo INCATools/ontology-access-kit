@@ -1,5 +1,4 @@
 import pytest
-
 from oaklib.utilities.publication_utils.pubmed_wrapper import PubmedWrapper
 
 

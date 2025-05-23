@@ -20,7 +20,7 @@ from oaklib.datamodels.mapping_cluster_datamodel import (
     MappingCluster,
     MappingClusterReport,
 )
-from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_CLOSE_MATCH, EQUIVALENT_CLASS, IS_A, SKOS_RELATED_MATCH
+from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_CLOSE_MATCH
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.io.html_writer import HTMLWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter

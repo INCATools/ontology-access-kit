@@ -6,7 +6,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional
 import requests_cache
 
 from oaklib.datamodels import obograph
-from oaklib.datamodels.association import Association, PropertyValue, NegatedAssociation
+from oaklib.datamodels.association import Association, NegatedAssociation, PropertyValue
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IN_TAXON
 from oaklib.interfaces import OboGraphInterface, SearchInterface

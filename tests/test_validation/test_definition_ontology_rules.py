@@ -11,6 +11,7 @@ from oaklib.utilities.validation.definition_ontology_rule import (
     DefinitionOntologyRule,
 )
 from oaklib.utilities.validation.rule_runner import RuleRunner
+
 from tests import INPUT_DIR, MEMBRANE, NUCLEAR_MEMBRANE, NUCLEUS, OUTPUT_DIR
 
 TEST_OUT = OUTPUT_DIR / "lint-test-output.obo"

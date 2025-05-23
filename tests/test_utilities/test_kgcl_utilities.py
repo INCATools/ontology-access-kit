@@ -3,13 +3,13 @@ import unittest
 from kgcl_schema.datamodel.kgcl import Change
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.utilities.kgcl_utilities import (
     parse_kgcl_files,
     substitute_curies_for_labels,
     substitute_labels_for_curies,
     write_kgcl,
 )
+
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"

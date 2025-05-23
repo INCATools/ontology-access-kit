@@ -2,6 +2,7 @@ import unittest
 
 from oaklib.datamodels.vocabulary import HAS_PART, IS_A, PART_OF
 from oaklib.indexes.edge_index import EdgeIndex
+
 from tests import CELL, IMBO, NUCLEUS, VACUOLE
 
 RELS = [

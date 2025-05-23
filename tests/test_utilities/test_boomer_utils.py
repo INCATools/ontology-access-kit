@@ -3,6 +3,7 @@ import unittest
 from oaklib import get_adapter
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.utilities.mapping.boomer_utils import BoomerEngine, DiffType
+
 from tests import EXAMPLE_ONTOLOGY_DB, INPUT_DIR, NUCLEUS, VACUOLE
 
 EXAMPLE = INPUT_DIR / "boomer-example.md"

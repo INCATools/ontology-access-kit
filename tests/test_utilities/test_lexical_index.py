@@ -16,6 +16,7 @@ from oaklib.utilities.lexical.lexical_indexer import (
     save_lexical_index,
 )
 from oaklib.utilities.ontology_builder import OntologyBuilder
+
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"

@@ -7,6 +7,7 @@ from oaklib.implementations import NCBIGeneImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
+
 from tests import CYTOPLASM, INPUT_DIR
 from tests.input.mock_ncbi_objects import NCBI_ASSOCIATIONS
 

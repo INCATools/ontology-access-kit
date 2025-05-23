@@ -3,8 +3,16 @@ from typing import List, Optional
 
 import sssom_schema as sssom
 
-from oaklib.datamodels.vocabulary import SKOS_BROAD_MATCH, IS_A, SKOS_NARROW_MATCH, SKOS_CLOSE_MATCH, EQUIVALENT_CLASS, \
-    HAS_DBXREF, SKOS_RELATED_MATCH, SKOS_EXACT_MATCH
+from oaklib.datamodels.vocabulary import (
+    EQUIVALENT_CLASS,
+    HAS_DBXREF,
+    IS_A,
+    SKOS_BROAD_MATCH,
+    SKOS_CLOSE_MATCH,
+    SKOS_EXACT_MATCH,
+    SKOS_NARROW_MATCH,
+    SKOS_RELATED_MATCH,
+)
 
 DEFAULT_CONFIDENCE_BY_PREDICATE = {
     IS_A: 1.0,

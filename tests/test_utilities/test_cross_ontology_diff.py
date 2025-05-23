@@ -3,7 +3,6 @@ import unittest
 import kgcl_schema.grammar.parser as kgcl_parser
 import yaml
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib import get_adapter
 from oaklib.datamodels.cross_ontology_diff import DiffCategory, RelationalDiff
 from oaklib.datamodels.vocabulary import HAS_PART, IS_A, PART_OF
@@ -15,6 +14,7 @@ from oaklib.resource import OntologyResource
 from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
+
 from tests import (
     CELLULAR_COMPONENT,
     EXAMPLE_ONTOLOGY_OBO,
