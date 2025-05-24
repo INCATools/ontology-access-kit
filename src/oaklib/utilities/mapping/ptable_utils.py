@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, Optional
+from typing import List, Iterator
 
 import sssom_schema as sssom
 
