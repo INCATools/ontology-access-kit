@@ -28,13 +28,12 @@ DEFAULT_CONFIDENCE_BY_PREDICATE = {
 
 def mappings_to_ptable(
     mappings: List[sssom.Mapping],
-) -> Optional[List[List[float]]]:
+) -> Iterator[List[float]]:
     """
     Convert a set of mappings to a ptable.
 
     :param mappings: list of mappings
-    :param configuration: configuration object
-    :return: MappingSetDocument
+    :return: An iterator that yields rows of the ptable as lists of floats.
     """
     tups_by_pair = defaultdict(list)
     for m in mappings:
