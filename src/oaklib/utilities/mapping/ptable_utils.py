@@ -50,7 +50,7 @@ def mappings_to_ptable(
             if pred in DEFAULT_CONFIDENCE_BY_PREDICATE:
                 conf = DEFAULT_CONFIDENCE_BY_PREDICATE[pred]
             else:
-                return
+                continue
         tups_by_pair[(subj, obj)].append((conf, inv, pred))
     for (subj, obj), tuples in tups_by_pair.items():
         # sort by confidence
