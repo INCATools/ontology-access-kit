@@ -261,8 +261,14 @@ def main(verbose: int, quiet: bool, prefix_map):
 
 
 @main.command()
+@click.option(
+    "--ensure-confidence/--no-ensure-confidence",
+    default=False,
+    show_default=True,
+    help="Ensure that all mappings have a confidence value",
+)
 @click.argument("input_sssom")
-def ptable(input_sssom, **kwargs):
+def ptable(input_sssom, ensure_confidence: bool = True):
     """
     Converts a boomer SSSOM file to a ptable.
 
@@ -272,6 +278,14 @@ def ptable(input_sssom, **kwargs):
     """
     msdf = parse_sssom_table(input_sssom)
     mappings = msdf.to_mappings()
+    if ensure_confidence:
+        bad_mappings = [m for m in mappings if m.confidence is None]
+        if bad_mappings:
+            for m in bad_mappings:
+                logger.warning(
+                    f"Mapping {m.subject_id} {m.predicate_id} {m.object_id} has no confidence"
+                )
+            raise ValueError(f"Some mappings do not have a confidence value: {len(bad_mappings)}")
     for row in mappings_to_ptable(mappings):
         if row is None:
             continue

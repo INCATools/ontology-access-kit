@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, Iterator
+from typing import Iterator, List
 
 import sssom_schema as sssom
 
@@ -62,9 +62,9 @@ def mappings_to_ptable(
         elif pred == SKOS_NARROW_MATCH:
             # subj SuperClassOf obj
             pos = 1
-        elif pred == SKOS_CLOSE_MATCH:
-            # assumes that it was explicitly assigned as non-exact
-            pos = 3
+        # elif pred == SKOS_CLOSE_MATCH:
+        #    # assumes that it was explicitly assigned as non-exact
+        #    pos = 3
         else:
             pos = 2
         if inv:
@@ -75,5 +75,6 @@ def mappings_to_ptable(
         residual = (1 - conf) / 3.0
         row = [subj, obj, residual, residual, residual, residual]
         row[pos + 2] = conf
-        assert row[2] + row[3] + row[4] + row[5] == 1.0
+        # Ensure the row sums to 1.0; but allow for floating point precision issues
+        assert abs(sum(row[2:]) - 1.0) < 1e-6, f"Row sums to {sum(row[2:])}, expected 1.0"
         yield row
