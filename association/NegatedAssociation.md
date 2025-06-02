@@ -218,7 +218,6 @@ attributes:
     owner: NegatedAssociation
     domain_of:
     - PositiveOrNegativeAssociation
-    - PropertyValue
     slot_group: core_triple
     range: uriorcurie
   property_values:

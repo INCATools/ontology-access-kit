@@ -20,9 +20,16 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
  classDiagram
     class PropertyValue
     click PropertyValue href "../PropertyValue"
-      PropertyValue : object
-        
       PropertyValue : predicate
+        
+      PropertyValue : value_or_object
+        
+          
+    
+    
+    PropertyValue --> "0..1" Any : value_or_object
+    click Any href "../Any"
+
         
       
 ```
@@ -38,7 +45,7 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | direct |
-| [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | direct |
+| [value_or_object](value_or_object.md) | 0..1 <br/> [Any](Any.md) |  | direct |
 
 
 
@@ -99,7 +106,7 @@ description: A generic tag-value that can be associated with an association.
 from_schema: https://w3id.org/oak/association
 slots:
 - predicate
-- object
+- value_or_object
 
 ```
 </details>
@@ -125,24 +132,15 @@ attributes:
     - PropertyValue
     slot_group: core_triple
     range: uriorcurie
-  object:
-    name: object
-    description: An ontology entity that is associated with the subject.
-    comments:
-    - it is conventional for the subject to be the "entity" and the object to be the
-      ontological descriptor
+  value_or_object:
+    name: value_or_object
     from_schema: https://w3id.org/oak/association
-    exact_mappings:
-    - oa:hasTarget
     rank: 1000
-    slot_uri: rdf:object
-    alias: object
+    alias: value_or_object
     owner: PropertyValue
     domain_of:
-    - PositiveOrNegativeAssociation
     - PropertyValue
-    slot_group: core_triple
-    range: uriorcurie
+    range: Any
 
 ```
 </details>

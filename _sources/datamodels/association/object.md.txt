@@ -31,10 +31,9 @@ URI: [rdf:object](rdf:object)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
-| [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
 
 
 
@@ -98,7 +97,6 @@ slot_uri: rdf:object
 alias: object
 domain_of:
 - PositiveOrNegativeAssociation
-- PropertyValue
 slot_group: core_triple
 range: uriorcurie
 

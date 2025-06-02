@@ -92,9 +92,16 @@
              classDiagram
     class PropertyValue
     click PropertyValue href &quot;../PropertyValue&quot;
-      PropertyValue : object
-        
       PropertyValue : predicate
+        
+      PropertyValue : value_or_object
+        
+          
+    
+    
+    PropertyValue --&gt; &quot;0..1&quot; Any : value_or_object
+    click Any href &quot;../Any&quot;
+
         
       
         </div><!-- no inheritance hierarchy -->
@@ -114,9 +121,9 @@
 <td><p>The type of relationship between the subject and object</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object.html"><span class="std std-doc">object</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p>An ontology entity that is associated with the subject</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="value_or_object.html"><span class="std std-doc">value_or_object</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Any.html"><span class="std std-doc">Any</span></a></p></td>
+<td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -190,7 +197,7 @@ description: A generic tag-value that can be associated with an association.
 from_schema: https://w3id.org/oak/association
 slots:
 - predicate
-- object
+- value_or_object
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -214,24 +221,15 @@ attributes:
     - PropertyValue
     slot_group: core_triple
     range: uriorcurie
-  object:
-    name: object
-    description: An ontology entity that is associated with the subject.
-    comments:
-    - it is conventional for the subject to be the &quot;entity&quot; and the object to be the
-      ontological descriptor
+  value_or_object:
+    name: value_or_object
     from_schema: https://w3id.org/oak/association
-    exact_mappings:
-    - oa:hasTarget
     rank: 1000
-    slot_uri: rdf:object
-    alias: object
+    alias: value_or_object
     owner: PropertyValue
     domain_of:
-    - PositiveOrNegativeAssociation
     - PropertyValue
-    slot_group: core_triple
-    range: uriorcurie
+    range: Any
 
 </pre></div>
 </div>
