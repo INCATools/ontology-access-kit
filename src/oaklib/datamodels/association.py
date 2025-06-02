@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.0.1
-# Generation date: 2024-08-07T13:29:21
+# Generation date: 2025-04-15T10:08:18
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -19,20 +19,55 @@
 
 import dataclasses
 import re
-from jsonasobj2 import JsonObj, as_dict
-from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
-from datetime import date, datetime
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from datetime import (
+    date,
+    datetime,
+    time
+)
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    List,
+    Optional,
+    Union
+)
 
-from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from rdflib import Namespace, URIRef
+from jsonasobj2 import (
+    JsonObj,
+    as_dict
+)
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions
+)
 from linkml_runtime.utils.curienamespace import CurieNamespace
+from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import (
+    camelcase,
+    sfx,
+    underscore
+)
+from linkml_runtime.utils.metamodelcore import (
+    bnode,
+    empty_dict,
+    empty_list
+)
+from linkml_runtime.utils.slot import Slot
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str
+)
+from rdflib import (
+    Namespace,
+    URIRef
+)
+
 from linkml_runtime.linkml_model.types import Boolean, Float, Integer, String, Uriorcurie
 from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE
 
@@ -59,7 +94,9 @@ DEFAULT_ = ONTOASSOC
 
 
 
-@dataclass
+Any = Any
+
+@dataclass(repr=False)
 class PositiveOrNegativeAssociation(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -153,7 +190,7 @@ class PositiveOrNegativeAssociation(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
-@dataclass
+@dataclass(repr=False)
 class Association(PositiveOrNegativeAssociation):
     """
     A generic association between a thing (subject) and another thing (object).
@@ -174,7 +211,7 @@ class Association(PositiveOrNegativeAssociation):
         super().__post_init__(**kwargs)
 
 
-@dataclass
+@dataclass(repr=False)
 class NegatedAssociation(PositiveOrNegativeAssociation):
     """
     A negated association between a thing (subject) and another thing (object).
@@ -195,7 +232,7 @@ class NegatedAssociation(PositiveOrNegativeAssociation):
         super().__post_init__(**kwargs)
 
 
-@dataclass
+@dataclass(repr=False)
 class PropertyValue(YAMLRoot):
     """
     A generic tag-value that can be associated with an association.
@@ -208,19 +245,16 @@ class PropertyValue(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = ONTOASSOC.PropertyValue
 
     predicate: Optional[Union[str, URIorCURIE]] = None
-    object: Optional[Union[str, URIorCURIE]] = None
+    value_or_object: Optional[Union[dict, Any]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
             self.predicate = URIorCURIE(self.predicate)
 
-        if self.object is not None and not isinstance(self.object, URIorCURIE):
-            self.object = URIorCURIE(self.object)
-
         super().__post_init__(**kwargs)
 
 
-@dataclass
+@dataclass(repr=False)
 class RollupGroup(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -248,7 +282,7 @@ class RollupGroup(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
-@dataclass
+@dataclass(repr=False)
 class PairwiseCoAssociation(YAMLRoot):
     """
     A collection of subjects co-associated with two objects
@@ -323,7 +357,7 @@ class PairwiseCoAssociation(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
-@dataclass
+@dataclass(repr=False)
 class ParserConfiguration(YAMLRoot):
     """
     Settings that determine behavior when parsing associations.
@@ -356,7 +390,7 @@ class ParserConfiguration(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
-@dataclass
+@dataclass(repr=False)
 class AssociationChange(YAMLRoot):
     """
     A change object describing a change between two associations.
@@ -483,6 +517,9 @@ slots.object = Slot(uri=RDF.object, name="object", curie=RDF.curie('object'),
 
 slots.object_label = Slot(uri=SSSOM.object_label, name="object_label", curie=SSSOM.curie('object_label'),
                    model_uri=ONTOASSOC.object_label, domain=None, range=Optional[str])
+
+slots.value_or_object = Slot(uri=ONTOASSOC.value_or_object, name="value_or_object", curie=ONTOASSOC.curie('value_or_object'),
+                   model_uri=ONTOASSOC.value_or_object, domain=None, range=Optional[Union[dict, Any]])
 
 slots.core_triple = Slot(uri=ONTOASSOC.core_triple, name="core_triple", curie=ONTOASSOC.curie('core_triple'),
                    model_uri=ONTOASSOC.core_triple, domain=None, range=Optional[str])

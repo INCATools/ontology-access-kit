@@ -9,9 +9,10 @@ from pydantic import BaseModel
 from sssom_schema import Mapping
 
 from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.datamodels.vocabulary import SEMAPV
+from oaklib.datamodels.vocabulary import IS_A, SEMAPV
 from oaklib.interfaces import MappingProviderInterface, OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.mapping.ptable_utils import mappings_to_ptable
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 
 DIRECTION = Literal[1, -1]
@@ -180,6 +181,9 @@ class MappingClique(BaseModel):
             d[f"incoherency_{k}"] = v
         return d
 
+    def as_ptable(self):
+        return mappings_to_ptable(self.mappings)
+
 
 @dataclass
 class MappingCrawler:
@@ -197,10 +201,26 @@ class MappingCrawler:
         def get_label(x) -> Optional[str]:
             for adapter in adapters.values():
                 if isinstance(adapter, BasicOntologyInterface):
-                    return adapter.label(x)
+                    lbl = adapter.label(x)
+                    if lbl:
+                        return lbl
             return None
 
-        def get_sssom_path(seed: str):
+        def get_defn(x) -> Optional[str]:
+            for adapter in adapters.values():
+                if isinstance(adapter, BasicOntologyInterface):
+                    defn = adapter.definition(x)
+                    if defn:
+                        return defn
+            return None
+
+        def get_parents_iter(x) -> Iterator[str]:
+            for adapter in adapters.values():
+                if isinstance(adapter, BasicOntologyInterface):
+                    for _, _, o in adapter.relationships([x], [IS_A]):
+                        yield o
+
+        def get_sssom_path(seed: str) -> Optional[Path]:
             if self.config.clique_directory:
                 base_name = seed.replace(":", "_")
                 path = Path(self.config.clique_directory)
@@ -210,6 +230,18 @@ class MappingCrawler:
             else:
                 return None
 
+        def get_ont_path(seed: str):
+            sssom_path = get_sssom_path(seed)
+            if sssom_path:
+                ont_path = str(sssom_path).replace(".sssom.tsv", ".obo")
+                return Path(ont_path)
+
+        def get_ptable_path(seed: str):
+            sssom_path = get_sssom_path(seed)
+            if sssom_path:
+                ptable_path = str(sssom_path).replace(".sssom.tsv", ".ptable.tsv")
+                return Path(ptable_path)
+
         clique_by_entity = {}
         aliases = {}
         rows = []
@@ -218,6 +250,7 @@ class MappingCrawler:
                 continue
 
             sssom_path = get_sssom_path(seed)
+            ont_path = get_ont_path(seed)
             # TODO: allow for caching
             # if sssom_path and sssom_path.exists():
             #     continue
@@ -241,6 +274,23 @@ class MappingCrawler:
                     writer.finish()
                     # writer.close()
                 rows.append(clique.as_flat_dict())
+                with open(get_ptable_path(seed), "w") as file:
+                    for row in clique.as_ptable():
+                        if row is None:
+                            continue
+                        file.write("\t".join([str(x) for x in row]) + "\n")
+                with open(ont_path, "w") as file:
+                    for e in clique.entities:
+                        defn = get_defn(e)
+                        file.write("[Term]\n")
+                        file.write(f"id: {e}\n")
+                        file.write(f"name: {get_label(e)}\n")
+                        if defn:
+                            defn = defn.replace('"', "")
+                            file.write(f'def: "{defn}" []\n')
+                        for p in get_parents_iter(e):
+                            file.write(f"is_a: {p} ! {get_label(p)}\n")
+                        file.write("\n")
         df = pd.DataFrame(rows)
         if self.config.clique_directory:
             df.to_csv(Path(self.config.clique_directory) / "clique_results.csv", index=False)

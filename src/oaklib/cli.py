@@ -3849,6 +3849,8 @@ def crawl(
 
     Documentation for this command will be provided in a separate notebook.
     """
+    if directory and not whole_ontology:
+        raise click.UsageError("Cannot use --directory without --whole-ontology")
     # TODO: normalize this option; avoid confusing with 'config'
     stylemap_configure = configure
     impl = settings.impl
@@ -6167,6 +6169,12 @@ def cache_clear(days_old: int):
     multiple=True,
     help="E.g. WordOrderNormalization",
 )
+@click.option(
+    "--exclude-self-matches/--no-exclude-self-matches",
+    default=False,
+    show_default=True,
+    help="If true, do not report matches between the same id space",
+)
 @output_option
 @click.argument("terms", nargs=-1)
 def lexmatch(
@@ -6179,6 +6187,7 @@ def lexmatch(
     add_pipeline_step,
     terms,
     exclude_mapped,
+    exclude_self_matches,
 ):
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
@@ -6286,6 +6295,7 @@ def lexmatch(
         objects=objects,
         prefix_map=prefix_map,
         ensure_strict_prefixes=ensure_strict_prefixes,
+        exclude_self_matches=exclude_self_matches,
     )
     # TODO: coordinate with sssom-py to have simpler ways of filtering, no reliance on pandas
     if exclude_mapped and not msdf.df.empty:

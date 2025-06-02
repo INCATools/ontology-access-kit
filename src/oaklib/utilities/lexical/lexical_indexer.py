@@ -261,6 +261,7 @@ def lexical_index_to_sssom(
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
     ensure_strict_prefixes: bool = False,
+    exclude_self_matches: bool = False,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
@@ -294,7 +295,11 @@ def lexical_index_to_sssom(
             continue
         logging.debug(f"Processing {term} with {len(elementmap.keys())} elements")
         for e1 in elementmap:
+            e1_prefix = e1.split(":")[0]
             for e2 in elementmap:
+                e2_prefix = e2.split(":")[0]
+                if exclude_self_matches and e1_prefix == e2_prefix:
+                    continue
                 for r1 in elementmap[e1]:
                     if subjects and r1.element not in subjects:
                         continue
