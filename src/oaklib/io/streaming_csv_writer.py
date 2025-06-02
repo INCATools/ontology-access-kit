@@ -9,6 +9,7 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 
 import oaklib.datamodels.summary_statistics_datamodel as summary_stats
 from oaklib.datamodels import obograph
+from oaklib.datamodels.association import PositiveOrNegativeAssociation
 from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
@@ -162,6 +163,13 @@ class StreamingCsvWriter(StreamingWriter):
                 [f"{r.propertyId}={r.fillerId}" for r in original.restrictions]
             )
             del obj_as_dict["meta"]
+        if isinstance(original, PositiveOrNegativeAssociation):
+            if "property_values" in obj_as_dict:
+                del obj_as_dict["property_values"]
+                obj_as_dict["property_values"] = {
+                    pv.predicate: pv.value_or_object for pv in original.property_values
+                }
+
         if isinstance(original, obograph.DisjointClassExpressionsAxiom):
             # obj_as_dict["classIds"] = original.classIds
             obj_as_dict["classExpressionPropertyIds"] = [

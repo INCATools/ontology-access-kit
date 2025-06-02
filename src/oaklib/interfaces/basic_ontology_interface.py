@@ -801,7 +801,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 yield candidate
             return
         for curie in self.entities(owl_type=OWL_CLASS):
-            if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
+            if not id_prefixes or get_curie_prefix(curie) in id_prefixes:
                 candidates.append(curie)
         logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
@@ -809,12 +809,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 continue
             if ignore_owl_thing and object == OWL_THING:
                 continue
-            if not (id_prefixes is None or get_curie_prefix(object) in id_prefixes):
+            if not (not id_prefixes or get_curie_prefix(object) in id_prefixes):
                 continue
             # if object not in all_curies:
             #    continue
             if subject in candidates:
-                if predicates is None or pred in predicates:
+                if not predicates or pred in predicates:
                     candidates.remove(subject)
                     logging.debug(f"Not a root: {subject} [{pred} {object}]")
         if filter_obsoletes:

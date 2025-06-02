@@ -11,6 +11,7 @@ import sssom_schema as sssom
 import yaml
 from linkml_renderer.style.model import RenderRule
 from sssom.constants import SEMAPV, SKOS_EXACT_MATCH
+from sssom.parsers import parse_sssom_table
 
 from oaklib import get_implementation_from_shorthand
 from oaklib.cli import _get_writer, output_option, output_type_option
@@ -26,6 +27,7 @@ from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.parsers.boomer_parser import BoomerParser
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.mapping.ptable_utils import mappings_to_ptable
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 
 logger = logging.getLogger(__name__)
@@ -256,6 +258,38 @@ def main(verbose: int, quiet: bool, prefix_map):
         with open(prefix_map) as f:
             global global_prefix_map
             global_prefix_map = yaml.safe_load(f)
+
+
+@main.command()
+@click.option(
+    "--ensure-confidence/--no-ensure-confidence",
+    default=False,
+    show_default=True,
+    help="Ensure that all mappings have a confidence value",
+)
+@click.argument("input_sssom")
+def ptable(input_sssom, ensure_confidence: bool = True):
+    """
+    Converts a boomer SSSOM file to a ptable.
+
+    Example:
+    -------
+        boomerang ptable tests/input/boomer-example.sssom.tsv
+    """
+    msdf = parse_sssom_table(input_sssom)
+    mappings = msdf.to_mappings()
+    if ensure_confidence:
+        bad_mappings = [m for m in mappings if m.confidence is None]
+        if bad_mappings:
+            for m in bad_mappings:
+                logger.warning(
+                    f"Mapping {m.subject_id} {m.predicate_id} {m.object_id} has no confidence"
+                )
+            raise ValueError(f"Some mappings do not have a confidence value: {len(bad_mappings)}")
+    for row in mappings_to_ptable(mappings):
+        if row is None:
+            continue
+        print("\t".join([str(x) for x in row]))
 
 
 @main.command()

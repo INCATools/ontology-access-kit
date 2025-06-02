@@ -30,6 +30,9 @@ default_range: string
 
 classes:
 
+  Any:
+    class_uri: linkml:Any
+
   PositiveOrNegativeAssociation:
     abstract: true
     slots:
@@ -71,7 +74,7 @@ classes:
     description: A generic tag-value that can be associated with an association.
     slots:
       - predicate
-      - object
+      - value_or_object
 
   RollupGroup:
     slots:
@@ -192,6 +195,8 @@ slots:
     range: string
     mixins:
       - denormalized_slot
+  value_or_object:
+    range: Any
   core_triple:
     description: A grouping slot for the core subject-predicate-object triple
     is_grouping_slot: true

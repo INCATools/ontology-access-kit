@@ -780,6 +780,11 @@ def graph_to_tree_display(
                     for x in meta.xrefs:
                         node_info += f" {x.val}"
                     node_info += " ]"
+                if (show_all or "a" in display_options) and meta.basicPropertyValues:
+                    node_info += " ["
+                    for pv in meta.basicPropertyValues:
+                        node_info += f" {pv.pred}={pv.val}"
+                    node_info += " ]"
         if n in seeds:
             node_info = f"**{node_info}**"
         output.write(node_info)

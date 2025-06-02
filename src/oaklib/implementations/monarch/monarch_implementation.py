@@ -6,7 +6,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional
 import requests_cache
 
 from oaklib.datamodels import obograph
-from oaklib.datamodels.association import Association
+from oaklib.datamodels.association import Association, NegatedAssociation, PropertyValue
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IN_TAXON
 from oaklib.interfaces import OboGraphInterface, SearchInterface
@@ -76,6 +76,9 @@ class MonarchImplementation(
         obj = response.json()
         total = obj["total"]
         logger.debug(f"Got {len(obj['items'])} of {total}")
+        mappings = {
+            "has_evidence": "evidence_type",
+        }
         keys = [
             "subject",
             "subject_label",
@@ -84,16 +87,54 @@ class MonarchImplementation(
             "object_label",
             "aggregator_knowledge_source",
             "primary_knowledge_source",
+            "evidence_type",
+        ]
+        exclude_keys_from_pv = [
+            "grouping_key",
+            "subject_closure",
+            "subject_closure_label",
+            "object_closure",
+            "object_closure_label",
+            "frequency_qualifier_category",
+            "has_evidence_links",
+            "category",
+            "provided_by_link",
+            "frequency_qualifier_namespace",
+            "id",
+            "evidence_count",
+            "subject_category",
+            "object_category",
+            "subject_namespace",
+            "object_namespace",
+            "negated",
         ]
         for item in obj["items"]:
+            for map_from, map_to in mappings.items():
+                if map_from in item:
+                    item[map_to] = item[map_from]
+                    del item[map_from]
 
             def _get(k, item=item):
                 v = item.get(k, None)
                 if isinstance(v, list):
-                    return v[0]
+                    if v:
+                        return v[0]
+                    else:
+                        return None
                 return v
 
-            yield Association(**{k: _get(k) for k in keys})
+            pvs = [
+                PropertyValue(k, _get(k))
+                for k in item.keys()
+                if k not in keys and k not in exclude_keys_from_pv
+            ]
+            c = Association
+            if item.get("negated", False):
+                c = NegatedAssociation
+            yield c(
+                **{k: _get(k) for k in keys},
+                property_values=[pv for pv in pvs if pv.value_or_object is not None],
+            )
         if offset + limit < total:
             time.sleep(1)
             yield from self._associations_from_url(url, offset=offset + limit, limit=limit)
