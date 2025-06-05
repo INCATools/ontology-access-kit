@@ -855,7 +855,7 @@ def obsoletes(
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Obsoletes.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Obsoletes.ipynb
 
     Python API:
 
@@ -1953,7 +1953,7 @@ def paths(
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Paths.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Paths.ipynb
 
     """
     impl = settings.impl
@@ -3231,7 +3231,7 @@ def relationships(
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Relationships.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Relationships.ipynb
 
     Python API:
 
@@ -3405,7 +3405,7 @@ def logical_definitions(
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/LogicalDefinitions.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/LogicalDefinitions.ipynb
 
     Python API:
 
@@ -3990,7 +3990,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Mappings.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Mappings.ipynb
 
     """
     impl = settings.impl
@@ -4341,7 +4341,7 @@ def taxon_constraints(
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TaxonConstraints.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/TaxonConstraints.ipynb
 
     This command is a wrapper onto taxon_constraints_utils:
 
@@ -4415,7 +4415,7 @@ def apply_taxon_constraints(
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Apply.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Apply.ipynb
 
     """
     impl = settings.impl
@@ -4634,7 +4634,7 @@ def associations(
 
     More examples:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Associations.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Associations.ipynb
 
     """
     impl = settings.impl
@@ -5327,7 +5327,7 @@ def enrichment(
 
     For a full example, see:
 
-       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Enrichment.ipynb
+       https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Enrichment.ipynb
 
     Note that it is possible to run "pseudo-enrichments" on term lists only by passing
     no associations and using --ontology-only. This creates a fake association set that is simply

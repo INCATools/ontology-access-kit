@@ -28,7 +28,7 @@ Each command typically comes with some examples of use
 How do I get more examples of command line usage?
 -------------------------------------------------
 
-See the ``Commands <https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands>`_ folder
+See the ``Commands <https://github.com/INCATools/ontology-access-kit/tree/main/docs/examples/Commands>`_ folder
 of the Jupyter notebooks directory in GitHub. Our aim is to eventually have one notebook per command.
 
 I want to query an ontology, what do I pass for the ``--input`` option?

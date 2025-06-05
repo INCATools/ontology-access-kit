@@ -358,7 +358,7 @@ See the `Similarity data model <https://w3id.org/oak/similarity/>`_ for details 
 Companion Notebooks
 -------------------
 
-See the notebook for the `termset-similarity Command <https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TermsetSimilarity.ipynb`_
+See the notebook for the `termset-similarity Command <https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/TermsetSimilarity.ipynb`_
 
 Further reading
 ---------------
