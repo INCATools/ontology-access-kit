@@ -30,7 +30,7 @@ Mappings in OAK
 
 To see all mappings for a concept or concept, you can use the mappings command.
 
-See the `Notebook example on mappings <https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Mappings.ipynb>`_.
+See the `Notebook example on mappings <https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Mappings.ipynb>`_.
 
 .. code-block:: bash
 

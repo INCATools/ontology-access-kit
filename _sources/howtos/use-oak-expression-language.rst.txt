@@ -15,7 +15,7 @@ Some experience in using the CLI is recommended.
 For the full list of OAK command line commands, see:
 
 - :ref:`_command_line_interface`
-- `Commands notebook <https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands>`_
+- `Commands notebook <https://github.com/INCATools/ontology-access-kit/tree/main/docs/examples/Commands>`_
 
 Basics
 ------
