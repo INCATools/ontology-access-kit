@@ -464,7 +464,7 @@ class ComplianceTester:
             mappings = [
                 (m.subject_id, m.predicate_id, m.object_id) for m in oi.sssom_mappings(curies)
             ]
-            print(mappings)
+            logging.info(mappings)
             expected = [
                 ("X:0000001", "oio:hasDbXref", "Y:1"),
                 ("X:0000001", "skos:exactMatch", "schema:Person"),
@@ -873,13 +873,13 @@ class ComplianceTester:
         ]
 
         for chain_query, included, excluded in cases:
-            print(f"Q={chain_query} I={included} E={excluded}")
+            logging.info(f"Q={chain_query} I={included} E={excluded}")
             chains = list(oi.chains(chain_query))
-            print(f". RESULTS={chains}")
-            # print(len(chains))
+            logging.info(f". RESULTS={chains}")
+            # logging.info(len(chains))
             tuples_chains = []
             for chain in chains:
-                # print(chain)
+                # logging.info(chain)
                 tuple_chain = []
                 for e in chain:
                     tuple_chain.append((e.sub, e.pred, e.obj))
@@ -1080,7 +1080,7 @@ class ComplianceTester:
         merged_entities = set(target.entities(owl_type=OWL_CLASS))
         diff = merged_entities.difference(target_entities.union(source_entities))
         for x in diff:
-            print(x)
+            logging.info(x)
         test.assertCountEqual(target_entities.union(source_entities), merged_entities)
         in_both = target_entities.intersection(source_entities)
         test.assertIn(CELL, in_both)
@@ -1184,8 +1184,8 @@ class ComplianceTester:
                 n_unexpected += 1
             ch.type = type(ch).__name__
         for e in expected:
-            print("Expected not found:")
-            print(yaml_dumper.dumps(e))
+            logging.info("Expected not found:")
+            logging.info(yaml_dumper.dumps(e))
         test.assertEqual(0, len(expected), f"Expected changes not found: {expected}")
         expected_rev = [
             kgcl.NewSynonym(
@@ -1235,8 +1235,8 @@ class ComplianceTester:
                     n_unexpected += 1
             ch.type = type(ch).__name__
         for e in expected_rev:
-            print("Expected (reversed) not found:")
-            print(yaml_dumper.dumps(e))
+            logging.info("Expected (reversed) not found:")
+            logging.info(yaml_dumper.dumps(e))
         test.assertEqual(0, len(expected_rev), f"Expected changes not found: {expected_rev}")
         test.assertEqual(0, n_unexpected, f"Unexpected changes: {n_unexpected}")
         # test diff summary
@@ -1252,7 +1252,7 @@ class ComplianceTester:
             ("EdgeDeletion", 5),
         ]
         for typ, expected in cases:
-            print(typ)
+            logging.info(typ)
             test.assertEqual(expected, residual[typ])
 
     def test_as_obograph(self, oi: OboGraphInterface):
@@ -1726,7 +1726,7 @@ class ComplianceTester:
                 continue
             # expanded_changes = oi.expand_changes(changes, apply=False)
             # for change in expanded_changes:
-            #    print(json_dumper.dumps(change))
+            #    logging.info(json_dumper.dumps(change))
             expanded_changes = oi.expand_changes(changes, apply=True)
             logging.info(f"Expanded changes: {len(expanded_changes)}")
             test.assertGreater(len(expanded_changes), 1)
@@ -2150,7 +2150,7 @@ class ComplianceTester:
             use_associations=use_associations,
         ):
             m[curie] = score
-            print(f"{curie} IC= {score}")
+            logging.info(f"{curie} IC= {score}")
         test.assertGreater(len(m), 0)
         if use_associations:
             # test.assertEqual(m[CELLULAR_COMPONENT], 0.0, "all genes are under cell component")
@@ -2159,7 +2159,7 @@ class ComplianceTester:
             test.assertLess(m[NUCLEAR_ENVELOPE], 1.0)
         # universal root node always has zero information content
         for k, v in m.items():
-            print(f"{k} IC= {v}")
+            logging.info(f"{k} IC= {v}")
         test.assertEqual(m[OWL_THING], 0.0)
         for child, parent in posets:
             if use_associations:
@@ -2272,7 +2272,7 @@ class ComplianceTester:
             anns = sorted(anns, key=lambda x: x.subject_start)
             test.assertEqual(n, len(anns))
             for i, ann in enumerate(anns):
-                print(ann)
+                logging.info(ann)
                 object_id, object_label, subject_start, subject_end = expected[i]
                 test.assertEqual(object_id, ann.object_id)
                 test.assertEqual(object_label, ann.object_label)
