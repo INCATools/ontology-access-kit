@@ -35,13 +35,13 @@ dependencies = [
     "pysolr>=3.9.0,<4",
     "eutils>=0.6.0",
     "requests-cache>1.0.1,<2",
-    "click<8.2", #TODO: This needs to be pegged to below 8.2 because click removed the mix_stderr parameter which in our tests.
+    "click<8.2", #TODO: This currently needs to be downgraded to below 8.2 because click removed the mix_stderr parameter which in our tests.
     "pydantic",
     "jsonlines",
     "tenacity>=8.2.3",
     "defusedxml>=0.7.1",
     "ruamel.yaml",
-    "setuptools",
+    "setuptools<82", #TODO: This currently needs to be downgraded because we still import pkg_resources, which is no longer supported. Should be replaced by importlib (https://setuptools.pypa.io/en/latest/history.html#v82-0-0)
 ]
 
 [dependency-groups]
