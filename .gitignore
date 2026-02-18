@@ -32,3 +32,4 @@ oak_semsimian_hp.profile
 notebooks/demo.tsv
 tests/input/obo_conf.yaml
 tests/input/obojson_conf.yaml
+uv.lock
