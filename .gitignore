@@ -33,4 +33,5 @@ notebooks/demo.tsv
 tests/input/obo_conf.yaml
 tests/input/obojson_conf.yaml
 uv.lock
+poetry.lock
 .panther_requests_cache.sqlite
