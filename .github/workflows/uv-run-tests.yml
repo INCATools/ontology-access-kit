@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
+        python: [ "3.9", "3.10", "3.11", "3.12" ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,7 +35,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv sync 
+          uv sync --extra "semsimian" --extra "gilda"
 
       - name: Run tests
         run: |

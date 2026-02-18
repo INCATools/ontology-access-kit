@@ -5,6 +5,7 @@
 name: Build and test
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
@@ -28,12 +29,12 @@ jobs:
       - name: Check code quality with ruff
         run: tox -e lint
 
-  test:
+  test_with_poetry:
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        python-version: [ "3.9", "3.10", "3.11" ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12" ]
         exclude:
           - os: windows-latest
             python-version: "3.9"
@@ -80,8 +81,8 @@ jobs:
       #----------------------------------------------
       - name: Install dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: |
-          poetry add setuptools@latest
+        run:
+#          poetry add setuptools@latest
           poetry install --no-interaction --no-root
 
       #----------------------------------------------
