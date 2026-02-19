@@ -99,11 +99,8 @@ semsimian = ["semsimian>=0.2.18"]
 
 [tool.uv.sources]
 linkml = [
-#    { git = "https://github.com/linkml/linkml.git", tag="1.10.0rc4", marker = "python_version=='3.10'" },
-#    { git = "https://github.com/linkml/linkml.git", rev = "main", subdirectory="packages/linkml", marker = "python_version=='3.10'" },
-    { git = "https://github.com/linkml/linkml.git", rev = "main", subdirectory="packages/linkml", marker = "python_version=='3.11'" },
     { git = "https://github.com/linkml/linkml.git", rev = "main", subdirectory="packages/linkml", marker = "python_version=='3.12'" },
-    #Linkml 1.10 isn't on 3.9
+    #Linkml 1.10 isn't on 3.9.
 ]
 #TODO: Remove this once linkml 1.10 is released on pypi; linkml 1.09 throws too many errors and makes going through error logs difficult
 
