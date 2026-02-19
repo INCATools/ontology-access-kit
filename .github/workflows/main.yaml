@@ -29,7 +29,7 @@ jobs:
       - name: Check code quality with ruff
         run: tox -e lint
 
-  test_with_poetry:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -121,7 +121,7 @@ jobs:
           file: ./coverage.xml
           fail_ci_if_error: false
 
-  uv_test:
+  test_with_uv:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
@@ -144,7 +144,7 @@ jobs:
       - name: setup python environment
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.python }}
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
