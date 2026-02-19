@@ -23,20 +23,20 @@ URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Thing](Thing.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 | [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
 | [Agent](Agent.md) |  |  no  |
-| [Ontology](Ontology.md) | An OWL ontology |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Image](Image.md) |  |  no  |
 | [NamedObject](NamedObject.md) | Anything with an IRI |  no  |
 | [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Thing](Thing.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 

@@ -16,7 +16,7 @@ dependencies = [
     "SQLAlchemy>=1.4.32",
     "linkml-runtime>=1.5.3",
     "linkml-renderer>=0.3.0",
-    "linkml",
+    "linkml<1.9",
     "networkx>=2.7.1",
     "sssom>=0.4.4,<1",
     "ratelimit>=2.2.1",
@@ -96,6 +96,13 @@ llm = [
 ]
 seaborn = ["seaborn"]
 semsimian = ["semsimian>=0.2.18"]
+
+[tool.uv.sources]
+linkml = [
+    { git = "https://github.com/linkml/linkml.git", rev = "main", subdirectory="packages/linkml", marker = "python_version=='3.12'" },
+    #Linkml 1.10 isn't on 3.9.
+]
+#TODO: Remove this once linkml 1.10 is released on pypi; linkml 1.09 throws too many errors and makes going through error logs difficult
 
 [tool.black]
 line-length = 100

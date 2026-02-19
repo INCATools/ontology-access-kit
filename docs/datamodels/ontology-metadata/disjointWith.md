@@ -23,12 +23,12 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Class](Class.md) |  |  no  |
 | [ClassExpression](ClassExpression.md) |  |  no  |
-| [PropertyExpression](PropertyExpression.md) |  |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Class](Class.md) |  |  no  |
 | [Restriction](Restriction.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [PropertyExpression](PropertyExpression.md) |  |  no  |
 
 
 

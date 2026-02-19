@@ -35,4 +35,3 @@ tests/input/obojson_conf.yaml
 uv.lock
 poetry.lock
 .panther_requests_cache.sqlite
-docs/datamodels/ontology-metadata/alternative_term.md
