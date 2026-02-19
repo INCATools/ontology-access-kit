@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-n-publish-dry-run:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI
+    name: Build and publish Python 🐍 distributions 📦 to PyPI (DRY RUN)
     runs-on: ubuntu-latest
 
     steps:
@@ -34,9 +34,9 @@ jobs:
         poetry build
 
 
-    - name: Publish package to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: "TEST_PASSWORD"
-        repository-url: https://test.pypi.org/legacy/
+#    - name: Publish package to TestPyPI
+#      uses: pypa/gh-action-pypi-publish@release/v1
+#      with:
+#        password: "TEST_PASSWORD"
+#        repository-url: https://test.pypi.org/legacy/
     
