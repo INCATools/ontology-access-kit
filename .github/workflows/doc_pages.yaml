@@ -1,5 +1,6 @@
 name: Sphinx Documentation
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 
@@ -13,7 +14,7 @@ jobs:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
     
     - name: Set up Python 3.
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v6.2.0
       with:
         python-version: 3.9
 
