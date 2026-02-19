@@ -5,7 +5,7 @@ description = "Ontology Access Kit: Python library for common ontology operation
 authors = [
     {name="Chris Mungall", email="cjm@berkeleybop.org"}
 ]
-requires-python = ">=3.9,<4,<3.13"# TODO: needs to be downgraded below 3.13 because semsimian doesn't have a 3.13 wheel.
+requires-python = ">=3.10,<4,<3.13"# TODO: needs to be downgraded below 3.13 because semsimian doesn't have a 3.13 wheel.
 license = "Apache-2.0"
 readme = "README.md"
 
@@ -96,6 +96,11 @@ llm = [
 ]
 seaborn = ["seaborn"]
 semsimian = ["semsimian>=0.2.18"]
+
+[tool.uv.sources]
+linkml = [
+    { git = "https://github.com/linkml/linkml.git", rev = "main", subdirectory="packages/linkml"},
+]
 
 [tool.black]
 line-length = 100
