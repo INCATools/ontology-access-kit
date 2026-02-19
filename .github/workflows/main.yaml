@@ -122,12 +122,16 @@ jobs:
           fail_ci_if_error: false
 
   uv_test:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [ "3.9", "3.10", "3.11", "3.12" ]
-        windows-latest
+        os: [ ubuntu-latest, windows-latest ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12" ]
+        exclude:
+          - os: windows-latest
+            python-version: "3.9"
+
+    runs-on: ${{ matrix.os }}
+
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
