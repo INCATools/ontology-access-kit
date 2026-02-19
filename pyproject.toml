@@ -16,7 +16,7 @@ dependencies = [
     "SQLAlchemy>=1.4.32",
     "linkml-runtime>=1.5.3",
     "linkml-renderer>=0.3.0",
-    "linkml",
+    "linkml<1.9",
     "networkx>=2.7.1",
     "sssom>=0.4.4,<1",
     "ratelimit>=2.2.1",
@@ -81,6 +81,7 @@ docs = [
     "sphinx-rtd-theme>=1.0.0,<2",
     "sphinxcontrib-mermaid>=0.8.1,<1",
     "sphinx-copybutton==0.5.1",
+    "linkml<1.9", #TODO: gen-doc fails with linkml>1.9 -- specifically  gen-doc --dialect myst  src/oaklib/datamodels/ontology_metadata.yaml -d docs/datamodels/ontology-metadata/
 ]
 gilda = [
     "scipy", 

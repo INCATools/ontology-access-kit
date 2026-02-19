@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python 3.
       uses: actions/setup-python@v6.2.0
       with:
-        python-version: 3.9
+        python-version: 3.9 #Right now this is slightly load bearing until the custom linkml link is taken out of the pyproject.
 
 #    - name: Install Poetry.
 #      uses: snok/install-poetry@v1.3
