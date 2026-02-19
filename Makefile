@@ -1,4 +1,4 @@
-RUN = poetry run
+RUN = uv run
 
 test:
 	$(RUN) python -m unittest tests/test_*py tests/*/test_*py
@@ -32,7 +32,7 @@ src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml
 src/oaklib/datamodels/%.owl.ttl: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-owl --no-metaclasses --no-type-objects $< > $@.tmp && mv $@.tmp $@
 
-RUN_GENDOC = $(RUN) gen-doc --dialect myst
+RUN_GENDOC = $(RUN) --with "linkml<1.9" gen-doc --dialect myst
 gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc gendoc-itemlist gendoc-ce
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml

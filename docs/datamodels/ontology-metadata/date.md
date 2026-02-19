@@ -1,22 +1,57 @@
-# Type: Date
+
+
+# Slot: date
+
+
+_when the term was updated_
 
 
 
 
-_a date (year, month and day) in an idealized calendar_
+
+URI: [dcterms:date](http://purl.org/dc/terms/date)
 
 
 
-URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
 
-* [base](https://w3id.org/linkml/base): XSDDate
+## Inheritance
 
-* [uri](https://w3id.org/linkml/uri): xsd:date
-
-* [repr](https://w3id.org/linkml/repr): str
+* [provenance_property](provenance_property.md)
+    * **date**
 
 
 
+
+
+
+## Applicable Classes
+
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Class](Class.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Image](Image.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+
+
+
+
+
+
+
+## Properties
+
+* Range: [String](String.md)
+
+* Multivalued: True
 
 
 
@@ -48,3 +83,24 @@ URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: date
+description: when the term was updated
+from_schema: https://w3id.org/oak/ontology-metadata
+close_mappings:
+- pav:authoredOn
+rank: 1000
+is_a: provenance_property
+slot_uri: dcterms:date
+alias: date
+domain_of:
+- HasProvenance
+range: string
+multivalued: true
+
+```
+</details>
