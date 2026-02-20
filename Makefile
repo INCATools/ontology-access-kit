@@ -53,7 +53,7 @@ install-with-docs:
 .PHONY: get-pandoc
 get-pandoc:
 	#This is needed to generate for nbsphinx;
-	#It's  our only dependancy we can't get through UV.
+	#It's our only dependency we can't get through UV.
 	sudo apt update
 	sudo apt install -y pandoc
 	pandoc --version
