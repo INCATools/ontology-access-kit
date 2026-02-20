@@ -1,8 +1,8 @@
 INSTALL = uv sync
 RUN = uv run
 
-.PHONY: test
-test:
+.PHONY: tests
+tests:
 	$(INSTALL) --dev --extra "semsimian" --extra "gilda"
 	$(RUN) pytest tests/
 
