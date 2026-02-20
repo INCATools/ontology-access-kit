@@ -26,19 +26,19 @@ jobs:
       run: uv sync --extra "docs"
     
     - name: Install pandoc 
-      run: uv run make get-pandoc
+      run: make get-pandoc
        
     - name: Prep ./gh-pages directory
-      run: uv run make prep-gh-pages-dir
+      run: make prep-gh-pages-dir
 
     - name: Run all gendoc commands
-      run: uv run make run-all-gendoc-cmds 
+      run: make run-all-gendoc-cmds 
 
     - name: Execute sphinx-build
-      run: uv run make sphinx-cmd
+      run: make sphinx-cmd
 
     - name: Stage docs
-      run: uv run make stage-docs
+      run: make stage-docs
 
     - name: Deploy documentation.
       if: ${{ github.event_name == 'push' }}

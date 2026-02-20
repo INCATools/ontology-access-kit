@@ -149,8 +149,8 @@ run_benchmark: benchmarks profiles
 
 .PHONY: benchmarks
 benchmarks:
-	time $(RUN) -m cProfile -o $(SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
-	time $(RUN) -m cProfile -o $(NON_SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+	time $(RUN) python -m cProfile -o $(SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+	time $(RUN) python -m cProfile -o $(NON_SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
 
 .PHONY: profiles
 profiles:
