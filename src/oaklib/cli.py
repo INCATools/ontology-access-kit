@@ -7,7 +7,6 @@ Executed using "runoak" command
 
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
-from linkml._version import __version__
 import json
 import logging
 import statistics as stats
@@ -31,6 +30,7 @@ import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
 from kgcl_schema.datamodel import kgcl
+from linkml._version import __version__
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.introspection import package_schemaview
@@ -494,7 +494,7 @@ def _apply_changes(impl, changes: List[kgcl.Change]):
 
 
 @click.group()
-@click.version_option(__version__,"-V","--version")
+@click.version_option(__version__, "-V", "--version")
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet/--no-quiet")
 @click.option(
