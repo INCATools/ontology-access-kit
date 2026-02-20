@@ -23,8 +23,8 @@ URI: [biolink:publications](https://w3id.org/biolink/vocab/publications)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 | [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
 | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 
