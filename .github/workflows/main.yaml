@@ -153,7 +153,7 @@ jobs:
 
       - name: Run tests
         run: |
-         uv run pytest tests/*
+         make tests
         shell: bash
         env:
           BIOPORTAL_API_KEY: ${{ secrets.BIOPORTAL_API_KEY }}

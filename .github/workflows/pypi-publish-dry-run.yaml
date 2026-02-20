@@ -13,26 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6.0.2
 
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v6.2.0
       with:
         python-version: 3.12
 
-    - name: Install Poetry
-      run: |
-        pip install --upgrade pip
-        pip install poetry
-
-    - name: Install dependencies
-      run: poetry install --no-interaction
-
     - name: Build source and wheel archives
       run: |
-        poetry version $(git describe --tags --abbrev=0)
-        poetry build
-
+        make build-whl
 
 #    - name: Publish package to TestPyPI
 #      uses: pypa/gh-action-pypi-publish@release/v1
