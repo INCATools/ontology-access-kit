@@ -20,8 +20,6 @@
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="_static/copybutton.js?v=046fa432"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -370,6 +368,7 @@ You should get the same results by running:</p>
 <blockquote>
 <div><p>runoak viz -h</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -537,6 +536,7 @@ oboInOwl, etc)</p>
 <p>If you know the synonyms follow the OBO/oboInOwl datamodel you can pass –obo-model, this will give back
 richer data if present in the ontology, including synonym categories/types, synonym provenance</p>
 <p>In future, this may become the default</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>aliases<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -598,6 +598,7 @@ For example, constrained to is-a and part-of:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ancestors<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -703,6 +704,7 @@ subject_start: 0</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/text-annotator">https://w3id.org/oak/text-annotator</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>annotate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>WORDS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -819,6 +821,7 @@ subject_start: 0</p>
 <li><p>for some ontologies, CURIEs may not work, instead specify a full URI surrounded by &lt;&gt;s</p></li>
 <li><p>only a subset of KGCL commands are supported by each backend</p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>apply<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>COMMANDS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -922,6 +925,7 @@ obsolete them all:</p>
 <div><p>runoak -i my.db search ‘l/^Foo/` | runoak -i my.db –autosave apply-obsolete -</p>
 </div></blockquote>
 <p>This command is partially redundant with the more general “apply” command</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>apply-obsolete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -991,6 +995,7 @@ This should follow the format used in <a class="reference external" href="https:
 <blockquote>
 <div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Apply.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Apply.ipynb</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>apply-taxon-constraints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1060,6 +1065,7 @@ can use input specifications to bundle common combinations of inputs together.</
 <blockquote>
 <div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Associations.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Associations.ipynb</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1211,6 +1217,7 @@ for particular databases.</p>
 <p>Other options:</p>
 <p>This command accepts many of the same options as the associations command, see
 the docs for this command for details.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations-counts<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1345,6 +1352,7 @@ the GO ontology to fill out the graph, following is-a and part-of relationships.
 <blockquote>
 <div><p>runoak -i amigo: associations-graph -p i,p -A sqlite:obo:go -Q subject WB:WBGene00001187 –gap-fill –view</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations-graph<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1458,6 +1466,7 @@ use the –main-score-field (-S) option, with “1” or “2”.</p>
 <blockquote>
 <div><p>runoak –stacktrace  -i amigo:NCBITaxon:9606 associations-matrix -p i,p .idfile cp.txt &#64; .idfile ct.txt</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations-matrix<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1561,6 +1570,7 @@ use the –main-score-field (-S) option, with “1” or “2”.</p>
 <div><p>runoak -i cl.ofn axiom –axiom-type SubClassOf</p>
 </div></blockquote>
 <p>Note this currently only works with the funowl adapter, on functional syntax files</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>axioms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1606,6 +1616,7 @@ use the –main-score-field (-S) option, with “1” or “2”.</p>
 <section id="runoak-cache-clear">
 <h4>cache-clear<a class="headerlink" href="#runoak-cache-clear" title="Link to this heading"></a></h4>
 <p>Clear the contents of the pystow oaklib cache.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>cache-clear<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -1625,6 +1636,7 @@ use the –main-score-field (-S) option, with “1” or “2”.</p>
 <section id="runoak-cache-ls">
 <h4>cache-ls<a class="headerlink" href="#runoak-cache-ls" title="Link to this heading"></a></h4>
 <p>List the contents of the pystow oaklib cache.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>cache-ls<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -1646,6 +1658,7 @@ use the –main-score-field (-S) option, with “1” or “2”.</p>
 <blockquote>
 <div><p>cl chains /i /d “stem cell”</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>chains<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1690,6 +1703,7 @@ provide mappings between terms. No single ontology is likely to have a complete 
 Using crawl, you can walk across the union of mappings in all ontologies, with custom rules
 for each ontology (e.g. normalizing prefixes).</p>
 <p>Documentation for this command will be provided in a separate notebook.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>crawl<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1831,6 +1845,7 @@ for each ontology (e.g. normalizing prefixes).</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1935,6 +1950,7 @@ predicates are not specified</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>descendants<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2021,6 +2037,7 @@ will be “__RESIDUAL__”</p>
 <p>Limitations:</p>
 <p>This does not do a diff over every axiom in each ontology. For a complete OWL diff, you should
 use ROBOT.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -2120,6 +2137,7 @@ use ROBOT.</p>
 </div></blockquote>
 <p>See <a class="reference external" href="https://w3id.org/oak/association">https://w3id.org/oak/association</a> for the diff data model.</p>
 <p>NOTE: This functionality may move out of core</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff-associations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -2194,6 +2212,7 @@ use ROBOT.</p>
 <h4>diff-terms<a class="headerlink" href="#runoak-diff-terms" title="Link to this heading"></a></h4>
 <p>Compares a pair of terms in two ontologies</p>
 <p>EXPERIMENTAL</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff-terms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2242,6 +2261,7 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <p>The output from this command follows the cross-ontology-diff data model
 (<a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html">https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html</a>)</p>
 <p>This can be serialized in YAML or TSV form</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff-via-mappings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2376,6 +2396,7 @@ disjoint unions, and disjoints involving simple class expressions.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/obograph">https://w3id.org/oak/obograph</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>disjoints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2453,6 +2474,7 @@ to avoid killer queries.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>dump<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2518,6 +2540,7 @@ reported.</p>
 no associations and using –ontology-only. This creates a fake association set that is simply
 reflexive relations between each term and itself. This can be useful for summarizing term lists,
 but note that P-values may not be meaningful.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>enrichment<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2624,6 +2647,7 @@ but note that P-values may not be meaningful.</p>
 <blockquote>
 <div><p>runoak -i db/pato.db expand-subsets attribute_slim value_slim</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>expand-subsets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>SUBSETS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2682,6 +2706,7 @@ as –no-dangling is the default</p>
 <div><p>runoak -i cl.db extract .idfile seed.txt -O owl -o neuron.owl.ttl</p>
 </div></blockquote>
 <p>Allowed formats include: obo, obographs, owl/ttl, fhirjson</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>extract<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -2815,6 +2840,7 @@ for now please file an issue on github with any questions</p>
 <li><p>TODO: add logical for obsoletion/replaced by</p></li>
 <li><p>TODO: use most optimized method for whichever backend</p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>fill-table<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TABLE_FILE
 </pre></div>
 </div>
@@ -2925,6 +2951,7 @@ for now please file an issue on github with any questions</p>
 <div><p>“The pancake, a humble delight in the realm of breakfast fare,
 presents itself as a delectable disc of gastronomic delight…”</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3000,6 +3027,7 @@ presents itself as a delectable disc of gastronomic delight…”</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:zfa generate-disjoints -O obo p i,p</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-disjoints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3085,6 +3113,7 @@ applied. Pass the <cite>–patch</cite> argument to lso get the patch file in KG
 <p>see <a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a>.</p>
 <p>Note: this command is very similar to generate-synonyms, but the main use case here
 is replacing terms, and applying rules to other elements such as definitions</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-lexical-replacements<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3147,6 +3176,7 @@ is replacing terms, and applying rules to other elements such as definitions</p>
 <section id="runoak-generate-logical-definitions">
 <h4>generate-logical-definitions<a class="headerlink" href="#runoak-generate-logical-definitions" title="Link to this heading"></a></h4>
 <p>Generate logical definitions based on patterns file.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-logical-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3258,6 +3288,7 @@ applied. Pass the <cite>–patch</cite> argument to lso get the patch file in KG
 <div><p>runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl</p>
 </div></blockquote>
 <p>see <a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a>.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-synonyms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3352,6 +3383,7 @@ as queries that can be combined using boolean logic</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:stato info .desc//p=i ‘statistical hypothesis test’</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3397,6 +3429,7 @@ the number of reflexive is-a descendants of the term divided by total number of 
 <blockquote>
 <div><p>runoak -g hpoa.tsv -G hpoa -i hp.db information-content -p i –use-associations .all</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>information-content<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3472,6 +3505,7 @@ a particular language.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/labels">https://incatools.github.io/ontology-access-kit/interfaces/labels</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>labels<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3543,6 +3577,7 @@ a particular language.</p>
 <blockquote>
 <div><p>runoak languages</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>languages<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -3561,6 +3596,7 @@ Note that the default is to return the roots of the relation graph over <em>all<
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a>.html#
 oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>leafs<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -3636,6 +3672,7 @@ will be reused.</p>
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/src/oaklib.utilities.lexical.lexical_indexer">https://incatools.github.io/ontology-access-kit/packages/src/oaklib.utilities.lexical.lexical_indexer</a>.html#</p></li>
 </ul>
 <p>module-oaklib.utilities.lexical.lexical_indexer</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>lexmatch<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3751,6 +3788,7 @@ then applied as a separate step.</p>
 # examine and edit changes.kgcl
 runoak -i my.obo apply –changes-input changes.kgcl</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>lint<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -3848,6 +3886,7 @@ which is what is currently represented in the OboGraph datamodel.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/obograph">https://w3id.org/oak/obograph</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>logical-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3976,6 +4015,7 @@ or OAK query expressions.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Mappings.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Mappings.ipynb</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>mappings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4049,6 +4089,7 @@ source and the target</p>
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/patcher">https://incatools.github.io/ontology-access-kit/interfaces/patcher</a>.html#</p></li>
 </ul>
 <p>oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>migrate-curies<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>CURIE_PAIRS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4099,6 +4140,7 @@ source and the target</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/mapping-provider">https://w3id.org/oak/mapping-provider</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>normalize<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4170,6 +4212,7 @@ source and the target</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>obsoletes<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4239,6 +4282,7 @@ a single line, with the name of the input ontology</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontologies<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -4275,6 +4319,7 @@ a single line, with the name of the input ontology</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontology-metadata<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4326,6 +4371,7 @@ a single line, with the name of the input ontology</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontology-versions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4398,6 +4444,7 @@ results to viz, using the fill-gaps option.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Paths.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/docs/examples/Commands/Paths.ipynb</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>paths<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4557,6 +4604,7 @@ prefixes for entities in that ontology</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:cl prefixes –used-only</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>prefixes<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4595,6 +4643,7 @@ prefixes for entities in that ontology</p>
 <h4>query<a class="headerlink" href="#runoak-query" title="Link to this heading"></a></h4>
 <p>Execute an arbitrary query.</p>
 <p>The syntax of the query is backend-dependent.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>query<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -4678,6 +4727,7 @@ prefixes for entities in that ontology</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>relationships<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4816,6 +4866,7 @@ sub-groups.</p>
 </div></blockquote>
 <p>By default, is-a relationships between association objects are used to perform the rollup.
 Use the -p/–predicates option to change this behavior.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>rollup<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -4879,6 +4930,7 @@ and parameterizing</p>
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a>.html#
 oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>roots<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -4959,6 +5011,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <p class="admonition-title">Warning</p>
 <p>The behavior of search is not yet fully unified across endpoints</p>
 </div>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>search<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5007,6 +5060,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <div><p>oak set-apikey -e bioportal MY-KEY-VALUE</p>
 </div></blockquote>
 <p>This is stored in an OS-dependent path</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>set-apikey<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>KEYVAL
 </pre></div>
 </div>
@@ -5034,6 +5088,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </div></blockquote>
 <p>Note that siblings is by default over ALL relationship types, so we recommend
 always being explicit and passing a predicate using -p (–predicates)</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>siblings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5116,6 +5171,7 @@ vs all terms in CL:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/similarity">https://w3id.org/oak/similarity</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5227,6 +5283,7 @@ the MRCA</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/similarity">https://w3id.org/oak/similarity</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>similarity-pair<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5283,6 +5340,7 @@ Note that the default is to return the singletons of the relation graph over <em
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a>.html#
 oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>singletons<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -5366,6 +5424,7 @@ a group-by option is specified, these will be grouped accordingly.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/summary-statistics">https://w3id.org/oak/summary-statistics</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>statistics<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>BRANCHES<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5479,6 +5538,7 @@ terms (directly) in goslim_generic in GO:</p>
 <blockquote>
 <div><p>term-subsets command, which shows relationships of terms to subsets</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>subsets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -5493,6 +5553,7 @@ terms (directly) in goslim_generic in GO:</p>
 <section id="runoak-synonymize">
 <h4>synonymize<a class="headerlink" href="#runoak-synonymize" title="Link to this heading"></a></h4>
 <p>Deprecated: use generate-synonyms</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>synonymize<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5557,6 +5618,7 @@ of NCBI Taxonomy</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils">https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils</a></p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>taxon-constraints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5634,6 +5696,7 @@ of NCBI Taxonomy</p>
 <section id="runoak-term-categories">
 <h4>term-categories<a class="headerlink" href="#runoak-term-categories" title="Link to this heading"></a></h4>
 <p>List categories for a term or set of terms.</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-categories<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5686,6 +5749,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/ontology-metadata">https://w3id.org/oak/ontology-metadata</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-metadata<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5738,6 +5802,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-subsets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5786,6 +5851,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:omo terms –owl-type owl:AnnotationProperty</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>terms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -5830,6 +5896,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/similarity">https://w3id.org/oak/similarity</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>termset-similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5898,6 +5965,7 @@ and commands such as remove, filter, query.</p>
 <li><p>W-Part subClassOf W-structure</p></li>
 <li><p>P subClassOf W-Part</p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>transform<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -5998,6 +6066,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/obograph">https://w3id.org/oak/obograph</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>tree<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6131,6 +6200,7 @@ to chloroplast membrane)</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go -a ubergraph: -a amigo: -a quickgo: usages GO:0031969</p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>usages<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6207,6 +6277,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html</a></p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6309,6 +6380,7 @@ on OAK datamodels.</p>
 <h5>Notes:<a class="headerlink" href="#notes" title="Link to this heading"></a></h5>
 <p>This command is largely redundant with the validate command, but is useful for
 targeted validation focused solely on definitions</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6388,6 +6460,7 @@ is skos:exactMatch, then the cardinality is expected to be 1:1.</p>
 might be a boomer adapter that will perform probabilistic reasoning on the
 mappings. The experimental LLM backend will use an LLM to qualitatively
 validate mappings (see the LLM how-to guide for more details).</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-mappings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6443,6 +6516,7 @@ validate mappings (see the LLM how-to guide for more details).</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html</a></p></li>
 </ul>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-multiple<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>DBS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6504,6 +6578,7 @@ validating multiple subsets:</p>
 <div><p>runoak -i go.db validate-subset –config-yaml go_subsets_metadata.yaml -X “i^BFO:” -O yaml</p>
 </div></blockquote>
 <p>The taxon field is used to validate each subset according to its appropriate context</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-subset<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6622,6 +6697,7 @@ is skos:exactMatch, then the cardinality is expected to be 1:1.</p>
 might be a boomer adapter that will perform probabilistic reasoning on the
 mappings. The experimental LLM backend will use an LLM to qualitatively
 validate mappings (see the LLM how-to guide for more details).</p>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-synonyms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6722,6 +6798,7 @@ to a distance of 2:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://w3id.org/oak/obograph">https://w3id.org/oak/obograph</a></p>
 </div></blockquote>
+<p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>viz<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -6840,7 +6917,7 @@ to a distance of 2:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

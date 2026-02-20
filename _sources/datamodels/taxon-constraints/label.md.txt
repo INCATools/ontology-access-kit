@@ -23,8 +23,8 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
 | [PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |  no  |
+| [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
 | [Term](Term.md) | An ontology term |  no  |
 | [Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |  no  |
 

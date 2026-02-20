@@ -23,8 +23,6 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -117,22 +115,22 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.input_specification</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputSpecification</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="n">spec</span> <span class="o">=</span> <span class="n">InputSpecification</span><span class="p">(</span>
-    <span class="n">ontology_resources</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;hp&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;selector&quot;</span><span class="p">:</span> <span class="s2">&quot;sqlite:obo:hp&quot;</span>
-        <span class="p">},</span>
-    <span class="p">},</span>
-    <span class="n">association_resources</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;hpoa&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;selector&quot;</span><span class="p">:</span> <span class="s2">&quot;hpoa:&quot;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.datamodels.input_specification import InputSpecification
+from oaklib import get_adapter
+spec = InputSpecification(
+    ontology_resources={
+        &quot;hp&quot;: {
+            &quot;selector&quot;: &quot;sqlite:obo:hp&quot;
+        },
+    },
+    association_resources={
+        &quot;hpoa&quot;: {
+            &quot;selector&quot;: &quot;hpoa:&quot;
+        }
+    }
+)
 
-<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+adapter = get_adapter(spec)
 </pre></div>
 </div>
 </div>
@@ -140,10 +138,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.association_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociationProviderInterface</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.interfaces.association_provider_interface import AssociationProviderInterface
 
-<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">AssociationProviderInterface</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Adapter is not an AssociationProviderInterface&quot;</span><span class="p">)</span>
+if not isinstance(adapter, AssociationProviderInterface):
+    raise ValueError(&quot;Adapter is not an AssociationProviderInterface&quot;)
 <br/></pre></div>
 </div>
 </div>
@@ -151,9 +149,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.datamodels.vocabulary import IS_A
 
-<span class="n">pinna_associations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HP:0000377&quot;</span><span class="p">],</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+pinna_associations = list(adapter.associations(objects=[&quot;HP:0000377&quot;], object_closure_predicates=[IS_A]))
 </pre></div>
 </div>
 </div>
@@ -161,8 +159,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">assoc</span> <span class="ow">in</span> <span class="n">pinna_associations</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">assoc</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">assoc</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">assoc</span><span class="o">.</span><span class="n">object</span><span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>for assoc in pinna_associations[0:10]:
+    print(assoc.subject, assoc.object, adapter.label(assoc.object))
 </pre></div>
 </div>
 </div>
@@ -187,8 +185,8 @@ OMIM:618076 HP:0008551 Microtia
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">diseases</span> <span class="o">=</span> <span class="p">{</span><span class="n">assoc</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">assoc</span> <span class="ow">in</span> <span class="n">pinna_associations</span><span class="p">}</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">diseases</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>diseases = {assoc.subject for assoc in pinna_associations}
+len(diseases)
 </pre></div>
 </div>
 </div>
@@ -205,10 +203,10 @@ OMIM:618076 HP:0008551 Microtia
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.class_enrichment_calculation_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassEnrichmentCalculationInterface</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.interfaces.class_enrichment_calculation_interface import ClassEnrichmentCalculationInterface
 
-<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">ClassEnrichmentCalculationInterface</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Adapter is not an AssociationProviderInterface&quot;</span><span class="p">)</span>
+if not isinstance(adapter, ClassEnrichmentCalculationInterface):
+    raise ValueError(&quot;Adapter is not an AssociationProviderInterface&quot;)
 <br/></pre></div>
 </div>
 </div>
@@ -216,10 +214,10 @@ OMIM:618076 HP:0008551 Microtia
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">enriched_classes</span><span class="p">(</span>
-    <span class="n">subjects</span><span class="o">=</span><span class="n">diseases</span><span class="p">,</span>
-    <span class="n">object_closure_predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span>
-<span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>results = list(adapter.enriched_classes(
+    subjects=diseases,
+    object_closure_predicates=[IS_A],
+))
 </pre></div>
 </div>
 </div>
@@ -227,8 +225,8 @@ OMIM:618076 HP:0008551 Microtia
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>for r in results[0:10]:
+    print(r)
 </pre></div>
 </div>
 </div>
@@ -270,7 +268,7 @@ ClassEnrichmentResult(class_id=&#39;HP:0002683&#39;, class_label=None, rank=10, 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

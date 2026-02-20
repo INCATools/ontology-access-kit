@@ -23,8 +23,6 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -430,11 +428,11 @@ reachable_from:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">resource_resolvers:</span>
-<span class="s2">  obo:go:</span>
-<span class="s2">    shorthand: sqlite:obo:go</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>CONFIG = &quot;&quot;&quot;
+resource_resolvers:
+  obo:go:
+    shorthand: sqlite:obo:go
+&quot;&quot;&quot;.strip()
 </pre></div>
 </div>
 </div>
@@ -442,8 +440,8 @@ reachable_from:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;output/vskit-config.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>with open(&quot;output/vskit-config.yaml&quot;, &quot;w&quot;) as f:
+    f.write(CONFIG)
 </pre></div>
 </div>
 </div>
@@ -588,7 +586,7 @@ specific granule membrane [GO:0035579]:
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

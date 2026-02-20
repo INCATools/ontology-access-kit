@@ -23,8 +23,6 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -91,11 +89,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.edge_information_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">associations_to_matrix</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib import get_adapter
+from oaklib.utilities.associations.edge_information_util import associations_to_matrix
 
 
-<span class="n">ont_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+ont_adapter = get_adapter(&quot;sqlite:obo:go&quot;)
 <br/></pre></div>
 </div>
 </div>
@@ -103,7 +101,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">taxa</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;9606&quot;</span><span class="p">,</span> <span class="s2">&quot;6239&quot;</span><span class="p">,</span> <span class="s2">&quot;7955&quot;</span><span class="p">,</span> <span class="s2">&quot;3702&quot;</span><span class="p">,</span> <span class="s2">&quot;559292&quot;</span><span class="p">,</span> <span class="s2">&quot;4896&quot;</span><span class="p">,</span> <span class="s2">&quot;7227&quot;</span><span class="p">,</span> <span class="s2">&quot;10090&quot;</span><span class="p">,</span> <span class="s2">&quot;ALL&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>taxa = [&quot;9606&quot;, &quot;6239&quot;, &quot;7955&quot;, &quot;3702&quot;, &quot;559292&quot;, &quot;4896&quot;, &quot;7227&quot;, &quot;10090&quot;, &quot;ALL&quot;]
 </pre></div>
 </div>
 </div>
@@ -111,12 +109,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">ic_map_by_taxon</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">taxa</span><span class="p">:</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;amigo:NCBITaxon:</span><span class="si">{</span><span class="n">tax</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">tax</span> <span class="o">!=</span> <span class="s2">&quot;ALL&quot;</span> <span class="k">else</span> <span class="s2">&quot;amigo:&quot;</span>
-    <span class="n">assoc_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">ic_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">term</span><span class="p">:</span> <span class="n">ic</span> <span class="k">for</span> <span class="n">term</span><span class="p">,</span> <span class="n">ic</span> <span class="ow">in</span> <span class="n">assoc_adapter</span><span class="o">.</span><span class="n">information_content_scores</span><span class="p">(</span><span class="n">use_associations</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
-    <span class="n">ic_map_by_taxon</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span> <span class="o">=</span> <span class="n">ic_map</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>ic_map_by_taxon = {}
+for tax in taxa:
+    n = f&quot;amigo:NCBITaxon:{tax}&quot; if tax != &quot;ALL&quot; else &quot;amigo:&quot;
+    assoc_adapter = get_adapter(n)
+    ic_map = {term: ic for term, ic in assoc_adapter.information_content_scores(use_associations=True)}
+    ic_map_by_taxon[tax] = ic_map
 </pre></div>
 </div>
 </div>
@@ -124,7 +122,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">ic_map_by_taxon</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>len(ic_map_by_taxon)
 </pre></div>
 </div>
 </div>
@@ -141,15 +139,15 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from typing import Dict
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">calculate_edge_information</span><span class="p">(</span><span class="n">child</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ic_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
-    <span class="k">if</span> <span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ic_map</span> <span class="ow">or</span> <span class="n">parent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ic_map</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="n">child_ic</span> <span class="o">=</span> <span class="n">ic_map</span><span class="p">[</span><span class="n">child</span><span class="p">]</span>
-    <span class="n">parent_ic</span> <span class="o">=</span> <span class="n">ic_map</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">child_ic</span> <span class="o">-</span> <span class="n">parent_ic</span>
+def calculate_edge_information(child: str, parent: str, ic_map: Dict[str, float]):
+    if child not in ic_map or parent not in ic_map:
+        return None
+    child_ic = ic_map[child]
+    parent_ic = ic_map[parent]
+    return child_ic - parent_ic
 </pre></div>
 </div>
 </div>
@@ -165,8 +163,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;GO:0008527&quot;</span>
-<span class="n">p</span><span class="o">=</span><span class="s2">&quot;GO:0050912&quot;</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>c=&quot;GO:0008527&quot;
+p=&quot;GO:0050912&quot;
 <br/></pre></div>
 </div>
 </div>
@@ -174,8 +172,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">tx</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">ic_map_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">matrix</span><span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>for tx, matrix in ic_map_by_taxon.items():
+    print(tx, calculate_edge_information(c, p, matrix))
 </pre></div>
 </div>
 </div>
@@ -199,19 +197,19 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
-        <span class="k">continue</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
-        <span class="k">continue</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;child&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">o</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">}</span>
-    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">ic_map_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
-        <span class="n">row</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>rows = []
+for s, p, o in ont_adapter.relationships():
+    if not s.startswith(&quot;GO:&quot;):
+        continue
+    if not o.startswith(&quot;GO:&quot;):
+        continue
+    row = {&quot;child&quot;: s, &quot;parent&quot;: o, &quot;predicate&quot;: p}
+    for t, matrix in ic_map_by_taxon.items():
+        v = calculate_edge_information(s, o, matrix)
+        row[t] = v
+    rows.append(row)
+    if len(rows) % 10000 == 0:
+        print(row)
 </pre></div>
 </div>
 </div>
@@ -234,7 +232,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
 <br/></pre></div>
 </div>
 </div>
@@ -242,12 +240,12 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">has_val</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="kc">False</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def has_val(row: dict):
+    for k, v in row.items():
+        if k not in [&quot;child&quot;, &quot;parent&quot;, &quot;predicate&quot;]:
+            if v is not None:
+                return True
+    return False
 </pre></div>
 </div>
 </div>
@@ -255,7 +253,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">filtered_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span> <span class="k">if</span> <span class="n">has_val</span><span class="p">(</span><span class="n">r</span><span class="p">)]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>filtered_rows = [r for r in rows if has_val(r)]
 </pre></div>
 </div>
 </div>
@@ -263,9 +261,9 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">filtered_rows</span><span class="p">:</span>
-    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;child_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">])</span>
-    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">])</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>for row in filtered_rows:
+    row[&quot;child_label&quot;] = ont_adapter.label(row[&quot;child&quot;])
+    row[&quot;parent_label&quot;] = ont_adapter.label(row[&quot;parent&quot;])
 </pre></div>
 </div>
 </div>
@@ -273,8 +271,8 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_rows</span><span class="p">)</span>
-<span class="n">df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df = pd.DataFrame(filtered_rows)
+df
 </pre></div>
 </div>
 </div>
@@ -514,7 +512,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>-p<span class="w"> </span>results
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>!mkdir -p results
 </pre></div>
 </div>
 </div>
@@ -522,7 +520,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df.to_csv(&quot;results/edge_information.csv&quot;, index=False)
 </pre></div>
 </div>
 </div>
@@ -530,8 +528,8 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">taxa_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">species_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>taxa_columns = df.columns[3:-2]
+species_columns = df.columns[3:-3]
 </pre></div>
 </div>
 </div>
@@ -539,10 +537,10 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import numpy as np
 
-<span class="c1"># Replace negative ICdiff values with NaN (treated as None)</span>
-<span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+# Replace negative ICdiff values with NaN (treated as None)
+df[taxa_columns] = df[taxa_columns].applymap(lambda x: np.nan if x &lt; 0 else x)
 <br/><br/></pre></div>
 </div>
 </div>
@@ -559,9 +557,9 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recalculate the average ICdiff for each edge</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff_sp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">species_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Recalculate the average ICdiff for each edge
+df[&#39;average_ICdiff&#39;] = df[taxa_columns].mean(axis=1, skipna=True)
+df[&#39;average_ICdiff_sp&#39;] = df[species_columns].mean(axis=1, skipna=True)
 <br/></pre></div>
 </div>
 </div>
@@ -569,23 +567,23 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recalculate the maximum ICdiff for each edge</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff_sp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">species_columns</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Recalculate the maximum ICdiff for each edge
+df[&#39;max_ICdiff&#39;] = df[taxa_columns].max(axis=1, skipna=True)
+df[&#39;max_ICdiff_sp&#39;] = df[species_columns].max(axis=1, skipna=True)
 
-<span class="c1"># Identify edges with the lowest average ICdiff</span>
-<span class="n">lowest_average_ICdiff_edges</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()]</span>
+# Identify edges with the lowest average ICdiff
+lowest_average_ICdiff_edges = df.loc[df[&#39;average_ICdiff&#39;] == df[&#39;average_ICdiff&#39;].min()]
 
-<span class="c1"># Identify edges with the lowest maximum ICdiff</span>
-<span class="n">lowest_max_ICdiff_edges</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()]</span>
+# Identify edges with the lowest maximum ICdiff
+lowest_max_ICdiff_edges = df.loc[df[&#39;max_ICdiff&#39;] == df[&#39;max_ICdiff&#39;].min()]
 
-<span class="c1"># Results</span>
-<span class="n">low_icdiff_stats</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;lowest_average_ICdiff_edges&#39;</span><span class="p">:</span> <span class="n">lowest_average_ICdiff_edges</span><span class="p">,</span>
-    <span class="s1">&#39;lowest_max_ICdiff_edges&#39;</span><span class="p">:</span> <span class="n">lowest_max_ICdiff_edges</span><span class="p">,</span>
-    <span class="s1">&#39;average_ICdiff_per_edge&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;child&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;predicate&#39;</span><span class="p">,</span> <span class="s1">&#39;average_ICdiff&#39;</span><span class="p">]],</span>
-    <span class="s1">&#39;max_ICdiff_per_edge&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;child&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;predicate&#39;</span><span class="p">,</span> <span class="s1">&#39;max_ICdiff&#39;</span><span class="p">]]</span>
-<span class="p">}</span>
+# Results
+low_icdiff_stats = {
+    &#39;lowest_average_ICdiff_edges&#39;: lowest_average_ICdiff_edges,
+    &#39;lowest_max_ICdiff_edges&#39;: lowest_max_ICdiff_edges,
+    &#39;average_ICdiff_per_edge&#39;: df[[&#39;child&#39;, &#39;parent&#39;, &#39;predicate&#39;, &#39;average_ICdiff&#39;]],
+    &#39;max_ICdiff_per_edge&#39;: df[[&#39;child&#39;, &#39;parent&#39;, &#39;predicate&#39;, &#39;max_ICdiff&#39;]]
+}
 </pre></div>
 </div>
 </div>
@@ -593,7 +591,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">low_icdiff_stats</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>low_icdiff_stats
 </pre></div>
 </div>
 </div>
@@ -769,7 +767,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df
 </pre></div>
 </div>
 </div>
@@ -1057,7 +1055,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;max_ICdiff&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df[df[&quot;max_ICdiff&quot;] == 0]
 </pre></div>
 </div>
 </div>
@@ -1345,7 +1343,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;max_ICdiff&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information_zero_ICdiff.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df[df[&quot;max_ICdiff&quot;] == 0].to_csv(&quot;results/edge_information_zero_ICdiff.csv&quot;, index=False)
 </pre></div>
 </div>
 </div>
@@ -1353,7 +1351,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_only</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;max_ICdiff_sp&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ALL&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>sp_only = df[(df[&quot;max_ICdiff_sp&quot;] == 0) &amp; (df[&quot;ALL&quot;] &gt; 0)]
 </pre></div>
 </div>
 </div>
@@ -1361,7 +1359,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_only</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>sp_only
 </pre></div>
 </div>
 </div>
@@ -1649,7 +1647,7 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_only</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information_zero_ICdiff_sp.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>sp_only.to_csv(&quot;results/edge_information_zero_ICdiff_sp.csv&quot;, index=False)
 </pre></div>
 </div>
 </div>
@@ -1659,35 +1657,35 @@ ALL 0.360008134132741
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
+from scipy.spatial.distance import pdist, squareform
 
 
-<span class="c1"># Extract the taxa columns (assuming they are the columns with numeric names)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_rows</span><span class="p">)</span>
-<span class="n">taxa_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+# Extract the taxa columns (assuming they are the columns with numeric names)
+df = pd.DataFrame(filtered_rows)
+taxa_columns = df.columns[3:-2]
 
-<span class="c1"># Fill NaN values with column means for distance calculation</span>
-<span class="n">df_filled</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">taxa_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+# Fill NaN values with column means for distance calculation
+df_filled = df[taxa_columns].fillna(df[taxa_columns].mean())
 
-<span class="c1"># Calculate pairwise distances between taxa using Pearson correlation distance</span>
-<span class="n">pairwise_distances</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">df_filled</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;correlation&#39;</span><span class="p">)</span>
+# Calculate pairwise distances between taxa using Pearson correlation distance
+pairwise_distances = pdist(df_filled.T, metric=&#39;correlation&#39;)
 
-<span class="c1"># Convert to a square matrix</span>
-<span class="n">pairwise_distances_matrix</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">pairwise_distances</span><span class="p">)</span>
+# Convert to a square matrix
+pairwise_distances_matrix = squareform(pairwise_distances)
 
-<span class="c1"># Create a DataFrame for better readability</span>
-<span class="n">taxa_pairwise_distances_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pairwise_distances_matrix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">taxa_columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">taxa_columns</span><span class="p">)</span>
+# Create a DataFrame for better readability
+taxa_pairwise_distances_df = pd.DataFrame(pairwise_distances_matrix, index=taxa_columns, columns=taxa_columns)
 
-<span class="c1"># Identify the taxa pairs with the highest disagreement (largest distance)</span>
-<span class="n">max_disagreement</span> <span class="o">=</span> <span class="n">taxa_pairwise_distances_df</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-<span class="n">max_disagreement_pair</span> <span class="o">=</span> <span class="n">taxa_pairwise_distances_df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+# Identify the taxa pairs with the highest disagreement (largest distance)
+max_disagreement = taxa_pairwise_distances_df.max().max()
+max_disagreement_pair = taxa_pairwise_distances_df.stack().idxmax()
 
-<span class="c1"># Display the results</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pairwise Distance Matrix:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">taxa_pairwise_distances_df</span><span class="p">)</span>
+# Display the results
+print(&quot;Pairwise Distance Matrix:&quot;)
+print(taxa_pairwise_distances_df)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The taxa pair with the highest disagreement is: </span><span class="si">{</span><span class="n">max_disagreement_pair</span><span class="si">}</span><span class="s2"> with a distance of </span><span class="si">{</span><span class="n">max_disagreement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(f&quot;The taxa pair with the highest disagreement is: {max_disagreement_pair} with a distance of {max_disagreement}&quot;)
 <br/></pre></div>
 </div>
 </div>
@@ -1739,7 +1737,7 @@ The taxa pair with the highest disagreement is: (&#39;4896&#39;, &#39;ALL&#39;) 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

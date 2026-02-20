@@ -23,8 +23,6 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -137,7 +135,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>viz<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span><span class="s2">&quot;goblet cell&quot;</span><span class="w"> </span>-o<span class="w"> </span>output/goblet-cell.png
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>!runoak -i sqlite:obo:cl viz -p i,p &quot;goblet cell&quot; -o output/goblet-cell.png
 </pre></div>
 </div>
 </div>
@@ -151,10 +149,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">subclass_of</span><span class="p">,</span> <span class="n">descendant_of</span><span class="p">,</span> <span class="n">non_redundant</span><span class="p">,</span> <span class="n">gap_fill</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">ancestor_of</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">HAS_PART</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">,</span> <span class="n">IS_A</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib import get_adapter
+from oaklib.query import subclass_of, descendant_of, non_redundant, gap_fill
+from oaklib.query import ancestor_of
+from oaklib.datamodels.vocabulary import HAS_PART, PART_OF, IS_A
 </pre></div>
 </div>
 </div>
@@ -162,7 +160,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
 </pre></div>
 </div>
 </div>
@@ -174,7 +172,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>cl = get_adapter(&quot;sqlite:obo:cl&quot;)
 </pre></div>
 </div>
 </div>
@@ -191,13 +189,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">q2set</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;execute query and return as set.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def q2set(q):
+    &quot;&quot;&quot;execute query and return as set.&quot;&quot;&quot;
+    return set(q.execute(cl, labels=True))
 
-<span class="k">def</span><span class="w"> </span><span class="nf">q2df</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;execute query and return as dataframe.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+def q2df(q):
+    &quot;&quot;&quot;execute query and return as dataframe.&quot;&quot;&quot;
+    return pd.DataFrame(q.execute(cl, labels=True))
 </pre></div>
 </div>
 </div>
@@ -210,7 +208,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">epithelial_q</span> <span class="o">=</span> <span class="n">subclass_of</span><span class="p">(</span><span class="s2">&quot;epithelial cell&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>epithelial_q = subclass_of(&quot;epithelial cell&quot;)
 </pre></div>
 </div>
 </div>
@@ -219,7 +217,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">q2df</span><span class="p">(</span><span class="n">epithelial_q</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>q2df(epithelial_q)
 </pre></div>
 </div>
 </div>
@@ -317,8 +315,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">airway_q</span> <span class="o">=</span> <span class="n">descendant_of</span><span class="p">(</span><span class="s2">&quot;respiratory airway&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">])</span>
-<span class="n">q2df</span><span class="p">(</span><span class="n">airway_q</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>airway_q = descendant_of(&quot;respiratory airway&quot;, predicates=[PART_OF])
+q2df(airway_q)
 </pre></div>
 </div>
 </div>
@@ -414,7 +412,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Boolean queries - AND</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>## Boolean queries - AND
 </pre></div>
 </div>
 </div>
@@ -424,9 +422,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">aec_q</span> <span class="o">=</span> <span class="n">epithelial_q</span> <span class="o">&amp;</span> <span class="n">airway_q</span>
-<span class="n">aec</span> <span class="o">=</span> <span class="n">q2df</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
-<span class="n">aec</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>aec_q = epithelial_q &amp; airway_q
+aec = q2df(aec_q)
+aec
 </pre></div>
 </div>
 </div>
@@ -527,9 +525,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">nr_aec_q</span> <span class="o">=</span> <span class="n">non_redundant</span><span class="p">(</span><span class="n">aec_q</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
-<span class="n">nr_aec</span> <span class="o">=</span> <span class="n">q2df</span><span class="p">(</span><span class="n">nr_aec_q</span><span class="p">)</span>
-<span class="n">nr_aec</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>nr_aec_q = non_redundant(aec_q, predicates=[IS_A])
+nr_aec = q2df(nr_aec_q)
+nr_aec
 </pre></div>
 </div>
 </div>
@@ -764,9 +762,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">lung_grouping_subset</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pneumocyte&quot;</span><span class="p">,</span> <span class="s2">&quot;lower respiratory tract&quot;</span><span class="p">,</span> <span class="s2">&quot;bronchiole&quot;</span><span class="p">,</span> <span class="s2">&quot;respiratory airway&quot;</span><span class="p">,</span> <span class="s2">&quot;bronchus&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0003126&quot;</span><span class="p">,</span> <span class="s2">&quot;alveolus of lung&quot;</span><span class="p">,</span> <span class="s2">&quot;upper respiratory tract&quot;</span><span class="p">]</span>
-<span class="n">nr_aec_subset_q</span> <span class="o">=</span> <span class="n">gap_fill</span><span class="p">(</span><span class="n">nr_aec_q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="o">+</span> <span class="n">lung_grouping_subset</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])</span>
-<span class="n">graph</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">relationships_to_graph</span><span class="p">(</span><span class="n">nr_aec_subset_q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>lung_grouping_subset = [&quot;pneumocyte&quot;, &quot;lower respiratory tract&quot;, &quot;bronchiole&quot;, &quot;respiratory airway&quot;, &quot;bronchus&quot;, &quot;UBERON:0003126&quot;, &quot;alveolus of lung&quot;, &quot;upper respiratory tract&quot;]
+nr_aec_subset_q = gap_fill(nr_aec_q.execute(cl) + lung_grouping_subset, predicates=[IS_A, PART_OF])
+graph = cl.relationships_to_graph(nr_aec_subset_q.execute(cl))
 </pre></div>
 </div>
 </div>
@@ -774,9 +772,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.obograph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_to_tree_display</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.utilities.obograph_utils import graph_to_tree_display
 
-<span class="nb">print</span><span class="p">(</span><span class="n">graph_to_tree_display</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
+print(graph_to_tree_display(graph))
 </pre></div>
 </div>
 </div>
@@ -842,9 +840,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">dissection_q</span> <span class="o">=</span> <span class="n">ancestor_of</span><span class="p">(</span><span class="n">airway_q</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">HAS_PART</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">epithelial_q</span>
-<span class="n">dissection</span> <span class="o">=</span> <span class="n">q2df</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span>
-<span class="n">dissection</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>dissection_q = ancestor_of(airway_q, predicates=[HAS_PART]) &amp; epithelial_q
+dissection = q2df(dissection_q)
+dissection
 </pre></div>
 </div>
 </div>
@@ -940,8 +938,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib_venn</span><span class="w"> </span><span class="kn">import</span> <span class="n">venn2</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from matplotlib_venn import venn2
+import matplotlib.pyplot as plt
 </pre></div>
 </div>
 </div>
@@ -949,7 +947,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">venn2</span><span class="p">([</span><span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">),</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dissection&quot;</span><span class="p">,</span> <span class="s2">&quot;AEC&quot;</span><span class="p">])</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>venn2([q2set(dissection_q), q2set(aec_q)], set_labels=[&quot;Dissection&quot;, &quot;AEC&quot;])
 </pre></div>
 </div>
 </div>
@@ -973,20 +971,20 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
-<span class="n">venn_axis</span> <span class="o">=</span> <span class="n">venn2</span><span class="p">([</span><span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">),</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dissection&quot;</span><span class="p">,</span> <span class="s2">&quot;AEC&quot;</span><span class="p">])</span>
-<span class="n">only_set1</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
-<span class="n">only_set2</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span>
-<span class="n">common_set</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">dissection_q</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
-<span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set1</span><span class="p">)))</span>
-<span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set2</span><span class="p">)))</span>
-<span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">common_set</span><span class="p">)))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>plt.figure(figsize=(24, 16))
+venn_axis = venn2([q2set(dissection_q), q2set(aec_q)], set_labels=[&quot;Dissection&quot;, &quot;AEC&quot;])
+only_set1 = q2set(dissection_q) - q2set(aec_q)
+only_set2 = q2set(aec_q) - q2set(dissection_q)
+common_set = q2set(dissection_q) &amp; q2set(aec_q)
+venn_axis.get_label_by_id(&#39;10&#39;).set_text(&#39;\n&#39;.join(map(str, only_set1)))
+venn_axis.get_label_by_id(&#39;01&#39;).set_text(&#39;\n&#39;.join(map(str, only_set2)))
+venn_axis.get_label_by_id(&#39;11&#39;).set_text(&#39;\n&#39;.join(map(str, common_set)))
 
-<span class="c1"># Adjust position and size of the labels (optional)</span>
-<span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">):</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
-        <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+# Adjust position and size of the labels (optional)
+for id in (&#39;10&#39;, &#39;01&#39;, &#39;11&#39;):
+    label = venn_axis.get_label_by_id(id)
+    if label:
+        label.set_fontsize(8)
 <br/></pre></div>
 </div>
 </div>
@@ -1001,24 +999,24 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dissection_venn</span><span class="p">(</span><span class="n">struct</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
-    <span class="n">my_dissection_q</span> <span class="o">=</span> <span class="n">ancestor_of</span><span class="p">(</span><span class="n">descendant_of</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">]),</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">HAS_PART</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">epithelial_q</span>
-    <span class="n">venn_axis</span> <span class="o">=</span> <span class="n">venn2</span><span class="p">([</span><span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">),</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dissection&quot;</span><span class="p">,</span> <span class="s2">&quot;AEC&quot;</span><span class="p">])</span>
-    <span class="n">only_set1</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
-    <span class="n">only_set2</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span> <span class="o">-</span> <span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">)</span>
-    <span class="n">common_set</span> <span class="o">=</span> <span class="n">q2set</span><span class="p">(</span><span class="n">my_dissection_q</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">q2set</span><span class="p">(</span><span class="n">aec_q</span><span class="p">)</span>
-    <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set1</span><span class="p">)))</span>
-    <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">only_set2</span><span class="p">)))</span>
-    <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">common_set</span><span class="p">)))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def dissection_venn(struct: str):
+    plt.figure(figsize=(24, 16))
+    my_dissection_q = ancestor_of(descendant_of(struct, predicates=[PART_OF]), predicates=[HAS_PART]) &amp; epithelial_q
+    venn_axis = venn2([q2set(my_dissection_q), q2set(aec_q)], set_labels=[&quot;Dissection&quot;, &quot;AEC&quot;])
+    only_set1 = q2set(my_dissection_q) - q2set(aec_q)
+    only_set2 = q2set(aec_q) - q2set(my_dissection_q)
+    common_set = q2set(my_dissection_q) &amp; q2set(aec_q)
+    venn_axis.get_label_by_id(&#39;10&#39;).set_text(&#39;\n&#39;.join(map(str, only_set1)))
+    venn_axis.get_label_by_id(&#39;01&#39;).set_text(&#39;\n&#39;.join(map(str, only_set2)))
+    venn_axis.get_label_by_id(&#39;11&#39;).set_text(&#39;\n&#39;.join(map(str, common_set)))
 
-    <span class="c1"># Adjust position and size of the labels (optional)</span>
-    <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">):</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">venn_axis</span><span class="o">.</span><span class="n">get_label_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
-            <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    # Adjust position and size of the labels (optional)
+    for id in (&#39;10&#39;, &#39;01&#39;, &#39;11&#39;):
+        label = venn_axis.get_label_by_id(id)
+        if label:
+            label.set_fontsize(8)
 
-<span class="n">dissection_venn</span><span class="p">(</span><span class="s2">&quot;bronchus&quot;</span><span class="p">)</span>
+dissection_venn(&quot;bronchus&quot;)
 </pre></div>
 </div>
 </div>
@@ -1033,7 +1031,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">dissection_venn</span><span class="p">(</span><span class="s2">&quot;trachea&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>dissection_venn(&quot;trachea&quot;)
 <br/></pre></div>
 </div>
 </div>
@@ -1051,11 +1049,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.axioms.logical_definition_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">roll_up_to_genus</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.utilities.axioms.logical_definition_utilities import roll_up_to_genus
 
-<span class="n">aec_minimal</span> <span class="o">=</span> <span class="p">{</span><span class="n">roll_up_to_genus</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cl</span><span class="p">,</span> <span class="p">[</span><span class="n">PART_OF</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">aec_q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)}</span>
-<span class="n">aec_minimal_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">)</span>
-<span class="n">aec_minimal_df</span>
+aec_minimal = {roll_up_to_genus(t, cl, [PART_OF]) for t in aec_q.execute(cl)}
+aec_minimal_df = pd.DataFrame((t, cl.label(t)) for t in aec_minimal)
+aec_minimal_df
 </pre></div>
 </div>
 </div>
@@ -1275,12 +1273,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">LOCS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lower respiratory tract&quot;</span><span class="p">,</span> <span class="s2">&quot;upper respiratory tract&quot;</span><span class="p">,</span> <span class="s2">&quot;trachea&quot;</span><span class="p">,</span> <span class="s2">&quot;bronchus&quot;</span><span class="p">,</span> <span class="s2">&quot;alveolus&quot;</span><span class="p">,</span> <span class="s2">&quot;lung&quot;</span><span class="p">,</span> <span class="s2">&quot;nose&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>LOCS = [&quot;lower respiratory tract&quot;, &quot;upper respiratory tract&quot;, &quot;trachea&quot;, &quot;bronchus&quot;, &quot;alveolus&quot;, &quot;lung&quot;, &quot;nose&quot;]
 
-<span class="n">by_loc</span> <span class="o">=</span> <span class="p">{</span><span class="n">loc</span><span class="p">:</span> <span class="p">(</span><span class="n">subclass_of</span><span class="p">(</span><span class="s2">&quot;epithelial cell&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">descendant_of</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">]))</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">}</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">by_loc</span><span class="p">))</span>
-<span class="n">by_genus</span> <span class="o">=</span> <span class="p">{</span><span class="n">cell</span><span class="p">:</span> <span class="n">subclass_of</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">}</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">by_genus</span><span class="p">))</span>
+by_loc = {loc: (subclass_of(&quot;epithelial cell&quot;) &amp; descendant_of(loc, predicates=[PART_OF])).execute(cl) for loc in LOCS}
+print(len(by_loc))
+by_genus = {cell: subclass_of(cell).execute(cl) for cell in aec_minimal}
+print(len(by_genus))
 <br/></pre></div>
 </div>
 </div>
@@ -1314,16 +1312,16 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">:</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">cell</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">cell</span><span class="p">)}</span>
-    <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">:</span>
-        <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">by_loc</span><span class="p">[</span><span class="n">loc</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">by_genus</span><span class="p">[</span><span class="n">cell</span><span class="p">]))</span>
-        <span class="n">row</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
-    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>rows = []
+for cell in aec_minimal:
+    row = {&quot;id&quot;: cell, &quot;label&quot;: cl.label(cell)}
+    for loc in LOCS:
+        num = len(set(by_loc[loc]).intersection(by_genus[cell]))
+        row[loc] = 1 if num &gt; 0 else 0
+    rows.append(row)
 
-<span class="n">xp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
-<span class="n">xp_df</span>
+xp_df = pd.DataFrame(rows)
+xp_df
 </pre></div>
 </div>
 </div>
@@ -1802,21 +1800,21 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
-<span class="c1"># Assuming df is your dataframe with &#39;id&#39; and &#39;label&#39; columns followed by columns of anatomical entities</span>
-<span class="c1"># Set &#39;id&#39; or &#39;label&#39; as the index if it makes it easier to visualize</span>
-<span class="n">xp_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+# Assuming df is your dataframe with &#39;id&#39; and &#39;label&#39; columns followed by columns of anatomical entities
+# Set &#39;id&#39; or &#39;label&#39; as the index if it makes it easier to visualize
+xp_df.set_index(&#39;label&#39;, inplace=True)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">xp_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Anatomical Entities&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cell Types&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of Cell Types across Anatomical Entities&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.figure(figsize=(10, 8))
+sns.heatmap(xp_df.iloc[:, 1:], cmap=&#39;viridis&#39;, cbar=True, linewidths=.5)
+plt.xlabel(&#39;Anatomical Entities&#39;)
+plt.ylabel(&#39;Cell Types&#39;)
+plt.title(&#39;Heatmap of Cell Types across Anatomical Entities&#39;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -1831,9 +1829,9 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">hp_by_loc</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">:</span>
-    <span class="n">hp_by_loc</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ancestor_of</span><span class="p">(</span><span class="n">descendant_of</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">PART_OF</span><span class="p">])</span> <span class="o">-</span> <span class="n">subclass_of</span><span class="p">(</span><span class="s2">&quot;cell&quot;</span><span class="p">),</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">HAS_PART</span><span class="p">])</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>hp_by_loc = {}
+for loc in LOCS:
+    hp_by_loc[loc] = set(ancestor_of(descendant_of(loc, predicates=[PART_OF]) - subclass_of(&quot;cell&quot;), predicates=[HAS_PART]).execute(cl))
 </pre></div>
 </div>
 </div>
@@ -1841,18 +1839,18 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">aec_minimal</span><span class="p">:</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">cell</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">cell</span><span class="p">)}</span>
-    <span class="n">cells</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">subclass_of</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">LOCS</span><span class="p">:</span>
-        <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">hp_by_loc</span><span class="p">[</span><span class="n">loc</span><span class="p">]))</span>
-        <span class="n">row</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
-    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>rows = []
+for cell in aec_minimal:
+    row = {&quot;id&quot;: cell, &quot;label&quot;: cl.label(cell)}
+    cells = set(subclass_of(cell).execute(cl))
+    for loc in LOCS:
+        num = len(cells.intersection(hp_by_loc[loc]))
+        row[loc] = 1 if num &gt; 0 else 0
+    rows.append(row)
 
 
-<span class="n">hp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
-<span class="n">hp_df</span>
+hp_df = pd.DataFrame(rows)
+hp_df
 </pre></div>
 </div>
 </div>
@@ -2331,14 +2329,14 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">hp_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>hp_df.set_index(&#39;label&#39;, inplace=True)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">hp_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Anatomical Entities&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cell Types&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of Dissected Anatomical Entities&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.figure(figsize=(10, 8))
+sns.heatmap(hp_df.iloc[:, 1:], cmap=&#39;viridis&#39;, cbar=True, linewidths=.5)
+plt.xlabel(&#39;Anatomical Entities&#39;)
+plt.ylabel(&#39;Cell Types&#39;)
+plt.title(&#39;Heatmap of Dissected Anatomical Entities&#39;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -2353,8 +2351,8 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">hp_only_df</span> <span class="o">=</span> <span class="n">hp_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">xp_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-<span class="n">hp_only_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>hp_only_df = hp_df.astype(bool) &amp; ~xp_df.astype(bool)
+hp_only_df
 </pre></div>
 </div>
 </div>
@@ -2807,14 +2805,14 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#hp_only_df.set_index(&#39;label&#39;, inplace=True)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#hp_only_df.set_index(&#39;label&#39;, inplace=True)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">hp_only_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Anatomical Entities&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cell Types&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of Dissected Anatomical Entities&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.figure(figsize=(10, 8))
+sns.heatmap(hp_only_df.iloc[:, 1:], cmap=&#39;viridis&#39;, cbar=True, linewidths=.5)
+plt.xlabel(&#39;Anatomical Entities&#39;)
+plt.ylabel(&#39;Cell Types&#39;)
+plt.title(&#39;Heatmap of Dissected Anatomical Entities&#39;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -2847,7 +2845,7 @@ Cell <span class="ansi-green-fg">In[22], line 11</span>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

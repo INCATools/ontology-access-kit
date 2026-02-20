@@ -23,8 +23,6 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -91,11 +89,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.edge_information_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">associations_to_matrix</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib import get_adapter
+from oaklib.utilities.associations.edge_information_util import associations_to_matrix
 
 
-<span class="n">ont_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+ont_adapter = get_adapter(&quot;sqlite:obo:go&quot;)
 <br/></pre></div>
 </div>
 </div>
@@ -103,7 +101,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">taxa</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;9606&quot;</span><span class="p">,</span> <span class="s2">&quot;6239&quot;</span><span class="p">,</span> <span class="s2">&quot;7955&quot;</span><span class="p">,</span> <span class="s2">&quot;3702&quot;</span><span class="p">,</span> <span class="s2">&quot;559292&quot;</span><span class="p">,</span> <span class="s2">&quot;4896&quot;</span><span class="p">,</span> <span class="s2">&quot;7227&quot;</span><span class="p">,</span> <span class="s2">&quot;10090&quot;</span><span class="p">,</span> <span class="p">]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>taxa = [&quot;9606&quot;, &quot;6239&quot;, &quot;7955&quot;, &quot;3702&quot;, &quot;559292&quot;, &quot;4896&quot;, &quot;7227&quot;, &quot;10090&quot;, ]
 </pre></div>
 </div>
 </div>
@@ -111,13 +109,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">matrix_by_taxon</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">taxa</span><span class="p">:</span>
-    <span class="n">assoc_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;amigo:NCBITaxon:</span><span class="si">{</span><span class="n">tax</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">assocs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assoc_adapter</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">add_closure_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-    <span class="n">matrix</span> <span class="o">=</span> <span class="n">associations_to_matrix</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span>
-    <span class="n">matrix_by_taxon</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Taxon </span><span class="si">{</span><span class="n">tax</span><span class="si">}</span><span class="s2"> shape </span><span class="si">{</span><span class="n">matrix</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>matrix_by_taxon = {}
+for tax in taxa:
+    assoc_adapter = get_adapter(f&quot;amigo:NCBITaxon:{tax}&quot;)
+    assocs = list(assoc_adapter.associations(add_closure_fields=True))
+    matrix = associations_to_matrix(assocs)
+    matrix_by_taxon[tax] = matrix
+    print(f&quot;Taxon {tax} shape {matrix.arr.shape}&quot;)
 </pre></div>
 </div>
 </div>
@@ -214,7 +212,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">matrix_by_taxon</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>len(matrix_by_taxon)
 </pre></div>
 </div>
 </div>
@@ -256,8 +254,8 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;GO:0008527&quot;</span>
-<span class="n">p</span><span class="o">=</span><span class="s2">&quot;GO:0050912&quot;</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>c=&quot;GO:0008527&quot;
+p=&quot;GO:0050912&quot;
 <br/></pre></div>
 </div>
 </div>
@@ -265,7 +263,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.edge_information_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_edge_information</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.utilities.associations.edge_information_util import calculate_edge_information
 <br/><br/></pre></div>
 </div>
 </div>
@@ -273,8 +271,8 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">matrix_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">matrix</span><span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>for t, matrix in matrix_by_taxon.items():
+    print(t, calculate_edge_information(c, p, matrix))
 </pre></div>
 </div>
 </div>
@@ -291,19 +289,19 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
-        <span class="k">continue</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;GO:&quot;</span><span class="p">):</span>
-        <span class="k">continue</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;child&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">o</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">}</span>
-    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">matrix_by_taxon</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">calculate_edge_information</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
-        <span class="n">row</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>rows = []
+for s, p, o in ont_adapter.relationships():
+    if not s.startswith(&quot;GO:&quot;):
+        continue
+    if not o.startswith(&quot;GO:&quot;):
+        continue
+    row = {&quot;child&quot;: s, &quot;parent&quot;: o, &quot;predicate&quot;: p}
+    for t, matrix in matrix_by_taxon.items():
+        v = calculate_edge_information(s, o, matrix)
+        row[t] = v
+    rows.append(row)
+    if len(rows) % 1000 == 0:
+        print(row)
 </pre></div>
 </div>
 </div>
@@ -407,7 +405,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
 <br/></pre></div>
 </div>
 </div>
@@ -415,12 +413,12 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">has_val</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;predicate&quot;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="kc">False</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def has_val(row: dict):
+    for k, v in row.items():
+        if k not in [&quot;child&quot;, &quot;parent&quot;, &quot;predicate&quot;]:
+            if v is not None:
+                return True
+    return False
 </pre></div>
 </div>
 </div>
@@ -428,7 +426,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">filtered_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span> <span class="k">if</span> <span class="n">has_val</span><span class="p">(</span><span class="n">r</span><span class="p">)]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>filtered_rows = [r for r in rows if has_val(r)]
 </pre></div>
 </div>
 </div>
@@ -436,9 +434,9 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">filtered_rows</span><span class="p">:</span>
-    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;child_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">])</span>
-    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ont_adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">])</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>for row in filtered_rows:
+    row[&quot;child_label&quot;] = ont_adapter.label(row[&quot;child&quot;])
+    row[&quot;parent_label&quot;] = ont_adapter.label(row[&quot;parent&quot;])
 </pre></div>
 </div>
 </div>
@@ -446,8 +444,8 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_rows</span><span class="p">)</span>
-<span class="n">df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df = pd.DataFrame(filtered_rows)
+df
 </pre></div>
 </div>
 </div>
@@ -603,7 +601,7 @@ File <span class="ansi-green-fg">~/Library/Caches/pypoetry/virtualenvs/oaklib-Oe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>results
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>!mkdir results
 </pre></div>
 </div>
 </div>
@@ -619,7 +617,7 @@ mkdir: results: File exists
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;results/edge_information.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df.to_csv(&quot;results/edge_information.csv&quot;, index=False)
 </pre></div>
 </div>
 </div>
@@ -627,7 +625,7 @@ mkdir: results: File exists
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">old_matrix_by_taxon</span> <span class="o">=</span> <span class="n">matrix_by_taxon</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>old_matrix_by_taxon = matrix_by_taxon
 </pre></div>
 </div>
 </div>
@@ -648,7 +646,7 @@ mkdir: results: File exists
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

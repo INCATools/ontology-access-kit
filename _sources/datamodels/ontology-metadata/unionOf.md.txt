@@ -24,8 +24,8 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [ClassExpression](ClassExpression.md) |  |  no  |
-| [Restriction](Restriction.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
+| [Restriction](Restriction.md) |  |  no  |
 
 
 

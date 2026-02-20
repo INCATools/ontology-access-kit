@@ -23,8 +23,6 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -99,21 +97,21 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">tests.test_implementations.test_robot_template</span><span class="w"> </span><span class="kn">import</span> <span class="n">adapter</span>
+from tests.test_implementations.test_robot_template import adapter
 
-<span class="c1"># a recent release plus an older one that may have retracted entries</span>
+# a recent release plus an older one that may have retracted entries
 
-<span class="n">RELEASES</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;2024-11-03&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;2024-06-10&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;2020-01-01&quot;</span><span class="p">,</span>
-<span class="p">]</span>
+RELEASES = [
+    &quot;2024-11-03&quot;,
+    &quot;2024-06-10&quot;,
+    &quot;2020-01-01&quot;,
+]
 
-<span class="n">LATEST</span> <span class="o">=</span> <span class="n">RELEASES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">PREVIOUS</span> <span class="o">=</span> <span class="n">RELEASES</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">LATEST</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">PREVIOUS</span><span class="p">)</span>
+LATEST = RELEASES[0]
+PREVIOUS = RELEASES[1:]
+assert all(r &lt; LATEST for r in PREVIOUS)
 </pre></div>
 </div>
 </div>
@@ -121,7 +119,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">NEW_CUTOFF</span> <span class="o">=</span> <span class="s2">&quot;2024-06-01&quot;</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>NEW_CUTOFF = &quot;2024-06-01&quot;
 </pre></div>
 </div>
 </div>
@@ -129,13 +127,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># taxa to analyze</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># taxa to analyze
 
-<span class="n">TAXA</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;goa_human&quot;</span><span class="p">,</span> <span class="mi">9606</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;Arabidopsis thaliana&quot;</span><span class="p">,</span> <span class="s2">&quot;tair&quot;</span><span class="p">,</span> <span class="mi">3702</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;yeast&quot;</span><span class="p">,</span> <span class="s2">&quot;sgd&quot;</span><span class="p">,</span> <span class="mi">559292</span><span class="p">),</span>
-<span class="p">]</span>
+TAXA = [
+    (&quot;human&quot;, &quot;goa_human&quot;, 9606),
+    (&quot;Arabidopsis thaliana&quot;, &quot;tair&quot;, 3702),
+    (&quot;yeast&quot;, &quot;sgd&quot;, 559292),
+]
 </pre></div>
 </div>
 </div>
@@ -143,7 +141,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">GAF_URL_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;https://release.geneontology.org/</span><span class="si">{date}</span><span class="s2">/annotations/</span><span class="si">{name}</span><span class="s2">.gaf.gz&quot;</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>GAF_URL_TEMPLATE = &quot;https://release.geneontology.org/{date}/annotations/{name}.gaf.gz&quot;
 </pre></div>
 </div>
 </div>
@@ -151,7 +149,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.datamodels.vocabulary import IS_A, PART_OF
 </pre></div>
 </div>
 </div>
@@ -161,9 +159,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib import get_adapter
 
-<span class="n">go</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:go&quot;</span><span class="p">)</span>
+go = get_adapter(&quot;sqlite:obo:go&quot;)
 </pre></div>
 </div>
 </div>
@@ -177,7 +175,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">obsoletes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">())</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>obsoletes = set(go.obsoletes())
 </pre></div>
 </div>
 </div>
@@ -193,7 +191,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">binding_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;GO:0005488&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>binding_terms = set(go.descendants(&quot;GO:0005488&quot;, predicates=[IS_A]))
 </pre></div>
 </div>
 </div>
@@ -201,8 +199,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">antislim_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">subset_members</span><span class="p">(</span><span class="s2">&quot;gocheck_do_not_annotate&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">subset_members</span><span class="p">(</span><span class="s2">&quot;gocheck_obsoletion_candidate&quot;</span><span class="p">))</span>
-<span class="n">non_informative</span> <span class="o">=</span> <span class="n">binding_terms</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">antislim_terms</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>antislim_terms = set(go.subset_members(&quot;gocheck_do_not_annotate&quot;)).union(go.subset_members(&quot;gocheck_obsoletion_candidate&quot;))
+non_informative = binding_terms.union(antislim_terms)
 <br/></pre></div>
 </div>
 </div>
@@ -210,9 +208,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">mf_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;GO:0003674&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
-<span class="n">bp_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;GO:0008150&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
-<span class="n">cc_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;GO:0005575&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>mf_terms = set(go.descendants(&quot;GO:0003674&quot;, predicates=[IS_A]))
+bp_terms = set(go.descendants(&quot;GO:0008150&quot;, predicates=[IS_A]))
+cc_terms = set(go.descendants(&quot;GO:0005575&quot;, predicates=[IS_A]))
 </pre></div>
 </div>
 </div>
@@ -223,8 +221,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">GafAssociationParser</span>
-<span class="n">gaf_parser</span> <span class="o">=</span> <span class="n">GafAssociationParser</span><span class="p">()</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.parsers import GafAssociationParser
+gaf_parser = GafAssociationParser()
 </pre></div>
 </div>
 </div>
@@ -232,14 +230,14 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests_cache</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import requests_cache
 
-<span class="n">session</span> <span class="o">=</span> <span class="n">requests_cache</span><span class="o">.</span><span class="n">CachedSession</span><span class="p">(</span>
-    <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;gaf_cache&#39;</span><span class="p">,</span>
-    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;sqlite&#39;</span><span class="p">,</span>  <span class="c1"># or &#39;memory&#39; for in-memory cache</span>
-    <span class="n">expire_after</span><span class="o">=</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">,</span>  <span class="c1"># Cache expiration in seconds</span>
-    <span class="n">allowable_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">],</span>  <span class="c1"># Only cache successful responses</span>
-<span class="p">)</span>
+session = requests_cache.CachedSession(
+    cache_name=&#39;gaf_cache&#39;,
+    backend=&#39;sqlite&#39;,  # or &#39;memory&#39; for in-memory cache
+    expire_after=24*60*60,  # Cache expiration in seconds
+    allowable_codes=[200],  # Only cache successful responses
+)
 </pre></div>
 </div>
 </div>
@@ -247,20 +245,20 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.association</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParserConfiguration</span><span class="p">,</span> <span class="n">NegatedAssociation</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.datamodels.association import ParserConfiguration, NegatedAssociation
+import io
+import gzip
 
-<span class="k">def</span><span class="w"> </span><span class="nf">get_gaf</span><span class="p">(</span><span class="n">release</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">ParserConfiguration</span><span class="p">(</span><span class="n">preserve_negated_associations</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">GAF_URL_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">release</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-    <span class="c1"># open the URL as a file object using requests</span>
-    <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
-        <span class="c1"># Decompress the gzipped content and create a text stream</span>
-        <span class="n">decompressed</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-        <span class="n">text_stream</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">decompressed</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reading </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> using </span><span class="si">{</span><span class="n">config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">gaf_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">text_stream</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">config</span><span class="p">))</span>
+def get_gaf(release, name):
+    config = ParserConfiguration(preserve_negated_associations=True)
+    url = GAF_URL_TEMPLATE.format(date=release, name=name)
+    # open the URL as a file object using requests
+    with session.get(url, stream=True) as response:
+        # Decompress the gzipped content and create a text stream
+        decompressed = gzip.decompress(response.content)
+        text_stream = io.TextIOWrapper(io.BytesIO(decompressed))
+        print(f&quot;Reading {url} using {config}&quot;)
+        return list(gaf_parser.parse(text_stream, configuration=config))
 </pre></div>
 </div>
 </div>
@@ -279,17 +277,17 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from collections import defaultdict
 
-<span class="n">db</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">RELEASES</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">tax_id</span> <span class="ow">in</span> <span class="n">TAXA</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">assocs</span> <span class="o">=</span> <span class="n">get_gaf</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">grp</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span><span class="si">}</span><span class="s2"> associations&quot;</span><span class="p">)</span>
-        <span class="n">neg_assocs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">assocs</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">negated</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">neg_assocs</span><span class="p">)</span><span class="si">}</span><span class="s2"> negated associations&quot;</span><span class="p">)</span>
-        <span class="n">db</span><span class="p">[</span><span class="n">grp</span><span class="p">][</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span>
+db = defaultdict(dict)
+for r in RELEASES:
+    for name, grp, tax_id in TAXA:
+        print(f&quot;Loading {r} {name}&quot;)
+        assocs = get_gaf(r, grp)
+        print(f&quot;Loaded {len(assocs)} associations&quot;)
+        neg_assocs = [x for x in assocs if x.negated]
+        print(f&quot;  {len(neg_assocs)} negated associations&quot;)
+        db[grp][r] = assocs
 </pre></div>
 </div>
 </div>
@@ -340,7 +338,7 @@ Loaded 120916 associations
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;goa_human&quot;</span><span class="p">][</span><span class="n">LATEST</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>db[&quot;goa_human&quot;][LATEST][0]
 </pre></div>
 </div>
 </div>
@@ -357,7 +355,7 @@ Association(subject=&#39;UniProtKB:A0A024RBG1&#39;, predicate=&#39;enables&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">db</span><span class="p">[</span><span class="s2">&quot;goa_human&quot;</span><span class="p">][</span><span class="n">LATEST</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">negated</span><span class="p">])</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>len([x for x in db[&quot;goa_human&quot;][LATEST] if x.negated])
 </pre></div>
 </div>
 </div>
@@ -374,7 +372,7 @@ Association(subject=&#39;UniProtKB:A0A024RBG1&#39;, predicate=&#39;enables&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reload modules</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># reload modules
 <br/></pre></div>
 </div>
 </div>
@@ -382,7 +380,7 @@ Association(subject=&#39;UniProtKB:A0A024RBG1&#39;, predicate=&#39;enables&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
 <br/></pre></div>
 </div>
 </div>
@@ -399,7 +397,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">autoreload</span> 0
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>%autoreload 0
 </pre></div>
 </div>
 </div>
@@ -418,10 +416,10 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.association_differ</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociationDiffer</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from oaklib.utilities.associations.association_differ import AssociationDiffer
 
 
-<span class="n">differ</span> <span class="o">=</span> <span class="n">AssociationDiffer</span><span class="p">(</span><span class="n">adapter</span><span class="o">=</span><span class="n">go</span><span class="p">)</span>
+differ = AssociationDiffer(adapter=go)
 </pre></div>
 </div>
 </div>
@@ -429,7 +427,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>cache = {}
 </pre></div>
 </div>
 </div>
@@ -437,7 +435,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;goa_human&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>len(db[&quot;goa_human&quot;].keys())
 </pre></div>
 </div>
 </div>
@@ -454,7 +452,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;goa_human&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>list(db[&quot;goa_human&quot;].keys())
 </pre></div>
 </div>
 </div>
@@ -471,9 +469,9 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#ix = differ.changes_by_terms(db[&quot;goa_human&quot;][LATEST], db[&quot;goa_human&quot;][PREVIOUS[0]], min_num_entities_changes=10, cache={})</span>
-<span class="n">grp</span> <span class="o">=</span> <span class="s2">&quot;sgd&quot;</span>
-<span class="n">ix</span> <span class="o">=</span> <span class="n">differ</span><span class="o">.</span><span class="n">changes_by_terms</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="n">grp</span><span class="p">][</span><span class="n">PREVIOUS</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">db</span><span class="p">[</span><span class="n">grp</span><span class="p">][</span><span class="n">LATEST</span><span class="p">],</span> <span class="n">min_num_entities_changes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="p">{})</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#ix = differ.changes_by_terms(db[&quot;goa_human&quot;][LATEST], db[&quot;goa_human&quot;][PREVIOUS[0]], min_num_entities_changes=10, cache={})
+grp = &quot;sgd&quot;
+ix = differ.changes_by_terms(db[grp][PREVIOUS[0]], db[grp][LATEST], min_num_entities_changes=2, cache={})
 <br/></pre></div>
 </div>
 </div>
@@ -481,7 +479,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>len(ix)
 </pre></div>
 </div>
 </div>
@@ -498,8 +496,8 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">go</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>for k in list(ix.keys())[0:5]:
+    print(k, go.label(k))
 </pre></div>
 </div>
 </div>
@@ -519,7 +517,7 @@ GO:0042762 regulation of sulfur metabolic process
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pubmed_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;pubmed:&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>pubmed_adapter = get_adapter(&quot;pubmed:&quot;)
 </pre></div>
 </div>
 </div>
@@ -535,14 +533,14 @@ WARNING:eutils._internal.queryservice:No NCBI API key provided; throttling to 3 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from functools import lru_cache
 
 
-<span class="nd">@lru_cache</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">pub_date</span><span class="p">(</span><span class="n">pmid</span><span class="p">):</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="n">pubmed_adapter</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">pmid</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
+@lru_cache
+def pub_date(pmid):
+    m = pubmed_adapter.entity_metadata_map(pmid)
+    if m:
+        return m.get(&quot;year&quot;)
 <br/></pre></div>
 </div>
 </div>
@@ -550,72 +548,72 @@ WARNING:eutils._internal.queryservice:No NCBI API key provided; throttling to 3 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.associations.association_differ</span><span class="w"> </span><span class="kn">import</span> <span class="n">TermComparison</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from typing import Optional
+from oaklib.utilities.associations.association_differ import TermComparison
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">score_term_comparison</span><span class="p">(</span><span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ix</span><span class="p">:</span> <span class="n">TermComparison</span><span class="p">,</span> <span class="n">max_date_inclusive</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_genes</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    We are interested in genes for which all evidence was from previously known.</span>
+def score_term_comparison(term: str, ix: TermComparison, max_date_inclusive=None, max_genes=20) -&gt; Optional[dict]:
+    &quot;&quot;&quot;
+    We are interested in genes for which all evidence was from previously known.
 
-<span class="sd">    :param term:</span>
-<span class="sd">    :param ix:</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">#all_genes = set(ix.old_associations_by_entity.keys()).union(ix.new_associations_by_entity.keys())</span>
-    <span class="c1">#gene_diff = all_genes - set(ix.old_associations_by_entity.keys()).intersection(ix.new_associations_by_entity.keys())</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">new_associations_by_entity</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_genes</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="n">new_genes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">new_associations_by_entity</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">old_associations_by_entity</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="n">gene_id_to_label_map</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">assocs</span> <span class="ow">in</span> <span class="n">ix</span><span class="o">.</span><span class="n">new_associations_by_entity</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">gene_id_to_label_map</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subject_label</span>
-    <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">assocs</span> <span class="ow">in</span> <span class="n">ix</span><span class="o">.</span><span class="n">old_associations_by_entity</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">gene_id_to_label_map</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subject_label</span>
-    <span class="n">filtered_new_genes</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">new_genes</span><span class="p">:</span>
-        <span class="n">all_before_cutoff</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ix</span><span class="o">.</span><span class="n">new_associations_by_entity</span><span class="p">[</span><span class="n">gene</span><span class="p">]:</span>
-            <span class="n">pmids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">publications</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;PMID&quot;</span><span class="p">)]</span>
-            <span class="k">if</span> <span class="n">max_date_inclusive</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># print(f&quot;{term} {gene}, pmids={pmids}&quot;)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">pmids</span><span class="p">:</span>
-                    <span class="n">all_before_cutoff</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">pmid</span> <span class="o">=</span> <span class="n">pmids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">date</span> <span class="o">=</span> <span class="n">pub_date</span><span class="p">(</span><span class="n">pmid</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">date</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">date</span> <span class="o">&gt;</span> <span class="n">max_date_inclusive</span><span class="p">:</span>
-                        <span class="n">all_before_cutoff</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">all_before_cutoff</span><span class="p">:</span>
-            <span class="n">filtered_new_genes</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">new_associations_by_entity</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span>
-    <span class="c1">#gene_id_diff = len(gene_diff)</span>
-    <span class="n">term_lbl</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">mf_terms</span><span class="p">:</span>
-        <span class="n">ann_pred</span> <span class="o">=</span> <span class="s2">&quot;that are capable of&quot;</span>
-    <span class="k">elif</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">bp_terms</span><span class="p">:</span>
-        <span class="n">ann_pred</span> <span class="o">=</span> <span class="s2">&quot;involved in&quot;</span>
-    <span class="k">elif</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">cc_terms</span><span class="p">:</span>
-        <span class="n">ann_pred</span> <span class="o">=</span> <span class="s2">&quot;localized to&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">as_genes_list</span><span class="p">(</span><span class="n">amap</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">gene_id_to_label_map</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">amap</span><span class="p">]</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">as_str_list</span><span class="p">(</span><span class="n">amap</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">amap</span><span class="p">]</span>
-    <span class="n">case</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;List all genes </span><span class="si">{</span><span class="n">ann_pred</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">term_lbl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ideal&quot;</span><span class="p">:</span> <span class="s2">&quot;; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">as_genes_list</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">new_associations_by_entity</span><span class="p">)),</span>
-        <span class="s2">&quot;original_input&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;term&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">term</span><span class="p">),</span>
-            <span class="s2">&quot;genes_current&quot;</span><span class="p">:</span> <span class="n">as_str_list</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">new_associations_by_entity</span><span class="p">),</span>
-            <span class="s2">&quot;genes_previous&quot;</span><span class="p">:</span> <span class="n">as_str_list</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">old_associations_by_entity</span><span class="p">),</span>
-            <span class="s2">&quot;genes_added&quot;</span><span class="p">:</span> <span class="n">as_genes_list</span><span class="p">(</span><span class="n">new_genes</span><span class="p">),</span>
-            <span class="s2">&quot;genes_added_prior_to_cutoff&quot;</span><span class="p">:</span> <span class="n">as_genes_list</span><span class="p">(</span><span class="n">filtered_new_genes</span><span class="p">),</span>
-            <span class="s2">&quot;num_genes_added_prior_to_cutoff&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">filtered_new_genes</span><span class="p">),</span>
-            <span class="s2">&quot;date_cutoff&quot;</span><span class="p">:</span> <span class="n">max_date_inclusive</span><span class="p">,</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">case</span>
+    :param term:
+    :param ix:
+    :return:
+    &quot;&quot;&quot;
+    #all_genes = set(ix.old_associations_by_entity.keys()).union(ix.new_associations_by_entity.keys())
+    #gene_diff = all_genes - set(ix.old_associations_by_entity.keys()).intersection(ix.new_associations_by_entity.keys())
+    if len(ix.new_associations_by_entity) &gt; max_genes:
+        return None
+    new_genes = set(ix.new_associations_by_entity.keys()) - set(ix.old_associations_by_entity.keys())
+    gene_id_to_label_map = {}
+    for g, assocs in ix.new_associations_by_entity.items():
+        gene_id_to_label_map[g] = assocs[0].subject_label
+    for g, assocs in ix.old_associations_by_entity.items():
+        gene_id_to_label_map[g] = assocs[0].subject_label
+    filtered_new_genes = {}
+    for gene in new_genes:
+        all_before_cutoff = True
+        for a in ix.new_associations_by_entity[gene]:
+            pmids = [x for x in a.publications if x.startswith(&quot;PMID&quot;)]
+            if max_date_inclusive is not None:
+                # print(f&quot;{term} {gene}, pmids={pmids}&quot;)
+                if not pmids:
+                    all_before_cutoff = False
+                else:
+                    pmid = pmids[0]
+                    date = pub_date(pmid)
+                    if date is None or date &gt; max_date_inclusive:
+                        all_before_cutoff = False
+        if all_before_cutoff:
+            filtered_new_genes[gene] = ix.new_associations_by_entity[gene]
+    #gene_id_diff = len(gene_diff)
+    term_lbl = go.label(term)
+    if term in mf_terms:
+        ann_pred = &quot;that are capable of&quot;
+    elif term in bp_terms:
+        ann_pred = &quot;involved in&quot;
+    elif term in cc_terms:
+        ann_pred = &quot;localized to&quot;
+    else:
+        return
+    def as_genes_list(amap):
+        return [gene_id_to_label_map[g] for g in amap]
+    def as_str_list(amap):
+        return [str(g) for g in amap]
+    case = {
+        &quot;input&quot;: f&quot;List all genes {ann_pred} {term_lbl}&quot;,
+        &quot;ideal&quot;: &quot;; &quot;.join(as_genes_list(ix.new_associations_by_entity)),
+        &quot;original_input&quot;: {
+            &quot;term&quot;: str(term),
+            &quot;genes_current&quot;: as_str_list(ix.new_associations_by_entity),
+            &quot;genes_previous&quot;: as_str_list(ix.old_associations_by_entity),
+            &quot;genes_added&quot;: as_genes_list(new_genes),
+            &quot;genes_added_prior_to_cutoff&quot;: as_genes_list(filtered_new_genes),
+            &quot;num_genes_added_prior_to_cutoff&quot;: len(filtered_new_genes),
+            &quot;date_cutoff&quot;: max_date_inclusive,
+        }
+    }
+    return case
 </pre></div>
 </div>
 </div>
@@ -623,23 +621,23 @@ WARNING:eutils._internal.queryservice:No NCBI API key provided; throttling to 3 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import yaml
 
-<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ix</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-    <span class="n">lbl</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;regulation&quot;</span> <span class="ow">in</span> <span class="n">lbl</span><span class="p">:</span>
-        <span class="k">continue</span>
-    <span class="k">if</span> <span class="s2">&quot;response to&quot;</span> <span class="ow">in</span> <span class="n">lbl</span><span class="p">:</span>
-        <span class="k">continue</span>
-    <span class="n">case</span> <span class="o">=</span> <span class="n">score_term_comparison</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">ix</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">max_date_inclusive</span><span class="o">=</span><span class="s2">&quot;2022&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">case</span><span class="p">:</span>
-        <span class="k">continue</span>
-    <span class="k">if</span> <span class="n">case</span><span class="p">[</span><span class="s2">&quot;original_input&quot;</span><span class="p">][</span><span class="s2">&quot;num_genes_added_prior_to_cutoff&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">case</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">:</span>
-        <span class="k">break</span>
+n = 0
+for k in list(ix.keys()):
+    lbl = go.label(k)
+    if &quot;regulation&quot; in lbl:
+        continue
+    if &quot;response to&quot; in lbl:
+        continue
+    case = score_term_comparison(k, ix[k], max_date_inclusive=&quot;2022&quot;)
+    if not case:
+        continue
+    if case[&quot;original_input&quot;][&quot;num_genes_added_prior_to_cutoff&quot;] &gt; 2:
+        print(yaml.dump(case, sort_keys=False))
+        n += 1
+    if n &gt; 40:
+        break
 </pre></div>
 </div>
 </div>
@@ -951,21 +949,21 @@ original_input:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[289]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from functools import lru_cache
 
 
 
-<span class="nd">@lru_cache</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">lineage</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">up</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">],</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-    <span class="n">dn</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]))</span>
-    <span class="k">return</span> <span class="n">up</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">dn</span><span class="p">)</span>
+@lru_cache
+def lineage(t: str):
+    up = set(go.ancestors(t, predicates=[IS_A, PART_OF], reflexive=True))
+    dn = set(go.descendants(t, predicates=[IS_A, PART_OF]))
+    return up.union(dn)
 
-<span class="c1">#len(lineage(&quot;GO:0005737&quot;))</span>
+#len(lineage(&quot;GO:0005737&quot;))
 
-<span class="nd">@lru_cache</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">ancs</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">],</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+@lru_cache
+def ancs(t: str):
+    return set(go.ancestors(t, predicates=[IS_A, PART_OF], reflexive=True))
 </pre></div>
 </div>
 </div>
@@ -973,40 +971,40 @@ original_input:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[290]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
 
-<span class="k">def</span><span class="w"> </span><span class="nf">pmid</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
-    <span class="n">pubs</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">publications</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;PMID&quot;</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="n">pubs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pubs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Multiple PMIDs: </span><span class="si">{</span><span class="n">pubs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pubs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="kc">None</span>
+def pmid(a):
+    pubs = [p for p in a.publications if p.startswith(&quot;PMID&quot;)]
+    if pubs:
+        if len(pubs) &gt; 1:
+            raise ValueError(f&quot;Multiple PMIDs: {pubs}&quot;)
+        return pubs[0]
+    return None
 
-<span class="nd">@lru_cache</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">lbl</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+@lru_cache
+def lbl(t: str):
+    return go.label(t)
 
-<span class="k">def</span><span class="w"> </span><span class="nf">assocs_to_df</span><span class="p">(</span><span class="n">assocs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">release</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+def assocs_to_df(assocs: list, release: str):
 
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span>
-        <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
-        <span class="s2">&quot;subject_label&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">subject_label</span><span class="p">,</span>
-        <span class="s2">&quot;predicate&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
-        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
-        <span class="s2">&quot;object_label&quot;</span><span class="p">:</span> <span class="n">lbl</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="p">),</span>
-        <span class="s2">&quot;object_obsoletes&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">object</span> <span class="ow">in</span> <span class="n">obsoletes</span><span class="p">,</span>
-        <span class="s2">&quot;object_uninformative&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">object</span> <span class="ow">in</span> <span class="n">non_informative</span><span class="p">,</span>
-        <span class="s2">&quot;object_closure&quot;</span><span class="p">:</span> <span class="n">ancs</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="p">),</span>
-        <span class="s2">&quot;object_closure_redundant&quot;</span><span class="p">:</span> <span class="n">ancs</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="p">},</span>
-        <span class="s2">&quot;evidence&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">evidence_type</span><span class="p">,</span>
-        <span class="s2">&quot;is_iba&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">evidence_type</span> <span class="o">==</span> <span class="s2">&quot;IBA&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;negated&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">negated</span><span class="p">,</span>
-        <span class="s2">&quot;pmid&quot;</span><span class="p">:</span> <span class="n">pmid</span><span class="p">(</span><span class="n">a</span><span class="p">),</span>
-        <span class="s2">&quot;pubs&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">publications</span><span class="p">,</span>
-        <span class="s2">&quot;release&quot;</span><span class="p">:</span> <span class="n">release</span><span class="p">,</span>
-    <span class="p">}</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assocs</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">df</span>
+    df = pd.DataFrame([{
+        &quot;subject&quot;: a.subject,
+        &quot;subject_label&quot;: a.subject_label,
+        &quot;predicate&quot;: a.predicate,
+        &quot;object&quot;: a.object,
+        &quot;object_label&quot;: lbl(a.object),
+        &quot;object_obsoletes&quot;: a.object in obsoletes,
+        &quot;object_uninformative&quot;: a.object in non_informative,
+        &quot;object_closure&quot;: ancs(a.object),
+        &quot;object_closure_redundant&quot;: ancs(a.object) - {a.object},
+        &quot;evidence&quot;: a.evidence_type,
+        &quot;is_iba&quot;: a.evidence_type == &quot;IBA&quot;,
+        &quot;negated&quot;: a.negated,
+        &quot;pmid&quot;: pmid(a),
+        &quot;pubs&quot;: a.publications,
+        &quot;release&quot;: release,
+    } for a in assocs])
+    return df
 </pre></div>
 </div>
 </div>
@@ -1014,10 +1012,10 @@ original_input:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[291]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">human_df</span> <span class="o">=</span> <span class="n">assocs_to_df</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;goa_human&quot;</span><span class="p">][</span><span class="n">LATEST</span><span class="p">],</span> <span class="n">LATEST</span><span class="p">)</span>
-<span class="n">tair_df</span> <span class="o">=</span> <span class="n">assocs_to_df</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;tair&quot;</span><span class="p">][</span><span class="n">LATEST</span><span class="p">],</span> <span class="n">LATEST</span><span class="p">)</span>
-<span class="n">sgd_df</span> <span class="o">=</span> <span class="n">assocs_to_df</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;sgd&quot;</span><span class="p">][</span><span class="n">LATEST</span><span class="p">],</span> <span class="n">LATEST</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">sgd_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>human_df = assocs_to_df(db[&quot;goa_human&quot;][LATEST], LATEST)
+tair_df = assocs_to_df(db[&quot;tair&quot;][LATEST], LATEST)
+sgd_df = assocs_to_df(db[&quot;sgd&quot;][LATEST], LATEST)
+df = sgd_df
 </pre></div>
 </div>
 </div>
@@ -1025,7 +1023,7 @@ original_input:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[292]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">prev_df</span> <span class="o">=</span> <span class="n">assocs_to_df</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;sgd&quot;</span><span class="p">][</span><span class="n">PREVIOUS</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">PREVIOUS</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>prev_df = assocs_to_df(db[&quot;sgd&quot;][PREVIOUS[-1]], PREVIOUS[-1])
 </pre></div>
 </div>
 </div>
@@ -1033,7 +1031,7 @@ original_input:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[293]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df
 </pre></div>
 </div>
 </div>
@@ -1285,25 +1283,25 @@ original_input:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[294]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>from typing import Dict, List, Optional
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">repair_assocs_df</span><span class="p">(</span><span class="n">assocs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Ensures that IDs are normalized.</span>
+def repair_assocs_df(assocs: pd.DataFrame):
+    &quot;&quot;&quot;
+    Ensures that IDs are normalized.
 
-<span class="sd">    :param assocs:</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># may not be 1:1</span>
-    <span class="n">subject_label_to_ids</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
-    <span class="n">subject_label_to_ids</span> <span class="o">=</span> <span class="n">assocs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;subject_label&quot;</span><span class="p">)[</span><span class="s2">&quot;subject&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-    <span class="n">labels_with_multiple_ids</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">subject_label_to_ids</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">}</span>
-    <span class="k">if</span> <span class="n">labels_with_multiple_ids</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Multiple IDs for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_with_multiple_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> labels&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">labels_with_multiple_ids</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">5</span><span class="p">])</span>
-    <span class="n">labels_to_canonical</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">subject_label_to_ids</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-    <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;subject_label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">labels_to_canonical</span><span class="p">)</span>
+    :param assocs:
+    :return:
+    &quot;&quot;&quot;
+    # may not be 1:1
+    subject_label_to_ids: Dict[str, List[str]]
+    subject_label_to_ids = assocs.groupby(&quot;subject_label&quot;)[&quot;subject&quot;].aggregate(lambda x: list(set(x))).to_dict()
+    labels_with_multiple_ids = {k: v for k, v in subject_label_to_ids.items() if len(v) &gt; 1}
+    if labels_with_multiple_ids:
+        print(f&quot;Multiple IDs for {len(labels_with_multiple_ids)} labels&quot;)
+        print(list(labels_with_multiple_ids.items())[:5])
+    labels_to_canonical = {k: sorted(list(v))[0] for k, v in subject_label_to_ids.items()}
+    assocs[&#39;subject&#39;] = assocs[&#39;subject_label&#39;].map(labels_to_canonical)
 </pre></div>
 </div>
 </div>
@@ -1311,9 +1309,9 @@ original_input:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[295]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">test_df</span> <span class="o">=</span> <span class="n">tair_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">repair_assocs_df</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
-<span class="n">test_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>test_df = tair_df.copy()
+repair_assocs_df(test_df)
+test_df
 </pre></div>
 </div>
 </div>
@@ -1574,7 +1572,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[296]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">test_df</span><span class="p">[</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;subject_label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;GALT6&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>test_df[test_df[&#39;subject_label&#39;] == &quot;GALT6&quot;]
 </pre></div>
 </div>
 </div>
@@ -1843,35 +1841,35 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[297]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_gene_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    creates a new dataframe, grouped by gene (subject)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><br/><span></span>def create_gene_df(df: pd.DataFrame):
+    &quot;&quot;&quot;
+    creates a new dataframe, grouped by gene (subject)
 
-<span class="sd">    :param df:</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">gene_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;subject&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
-        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;is_iba&quot;</span><span class="p">:</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;negated&quot;</span><span class="p">:</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span>
-        <span class="c1"># for object, take the union of all distinct values</span>
-        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
-        <span class="c1"># for object closure, take the union of all sets</span>
-        <span class="s2">&quot;object_closure&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">),</span>
-        <span class="s2">&quot;object_closure_redundant&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">),</span>
-        <span class="s2">&quot;pmid&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
-        <span class="c1">#&quot;pubs&quot;: lambda x: set.union(set(x)),</span>
-        <span class="s2">&quot;release&quot;</span><span class="p">:</span> <span class="s2">&quot;first&quot;</span><span class="p">,</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="c1"># the redundant closure is the set difference of object_closure and object</span>
-    <span class="n">gene_df</span> <span class="o">=</span> <span class="n">gene_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="s2">&quot;terms&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;is_iba&quot;</span><span class="p">:</span> <span class="s2">&quot;n_iba&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;negated&quot;</span><span class="p">:</span> <span class="s2">&quot;n_negated&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;object_closure&quot;</span><span class="p">:</span> <span class="s2">&quot;closure&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pmid&quot;</span><span class="p">:</span> <span class="s2">&quot;n_pmid&quot;</span><span class="p">,</span>
-    <span class="p">})</span>
-    <span class="k">return</span> <span class="n">gene_df</span>
+    :param df:
+    :return:
+    &quot;&quot;&quot;
+    gene_df = df.groupby(&quot;subject&quot;).agg({
+        &quot;object&quot;: &quot;count&quot;,
+        &quot;is_iba&quot;: &quot;sum&quot;,
+        &quot;negated&quot;: &quot;sum&quot;,
+        # for object, take the union of all distinct values
+        &quot;object&quot;: lambda x: set(x),
+        # for object closure, take the union of all sets
+        &quot;object_closure&quot;: lambda x: set.union(*x),
+        &quot;object_closure_redundant&quot;: lambda x: set.union(*x),
+        &quot;pmid&quot;: lambda x: set(x),
+        #&quot;pubs&quot;: lambda x: set.union(set(x)),
+        &quot;release&quot;: &quot;first&quot;,
+    }).reset_index()
+    # the redundant closure is the set difference of object_closure and object
+    gene_df = gene_df.rename(columns={
+        &quot;object&quot;: &quot;terms&quot;,
+        &quot;is_iba&quot;: &quot;n_iba&quot;,
+        &quot;negated&quot;: &quot;n_negated&quot;,
+        &quot;object_closure&quot;: &quot;closure&quot;,
+        &quot;pmid&quot;: &quot;n_pmid&quot;,
+    })
+    return gene_df
 </pre></div>
 </div>
 </div>
@@ -1879,8 +1877,8 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[298]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_df</span> <span class="o">=</span> <span class="n">create_gene_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">gene_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>gene_df = create_gene_df(df)
+gene_df
 </pre></div>
 </div>
 </div>
@@ -2048,27 +2046,27 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[299]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">set_redundant_flag</span><span class="p">(</span><span class="n">assocs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">gene_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sets the redundant flag for each association, if the object is in object_closure_redundant for that gene.</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def set_redundant_flag(assocs: pd.DataFrame, gene_df: pd.DataFrame):
+    &quot;&quot;&quot;
+    Sets the redundant flag for each association, if the object is in object_closure_redundant for that gene.
 
-<span class="sd">    :param assocs:</span>
-<span class="sd">    :param gene_df:</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Create a mapping of subject to object_closure_redundant</span>
-    <span class="n">redundant_map</span> <span class="o">=</span> <span class="n">gene_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;subject&#39;</span><span class="p">)[</span><span class="s1">&#39;object_closure_redundant&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    :param assocs:
+    :param gene_df:
+    :return:
+    &quot;&quot;&quot;
+    # Create a mapping of subject to object_closure_redundant
+    redundant_map = gene_df.set_index(&#39;subject&#39;)[&#39;object_closure_redundant&#39;].to_dict()
 
-    <span class="c1"># Vectorized check for each row</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">check_redundant</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;is_iba&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">closure_set</span> <span class="o">=</span> <span class="n">redundant_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="nb">set</span><span class="p">())</span>
-        <span class="n">is_redundant</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">closure_set</span>
-        <span class="k">return</span> <span class="n">is_redundant</span>
+    # Vectorized check for each row
+    def check_redundant(row):
+        if row[&#39;is_iba&#39;]:
+            return False
+        closure_set = redundant_map.get(row[&#39;subject&#39;], set())
+        is_redundant = row[&#39;object&#39;] in closure_set
+        return is_redundant
 
-    <span class="c1"># Apply the check to all rows at once</span>
-    <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">check_redundant</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    # Apply the check to all rows at once
+    assocs[&#39;redundant&#39;] = assocs.apply(check_redundant, axis=1)
 </pre></div>
 </div>
 </div>
@@ -2076,7 +2074,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[300]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;redundant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df[&quot;redundant&quot;] = False
 </pre></div>
 </div>
 </div>
@@ -2084,7 +2082,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[301]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">set_redundant_flag</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_df</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>set_redundant_flag(df, gene_df)
 </pre></div>
 </div>
 </div>
@@ -2092,7 +2090,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[302]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">]]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>df[df[&#39;redundant&#39;]]
 </pre></div>
 </div>
 </div>
@@ -2356,26 +2354,26 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[303]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">annotate_new_pubs</span><span class="p">(</span><span class="n">assocs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">prev_assocs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Annotates each association in assocs with fresh if its pmid is not in prev_assocs.</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def annotate_new_pubs(assocs: pd.DataFrame, prev_assocs: pd.DataFrame):
+    &quot;&quot;&quot;
+    Annotates each association in assocs with fresh if its pmid is not in prev_assocs.
 
-<span class="sd">    :param assocs</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prev_pmid_map</span> <span class="o">=</span> <span class="n">prev_assocs</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;pmid&#39;</span><span class="p">)[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    :param assocs
+    &quot;&quot;&quot;
+    prev_pmid_map = prev_assocs.set_index(&#39;pmid&#39;)[&#39;subject&#39;].to_dict()
 
-    <span class="c1"># Vectorized check for each row</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">check_new</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;pmid&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">prev_pmid_map</span>
+    # Vectorized check for each row
+    def check_new(row):
+        return row[&#39;pmid&#39;] not in prev_pmid_map
 
-    <span class="c1"># Apply the check to all rows in prev_assocs</span>
-    <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;pmid_new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">check_new</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    # Apply the check to all rows in prev_assocs
+    assocs[&#39;pmid_new&#39;] = assocs.apply(check_new, axis=1)
 
-    <span class="c1"># annotate tuple as unique if (subject, object) is not in prev</span>
-    <span class="n">prev_pair_assocs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]))</span>
-    <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;is_new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">~</span><span class="n">assocs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span> <span class="ow">in</span> <span class="n">prev_pair_assocs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    # annotate tuple as unique if (subject, object) is not in prev
+    prev_pair_assocs = set(zip(prev_assocs[&#39;subject&#39;], prev_assocs[&#39;object&#39;]))
+    assocs[&#39;is_new&#39;] = ~assocs.apply(lambda x: (x[&#39;subject&#39;], x[&#39;object&#39;]) in prev_pair_assocs, axis=1)
 
-    <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;fresh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;pmid_new&#39;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;is_new&#39;</span><span class="p">]</span>
+    assocs[&#39;fresh&#39;] = assocs[&#39;pmid_new&#39;] &amp; assocs[&#39;is_new&#39;]
 </pre></div>
 </div>
 </div>
@@ -2383,27 +2381,27 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[304]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">annotate_redacted_pubs</span><span class="p">(</span><span class="n">assocs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">prev_assocs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Annotates each association in prev_assocs with retracted if its pmid is not in assocs (latest).</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def annotate_redacted_pubs(assocs: pd.DataFrame, prev_assocs: pd.DataFrame):
+    &quot;&quot;&quot;
+    Annotates each association in prev_assocs with retracted if its pmid is not in assocs (latest).
 
-<span class="sd">    :param assocs</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Create a mapping of pmid to subject</span>
-    <span class="n">pmid_map</span> <span class="o">=</span> <span class="n">assocs</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;pmid&#39;</span><span class="p">)[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    :param assocs
+    &quot;&quot;&quot;
+    # Create a mapping of pmid to subject
+    pmid_map = assocs.set_index(&#39;pmid&#39;)[&#39;subject&#39;].to_dict()
 
-    <span class="c1"># Vectorized check for each row</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">check_removed</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;pmid&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pmid_map</span>
+    # Vectorized check for each row
+    def check_removed(row):
+        return row[&#39;pmid&#39;] not in pmid_map
 
-    <span class="c1"># Apply the check to all rows in prev_assocs</span>
-    <span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;pmid_removed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prev_assocs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">check_removed</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    # Apply the check to all rows in prev_assocs
+    prev_assocs[&#39;pmid_removed&#39;] = prev_assocs.apply(check_removed, axis=1)
 
-    <span class="c1"># annotate tuple as unique if (subject, object) is not in latest</span>
-    <span class="n">pair_assocs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]))</span>
-    <span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;unique&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">~</span><span class="n">prev_assocs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span> <span class="ow">in</span> <span class="n">pair_assocs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    # annotate tuple as unique if (subject, object) is not in latest
+    pair_assocs = set(zip(assocs[&#39;subject&#39;], assocs[&#39;object&#39;]))
+    prev_assocs[&#39;unique&#39;] = ~prev_assocs.apply(lambda x: (x[&#39;subject&#39;], x[&#39;object&#39;]) in pair_assocs, axis=1)
 
-    <span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;redacted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;pmid_removed&#39;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;unique&#39;</span><span class="p">]</span>
+    prev_assocs[&#39;redacted&#39;] = prev_assocs[&#39;pmid_removed&#39;] &amp; prev_assocs[&#39;unique&#39;]
 </pre></div>
 </div>
 </div>
@@ -2411,7 +2409,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[305]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">annotate_redacted_pubs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">prev_df</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>annotate_redacted_pubs(df, prev_df)
 <br/></pre></div>
 </div>
 </div>
@@ -2419,7 +2417,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[306]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#prev_df[&#39;redacted&#39;] = prev_df[&#39;pmid_removed&#39;] &amp; prev_df[&#39;unique&#39;]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#prev_df[&#39;redacted&#39;] = prev_df[&#39;pmid_removed&#39;] &amp; prev_df[&#39;unique&#39;]
 </pre></div>
 </div>
 </div>
@@ -2435,7 +2433,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[307]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#list(set(df[&#39;subject&#39;]))[:5]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#list(set(df[&#39;subject&#39;]))[:5]
 </pre></div>
 </div>
 </div>
@@ -2443,9 +2441,9 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[308]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#iba_df = df[df[&#39;is_iba&#39;]]</span>
-<span class="c1">#iba_subjects = set(iba_df[&#39;subject&#39;])</span>
-<span class="c1">#list(iba_subjects)[:5]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#iba_df = df[df[&#39;is_iba&#39;]]
+#iba_subjects = set(iba_df[&#39;subject&#39;])
+#list(iba_subjects)[:5]
 </pre></div>
 </div>
 </div>
@@ -2453,27 +2451,27 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[309]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">set_iba_status</span><span class="p">(</span><span class="n">assocs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-    <span class="n">iba_df</span> <span class="o">=</span> <span class="n">assocs</span><span class="p">[</span><span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;is_iba&#39;</span><span class="p">]]</span>
-    <span class="n">iba_subjects</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">iba_df</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">])</span>
-    <span class="c1"># set the IBA rejected as associations for which</span>
-    <span class="c1"># (a) the subject has an IBA association</span>
-    <span class="c1"># (b) the object is not in the closure of the object in the IBA association</span>
-    <span class="c1"># first we set the iba closure for each subject</span>
-    <span class="n">iba_closure</span> <span class="o">=</span> <span class="n">iba_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;subject&#39;</span><span class="p">)[</span><span class="s1">&#39;object_closure&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-    <span class="c1"># now we set IBA rejected for each row</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">check_iba_rejected</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;is_iba&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">iba_subjects</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">iba_closure</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="nb">set</span><span class="p">())</span>
-        <span class="c1">#if row[&#39;subject&#39;].startswith(&quot;TAIR&quot;):</span>
-        <span class="c1">#    print(f&quot;Checking {row[&#39;subject&#39;]} in {list(iba_subjects)[:5]}&quot;)</span>
-        <span class="c1">#return row[&#39;subject&#39;] in iba_subjects</span>
-        <span class="c1">#return True</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def set_iba_status(assocs: pd.DataFrame):
+    iba_df = assocs[assocs[&#39;is_iba&#39;]]
+    iba_subjects = set(iba_df[&#39;subject&#39;])
+    # set the IBA rejected as associations for which
+    # (a) the subject has an IBA association
+    # (b) the object is not in the closure of the object in the IBA association
+    # first we set the iba closure for each subject
+    iba_closure = iba_df.groupby(&#39;subject&#39;)[&#39;object_closure&#39;].aggregate(lambda x: set.union(*x)).to_dict()
+    # now we set IBA rejected for each row
+    def check_iba_rejected(row):
+        if row[&#39;is_iba&#39;]:
+            return False
+        return row[&#39;subject&#39;] in iba_subjects and row[&#39;object&#39;] not in iba_closure.get(row[&#39;subject&#39;], set())
+        #if row[&#39;subject&#39;].startswith(&quot;TAIR&quot;):
+        #    print(f&quot;Checking {row[&#39;subject&#39;]} in {list(iba_subjects)[:5]}&quot;)
+        #return row[&#39;subject&#39;] in iba_subjects
+        #return True
 
-    <span class="n">assocs</span><span class="p">[</span><span class="s1">&#39;iba_rejected&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assocs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">check_iba_rejected</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    assocs[&#39;iba_rejected&#39;] = assocs.apply(check_iba_rejected, axis=1)
 
-<span class="c1">#set_iba_status(df)</span>
+#set_iba_status(df)
 </pre></div>
 </div>
 </div>
@@ -2489,7 +2487,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[310]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">human_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>human_df
 </pre></div>
 </div>
 </div>
@@ -2741,7 +2739,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[311]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">set_iba_status</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>set_iba_status(test_df)
 </pre></div>
 </div>
 </div>
@@ -2749,7 +2747,7 @@ Multiple IDs for 5258 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[312]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;iba_rejected&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>test_df[&#39;iba_rejected&#39;].unique()
 </pre></div>
 </div>
 </div>
@@ -2766,7 +2764,7 @@ array([False,  True])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[313]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#set_iba_status(df)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#set_iba_status(df)
 </pre></div>
 </div>
 </div>
@@ -2782,28 +2780,28 @@ array([False,  True])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[314]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">synthesize</span><span class="p">(</span><span class="n">grp</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Synthesizes the above steps</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">assocs</span> <span class="o">=</span> <span class="n">assocs_to_df</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="n">grp</span><span class="p">][</span><span class="n">LATEST</span><span class="p">],</span> <span class="n">LATEST</span><span class="p">)</span>
-    <span class="n">prev_df_sets</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">prev</span> <span class="ow">in</span> <span class="n">PREVIOUS</span><span class="p">:</span>
-        <span class="n">this_prev_assocs</span> <span class="o">=</span> <span class="n">assocs_to_df</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="n">grp</span><span class="p">][</span><span class="n">prev</span><span class="p">],</span> <span class="n">prev</span><span class="p">)</span>
-        <span class="n">prev_df_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_prev_assocs</span><span class="p">)</span>
-    <span class="n">annotate_new_pubs</span><span class="p">(</span><span class="n">assocs</span><span class="p">,</span> <span class="n">prev_df_sets</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="c1">#prev_assocs = pd.concat(prev_df_sets).drop_duplicates()</span>
-    <span class="n">prev_assocs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">prev_df_sets</span><span class="p">)</span>
-    <span class="c1"># prev_assocs = assocs_to_df(db[grp][PREVIOUS[0]], PREVIOUS[0])</span>
-    <span class="n">repair_assocs_df</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span>
-    <span class="n">repair_assocs_df</span><span class="p">(</span><span class="n">prev_assocs</span><span class="p">)</span>
-    <span class="c1"># Create a gene dataframe (for latest only)</span>
-    <span class="n">gene_df</span> <span class="o">=</span> <span class="n">create_gene_df</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span>
-    <span class="n">annotate_redacted_pubs</span><span class="p">(</span><span class="n">assocs</span><span class="p">,</span> <span class="n">prev_assocs</span><span class="p">)</span>
-    <span class="n">new_assocs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">assocs</span><span class="p">,</span> <span class="n">prev_assocs</span><span class="p">[</span><span class="n">prev_assocs</span><span class="p">[</span><span class="s1">&#39;redacted&#39;</span><span class="p">]]])</span>
-    <span class="n">set_redundant_flag</span><span class="p">(</span><span class="n">new_assocs</span><span class="p">,</span> <span class="n">gene_df</span><span class="p">)</span>
-    <span class="n">set_iba_status</span><span class="p">(</span><span class="n">new_assocs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">new_assocs</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def synthesize(grp: str) -&gt; pd.DataFrame:
+    &quot;&quot;&quot;
+    Synthesizes the above steps
+    &quot;&quot;&quot;
+    assocs = assocs_to_df(db[grp][LATEST], LATEST)
+    prev_df_sets = []
+    for prev in PREVIOUS:
+        this_prev_assocs = assocs_to_df(db[grp][prev], prev)
+        prev_df_sets.append(this_prev_assocs)
+    annotate_new_pubs(assocs, prev_df_sets[0])
+    #prev_assocs = pd.concat(prev_df_sets).drop_duplicates()
+    prev_assocs = pd.concat(prev_df_sets)
+    # prev_assocs = assocs_to_df(db[grp][PREVIOUS[0]], PREVIOUS[0])
+    repair_assocs_df(assocs)
+    repair_assocs_df(prev_assocs)
+    # Create a gene dataframe (for latest only)
+    gene_df = create_gene_df(assocs)
+    annotate_redacted_pubs(assocs, prev_assocs)
+    new_assocs = pd.concat([assocs, prev_assocs[prev_assocs[&#39;redacted&#39;]]])
+    set_redundant_flag(new_assocs, gene_df)
+    set_iba_status(new_assocs)
+    return new_assocs
 </pre></div>
 </div>
 </div>
@@ -2811,7 +2809,7 @@ array([False,  True])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[315]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">new_human</span> <span class="o">=</span> <span class="n">synthesize</span><span class="p">(</span><span class="s2">&quot;goa_human&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>new_human = synthesize(&quot;goa_human&quot;)
 </pre></div>
 </div>
 </div>
@@ -2830,7 +2828,7 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[316]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">new_human</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>new_human
 </pre></div>
 </div>
 </div>
@@ -3154,7 +3152,7 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[317]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">new_human</span><span class="p">[</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;iba_rejected&#39;</span><span class="p">]]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>new_human[new_human[&#39;iba_rejected&#39;]]
 </pre></div>
 </div>
 </div>
@@ -3478,8 +3476,8 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[318]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">prev_human_df</span> <span class="o">=</span> <span class="n">assocs_to_df</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;goa_human&quot;</span><span class="p">][</span><span class="n">PREVIOUS</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">PREVIOUS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="c1">#annotate_new_pubs(human_df, prev_human_df)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>prev_human_df = assocs_to_df(db[&quot;goa_human&quot;][PREVIOUS[0]], PREVIOUS[0])
+#annotate_new_pubs(human_df, prev_human_df)
 </pre></div>
 </div>
 </div>
@@ -3487,7 +3485,7 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[319]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">annotate_new_pubs</span><span class="p">(</span><span class="n">human_df</span><span class="p">,</span> <span class="n">prev_human_df</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>annotate_new_pubs(human_df, prev_human_df)
 </pre></div>
 </div>
 </div>
@@ -3495,7 +3493,7 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[320]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">human_df</span><span class="p">[</span><span class="n">human_df</span><span class="p">[</span><span class="s1">&#39;fresh&#39;</span><span class="p">]]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>human_df[human_df[&#39;fresh&#39;]]
 </pre></div>
 </div>
 </div>
@@ -3783,7 +3781,7 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[321]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#pair_assocs, pair_anns = annotate_assocs(&quot;tair&quot;)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#pair_assocs, pair_anns = annotate_assocs(&quot;tair&quot;)
 </pre></div>
 </div>
 </div>
@@ -3791,7 +3789,7 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[322]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">new_human</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;output/go-human-assocs-annotated.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>new_human.to_csv(&quot;output/go-human-assocs-annotated.csv&quot;, index=False)
 </pre></div>
 </div>
 </div>
@@ -3799,8 +3797,8 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[332]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">test_cases_df</span> <span class="o">=</span> <span class="n">new_human</span><span class="p">[(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;fresh&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;object_uninformative&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;negated&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;iba_rejected&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)]</span>
-<span class="n">test_cases_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>test_cases_df = new_human[(new_human[&#39;fresh&#39;] == True) &amp; (new_human[&#39;object_uninformative&#39;] == False) &amp; (new_human[&#39;negated&#39;] != True) &amp; (new_human[&#39;redundant&#39;] != True) &amp; (new_human[&#39;iba_rejected&#39;] != True)]
+test_cases_df
 </pre></div>
 </div>
 </div>
@@ -4124,32 +4122,32 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[350]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">row_to_test_case</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="s2">&quot;YES&quot;</span><span class="p">):</span>
-    <span class="n">gene</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;subject_label&#39;</span><span class="p">]</span>
-    <span class="n">term</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;object_label&#39;</span><span class="p">]</span>
-    <span class="n">predicate</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;predicate&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">gene</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">term</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">predicate</span><span class="p">:</span>
-        <span class="k">return</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>def row_to_test_case(row, answer=&quot;YES&quot;):
+    gene = row[&#39;subject_label&#39;]
+    term = row[&#39;object_label&#39;]
+    predicate = row[&#39;predicate&#39;]
+    if not gene or not term or not predicate:
+        return
 
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">predicate</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">term</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;original_input&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]),</span>
-            <span class="s2">&quot;predicate&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;predicate&#39;</span><span class="p">]),</span>
-            <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]),</span>
-        <span class="p">},</span>
-        <span class="s2">&quot;ideal&quot;</span><span class="p">:</span> <span class="n">answer</span><span class="p">,</span>
-    <span class="p">}</span>
+    return {
+        &quot;input&quot;: f&quot;{gene} {predicate} {term}&quot;,
+        &quot;original_input&quot;: {
+            &quot;subject&quot;: str(row[&#39;subject&#39;]),
+            &quot;predicate&quot;: str(row[&#39;predicate&#39;]),
+            &quot;object&quot;: str(row[&#39;object&#39;]),
+        },
+        &quot;ideal&quot;: answer,
+    }
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">df_to_test_cases</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-    <span class="n">cases</span> <span class="o">=</span> <span class="p">[</span><span class="n">row_to_test_case</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
-    <span class="n">cases</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cases</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">limit</span><span class="p">:</span>
-        <span class="n">cases</span> <span class="o">=</span> <span class="n">cases</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">cases</span>
+def df_to_test_cases(df: pd.DataFrame, limit=1000):
+    cases = [row_to_test_case(row) for _, row in df.iterrows()]
+    cases = [x for x in cases if x is not None]
+    if limit:
+        cases = cases[:limit]
+    return cases
 
-<span class="n">df_to_test_cases</span><span class="p">(</span><span class="n">test_cases_df</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+df_to_test_cases(test_cases_df, limit=5)
 </pre></div>
 </div>
 </div>
@@ -4190,7 +4188,7 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[341]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#cases = [row_to_test_case(row) for _, row in test_cases_df.iterrows()]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#cases = [row_to_test_case(row) for _, row in test_cases_df.iterrows()]
 <br/></pre></div>
 </div>
 </div>
@@ -4198,10 +4196,10 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[343]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>import yaml
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;output/test-cases.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s2">&quot;cases&quot;</span><span class="p">:</span> <span class="n">cases</span><span class="p">},</span> <span class="n">f</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+with open(&quot;output/test-cases.yaml&quot;, &quot;w&quot;) as f:
+    yaml.dump({&quot;cases&quot;: cases}, f, sort_keys=False)
 </pre></div>
 </div>
 </div>
@@ -4209,8 +4207,8 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[345]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">redacted_df</span> <span class="o">=</span> <span class="n">new_human</span><span class="p">[(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;redacted&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;object_uninformative&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;negated&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;iba_rejected&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)]</span>
-<span class="n">redacted_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>redacted_df = new_human[(new_human[&#39;redacted&#39;] == True) &amp; (new_human[&#39;object_uninformative&#39;] == False) &amp; (new_human[&#39;negated&#39;] != True) &amp; (new_human[&#39;redundant&#39;] != True) &amp; (new_human[&#39;iba_rejected&#39;] != True)]
+redacted_df
 </pre></div>
 </div>
 </div>
@@ -4534,10 +4532,10 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[346]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">cases</span> <span class="o">=</span> <span class="p">[</span><span class="n">row_to_test_case</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">redacted_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>cases = [row_to_test_case(row) for _, row in redacted_df.iterrows()]
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;output/test-cases-redacted.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s2">&quot;cases&quot;</span><span class="p">:</span> <span class="n">cases</span><span class="p">},</span> <span class="n">f</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+with open(&quot;output/test-cases-redacted.yaml&quot;, &quot;w&quot;) as f:
+    yaml.dump({&quot;cases&quot;: cases}, f, sort_keys=False)
 </pre></div>
 </div>
 </div>
@@ -4545,8 +4543,8 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[348]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">iba_df</span> <span class="o">=</span> <span class="n">new_human</span><span class="p">[(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;is_iba&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;object_uninformative&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;negated&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_human</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">)]</span>
-<span class="n">iba_df</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>iba_df = new_human[(new_human[&#39;is_iba&#39;] == True) &amp; (new_human[&#39;object_uninformative&#39;] == False) &amp; (new_human[&#39;negated&#39;] != True) &amp; (new_human[&#39;redundant&#39;] != True)]
+iba_df
 </pre></div>
 </div>
 </div>
@@ -4870,8 +4868,8 @@ Multiple IDs for 100 labels
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[351]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;output/test-cases-iba.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s2">&quot;cases&quot;</span><span class="p">:</span> <span class="n">df_to_test_cases</span><span class="p">(</span><span class="n">iba_df</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1000</span><span class="p">)},</span> <span class="n">f</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>with open(&quot;output/test-cases-iba.yaml&quot;, &quot;w&quot;) as f:
+    yaml.dump({&quot;cases&quot;: df_to_test_cases(iba_df, limit=1000)}, f, sort_keys=False)
 </pre></div>
 </div>
 </div>
@@ -4894,7 +4892,7 @@ Multiple IDs for 100 labels
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022-2025, OAK developers.</p>
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
