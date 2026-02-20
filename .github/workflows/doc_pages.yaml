@@ -18,11 +18,27 @@ jobs:
       with:
         python-version: 3.12
 
-    - name: Install uv
+    - name: Download uv
       uses: astral-sh/setup-uv@v7.3.0
 
-    - name: Execute make file command.
-      run: uv run make make-docs
+
+    - name: Install python packages
+      run: uv sync --extra "docs"
+    
+    - name: Install pandoc 
+      run: uv run make get-pandoc
+       
+    - name: Prep ./gh-pages directory
+      run: uv run make prep-gh-pages-dir
+
+    - name: Run all gendoc commands
+      run: uv run make run-all-gendoc-cmds 
+
+    - name: Execute sphinx-build
+      run: uv run make sphinx-cmd
+
+    - name: Stage docs
+      run: uv run make stage-docs
 
     - name: Deploy documentation.
       if: ${{ github.event_name == 'push' }}

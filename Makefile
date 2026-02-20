@@ -59,7 +59,7 @@ get-pandoc:
 	pandoc --version
 
 .PHONY: prep-gh-pages-dir
-generate-docs:
+prep-gh-pages-dir:
 	rm gh-pages -rf
 	mkdir gh-pages
 	touch gh-pages/.nojekyll
