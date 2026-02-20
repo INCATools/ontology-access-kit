@@ -107,8 +107,8 @@ sphinx-cmd:
 
 .PHONY: stage-docs
 stage-docs:
-	cp -r _build/* ../gh-pages/
-	cp -r datamodels/* ../gh-pages/
+	cp -r docs/_build/* gh-pages/
+	cp -r docs/datamodels/* gh-pages/
 
 .PHONY: nb
 nb:
