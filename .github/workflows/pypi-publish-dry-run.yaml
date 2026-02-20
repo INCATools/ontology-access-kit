@@ -11,7 +11,6 @@ jobs:
   build-n-publish-dry-run:
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
         python-version: [ "3.9", "3.10", "3.11", "3.12" ]
     name: Build and publish Python 🐍 distributions 📦 to PyPI (DRY RUN)
     runs-on: ubuntu-latest
