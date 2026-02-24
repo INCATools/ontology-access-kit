@@ -34,7 +34,7 @@ dependencies = [
     "airium>=0.2.5",
     "ndex2>=3.5.0",
     "pysolr>=3.9.0,<4",
-    "eutils>=0.6.0",
+    "eutils>=0.6.1",
     "requests-cache>1.0.1,<2",
     "click<8.2", #TODO: This currently needs to be downgraded to below 8.2 because click removed the mix_stderr parameter which in our tests.
     "pydantic",
