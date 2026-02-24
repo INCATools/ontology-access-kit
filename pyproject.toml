@@ -5,13 +5,13 @@ description = "Ontology Access Kit: Python library for common ontology operation
 authors = [
     {name="Chris Mungall", email="cjm@berkeleybop.org"}
 ]
-requires-python = ">=3.9,<4"
+requires-python = ">=3.9,<4,<3.14" #Can't go to python 3.14 at the moment because gilda has a locked dependency to scikit-learn==1.4.2 
 license = "Apache-2.0"
 readme = "README.md"
 
 dependencies = [
     "curies>=0.6.6,<0.11", #TODO: needs to be downgraded because curie.convert.parse_uri is returning None; causing TestOboGraphUtils to fail
-    "pronto>=2.7.3", #TODO: We're skipping tests/test_implementations/test_aggregator.py until pronto/fastobo fixes a parsing bug.
+    "pronto>=2.7.3", #TODO: We're skipping tests/test_implementations/test_aggregator.py, test_implementations/test_pronto.py until pronto/fastobo fixes a parsing bug.
     "SPARQLWrapper",
     "SQLAlchemy>=1.4.32",
     "linkml-runtime>=1.5.3",
@@ -27,7 +27,7 @@ dependencies = [
     "kgcl-rdflib==0.5.0",
     "llm>=0.14,<1",
     "pystow>=0.5.0",
-    "class-resolver>=0.4.2",
+    "class-resolver>=0.6",
     "ontoportal-client>=0.0.3",
     "prefixmaps>=0.1.2",
     "ols-client>=0.1.1",
@@ -42,7 +42,6 @@ dependencies = [
     "tenacity>=8.2.3",
     "defusedxml>=0.7.1",
     "ruamel.yaml",
-#    "setuptools<82", #TODO: This currently needs to be downgraded because we still import pkg_resources, which is no longer supported. Should be replaced by importlib (https://setuptools.pypa.io/en/latest/history.html#v82-0-0)
     "greenlet",
     "semsimian",
 ]
@@ -67,8 +66,8 @@ dev = [
 ]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
 
 [project.scripts]
 runoak = "oaklib.cli:main"
@@ -84,7 +83,9 @@ docs = [
 ]
 
 gilda = [
-    "scipy", 
+    "setuptools", #TODO: This currently needs to be downgraded because we still import pkg_resources, which is no longer supported. Should be replaced by importlib (https://setuptools.pypa.io/en/latest/history.html#v82-0-0)
+    "scipy",
+    #"gilda", 
     "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
     "urllib3<2",
 ]
