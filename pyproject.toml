@@ -87,6 +87,7 @@ gilda = [
     "scipy",
     #"gilda", 
     "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
+    "scikit-learn>1.4.2",
     "urllib3<2",
 ]
 bioservices = ["bioservices"]
