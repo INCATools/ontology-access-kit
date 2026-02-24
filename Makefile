@@ -3,7 +3,7 @@ RUN = uv run
 
 .PHONY: tests
 tests:
-	$(INSTALL) --dev --extra "semsimian" --extra "gilda"
+	$(INSTALL) --dev --extra "gilda"
 	$(RUN) pytest tests/
 
 .PHONY: build-whl
