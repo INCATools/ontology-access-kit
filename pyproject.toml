@@ -34,7 +34,8 @@ dependencies = [
     "airium>=0.2.5",
     "ndex2>=3.5.0",
     "pysolr>=3.9.0,<4",
-    "eutils>=0.6.1",
+    "eutils>=0.6.0", #TODO: eutils==0.6.1 is only created for python>=3.12. It's forcing us to use setuptools. We need to go into the innards of the code and replace this dependency with an api call - GHIssue 852
+    "setuptools<82", #We need this for eutils==0.6.0
     "requests-cache>1.0.1,<2",
     "click<8.2", #TODO: This currently needs to be downgraded to below 8.2 because click removed the mix_stderr parameter which in our tests.
     "pydantic",
