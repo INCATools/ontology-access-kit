@@ -429,7 +429,7 @@ class ComplianceTester:
             labels = list(oi.labels([curie]))
             test.assertGreater(len(labels), 0)
             label = oi.label(curie, lang=lang)
-            test.assertEquals(expected_label, label, f"Label for {lang} did not match")
+            test.assertEqual(expected_label, label, f"Label for {lang} did not match")
             label_tuples = list(oi.multilingual_labels([curie]))
             if present:
                 test.assertIn(
@@ -446,7 +446,7 @@ class ComplianceTester:
             test.assertNotIn(lang, [lang[2] for lang in label_tuples])
             defn = oi.definition(curie, lang=lang)
             if expected_definition is not None:
-                test.assertEquals(expected_definition, defn, f"Definition for {lang} did not match")
+                test.assertEqual(expected_definition, defn, f"Definition for {lang} did not match")
             defns = list(oi.definitions([curie], lang=lang))
             if expected_definition is None:
                 pass
