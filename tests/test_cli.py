@@ -77,7 +77,13 @@ class TestCommandLineInterface(unittest.TestCase):
     def setUp(self) -> None:
         # TODO. Use contexts. https://stackoverflow.com/questions/64381222/python-click-access-option-values-globally
         clear_cli_settings()
-        runner = CliRunner(mix_stderr=False)
+        from importlib.metadata import version
+        #TODO: Eventually we should probably force click to be above 8.2, but right now that'd remove python 3.9 which would be nice to maintain.
+        if(version('click') < '8.2'):
+            runner = CliRunner(mix_stderr=False)
+        else:
+            runner = CliRunner()
+
         self.runner = runner
 
     def _out(self, path: Optional[str] = TEST_OUT) -> str:
