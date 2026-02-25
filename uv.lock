@@ -4315,17 +4315,6 @@ docs = [
     { name = "sphinx-rtd-theme" },
     { name = "sphinxcontrib-mermaid" },
 ]
-gilda = [
-    { name = "gilda" },
-    { name = "scikit-learn", version = "1.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
-    { name = "scikit-learn", version = "1.7.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
-    { name = "scikit-learn", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
-    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
-    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "setuptools" },
-    { name = "urllib3" },
-]
 llm = [
     { name = "aiohttp" },
     { name = "html2text" },
@@ -4354,6 +4343,16 @@ dev = [
     { name = "tox", version = "4.30.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "tox", version = "4.44.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
+gilda = [
+    { name = "gilda" },
+    { name = "scikit-learn", version = "1.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "scikit-learn", version = "1.7.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "scikit-learn", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "urllib3" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -4367,7 +4366,6 @@ requires-dist = [
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "eutils", specifier = ">=0.6.0" },
     { name = "funowl", specifier = ">=0.2.0" },
-    { name = "gilda", marker = "extra == 'gilda'", specifier = ">=1.0.0,<1.5.0" },
     { name = "greenlet" },
     { name = "html2text", marker = "extra == 'llm'" },
     { name = "jsonlines" },
@@ -4389,13 +4387,10 @@ requires-dist = [
     { name = "ratelimit", specifier = ">=2.2.1" },
     { name = "requests-cache", specifier = ">1.0.1,<2" },
     { name = "ruamel-yaml" },
-    { name = "scikit-learn", marker = "extra == 'gilda'", specifier = ">1.4.2" },
-    { name = "scipy", marker = "extra == 'gilda'" },
     { name = "seaborn", marker = "extra == 'seaborn'" },
     { name = "semsimian" },
     { name = "semsql", specifier = ">=0.3.1" },
     { name = "setuptools", specifier = "<82" },
-    { name = "setuptools", marker = "extra == 'gilda'" },
     { name = "sparqlwrapper" },
     { name = "sphinx", marker = "extra == 'docs'", specifier = ">=6.1.3" },
     { name = "sphinx-copybutton", marker = "extra == 'docs'", specifier = "==0.5.1" },
@@ -4404,9 +4399,8 @@ requires-dist = [
     { name = "sqlalchemy", specifier = ">=1.4.32" },
     { name = "sssom", specifier = ">=0.4.4,<1" },
     { name = "tenacity", specifier = ">=8.2.3" },
-    { name = "urllib3", marker = "extra == 'gilda'", specifier = "<2" },
 ]
-provides-extras = ["docs", "gilda", "bioservices", "llm", "seaborn"]
+provides-extras = ["docs", "bioservices", "llm", "seaborn"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -4424,6 +4418,12 @@ dev = [
     { name = "sphinx-rtd-theme", specifier = ">=1.0.0,<2" },
     { name = "sphinxcontrib-mermaid", specifier = ">=0.8.1,<1" },
     { name = "tox" },
+]
+gilda = [
+    { name = "gilda", specifier = ">=1.0.0,<1.5.0" },
+    { name = "scikit-learn", specifier = ">1.4.2" },
+    { name = "scipy" },
+    { name = "urllib3", specifier = "<2" },
 ]
 
 [[package]]

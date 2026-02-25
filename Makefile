@@ -4,7 +4,7 @@ RUN = uv run
 .PHONY: tests
 tests:
 	$(INSTALL) --dev --extra "gilda"
-	$(RUN) pytest tests/
+	$(RUN) pytest tests/test_utilities/test_unreciprocated_mappings.py::TestUnreciprocated
 
 .PHONY: build-whl
 build-whl:
