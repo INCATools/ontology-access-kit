@@ -65,6 +65,21 @@ dev = [
     "seaborn>=0.12.2,<1",
     "pip>=24.0,<25",
 ]
+gilda = [
+    "scipy",
+    #"gilda", 
+    "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
+    "scikit-learn>1.4.2",
+    "urllib3<2",
+]
+llm = [
+#    "llm", #This is a regular dependency.
+    "aiohttp",
+    "html2text",
+]
+bioservices = ["bioservices"]
+seaborn = ["seaborn"]
+
 
 [build-system]
 requires = ["hatchling", "uv-dynamic-versioning"]
@@ -83,21 +98,8 @@ docs = [
     "sphinx-copybutton==0.5.1",
 ]
 
-gilda = [
-    "setuptools", #TODO: This currently needs to be downgraded because we still import pkg_resources, which is no longer supported. Should be replaced by importlib (https://setuptools.pypa.io/en/latest/history.html#v82-0-0)
-    "scipy",
-    #"gilda", 
-    "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
-    "scikit-learn>1.4.2",
-    "urllib3<2",
-]
-bioservices = ["bioservices"]
-llm = [
-#    "llm", #This is a regular dependency.
-    "aiohttp",
-    "html2text",
-]
-seaborn = ["seaborn"]
+[tool.uv]
+default-groups = ["dev", "gilda"]
 
 [tool.black]
 line-length = 100
