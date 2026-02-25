@@ -106,16 +106,28 @@ class TestFileCache(unittest.TestCase):
     def test_parse_cache_configuration(self):
         cache = FileCache(None)  # we don't need a Pystow module here
 
-        with self.assertLogs() as log:
-            cache._get_configuration("tests/input/cache.conf")
-        self.assertTrue("missing caching policy" in log.output[0])
-        self.assertTrue("invalid caching policy" in log.output[1])
+        cache._get_configuration("tests/input/cache_configs/cache.conf")
 
         self.assertEqual(cache._default_policy._max_age, 86400 * 7)
         self.assertEqual(cache._policies[0][0], "uberon.db")
         self.assertEqual(cache._policies[0][1]._max_age, 86400 * 7 * 2)
         self.assertEqual(cache._policies[1][0], "fb*.db")
         self.assertEqual(cache._policies[1][1]._max_age, 86400 * 30)
+
+    def test_parse_invalid_cache_configuration(self):
+        cache = FileCache(None)  # we don't need a Pystow module here
+
+        with self.assertRaises(ValueError) as context: 
+            cache._get_configuration("tests/input/cache_configs/cache_invalid.conf")
+        self.assertEqual('bogus is an invalid cache policy', str(context.exception))
+
+
+    def test_parse_missing_cache_configuration(self):
+        cache = FileCache(None)  # we don't need a Pystow module here
+
+        with self.assertRaises(ValueError) as context: 
+            cache._get_configuration("tests/input/cache_configs/cache_missing.conf")
+        self.assertEqual("cache_missing.conf(2) --- missing_policy.db is missing a cache policy. Should be provided in the form 'missing_policy.db = $POLICY'", str(context.exception))
 
     def test_policy_selector(self):
         cache = FileCache(None)

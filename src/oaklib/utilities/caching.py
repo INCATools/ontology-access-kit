@@ -378,10 +378,7 @@ class FileCache(object):
                 items = line.split("=", maxsplit=1)
                 pattern = items[0].strip()
                 if len(items) != 2:
-                    _logger.warning(
-                        f"{filename}({n}): Ignoring missing caching policy for {pattern}"
-                    )
-                    continue
+                    raise ValueError(f"{filename}({n}) --- {items[0].strip()} is missing a cache policy. Should be provided in the form '{items[0]} = $POLICY'")
 
                 policy = CachePolicy.from_string(items[1].strip())
                 if policy is None:
