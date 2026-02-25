@@ -151,8 +151,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv sync --extra "gilda"
-          uv run python -c 'import nltk; nltk.download("stopwords"); nltk.download("punkt_tab")' #TODO; directly put this into our GildaImplementation class/in function _gilda_annotate
+          uv sync 
 
       - name: Run tests
         run: |
