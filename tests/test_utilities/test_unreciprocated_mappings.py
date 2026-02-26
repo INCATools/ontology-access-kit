@@ -27,6 +27,8 @@ class TestUnreciprocated(unittest.TestCase):
         oi = self.pronto_oi
         unrec_maps:list[Mapping] = list(unreciprocated_mappings(oi, oi))
         pairs:list[Tuple[CURIE, CURIE]] = mappings_to_pairs(unrec_maps)
+        for p in pairs:
+            logging.warning(str(p))
         expected_pairs = [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4")]
         self.assertCountEqual(set(pairs).intersection(expected_pairs),expected_pairs)
 

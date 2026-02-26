@@ -101,7 +101,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
             it = self.entities()
         for curies in it:
             logging.debug(f"Getting mappings for {curies}")
-            for m in self.get_sssom_mappings_by_curie(curies):
+            for m in self.sssom_mappings(curies):
                 if source:
                     if m.object_source != source and m.subject_source != source:
                         continue
@@ -130,7 +130,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         logging.info("Getting all mappings")
         for curie in self.entities():
             logging.debug(f"Getting mappings for {curie}")
-            for m in self.get_sssom_mappings_by_curie(curie):
+            for m in self.sssom_mappings(curie):
                 if subject_or_object_source:
                     if (
                         m.object_source != subject_or_object_source
