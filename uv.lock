@@ -4306,24 +4306,17 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-bioservices = [
-    { name = "bioservices" },
-]
 docs = [
     { name = "sphinx" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-rtd-theme" },
     { name = "sphinxcontrib-mermaid" },
 ]
-llm = [
-    { name = "aiohttp" },
-    { name = "html2text" },
-]
-seaborn = [
-    { name = "seaborn" },
-]
 
 [package.dev-dependencies]
+bioservices = [
+    { name = "bioservices" },
+]
 dev = [
     { name = "coverage" },
     { name = "jupyter" },
@@ -4353,13 +4346,18 @@ gilda = [
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "urllib3" },
 ]
+llm = [
+    { name = "aiohttp" },
+    { name = "html2text" },
+]
+seaborn = [
+    { name = "seaborn" },
+]
 
 [package.metadata]
 requires-dist = [
-    { name = "aiohttp", marker = "extra == 'llm'" },
     { name = "airium", specifier = ">=0.2.5" },
     { name = "appdirs", specifier = ">=1.4.4" },
-    { name = "bioservices", marker = "extra == 'bioservices'" },
     { name = "class-resolver", specifier = ">=0.6" },
     { name = "click" },
     { name = "curies", specifier = ">=0.6.6,<0.11" },
@@ -4367,7 +4365,6 @@ requires-dist = [
     { name = "eutils", specifier = ">=0.6.0" },
     { name = "funowl", specifier = ">=0.2.0" },
     { name = "greenlet" },
-    { name = "html2text", marker = "extra == 'llm'" },
     { name = "jsonlines" },
     { name = "kgcl-rdflib", specifier = "==0.5.0" },
     { name = "kgcl-schema", specifier = ">=0.6.9,<1" },
@@ -4387,7 +4384,6 @@ requires-dist = [
     { name = "ratelimit", specifier = ">=2.2.1" },
     { name = "requests-cache", specifier = ">1.0.1,<2" },
     { name = "ruamel-yaml" },
-    { name = "seaborn", marker = "extra == 'seaborn'" },
     { name = "semsimian" },
     { name = "semsql", specifier = ">=0.3.1" },
     { name = "setuptools", specifier = "<82" },
@@ -4400,9 +4396,10 @@ requires-dist = [
     { name = "sssom", specifier = ">=0.4.4,<1" },
     { name = "tenacity", specifier = ">=8.2.3" },
 ]
-provides-extras = ["docs", "bioservices", "llm", "seaborn"]
+provides-extras = ["docs"]
 
 [package.metadata.requires-dev]
+bioservices = [{ name = "bioservices" }]
 dev = [
     { name = "coverage", specifier = ">6.3.2,<7" },
     { name = "jupyter", specifier = ">=1.0.0" },
@@ -4425,6 +4422,11 @@ gilda = [
     { name = "scipy" },
     { name = "urllib3", specifier = "<2" },
 ]
+llm = [
+    { name = "aiohttp" },
+    { name = "html2text" },
+]
+seaborn = [{ name = "seaborn" }]
 
 [[package]]
 name = "ols-client"
