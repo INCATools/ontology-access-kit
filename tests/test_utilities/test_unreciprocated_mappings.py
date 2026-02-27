@@ -23,6 +23,13 @@ class TestUnreciprocated(unittest.TestCase):
         self.pronto_oi = ProntoImplementation(resource)
         self.owl_oi = SparqlImplementation(OntologyResource(str(TEST_OWL)))
 
+    def test_unreciprocated_pronto_with_unidirectional(self):
+        oi = self.pronto_oi
+        unrec_maps:list[Mapping] = list(unreciprocated_mappings(oi, oi,filter_unidirectional=False))
+        pairs:list[Tuple[CURIE, CURIE]] = mappings_to_pairs(unrec_maps)
+        expected_pairs = [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4"), ("Y:4", "Z:4")]
+        self.assertEqual(set(pairs),set(expected_pairs))
+
     def test_unreciprocated_pronto(self):
         oi = self.pronto_oi
         unrec_maps:list[Mapping] = list(unreciprocated_mappings(oi, oi))
@@ -30,25 +37,19 @@ class TestUnreciprocated(unittest.TestCase):
         for p in pairs:
             logging.warning(str(p))
         expected_pairs = [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4")]
-        self.assertCountEqual(set(pairs).intersection(expected_pairs),expected_pairs)
+        self.assertEqual(set(pairs),set(expected_pairs))
 
     def test_unreciprocated_owl(self):
         oi = self.owl_oi
         unrec_maps:list[Mapping] = list(unreciprocated_mappings(oi, oi))
         pairs:list[Tuple[CURIE, CURIE]] = mappings_to_pairs(unrec_maps)
         expected_pairs = [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4")]
-        self.assertCountEqual(set(pairs).intersection(expected_pairs),expected_pairs)
+        self.assertEqual(set(pairs),set(expected_pairs))
 
-    def test_unreciprocated_pronto_with_unidirectional(self):
-        oi = self.pronto_oi
-        unrec_maps:list[Mapping] = list(unreciprocated_mappings(oi, oi,filter_unidirectional=False))
-        pairs:list[Tuple[CURIE, CURIE]] = mappings_to_pairs(unrec_maps)
-        expected_pairs = [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4"), ("Y:4", "Z:4")]
-        self.assertCountEqual(set(pairs).intersection(expected_pairs),expected_pairs)
 
     def test_unreciprocated_owl_with_unidirectional(self):
         oi = self.owl_oi
         unrec_maps:list[Mapping] = list(unreciprocated_mappings(oi, oi,filter_unidirectional=False))
         pairs:list[Tuple[CURIE, CURIE]] = mappings_to_pairs(unrec_maps)
         expected_pairs = [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4"), ("Y:4", "Z:4")]
-        self.assertCountEqual(set(pairs).intersection(expected_pairs),expected_pairs)
+        self.assertEqual(set(pairs),set(expected_pairs))
