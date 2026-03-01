@@ -4292,9 +4292,10 @@ dependencies = [
     { name = "pystow", version = "0.7.11", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "pystow", version = "0.7.28", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "ratelimit" },
+    { name = "regex", version = "2026.1.15", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "regex", version = "2026.2.19", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "requests-cache" },
     { name = "ruamel-yaml" },
-    { name = "semsimian" },
     { name = "semsql" },
     { name = "setuptools" },
     { name = "sparqlwrapper" },
@@ -4306,17 +4307,37 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+bioservices = [
+    { name = "bioservices" },
+]
 docs = [
     { name = "sphinx" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-rtd-theme" },
     { name = "sphinxcontrib-mermaid" },
 ]
+gilda = [
+    { name = "gilda" },
+    { name = "scikit-learn", version = "1.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "scikit-learn", version = "1.7.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "scikit-learn", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "urllib3" },
+]
+llm = [
+    { name = "aiohttp" },
+    { name = "html2text" },
+]
+seaborn = [
+    { name = "seaborn" },
+]
+semsimian = [
+    { name = "semsimian" },
+]
 
 [package.dev-dependencies]
-bioservices = [
-    { name = "bioservices" },
-]
 dev = [
     { name = "coverage" },
     { name = "jupyter" },
@@ -4336,39 +4357,26 @@ dev = [
     { name = "tox", version = "4.30.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "tox", version = "4.44.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
-gilda = [
-    { name = "gilda" },
-    { name = "scikit-learn", version = "1.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
-    { name = "scikit-learn", version = "1.7.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
-    { name = "scikit-learn", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
-    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
-    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "urllib3" },
-]
-llm = [
-    { name = "aiohttp" },
-    { name = "html2text" },
-]
-seaborn = [
-    { name = "seaborn" },
-]
 
 [package.metadata]
 requires-dist = [
+    { name = "aiohttp", marker = "extra == 'llm'" },
     { name = "airium", specifier = ">=0.2.5" },
     { name = "appdirs", specifier = ">=1.4.4" },
-    { name = "class-resolver", specifier = ">=0.6" },
+    { name = "bioservices", marker = "extra == 'bioservices'" },
+    { name = "class-resolver", specifier = ">=0.4.2" },
     { name = "click" },
     { name = "curies", specifier = ">=0.6.6,<0.11" },
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "eutils", specifier = ">=0.6.0" },
     { name = "funowl", specifier = ">=0.2.0" },
+    { name = "gilda", marker = "extra == 'gilda'", specifier = ">=1.0.0,<1.5.0" },
     { name = "greenlet" },
+    { name = "html2text", marker = "extra == 'llm'" },
     { name = "jsonlines" },
     { name = "kgcl-rdflib", specifier = "==0.5.0" },
     { name = "kgcl-schema", specifier = ">=0.6.9,<1" },
-    { name = "linkml", specifier = "<1.9" },
+    { name = "linkml" },
     { name = "linkml-renderer", specifier = ">=0.3.0" },
     { name = "linkml-runtime", specifier = ">=1.5.3" },
     { name = "llm", specifier = ">=0.14,<1" },
@@ -4377,14 +4385,18 @@ requires-dist = [
     { name = "ols-client", specifier = ">=0.1.1" },
     { name = "ontoportal-client", specifier = ">=0.0.3" },
     { name = "prefixmaps", specifier = ">=0.1.2" },
-    { name = "pronto", specifier = ">=2.7.3" },
+    { name = "pronto" },
     { name = "pydantic" },
     { name = "pysolr", specifier = ">=3.9.0,<4" },
     { name = "pystow", specifier = ">=0.5.0" },
     { name = "ratelimit", specifier = ">=2.2.1" },
+    { name = "regex" },
     { name = "requests-cache", specifier = ">1.0.1,<2" },
     { name = "ruamel-yaml" },
-    { name = "semsimian" },
+    { name = "scikit-learn", marker = "extra == 'gilda'", specifier = ">1.4.2" },
+    { name = "scipy", marker = "extra == 'gilda'" },
+    { name = "seaborn", marker = "extra == 'seaborn'" },
+    { name = "semsimian", marker = "extra == 'semsimian'", specifier = ">=0.2.18" },
     { name = "semsql", specifier = ">=0.3.1" },
     { name = "setuptools", specifier = "<82" },
     { name = "sparqlwrapper" },
@@ -4393,13 +4405,13 @@ requires-dist = [
     { name = "sphinx-rtd-theme", marker = "extra == 'docs'", specifier = ">=1.0.0,<2" },
     { name = "sphinxcontrib-mermaid", marker = "extra == 'docs'", specifier = ">=0.8.1,<1" },
     { name = "sqlalchemy", specifier = ">=1.4.32" },
-    { name = "sssom", specifier = ">=0.4.4,<1" },
+    { name = "sssom" },
     { name = "tenacity", specifier = ">=8.2.3" },
+    { name = "urllib3", marker = "extra == 'gilda'", specifier = "<2" },
 ]
-provides-extras = ["docs"]
+provides-extras = ["docs", "gilda", "bioservices", "llm", "seaborn", "semsimian"]
 
 [package.metadata.requires-dev]
-bioservices = [{ name = "bioservices" }]
 dev = [
     { name = "coverage", specifier = ">6.3.2,<7" },
     { name = "jupyter", specifier = ">=1.0.0" },
@@ -4416,17 +4428,6 @@ dev = [
     { name = "sphinxcontrib-mermaid", specifier = ">=0.8.1,<1" },
     { name = "tox" },
 ]
-gilda = [
-    { name = "gilda", specifier = ">=1.0.0,<1.5.0" },
-    { name = "scikit-learn", specifier = ">1.4.2" },
-    { name = "scipy" },
-    { name = "urllib3", specifier = "<2" },
-]
-llm = [
-    { name = "aiohttp" },
-    { name = "html2text" },
-]
-seaborn = [{ name = "seaborn" }]
 
 [[package]]
 name = "ols-client"

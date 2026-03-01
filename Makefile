@@ -3,8 +3,8 @@ RUN = uv run
 
 .PHONY: tests
 tests:
-	$(INSTALL) 
-	$(RUN) pytest --full-trace -l tests/test_utilities/test_unreciprocated_mappings.py::TestUnreciprocated
+	$(INSTALL) --extra "gilda" --extra "semsimian"
+	$(RUN) pytest tests
 
 .PHONY: build-whl
 build-whl:

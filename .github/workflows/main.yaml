@@ -33,10 +33,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest ]
-        python-version: ["3.13"]
-#        os: [ ubuntu-latest, windows-latest ]
-#        python-version: [ "3.9", "3.10", "3.11", "3.12"," 3.13" ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12"," 3.13" ]
+        os: [ ubuntu-latest, windows-latest ]
+        #python-version: ["3.12"]
+        #os: [ ubuntu-latest ]
         exclude:
           - os: windows-latest
             python-version: "3.9"
@@ -91,7 +91,14 @@ jobs:
       #    install your root project, if required
       #----------------------------------------------
       - name: Install library
-        run: poetry install --no-interaction --extras "gilda"
+        run: poetry install --no-interaction --extras "gilda semsimian"
+
+
+      #----------------------------------------------
+      #    install your root project, if required
+      #----------------------------------------------
+      - name: Install library
+        run: poetry install --no-interaction
 
       - name: Get Gilda resources
         run: |
@@ -127,8 +134,8 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        #python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
-        python-version: [ "3.13" ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
+        #python-version: [ "3.12" ]
         exclude:
           - os: windows-latest
             python-version: "3.9"
