@@ -1,7 +1,7 @@
-from datetime import timedelta
 import os
 import time
 import unittest
+from datetime import timedelta
 
 from oaklib.utilities.caching import CachePolicy, FileCache
 
@@ -15,9 +15,10 @@ class TestCachePolicy(unittest.TestCase):
         self.assertFalse(policy.never_refresh)
         self.assertFalse(policy.reset)
 
-        #This test made more sense when CachePolicy.from_string("refresh") was globally the exact same object as CachePolicy.REFRESH whenver called;
-        #However in python 3.13 you can't have properties on classes anymore, so CachePolicy.REFRESH just makes a new object with max_age=0
-        self.assertEqual(policy._max_age,0)
+        # This test made more sense when CachePolicy.from_string("refresh") was globally the exact same object as
+        # CachePolicy.REFRESH whenever called. However in python 3.13 you can't have properties on classes anymore
+        # so CachePolicy.REFRESH just makes a new object with max_age=0
+        self.assertEqual(policy._max_age, 0)
 
         now = time.time()
         self.assertTrue(policy.refresh(now))
@@ -31,7 +32,7 @@ class TestCachePolicy(unittest.TestCase):
         self.assertFalse(policy.always_refresh)
         self.assertFalse(policy.reset)
 
-        self.assertEqual(policy._max_age,timedelta.max.total_seconds())
+        self.assertEqual(policy._max_age, timedelta.max.total_seconds())
 
         now = time.time()
         self.assertFalse(policy.refresh(now))
@@ -42,10 +43,10 @@ class TestCachePolicy(unittest.TestCase):
         self.assertTrue(policy.refresh_file("inexistent-file"))
 
     def test_reset_policy(self):
-        #These should a policy with the same properties.
+        # These should a policy with the same properties.
         reset_policy = CachePolicy.from_string("reset")
         clear_policy = CachePolicy.from_string("clear")
-        self.assertEqual(reset_policy._max_age, clear_policy._max_age,-1)
+        self.assertEqual(reset_policy._max_age, clear_policy._max_age, -1)
 
         self.assertTrue(reset_policy.reset, clear_policy.reset)
         self.assertFalse(reset_policy.always_refresh, clear_policy.always_refresh)
@@ -94,11 +95,11 @@ class TestCachePolicy(unittest.TestCase):
         self.assertEqual(CachePolicy.from_string("1w")._max_age, 86400 * 7)
         self.assertEqual(CachePolicy.from_string("1m")._max_age, 86400 * 30)
         self.assertEqual(CachePolicy.from_string("1y")._max_age, 86400 * 365)
-    
+
     def test_invalid_policy(self):
-        with self.assertRaises(ValueError) as context: 
+        with self.assertRaises(ValueError) as context:
             CachePolicy.from_string("bogus")
-        self.assertEqual('bogus is an invalid cache policy', str(context.exception))
+        self.assertEqual("bogus is an invalid cache policy", str(context.exception))
 
 
 class TestFileCache(unittest.TestCase):
@@ -117,17 +118,20 @@ class TestFileCache(unittest.TestCase):
     def test_parse_invalid_cache_configuration(self):
         cache = FileCache(None)  # we don't need a Pystow module here
 
-        with self.assertRaises(ValueError) as context: 
+        with self.assertRaises(ValueError) as context:
             cache._get_configuration("tests/input/cache_configs/cache_invalid.conf")
-        self.assertEqual('bogus is an invalid cache policy', str(context.exception))
-
+        self.assertEqual("bogus is an invalid cache policy", str(context.exception))
 
     def test_parse_missing_cache_configuration(self):
         cache = FileCache(None)  # we don't need a Pystow module here
 
-        with self.assertRaises(ValueError) as context: 
+        with self.assertRaises(ValueError) as context:
             cache._get_configuration("tests/input/cache_configs/cache_missing.conf")
-        self.assertEqual("cache_missing.conf(2) --- missing_policy.db is missing a cache policy. Should be provided in the form 'missing_policy.db = $POLICY'", str(context.exception))
+        self.assertEqual(
+            "cache_missing.conf(2) --- missing_policy.db is missing a cache policy. "
+            + "Should be provided in the form 'missing_policy.db = $POLICY'",
+            str(context.exception),
+        )
 
     def test_policy_selector(self):
         cache = FileCache(None)

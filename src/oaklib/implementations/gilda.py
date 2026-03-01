@@ -1,5 +1,7 @@
 """A text annotator based on Gilda."""
+
 from __future__ import annotations
+
 import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Iterator, Optional
@@ -17,6 +19,7 @@ __all__ = [
 
 import nltk
 
+
 @dataclass
 class GildaImplementation(TextAnnotatorInterface):
     """
@@ -27,6 +30,7 @@ class GildaImplementation(TextAnnotatorInterface):
         disambiguation as a service <https://doi.org/10.1093/bioadv/vbac034>`_,
         *Bioinformatics Advances*, Volume 2, Issue 1, 2022, vbac034,
     """
+
     grounder: Optional[gilda.Grounder] = None
 
     """A grounder used by Gilda.
@@ -41,10 +45,10 @@ class GildaImplementation(TextAnnotatorInterface):
     3. Otherwise, it gets instantiated with the default Gilda term index
     """
 
-    #There's some weirdness here with interaction of grounder and __init__.
+    # There's some weirdness here with interaction of grounder and __init__.
     def __post_init__(self):
-        nltk.download('stopwords')
-        nltk.download('punkt_tab')
+        nltk.download("stopwords")
+        nltk.download("punkt_tab")
         if self.grounder is None:
             from gilda.grounder import Grounder
 
@@ -90,7 +94,8 @@ class GildaImplementation(TextAnnotatorInterface):
             )
 
     def _ground(self, text: str) -> Iterator[TextAnnotation]:
-        if(self.grounder is None):raise RuntimeError("GildaImplementation's grounder object was never set.")
+        if self.grounder is None:
+            raise RuntimeError("GildaImplementation's grounder object was never set.")
         for match in self.grounder.ground(text):
             yield nen_annotation(
                 text=text,

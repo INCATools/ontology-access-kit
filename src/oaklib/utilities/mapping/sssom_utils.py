@@ -47,12 +47,12 @@ def mappings_to_pairs(mappings: Iterable[Mapping]) -> List[Tuple[CURIE, CURIE]]:
 
     :param mappings:
     :return:
-    """ 
-    return_list:List[Tuple[CURIE,CURIE]] = list()
-    
+    """
+    return_list: List[Tuple[CURIE, CURIE]] = list()
+
     for m in mappings:
-        if((m.subject_id is not None) and (m.object_id is not None)):
-            return_list.append((CURIE(m.subject_id),CURIE(m.object_id)))
+        if (m.subject_id is not None) and (m.object_id is not None):
+            return_list.append((CURIE(m.subject_id), CURIE(m.object_id)))
     return return_list
 
 

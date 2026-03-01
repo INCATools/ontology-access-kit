@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import fnmatch
 import logging
 import os.path
@@ -6,13 +7,12 @@ import re
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from click import ParamType
 
 from appdirs import user_config_dir
+from click import ParamType
 from pystow.utils import base_from_gzip_name, name_from_url
 
 from oaklib.datamodels.vocabulary import APP_NAME
-
 
 _durations = {"d": 1, "w": 7, "m": 30, "y": 365}
 _logger = logging.getLogger(__name__)
@@ -162,7 +162,7 @@ class CachePolicy(object):
         raise ValueError(f"{value} is an invalid cache policy")
 
     @classmethod
-#    @property
+    #    @property
     def REFRESH(cls) -> CachePolicy:
         """A policy that cached data should always be refreshed."""
         return cls(max_age=0)
@@ -171,7 +171,7 @@ class CachePolicy(object):
         return cls._refresh_policy
 
     @classmethod
-#    @property
+    #    @property
     def NO_REFRESH(cls) -> CachePolicy:
         """A policy that cached data should never be refreshed."""
         return cls(max_age=timedelta.max.total_seconds())
@@ -181,7 +181,7 @@ class CachePolicy(object):
         return cls._no_refresh_policy
 
     @classmethod
-#    @property
+    #    @property
     def RESET(cls) -> CachePolicy:
         """A policy that cached data should be cleared and refreshed."""
         return cls(max_age=-1)
@@ -190,7 +190,7 @@ class CachePolicy(object):
         return cls._reset_policy
 
     @classmethod
-#    @property
+    #    @property
     def ClickType(cls):
         """Helper method to parse a CachePolicy with Click.
 
@@ -215,6 +215,7 @@ class CachePolicy(object):
                     return p
                 else:
                     self.fail(f"Cannot convert '{value}' to a cache policy", param, ctx)
+
         return CachePolicyParamType()
 
 
@@ -378,7 +379,10 @@ class FileCache(object):
                 items = line.split("=", maxsplit=1)
                 pattern = items[0].strip()
                 if len(items) != 2:
-                    raise ValueError(f"{filename}({n}) --- {items[0].strip()} is missing a cache policy. Should be provided in the form '{items[0]} = $POLICY'")
+                    raise ValueError(
+                        f"{filename}({n}) --- {items[0].strip()}"
+                        f"is missing a cache policy. Should be provided in the form '{items[0]} = $POLICY'"
+                    )
 
                 policy = CachePolicy.from_string(items[1].strip())
                 if policy is None:
