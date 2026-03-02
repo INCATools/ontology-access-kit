@@ -3,7 +3,7 @@ RUN = uv run
 
 .PHONY: tests
 tests:
-	$(INSTALL) --extra "gilda" --extra "semsimian"
+	$(INSTALL)
 	$(RUN) pytest tests
 
 .PHONY: build-whl
@@ -64,7 +64,8 @@ prep-gh-pages-dir:
 	mkdir gh-pages
 	touch gh-pages/.nojekyll
 
-RUN_GENDOC = $(RUN) gen-doc --dialect myst
+#This command needs to run with linkml<1.9 or will fail.
+RUN_GENDOC = $(RUN) --with 'linkml<1.9' gen-doc --dialect myst
 
 .PHONY: run-all-gendoc-cmds
 run-all-gendoc-cmds: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc gendoc-itemlist gendoc-ce
