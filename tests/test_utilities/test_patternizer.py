@@ -76,14 +76,16 @@ class TestPatternizer(unittest.TestCase):
             ),
         ]
         for new_concept_prefix in [None, "TEST"]:
-            todo = [yaml.dump(ec.dict()) for ec in expected]
+            todo = [yaml.dump(ec.model_dump()) for ec in expected]
             ecs = lexical_pattern_instances(
                 self.oi, PATTERNS, new_concept_prefix=new_concept_prefix
             )
             for ec in ecs:
-                print(yaml.dump(ec.dict()))
+                print(yaml.dump(ec.model_dump()))
                 for inst in ec.instances.values():
-                    inst_yaml = yaml.dump(inst.dict())
+                    if(inst is None):
+                        continue
+                    inst_yaml = yaml.dump(inst.model_dump())
                     if inst_yaml in todo:
                         todo.remove(inst_yaml)
             self.assertEqual(todo, [])
@@ -91,5 +93,5 @@ class TestPatternizer(unittest.TestCase):
     def test_write_patterns(self):
         """Test that the patternizer works by extracting nucleus and regulation concepts."""
         with open(TEST_PATTERNS_OUT, "w") as outf:
-            yaml.dump(self.pattern_collection.dict(), outf)
-        load_pattern_collection(TEST_PATTERNS_OUT)
+            yaml.dump(self.pattern_collection.model_dump(), outf)
+        load_pattern_collection(str(TEST_PATTERNS_OUT))
