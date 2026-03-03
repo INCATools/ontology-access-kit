@@ -77,8 +77,13 @@ class TestCommandLineInterface(unittest.TestCase):
     def setUp(self) -> None:
         # TODO. Use contexts. https://stackoverflow.com/questions/64381222/python-click-access-option-values-globally
         clear_cli_settings()
+        from importlib.metadata import version
 
-        runner = CliRunner()
+        # TODO: Eventually we should probably force click to be above 8.2, but linkml currently doesn't like that.
+        if version("click") < "8.2":
+            runner = CliRunner(mix_stderr=False)
+        else:
+            runner = CliRunner()
 
         self.runner = runner
 
