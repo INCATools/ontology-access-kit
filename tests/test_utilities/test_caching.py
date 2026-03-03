@@ -128,8 +128,8 @@ class TestFileCache(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             cache._get_configuration("tests/input/cache_configs/cache_missing.conf")
         self.assertEqual(
-            "cache_missing.conf(2) --- missing_policy.db is missing a cache policy. "
-            + "Should be provided in the form 'missing_policy.db = $POLICY'",
+            "cache_missing.conf(2) --- missing_policy.db is missing a cache policy. " +\
+             "Should be provided in the form 'missing_policy.db = $POLICY'",
             str(context.exception),
         )
 

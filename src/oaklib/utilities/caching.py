@@ -380,7 +380,7 @@ class FileCache(object):
                 pattern = items[0].strip()
                 if len(items) != 2:
                     raise ValueError(
-                        f"{filename}({n}) --- {items[0].strip()}"
+                        f"{filename}({n}) --- {items[0].strip()} "
                         f"is missing a cache policy. Should be provided in the form '{items[0]} = $POLICY'"
                     )
 
