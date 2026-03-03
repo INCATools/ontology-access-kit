@@ -88,16 +88,10 @@ jobs:
       - name: Install library
         run: poetry install --no-interaction 
 
-      #----------------------------------------------
-      #    install your root project, if required
-      #----------------------------------------------
-      - name: Install library
-        run: poetry install --no-interaction
-
       - name: Get Gilda resources
         run: |
-          poetry run python -c "import nltk; nltk.download('punkt_tab'); nltk.download('stopwords')"
-          poetry run python -m adeft.download
+          poetry run python -m adeft.download        
+      #poetry run python -c "import nltk; nltk.download('punkt_tab'); nltk.download('stopwords')"
 
       #----------------------------------------------
       #        run test suite + coverage report
