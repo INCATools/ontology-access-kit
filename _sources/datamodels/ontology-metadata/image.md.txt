@@ -23,18 +23,18 @@ URI: [sdo:image](http://schema.org/image)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [Property](Property.md) |  |  no  |
-| [Image](Image.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [HasUserInformation](HasUserInformation.md) |  |  no  |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [HasUserInformation](HasUserInformation.md) |  |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Image](Image.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 
 
 
