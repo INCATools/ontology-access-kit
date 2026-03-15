@@ -47,7 +47,7 @@ def object_source(mapping: Mapping) -> str:
 
 def group_mappings_by_source_pairs(
     subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface
-) -> Dict[Tuple[str, str], Mapping]:
+) -> Dict[Tuple[str, str], List[Mapping]]:
     groups: Dict[Tuple[str, str], List[Mapping]] = defaultdict(list)
     for oi in [subject_oi, object_oi]:
         for m in oi.sssom_mappings_by_source():

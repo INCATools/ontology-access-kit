@@ -25,6 +25,7 @@ TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_ONT2 = INPUT_DIR / "interneuron.obo"
 
 
+@unittest.skip("Need pronto/fastobo to fix a bug in their parser - GH issue 853")  # TODO
 class TestAggregator(unittest.TestCase):
     """
     Tests the ability to wrap multiple implementations as if it were a single source

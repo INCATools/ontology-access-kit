@@ -1,8 +1,10 @@
 """A text annotator based on Gilda."""
 
+from __future__ import annotations
+
 import logging
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING, Iterator, Optional
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import TextAnnotatorInterface
@@ -14,6 +16,8 @@ if TYPE_CHECKING:
 __all__ = [
     "GildaImplementation",
 ]
+
+import nltk
 
 
 @dataclass
@@ -27,7 +31,8 @@ class GildaImplementation(TextAnnotatorInterface):
         *Bioinformatics Advances*, Volume 2, Issue 1, 2022, vbac034,
     """
 
-    grounder: "gilda.Grounder" = None
+    grounder: Optional[gilda.Grounder] = None
+
     """A grounder used by Gilda.
 
     This is instantiated in one of the following ways:
@@ -40,7 +45,10 @@ class GildaImplementation(TextAnnotatorInterface):
     3. Otherwise, it gets instantiated with the default Gilda term index
     """
 
+    # There's some weirdness here with interaction of grounder and __init__.
     def __post_init__(self):
+        nltk.download("stopwords")
+        nltk.download("punkt_tab")
         if self.grounder is None:
             from gilda.grounder import Grounder
 
@@ -55,7 +63,7 @@ class GildaImplementation(TextAnnotatorInterface):
                 self.grounder = Grounder()
 
     def annotate_text(
-        self, text: TEXT, configuration: TextAnnotationConfiguration = None
+        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
     ) -> Iterator[TextAnnotation]:
         """
         Implements annotate_text from text_annotator_interface by calling the
@@ -86,6 +94,8 @@ class GildaImplementation(TextAnnotatorInterface):
             )
 
     def _ground(self, text: str) -> Iterator[TextAnnotation]:
+        if self.grounder is None:
+            raise RuntimeError("GildaImplementation's grounder object was never set.")
         for match in self.grounder.ground(text):
             yield nen_annotation(
                 text=text,
