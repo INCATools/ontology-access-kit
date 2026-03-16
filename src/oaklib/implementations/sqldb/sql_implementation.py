@@ -390,6 +390,12 @@ class SqlImplementation(
             self._ontology_metadata_model = package_schemaview(ontology_metadata.__name__)
         return self._ontology_metadata_model
 
+    def __del__(self):
+        if self._session is not None:
+            self._session.close()
+        if self.engine is not None:
+            self.engine.dispose()
+
     def is_mysql(self):
         # TODO
         return False
