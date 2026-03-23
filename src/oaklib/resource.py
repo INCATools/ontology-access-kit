@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional, Type, Union
+from typing import TYPE_CHECKING, Any, Mapping, Optional, Type
 
 from class_resolver import HintOrType
 
@@ -20,7 +20,7 @@ class OntologyResource:
     This may be a local or remote file, or an ontology name that is part of a remote service
     """
 
-    slug: str = None
+    slug: Optional[str] = None
     """Name or path of ontology resource"""
 
     directory: Optional[str] = None
@@ -47,7 +47,7 @@ class OntologyResource:
 
     data: Optional[str] = None
 
-    implementation_class: Optional[Union[Type]] = None
+    implementation_class: Optional[Type] = None
 
     import_depth: Optional[int] = None
     """If set, this determines the maximum depth in the import tree to follow"""
@@ -64,11 +64,11 @@ class OntologyResource:
         return self.slug is not None or self.url is not None
 
     def materialize(
-        self, implementation: HintOrType["OntologyInterface"] = None, **kwargs
+        self, implementation: HintOrType["OntologyInterface"] = None, **kwargs : Mapping[str,Any]
     ) -> "OntologyInterface":
         """Materialize the ontology resource with the given implementation."""
         from .implementations import SqlImplementation, get_implementation_resolver
 
         implementation_resolver = get_implementation_resolver()
-        cls = implementation_resolver.lookup(implementation, default=SqlImplementation)
+        cls: Type[OntologyInterface] = implementation_resolver.lookup(implementation, default=SqlImplementation)
         return implementation_resolver.make(cls, kwargs, resource=self)

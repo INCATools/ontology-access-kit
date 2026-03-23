@@ -3,13 +3,14 @@
 See also `<https://incatools.github.io/ontology-access-kit/howtos/use-oak-expression-language.html>`_.
 """
 
+from abc import abstractmethod
 import itertools
 import logging
 import re
 import secrets
 import sys
 from enum import Enum
-from typing import IO, Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import IO, Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import yaml
 from pydantic import BaseModel
@@ -111,15 +112,15 @@ class Query(BaseModel):
     description: Optional[str] = None
 
     def __and__(self, other: "Query"):
-        return BooleanQuery(operator="and", left=self, right=self._as_query_term(other))
+        return BooleanQuery(operator=OperatorEnum.AND, left=self, right=self._as_query_term(other))
 
     def __or__(self, other: "Query"):
-        return BooleanQuery(operator="or", left=self, right=self._as_query_term(other))
+        return BooleanQuery(operator=OperatorEnum.OR, left=self, right=self._as_query_term(other))
 
     def __sub__(self, other: "Query"):
-        return BooleanQuery(operator="not", left=self, right=self._as_query_term(other))
+        return BooleanQuery(operator=OperatorEnum.NOT, left=self, right=self._as_query_term(other))
 
-    def execute(self, adapter: BasicOntologyInterface, labels=False, **kwargs):
+    def execute(self, adapter: BasicOntologyInterface, labels:bool=False, **kwargs: Mapping[str,Any]):
         """
         Execute the query on the given adapter.
 
@@ -143,6 +144,10 @@ class Query(BaseModel):
         if isinstance(other, str):
             return SimpleQueryTerm(term=other)
         raise ValueError(f"Cannot convert {other} to a QueryTerm")
+    
+    @abstractmethod
+    def as_list(self) -> list[str]:
+        pass
 
 
 class BooleanQuery(Query):
@@ -178,14 +183,20 @@ class FunctionQuery(Query):
     parameters: Optional[Dict[str, Any]] = None
     argument: Optional[Union[str, Query, List[str]]] = None
 
-    def as_list(self):
+    def as_list(self) -> list[str]:
         arg = self.argument
         if isinstance(arg, Query):
-            arg = arg.as_list()
+            arg_list = arg.as_list()
+        elif isinstance(arg,str):
+            arg_list = [arg]
+        elif isinstance(arg,list):
+            arg_list = arg
+        else:
+            arg_list = []
+
         if self.function:
             if self.parameters:
-
-                def _flatten(v):
+                def _flatten(v:Union[list[str],str])->str:
                     if isinstance(v, list):
                         return ",".join(v)
                     return v
@@ -195,9 +206,9 @@ class FunctionQuery(Query):
                 )
             else:
                 param_str = ""
-            return [f".{self.function}{param_str}"] + [arg]
+            return [f".{self.function}{param_str}"] + arg_list
         else:
-            return [arg]
+            return arg_list
 
 
 def subclass_of(term: TERM, description: Optional[str] = None) -> FunctionQuery:
@@ -339,7 +350,7 @@ def gap_fill(
 
 
 def onto_query(
-    query_terms: Union[Query, NESTED_LIST], adapter: BasicOntologyInterface, labels=False
+    query_terms: Union[Query, NESTED_LIST], adapter: BasicOntologyInterface, labels:bool=False
 ) -> List[Union[CURIE, Tuple[CURIE, str]]]:
     """
     Turn list of tokens that represent a term query into a list of curies.

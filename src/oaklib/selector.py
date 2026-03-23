@@ -3,7 +3,7 @@ import io
 import logging
 import os
 from pathlib import Path
-from typing import List, Optional, Type, TypeVar, Union
+from typing import Any, List, Mapping, Optional, Tuple, Type, TypeVar, Union
 
 import requests
 from deprecation import deprecated
@@ -35,7 +35,7 @@ RDF_SUFFIX_TO_FORMAT = {
 }
 
 
-ASSOCIATION_REGISTRY = {
+ASSOCIATION_REGISTRY: dict[str,Tuple[list[Any],str,str,bool]] = {
     "hpoa": ([], "hpoa", "http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa", False),
     "hpoa_g2p": (
         [],
@@ -75,9 +75,9 @@ T = TypeVar("T", bound=BasicOntologyInterface)
 
 def get_adapter(
     descriptor: Union[str, Path, InputSpecification],
-    format: str = None,
+    format: str,
     implements: Optional[Type[T]] = None,
-    **kwargs,
+    **kwargs : Mapping[str,Any],
 ) -> T:
     """
     Gets an adapter (implementation) for a given descriptor.
@@ -206,7 +206,7 @@ def _get_adapter_from_specification(
 def add_associations(
     adapter: AssociationProviderInterface,
     descriptor: str,
-    format: str = None,
+    format: str,
     normalizers: Optional[List[Normalizer]] = None,
     primary_knowledge_source: Optional[str] = None,
     aggregator_knowledge_source: Optional[str] = None,
@@ -273,7 +273,7 @@ def add_associations(
         adapter.add_associations(assocs, normalizers=normalizers)
 
 
-def file_from_gzip_url(url, is_compressed=False):
+def file_from_gzip_url(url:str, is_compressed:bool=False):
     with requests.get(url, stream=True, timeout=TIMEOUT_SECONDS) as response:
         response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
         # Wrap the response's raw stream in a binary file-like object
@@ -283,7 +283,7 @@ def file_from_gzip_url(url, is_compressed=False):
         return gzip.open(binary_file_like_object, "rt")
 
 
-def file_from_url(url):
+def file_from_url(url:str):
     response = requests.get(url, timeout=TIMEOUT_SECONDS)
     response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
     # Create a file-like object using the response content
@@ -293,7 +293,7 @@ def file_from_url(url):
 
 @deprecated("Use get_adapter instead")
 def get_implementation_from_shorthand(
-    descriptor: str, format: str = None
+    descriptor: str, format: str
 ) -> BasicOntologyInterface:
     """
     Gets an adapter (implementation) for a given descriptor.
@@ -360,7 +360,7 @@ def get_resource_imp_class_from_suffix_descriptor(
 
 
 def get_resource_from_shorthand(
-    descriptor: str, format: str = None, import_depth: Optional[int] = None
+    descriptor: str, format: str, import_depth: Optional[int] = None
 ) -> OntologyResource:
     """
     Maps from a shorthand descriptor to an OntologyResource.
@@ -425,6 +425,10 @@ def get_resource_from_shorthand(
 
             resource.slug = rest
         elif impl_class == GildaImplementation:
+            if rest is not None:
+                resource.slug = Path(rest).resolve().as_posix()
+            else:
+                resource.slug = None
             resource.slug = Path(rest).resolve().as_posix() if rest is not None else rest
         elif not impl_class:
             raise ValueError(f"Scheme {scheme} not known")
