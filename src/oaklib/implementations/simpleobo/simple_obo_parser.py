@@ -481,7 +481,7 @@ class Structure:
 
     def remove_simple_tag_value(self, tag: TAG, val: str) -> None:
         """
-        removes a simple tag-value such as is_a
+        Removes a simple tag-value such as is_a
 
         :param tag:
         :param val: ID value.
@@ -501,7 +501,7 @@ class Structure:
 
     def remove_tag_quoted_value(self, tag: TAG, val: str) -> None:
         """
-        removes a simple tag-value such as synonym or definition.
+        Removes a simple tag-value such as synonym or definition.
 
         :param tag:
         :param val: Quoted value.
@@ -521,7 +521,7 @@ class Structure:
 
     def remove_pairwise_tag_value(self, tag: TAG, val1: str, val2: str) -> None:
         """
-        removes a simple tag-value such as is_a
+        Removes a simple tag-value such as is_a
 
         :param tag:
         :param val:

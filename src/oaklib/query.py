@@ -893,7 +893,7 @@ def curies_from_file(
     file: IO, adapter: Optional[BasicOntologyInterface] = None, allow_labels=False, strict=False
 ) -> Iterator[CURIE]:
     """
-    yield an iterator over CURIEs by parsing a file.
+    Yield an iterator over CURIEs by parsing a file.
 
     The file can contain any content, so long as each line
     starts with a CURIE followed by whitespace -- the remainder of the line

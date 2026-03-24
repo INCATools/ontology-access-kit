@@ -179,8 +179,6 @@ target-version = "py313"
     "D105", #D105 Missing docstring in magic method
 
     #Can fix.
-    "D401", #D401 First line of docstring should be in imperative mood
-    "D403", #D403 [*] First word of the docstring should be capitalized: `yield` -> `Yield`
     "D409", #D409 [*] Section underline should match the length of its name ("See Also")
     "D412", #D412 [*] No blank lines allowed between a section header and its content ("Example")
     "D413", #D413 [*] Missing blank line after last section ("Example") 
@@ -209,8 +207,6 @@ target-version = "py313"
 
     #Can fix.
     "D209", #D209 [*] Multi-line docstring closing quotes should be on a separate line
-    "D401", #D401 First line of docstring should be in imperative mood
-    "D403", #D403 [*] First word of the docstring should be capitalized: `compute` -> `Compute`
     "D404", #D404 First word of the docstring should not be "This"
     "D409", #D409 [*] Section underline should match the length of its name ("Examples")
     "D412", #D412 [*] No blank lines allowed between a section header and its content ("Examples")

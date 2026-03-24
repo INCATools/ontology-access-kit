@@ -42,7 +42,7 @@ def compute_list_pair_statistics(pair: ListPair):
 
 def compute_all_pairs(sets: Dict[str, List]) -> Iterable[ListPair]:
     """
-    compute statistics on all pairs of sets
+    Compute statistics on all pairs of sets
 
     :param sets:
     :return:

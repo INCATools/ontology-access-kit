@@ -1000,7 +1000,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         """
-        fetches the unique label for a CURIE.
+        Fetches the unique label for a CURIE.
 
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("tests/input/go-nucleus.owl")
@@ -1203,7 +1203,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self, relationships: Iterable[RELATIONSHIP], **kwargs
     ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
         """
-        given collection of relationships, yield relationships with metadata attached.
+        Given collection of relationships, yield relationships with metadata attached.
 
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("sqlite:obo:mondo")

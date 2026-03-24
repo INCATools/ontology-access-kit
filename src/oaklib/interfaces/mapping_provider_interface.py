@@ -57,7 +57,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
     ) -> Iterable[Mapping]:
         """
-        returns all sssom mappings matching filter conditions.
+        Returns all sssom mappings matching filter conditions.
 
         To fetch all mappings, simply leave the filter conditions empty:
 

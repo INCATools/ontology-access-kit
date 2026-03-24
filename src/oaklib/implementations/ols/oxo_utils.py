@@ -7,7 +7,7 @@ import oaklib.datamodels.oxo as oxo
 
 def fix_json_payload(obj: Any) -> None:
     """
-    changes payload in place
+    Changes payload in place
 
     - self --> link_to_self
 

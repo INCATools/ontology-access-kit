@@ -47,7 +47,7 @@ class RdfInterface(BasicOntologyInterface, ABC):
 
     def objects(self, subject, predicate) -> Iterator[Any]:
         """
-        queries objects based on s,p
+        Queries objects based on s,p
 
         :param subject:
         :param predicate:

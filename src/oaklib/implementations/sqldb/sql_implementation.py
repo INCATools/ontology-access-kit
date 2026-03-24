@@ -217,7 +217,7 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 
 def regex_to_sql_like(regex: str) -> str:
     """
-    convert a regex to a LIKE
+    Convert a regex to a LIKE
 
     * ``.*`` => ``%``
     * ``.`` => ``_``
