@@ -1,12 +1,15 @@
 import unittest
-from typing import Dict, List, Tuple
+from typing import TYPE_CHECKING, Dict, List, Tuple
 
-from sssom import Mapping
+if TYPE_CHECKING:
+    from sssom import Mapping
+
+    from oaklib.types import CURIE
+
 
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.resource import OntologyResource
-from oaklib.types import CURIE
 from oaklib.utilities.mapping.cross_ontology_diffs import group_mappings_by_source_pairs
 from oaklib.utilities.mapping.mapping_validation import unreciprocated_mappings
 from oaklib.utilities.mapping.sssom_utils import mappings_to_pairs

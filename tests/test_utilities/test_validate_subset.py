@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 import yaml
 
 from oaklib import get_adapter
-from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+
+if TYPE_CHECKING:
+    from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+
 from oaklib.utilities.subsets.subset_validator import SubsetValidationConfig, validate_subset
 from tests import EXAMPLE_ONTOLOGY_DB, INPUT_DIR
 

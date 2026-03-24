@@ -7,13 +7,15 @@ NetworkX is a popular python package for working with graphs
 """
 
 from collections import defaultdict
-from typing import Dict, Iterable, List, Tuple
+from typing import TYPE_CHECKING, Dict, Iterable, List, Tuple
 
 import networkx as nx
 from sssom_schema import Mapping
 
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
-from oaklib.types import CURIE, PRED_CURIE
+
+if TYPE_CHECKING:
+    from oaklib.types import CURIE, PRED_CURIE
 
 
 def mappings_to_graph(mappings: Iterable[Mapping]) -> nx.Graph:

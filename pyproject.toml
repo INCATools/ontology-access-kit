@@ -149,12 +149,16 @@ lint.unfixable = []
 # Select or ignore from https://beta.ruff.rs/docs/rules/
 lint.select = [
     "B",  # bugbear
-    "D",  # pydocstyle
+    "D",  # 
+    "D416",
     "E",  # pycodestyle errors
     "F",  # Pyflakes
     "I",  # isort 
     "S",  # flake8-bandit
     "W",  # Warning
+    "TC", # Type checking - 5 errors found
+#    "ARG", # Unused-arguments 406 errors found
+#    "PTH", #Use pathlib
 ]
 
 line-length = 120
