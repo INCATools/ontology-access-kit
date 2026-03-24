@@ -124,7 +124,7 @@ class Query(BaseModel):
         """
         Execute the query on the given adapter.
 
-         Example:
+        Example:
 
             >>> from oaklib import get_adapter
             >>> adapter = get_adapter("sqlite:obo:cl")
