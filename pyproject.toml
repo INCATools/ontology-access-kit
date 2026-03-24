@@ -169,7 +169,32 @@ target-version = "py313"
     #Should fix
     "S607", #S607 Starting a process with a partial executable path
 ]
-"src/oaklib/{cli,query,resource,selector,types,__init__}.py" = ["D"]
+"src/oaklib/{cli,query,resource,selector,types,__init__}.py" = [
+    #Hard to fix.
+    "D100", #D100 Missing docstring in public module
+    "D101", #D101 Missing docstring in public class
+    "D102", #D102 Missing docstring in public methods
+    "D103", #D103 Missing docstring in public function
+    "D105", #D105 Missing docstring in magic method
+
+    #Should fix.
+    "D301", #D301 Use `r"""` if any backslashes in a docstring
+
+    #Can fix.
+    "D200", #D200 One-line docstring should fit on one line
+    "D202", #D202 [*] No blank lines allowed after function docstring (found 1)
+    "D203", #D203 [*] 1 blank line required before class 
+    "D205", #D205 1 blank line required between summary line and 
+    "D213", #D213 [*] Multi-line docstring summary should start at the second line
+    "D214", #D214 [*] Section is over-indented ("Example")
+    "D400", #D400 First line should end with a period
+    "D401", #D401 First line of docstring should be in imperative mood
+    "D403", #D403 [*] First word of the docstring should be capitalized: `yield` -> `Yield`
+    "D409", #D409 [*] Section underline should match the length of its name ("See Also")
+    "D412", #D412 [*] No blank lines allowed between a section header and its content ("Example")
+    "D413", #D413 [*] Missing blank line after last section ("Example") 
+    "D415", #D415 First line should end with a period, question mark, or exclamation point
+]
 
 "src/oaklib/{conf,converters,parsers,implementations,indexes,inference,interfaces,io,mappers,transformers,utilities}/*.py" = [
     #Hard to fix
@@ -195,8 +220,8 @@ target-version = "py313"
     #Can fix.
     "D200", #D200 One-line docstring should fit on one line
     "D202", #D202 [*] No blank lines allowed after function docstring (found 1)
-    "D203", #D203 1 blank line required before class docstring
-    "D205", #D205 1 blank line required between summary line and description
+    "D203", #D203 [*] 1 blank line required before class docstring
+    "D205", #D205 [*] 1 blank line required between summary line and description
     "D209", #D209 [*] Multi-line docstring closing quotes should be on a separate line
     "D213", #D213 [*] Multi-line docstring summary should start at the second line
     "D214", #D214 [*] Section is over-indented ("Example")
