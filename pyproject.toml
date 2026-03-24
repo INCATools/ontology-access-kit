@@ -151,7 +151,10 @@ lint.unfixable = []
 lint.select = [
     "B",  # bugbear
     "D",  # 
-    "D416",
+    "D407",  #Checks for section headers in docstrings that are not followed by underlines.
+    "D408",  #Section underline should be in the line following the section's name
+    "D409",  #Section underline should match the length of its name 
+    "D416",  #Section name should end with a colon ("{name}")
     "E",  # pycodestyle errors
     "F",  # Pyflakes
     "I",  # isort 
@@ -205,7 +208,6 @@ target-version = "py313"
 
     #Can fix.
     "D413", #D413 [*] Missing blank line after last section ("Example") 
-    "D415", #D415 First line should end with a period, question mark, or exclamation point
 ]
 
 "src/oaklib/{conf,converters,parsers,implementations,indexes,inference,interfaces,io,mappers,transformers,utilities}/*.py" = [
@@ -230,7 +232,6 @@ target-version = "py313"
 
     #Can fix.
     "D413", #D413 [*] Missing blank line after last section ("Examples")
-    "D415", #D415 First line should end with a period, question mark, or exclamation point
 ]
 
 [tool.ruff.lint.pydocstyle]
