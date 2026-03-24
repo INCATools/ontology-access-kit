@@ -5825,7 +5825,7 @@ def validate_synonyms(
     rules_file: str,
     configuration_file: str,
 ):
-    """
+    r"""
     Validates synonyms in ontology using additional ontologies.
 
     To run:
@@ -7156,7 +7156,7 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 def generate_lexical_replacements(
     terms, rules_file, rules_expression, apply_patch, patch, patch_format, output, output_type
 ):
-    """
+    r"""
     Generate lexical replacements based on a set of synonymizer rules.
 
     If the `--apply-patch` flag is set, the output will be an ontology file with the changes

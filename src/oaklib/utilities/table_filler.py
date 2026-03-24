@@ -134,7 +134,7 @@ def write_table(
     list_delimiter="|",
     header: List[str] = None,
 ) -> None:
-    """
+    r"""
     Writes a list of rows to a file, replacing None values with empty strings.
 
     :param rows: List of rows in dict format.

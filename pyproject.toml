@@ -178,9 +178,6 @@ target-version = "py313"
     "D103", #D103 Missing docstring in public function
     "D105", #D105 Missing docstring in magic method
 
-    #Should fix.
-    "D301", #D301 Use `r"""` if any backslashes in a docstring
-
     #Can fix.
     "D401", #D401 First line of docstring should be in imperative mood
     "D403", #D403 [*] First word of the docstring should be capitalized: `yield` -> `Yield`
@@ -207,7 +204,6 @@ target-version = "py313"
     "S603", #S603 `subprocess` call: check for execution of untrusted input
 
     #Need to fix.
-    "D301", #D301 Use `r"""` if any backslashes in a docstring
     "S101", #S603 Use of `assert` detected
     "S607", #S607 Starting a process with a partial executable path
 
