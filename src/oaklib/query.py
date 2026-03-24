@@ -343,7 +343,7 @@ def onto_query(
     """
     Turn list of tokens that represent a term query into a list of curies.
 
-    Examples
+    Examples:
     --------
 
     Simple atomic queries

@@ -6184,7 +6184,7 @@ def lexmatch(
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
-    Examples
+    Examples:
     -
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
 

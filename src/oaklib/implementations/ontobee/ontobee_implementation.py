@@ -72,7 +72,7 @@ class OntobeeImplementation(
 
         $ runoak -i ontobee:uberon ancestors -p i UBERON:0002398
 
-    Notes
+    Notes:
     -----
     This is a specialization the :ref:`sparql` implementation to
     allow access for ontologies on the `Ontobee <https://www.ontobee.org/>`_ linked data server.

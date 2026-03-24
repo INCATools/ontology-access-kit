@@ -218,7 +218,7 @@ class KGXImplementation(
     - :class:`NodeProperty`
     - :class:`Edge`
 
-    See Also
+    See Also:
     --------
     - `Tutorial <https://incatools.github.io/ontology-access-kit/intro/tutorial07.html>`_
     - `SQL Implementation <https://incatools.github.io/ontology-access-kit/implementations/sqldb.html>`_

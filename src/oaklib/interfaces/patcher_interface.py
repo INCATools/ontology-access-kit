@@ -96,7 +96,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
         """
         Expand a complex change object to a list of atomic changes.
 
-        Examples
+        Examples:
         --------
         - An obsoletion command may also generate a label change and removal or rewiring of edges
         - A NameBecomesSynonym may generate a NewSynonym and a NodeRename
