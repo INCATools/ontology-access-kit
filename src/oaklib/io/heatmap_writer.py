@@ -51,10 +51,10 @@ class HeatmapWriter(StreamingWriter):
 
     def finish(self):
         import matplotlib.pyplot as plt
-        import pandas
+        import pandas as pd
         import seaborn as sns
 
-        df = pandas.DataFrame(self.items)
+        df = pd.DataFrame(self.items)
         df = df.pivot(index="term1", columns="term2", values="score")
         # mask = df != 0
         plt.figure(figsize=(24, 20))  # Adjust the dimensions as needed
