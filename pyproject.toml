@@ -133,6 +133,8 @@ lint.extend-ignore = [
     "D406", #D406 [*] Section name should end with a newline
 
     "D409", #D409 [*] Section underline should match the length of its name
+
+    "LOG015", #LOG015 `info()` call on root logger
 ]
 
 lint.exclude = [
@@ -160,6 +162,10 @@ lint.select = [
     "COM818", 
     "COM819",
     "ICN", #flake8-import-conventions (ICN)
+    "INP", #implicit-namespace-package
+    "LOG",
+    "Q",
+#    "G", https://docs.astral.sh/ruff/rules/#flake8-logging-format-g We should one day turn this on; however it will take a bit to update
 #    "C4",  #https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4 We should turn this on
 #    "C90", #https://docs.astral.sh/ruff/rules/complex-structure/ We should turn this on
 #    "FLY",
@@ -182,7 +188,8 @@ target-version = "py313"
     "S101", #S101 Use of `assert` detected
     "S603",  #S603 `subprocess` call: check for execution of untrusted input
     "S608", #S608 Possible SQL injection vector through string-based query construction
-
+    "LOG015", #LOG015 `info()` call on root logger
+    "G",
     #Should fix
     "S607", #S607 Starting a process with a partial executable path
 ]

@@ -573,7 +573,7 @@ class Structure:
         :param val:
         :return:
         """
-        self.tag_values.append(TagValue(tag, f"\"{val}\" [{','.join(xrefs)}]"))
+        self.tag_values.append(TagValue(tag, f'"{val}" [{','.join(xrefs)}]'))
 
     def add_tag_value_pair(self, tag: TAG, val1: str, val2: str, **kwargs) -> None:
         """
