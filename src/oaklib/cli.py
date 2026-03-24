@@ -798,7 +798,7 @@ def subsets(output: str):
        https://incatools.github.io/ontology-access-kit/interfaces/basic
 
     See Also:
-    -
+    --------
         term-subsets command, which shows relationships of terms to subsets
 
     """
@@ -6186,7 +6186,7 @@ def lexmatch(
     Performs lexical matching between pairs of terms in one more more ontologies.
 
     Examples:
-    -
+    --------
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
 
     In this example, the input ontology file is assumed to contain all pairs of terms to be mapped.

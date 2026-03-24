@@ -131,8 +131,7 @@ lint.extend-ignore = [
 
     "D401", #D401 First line of docstring should be in imperative mood
     "D406", #D406 [*] Section name should end with a newline
-
-    "D409", #D409 [*] Section underline should match the length of its name
+    "D412", #D412 [*] No blank lines allowed between a section header and its content ("Examples")
 
     "LOG015", #LOG015 `info()` call on root logger
 ]
@@ -205,7 +204,6 @@ target-version = "py313"
     "D105", #D105 Missing docstring in magic method
 
     #Can fix.
-    "D412", #D412 [*] No blank lines allowed between a section header and its content ("Example")
     "D413", #D413 [*] Missing blank line after last section ("Example") 
     "D415", #D415 First line should end with a period, question mark, or exclamation point
 ]
@@ -232,7 +230,6 @@ target-version = "py313"
 
     #Can fix.
     "D404", #D404 First word of the docstring should not be "This"
-    "D412", #D412 [*] No blank lines allowed between a section header and its content ("Examples")
     "D413", #D413 [*] Missing blank line after last section ("Examples")
     "D415", #D415 First line should end with a period, question mark, or exclamation point
 ]
