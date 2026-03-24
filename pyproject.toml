@@ -231,7 +231,6 @@ target-version = "py313"
     "S607", #S607 Starting a process with a partial executable path
 
     #Can fix.
-    "D209", #D209 [*] Multi-line docstring closing quotes should be on a separate line
     "D404", #D404 First word of the docstring should not be "This"
     "D412", #D412 [*] No blank lines allowed between a section header and its content ("Examples")
     "D413", #D413 [*] Missing blank line after last section ("Examples")
