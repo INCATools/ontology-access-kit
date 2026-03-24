@@ -171,11 +171,6 @@ target-version = "py313"
 ]
 "src/oaklib/{cli,query,resource,selector,types,__init__}.py" = ["D"]
 
-"docs/conf.py" = [
-    "D100", 
-    "I001"
-]
-
 "src/oaklib/{conf,converters,parsers,implementations,indexes,inference,interfaces,io,mappers,transformers,utilities}/*.py" = [
     #Hard to fix
     "D100", #D100 Missing docstring in public module
