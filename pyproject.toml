@@ -164,7 +164,8 @@ lint.select = [
     "ICN", #flake8-import-conventions (ICN)
     "INP", #implicit-namespace-package
     "LOG",
-    "Q",
+    "Q",  #flake8-quotes (Q)
+    "RSE", 
 #    "G", https://docs.astral.sh/ruff/rules/#flake8-logging-format-g We should one day turn this on; however it will take a bit to update
 #    "C4",  #https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4 We should turn this on
 #    "C90", #https://docs.astral.sh/ruff/rules/complex-structure/ We should turn this on

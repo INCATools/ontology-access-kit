@@ -15,7 +15,7 @@ class RdfInterface(BasicOntologyInterface, ABC):
     """presents ontology as simple RDF graphs, using the rdflib datamodel."""
 
     def graph(self) -> rdflib.Graph:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def _triple_as_urirefs(self, triple: TRIPLE) -> RDF_TRIPLE:
         pass

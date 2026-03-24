@@ -444,7 +444,7 @@ class OboGraphImplementation(
     def sssom_mappings(
         self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
     ) -> Iterable[sssom.Mapping]:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

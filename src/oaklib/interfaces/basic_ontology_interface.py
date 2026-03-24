@@ -1113,7 +1113,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param label:
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @deprecated("Use curies_by_label(label)")
     def get_curies_by_label(self, label: str) -> List[CURIE]:
@@ -1322,7 +1322,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param lang: language tag
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def definitions(
         self,
@@ -1348,7 +1348,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return: iterator over (id, definition, metadata) tuples
         """
         if include_metadata:
-            raise NotImplementedError()
+            raise NotImplementedError
         for curie in curies:
             defn = self.definition(curie)
             if not defn and not include_missing:
@@ -1372,7 +1372,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie: entity identifier to be looked up
         :return: iterator over predicate-object tuples
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def simple_mappings(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
         """

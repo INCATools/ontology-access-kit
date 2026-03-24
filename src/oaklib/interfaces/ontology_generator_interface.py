@@ -24,4 +24,4 @@ class OntologyGenerationInterface(BasicOntologyInterface, ABC):
         :param kwargs:
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
