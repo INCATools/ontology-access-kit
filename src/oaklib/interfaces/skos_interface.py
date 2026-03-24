@@ -4,6 +4,8 @@ from typing import Iterable
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 
+#TODO: Does this class need to exist, it doesn't look like it's being used anywhere
+#as an abstract class.
 
 class SkosInterface(BasicOntologyInterface, ABC):
     """
@@ -13,10 +15,7 @@ class SkosInterface(BasicOntologyInterface, ABC):
     """
 
     def concepts(self) -> Iterable[CURIE]:
-        """
-
-        :return:
-        """
+        """:return:"""
         raise NotImplementedError
 
     def broader(self, curie: CURIE) -> Iterable[CURIE]:
