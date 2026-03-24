@@ -1,4 +1,5 @@
-"""Representation and execution of complex boolean queries.
+"""
+Representation and execution of complex boolean queries.
 
 See also `<https://incatools.github.io/ontology-access-kit/howtos/use-oak-expression-language.html>`_.
 """

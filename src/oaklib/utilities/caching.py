@@ -19,7 +19,8 @@ _logger = logging.getLogger(__name__)
 
 
 class CachePolicy(object):
-    """Represents the behaviour of a cache.
+    """
+    Represents the behaviour of a cache.
 
     Once a CachePolicy object has been created (typically using the static
     constructor from_string, or one of the static properties for special
@@ -39,7 +40,8 @@ class CachePolicy(object):
     """
 
     def __init__(self, max_age):
-        """Creates a new instance.
+        """
+        Creates a new instance.
 
         If positive, the max_age parameter is the number of seconds after which
         cached data should be refreshed. This parameter can also accept some
@@ -61,7 +63,8 @@ class CachePolicy(object):
         self._max_age = max_age
 
     def refresh(self, then):
-        """Indicates whether a refresh should occur for data last refreshed at
+        """
+        Indicates whether a refresh should occur for data last refreshed at
         the indicated time.
 
         :param then: the time the data were last cached or refreshed, in
@@ -75,7 +78,8 @@ class CachePolicy(object):
         return time.time() - then > self._max_age
 
     def refresh_file(self, pathname):
-        """Indicates whether the specified file should be refreshed.
+        """
+        Indicates whether the specified file should be refreshed.
 
         This uses the last modification time of the file to determine the age
         of the cached data. If the file does not exist, a refresh will
@@ -91,14 +95,16 @@ class CachePolicy(object):
 
     @property
     def always_refresh(self):
-        """Indicates whether this policy mandates a systematic refresh of the
+        """
+        Indicates whether this policy mandates a systematic refresh of the
         cache."""
 
         return self._max_age == 0
 
     @property
     def never_refresh(self):
-        """Indicates whether this policy mandates never refreshing the
+        """
+        Indicates whether this policy mandates never refreshing the
         cache."""
 
         return self._max_age == timedelta.max.total_seconds()
@@ -116,7 +122,8 @@ class CachePolicy(object):
 
     @classmethod
     def from_string(cls, value) -> CachePolicy:
-        """Creates a new instance from a string representation.
+        """
+        Creates a new instance from a string representation.
 
         This is the recommended way of getting a CachePolicy object. The value
         can be either:
@@ -192,7 +199,8 @@ class CachePolicy(object):
     @classmethod
     #    @property
     def ClickType(cls):
-        """Helper method to parse a CachePolicy with Click.
+        """
+        Helper method to parse a CachePolicy with Click.
 
         Use that method as the 'type' of a Click option to let Click
         automatically convert the value of the option into a CachePolicy
@@ -220,14 +228,16 @@ class CachePolicy(object):
 
 
 class FileCache(object):
-    """Represents a file-based cache.
+    """
+    Represents a file-based cache.
 
     This is intended as a layer built on top of Pystow, to add cache management
     features that are lacking in Pystow.
     """
 
     def __init__(self, module):
-        """Creates a new instance.
+        """
+        Creates a new instance.
 
         :param module: a Pystow module representing the location where cached
             data will be stored; all methods in this class will defer to this
@@ -242,7 +252,8 @@ class FileCache(object):
         self._config_read = False
 
     def force_policy(self, policy):
-        """Forces the cache to use the specified policy, regardless of any
+        """
+        Forces the cache to use the specified policy, regardless of any
         otherwise configured policies.
 
         :param policy: the policy to use; may be None to allow the use of
@@ -252,7 +263,8 @@ class FileCache(object):
         self._forced_policy = policy
 
     def ensure_gunzip(self, url, name=None, autoclean=True):
-        """Looks up and maybe downloads and gunzips a file.
+        """
+        Looks up and maybe downloads and gunzips a file.
 
         This is a wrapper around Pystow's method of the same name. It behaves
         similarly but, if the file is already present in the cache, it will
@@ -291,7 +303,8 @@ class FileCache(object):
         return path
 
     def get_contents(self, subdirs=False):
-        """Gets a list of files present in the cache.
+        """
+        Gets a list of files present in the cache.
 
         This returns a list of (name, size, mtime) tuples, where:
 
@@ -311,7 +324,8 @@ class FileCache(object):
         return contents
 
     def clear(self, subdirs=False, older_than=None, pattern="*"):
-        """Deletes files present in the cache.
+        """
+        Deletes files present in the cache.
 
         :param subdirs: if True, deletes files in subdirectories
         :param older_than: if set, only deletes files that were last modified
@@ -335,7 +349,8 @@ class FileCache(object):
         return cleared
 
     def _iter_files(self, subdirs=False, pattern="*"):
-        """Helper method to get the files present in the cache.
+        """
+        Helper method to get the files present in the cache.
 
         :param subdirs: if True, get files in subdirectories
         :param pattern: get files matching the pattern
