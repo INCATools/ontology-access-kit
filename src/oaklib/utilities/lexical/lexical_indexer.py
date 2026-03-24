@@ -1,9 +1,8 @@
 """
-Lexical Utilities
+Lexical Utilities.
+
 -----------------
-
 Various utilities for working with lexical aspects of ontologies plus mappings
-
 """
 
 import logging

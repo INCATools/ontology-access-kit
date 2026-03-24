@@ -159,6 +159,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
 
     def get_transitive_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         """
+        Get transitive mappings by CURIE.
 
         :param curie:
         :return:

@@ -176,8 +176,7 @@ class OntoPortalImplementationBase(
         self, text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
         """
-         Implements annotate_text from text_annotator_interface by calling the
-         `annotate` endpoint using ontoportal client.
+        Implements annotate_text from text_annotator_interface by calling `annotate` endpoint using ontoportal client.
 
         :param text: Text to be annotated.
         :param configuration: Text annotation configuration.

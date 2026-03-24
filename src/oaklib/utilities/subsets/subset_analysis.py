@@ -78,6 +78,7 @@ def compare_all_subsets(
     oi: OboGraphInterface, extend_down: bool = False, remove_empty: bool = True, prefix: str = None
 ) -> Iterable[ListPair]:
     """
+    Compare all subsets.
 
     :param oi: An ontology interface for making label lookups.
     :return:

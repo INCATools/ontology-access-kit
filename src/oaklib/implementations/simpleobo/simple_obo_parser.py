@@ -365,8 +365,7 @@ class Structure:
 
     def simple_values(self, tag: TAG) -> List[CURIE]:
         """
-        Get values for a tag where the tag follows the structure of an OBO
-        subset tag or similar
+        Get values for a tag where the tag follows the structure of an OBO subset tag or similar.
 
         :param tag:
         :return:
@@ -408,9 +407,11 @@ class Structure:
 
     def singular_value(self, tag: TAG, strict=False) -> Optional[str]:
         """
+        Get value for a tag.
+
         Get value for a tag where the tag follows the structure of an OBO
         name, comment tag or similar; the tag must have cardinality zero or one,
-        and the value is raw
+        and the value is raw.
 
         :param tag:
         :param strict:
@@ -427,8 +428,7 @@ class Structure:
 
     def quoted_value(self, tag: TAG, strict=False) -> Optional[str]:
         """
-        Get value for a tag where the tag follows the structure of an OBO
-        def, synonym tag or similar
+        Get value for a tag where the tag follows the structure of an OBO def, synonym tag or similar.
 
         :param tag:
         :param strict:

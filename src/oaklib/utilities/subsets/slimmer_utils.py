@@ -1,7 +1,4 @@
-"""
-Utilities for working with ontology subsets (slims)
-----
-"""
+"""Utilities for working with ontology subsets (slims)."""
 
 import logging
 from typing import Collection, Dict, List

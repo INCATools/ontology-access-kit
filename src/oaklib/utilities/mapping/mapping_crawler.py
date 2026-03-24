@@ -80,6 +80,7 @@ class MappingClique(BaseModel):
     def entities(self) -> List[CURIE]:
         """
         Get the set of all entities (subjects and objects) in the clique.
+
         :return:
         """
         return list(set(self.subjects + self.objects))

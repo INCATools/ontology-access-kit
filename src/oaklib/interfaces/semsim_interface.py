@@ -24,10 +24,7 @@ from oaklib.utilities.semsim.similarity_utils import (
 
 
 class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
-    """
-    An interface for calculating similarity measures between pairs of terms or
-    collections of terms
-    """
+    """An interface for calculating similarity measures between pairs of terms or collections of terms."""
 
     cached_information_content_map: Dict[CURIE, float] = None
     """Mapping from term to information content"""

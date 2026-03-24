@@ -18,8 +18,7 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
-        The return relationship map is keyed by relationship type, where the values
-        are the 'parents' or fillers
+        The return relationship map is keyed by relationship type, where the values are the 'parents' or fillers.
 
         OWL formulation:
 
@@ -41,8 +40,7 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
-        The return relationship map is keyed by relationship type, where the values
-        are the 'parents' or fillers
+        The return relationship map is keyed by relationship type, where the values are the 'parents' or fillers.
 
         OWL formulation:
 

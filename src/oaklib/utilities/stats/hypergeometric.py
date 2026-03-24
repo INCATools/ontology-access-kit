@@ -16,11 +16,14 @@ def log_binomial_coefficient(n: int, k: int) -> float:
 
 def hypergeom_prob(n: int, k: int, N: int, K: int) -> float:
     """
+    Calculates the hypergeometric probability.
+
     n: number of successes in sample
     k: number of successes in population
     N: size of sample
     K: size of population
     """
+
     return exp(
         log_binomial_coefficient(k, n)
         + log_binomial_coefficient(K - k, N - n)

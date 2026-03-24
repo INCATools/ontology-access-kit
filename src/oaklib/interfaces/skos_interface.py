@@ -15,11 +15,16 @@ class SkosInterface(BasicOntologyInterface, ABC):
     """
 
     def concepts(self) -> Iterable[CURIE]:
-        """:return:"""
+        """
+        Concepts (put here for pydoc).
+
+        :return:
+        """
         raise NotImplementedError
 
     def broader(self, curie: CURIE) -> Iterable[CURIE]:
         """
+        Broader (put here for pydoc).
 
         :param curie:
         :return:
@@ -28,6 +33,7 @@ class SkosInterface(BasicOntologyInterface, ABC):
 
     def narrower(self, curie: CURIE) -> Iterable[CURIE]:
         """
+        Narrower (put here for pydoc).
 
         :param curie:
         :return:
@@ -36,6 +42,7 @@ class SkosInterface(BasicOntologyInterface, ABC):
 
     def exact(self, curie: CURIE) -> Iterable[CURIE]:
         """
+        Exact (put here for pydoc).
 
         :param curie:
         :return:
@@ -44,6 +51,7 @@ class SkosInterface(BasicOntologyInterface, ABC):
 
     def related(self, curie: CURIE) -> Iterable[CURIE]:
         """
+        Get related.
 
         :param curie:
         :return:

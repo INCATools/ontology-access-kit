@@ -190,8 +190,10 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         **kwargs,
     ) -> Graph:
         """
+        Return a graph object extended with direct relationships.
+
         Return a graph object that consists of all the nodes specified in the curies list,
-        extended with all direct relationships
+        extended with all direct relationships.
 
         :param curies:
         :return: direct graph
@@ -215,6 +217,8 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         **kwargs,
     ) -> Graph:
         """
+        Return a graph object that consists of all the nodes specified in the start_curies list.
+
         Return a graph object that consists of all the nodes specified in the start_curies list,
         extended with an interactive walk up the graph following all relationships (optionally filtered by the predicate
         list)
@@ -331,10 +335,12 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
         """
-        Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified
-        predicates.
+        Ancestors obtained from a walk along specified predicates.
 
-        .. note::
+        Ancestors obtained from a walk starting from start_curies ending in roots,
+        following only the specified predicates.
+
+        Note::
 
            This operation is reflexive: self is included
 
@@ -367,10 +373,12 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
         """
-        Descendants obtained from a walk downwards starting from start_curies
-        ending in roots, following only the specified predicates.
+        Descendants obtained from a walk along specified predicates.
 
-        .. note::
+        Descendants obtained from a walk starting from start_curies ending in roots,
+        following only the specified predicates.
+
+        Note::
 
            This operation is reflexive: self is included
 
@@ -685,7 +693,8 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     def add_metadata(self, graph: Graph) -> None:
         """
-        Decorates the graph with meta objects on all nodes
+        Decorates the graph with meta objects on all nodes.
+
         :param graph:
         :return:
         """

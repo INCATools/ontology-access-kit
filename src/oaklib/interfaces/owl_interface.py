@@ -291,8 +291,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def axiom_references(self, axiom: Axiom) -> Iterable[IRI]:
         """
-        Gives an axiom, yield all of the entity IRIs which this axiom references
-        (i.e. entities in the signature)
+        Gives an axiom, yield all of the entity IRIs which this axiom references (i.e. entities in the signature).
 
         :param axiom:
         :return: entity IRI iterator

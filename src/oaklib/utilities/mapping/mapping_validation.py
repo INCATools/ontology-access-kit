@@ -38,12 +38,14 @@ def unreciprocated_mappings(
     both_directions: bool = True,
 ) -> Iterable[Mapping]:
     """
-    yields all mappings from all terms in subject ontology where the object
-    is in the object ontology, and the object does not have the reciprocal mapping
+    Yield all unreciprocated mappings.
 
-    in some cases, no reciprocal mappings are expected - if filter_unidirectional is set
+    Yield all mappings from all terms in subject ontology where the object
+    is in the object ontology, and the object does not have the reciprocal mapping.
+
+    In some cases, no reciprocal mappings are expected - if filter_unidirectional is set
     then exclude from the report any mapping between sources where there exist no mappings
-    between those sources
+    between those sources.
 
     So for example, if Uberon has xrefs to XAO, and XAO has xrefs to Uberon, then we expect
     all mappings to be reciprocated. But if ubeorn has xrefs to EMAPA, and EMAPA has no mappings

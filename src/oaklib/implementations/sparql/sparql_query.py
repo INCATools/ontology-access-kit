@@ -39,7 +39,8 @@ class SparqlQuery:
 
     def query_str(self):
         """
-        Generate the SPARQL query string
+        Generate the SPARQL query string.
+
         :return:
         """
         w = self.where_str()
@@ -71,7 +72,8 @@ class SparqlUpdate(SparqlQuery):
 
     def query_str(self):
         """
-        Generate the SPARQL update string
+        Generate the SPARQL update string.
+
         :return:
         """
         q = f"""

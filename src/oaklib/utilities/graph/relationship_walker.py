@@ -1,9 +1,4 @@
-"""
-Utilities for traversing Ontology Graphs
-====================
-
-
-"""
+"""Utilities for traversing Ontology Graphs."""
 
 import logging
 from copy import copy

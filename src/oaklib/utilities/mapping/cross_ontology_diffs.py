@@ -271,6 +271,8 @@ def calculate_pairwise_relational_diff_for_edge(
     include_reflexive=False,
 ) -> Iterator[RelationalDiff]:
     """
+    Finds if edge exists in both left and right ois.
+
     Given an edge from the left-side ontology, determine if an analogous edge can be found
     on the right side. If it exists, check it for consistency.
 

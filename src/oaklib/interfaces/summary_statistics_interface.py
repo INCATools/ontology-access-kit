@@ -203,8 +203,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
 
     def metadata_property_summary_statistics(self, metadata_property: PRED_CURIE) -> Dict[Any, int]:
         """
-        Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed
-        by ontology CURIE
+        Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed by ontology CURIE.
 
         :return:
         """

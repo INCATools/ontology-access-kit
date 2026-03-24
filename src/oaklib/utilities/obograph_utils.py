@@ -1,9 +1,8 @@
 """
-Utilities for the OBOGraph Datamodel
+Utilities for the OBOGraph Datamodel.
+
 ------------------------------------
-
 See :ref:`datamodels`
-
 """
 
 import io
@@ -320,8 +319,7 @@ def as_graph(
 
 def ancestors_with_stats(graph: Graph, curies: List[CURIE]) -> Dict[CURIE, Dict[str, Any]]:
     """
-    Given an OBO Graph, and a list of start/seed curies, calculate
-    various statistics about each graph node.
+    Given an OBO Graph, and a list of start/seed curies, calculate various statistics about each graph node.
 
     The current stats for each ancestor node are:
 
@@ -483,8 +481,7 @@ def depth_first_ordering(
 
 def remove_nodes_from_graph(graph: Graph, node_ids: List[CURIE]):
     """
-    Remove the specified nodes from the graph, and cascade to any edges
-    that reference these nodes
+    Remove the specified nodes from the graph, and cascade to any edges that reference these nodes.
 
     Mutates the graph in-place
     :param graph:

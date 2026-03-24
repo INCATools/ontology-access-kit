@@ -64,8 +64,7 @@ class CachePolicy(object):
 
     def refresh(self, then):
         """
-        Indicates whether a refresh should occur for data last refreshed at
-        the indicated time.
+        Indicates whether a refresh should occur for data last refreshed at the indicated time.
 
         :param then: the time the data were last cached or refreshed, in
             seconds since the Unix epoch
@@ -95,17 +94,13 @@ class CachePolicy(object):
 
     @property
     def always_refresh(self):
-        """
-        Indicates whether this policy mandates a systematic refresh of the
-        cache."""
+        """Indicates whether this policy mandates a systematic refresh of the cache."""
 
         return self._max_age == 0
 
     @property
     def never_refresh(self):
-        """
-        Indicates whether this policy mandates never refreshing the
-        cache."""
+        """Indicates whether this policy mandates never refreshing the cache."""
 
         return self._max_age == timedelta.max.total_seconds()
 
@@ -253,8 +248,7 @@ class FileCache(object):
 
     def force_policy(self, policy):
         """
-        Forces the cache to use the specified policy, regardless of any
-        otherwise configured policies.
+        Forces the cache to use the specified policy, regardless of any otherwise configured policies.
 
         :param policy: the policy to use; may be None to allow the use of
             configured policies

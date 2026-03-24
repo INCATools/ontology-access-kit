@@ -1,5 +1,6 @@
 """
-Utilities for working with networkx
+Utilities for working with networkx.
+
 -----------------------------------
 
 NetworkX is a popular python package for working with graphs
@@ -56,8 +57,10 @@ def transitive_reduction_by_predicate(
     relationships: Iterable[RELATIONSHIP],
 ) -> Iterable[RELATIONSHIP]:
     """
-    Performs a simple transitive reduction of a graph, in which each predicate is treated as independent,
-    and forming its own distinct graph
+    Performs a simple transitive reduction of a graph.
+
+    Performs a simple transitive reduction of a graph, in which each predicate
+    is treated as independent, and forming its own distinct graph.
 
     :param relationships:
     :return:

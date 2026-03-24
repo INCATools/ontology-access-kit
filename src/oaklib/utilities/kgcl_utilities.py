@@ -20,7 +20,8 @@ re_quoted = re.compile("^'(.*)'$")
 
 def generate_change_id() -> CURIE:
     """
-    Generates an identifier to be used on a change object
+    Generates an identifier to be used on a change object.
+
     :return:
     """
     return f"uuid:{uuid.uuid4()}"
@@ -28,7 +29,8 @@ def generate_change_id() -> CURIE:
 
 def assign_id(change: kgcl.Change):
     """
-    Assigns an ID to a change object
+    Assigns an ID to a change object.
+
     :param change:
     :return:
     """
