@@ -143,7 +143,7 @@ class UniprotImplementation(
         exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
-        Uniprot implementation of :ref:`relationships`
+        Uniprot implementation of :ref:`relationships`.
 
         .. warning ::
 
@@ -207,7 +207,7 @@ class UniprotImplementation(
         **kwargs,
     ) -> Iterator[Association]:
         """
-        Uniprot implementation of :ref:`associations`
+        Uniprot implementation of :ref:`associations`.
 
         To query for some associations for a protein:
 

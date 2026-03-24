@@ -22,7 +22,7 @@ def _keyval(x: Any) -> str:
 
 @dataclass
 class StreamingJsonWriter(StreamingWriter):
-    """A writer that emits one document at a time in one stream"""
+    """A writer that emits one document at a time in one stream."""
 
     current_entry_number: int = field(default_factory=lambda: 0)
 

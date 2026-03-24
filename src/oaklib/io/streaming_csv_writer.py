@@ -32,7 +32,7 @@ def _keyval(x: Any) -> str:
 
 @dataclass(eq=False)
 class StreamingCsvWriter(StreamingWriter):
-    """A writer that streams CSV/TSV output"""
+    """A writer that streams CSV/TSV output."""
 
     header_emitted: bool = None
     delimiter: str = "\t"
@@ -145,7 +145,7 @@ class StreamingCsvWriter(StreamingWriter):
 
     def _rewrite_dict(self, obj_as_dict: dict, original: Any):
         """
-        Applies denormalization rules to the object
+        Applies denormalization rules to the object.
 
         :param obj_as_dict:
         :param original:

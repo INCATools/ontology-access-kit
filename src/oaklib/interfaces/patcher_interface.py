@@ -23,7 +23,7 @@ from oaklib.utilities.kgcl_utilities import generate_change_id
 
 class PatcherInterface(BasicOntologyInterface, ABC):
     """
-    Applies diffs
+    Applies diffs.
 
     See `KGCL <https://github.com/INCATools/kgcl>`_
     """
@@ -45,7 +45,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
         strict=False,
     ) -> Optional[Change]:
         """
-        Applies a change description
+        Applies a change description.
 
         :param patch: TBD use KGCL
         :param activity:
@@ -58,7 +58,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
     def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
         """
-        Rewire an ontology replacing all usages of some CURIEs
+        Rewire an ontology replacing all usages of some CURIEs.
 
         :param curie_map:
         :return:
@@ -67,7 +67,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
     def save(self):
         """
-        Commits all changes
+        Commits all changes.
 
         :return:
         """
@@ -197,7 +197,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
     def undo(self, changes: List[Change], expand=False, strict=True, **kwargs) -> List[Change]:
         """
-        Undo a list of changes
+        Undo a list of changes.
 
         :param changes:
         :param kwargs:
@@ -218,7 +218,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
     def reverse_changes(self, changes: List[Change]) -> List[Change]:
         """
-        Creates reciprocal Undo operations for a list of changes
+        Creates reciprocal Undo operations for a list of changes.
 
         :param changes:
         :return:

@@ -8,7 +8,7 @@ from oaklib.io.streaming_writer import StreamingWriter
 
 @dataclass
 class StreamingAxiomWriter(StreamingWriter):
-    """A writer that emits one document at a time in one stream"""
+    """A writer that emits one document at a time in one stream."""
 
     syntax: str = None
     functional_writer: FunctionalWriter = None

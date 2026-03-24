@@ -37,7 +37,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         include_owl_thing: bool = True,
     ) -> Iterable[CURIE]:
         """
-        Most recent common ancestors (MRCAs) for a pair of entities
+        Most recent common ancestors (MRCAs) for a pair of entities.
 
         The MRCAs are the set of Common Ancestors (CAs) that are not themselves proper
         ancestors of another CA
@@ -74,7 +74,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         include_owl_thing: bool = True,
     ) -> Iterable[CURIE]:
         """
-        Most recent common ancestors (MRCAs) for a set of entities
+        Most recent common ancestors (MRCAs) for a set of entities.
 
         The MRCAs are the set of Common Ancestors (CAs) that are not themselves proper
         ancestors of another CA
@@ -107,7 +107,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, asymmetric=True
     ) -> Iterable[Tuple[CURIE, CURIE, CURIE]]:
         """
-        All pairwise common ancestors for all pairs in a set of terms
+        All pairwise common ancestors for all pairs in a set of terms.
 
         :param subjects:
         :param predicates:
@@ -140,7 +140,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         include_owl_thing: bool = True,
     ) -> Iterable[CURIE]:
         """
-        Common ancestors of a subject-object pair
+        Common ancestors of a subject-object pair.
 
         :param subject:
         :param object:
@@ -175,7 +175,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
 
     def load_information_content_scores(self, source: str) -> None:
         """
-        Load term information content values from file
+        Load term information content values from file.
 
         :param source:
         :return:
@@ -184,7 +184,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
 
     def set_information_content_scores(self, scores: Iterable[Tuple[CURIE, float]]) -> None:
         """
-        Load term information content values from file
+        Load term information content values from file.
 
         :param source:
         :return:
@@ -310,7 +310,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         min_ancestor_information_content: Optional[float] = None,
     ) -> Optional[TermPairwiseSimilarity]:
         """
-        Pairwise similarity between a pair of ontology terms
+        Pairwise similarity between a pair of ontology terms.
 
         :param subject:
         :param object:
@@ -448,7 +448,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         min_ancestor_information_content: Optional[float] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
         """
-        Compute similarity for all combinations of terms in subsets vs all terms in objects
+        Compute similarity for all combinations of terms in subsets vs all terms in objects.
 
         :param subjects:
         :param objects:

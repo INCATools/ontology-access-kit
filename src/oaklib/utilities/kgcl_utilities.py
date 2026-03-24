@@ -42,7 +42,7 @@ def parse_kgcl_files(
     files: List[Union[str, Path, TextIO]], changes_format="json"
 ) -> Iterator[kgcl.Change]:
     """
-    Parses a list of KGCL files yielding Change objects
+    Parses a list of KGCL files yielding Change objects.
 
     :param files:
     :param changes_format: default is "json"
@@ -125,7 +125,7 @@ def write_kgcl(
     changes: List[kgcl.Change], file: Optional[Union[str, Path, TextIO]], changes_format="json"
 ):
     """
-    Writes a list of changes to a file
+    Writes a list of changes to a file.
 
     :param changes:
     :param file:

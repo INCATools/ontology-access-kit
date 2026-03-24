@@ -37,7 +37,7 @@ class SparqlImplementation(
     TaxonConstraintInterface,
     MergeInterface,
 ):
-    """Wraps any local or remote sparql endpoint"""
+    """Wraps any local or remote sparql endpoint."""
 
     def __post_init__(self):
         if self.graph is None:

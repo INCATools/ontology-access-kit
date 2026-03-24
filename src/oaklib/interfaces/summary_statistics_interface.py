@@ -25,7 +25,7 @@ SUMMARY_STATISTICS_MAP = Dict[str, Any]
 
 class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
     """
-    generates summary statistics
+    generates summary statistics.
 
     Uses SummaryStatistics datamodel, see :ref:`datamodels`
     """
@@ -168,7 +168,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
 
     def _add_statistics_metadata(self, report: SummaryStatisticsReport):
         """
-        Adds metadata to a report
+        Adds metadata to a report.
 
         :param report:
         :return:
@@ -219,7 +219,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
 
     def _add_derived_statistics(self, ssc: UngroupedStatistics) -> None:
         """
-        Adds derived statistics to the summary statistics collection
+        Adds derived statistics to the summary statistics collection.
 
         :param ssc:
         :return:
@@ -232,7 +232,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
 
     def summary_statistic_description(self, metric: str) -> str:
         """
-        Examines the data dictionary to retrieve the definition of a metric
+        Examines the data dictionary to retrieve the definition of a metric.
 
         Any dictionary can be used, but summary_statistics_datamodel is favored
 

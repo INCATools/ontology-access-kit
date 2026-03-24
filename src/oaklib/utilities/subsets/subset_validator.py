@@ -57,7 +57,7 @@ def validate_subset(
     adapter: SemanticSimilarityInterface, configuration: Optional[SubsetValidationConfig] = None
 ) -> SubsetValidationResult:
     """
-    Validate a subset of terms and predicates
+    Validate a subset of terms and predicates.
 
     :param adapter:
     :param configuration:

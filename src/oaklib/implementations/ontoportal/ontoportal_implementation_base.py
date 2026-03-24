@@ -511,7 +511,7 @@ class OntoPortalImplementationBase(
 
     def as_obograph(self, expand_curies=False) -> Graph:
         """
-        Convert entire resource to an OBO Graph object
+        Convert entire resource to an OBO Graph object.
 
         :param expand_curies: if True expand CURIEs to URIs
         :return: Graph object
@@ -595,7 +595,7 @@ class OntoPortalImplementationBase(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> Optional[Node]:
         """
-        Look up a node object by CURIE in the ontoportal implementation
+        Look up a node object by CURIE in the ontoportal implementation.
 
         :param curie: identifier of node
         :param strict: raise exception if node not found

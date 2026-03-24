@@ -9,6 +9,6 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
 
 @dataclass
 class EcoPortalImplementation(OntoPortalImplementationBase):
-    """Implementation over ecoportal endpoint"""
+    """Implementation over ecoportal endpoint."""
 
     ontoportal_client_class = EcoPortalClient

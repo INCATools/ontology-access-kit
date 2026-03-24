@@ -27,7 +27,7 @@ def relationships_to_multi_digraph(
     relationships: Iterable[RELATIONSHIP], reverse: bool = True
 ) -> nx.MultiDiGraph:
     """
-    Converts an OBOGraph to NetworkX
+    Converts an OBOGraph to NetworkX.
 
     :param relationships:
     :param reverse: treat subject as the networkx parent (default true)

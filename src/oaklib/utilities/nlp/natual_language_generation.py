@@ -27,7 +27,7 @@ PREDICATE_TO_TEXT = {
 
 @dataclass
 class NaturalLanguageGenerator:
-    """Generates natural language sentences"""
+    """Generates natural language sentences."""
 
     ontology_interface: BasicOntologyInterface
     mask_symbol: str = "[MASK]"
@@ -38,7 +38,7 @@ class NaturalLanguageGenerator:
 
     def render_entity(self, subject: CURIE) -> TEXT:
         """
-        Generate a natural language text description of an entity such as an ontology term
+        Generate a natural language text description of an entity such as an ontology term.
 
         Text is generated from both logical axioms (edges) and existing textual information
         (such as text definitions and synonyms)
@@ -64,7 +64,7 @@ class NaturalLanguageGenerator:
 
     def render_edge(self, edge: og.Edge) -> TEXT:
         """
-        Generate natural language text from an edge
+        Generate natural language text from an edge.
 
         :param edge:
         :return:
@@ -76,7 +76,7 @@ class NaturalLanguageGenerator:
 
     def render_logical_definition(self, ldef: og.LogicalDefinitionAxiom) -> TEXT:
         """
-        Generate natural language text from an edge
+        Generate natural language text from an edge.
 
         :param ldef:
         :return:

@@ -280,7 +280,7 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
 
     def unsatisfiable_classes(self, exclude_nothing=True) -> Iterable[CURIE]:
         """
-        Yields all classes that are unsatisfiable, as determined by deductive reasoning .(e.g. an OWL reasoner)
+        Yields all classes that are unsatisfiable, as determined by deductive reasoning .(e.g. an OWL reasoner).
 
         :param exclude_nothing: if True (default) do not include the tautological owl:Nothing
         :return: class curie iterator

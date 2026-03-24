@@ -153,7 +153,7 @@ class SimpleOboImplementation(
     OwlInterface,
 ):
     """
-    Simple OBO-file backed implementation
+    Simple OBO-file backed implementation.
 
     This implementation is incomplete and is intended primarily as a Patcher implementation
 
@@ -525,7 +525,7 @@ class SimpleOboImplementation(
 
     def map_curie_to_shorthand(self, rel_type: PRED_CURIE) -> PRED_CODE:
         """
-        Reciprocal of `_get_relationship_type_curie`
+        Reciprocal of `_get_relationship_type_curie`.
 
         :param rel_type:
         :return:

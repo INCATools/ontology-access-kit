@@ -33,7 +33,7 @@ from oaklib.types import CURIE, PRED_CURIE
 @dataclass
 class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     """
-    An experimental partial implementation of :ref:`OwlInterface`
+    An experimental partial implementation of :ref:`OwlInterface`.
 
     Wraps FunOWL
 

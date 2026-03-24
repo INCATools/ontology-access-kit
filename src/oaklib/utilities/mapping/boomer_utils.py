@@ -326,7 +326,7 @@ def mappings(input_report, **kwargs):
 @click.argument("input_report")
 def report(input_report, output, output_type, **kwargs):
     """
-    Renders a report performing optional filtering and sorting
+    Renders a report performing optional filtering and sorting.
 
     Passing no options will just generate the input report in the desired format.
 

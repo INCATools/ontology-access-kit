@@ -17,7 +17,7 @@ def sqlite_bulk_load(
     path: str, csv_file: str, table_name: str, cat_cmd=None, cols: List[str] = None
 ):
     """
-    Bulk load a CSV into a SQLite database
+    Bulk load a CSV into a SQLite database.
 
     This is compatible with the old implementation that used shell commands to
     load the csv to sqlite which was not usable cross platform.
@@ -41,7 +41,7 @@ def sqlite_bulk_load2(
     read_csv_args: Dict = None,
 ) -> None:
     """
-    Bulk load a CSV into a SQLite database
+    Bulk load a CSV into a SQLite database.
 
     :param path:
     :param csv_file:

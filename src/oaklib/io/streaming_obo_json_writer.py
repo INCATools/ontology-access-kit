@@ -11,7 +11,7 @@ from oaklib.types import CURIE
 
 @dataclass
 class StreamingOboJsonWriter(StreamingWriter):
-    """A writer that emits one OBO Json one node at a time in one stream"""
+    """A writer that emits one OBO Json one node at a time in one stream."""
 
     def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface

@@ -79,7 +79,7 @@ SPLIT_TOKEN = " SPLIT="  # noqa S105
 
 class TemplateString(BaseModel):
     """
-    A robot template string
+    A robot template string.
 
     https://robot.obolibrary.org/template
     """
@@ -95,7 +95,7 @@ class TemplateString(BaseModel):
     split_delimiter: Optional[str] = None
 
     def parse(self):
-        """Parse the template string"""
+        """Parse the template string."""
         v = self.value
         if SPLIT_TOKEN in v:
             v, self.split_delimiter = v.split(SPLIT_TOKEN, 1)
@@ -185,7 +185,7 @@ def template_modify(
     curie: CURIE, template: Dict[str, str], rows: List[Dict[str, Any]], update_map: Dict[str, Any]
 ) -> bool:
     """
-    Modify a template value
+    Modify a template value.
 
     >>> template = {"id": "ID", "name": "LABEL", "definition": "A DEFINITION"}
     >>> rows = [ {"id": "X:1", "name": "foo"}, {"id": "X:2", "name": "bar", "definition": "A bar"} ]
@@ -327,7 +327,7 @@ class RobotTemplateImplementation(
 
     def _modify(self, curie: CURIE, update_map: Dict[str, Any]) -> bool:
         """
-        Modify a template value
+        Modify a template value.
 
         :param curie:
         :param update_map:
@@ -350,7 +350,7 @@ class RobotTemplateImplementation(
 
     def _slice_as_map(self, cols: Optional[List[str]] = None) -> Dict[CURIE, Dict[str, Any]]:
         """
-        Slice the columns of the tabular file as a map
+        Slice the columns of the tabular file as a map.
 
         :param cols:
         :return:

@@ -179,13 +179,13 @@ SUBJECT_REL_KEY = Tuple[CURIE, Optional[List[PRED_CURIE]], Tuple]
 
 
 class SqlSchemaError(Exception):
-    """Raised when there are issues with the version of the SQL DDL uses"""
+    """Raised when there are issues with the version of the SQL DDL uses."""
 
     pass
 
 
 class ViewNotFoundError(SqlSchemaError):
-    """Raised when a SQL view is not found"""
+    """Raised when a SQL view is not found."""
 
     pass
 
@@ -217,7 +217,7 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 
 def regex_to_sql_like(regex: str) -> str:
     """
-    Convert a regex to a LIKE
+    Convert a regex to a LIKE.
 
     * ``.*`` => ``%``
     * ``.`` => ``_``
@@ -1448,7 +1448,7 @@ class SqlImplementation(
 
     def nodes(self, expand_curies=False) -> Iterator[Node]:
         """
-        Yields all nodes in all graphs
+        Yields all nodes in all graphs.
 
         :param expand_curies:
         :return:

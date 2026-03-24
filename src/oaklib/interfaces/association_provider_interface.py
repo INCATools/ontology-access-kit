@@ -56,7 +56,7 @@ def associations_objects(associations: Iterable[Association]) -> Iterator[CURIE]
 
 @dataclass
 class EntityNormalizer:
-    """Describes how identifier fields should be normalized"""
+    """Describes how identifier fields should be normalized."""
 
     adapter: MappingProviderInterface
 
@@ -720,7 +720,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
 
 @unique
 class SubjectOrObjectRole(Enum):
-    """Role of terms in the term list"""
+    """Role of terms in the term list."""
 
     SUBJECT = "subject"
     OBJECT = "object"

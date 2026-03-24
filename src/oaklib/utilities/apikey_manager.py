@@ -1,5 +1,5 @@
 """
-Functions for managing and accessing API keys
+Functions for managing and accessing API keys.
 
 See `<https://github.com/ActiveState/appdirs>`_
 """
@@ -18,7 +18,7 @@ APIKEY_ENV_SUFFIX = "API_KEY"
 
 def get_apikey_path(system: str) -> Path:
     """
-    Gets the path to where the API key is stored
+    Gets the path to where the API key is stored.
 
     :param system: e.g "bioportal"
     :return:
@@ -30,7 +30,7 @@ def get_apikey_path(system: str) -> Path:
 
 def get_apikey_value(system: str) -> str:
     """
-    Gets the value of a specific API key
+    Gets the value of a specific API key.
 
     :param system: e.g "bioportal"
     :return:
@@ -51,7 +51,7 @@ def get_apikey_value(system: str) -> str:
 
 def set_apikey_value(system: str, val: str) -> None:
     """
-    Sets the value for a specific API key
+    Sets the value for a specific API key.
 
     :param system: e.g. "bioportal"
     :param val: API key value

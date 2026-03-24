@@ -15,7 +15,7 @@ DEFAULT_PREDICATES = [IS_A, PART_OF]
 
 def get_subset_dict(oi: OboGraphInterface) -> SUBSET_DICT:
     """
-    Return a dictionary keyed by subset name with value being all subset members
+    Return a dictionary keyed by subset name with value being all subset members.
 
     :param oi: An ontology interface for making label lookups.
     :return:

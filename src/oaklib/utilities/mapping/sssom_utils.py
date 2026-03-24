@@ -16,7 +16,7 @@ def create_sssom_mapping(
     subject_id: CURIE, object_id: CURIE, strict=False, **kwargs
 ) -> Optional[Mapping]:
     """
-    Wraps the initialization of an SSSOM Mapping
+    Wraps the initialization of an SSSOM Mapping.
 
     if subject or object are not valid CURIEs then return None
 
@@ -43,7 +43,7 @@ def create_sssom_mapping(
 
 def mappings_to_pairs(mappings: Iterable[Mapping]) -> List[Tuple[CURIE, CURIE]]:
     """
-    Convert a list of mappings to subject-object pairs
+    Convert a list of mappings to subject-object pairs.
 
     :param mappings:
     :return:
@@ -57,7 +57,7 @@ def mappings_to_pairs(mappings: Iterable[Mapping]) -> List[Tuple[CURIE, CURIE]]:
 
 
 def inject_mapping_sources(m: Mapping) -> Mapping:
-    """Auto-adds subject_source and object_source if they are not present"""
+    """Auto-adds subject_source and object_source if they are not present."""
     if not m.subject_source:
         m.subject_source = get_curie_prefix(m.subject_id)
     if not m.object_source:
@@ -67,7 +67,7 @@ def inject_mapping_sources(m: Mapping) -> Mapping:
 
 @dataclass
 class StreamingSssomWriter(StreamingWriter):
-    """pseudo-streaming writer for SSSOM"""
+    """pseudo-streaming writer for SSSOM."""
 
     mappings: List[Mapping] = field(default_factory=lambda: [])
 

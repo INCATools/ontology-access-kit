@@ -31,9 +31,9 @@ def lint_ontology(
     oi: BasicOntologyInterface, dry_run=False, entities: Iterable[CURIE] = None
 ) -> Iterable[ISSUE]:
     """
-    Perform a style check on an ontology
+    Perform a style check on an ontology.
 
-    By default repairs will be performed if necessary
+    By default repairs will be performed if necessary.
 
     :param oi:
     :return:

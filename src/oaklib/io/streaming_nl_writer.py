@@ -9,7 +9,7 @@ from oaklib.utilities.nlp.natual_language_generation import NaturalLanguageGener
 
 @dataclass
 class StreamingNaturalLanguageWriter(StreamingWriter):
-    """A writer that streams basic line by line reporting info"""
+    """A writer that streams basic line by line reporting info."""
 
     natural_language_generator: NaturalLanguageGenerator = None
 

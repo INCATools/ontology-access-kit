@@ -50,7 +50,7 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         direct=False,
     ) -> Iterator[SubjectTerm]:
         """
-        Generate :ref:`TaxonConstraint`s for a given subject term ID
+        Generate :ref:`TaxonConstraint`s for a given subject term ID.
 
         This implements taxon constraints using a graph walking strategy rather than a reasoning strategy
 
@@ -80,7 +80,7 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         direct=False,
     ) -> SubjectTerm:
         """
-        Generate :ref:`TaxonConstraint`s for a given subject term ID
+        Generate :ref:`TaxonConstraint`s for a given subject term ID.
 
         This implements taxon constraints using a graph walking strategy rather than a reasoning strategy
 
@@ -164,7 +164,7 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterator[TaxonConstraint]:
         """
-        Get all present_in taxon constraints for a given term
+        Get all present_in taxon constraints for a given term.
 
         :param curie:
         :return:

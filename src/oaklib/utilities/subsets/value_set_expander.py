@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ValueSetExpander(BasicOntologyInterface, ABC):
-    """Tool for working with Value Sets in OAK"""
+    """Tool for working with Value Sets in OAK."""
 
     configuration: ValueSetConfiguration = field(default_factory=lambda: DEFAULT_CONFIG)
 
@@ -44,7 +44,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         pv_syntax: Optional[str] = None,
     ) -> Iterator[PermissibleValue]:
         """
-        Expand a value set definition into a list of curies
+        Expand a value set definition into a list of curies.
 
         See:
 
@@ -230,7 +230,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         pv_syntax: Optional[str] = None,
     ) -> SchemaDefinition:
         """
-        Expand value sets in place
+        Expand value sets in place.
 
         :param schema_path:
         :param value_set_names:

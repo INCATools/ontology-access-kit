@@ -11,7 +11,7 @@ from oaklib.utilities.obograph_utils import merge_graphs
 
 @dataclass
 class MergeConfiguration:
-    """Configuration for merging"""
+    """Configuration for merging."""
 
     allow_lossy_merge: bool = field(default=True)
     """

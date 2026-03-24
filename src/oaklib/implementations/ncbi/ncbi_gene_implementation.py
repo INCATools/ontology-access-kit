@@ -216,7 +216,7 @@ class NCBIGeneImplementation(
 
     def _go_associations_from_xml(self, subject, root):
         """
-        Extracts associations from the XML file
+        Extracts associations from the XML file.
 
         :param subject:
         :param root:

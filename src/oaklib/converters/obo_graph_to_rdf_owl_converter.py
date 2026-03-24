@@ -48,7 +48,7 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
 
     def dump(self, source: GraphDocument, target: str = None, format="turtle", **kwargs) -> None:
         """
-        Dump an OBO Graph Document to a FHIR CodeSystem
+        Dump an OBO Graph Document to a FHIR CodeSystem.
 
         :param source:
         :param target:

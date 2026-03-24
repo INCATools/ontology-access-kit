@@ -1286,7 +1286,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
-        Returns relationships where curie in the object
+        Returns relationships where curie in the object.
 
         :param curie:
         :param predicates: if None, do not filter
@@ -1376,7 +1376,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def simple_mappings(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
         """
-        Yields simple mappings for a collection of subjects
+        Yields simple mappings for a collection of subjects.
 
         :param curies: iterable collection of entity identifiers to be looked up
         :return: iterable subject-predicate-object tuples
@@ -1387,7 +1387,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def entity_aliases(self, curie: CURIE) -> List[str]:
         """
-        All aliases/synonyms for a given CURIE
+        All aliases/synonyms for a given CURIE.
 
         This lumps together all synonym categories (scopes)
 
@@ -1415,7 +1415,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         """
-        Returns aliases keyed by alias type (scope in OBO terms)
+        Returns aliases keyed by alias type (scope in OBO terms).
 
         - The alias map MUST include rdfs:label annotations
         - The alias map MAY include other properties the implementation deems to serve an alias role

@@ -16,7 +16,7 @@ from oaklib.types import CURIE
 
 @dataclass
 class StreamingRdfWriter(StreamingWriter):
-    """A writer that emits one frame at a time in RDF"""
+    """A writer that emits one frame at a time in RDF."""
 
     graph: rdflib.Graph = None
     dialect: str = field(default_factory=lambda: "ttl")

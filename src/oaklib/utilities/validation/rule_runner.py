@@ -19,7 +19,7 @@ class RuleRunner:
 
     def run(self, oi: BasicOntologyInterface) -> Iterable[ValidationResult]:
         """
-        Run all rules
+        Run all rules.
 
         :param oi:
         :return:
@@ -32,7 +32,7 @@ class RuleRunner:
 
     def set_rules(self, rule_names: Iterable[str]) -> None:
         """
-        Set the rules to run
+        Set the rules to run.
 
         :param rules:
         :return:

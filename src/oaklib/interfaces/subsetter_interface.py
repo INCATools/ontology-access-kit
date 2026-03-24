@@ -47,7 +47,7 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         self, seed_curies: List[CURIE], strategy: SubsetStrategy = None
     ) -> BasicOntologyInterface:
         """
-        Extracts an ontology subset using a seed list of curies
+        Extracts an ontology subset using a seed list of curies.
 
         EXPERIMENTAL: this method may be removed in future
 

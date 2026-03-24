@@ -21,7 +21,7 @@ def walk_up(
     **kwargs,
 ) -> Iterable[RELATIONSHIP]:
     """
-    Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
+    Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph.
 
     Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this
 
@@ -61,7 +61,7 @@ def walk_down(
     predicates: List[PRED_CURIE] = None,
 ) -> Iterable[RELATIONSHIP]:
     """
-    As walk_up, but traversing incoming, not outgoing relationships
+    As walk_up, but traversing incoming, not outgoing relationships.
 
     :param oi:An ontology interface for making label lookups.
     :param start_curies: Seed CURIE(s) to walk from.

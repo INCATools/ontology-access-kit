@@ -73,13 +73,13 @@ __all__ = [
 
 
 class SqlSchemaError(Exception):
-    """Raised when there are issues with the version of the SQL DDL uses"""
+    """Raised when there are issues with the version of the SQL DDL uses."""
 
     pass
 
 
 class ViewNotFoundError(SqlSchemaError):
-    """Raised when a SQL view is not found"""
+    """Raised when a SQL view is not found."""
 
     pass
 
@@ -800,7 +800,7 @@ class KGXImplementation(
 
     def nodes(self, expand_curies=False) -> Iterator[Node]:
         """
-        Yields all nodes in all graphs
+        Yields all nodes in all graphs.
 
         :param expand_curies:
         :return:

@@ -1,4 +1,4 @@
-"""Parser for PomBase PHAF association formats"""
+"""Parser for PomBase PHAF association formats."""
 
 from dataclasses import dataclass, field
 

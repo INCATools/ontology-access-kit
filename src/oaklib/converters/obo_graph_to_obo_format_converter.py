@@ -53,7 +53,7 @@ class OboGraphToOboFormatConverter(DataModelConverter):
 
     def dump(self, source: GraphDocument, target: str = None, **kwargs) -> None:
         """
-        Dump an OBO Graph Document to a FHIR CodeSystem
+        Dump an OBO Graph Document to a FHIR CodeSystem.
 
         :param source:
         :param target:
@@ -73,7 +73,7 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         **kwargs,
     ) -> str:
         """
-        Dump an OBO Graph Document to a string
+        Dump an OBO Graph Document to a string.
 
         :param source:
         :return:
@@ -85,7 +85,7 @@ class OboGraphToOboFormatConverter(DataModelConverter):
 
     def as_bytes_io(self, source: GraphDocument, **kwargs) -> BytesIO:
         """
-        Dump an OBO Graph Document to a string
+        Dump an OBO Graph Document to a string.
 
         :param source:
         :return:

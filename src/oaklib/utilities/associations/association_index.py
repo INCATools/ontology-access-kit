@@ -18,7 +18,7 @@ COLS = ["id", "subject", "predicate", "object", "evidence_type", "publication", 
 
 
 class DenormalizedAssociation:
-    """A denormalized association. (for future extension)"""
+    """A denormalized association. (for future extension)."""
 
     __tablename__ = "denormalized_term_association"
     subject_id = Column(String)

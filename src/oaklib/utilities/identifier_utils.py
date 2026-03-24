@@ -5,7 +5,7 @@ from oaklib.types import CURIE
 
 def string_as_base64_curie(input: str) -> CURIE:
     """
-    Convert a string to a CURIE based on its base64 encoding
+    Convert a string to a CURIE based on its base64 encoding.
 
     :param input:
     :return:
@@ -15,7 +15,7 @@ def string_as_base64_curie(input: str) -> CURIE:
 
 def synonym_type_code_from_curie(curie: CURIE) -> str:
     """
-    Get the synonym type packages from a CURIE
+    Get the synonym type packages from a CURIE.
 
     In many OBO ontologies, the synonym type is encoded as a hash URI, which compacts
     to a curie of form

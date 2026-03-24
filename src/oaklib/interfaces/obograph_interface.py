@@ -60,7 +60,7 @@ def _edges_to_nodes(
 
 @dataclass
 class TraversalConfiguration:
-    """Specifies how to walk up and down a graph"""
+    """Specifies how to walk up and down a graph."""
 
     predicates: List[PRED_CURIE] = None
     up_distance: Distance = field(default_factory=lambda: Distance.TRANSITIVE)
@@ -78,7 +78,7 @@ class EdgeTemplate:
 
 class OboGraphInterface(BasicOntologyInterface, ABC):
     """
-    an interface that provides an Object Oriented view of an ontology, following the OBO Graph Datamodel
+    an interface that provides an Object Oriented view of an ontology, following the OBO Graph Datamodel.
 
     See `OBOGraphs <https://github.com/geneontology/obographs>`_
 
@@ -94,18 +94,18 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
     transitive_query_cache: Dict[Any, Any] = None
 
     def enable_transitive_query_cache(self):
-        """Cache transitive queries"""
+        """Cache transitive queries."""
         self.transitive_query_cache = {}
 
     def disable_transitive_query_cache(self):
-        """Do not cache transitive queries (default)"""
+        """Do not cache transitive queries (default)."""
         self.transitive_query_cache = None
 
     def node(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> Optional[Node]:
         """
-        Look up a node object by CURIE
+        Look up a node object by CURIE.
 
         :param curie: identifier of node
         :param strict: raise exception if node not found
@@ -117,7 +117,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     def nodes(self, expand_curies=False) -> Iterator[Node]:
         """
-        Yields all nodes in all graphs
+        Yields all nodes in all graphs.
 
         :param expand_curies: if True expand CURIEs to URIs
         :return:
@@ -156,7 +156,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         self, subject: Union[CURIE, Iterable[CURIE]]
     ) -> Dict[CURIE, List[SynonymPropertyValue]]:
         """
-        Get a map of SynonymPropertyValue objects keyed by curie
+        Get a map of SynonymPropertyValue objects keyed by curie.
 
         :param subject: curie or list of curies
         :return:
@@ -275,7 +275,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Graph:
         """
-        As ancestor graph, but in opposite direction
+        As ancestor graph, but in opposite direction.
 
         :param start_curies:
         :param predicates: if supplied then only follow edges with these predicates
@@ -518,7 +518,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:
         """
-        Generates an OboGraph from a list of relationships
+        Generates an OboGraph from a list of relationships.
 
         :param relationships:
         :return:
@@ -535,7 +535,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[RELATIONSHIP]:
         """
-        Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
+        Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph.
 
         Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this
 
@@ -702,7 +702,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     def as_obograph(self, expand_curies=False) -> Graph:
         """
-        Convert entire resource to an OBO Graph object
+        Convert entire resource to an OBO Graph object.
 
         .. warning ::
 
@@ -730,7 +730,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     def load_graph(self, graph: Graph, replace: True) -> None:
         """
-        Loads a graph into the repository
+        Loads a graph into the repository.
 
         :param graph:
         :param replace:

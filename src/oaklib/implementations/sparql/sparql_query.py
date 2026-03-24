@@ -12,7 +12,7 @@ INSERTCLAUSE = str
 
 @dataclass
 class SparqlQuery:
-    """Represents a SPARQL query"""
+    """Represents a SPARQL query."""
 
     distinct: bool = None
     select: List[VAR_NAME] = None

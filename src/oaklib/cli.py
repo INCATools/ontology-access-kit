@@ -262,7 +262,7 @@ class Direction(Enum):
 @unique
 class IfAbsent(Enum):
     """
-    Permissible values for --if-absent
+    Permissible values for --if-absent.
 
     This indicates the policy when a specific value is not present
     """
@@ -774,7 +774,7 @@ def search(terms, output_type: str, autolabel, output: TextIO):
 @output_option
 def subsets(output: str):
     """
-    Shows information on subsets
+    Shows information on subsets.
 
     Example:
 
@@ -923,7 +923,7 @@ def statistics(
     output: str,
 ):
     """
-    Shows all descriptive/summary statistics
+    Shows all descriptive/summary statistics.
 
     Example:
 
@@ -1058,7 +1058,7 @@ def statistics(
 @output_option
 def ontologies(output: str):
     """
-    Shows all ontologies
+    Shows all ontologies.
 
     If the input is a pre-merged ontology, then the output of this command is trivially
     a single line, with the name of the input ontology
@@ -1091,7 +1091,7 @@ def ontologies(output: str):
 @click.argument("ontologies", nargs=-1)
 def ontology_versions(ontologies, output: str, all: bool):
     """
-    Shows ontology versions
+    Shows ontology versions.
 
     Currently only implemented for BioPortal
 
@@ -1131,7 +1131,7 @@ def ontology_versions(ontologies, output: str, all: bool):
 @click.argument("ontologies", nargs=-1)
 def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     """
-    Shows ontology metadata
+    Shows ontology metadata.
 
     Example:
 
@@ -1474,7 +1474,7 @@ def viz(
     output: str,
 ):
     """
-    Visualize an ancestor graph using **obographviz**
+    Visualize an ancestor graph using **obographviz**.
 
     For general background on what is meant by a graph in OAK,
     see https://incatools.github.io/ontology-access-kit/interfaces/obograph
@@ -2180,7 +2180,7 @@ def chains(
 @ontological_output_type_option
 def siblings(terms, predicates, output_type: str, output: str):
     """
-    List all siblings of a specified term or terms
+    List all siblings of a specified term or terms.
 
     Example:
 
@@ -2221,7 +2221,7 @@ def descendants(
     terms, predicates, graph_traversal_method, display: str, output_type: str, output: TextIO
 ):
     """
-    List all descendants of a term
+    List all descendants of a term.
 
     Example:
 
@@ -2521,7 +2521,7 @@ def extract(terms, predicates, dangling: bool, output, output_type, **kwargs):
 @click.argument("terms", nargs=-1)
 def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_type):
     """
-    Determine pairwise similarity between two terms using a variety of metrics
+    Determine pairwise similarity between two terms using a variety of metrics.
 
     NOTE: this command may be deprecated, consider using similarity
 
@@ -2804,7 +2804,7 @@ def information_content(
     use_associations: bool,
 ):
     """
-    Show information content for term or list of terms
+    Show information content for term or list of terms.
 
     Example:
 
@@ -2860,7 +2860,7 @@ def information_content(
 @output_type_option
 def info(terms, output: TextIO, display: str, output_type: str):
     """
-    Show information on term or set of terms
+    Show information on term or set of terms.
 
     Example:
 
@@ -2919,7 +2919,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
 @main.command()
 def languages():
     """
-    Show available languages
+    Show available languages.
 
     Example:
 
@@ -2953,7 +2953,7 @@ def labels(
     all_languages: bool,
 ):
     """
-    Show labels for term or list of terms
+    Show labels for term or list of terms.
 
     Example:
 
@@ -3065,7 +3065,7 @@ def definitions(
     set_value,
 ):
     """
-    Show textual definitions for term or set of terms
+    Show textual definitions for term or set of terms.
 
     Example:
 
@@ -3196,7 +3196,7 @@ def relationships(
     include_metadata: bool,
 ):
     """
-    Show all relationships for a term or terms
+    Show all relationships for a term or terms.
 
     By default, this shows all relationships where the input term(s) are the *subjects*
 
@@ -3633,7 +3633,7 @@ def query(query, autolabel: bool, output: str, output_type: str, prefixes: str, 
 @owl_type_option
 def terms(output: str, owl_type, filter_obsoletes: bool):
     """
-    List all terms in the ontology
+    List all terms in the ontology.
 
     Example:
 
@@ -3680,7 +3680,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
 )
 def roots(output: str, output_type: str, predicates: str, has_prefix: str, annotated_roots: bool):
     """
-    List all root nodes in the ontology
+    List all root nodes in the ontology.
 
     Like all OAK relational commands, this is parameterized by --predicates (-p).
     Note that the default is to return the roots of the relation graph over *all* predicates.
@@ -3717,7 +3717,7 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
 @filter_obsoletes_option
 def leafs(output: str, predicates: str, filter_obsoletes: bool):
     """
-    List all leaf nodes in the ontology
+    List all leaf nodes in the ontology.
 
     Like all OAK relational commands, this is parameterized by --predicates (-p).
     Note that the default is to return the roots of the relation graph over *all* predicates
@@ -3747,7 +3747,7 @@ def leafs(output: str, predicates: str, filter_obsoletes: bool):
 @filter_obsoletes_option
 def singletons(output: str, predicates: str, filter_obsoletes: bool):
     """
-    List all singleton nodes in the ontology
+    List all singleton nodes in the ontology.
 
     Like all OAK relational commands, this is parameterized by --predicates (-p).
     Note that the default is to return the singletons of the relation graph over *all* predicates
@@ -3840,7 +3840,7 @@ def crawl(
     unmelt,
 ):
     """
-    Crawl one or more ontologies, hopping over edges and mappings
+    Crawl one or more ontologies, hopping over edges and mappings.
 
     Crawl is a powerful command that allows for multi-ontology traversal, particularly
     on mapping paths. Multiple ontologies and ontology sources (e.g. BioPortal, OLS)
@@ -3939,7 +3939,7 @@ def crawl(
 @click.argument("terms", nargs=-1)
 def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper, unmelt):
     """
-    List all mappings encoded in the ontology
+    List all mappings encoded in the ontology.
 
     Example:
 
@@ -4192,7 +4192,7 @@ def term_subsets(terms, output, output_type):
 @click.argument("subsets", nargs=-1)
 def expand_subsets(subsets: list, output, predicates):
     """
-    For each subset provide a mapping of each term in the ontology to a subset
+    For each subset provide a mapping of each term in the ontology to a subset.
 
     Example:
 
@@ -4249,7 +4249,7 @@ def term_categories(terms, category_system, output, output_type):
 @click.argument("terms", nargs=-1)
 def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, references: tuple):
     """
-    Filters axioms
+    Filters axioms.
 
     Example:
 
@@ -4391,7 +4391,7 @@ def apply_taxon_constraints(
     constraints, evolution_file, predicates: List, graph_traversal_method, output
 ):
     """
-    Test candidate taxon constraints
+    Test candidate taxon constraints.
 
     Multiple candidate constraints can be passed as arguments. these are in the form of triples
     separated by periods.
@@ -4938,7 +4938,7 @@ def associations_counts(
     **kwargs,
 ):
     """
-    Count associations, grouped by subject or object
+    Count associations, grouped by subject or object.
 
     Example:
 
@@ -5510,7 +5510,7 @@ def validate(
     output_type,
 ):
     """
-    Validate an ontology against ontology metadata
+    Validate an ontology against ontology metadata.
 
     Implementation notes: Currently only works on SQLite
 
@@ -5592,7 +5592,7 @@ def validate(
 @output_option
 def validate_multiple(dbs, output, schema, cutoff: int):
     """
-    Validate multiple ontologies against ontology metadata
+    Validate multiple ontologies against ontology metadata.
 
     See the validate command - this is the same except you can pass a list of databases
 
@@ -6040,7 +6040,7 @@ def validate_subset(
 @output_option
 def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
     """
-    Rewires an ontology replacing all instances of an ID or IDs
+    Rewires an ontology replacing all instances of an ID or IDs.
 
     Note: the specified ontology is modified in place
 
@@ -6077,7 +6077,7 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
 @click.argument("keyval")
 def set_apikey(endpoint, keyval):
     """
-    Sets an API key
+    Sets an API key.
 
     Example:
 
@@ -6316,7 +6316,7 @@ def lexmatch(
 @click.argument("terms", nargs=-1)
 def diff_terms(output, other_ontology, terms):
     """
-    Compares a pair of terms in two ontologies
+    Compares a pair of terms in two ontologies.
 
     EXPERIMENTAL
     """
@@ -6610,7 +6610,7 @@ def apply(
 @click.argument("terms", nargs=-1)
 def apply_obsolete(output, output_type, expand: bool, terms, **kwargs):
     """
-    Sets an ontology element to be obsolete
+    Sets an ontology element to be obsolete.
 
     Example:
 
@@ -6751,7 +6751,7 @@ def diff_via_mappings(
     terms,
 ):
     """
-    Calculates cross-ontology diff using mappings
+    Calculates cross-ontology diff using mappings.
 
     Given a pair of ontologies, and mappings that connect terms in both ontologies, this
     command will perform a structural comparison of all mapped pairs of terms
@@ -6901,7 +6901,7 @@ def fill_table(
     schema: str,
 ):
     """
-    Fills missing values in a table of ontology elements
+    Fills missing values in a table of ontology elements.
 
     See https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.table_filler
 
@@ -7048,7 +7048,7 @@ def fill_table(
 @output_option
 @click.pass_context
 def synonymize(ctxt, **kwargs):
-    """Deprecated: use generate-synonyms"""
+    """Deprecated: use generate-synonyms."""
     logging.warning("This command has been renamed to generate-synonyms")
     ctxt.forward(generate_synonyms)
 

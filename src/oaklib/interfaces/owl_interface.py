@@ -83,7 +83,7 @@ class AxiomFilter:
 @dataclass
 class OwlInterface(BasicOntologyInterface, ABC):
     """
-    presents ontology as an OWL ontology using an OWL datamodel
+    presents ontology as an OWL ontology using an OWL datamodel.
 
     We leverage the :ref:`_funowl_datamodel`
 
@@ -122,7 +122,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
         reasoner: Optional[ReasonerConfiguration] = None,
     ) -> Iterable[SubClassOf]:
         """
-        Gets all SubClassOf axioms matching criterion
+        Gets all SubClassOf axioms matching criterion.
 
         :param subclass: if specified, constrains to axioms where this is the subclass
         :param superclass: if specified, constrains to axioms where this is the superclass
@@ -154,7 +154,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
         reasoner: Optional[ReasonerConfiguration] = None,
     ) -> Iterable[EquivalentClasses]:
         """
-        All EquivalentClasses axioms matching criteria
+        All EquivalentClasses axioms matching criteria.
 
         :param about:
         :param references:
@@ -170,7 +170,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
         self, subject: CURIE = None, property: CURIE = None, value: Any = None
     ) -> Iterable[AnnotationAssertion]:
         """
-        Filters all matching annotation axioms
+        Filters all matching annotation axioms.
 
         :param subject:
         :param property:
@@ -193,7 +193,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def disjoint_pairs(self, subjects: Iterable[CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
         """
-        Gets all disjoint pairs of entities
+        Gets all disjoint pairs of entities.
 
         :param subjects:
         :return:
@@ -223,7 +223,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def is_satisfiable(self, curie: CURIE) -> bool:
         """
-        Note: this may move to the validation interface
+        Note: this may move to the validation interface.
 
         :param curie:
         :return:
@@ -232,7 +232,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def reasoner_configurations(self) -> List[ReasonerConfiguration]:
         """
-        Lists all available reasoner configurations
+        Lists all available reasoner configurations.
 
         :return:
         """
@@ -269,7 +269,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def axiom_is_about(self, axiom: Axiom) -> Iterable[IRI]:
         """
-        Gives an axiom, yield all of the entity IRIs which this axiom is *about*
+        Gives an axiom, yield all of the entity IRIs which this axiom is *about*.
 
         For example, a SubClassOf axiom is about the IRI in the subClassOf expression
 
@@ -344,7 +344,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def property_characteristics(self, property: CURIE) -> Iterable[CURIE]:
         """
-        Gets all property characteristics for a given property
+        Gets all property characteristics for a given property.
 
         :param property:
         :return:
@@ -367,7 +367,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def transitive_object_properties(self) -> Iterable[CURIE]:
         """
-        Gets all transitive object properties
+        Gets all transitive object properties.
 
         :return:
         """
@@ -378,7 +378,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
         """
-        Gets all property chains of where the super property is a chain of IRIs
+        Gets all property chains of where the super property is a chain of IRIs.
 
         :return:
         """

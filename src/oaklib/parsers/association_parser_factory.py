@@ -5,7 +5,7 @@ from oaklib.parsers import AssociationParser
 
 def get_association_parser(syntax: str, *args, **kwargs) -> Type[AssociationParser]:
     """
-    Get an association parser for a given syntax
+    Get an association parser for a given syntax.
 
     :param syntax:
     :param args:

@@ -1,5 +1,5 @@
 """
-Adapter for PubMed,
+Adapter for PubMed,.
 
 .. warning ::
 

@@ -53,7 +53,7 @@ class StreamingWriter:
     @output.setter
     def output(self, value) -> None:
         """
-        Sets the output stream
+        Sets the output stream.
 
         :param value:
         :return:
@@ -69,7 +69,7 @@ class StreamingWriter:
         self, obj: Union[YAMLRoot, BaseModel, dict, CURIE], label_fields: Optional[List[str]] = None
     ):
         """
-        Emit an object or CURIE
+        Emit an object or CURIE.
 
         :param obj:
         :param label_fields:
@@ -120,7 +120,7 @@ class StreamingWriter:
 
     def add_labels(self, obj_as_dict: Dict, label_fields: Optional[List[str]] = None) -> Dict:
         """
-        Adds labels to the object
+        Adds labels to the object.
 
         :param obj_as_dict:
         :param label_fields:
@@ -155,7 +155,7 @@ class StreamingWriter:
 
     def emit_dict(self, obj: Mapping[str, Any], object_type: Type = None):
         """
-        Write a dictionary object to the stream
+        Write a dictionary object to the stream.
 
         :param obj:
         :param object_type:
@@ -165,7 +165,7 @@ class StreamingWriter:
 
     def emit_header(self, *header: str):
         """
-        Emit a header row
+        Emit a header row.
 
         :param header:
         :return:

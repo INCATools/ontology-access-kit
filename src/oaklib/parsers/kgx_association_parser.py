@@ -1,4 +1,4 @@
-"""Parser for KGX"""
+"""Parser for KGX."""
 
 from csv import DictReader
 from dataclasses import dataclass
@@ -14,7 +14,7 @@ class KgxAssociationParser(AssociationParser):
 
     def parse(self, file: TextIO) -> Iterator[Association]:
         """
-        Yields annotations from a KGX edges file
+        Yields annotations from a KGX edges file.
 
         :param file:
         :return:

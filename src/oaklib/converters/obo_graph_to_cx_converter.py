@@ -16,7 +16,7 @@ class OboGraphToCXConverter(DataModelConverter):
 
     def dump(self, source: Union[GraphDocument, Graph], target: str = None, **kwargs) -> None:
         """
-        Dump an OBO Graph Document to CX
+        Dump an OBO Graph Document to CX.
 
         :param source:
         :param target:

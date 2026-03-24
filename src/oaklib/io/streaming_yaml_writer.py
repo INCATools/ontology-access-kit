@@ -21,7 +21,7 @@ def _keyval(x: Any) -> str:
 
 @dataclass
 class StreamingYamlWriter(StreamingWriter):
-    """A writer that emits one document at a time in one stream"""
+    """A writer that emits one document at a time in one stream."""
 
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
         if self.object_count:

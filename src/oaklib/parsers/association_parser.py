@@ -1,4 +1,4 @@
-"""Parser for GAF/HPOA and related association formats"""
+"""Parser for GAF/HPOA and related association formats."""
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass

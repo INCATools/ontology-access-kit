@@ -1,4 +1,4 @@
-"""Parser for GAF association formats"""
+"""Parser for GAF association formats."""
 
 from dataclasses import dataclass, field
 from enum import Enum

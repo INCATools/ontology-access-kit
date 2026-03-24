@@ -7,7 +7,7 @@ from oaklib.transformers.graph_transformer import GraphTransformer
 
 @dataclass
 class NodeFilterTransformer(GraphTransformer):
-    """An ontology graph transformer that filters nodes"""
+    """An ontology graph transformer that filters nodes."""
 
     filter_function: Optional[callable] = None
     """A function that takes an Node and returns True if it should be included"""

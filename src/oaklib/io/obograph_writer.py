@@ -1,4 +1,4 @@
-"""Utilities for writing out obo graphs"""
+"""Utilities for writing out obo graphs."""
 
 import logging
 from typing import Optional, TextIO, Union
@@ -47,7 +47,7 @@ def write_graph(
     **kwargs,
 ):
     """
-    Writes an obo graph to a file-like object in a specified format
+    Writes an obo graph to a file-like object in a specified format.
 
     :param graph:
     :param output:

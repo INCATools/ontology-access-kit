@@ -12,7 +12,7 @@ def add_labels_to_object(
     pairs: List[Tuple[Union[SlotDefinitionName, str], Union[SlotDefinitionName, str]]],
 ) -> None:
     """
-    Adds labels to an object, for a set of id-label relation pairs
+    Adds labels to an object, for a set of id-label relation pairs.
 
     :param oi: An ontology interface for making label lookups.
     :param obj: object to be filled

@@ -10,7 +10,7 @@ from oaklib.io.streaming_writer import StreamingWriter
 
 @dataclass
 class StreamingKGCLWriter(StreamingWriter):
-    """A writer that streams kgcl changes"""
+    """A writer that streams kgcl changes."""
 
     def emit_obj(self, obj: YAMLRoot):
         if isinstance(obj, Change):

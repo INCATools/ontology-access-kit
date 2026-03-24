@@ -105,7 +105,7 @@ class Mapper(ABC):
 
     def direct_map_curie(self, curie: CURIE) -> CURIE:
         """
-        Returns single valued mapped curie
+        Returns single valued mapped curie.
 
         if no mapping, returns self
 
@@ -116,7 +116,7 @@ class Mapper(ABC):
 
     def direct_map_uri(self, uri: URI) -> URI:
         """
-        Returns single valued mapped uri
+        Returns single valued mapped uri.
 
         if no mapping, returns self
 

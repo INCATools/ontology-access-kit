@@ -12,7 +12,7 @@ RDF_TRIPLE = Tuple[URIRef, URIRef, Any]
 
 
 class RdfInterface(BasicOntologyInterface, ABC):
-    """presents ontology as simple RDF graphs, using the rdflib datamodel"""
+    """presents ontology as simple RDF graphs, using the rdflib datamodel."""
 
     def graph(self) -> rdflib.Graph:
         raise NotImplementedError()
@@ -22,7 +22,7 @@ class RdfInterface(BasicOntologyInterface, ABC):
 
     def triples(self, pattern: TRIPLE) -> Iterator[TRIPLE]:
         """
-        All triples matching triple pattern
+        All triples matching triple pattern.
 
         :param pattern: tuple of s,p,o, where None matches anything
         :return:
@@ -39,7 +39,7 @@ class RdfInterface(BasicOntologyInterface, ABC):
 
     def all_rdflib_triples(self) -> Iterator[RDF_TRIPLE]:
         """
-        All triples, as rdflib objects
+        All triples, as rdflib objects.
 
         :return:
         """
@@ -47,7 +47,7 @@ class RdfInterface(BasicOntologyInterface, ABC):
 
     def objects(self, subject, predicate) -> Iterator[Any]:
         """
-        Queries objects based on s,p
+        Queries objects based on s,p.
 
         :param subject:
         :param predicate:
@@ -67,7 +67,7 @@ class RdfInterface(BasicOntologyInterface, ABC):
         map_to_curies=True,
     ) -> Iterator[TRIPLE]:
         """
-        Finds all triples reachable from a seed set
+        Finds all triples reachable from a seed set.
 
         :param seed_curies:
         :param predicates:

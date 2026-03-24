@@ -1,5 +1,5 @@
 """
-OboGraph to FHIR Converter
+OboGraph to FHIR Converter.
 
 Resources
 - Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369
@@ -118,7 +118,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         **kwargs,
     ) -> CodeSystem:
         """
-        Convert an OBO Graph Document to a FHIR CodingSystem
+        Convert an OBO Graph Document to a FHIR CodingSystem.
 
         To use:
 

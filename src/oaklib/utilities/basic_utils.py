@@ -21,7 +21,7 @@ def powerset(iterable):
 
 def pairs_as_dict(pairs: Iterable[Tuple[Any, Any]]) -> Dict[Any, List[Any]]:
     """
-    Translates a collection of key-value pairs into a key-values dictionary
+    Translates a collection of key-value pairs into a key-values dictionary.
 
     :param pairs:
     :return:
@@ -34,7 +34,7 @@ def pairs_as_dict(pairs: Iterable[Tuple[Any, Any]]) -> Dict[Any, List[Any]]:
 
 def triples_as_dict(tuples: Iterable[Tuple[Any, Any, Any]]) -> Dict[Any, List[Tuple[Any, Any]]]:
     """
-    Translates a collection of s-p-o pairs tuples a key-value dictionary keyed by subject
+    Translates a collection of s-p-o pairs tuples a key-value dictionary keyed by subject.
 
     :param tuples:
     :return:

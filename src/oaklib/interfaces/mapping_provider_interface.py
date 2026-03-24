@@ -120,7 +120,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         self, subject_or_object_source: Optional[str] = None
     ) -> Iterable[Mapping]:
         """
-        All SSSOM mappings in the ontology
+        All SSSOM mappings in the ontology.
 
         The subject_id MUST be a CURIE in the ontology
 
@@ -148,7 +148,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
     @deprecated("Use sssom_mappings()")
     def get_sssom_mappings_by_curie(self, *args, **kwargs) -> Iterable[Mapping]:
         """
-        All SSSOM mappings about a curie
+        All SSSOM mappings about a curie.
 
         MUST yield mappings where EITHER subject OR object equals the CURIE
 

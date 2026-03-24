@@ -6,7 +6,7 @@ DEFAULT_CHUNK = 100
 
 def chunk(iterable: Iterable, size=DEFAULT_CHUNK) -> Iterable[List]:
     """
-    Get first N results of iterable
+    Get first N results of iterable.
 
     https://stackoverflow.com/questions/8991506/iterate-an-iterator-by-chunks-of-n-in-python
     """
@@ -22,7 +22,7 @@ def chunk(iterable: Iterable, size=DEFAULT_CHUNK) -> Iterable[List]:
 
 def chunk_to_lists(iterable: Iterable, size=DEFAULT_CHUNK) -> Iterable[List]:
     """
-    Get first N results of iterable
+    Get first N results of iterable.
 
     https://stackoverflow.com/questions/8991506/iterate-an-iterator-by-chunks-of-n-in-python
     """

@@ -38,7 +38,7 @@ def roll_up_to_named_subset(
     oi: OboGraphInterface, subset: CURIE, curies: List[CURIE], predicates: List[PRED_CURIE] = None
 ) -> Dict[CURIE, List[CURIE]]:
     """
-    Rolls up all specified curies to a named subset, e.g. goslim_generic
+    Rolls up all specified curies to a named subset, e.g. goslim_generic.
 
     :param oi: An ontology interface for making label lookups.
     :param subset: Subset to be rolled into.
@@ -59,7 +59,7 @@ def roll_up_to_subset(
     predicates: List[PRED_CURIE] = None,
 ) -> Dict[CURIE, List[CURIE]]:
     """
-    As :ref:`roll_up_to_named_subset` but with an explicit list of terms to roll up to
+    As :ref:`roll_up_to_named_subset` but with an explicit list of terms to roll up to.
 
     :param oi:
     :param terms_in_subset:

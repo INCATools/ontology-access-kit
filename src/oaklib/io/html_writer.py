@@ -13,7 +13,7 @@ from oaklib.types import CURIE
 
 @dataclass
 class HTMLWriter(StreamingWriter):
-    """A writer that streams objects as HTML"""
+    """A writer that streams objects as HTML."""
 
     uses_schemaview = True
     cached_objects: List[YAMLRoot] = field(default_factory=lambda: [])
@@ -21,7 +21,7 @@ class HTMLWriter(StreamingWriter):
 
     def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields: Optional[List[str]] = None):
         """
-        Emit an object or CURIE
+        Emit an object or CURIE.
 
         :param obj:
         :param label_fields:

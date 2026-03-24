@@ -100,7 +100,7 @@ class SearchInterface(BasicOntologyInterface, ABC):
         self, search_terms: List[str], config: Optional[SearchConfiguration] = None
     ) -> Iterable[CURIE]:
         """
-        As basic_search, using multiple terms
+        As basic_search, using multiple terms.
 
         :param search_terms:
         :param config:

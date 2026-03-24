@@ -14,7 +14,7 @@ class LovImplementation(
     AbstractSparqlImplementation, SearchInterface, MappingProviderInterface, OboGraphInterface
 ):
     """
-    Wraps the LOV SPARQL endpoint
+    Wraps the LOV SPARQL endpoint.
 
     See `<https://lov.linkeddata.es>`_
 

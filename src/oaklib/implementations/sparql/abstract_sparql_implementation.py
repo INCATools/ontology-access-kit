@@ -66,7 +66,7 @@ def _sparql_values(var_name: str, vals: List[str]):
 
 def _stringify(v: str, as_string_literal: bool = False) -> str:
     """
-    Quotes a string for SPARQL queries, escaping internal quotes
+    Quotes a string for SPARQL queries, escaping internal quotes.
 
     Optionally will cast into an xsd:string - note that SPARQL draws a distinction
     between "foo" and "foo"^^xsd:string, and with no consensus on how to store
@@ -370,7 +370,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
 
     def triples(self, pattern: TRIPLE) -> Iterator[TRIPLE]:
         """
-        All triples matching triple pattern
+        All triples matching triple pattern.
 
         :param pattern: tuple of s,p,o, where None matches anything
         :return:
@@ -500,7 +500,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         invert: bool = False,
     ) -> Iterator[RELATIONSHIP]:
         """
-        Returns all matching relationships
+        Returns all matching relationships.
 
         :param subjects: constrain search to these subjects (i.e outgoing edges)
         :param predicates: constrain search to these predicates

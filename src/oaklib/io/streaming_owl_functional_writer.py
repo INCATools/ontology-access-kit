@@ -19,7 +19,7 @@ from oaklib.types import CURIE
 
 @dataclass
 class StreamingOwlFunctionalWriter(StreamingWriter):
-    """A writer that emits one axiom at a time in OWL"""
+    """A writer that emits one axiom at a time in OWL."""
 
     ontology_document: OntologyDocument = None
     dialect: str = field(default_factory=lambda: "ttl")

@@ -19,7 +19,7 @@ LICENSE_NAME_TO_URL_PREFIX = {
 
 def map_license_to_url(license: str) -> str:
     """
-    Map a license name to a URL
+    Map a license name to a URL.
 
     Examples:
 
@@ -57,7 +57,7 @@ def map_license_to_url(license: str) -> str:
 
 def map_license_url_to_name(url: str) -> str:
     """
-    Map a license URL to a name
+    Map a license URL to a name.
 
     Examples:
 

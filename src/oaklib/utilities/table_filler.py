@@ -47,7 +47,7 @@ class TableMetadata:
 
     def set_ignore_inconsistencies(self, v: bool):
         """
-        Sets global value for ignoring inconsistencies for all dependencies
+        Sets global value for ignoring inconsistencies for all dependencies.
 
         :param v:
         :return:
@@ -57,7 +57,7 @@ class TableMetadata:
 
     def set_allow_missing_values(self, v: bool):
         """
-        Sets global value for ignoring missing values for all dependencies
+        Sets global value for ignoring missing values for all dependencies.
 
         :param v:
         :return:
@@ -67,10 +67,10 @@ class TableMetadata:
 
     def set_missing_value_token(self, v: bool):
         """
-        Sets global value for ignoring missing values for all dependencies
+        Sets global value for ignoring missing values for all dependencies.
 
         This also sets each dependencies to allow for missing values, provided
-        v is set
+        v is set.
 
         :param v:
         :return:
@@ -106,7 +106,7 @@ def apply_dict(
 
 def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
     """
-    Parses a file into rows, replacing empty lines with None values
+    Parses a file into rows, replacing empty lines with None values.
 
     :param input_file:
     :param delimiter:
@@ -177,7 +177,7 @@ class TableFiller:
         self, input_file: IO, output_file: IO, table_metadata: TableMetadata = None
     ):
         """
-        As :ref:`fill_table`, but input is passed as a file
+        As :ref:`fill_table`, but input is passed as a file.
 
         :param input_file:
         :param output_file:

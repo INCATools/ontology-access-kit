@@ -127,6 +127,12 @@ lint.extend-ignore = [
     "D202", #D202 [*] No blank lines allowed after function docstring
     "D203", #D203 [*] 1 blank line required before class 
     "D212", #D212 [*] Multi-line docstring summary should start at the first line (in direct conflict with D213)
+
+
+    "D401", #D401 First line of docstring should be in imperative mood
+    "D406", #D406 [*] Section name should end with a newline
+
+    "D409", #D409 [*] Section underline should match the length of its name
 ]
 
 lint.exclude = [
@@ -179,7 +185,6 @@ target-version = "py313"
     "D105", #D105 Missing docstring in magic method
 
     #Can fix.
-    "D409", #D409 [*] Section underline should match the length of its name ("See Also")
     "D412", #D412 [*] No blank lines allowed between a section header and its content ("Example")
     "D413", #D413 [*] Missing blank line after last section ("Example") 
     "D415", #D415 First line should end with a period, question mark, or exclamation point
@@ -208,7 +213,6 @@ target-version = "py313"
     #Can fix.
     "D209", #D209 [*] Multi-line docstring closing quotes should be on a separate line
     "D404", #D404 First word of the docstring should not be "This"
-    "D409", #D409 [*] Section underline should match the length of its name ("Examples")
     "D412", #D412 [*] No blank lines allowed between a section header and its content ("Examples")
     "D413", #D413 [*] Missing blank line after last section ("Examples")
     "D415", #D415 First line should end with a period, question mark, or exclamation point
@@ -216,7 +220,7 @@ target-version = "py313"
 
 [tool.ruff.lint.pydocstyle]
 # Use Google-style docstrings.
-convention = "google"
+#convention = "google"
 
 #[tool.uv.sources]
 #linkml = { git = "https://github.com/saschabuehrle/linkml", branch = "fix/issue-3297" }

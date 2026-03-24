@@ -6,7 +6,7 @@ from oaklib.datamodels.taxon_constraints import SubjectTerm, Taxon, TaxonConstra
 
 def parse_gain_loss_file(file: TextIO) -> Iterator[SubjectTerm]:
     """
-    Parses a file containing gains and losses
+    Parses a file containing gains and losses.
 
     See `<https://github.com/geneontology/go-ontology/issues/16298>`_
 

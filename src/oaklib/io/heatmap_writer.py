@@ -11,7 +11,7 @@ from oaklib.io.streaming_writer import StreamingWriter
 @dataclass
 class HeatmapWriter(StreamingWriter):
     """
-    A writer that generates heatmap images
+    A writer that generates heatmap images.
 
     The general approach:
 

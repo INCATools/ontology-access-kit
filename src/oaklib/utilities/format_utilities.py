@@ -1,5 +1,5 @@
 """
-Utilities for working with formats
+Utilities for working with formats.
 
 See https://github.com/INCATools/ontology-access-kit/issues/687
 """

@@ -126,7 +126,7 @@ def graph_as_dict(graph: Graph) -> Dict[str, Any]:
 
 def draw_graph(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None) -> None:
     """
-    Generates an image from a graph using :ref:`graph_to_image` then open for display
+    Generates an image from a graph using :ref:`graph_to_image` then open for display.
 
     :param graph:
     :param seeds:
@@ -220,7 +220,7 @@ def graph_to_image(
 
 def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: str = None) -> Graph:
     """
-    Create a subgraph that has only edges whose predicates are in the predicate list
+    Create a subgraph that has only edges whose predicates are in the predicate list.
 
     :param graph:
     :param predicates:
@@ -240,7 +240,7 @@ def as_multi_digraph(
     predicates: Optional[List[PRED_CURIE]] = None,
 ) -> nx.MultiDiGraph:
     """
-    Convert to a networkx :class:`.MultiDiGraph`
+    Convert to a networkx :class:`.MultiDiGraph`.
 
     :param graph: OBOGraph
     :param filter_reflexive: if true, remove edges where sub == obj
@@ -268,7 +268,7 @@ def as_digraph(
     predicates: Optional[List[PRED_CURIE]] = None,
 ) -> nx.MultiDiGraph:
     """
-    Convert to a networkx :class:`.DiGraph`
+    Convert to a networkx :class:`.DiGraph`.
 
     :param graph: OBOGraph
     :param reverse:
@@ -296,7 +296,7 @@ def as_graph(
     default_weight=1.0,
 ) -> nx.Graph:
     """
-    Convert to a networkx :class:`.DiGraph`
+    Convert to a networkx :class:`.DiGraph`.
 
     :param graph: OBOGraph
     :param reverse:
@@ -356,7 +356,7 @@ def shortest_paths(
     directed=False,
 ) -> Iterator[Tuple[CURIE, CURIE, List[CURIE]]]:
     """
-    Finds all shortest paths from a set of start nodes to a set of end nodes
+    Finds all shortest paths from a set of start nodes to a set of end nodes.
 
     :param graph: OboGraph object
     :param start_curies:
@@ -402,7 +402,7 @@ def shortest_paths(
 
 def edges_from_tree(tree: dict, pred=IS_A) -> List[Edge]:
     """
-    Given a parent node and a list of children, return a list of edges
+    Given a parent node and a list of children, return a list of edges.
 
     >>> from oaklib.utilities.obograph_utils import edges_from_tree
     >>> for e in edges_from_tree({1: {2: [3, 4]}}):
@@ -500,7 +500,7 @@ def trim_graph(
     graph: Graph, seeds: List[CURIE], distance: int = 0, include_intermediates=False
 ) -> Graph:
     """
-    Remove all nodes more than a specified distance from a set of seed nodes
+    Remove all nodes more than a specified distance from a set of seed nodes.
 
     For each node in the graph, if the minimum distance between that node and one of the seed nodes
     is greater than the distance threshold, then remove it
@@ -543,7 +543,7 @@ def trim_graph(
 
 def merge_graphs(source: Graph, target: Graph, replace: bool = False) -> Graph:
     """
-    Merge two graphs into a single graph
+    Merge two graphs into a single graph.
 
     :param source: source graph
     :param target: target graph
@@ -565,7 +565,7 @@ def merge_graphs(source: Graph, target: Graph, replace: bool = False) -> Graph:
 
 def merge_graph_nodes(target: Node, source: Node) -> Node:
     """
-    Merge two nodes into a single node
+    Merge two nodes into a single node.
 
     :param target:
     :param source:
@@ -599,7 +599,7 @@ def merge_graph_nodes(target: Node, source: Node) -> Node:
 
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
     """
-    Returns an index of all nodes key by node id
+    Returns an index of all nodes key by node id.
 
     :param graph:
     :return: node by id index
@@ -609,7 +609,7 @@ def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
 
 def index_graph_edges_by_subject(graph: Graph) -> Dict[CURIE, List[Edge]]:
     """
-    Returns an index of lists of edges keyed by subject id
+    Returns an index of lists of edges keyed by subject id.
 
     :param graph:
     :return: edges by subject index
@@ -622,7 +622,7 @@ def index_graph_edges_by_subject(graph: Graph) -> Dict[CURIE, List[Edge]]:
 
 def index_graph_edges_by_subject_object(graph: Graph) -> Dict[Tuple[CURIE, CURIE], List[Edge]]:
     """
-    Returns an index of lists of edges keyed by subject and object
+    Returns an index of lists of edges keyed by subject and object.
 
     :param graph:
     :return: edges by subject-object pair index
@@ -635,7 +635,7 @@ def index_graph_edges_by_subject_object(graph: Graph) -> Dict[Tuple[CURIE, CURIE
 
 def index_graph_edges_by_object(graph: Graph) -> Dict[CURIE, List[Edge]]:
     """
-    Returns an index of lists of edges keyed by object id
+    Returns an index of lists of edges keyed by object id.
 
     :param graph:
     :return: edges by object index
@@ -648,7 +648,7 @@ def index_graph_edges_by_object(graph: Graph) -> Dict[CURIE, List[Edge]]:
 
 def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
     """
-    Returns an index of lists of edges keyed by predicate id
+    Returns an index of lists of edges keyed by predicate id.
 
     :param graph:
     :return: edges by predicate index
@@ -698,7 +698,7 @@ def graph_to_tree_display(
     stylemap=None,
 ) -> Optional[str]:
     """
-    Translate a graph to a textual tree representation
+    Translate a graph to a textual tree representation.
 
     :param graph: input graph
     :param predicates: predicates to traverse over
@@ -966,7 +966,7 @@ def mutate_graph_ids(graph: Union[Graph, GraphDocument], func: Callable) -> None
 
 def graph_id_iterator(graph: Union[Graph, GraphDocument]) -> Iterator[CURIE]:
     """
-    Iterate over the ids in a graph
+    Iterate over the ids in a graph.
 
     :param graph:
     :return:
@@ -991,7 +991,7 @@ def graph_id_iterator(graph: Union[Graph, GraphDocument]) -> Iterator[CURIE]:
 
 def graph_ids(graph: Union[Graph, GraphDocument]) -> Iterator[CURIE]:
     """
-    Return a set of all ids in a graph
+    Return a set of all ids in a graph.
 
     :param graph:
     :return:

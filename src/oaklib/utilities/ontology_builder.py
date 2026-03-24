@@ -15,7 +15,7 @@ def _change_id():
 @dataclass
 class OntologyBuilder:
     """
-    A class for creating ontologies that follows the builder pattern
+    A class for creating ontologies that follows the builder pattern.
 
     Under the hood this uses :ref:`KGCL` objects
 
@@ -36,7 +36,7 @@ class OntologyBuilder:
         self, id: CURIE, name: str = None, is_as: List[CURIE] = None
     ) -> "OntologyBuilder":
         """
-        Adds a new class
+        Adds a new class.
 
         :param id:
         :param name:
@@ -52,7 +52,7 @@ class OntologyBuilder:
 
     def add_is_a(self, subject: CURIE, object: CURIE) -> "OntologyBuilder":
         """
-        Adds an is-a relationship
+        Adds an is-a relationship.
 
         :param subject:
         :param object:
@@ -64,7 +64,7 @@ class OntologyBuilder:
         self, subject: CURIE, predicate: PRED_CURIE, object: CURIE
     ) -> "OntologyBuilder":
         """
-        Adds a relationship
+        Adds a relationship.
 
         See :ref:`Edge`
 

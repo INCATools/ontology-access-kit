@@ -22,7 +22,7 @@ class OntologyInterface:
     @classmethod
     def create(cls, resource: OntologyResource) -> "OntologyInterface":
         """
-        Creates a new ontology interface from a resource
+        Creates a new ontology interface from a resource.
 
         :param resource:
         :return:
@@ -31,7 +31,7 @@ class OntologyInterface:
 
     def interfaces_implemented(self) -> List:
         """
-        For any given instance of this interface, find all interfaces implemented
+        For any given instance of this interface, find all interfaces implemented.
 
         :return:
         """

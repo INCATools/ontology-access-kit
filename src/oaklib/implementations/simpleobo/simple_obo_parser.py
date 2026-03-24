@@ -160,7 +160,7 @@ class Comment(ValueComponent):
 
 @dataclass
 class TagValue:
-    """Simple unparsed tag-value pair"""
+    """Simple unparsed tag-value pair."""
 
     tag: TAG
     """OBO Format Tag, e.g. id, name, synonym"""
@@ -171,7 +171,7 @@ class TagValue:
 
     def as_synonym(self) -> Optional[SYNONYM_TUPLE]:
         """
-        Cast a tag-value pair as a synonym
+        Cast a tag-value pair as a synonym.
 
         Returns None if this is not a synonym TV
 
@@ -192,7 +192,7 @@ class TagValue:
 
     def as_definition(self) -> Optional[Tuple[str, List[str]]]:
         """
-        Cast a tag-value pair as a definition
+        Cast a tag-value pair as a definition.
 
         Returns None if this is not a definition TV
 
@@ -209,7 +209,7 @@ class TagValue:
 
     def as_property_value(self) -> Optional[PROPERTY_VALUE_TUPLE]:
         """
-        Cast a tag-value pair as a property value
+        Cast a tag-value pair as a property value.
 
         Returns None if this is not a property value TV
 
@@ -232,7 +232,7 @@ class TagValue:
 
     def replace_quoted_part(self, v: str):
         """
-        Replace the quoted part of a value leaving the rest unmodified
+        Replace the quoted part of a value leaving the rest unmodified.
 
         :param v: new value
         :return:
@@ -247,7 +247,7 @@ class TagValue:
 
     def values_as_tuple(self) -> Tuple:
         """
-        Return a tuple of values for sorting
+        Return a tuple of values for sorting.
 
         :return:
         """
@@ -261,7 +261,7 @@ class TagValue:
 
     def tokenize(self) -> List[ValueComponent]:
         """
-        Tokenize the value
+        Tokenize the value.
 
         :return:
         """
@@ -346,7 +346,7 @@ class TagValue:
 
 @dataclass
 class Structure:
-    """Abstract grouping for Stanzas and Headers"""
+    """Abstract grouping for Stanzas and Headers."""
 
     tag_values: List[TagValue] = field(default_factory=lambda: [])
     """List of all tag-value pairs for this stanza or header"""
@@ -374,7 +374,7 @@ class Structure:
 
     def pair_values(self, tag: TAG) -> List[Tuple[str, str]]:
         """
-        Get values for a tag as a pair-tuple, consistent with the relationship tag
+        Get values for a tag as a pair-tuple, consistent with the relationship tag.
 
         :param tag:
         :return:
@@ -449,7 +449,7 @@ class Structure:
 
     def synonyms(self) -> List[SYNONYM_TUPLE]:
         """
-        All synonyms for a stanza
+        All synonyms for a stanza.
 
         :return: list of synonyms
         """
@@ -457,7 +457,7 @@ class Structure:
 
     def property_values(self) -> List[PROPERTY_VALUE_TUPLE]:
         """
-        All property values for a stanza
+        All property values for a stanza.
 
         :return: list of property values
         """
@@ -465,7 +465,7 @@ class Structure:
 
     def set_singular_tag(self, tag: TAG, val: str) -> None:
         """
-        Sets the value of a singular tag such as name
+        Sets the value of a singular tag such as name.
 
         :param tag:
         :param val:
@@ -481,7 +481,7 @@ class Structure:
 
     def remove_simple_tag_value(self, tag: TAG, val: str) -> None:
         """
-        Removes a simple tag-value such as is_a
+        Removes a simple tag-value such as is_a.
 
         :param tag:
         :param val: ID value.
@@ -521,7 +521,7 @@ class Structure:
 
     def remove_pairwise_tag_value(self, tag: TAG, val1: str, val2: str) -> None:
         """
-        Removes a simple tag-value such as is_a
+        Removes a simple tag-value such as is_a.
 
         :param tag:
         :param val:
@@ -542,7 +542,7 @@ class Structure:
 
     def _kwargs_to_qualifiers_string(self, **kwargs) -> str:
         """
-        Converts a set of kwargs to a qualifier string
+        Converts a set of kwargs to a qualifier string.
 
         :param kwargs:
         :return:
@@ -555,7 +555,7 @@ class Structure:
 
     def add_tag_value(self, tag: TAG, val: str, **kwargs) -> None:
         """
-        Adds a tag-value pair
+        Adds a tag-value pair.
 
         :param tag:
         :param val:
@@ -567,7 +567,7 @@ class Structure:
 
     def add_quoted_tag_value(self, tag: TAG, val: str, xrefs: List[str]) -> None:
         """
-        Adds a tag-value pair
+        Adds a tag-value pair.
 
         :param tag:
         :param val:
@@ -577,7 +577,7 @@ class Structure:
 
     def add_tag_value_pair(self, tag: TAG, val1: str, val2: str, **kwargs) -> None:
         """
-        Adds a tag-value pair where the value is a pair
+        Adds a tag-value pair where the value is a pair.
 
         :param tag:
         :param val1:
@@ -591,7 +591,7 @@ class Structure:
 
     def get_boolean_value(self, tag: TAG, strict=False) -> bool:
         """
-        Gets the value of a tag such as is_obsolete
+        Gets the value of a tag such as is_obsolete.
 
         :param tag:
         :param strict:
@@ -605,7 +605,7 @@ class Structure:
 
 @dataclass
 class Header(Structure):
-    """Header portion of an OBO Document"""
+    """Header portion of an OBO Document."""
 
     def ontology(self) -> str:
         raise NotImplementedError
@@ -613,7 +613,7 @@ class Header(Structure):
 
 @dataclass
 class Stanza(Structure):
-    """A Term or Typedef stanza"""
+    """A Term or Typedef stanza."""
 
     id: Optional[str] = None
     """Unique identifier"""
@@ -630,7 +630,7 @@ class Stanza(Structure):
 
 @dataclass
 class OboDocument:
-    """An OBO Document is a header plus zero or more stanzas"""
+    """An OBO Document is a header plus zero or more stanzas."""
 
     header: Header = field(default_factory=lambda: Header())
     stanzas: Mapping[CURIE, Stanza] = field(default_factory=lambda: {})
@@ -652,7 +652,7 @@ class OboDocument:
 
     def order_stanzas(self) -> None:
         """
-        Orders stanzas by ID
+        Orders stanzas by ID.
 
         Does not change tag-value ordering within stanzas
         """
@@ -677,13 +677,13 @@ class OboDocument:
         return sorted(values, key=lambda x: x.id)
 
     def normalize_line_order(self) -> None:
-        """Normalizes line order within stanzas"""
+        """Normalizes line order within stanzas."""
         for s in self.stanzas.values():
             s.normalize_order()
 
     def dump(self, file: TextIO, ensure_sorted=False, normalize_line_order=False) -> None:
         """
-        Export to a file
+        Export to a file.
 
         :param file:
         :param ensure_sorted: Sort stanzas
@@ -712,7 +712,7 @@ class OboDocument:
 
 def parse_obo_document(path: Union[str, Path]) -> OboDocument:
     """
-    Parse a path to an OBO Document
+    Parse a path to an OBO Document.
 
     :param path:
     :return:

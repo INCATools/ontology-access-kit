@@ -428,7 +428,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         self, other_ontology: BasicOntologyInterface
     ) -> Iterator[Change]:
         """
-        Provides high level summary of differences
+        Provides high level summary of differences.
 
         :param other_ontology:
         :return:

@@ -142,7 +142,7 @@ class SemSimianImplementation(
         min_ancestor_information_content: Optional[float] = None,
     ) -> Optional[TermPairwiseSimilarity]:
         """
-        Pairwise similarity between a pair of ontology terms
+        Pairwise similarity between a pair of ontology terms.
 
         :param subject:
         :param object:
@@ -202,7 +202,7 @@ class SemSimianImplementation(
         min_ancestor_information_content: Optional[float] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
         """
-        Compute similarity for all combinations of terms in subsets vs all terms in objects
+        Compute similarity for all combinations of terms in subsets vs all terms in objects.
 
         :param subjects:
         :param objects:

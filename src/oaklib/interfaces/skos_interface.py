@@ -9,7 +9,7 @@ from oaklib.types import CURIE
 
 class SkosInterface(BasicOntologyInterface, ABC):
     """
-    presents ontology as simple SKOS vocabularies
+    presents ontology as simple SKOS vocabularies.
 
     `SKOS <https://www.w3.org/2004/02/skos/>`_
     """

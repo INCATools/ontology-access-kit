@@ -1,4 +1,4 @@
-"""Parser for Boomer output"""
+"""Parser for Boomer output."""
 
 import hashlib
 import logging

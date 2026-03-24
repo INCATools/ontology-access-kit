@@ -90,7 +90,7 @@ class ExtractedConcept(BaseModel):
 
 
 class LexicalPatternCollection(BaseModel):
-    """Collection of lexical patterns"""
+    """Collection of lexical patterns."""
 
     patterns: List[LexicalPattern]
 

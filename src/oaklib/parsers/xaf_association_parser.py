@@ -1,4 +1,4 @@
-"""Parser for GAF/HPOA and related association formats"""
+"""Parser for GAF/HPOA and related association formats."""
 
 import logging
 import re
@@ -149,7 +149,7 @@ class XafAssociationParser(AssociationParser):
         **kwargs,
     ) -> Iterator[Union[NegatedAssociation, Association]]:
         """
-        Yields annotations from a GAF or GAF-like file
+        Yields annotations from a GAF or GAF-like file.
 
         :param file: File to parse
         :param configuration: Configuration for the parser

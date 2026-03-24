@@ -41,7 +41,7 @@ oxo_pred_mappings = {
 
 @dataclass
 class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, SearchInterface):
-    """Implementation over OLS and OxO APIs"""
+    """Implementation over OLS and OxO APIs."""
 
     ols_client_class: ClassVar[type[Client]]
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})

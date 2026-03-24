@@ -53,7 +53,7 @@ class WikidataImplementation(
     TextAnnotatorInterface,
 ):
     """
-    Wraps the wikidata sparql endpoint
+    Wraps the wikidata sparql endpoint.
 
     See: `<https://github.com/INCATools/wikidata>`_
 
@@ -87,7 +87,7 @@ class WikidataImplementation(
         return [SKOS_ALT_LABEL]
 
     def _is_blazegraph(self) -> bool:
-        """Currently wikidata uses blazegraph"""
+        """Currently wikidata uses blazegraph."""
         return True
 
     def curie_to_uri(self, curie: CURIE, strict: bool = False) -> URI:

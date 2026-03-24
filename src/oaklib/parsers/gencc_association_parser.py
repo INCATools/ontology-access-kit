@@ -1,4 +1,4 @@
-"""Parser for GAF association formats"""
+"""Parser for GAF association formats."""
 
 import csv
 from dataclasses import dataclass

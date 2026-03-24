@@ -9,7 +9,7 @@ PRED_CODE = Union[str, PRED_CURIE]
 
 class OboLegacyInterface(BasicOntologyInterface, ABC):
     """
-    A BasicOntologyInterface that provides a bridge to legacy OBO Format concepts
+    A BasicOntologyInterface that provides a bridge to legacy OBO Format concepts.
 
     See <https://owlcollab.github.io/oboformat/doc/obo-syntax.html>_
     """
@@ -27,7 +27,7 @@ class OboLegacyInterface(BasicOntologyInterface, ABC):
 
     def map_curie_to_shorthand(self, rel_type: PRED_CURIE) -> PRED_CODE:
         """
-        Reciprocal of `_get_relationship_type_curie`
+        Reciprocal of `_get_relationship_type_curie`.
 
         :param rel_type:
         :return:

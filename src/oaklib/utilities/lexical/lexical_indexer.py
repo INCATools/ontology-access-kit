@@ -60,7 +60,7 @@ QUALIFIER_DICT = {
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
     """
-    Adds a label based on the CURIE or URI for entities that lack labels
+    Adds a label based on the CURIE or URI for entities that lack labels.
 
     :param oi: An ontology interface for making label lookups.
     """
@@ -89,7 +89,7 @@ def create_lexical_index(
     mapping_rule_collection: Optional[MappingRuleCollection] = None,
 ) -> LexicalIndex:
     """
-    Generates a LexicalIndex keyed by normalized terms
+    Generates a LexicalIndex keyed by normalized terms.
 
     If the pipelines parameter is not specified, then default pipelines will be applied
     (currently CaseNormalization and WhitespaceNormalization)
@@ -202,7 +202,7 @@ def create_or_load_lexical_index(
 
 def save_lexical_index(lexical_index: LexicalIndex, path: Union[Path, str], syntax: str = None):
     """
-    Saves a YAML using standard mapping of datanodel to YAML
+    Saves a YAML using standard mapping of datanodel to YAML.
 
     :param lexical_index:
     :param path:
@@ -224,7 +224,7 @@ def save_lexical_index(lexical_index: LexicalIndex, path: Union[Path, str], synt
 
 def load_lexical_index(path: Union[Path, str], syntax: str = None) -> LexicalIndex:
     """
-    Loads from a YAML file
+    Loads from a YAML file.
 
     :param path: Lexical index in the form of a YAML file.
     :param syntax:
@@ -385,7 +385,7 @@ def inferred_mapping(
     ruleset: MappingRuleCollection = None,
 ) -> Mapping:
     """
-    Create a mapping from a pair of relationships, applying rules to filter or assign confidence
+    Create a mapping from a pair of relationships, applying rules to filter or assign confidence.
 
     :param oi: An ontology interface for making label lookups.
     :param term: Match string
@@ -447,7 +447,7 @@ def inferred_mapping(
 
 def inverse_logit(weight: float) -> float:
     """
-    Inverse logit
+    Inverse logit.
 
     https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
 
@@ -538,7 +538,7 @@ def apply_transformation(
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
     """
-    Saves a YAML using standard mapping of datanodel to YAML
+    Saves a YAML using standard mapping of datanodel to YAML.
 
     :param mapping_rules: YAML file that contains rules for mapping.
     :param path: Path where the YAML file is saved
