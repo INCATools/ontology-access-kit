@@ -183,7 +183,6 @@ target-version = "py313"
 
     #Can fix.
     "D205", #D205 1 blank line required between summary line and 
-    "D400", #D400 First line should end with a period
     "D401", #D401 First line of docstring should be in imperative mood
     "D403", #D403 [*] First word of the docstring should be capitalized: `yield` -> `Yield`
     "D409", #D409 [*] Section underline should match the length of its name ("See Also")
@@ -216,7 +215,6 @@ target-version = "py313"
     #Can fix.
     "D205", #D205 [*] 1 blank line required between summary line and description
     "D209", #D209 [*] Multi-line docstring closing quotes should be on a separate line
-    "D400", #D400 First line should end with a period
     "D401", #D401 First line of docstring should be in imperative mood
     "D403", #D403 [*] First word of the docstring should be capitalized: `compute` -> `Compute`
     "D404", #D404 First word of the docstring should not be "This"
@@ -225,6 +223,10 @@ target-version = "py313"
     "D413", #D413 [*] Missing blank line after last section ("Examples")
     "D415", #D415 First line should end with a period, question mark, or exclamation point
 ]
+
+[tool.ruff.lint.pydocstyle]
+# Use Google-style docstrings.
+convention = "google"
 
 #[tool.uv.sources]
 #linkml = { git = "https://github.com/saschabuehrle/linkml", branch = "fix/issue-3297" }
