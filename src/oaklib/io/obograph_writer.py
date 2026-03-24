@@ -1,7 +1,4 @@
-"""
-Utilities for writing out obo graphs
-
-"""
+"""Utilities for writing out obo graphs"""
 
 import logging
 from typing import Optional, TextIO, Union

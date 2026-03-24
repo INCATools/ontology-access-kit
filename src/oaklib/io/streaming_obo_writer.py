@@ -18,9 +18,7 @@ from oaklib.types import CURIE
 
 @dataclass
 class StreamingOboWriter(StreamingWriter):
-    """
-    A writer that emits one OBO stanza at a time in one stream
-    """
+    """A writer that emits one OBO stanza at a time in one stream"""
 
     converter: OboGraphToOboFormatConverter = None
 

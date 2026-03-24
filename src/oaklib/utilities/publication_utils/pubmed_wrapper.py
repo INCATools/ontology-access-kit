@@ -35,9 +35,7 @@ def extract_text_from_xml(xml_content):
 
 @dataclass
 class PubmedWrapper(PubDBWrapper):
-    """
-    A wrapper to provide a search facade over PubMed.
-    """
+    """A wrapper to provide a search facade over PubMed."""
 
     name: ClassVar[str] = "ncbi"
 

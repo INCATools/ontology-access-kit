@@ -6,9 +6,7 @@ from oaklib.transformers.ontology_transformer import OntologyTransformer
 
 @dataclass
 class GraphTransformer(OntologyTransformer):
-    """
-    An ontology transformer that operates on a graph
-    """
+    """An ontology transformer that operates on a graph"""
 
     remove_dangling_edges: bool = False
     """If true, removes edges that point to nodes that are not in the graph"""

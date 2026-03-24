@@ -35,9 +35,7 @@ __all__ = [
 
 
 class RelationGraphEnum(Enum):
-    """
-    triples in UG are organized into different graphs
-    """
+    """triples in UG are organized into different graphs"""
 
     ontology = "http://reasoner.renci.org/ontology"
     redundant = "http://reasoner.renci.org/redundant"
@@ -84,9 +82,7 @@ class UbergraphImplementation(
         return "https://ubergraph.apps.renci.org/sparql"
 
     def _is_blazegraph(self) -> bool:
-        """
-        Currently Ubergraph uses blazegraph
-        """
+        """Currently Ubergraph uses blazegraph"""
         return True
 
     @property

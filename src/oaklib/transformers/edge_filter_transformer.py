@@ -9,9 +9,7 @@ from oaklib.types import PRED_CURIE
 
 @dataclass
 class EdgeFilterTransformer(GraphTransformer):
-    """
-    An ontology graph transformer that filters edges
-    """
+    """An ontology graph transformer that filters edges"""
 
     include_predicates: Optional[Collection[PRED_CURIE]] = None
     """A collection of predicates to include"""

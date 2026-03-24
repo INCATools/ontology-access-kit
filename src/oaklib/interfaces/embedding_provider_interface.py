@@ -13,9 +13,7 @@ ENTITY_EMBEDDING = Tuple[CURIE, str, Collection[float]]
 
 
 class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
-    """
-    Calculates embeddings for entities.
-    """
+    """Calculates embeddings for entities."""
 
     embedding_strategy: str = None
 

@@ -43,9 +43,7 @@ class MappingCrawlerConfig(BaseModel):
 
 
 class MappingClique(BaseModel):
-    """
-    A set of mappings that are all connected in a graph.
-    """
+    """A set of mappings that are all connected in a graph."""
 
     class Config:
         extra = "forbid"

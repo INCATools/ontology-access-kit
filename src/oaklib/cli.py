@@ -251,9 +251,7 @@ WRITERS = {
 
 @unique
 class Direction(Enum):
-    """
-    Permissible directions for graph traversal.
-    """
+    """Permissible directions for graph traversal."""
 
     up = "up"
     down = "down"
@@ -4230,9 +4228,7 @@ def expand_subsets(subsets: list, output, predicates):
 @click.option("--category-system", help="Example: biolink, cob, bfo, dbpedia, ...")
 @click.argument("terms", nargs=-1)
 def term_categories(terms, category_system, output, output_type):
-    """
-    List categories for a term or set of terms.
-    """
+    """List categories for a term or set of terms."""
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     if not isinstance(impl, BasicOntologyInterface):
@@ -6094,10 +6090,7 @@ def set_apikey(endpoint, keyval):
 
 @main.command()
 def cache_ls():
-    """
-    List the contents of the pystow oaklib cache.
-
-    """
+    """List the contents of the pystow oaklib cache."""
     units = ["B", "KB", "MB", "GB", "TB"]
     for path, size, mtime in FILE_CACHE.get_contents(subdirs=True):
         i = 0
@@ -6116,10 +6109,7 @@ def cache_ls():
     help="Clear anything more than this number of days old",
 )
 def cache_clear(days_old: int):
-    """
-    Clear the contents of the pystow oaklib cache.
-
-    """
+    """Clear the contents of the pystow oaklib cache."""
 
     for name, _, age in FILE_CACHE.clear(subdirs=False, older_than=days_old, pattern="*.db*"):
         click.echo(f"Deleted {name} which was {age.days} days old")
@@ -7364,9 +7354,7 @@ def generate_definitions(
 def generate_logical_definitions(
     terms, patterns_file, show_extract, unmelt, autolabel, parse, fill, analyze, output, output_type
 ):
-    """
-    Generate logical definitions based on patterns file.
-    """
+    """Generate logical definitions based on patterns file."""
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, kgcl)
     writer.output = output

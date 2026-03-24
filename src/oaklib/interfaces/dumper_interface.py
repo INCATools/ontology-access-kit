@@ -35,9 +35,7 @@ FORMAT_SYNONYMS = {
 
 
 class DumperInterface(BasicOntologyInterface, ABC):
-    """
-    An OntologyInterface that is capable of exporting entire contents.
-    """
+    """An OntologyInterface that is capable of exporting entire contents."""
 
     def dump(
         self, path: str = None, syntax: str = None, enforce_canonical_ordering=False, **kwargs

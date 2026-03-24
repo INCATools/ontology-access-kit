@@ -29,9 +29,7 @@ GRAPH_PATH = Tuple[CURIE, CURIE, CURIE]
 
 
 class Distance(Enum):
-    """
-    Specifies how many hops to walk in any given direction.
-    """
+    """Specifies how many hops to walk in any given direction."""
 
     ZERO = "zero"
     DIRECT = "direct"
@@ -39,9 +37,7 @@ class Distance(Enum):
 
 
 class GraphTraversalMethod(Enum):
-    """
-    Specifies a strategy for computing graph relationships.
-    """
+    """Specifies a strategy for computing graph relationships."""
 
     HOP = "HOP"
     ENTAILMENT = "ENTAILMENT"
@@ -64,9 +60,7 @@ def _edges_to_nodes(
 
 @dataclass
 class TraversalConfiguration:
-    """
-    Specifies how to walk up and down a graph
-    """
+    """Specifies how to walk up and down a graph"""
 
     predicates: List[PRED_CURIE] = None
     up_distance: Distance = field(default_factory=lambda: Distance.TRANSITIVE)
@@ -100,15 +94,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
     transitive_query_cache: Dict[Any, Any] = None
 
     def enable_transitive_query_cache(self):
-        """
-        Cache transitive queries
-        """
+        """Cache transitive queries"""
         self.transitive_query_cache = {}
 
     def disable_transitive_query_cache(self):
-        """
-        Do not cache transitive queries (default)
-        """
+        """Do not cache transitive queries (default)"""
         self.transitive_query_cache = None
 
     def node(

@@ -32,9 +32,7 @@ def _keyval(x: Any) -> str:
 
 @dataclass(eq=False)
 class StreamingCsvWriter(StreamingWriter):
-    """
-    A writer that streams CSV/TSV output
-    """
+    """A writer that streams CSV/TSV output"""
 
     header_emitted: bool = None
     delimiter: str = "\t"

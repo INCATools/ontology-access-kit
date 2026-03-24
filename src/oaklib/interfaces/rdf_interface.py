@@ -12,9 +12,7 @@ RDF_TRIPLE = Tuple[URIRef, URIRef, Any]
 
 
 class RdfInterface(BasicOntologyInterface, ABC):
-    """
-    presents ontology as simple RDF graphs, using the rdflib datamodel
-    """
+    """presents ontology as simple RDF graphs, using the rdflib datamodel"""
 
     def graph(self) -> rdflib.Graph:
         raise NotImplementedError()

@@ -346,9 +346,7 @@ class TagValue:
 
 @dataclass
 class Structure:
-    """
-    Abstract grouping for Stanzas and Headers
-    """
+    """Abstract grouping for Stanzas and Headers"""
 
     tag_values: List[TagValue] = field(default_factory=lambda: [])
     """List of all tag-value pairs for this stanza or header"""
@@ -607,9 +605,7 @@ class Structure:
 
 @dataclass
 class Header(Structure):
-    """
-    Header portion of an OBO Document
-    """
+    """Header portion of an OBO Document"""
 
     def ontology(self) -> str:
         raise NotImplementedError
@@ -681,9 +677,7 @@ class OboDocument:
         return sorted(values, key=lambda x: x.id)
 
     def normalize_line_order(self) -> None:
-        """
-        Normalizes line order within stanzas
-        """
+        """Normalizes line order within stanzas"""
         for s in self.stanzas.values():
             s.normalize_order()
 

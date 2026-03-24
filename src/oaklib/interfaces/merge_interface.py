@@ -11,9 +11,7 @@ from oaklib.utilities.obograph_utils import merge_graphs
 
 @dataclass
 class MergeConfiguration:
-    """
-    Configuration for merging
-    """
+    """Configuration for merging"""
 
     allow_lossy_merge: bool = field(default=True)
     """
@@ -27,9 +25,7 @@ class MergeConfiguration:
 
 
 class MergeInterface(BasicOntologyInterface, ABC):
-    """
-    An OntologyInterface that is capable of merging information from other interfaces.
-    """
+    """An OntologyInterface that is capable of merging information from other interfaces."""
 
     def merge(
         self,

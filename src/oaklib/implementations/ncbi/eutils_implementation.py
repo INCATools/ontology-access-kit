@@ -28,9 +28,7 @@ NCBI_REQUESTS_CACHE = ".ncbi_requests_cache"
 
 @dataclass
 class EUtilsImplementation(OboGraphInterface, ABC):
-    """
-    Wraps Eutils endpoint.
-    """
+    """Wraps Eutils endpoint."""
 
     entrez_client: Client = field(default_factory=lambda: Client())
     # 0.6.0 release in 2019 - considered switching to direct API calls?

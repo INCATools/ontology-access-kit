@@ -36,9 +36,7 @@ def taxon_ids_from_taxon_constraints(tcs: List[TaxonConstraint]) -> List[TAXON_C
 
 
 class TaxonConstraintInterface(BasicOntologyInterface):
-    """
-    Computes taxon constraints.
-    """
+    """Computes taxon constraints."""
 
     cache: ConstraintCache = None
     subject_graph_traversal_method: Optional[GraphTraversalMethod] = None

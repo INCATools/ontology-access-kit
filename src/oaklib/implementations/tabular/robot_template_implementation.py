@@ -95,9 +95,7 @@ class TemplateString(BaseModel):
     split_delimiter: Optional[str] = None
 
     def parse(self):
-        """
-        Parse the template string
-        """
+        """Parse the template string"""
         v = self.value
         if SPLIT_TOKEN in v:
             v, self.split_delimiter = v.split(SPLIT_TOKEN, 1)

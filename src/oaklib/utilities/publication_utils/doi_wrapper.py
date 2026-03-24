@@ -20,9 +20,7 @@ RATE_LIMIT_DELAY = 1.0
 
 @dataclass
 class DOIWrapper(PubDBWrapper):
-    """
-    A wrapper to provide a search facade over datacite.
-    """
+    """A wrapper to provide a search facade over datacite."""
 
     name: ClassVar[str] = "datacite"
 

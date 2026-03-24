@@ -36,9 +36,7 @@ class DenormalizedAssociation:
 
 @dataclass
 class AssociationIndex:
-    """
-    A sqlite in-memory index for a collection of associations.
-    """
+    """A sqlite in-memory index for a collection of associations."""
 
     _connection: sqlite3.Connection = None
     _session: Session = None

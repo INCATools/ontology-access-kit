@@ -13,9 +13,7 @@ from oaklib.types import CURIE
 
 @dataclass
 class StreamingFHIRWriter(StreamingWriter):
-    """
-    A writer that emits FHIR CodeSystem objects or Concept objects
-    """
+    """A writer that emits FHIR CodeSystem objects or Concept objects"""
 
     def emit_multiple(self, entities: Iterable[CURIE], **kwargs):
         oi = self.ontology_interface

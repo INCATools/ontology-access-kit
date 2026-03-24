@@ -25,10 +25,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class PubMedImplementation(EUtilsImplementation):
-    """
-    Wraps PubMed endpoint.
-
-    """
+    """Wraps PubMed endpoint."""
 
     database = "pubmed"
     entity_type = "schema:Publication"

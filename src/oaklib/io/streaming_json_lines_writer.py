@@ -10,9 +10,7 @@ from oaklib.io.streaming_writer import StreamingWriter
 
 @dataclass
 class StreamingJsonLinesWriter(StreamingWriter):
-    """
-    A writer that emits one document at a time in one stream
-    """
+    """A writer that emits one document at a time in one stream"""
 
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
         with jsonlines.Writer(self.file) as writer:

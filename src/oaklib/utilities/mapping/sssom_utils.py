@@ -67,9 +67,7 @@ def inject_mapping_sources(m: Mapping) -> Mapping:
 
 @dataclass
 class StreamingSssomWriter(StreamingWriter):
-    """
-    pseudo-streaming writer for SSSOM
-    """
+    """pseudo-streaming writer for SSSOM"""
 
     mappings: List[Mapping] = field(default_factory=lambda: [])
 

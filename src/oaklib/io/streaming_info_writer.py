@@ -22,9 +22,7 @@ def _keyval(x: Any) -> str:
 
 @dataclass
 class StreamingInfoWriter(StreamingWriter):
-    """
-    A writer that streams basic line by line reporting info
-    """
+    """A writer that streams basic line by line reporting info"""
 
     def emit_curie(self, curie, label=None, **kwargs):
         oi = self.ontology_interface

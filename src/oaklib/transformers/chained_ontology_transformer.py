@@ -6,9 +6,7 @@ from oaklib.transformers.ontology_transformer import OntologyTransformer
 
 @dataclass
 class ChainedOntologyTransformer(OntologyTransformer):
-    """
-    An ontology graph transformer that chains multiple other transformers
-    """
+    """An ontology graph transformer that chains multiple other transformers"""
 
     chained_transformers: Collection[OntologyTransformer]
 

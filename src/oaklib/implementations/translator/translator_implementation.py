@@ -122,9 +122,7 @@ class TranslatorImplementation(
     SearchInterface,
     SemanticSimilarityInterface,
 ):
-    """
-    Wraps Translator SRI endpoints.
-    """
+    """Wraps Translator SRI endpoints."""
 
     def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
         if isinstance(curies, CURIE):

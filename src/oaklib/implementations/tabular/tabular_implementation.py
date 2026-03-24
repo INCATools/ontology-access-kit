@@ -35,9 +35,7 @@ class TabularFile:
 class TabularImplementation(
     BasicOntologyInterface,
 ):
-    """
-    Simple implementation backed by a directory of tabular files.
-    """
+    """Simple implementation backed by a directory of tabular files."""
 
     root_folder: Path = None
     tabfile_map: Dict[str, TabularFile] = None

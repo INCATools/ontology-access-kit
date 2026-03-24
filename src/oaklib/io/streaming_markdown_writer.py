@@ -23,9 +23,7 @@ def _keyval(x: Any) -> str:
 
 @dataclass
 class StreamingMarkdownWriter(StreamingWriter):
-    """
-    A writer that streams curies or changes as markdown
-    """
+    """A writer that streams curies or changes as markdown"""
 
     # TODO: replace with linkml-renderer
 

@@ -27,9 +27,7 @@ PREDICATE_TO_TEXT = {
 
 @dataclass
 class NaturalLanguageGenerator:
-    """
-    Generates natural language sentences
-    """
+    """Generates natural language sentences"""
 
     ontology_interface: BasicOntologyInterface
     mask_symbol: str = "[MASK]"

@@ -26,9 +26,7 @@ LIST_PATTERN = re.compile(r"\[(.*)\]")
 
 @dataclass
 class ColumnDependency:
-    """
-    Models an interdependency between an identifier column and a column with a dependent value.
-    """
+    """Models an interdependency between an identifier column and a column with a dependent value."""
 
     primary_key: COLUMN_NAME
     relation: str
@@ -42,9 +40,7 @@ class ColumnDependency:
 
 @dataclass
 class TableMetadata:
-    """
-    A configuration for table filling
-    """
+    """A configuration for table filling."""
 
     dependencies: List[ColumnDependency] = None
     delimiter: str = None
@@ -173,9 +169,7 @@ def write_table(
 
 @dataclass
 class TableFiller:
-    """
-    An engine for filling in missing columns in tables based on metadata about these columns.
-    """
+    """An engine for filling in missing columns in tables based on metadata about these columns."""
 
     ontology_interface: BasicOntologyInterface = None
 

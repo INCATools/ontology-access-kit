@@ -15,9 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 class UsageContext(str, Enum):
-    """
-    The context of a usage
-    """
+    """The context of a usage"""
 
     RELATIONSHIP_SUBJECT = "relationship_subject"
     RELATIONSHIP_OBJECT = "relationship_object"
@@ -34,9 +32,7 @@ class UsageContext(str, Enum):
 
 
 class Usage(BaseModel):
-    """
-    Represents a usage of a term
-    """
+    """Represents a usage of a term"""
 
     used_id: str
     used_by_id: str
@@ -49,9 +45,7 @@ class Usage(BaseModel):
 
 
 class UsagesInterface(BasicOntologyInterface, ABC):
-    """
-    Allows querying for usages of terms
-    """
+    """Allows querying for usages of terms"""
 
     def usages(
         self,

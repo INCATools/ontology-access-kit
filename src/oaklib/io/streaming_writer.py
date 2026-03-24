@@ -22,9 +22,7 @@ LABEL_KEY = "label"
 
 @dataclass
 class StreamingWriter:
-    """
-    Base class for streaming writers.
-    """
+    """Base class for streaming writers."""
 
     file: Any = field(default_factory=lambda: sys.stdout)
     ontology_interface: BasicOntologyInterface = None

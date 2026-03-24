@@ -9,9 +9,7 @@ from oaklib.utilities.obograph_utils import index_graph_nodes
 
 @dataclass
 class Labeler:
-    """
-    Generates labels and ids for generated nodes
-    """
+    """Generates labels and ids for generated nodes"""
 
     code: str
     label: str = None

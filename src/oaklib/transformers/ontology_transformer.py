@@ -5,9 +5,7 @@ from typing import Any
 
 @dataclass
 class OntologyTransformer(ABC):  # noqa
-    """
-    A class for transforming ontologies
-    """
+    """A class for transforming ontologies"""
 
     def transform(self, source_ontology: Any, **kwargs) -> Any:
         """

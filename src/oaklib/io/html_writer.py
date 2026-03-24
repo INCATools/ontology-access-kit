@@ -13,9 +13,7 @@ from oaklib.types import CURIE
 
 @dataclass
 class HTMLWriter(StreamingWriter):
-    """
-    A writer that streams objects as HTML
-    """
+    """A writer that streams objects as HTML"""
 
     uses_schemaview = True
     cached_objects: List[YAMLRoot] = field(default_factory=lambda: [])

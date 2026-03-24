@@ -1,6 +1,4 @@
-"""
-This package serves as the master index for all implementations.
-"""
+"""This package serves as the master index for all implementations."""
 
 from functools import cache
 

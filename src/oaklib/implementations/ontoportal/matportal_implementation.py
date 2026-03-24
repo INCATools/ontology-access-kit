@@ -9,9 +9,6 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
 
 @dataclass
 class MatPortalImplementation(OntoPortalImplementationBase):
-    """
-    Implementation over matportal endpoint
-
-    """
+    """Implementation over matportal endpoint"""
 
     ontoportal_client_class = MatPortalClient

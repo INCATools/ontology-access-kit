@@ -1,6 +1,4 @@
-"""
-Utilities used for annotation and lexmatch processes.
-"""
+"""Utilities used for annotation and lexmatch processes."""
 
 from pathlib import Path
 from typing import List, Union

@@ -118,9 +118,7 @@ def main(
     annotation_predicate: str,
     default_annotations: bool,
 ):
-    """
-    Calculate the text content of an ontology.
-    """
+    """Calculate the text content of an ontology."""
     sys.tracebacklimit = 0
     if verbose >= 2:
         logger.setLevel(logging.DEBUG)

@@ -181,7 +181,6 @@ target-version = "py313"
     "D301", #D301 Use `r"""` if any backslashes in a docstring
 
     #Can fix.
-    "D200", #D200 One-line docstring should fit on one line
     "D202", #D202 [*] No blank lines allowed after function docstring (found 1)
     "D203", #D203 [*] 1 blank line required before class 
     "D205", #D205 1 blank line required between summary line and 
@@ -218,7 +217,6 @@ target-version = "py313"
     "S607", #S607 Starting a process with a partial executable path
 
     #Can fix.
-    "D200", #D200 One-line docstring should fit on one line
     "D202", #D202 [*] No blank lines allowed after function docstring (found 1)
     "D203", #D203 [*] 1 blank line required before class docstring
     "D205", #D205 [*] 1 blank line required between summary line and description

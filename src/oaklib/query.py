@@ -170,9 +170,7 @@ class SimpleQueryTerm(Query):
 
 
 class FunctionQuery(Query):
-    """
-    A query component that is a function call.
-    """
+    """A query component that is a function call."""
 
     function: Optional[FunctionEnum] = None
     parameters: Optional[Dict[str, Any]] = None

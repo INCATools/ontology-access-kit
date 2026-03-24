@@ -32,9 +32,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ValueSetExpander(BasicOntologyInterface, ABC):
-    """
-    Tool for working with Value Sets in OAK
-    """
+    """Tool for working with Value Sets in OAK"""
 
     configuration: ValueSetConfiguration = field(default_factory=lambda: DEFAULT_CONFIG)
 

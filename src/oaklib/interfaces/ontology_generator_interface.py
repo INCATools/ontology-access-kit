@@ -11,9 +11,7 @@ __all__ = [
 
 
 class OntologyGenerationInterface(BasicOntologyInterface, ABC):
-    """
-    Interface for generation of ontologies and ontology terms.
-    """
+    """Interface for generation of ontologies and ontology terms."""
 
     def generate_definitions(
         self, curies: List[CURIE], style_hints="", **kwargs
