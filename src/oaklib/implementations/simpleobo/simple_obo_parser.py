@@ -178,7 +178,7 @@ class TagValue:
         :return: synonym tuple structure
         """
         if self.tag != TAG_SYNONYM:
-            return
+            return None
         m = re_synonym2.match(self.value)
         if m:
             syn = m.groups()
@@ -199,7 +199,7 @@ class TagValue:
         :return: definition tuple structure
         """
         if self.tag != TAG_DEF:
-            return
+            return None
         m = re_def.match(self.value)
         if m:
             xrefs = _parse_list(m.group(2)) if m.group(2) else []
@@ -216,7 +216,7 @@ class TagValue:
         :return: property value tuple structure
         """
         if self.tag != TAG_PROPERTY_VALUE:
-            return
+            return None
         m = re_property_value1.match(self.value)
         if m:
             # includes datatype (literal annotation)

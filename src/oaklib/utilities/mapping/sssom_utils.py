@@ -32,11 +32,11 @@ def create_sssom_mapping(
     if not URIorCURIE.is_valid(subject_id):
         if strict:
             raise ValueError(f"Subject {subject_id} is not a valid curie")
-        return
+        return None
     elif not URIorCURIE.is_valid(object_id):
         if strict:
             raise ValueError(f"Object {object_id} is not a valid curie")
-        return
+        return None
     else:
         return Mapping(subject_id=subject_id, object_id=object_id, **kwargs)
 
