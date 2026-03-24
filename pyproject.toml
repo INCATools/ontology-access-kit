@@ -229,7 +229,6 @@ target-version = "py313"
     "S607", #S607 Starting a process with a partial executable path
 
     #Can fix.
-    "D404", #D404 First word of the docstring should not be "This"
     "D413", #D413 [*] Missing blank line after last section ("Examples")
     "D415", #D415 First line should end with a period, question mark, or exclamation point
 ]
