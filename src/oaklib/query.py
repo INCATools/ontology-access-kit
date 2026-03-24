@@ -930,8 +930,10 @@ def curies_from_file(
 
 def nest_list_of_terms(terms: List[str]) -> NESTED_LIST:
     """
+    Gives a list of terms, replaces blocks between '[' and ']' with a nested list.
+
     Gives a list of terms (typically passed on command line),
-    replace blocks between '[', ..., ']' with nested lists of the contents
+    replace blocks between '[', ..., ']' with nested lists of the contents.
 
     :param terms:
     :return:

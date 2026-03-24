@@ -182,7 +182,6 @@ target-version = "py313"
     "D301", #D301 Use `r"""` if any backslashes in a docstring
 
     #Can fix.
-    "D205", #D205 1 blank line required between summary line and 
     "D401", #D401 First line of docstring should be in imperative mood
     "D403", #D403 [*] First word of the docstring should be capitalized: `yield` -> `Yield`
     "D409", #D409 [*] Section underline should match the length of its name ("See Also")
@@ -213,7 +212,6 @@ target-version = "py313"
     "S607", #S607 Starting a process with a partial executable path
 
     #Can fix.
-#    "D205", #D205 [*] 1 blank line required between summary line and description
     "D209", #D209 [*] Multi-line docstring closing quotes should be on a separate line
     "D401", #D401 First line of docstring should be in imperative mood
     "D403", #D403 [*] First word of the docstring should be capitalized: `compute` -> `Compute`

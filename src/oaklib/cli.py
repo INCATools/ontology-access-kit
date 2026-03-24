@@ -1,5 +1,6 @@
 """
-Command Line Interface to OAK
+Command Line Interface to OAK.
+
 ----------------------
 
 Executed using "runoak" command
@@ -6515,8 +6516,7 @@ def apply(
     overwrite: bool,
 ):
     """
-    Applies a patch to an ontology. The patch should be specified using KGCL syntax, see
-    https://github.com/INCATools/kgcl
+    Applies a patch to an ontology. The patch should be specified using KGCL syntax, see https://github.com/INCATools/kgcl.
 
     Example:
 
@@ -7158,7 +7158,6 @@ def generate_lexical_replacements(
 ):
     """
     Generate lexical replacements based on a set of synonymizer rules.
-
 
     If the `--apply-patch` flag is set, the output will be an ontology file with the changes
     applied. Pass the `--patch` argument to lso get the patch file in KGCL format.
