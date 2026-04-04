@@ -1,5 +1,7 @@
+import functools
 import logging
 import unittest
+from urllib.error import HTTPError, URLError
 
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
@@ -21,6 +23,19 @@ from tests import (
     VACUOLE,
 )
 
+REMOTE_ERRORS = (HTTPError, TimeoutError, URLError, OSError)
+
+
+def skip_on_remote_error(fn):
+    @functools.wraps(fn)
+    def wrapper(self, *args, **kwargs):
+        try:
+            return fn(self, *args, **kwargs)
+        except REMOTE_ERRORS as e:
+            self.skipTest(f"Ubergraph endpoint unavailable: {e}")
+
+    return wrapper
+
 
 class TestUbergraphImplementation(unittest.TestCase):
     """
@@ -38,6 +53,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = UbergraphImplementation()
         self.oi = oi
 
+    @skip_on_remote_error
     def test_relationships(self):
         """
         Tests asserted and non-asserted relationships.
@@ -58,6 +74,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertNotIn((VACUOLE, IS_A, CELLULAR_COMPONENT), rels)
         self.assertIn((VACUOLE, PART_OF, CYTOPLASM), rels)
 
+    @skip_on_remote_error
     def test_entailed_relationships(self):
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships(VACUOLE))
@@ -67,11 +84,13 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn((PART_OF, CYTOPLASM), rels)
         self.assertIn((PART_OF, CELL), rels)
 
+    @skip_on_remote_error
     def test_labels(self):
         label = self.oi.label(DIGIT)
         self.assertEqual(label, "digit")
         self.assertIn(DIGIT, self.oi.curies_by_label(label))
 
+    @skip_on_remote_error
     def test_synonyms(self):
         syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
         logging.info(syns)
@@ -92,11 +111,13 @@ class TestUbergraphImplementation(unittest.TestCase):
             ],
         )
 
+    @skip_on_remote_error
     def test_definition(self):
         defn = self.oi.definition(CELLULAR_COMPONENT)
         logging.info(defn)
         self.assertTrue(defn.startswith("A location"))
 
+    @skip_on_remote_error
     def test_search(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("limb", config=config))
@@ -105,6 +126,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     # OboGraph
     # @unittest.skip("HTTP Error 504: Gateway Time-out")
+    @skip_on_remote_error
     def test_ancestors(self):
         oi = self.oi
         ancs = list(oi.ancestors([VACUOLE]))
@@ -133,6 +155,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         # self.assertIn(VACUOLE, ancs)
         self.assertIn(CELL, ancs)
 
+    @skip_on_remote_error
     def test_descendants(self):
         oi = self.oi
         descs = list(oi.descendants([CYTOPLASM]))
@@ -146,6 +169,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn(CYTOPLASM, descs)
         self.assertNotIn(VACUOLE, descs)
 
+    @skip_on_remote_error
     def test_ancestor_graph(self):
         oi = self.oi
         for preds in [None, [IS_A], [IS_A, PART_OF]]:
@@ -162,6 +186,7 @@ class TestUbergraphImplementation(unittest.TestCase):
             else:
                 assert CELL in node_ids
 
+    @skip_on_remote_error
     def test_gap_fill(self):
         oi = self.oi
         rels = list(
