@@ -1,20 +1,30 @@
 import logging
+import re
 from dataclasses import dataclass
-from typing import Any, Iterable, List, Mapping, Optional
+from pathlib import Path
+from typing import Any, Iterable, List, Mapping, Optional, cast
 
+import pyhornedowl
 import rdflib
-from funowl import (
+from kgcl_schema.datamodel import kgcl
+from pyhornedowl.model import (
     IRI,
+    AnnotatedComponent,
+    Annotation,
     AnnotationAssertion,
-    Axiom,
-    Declaration,
+    Component,
+    DatatypeLiteral,
+    DeclareAnnotationProperty,
+    DeclareClass,
+    DeclareDataProperty,
+    DeclareDatatype,
+    DeclareNamedIndividual,
+    DeclareObjectProperty,
+    LanguageLiteral,
     ObjectSomeValuesFrom,
-    OntologyDocument,
+    SimpleLiteral,
     SubClassOf,
 )
-from funowl.converters.functional_converter import to_python
-from funowl.writers.FunctionalWriter import FunctionalWriter
-from kgcl_schema.datamodel import kgcl
 
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
@@ -29,112 +39,155 @@ from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.types import CURIE, PRED_CURIE
 
+logger = logging.getLogger(__name__)
+DECLARATION_TYPES = (
+    DeclareClass,
+    DeclareObjectProperty,
+    DeclareAnnotationProperty,
+    DeclareDataProperty,
+    DeclareNamedIndividual,
+    DeclareDatatype,
+)
+LITERAL_TYPES = (SimpleLiteral, DatatypeLiteral, LanguageLiteral)
+XSD_BOOLEAN = "http://www.w3.org/2001/XMLSchema#boolean"
+
 
 @dataclass
 class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     """
     An experimental partial implementation of :ref:`OwlInterface`
 
-    Wraps FunOWL
-
-    `<https://github.com/hsolbrig/funowl>`_
-
+    This adapter keeps the historical ``funowl`` selector and class name, but now
+    uses py-horned-owl as the OWL parser and object model.
     """
 
-    ontology_document: OntologyDocument = None
+    ontology_document: Optional[pyhornedowl.PyIndexedOntology] = None
 
     def __post_init__(self):
+        resource = self.resource
+        local_path = None if resource is None else resource.local_path
         if self.ontology_document is None:
-            resource = self.resource
-            if resource is None or resource.local_path is None:
-                doc = OntologyDocument()
+            if local_path is None:
+                doc = pyhornedowl.PyIndexedOntology()
             else:
-                logging.info(f"Loading {resource.local_path} into FunOwl")
-                doc = to_python(str(resource.local_path))
+                local_path = Path(local_path)
+                logger.info("Loading %s into py-horned-owl", local_path)
+                doc = pyhornedowl.open_ontology_from_file(str(local_path))
+                if local_path.suffix in {".ofn", ".omn"}:
+                    self.prefix_map().update(self._extract_prefix_declarations(local_path))
             self.ontology_document = doc
-        if self.functional_writer is None:
-            self.functional_writer = FunctionalWriter()
-            for prefix in doc.prefixDeclarations.as_prefixes():
-                self.functional_writer.bind(prefix.prefixName, prefix.fullIRI)
+        self.functional_writer = self.ontology_document
+
+    @staticmethod
+    def _extract_prefix_declarations(path: Path) -> Mapping[str, str]:
+        prefix_map = {}
+        text = path.read_text(encoding="utf-8")
+        for match in re.finditer(r"Prefix\(\s*([^=]+?)\s*=\s*<([^>]+)>\s*\)", text):
+            prefix = match.group(1).strip()
+            if prefix.endswith(":"):
+                prefix = prefix[:-1]
+            prefix_map[prefix] = match.group(2)
+        return prefix_map
 
     @property
-    def _ontology(self):
-        return self.ontology_document.ontology
+    def _ontology(self) -> pyhornedowl.PyIndexedOntology:
+        return self.ontology_document
+
+    def owl_ontology(self) -> pyhornedowl.PyIndexedOntology:
+        return self._ontology
+
+    def _sync_prefix_mapping(self, curie: CURIE) -> None:
+        if ":" not in curie:
+            return
+        prefix, _, _ = curie.partition(":")
+        if prefix in self.prefix_map():
+            try:
+                self._ontology.add_prefix_mapping(prefix, self.prefix_map()[prefix])
+            except Exception:
+                logger.debug("Could not sync prefix mapping for %s", prefix, exc_info=True)
 
     def entity_iri_to_curie(self, entity: IRI) -> CURIE:
-        uri = entity.to_rdf(self.functional_writer.g)
-        return self.uri_to_curie(str(uri), use_uri_fallback=True)
+        return cast(CURIE, self.uri_to_curie(str(entity), use_uri_fallback=True))
 
     def curie_to_entity_iri(self, curie: CURIE) -> IRI:
-        return IRI(self.curie_to_uri(curie))
+        self._sync_prefix_mapping(curie)
+        return IRI.parse(self.curie_to_uri(curie))
+
+    def curie_to_class(self, curie: CURIE):
+        self._sync_prefix_mapping(curie)
+        return self._ontology.clazz(self.curie_to_uri(curie))
+
+    def curie_to_object_property(self, curie: CURIE):
+        self._sync_prefix_mapping(curie)
+        return self._ontology.object_property(self.curie_to_uri(curie))
+
+    def curie_to_annotation_property(self, curie: CURIE):
+        self._sync_prefix_mapping(curie)
+        return self._ontology.annotation_property(self.curie_to_uri(curie))
+
+    def _coerce_annotation_value(self, value: Any):
+        if isinstance(value, LITERAL_TYPES) or isinstance(value, IRI):
+            return value
+        if isinstance(value, bool):
+            return DatatypeLiteral(str(value).lower(), IRI.parse(XSD_BOOLEAN))
+        return SimpleLiteral(str(value))
 
     def _single_valued_assignment(self, curie: CURIE, property: CURIE) -> Optional[str]:
-        labels = [a.value for a in self.annotation_assertion_axioms(curie, property=property)]
-        if labels:
-            if len(labels) > 1:
-                logging.warning(f"Multiple labels for {curie} = {labels}")
-            val = labels[0]
-            rdf_v = val.to_rdf(self.functional_writer.g)
-            if isinstance(rdf_v, rdflib.Literal):
-                return rdf_v.value
-            else:
-                raise ValueError(f"Label must be literal, not {val}")
+        values = self._ontology.get_annotations(self.curie_to_uri(curie), self.curie_to_uri(property))
+        if values:
+            if len(values) > 1:
+                logger.warning("Multiple values for %s %s = %s", curie, property, values)
+            return values[0]
+        return None
 
     def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         return self._single_valued_assignment(curie, HAS_DEFINITION_CURIE)
 
-    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> str:
-        labels = [
-            a.value for a in self.annotation_assertion_axioms(curie, property=LABEL_PREDICATE)
-        ]
-        if labels:
-            if len(labels) > 1:
-                logging.warning(f"Multiple labels for {curie} = {labels}")
-            label = labels[0]
-            rdf_v = label.to_rdf(self.functional_writer.g)
-            if isinstance(rdf_v, rdflib.Literal):
-                return rdf_v.value
-            else:
-                raise ValueError(f"Label must be literal, not {label}")
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        return self._single_valued_assignment(curie, LABEL_PREDICATE)
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
-        for ax in self._ontology.axioms:
-            if isinstance(ax, Declaration):
-                uri = ax.v.full_uri(self.functional_writer.g)
-                try:
-                    yv = self.uri_to_curie(str(uri))
-                except ValueError:
-                    logging.warning(
-                        "could not compress URI %s with functional writer context %s",
-                        uri,
-                        list(self.functional_writer.g.namespaces()),
-                    )
+        for axiom in self._ontology.get_axioms():
+            component = axiom.component
+            if isinstance(component, DECLARATION_TYPES):
+                iri = self._entity_iri(component.first)
+                if iri is None:
                     continue
-                else:
-                    yield yv
+                yield self.entity_iri_to_curie(iri)
 
-    def axioms(self, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Axiom]:
-        ont = self._ontology
-        for axiom in ont.axioms:
-            yield axiom
+    def axioms(self, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Component]:
+        for axiom in self._ontology.get_axioms():
+            yield axiom.component
 
-    def set_axioms(self, axioms: List[Axiom]) -> None:
-        self._ontology.axioms = axioms
-
-    def dump(self, path: str = None, syntax: str = None, **kwargs):
-        if syntax is None or syntax == "ofn":
-            out = self.ontology_document.to_functional(self.functional_writer)
-        elif syntax == "ttl" or syntax == "turtle":
-            g = rdflib.Graph()
-            self.ontology_document.to_rdf(g)
-            out = g.serialize(format="ttl")
+    def _add_axiom(self, axiom: Component) -> None:
+        if isinstance(axiom, AnnotatedComponent):
+            self._ontology.add_axiom(axiom.component, set(axiom.ann))
         else:
-            out = str(self.ontology_document)
+            self._ontology.add_axiom(axiom)
+
+    def set_axioms(self, axioms: List[Component]) -> None:
+        for axiom in list(self._ontology.get_axioms()):
+            self._ontology.remove_axiom(axiom.component)
+        for axiom in axioms:
+            self._add_axiom(axiom)
+
+    def dump(self, path: Optional[str] = None, syntax: Optional[str] = None, **kwargs):
+        syntax = syntax or "ofn"
+        if syntax == "ofn":
+            out = self._ontology.save_to_string("ofn")
+        elif syntax in {"ttl", "turtle"}:
+            rdfxml = self._ontology.save_to_string("owl")
+            g = rdflib.Graph()
+            g.parse(data=rdfxml, format="xml")
+            out = g.serialize(format="ttl")
+        elif syntax in {"owl", "owx"}:
+            out = self._ontology.save_to_string(syntax)
+        else:
+            out = self._ontology.save_to_string(syntax)
         if path is None:
             print(out)
-        elif isinstance(path, str):
-            with open(path, "w", encoding="UTF-8") as file:
-                file.write(str(out))
+        elif isinstance(path, (str, Path)):
+            Path(path).write_text(str(out), encoding="utf-8")
         else:
             path.write(str(out))
 
@@ -143,13 +196,15 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def _set_annotation_predicate_value(self, subject: CURIE, property: CURIE, value: Any):
-        for axiom in self.annotation_assertion_axioms(subject, property):
-            self._ontology.axioms.remove(axiom)
-        self._ontology.axioms.append(
+        for axiom in list(self.annotation_assertion_axioms(subject, property)):
+                    self._ontology.remove_axiom(axiom)
+        self._ontology.add_axiom(
             AnnotationAssertion(
-                subject=self.curie_to_entity_iri(subject),
-                property=self.curie_to_entity_iri(property),
-                value=value,
+                self.curie_to_entity_iri(subject),
+                Annotation(
+                    self.curie_to_annotation_property(property),
+                    self._coerce_annotation_value(value),
+                ),
             )
         )
 
@@ -157,8 +212,9 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
         self,
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
-        metadata: Mapping[PRED_CURIE, Any] = None,
+        metadata: Optional[Mapping[PRED_CURIE, Any]] = None,
         configuration: kgcl.Configuration = None,
+        strict=False,
     ) -> Optional[kgcl.Change]:
         if isinstance(patch, kgcl.NodeChange):
             about = patch.about_node
@@ -167,11 +223,13 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             elif isinstance(patch, kgcl.NodeTextDefinitionChange):
                 self._set_annotation_predicate_value(about, HAS_DEFINITION_CURIE, patch.new_value)
             elif isinstance(patch, kgcl.NewSynonym):
-                self._ontology.axioms.append(
+                self._ontology.add_axiom(
                     AnnotationAssertion(
-                        subject=about,
-                        property=self.curie_to_entity_iri(HAS_EXACT_SYNONYM),
-                        value=patch.new_value,
+                        self.curie_to_entity_iri(about),
+                        Annotation(
+                            self.curie_to_annotation_property(HAS_EXACT_SYNONYM),
+                            self._coerce_annotation_value(patch.new_value),
+                        ),
                     )
                 )
             elif isinstance(patch, kgcl.NodeObsoletion):
@@ -191,15 +249,14 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             else:
                 raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         elif isinstance(patch, kgcl.EdgeChange):
-            about = patch.about_edge
-            subject = self.curie_to_uri(patch.subject)
-            object = self.curie_to_uri(patch.object)
+            subject = self.curie_to_class(patch.subject)
+            object = self.curie_to_class(patch.object)
             if isinstance(patch, kgcl.EdgeCreation):
                 if patch.predicate == IS_A or patch.predicate == "is_a":
-                    self._ontology.axioms.append(SubClassOf(subject, object))
+                    self._ontology.add_axiom(SubClassOf(subject, object))
                 else:
-                    predicate = self.curie_to_entity_iri(patch.predicate)
-                    self._ontology.axioms.append(
+                    predicate = self.curie_to_object_property(patch.predicate)
+                    self._ontology.add_axiom(
                         SubClassOf(subject, ObjectSomeValuesFrom(predicate, object))
                     )
             else:

@@ -17,8 +17,6 @@ __all__ = [
     "GildaImplementation",
 ]
 
-import nltk
-
 
 @dataclass
 class GildaImplementation(TextAnnotatorInterface):
@@ -47,6 +45,8 @@ class GildaImplementation(TextAnnotatorInterface):
 
     # There's some weirdness here with interaction of grounder and __init__.
     def __post_init__(self):
+        import nltk
+
         nltk.download("stopwords")
         nltk.download("punkt_tab")
         if self.grounder is None:

@@ -23,7 +23,7 @@ dependencies = [
     "appdirs>=1.4.4",
     "semsql>=0.3.1",
     "kgcl-schema>=0.6.9,<1",
-    "funowl>=0.2.0",
+    "py-horned-owl>=1.1.0",
     "kgcl-rdflib==0.5.0",
     "llm>=0.14,<1",
     "pystow>=0.7.28",

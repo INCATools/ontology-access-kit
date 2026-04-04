@@ -1,13 +1,14 @@
 import logging
 from dataclasses import dataclass
-from typing import Iterator
+from typing import Iterator, TypeAlias
 
-from funowl import Axiom
+from pyhornedowl.model import Component
 
 from oaklib import BasicOntologyInterface
 from oaklib.inference.reasoner import Reasoner
 
 logger = logging.getLogger(__name__)
+Axiom: TypeAlias = Component
 
 
 @dataclass
