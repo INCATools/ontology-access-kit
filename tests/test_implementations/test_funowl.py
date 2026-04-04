@@ -1,9 +1,8 @@
 import logging
 import unittest
 
-from funowl import EquivalentClasses, SubClassOf
-from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
+from pyhornedowl.model import EquivalentClasses, SubClassOf
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -19,7 +18,7 @@ NEW_NAME = "new name"
 
 class TestFunOwlImplementation(unittest.TestCase):
     def setUp(self) -> None:
-        resource = OntologyResource(TEST_ONT)
+        resource = OntologyResource(str(TEST_ONT))
         self.oi = FunOwlImplementation(resource)
 
     def test_entities(self):
@@ -40,7 +39,6 @@ class TestFunOwlImplementation(unittest.TestCase):
             raise NotImplementedError
 
     def test_filter_axioms(self):
-        FunctionalWriter()
         oi = self.oi
         self.assertCountEqual(
             list(oi.axioms()),
@@ -60,7 +58,7 @@ class TestFunOwlImplementation(unittest.TestCase):
         for ax in nucleus_axioms:
             if isinstance(ax, SubClassOf):
                 n_subclass += 1
-                self.assertEqual(NUCLEUS, oi.entity_iri_to_curie(ax.subClassExpression))
+                self.assertEqual(NUCLEUS, oi.entity_iri_to_curie(ax.sub.first))
         self.assertEqual(n_subclass, 3)
         self.assertGreater(len(nucleus_axioms), 2)
         nucleus_ref_axioms = list(oi.filter_axioms(AxiomFilter(references=NUCLEUS)))
