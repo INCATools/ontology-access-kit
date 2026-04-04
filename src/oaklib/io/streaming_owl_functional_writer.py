@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 import pyhornedowl
-from pyhornedowl.model import Annotation, AnnotationAssertion, AnnotationProperty, IRI, SimpleLiteral
+from pyhornedowl.model import IRI, Annotation, AnnotationAssertion, AnnotationProperty, SimpleLiteral
 
 from oaklib.datamodels.vocabulary import LABEL_PREDICATE
 from oaklib.io.streaming_writer import StreamingWriter

@@ -7,6 +7,7 @@ from typing import Any, Callable, Iterable, List, Optional, Tuple, Type, TypeAli
 
 from pyhornedowl import PyIndexedOntology, model
 from pyhornedowl.model import (
+    IRI,
     AnnotatedComponent,
     AnnotationAssertion,
     AsymmetricObjectProperty,
@@ -16,7 +17,6 @@ from pyhornedowl.model import (
     DatatypeLiteral,
     DisjointClasses,
     EquivalentClasses,
-    IRI,
     IrreflexiveObjectProperty,
     LanguageLiteral,
     ObjectAllValuesFrom,

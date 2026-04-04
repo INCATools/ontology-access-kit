@@ -8,6 +8,7 @@ import pyhornedowl
 import rdflib
 from kgcl_schema.datamodel import kgcl
 from pyhornedowl.model import (
+    IRI,
     AnnotatedComponent,
     Annotation,
     AnnotationAssertion,
@@ -19,7 +20,6 @@ from pyhornedowl.model import (
     DeclareDatatype,
     DeclareNamedIndividual,
     DeclareObjectProperty,
-    IRI,
     LanguageLiteral,
     ObjectSomeValuesFrom,
     SimpleLiteral,
@@ -104,7 +104,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             try:
                 self._ontology.add_prefix_mapping(prefix, self.prefix_map()[prefix])
             except Exception:
-                pass
+                logger.debug("Could not sync prefix mapping for %s", prefix, exc_info=True)
 
     def entity_iri_to_curie(self, entity: IRI) -> CURIE:
         return cast(CURIE, self.uri_to_curie(str(entity), use_uri_fallback=True))
