@@ -86,11 +86,64 @@ class AxiomFilter:
 @dataclass
 class OwlInterface(BasicOntologyInterface, ABC):
     """
-    presents ontology as an OWL ontology using an OWL datamodel
+    Presents an ontology as an OWL ontology using the py-horned-owl object model.
 
-    We leverage the :ref:`_funowl_datamodel`, now backed by py-horned-owl.
+    We leverage the :ref:`funowl_datamodel`, now backed by py-horned-owl.
 
-    Currently there is one implementation, the :ref:`funowl_implementation`
+    Currently there is one implementation, the :ref:`funowl_implementation`.
+
+    **Quick examples**
+
+    Load a local OWL file through the default selector logic and inspect asserted
+    OWL axioms:
+
+    .. code-block:: python
+
+       from oaklib import get_adapter
+
+       oi = get_adapter("path/to/my-ontology.owl")
+       for axiom in oi.subclass_axioms(subclass="GO:0005634"):
+           print(type(axiom).__name__, axiom)
+
+    Filter annotation assertions for a single subject:
+
+    .. code-block:: python
+
+       from oaklib import get_adapter
+
+       oi = get_adapter("path/to/my-ontology.owl")
+       labels = list(
+           oi.annotation_assertion_axioms(
+               subject="GO:0005634",
+               property="rdfs:label",
+           )
+       )
+
+    Project lightweight graph-style relationships from OWL axioms:
+
+    .. code-block:: python
+
+       from oaklib import get_adapter
+
+       oi = get_adapter("path/to/my-ontology.owl")
+       direct = list(oi.relationships(subjects=["GO:0005634"]))
+       entailed = list(
+           oi.relationships(
+               subjects=["GO:0005634"],
+               include_entailed=True,
+           )
+       )
+
+    **Reasoning status**
+
+    ``OwlInterface`` does not currently expose a pluggable OWL reasoner. For the
+    horned-owl-backed implementation, ``reasoner_configurations()`` returns an
+    empty list and ``ReasonerConfiguration`` is not accepted by axiom filtering.
+
+    Some graph-facing methods can still return a lightweight, implementation-
+    specific closure when ``include_entailed=True`` is used. Treat that as
+    projected graph closure over supported OWL patterns, not as complete OWL
+    reasoning or satisfiability checking.
 
     In future the SqlDatabase implementation will implement this, as well as:
 
@@ -131,6 +184,16 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :param superclass: if specified, constrains to axioms where this is the superclass
         :param reasoner:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           for axiom in oi.subclass_axioms(subclass="GO:0005634"):
+               print(axiom)
         """
         for axiom in self.axioms(reasoner=reasoner):
             if isinstance(axiom, SubClassOf):
@@ -153,6 +216,15 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :param references:
         :param reasoner:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           eq_axioms = list(oi.equivalence_axioms(about="GO:0031965"))
         """
         return self.filter_axioms(
             reasoner=reasoner,
@@ -169,6 +241,20 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :param property:
         :param value:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           labels = list(
+               oi.annotation_assertion_axioms(
+                   subject="GO:0005634",
+                   property="rdfs:label",
+               )
+           )
         """
         for axiom in self.axioms():
             if isinstance(axiom, AnnotationAssertion):
@@ -225,6 +311,15 @@ class OwlInterface(BasicOntologyInterface, ABC):
         Lists all available reasoner configurations
 
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           configs = oi.reasoner_configurations()
         """
         return []
 
@@ -354,6 +449,15 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
         :param property:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           characteristics = list(oi.property_characteristics("BFO:0000050"))
         """
         pc_tuples = [
             (TransitiveObjectProperty, OWL_TRANSITIVE_PROPERTY),
@@ -377,6 +481,15 @@ class OwlInterface(BasicOntologyInterface, ABC):
         Gets all transitive object properties
 
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           transitive_properties = list(oi.transitive_object_properties())
         """
         for axiom in self.axioms():
             if isinstance(axiom, TransitiveObjectProperty):
@@ -389,6 +502,16 @@ class OwlInterface(BasicOntologyInterface, ABC):
         Gets all property chains with a named super-property.
 
         :return:
+
+        Example
+        -------
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           chains = list(oi.simple_subproperty_of_chains())
         """
         for axiom in self.axioms():
             if isinstance(axiom, SubObjectPropertyOf) and isinstance(axiom.sub, list):

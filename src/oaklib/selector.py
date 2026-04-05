@@ -342,11 +342,7 @@ def get_resource_imp_class_from_suffix_descriptor(
     elif suffix in RDF_SUFFIX_TO_FORMAT:
         impl_class = SparqlImplementation
         resource.format = RDF_SUFFIX_TO_FORMAT[suffix]
-    elif suffix == "owl":
-        impl_class = SparqlImplementation
-        resource.format = "xml"
-        logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
-    elif suffix == "ofn":
+    elif suffix in {"owl", "ofn", "omn", "owx"}:
         impl_class = FunOwlImplementation
     elif suffix == "json":
         impl_class = OboGraphImplementation

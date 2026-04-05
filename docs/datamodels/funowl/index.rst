@@ -3,8 +3,11 @@
 FunOwl
 =======
 
-FunOwl is a :term:`Datamodel` for expressing :term:`OWL`.
+``funowl`` is the historical name used in OAK for the OWL datamodel-facing
+adapter and documentation surface.
 
-FunOwl provides an OWL :term:`Axiom`-oriented datamodel, contrasting from a more :term:`Graph`-oriented data model
+The implementation is now backed by
+`py-horned-owl <https://github.com/ontology-tools/py-horned-owl>`_, which
+provides the OWL axiom-oriented object model used by :class:`OwlInterface`.
 
-See `FunOWL docs <https://github.com/hsolbrig/funowl>`_.
+This contrasts with OAK's more :term:`Graph`-oriented interfaces.
