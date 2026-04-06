@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://example.org/"
+     xml:base="http://example.org/"
+     xmlns:ex="http://example.org/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://example.org/"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/P -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/P">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/A -->
+
+    <owl:Class rdf:about="http://example.org/A">
+        <rdfs:subClassOf rdf:resource="http://example.org/B"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/B -->
+
+    <owl:Class rdf:about="http://example.org/B">
+        <owl:equivalentClass rdf:resource="http://example.org/CTestEquiv"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/CTestSome"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/CTestOnly"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:hasValue rdf:resource="http://example.org/ITestValue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://example.org/CTestExactly0"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://example.org/CTestExactly0"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://example.org/CTestExactly1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/CTestEquiv -->
+
+    <owl:Class rdf:about="http://example.org/CTestEquiv"/>
+    
+
+
+    <!-- http://example.org/CTestExactly0 -->
+
+    <owl:Class rdf:about="http://example.org/CTestExactly0"/>
+    
+
+
+    <!-- http://example.org/CTestExactly1 -->
+
+    <owl:Class rdf:about="http://example.org/CTestExactly1"/>
+    
+
+
+    <!-- http://example.org/CTestOnly -->
+
+    <owl:Class rdf:about="http://example.org/CTestOnly"/>
+    
+
+
+    <!-- http://example.org/CTestSome -->
+
+    <owl:Class rdf:about="http://example.org/CTestSome"/>
+    
+
+
+    <!-- http://example.org/CTestType -->
+
+    <owl:Class rdf:about="http://example.org/CTestType"/>
+    
+
+
+    <!-- http://example.org/CTestTypeSome -->
+
+    <owl:Class rdf:about="http://example.org/CTestTypeSome"/>
+    
+
+
+    <!-- http://example.org/I2C -->
+
+    <owl:Class rdf:about="http://example.org/I2C"/>
+    
+
+
+    <!-- http://example.org/ITestValueC -->
+
+    <owl:Class rdf:about="http://example.org/ITestValueC"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/I -->
+
+    <owl:NamedIndividual rdf:about="http://example.org/I">
+        <rdf:type rdf:resource="http://example.org/A"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.org/I2 -->
+
+    <owl:NamedIndividual rdf:about="http://example.org/I2">
+        <rdf:type rdf:resource="http://example.org/I2C"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.org/ITestValue -->
+
+    <owl:NamedIndividual rdf:about="http://example.org/ITestValue">
+        <rdf:type rdf:resource="http://example.org/ITestValueC"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.org/J -->
+
+    <owl:NamedIndividual rdf:about="http://example.org/J">
+        <rdf:type rdf:resource="http://example.org/CTestType"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/CTestTypeSome"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/P"/>
+                <owl:hasValue rdf:resource="http://example.org/ITestValue"/>
+            </owl:Restriction>
+        </rdf:type>
+        <P rdf:resource="http://example.org/I2"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29) https://github.com/owlcs/owlapi -->
+
