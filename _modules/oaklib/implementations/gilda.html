@@ -103,8 +103,6 @@
     <span class="s2">&quot;GildaImplementation&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
-
 
 <div class="viewcode-block" id="GildaImplementation">
 <a class="viewcode-back" href="../../../packages/implementations/gilda.html#oaklib.implementations.gilda.GildaImplementation">[docs]</a>
@@ -135,6 +133,8 @@
 
     <span class="c1"># There&#39;s some weirdness here with interaction of grounder and __init__.</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+
         <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
         <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt_tab&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grounder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

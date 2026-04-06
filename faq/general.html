@@ -248,7 +248,9 @@ SubClassOf, SomeValuesFrom, Annotations).</p>
 <p>There are a variety of ways of consuming OWL in OAK</p>
 <ul class="simple">
 <li><p>The recommended way is to use <a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a>, which works off of RDF/OWL compiled to sqlite3</p></li>
-<li><p>You can also use <a class="reference internal" href="../packages/implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a>, but this requires the ontology is in <a class="reference internal" href="../glossary.html#term-Functional-Syntax"><span class="xref std std-term">Functional Syntax</span></a></p></li>
+<li><p>You can also use <a class="reference internal" href="../packages/implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a>; the selector name is historical,
+but the adapter is now backed by <code class="docutils literal notranslate"><span class="pre">py-horned-owl</span></code> and is the default for local
+<code class="docutils literal notranslate"><span class="pre">.owl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ofn</span></code>, <code class="docutils literal notranslate"><span class="pre">.omn</span></code>, and <code class="docutils literal notranslate"><span class="pre">.owx</span></code> paths</p></li>
 <li><p>You can use a local or remote OWL ontologies serialized as RDF via the <span class="xref std std-ref">sparql_implementation</span></p></li>
 <li><p>Using a tool like <span class="xref std std-ref">ROBOT</span> to convert an OWL ontology to a serialization like <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a></p></li>
 </ul>

@@ -146,7 +146,10 @@ to simplify things for you the user, please be patient!</p>
 <ul class="simple">
 <li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.obo</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.json</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> json format file loaded with pronto</p></li>
-<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.owl</span></code> - local OWL rdf/xml format file (loaded with rdflib at the moment, may change)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.owl</span></code> - local OWL file loaded with the horned-owl-backed <a class="reference internal" href="implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.ofn</span></code> - local <a class="reference internal" href="../glossary.html#term-Functional-Syntax"><span class="xref std std-term">Functional Syntax</span></a> OWL file loaded with the horned-owl-backed <a class="reference internal" href="implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.omn</span></code> - local Manchester OWL file loaded with the horned-owl-backed <a class="reference internal" href="implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.owx</span></code> - local OWL/XML file loaded with the horned-owl-backed <a class="reference internal" href="implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a></p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.owl.ttl</span></code> - local OWL <span class="xref std std-term">Turtle</span> file (loaded with rdflib at the moment, may change)</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.db</span></code> - local sqlite3 db loaded with SqlImplementation</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">http://purl.obolibrary.org/obo/pato.obo</span></code> - NOT IMPLEMENTED; download locally for now</p></li>
@@ -159,6 +162,8 @@ to simplify things for you the user, please be patient!</p>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.obo</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.json</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> json format file loaded with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.owl</span></code> - local OWL rdf/xml format file (loaded with pronto at the moment may change)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">funowl:tests/input/go-nucleus.owl</span></code> - local OWL file loaded with the horned-owl-backed OWL object model</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">funowl:tests/input/go-nucleus.ofn</span></code> - local <a class="reference internal" href="../glossary.html#term-Functional-Syntax"><span class="xref std std-term">Functional Syntax</span></a> OWL file loaded with the horned-owl-backed OWL object model</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.db</span></code> - local sqlite3 db loaded with SqlImplementation</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">prontolib:pato.obo</span></code> - remote <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded from OBO Library with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">prontolib:pato.owl</span></code> - remote owl format file loaded from OBO Library with pronto</p></li>
@@ -217,7 +222,11 @@ to simplify things for you the user, please be patient!</p>
 <section id="funowl">
 <h3>funowl<a class="headerlink" href="#funowl" title="Link to this heading"></a></h3>
 <p>Implementation: <a class="reference internal" href="implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a></p>
-<p>NOT IMPLEMENTED YET</p>
+<p>This selector name is retained for backward compatibility. The implementation is
+now backed by <code class="docutils literal notranslate"><span class="pre">py-horned-owl</span></code> while continuing to accept <code class="docutils literal notranslate"><span class="pre">funowl:...</span></code>
+selectors. Plain local paths ending in <code class="docutils literal notranslate"><span class="pre">.owl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ofn</span></code>, <code class="docutils literal notranslate"><span class="pre">.omn</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">.owx</span></code> also resolve to this implementation by default; use an explicit scheme
+such as <code class="docutils literal notranslate"><span class="pre">sqlite:</span></code> or <code class="docutils literal notranslate"><span class="pre">sparql:</span></code> to force a different backend.</p>
 </section>
 </section>
 <section id="functions">

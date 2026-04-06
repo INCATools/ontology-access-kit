@@ -57,7 +57,13 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 6: Working With OWL</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#owl-datamodel">OWL Datamodel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#owlinterface">OwlInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#owlinterface">OwlInterface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#loading-a-local-owl-file">Loading a local OWL file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inspecting-asserted-owl-axioms">Inspecting asserted OWL axioms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#projected-graph-operations">Projected graph operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reasoning-status">Reasoning status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#robot-plugin">ROBOT Plugin</a></li>
 </ul>
 </li>
@@ -102,14 +108,101 @@
              
   <section id="part-6-working-with-owl">
 <h1>Part 6: Working With OWL<a class="headerlink" href="#part-6-working-with-owl" title="Link to this heading"></a></h1>
-<p>OAK comes bundled with the <a class="reference external" href="https://github.com/hsolbrig/funowl/">funowl</a> library</p>
+<p>OAK exposes an experimental <code class="docutils literal notranslate"><span class="pre">funowl</span></code> adapter for local OWL files.
+The selector name is historical; the adapter is now backed by
+<a class="reference external" href="https://github.com/ontology-tools/py-horned-owl">py-horned-owl</a>.
+Plain local <code class="docutils literal notranslate"><span class="pre">.owl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ofn</span></code>, <code class="docutils literal notranslate"><span class="pre">.omn</span></code>, and <code class="docutils literal notranslate"><span class="pre">.owx</span></code> paths default to this
+adapter; explicit schemes such as <code class="docutils literal notranslate"><span class="pre">sqlite:foo.owl</span></code> still override that
+default.</p>
 <section id="owl-datamodel">
 <h2>OWL Datamodel<a class="headerlink" href="#owl-datamodel" title="Link to this heading"></a></h2>
 <p>See <a class="reference internal" href="../packages/selectors.html#funowl"><span class="std std-ref">funowl</span></a></p>
 </section>
 <section id="owlinterface">
 <h2>OwlInterface<a class="headerlink" href="#owlinterface" title="Link to this heading"></a></h2>
-<p>TODO</p>
+<p><code class="docutils literal notranslate"><span class="pre">OwlInterface</span></code> is the low-level OAK view for working with OWL axioms and OWL-
+specific structures directly.</p>
+<section id="loading-a-local-owl-file">
+<h3>Loading a local OWL file<a class="headerlink" href="#loading-a-local-owl-file" title="Link to this heading"></a></h3>
+<p>For local files, plain <code class="docutils literal notranslate"><span class="pre">.owl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ofn</span></code>, <code class="docutils literal notranslate"><span class="pre">.omn</span></code>, and <code class="docutils literal notranslate"><span class="pre">.owx</span></code> paths now
+default to the horned-owl-backed OWL adapter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+
+<span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;path/to/my-ontology.owl&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">oi</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want a different backend, be explicit in the selector:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sqlite_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:path/to/my-ontology.owl&quot;</span><span class="p">)</span>
+<span class="n">sparql_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sparql:path/to/my-ontology.owl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="inspecting-asserted-owl-axioms">
+<h3>Inspecting asserted OWL axioms<a class="headerlink" href="#inspecting-asserted-owl-axioms" title="Link to this heading"></a></h3>
+<p>You can iterate over raw axioms, or use helpers for common axiom types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+
+<span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;path/to/my-ontology.owl&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">subclass_axioms</span><span class="p">(</span><span class="n">subclass</span><span class="o">=</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">axiom</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">axiom</span><span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+    <span class="n">oi</span><span class="o">.</span><span class="n">annotation_assertion_axioms</span><span class="p">(</span>
+        <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">,</span>
+        <span class="nb">property</span><span class="o">=</span><span class="s2">&quot;rdfs:label&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">eq_axioms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">equivalence_axioms</span><span class="p">(</span><span class="n">about</span><span class="o">=</span><span class="s2">&quot;GO:0031965&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If you need the underlying horned-owl ontology object, use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ontology</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">owl_ontology</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ontology</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="projected-graph-operations">
+<h3>Projected graph operations<a class="headerlink" href="#projected-graph-operations" title="Link to this heading"></a></h3>
+<p>The horned-owl adapter also projects a graph view from supported OWL patterns,
+so graph-oriented APIs can often be used alongside axiom APIs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+
+<span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;path/to/my-ontology.owl&quot;</span><span class="p">)</span>
+
+<span class="n">direct</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">]))</span>
+<span class="n">entailed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+    <span class="n">oi</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span>
+        <span class="n">subjects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">],</span>
+        <span class="n">include_entailed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">ancestors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rdfs:subClassOf&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>Logical definitions are exposed in OBO Graph form:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ldefs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">logical_definitions</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GO:0031965&quot;</span><span class="p">]))</span>
+<span class="k">for</span> <span class="n">ldef</span> <span class="ow">in</span> <span class="n">ldefs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ldef</span><span class="o">.</span><span class="n">definedClassId</span><span class="p">,</span> <span class="n">ldef</span><span class="o">.</span><span class="n">genusIds</span><span class="p">,</span> <span class="n">ldef</span><span class="o">.</span><span class="n">restrictions</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="reasoning-status">
+<h3>Reasoning status<a class="headerlink" href="#reasoning-status" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">OwlInterface</span></code> does not currently provide a pluggable OWL reasoner. In the
+current horned-owl-backed implementation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reasoner_configurations()</span></code> returns an empty list</p></li>
+<li><p>axiom filtering does not accept a <code class="docutils literal notranslate"><span class="pre">ReasonerConfiguration</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include_entailed=True</span></code> on graph methods gives a lightweight projected
+closure over supported OWL patterns, not full OWL reasoning</p></li>
+</ul>
+<p>For precomputed closure and broader graph-style querying, the recommended
+production path remains the <a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a>. For external OWL
+reasoners, see the ROBOT plugin below.</p>
+</section>
 </section>
 <section id="robot-plugin">
 <h2>ROBOT Plugin<a class="headerlink" href="#robot-plugin" title="Link to this heading"></a></h2>

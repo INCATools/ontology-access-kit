@@ -89,35 +89,34 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="c1"># TODO: add funowl to dependencies</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">funowl</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">funowl</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyhornedowl</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyIndexedOntology</span><span class="p">,</span> <span class="n">model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyhornedowl.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">IRI</span><span class="p">,</span>
+    <span class="n">AnnotatedComponent</span><span class="p">,</span>
     <span class="n">AnnotationAssertion</span><span class="p">,</span>
     <span class="n">AsymmetricObjectProperty</span><span class="p">,</span>
-    <span class="n">Axiom</span><span class="p">,</span>
     <span class="n">Class</span><span class="p">,</span>
     <span class="n">ClassExpression</span><span class="p">,</span>
+    <span class="n">Component</span><span class="p">,</span>
+    <span class="n">DatatypeLiteral</span><span class="p">,</span>
     <span class="n">DisjointClasses</span><span class="p">,</span>
     <span class="n">EquivalentClasses</span><span class="p">,</span>
     <span class="n">IrreflexiveObjectProperty</span><span class="p">,</span>
-    <span class="n">Literal</span><span class="p">,</span>
+    <span class="n">LanguageLiteral</span><span class="p">,</span>
     <span class="n">ObjectAllValuesFrom</span><span class="p">,</span>
     <span class="n">ObjectIntersectionOf</span><span class="p">,</span>
-    <span class="n">ObjectPropertyChain</span><span class="p">,</span>
     <span class="n">ObjectPropertyExpression</span><span class="p">,</span>
     <span class="n">ObjectSomeValuesFrom</span><span class="p">,</span>
     <span class="n">ObjectUnionOf</span><span class="p">,</span>
-    <span class="n">Ontology</span><span class="p">,</span>
     <span class="n">ReflexiveObjectProperty</span><span class="p">,</span>
+    <span class="n">SimpleLiteral</span><span class="p">,</span>
     <span class="n">SubClassOf</span><span class="p">,</span>
     <span class="n">SubObjectPropertyOf</span><span class="p">,</span>
     <span class="n">SymmetricObjectProperty</span><span class="p">,</span>
     <span class="n">TransitiveObjectProperty</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">funowl.writers</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionalWriter</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">OWL_ASYMMETRIC_PROPERTY</span><span class="p">,</span>
@@ -128,6 +127,10 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span>
+
+<span class="n">Axiom</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Component</span>
+<span class="n">Ontology</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">PyIndexedOntology</span>
+<span class="n">LITERAL_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">SimpleLiteral</span><span class="p">,</span> <span class="n">DatatypeLiteral</span><span class="p">,</span> <span class="n">LanguageLiteral</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">OwlProfile</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -140,22 +143,22 @@
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ReasonerConfiguration</span><span class="p">:</span>
-    <span class="n">reasoner</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">reasoner_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">implements_profiles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OwlProfile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">reasoner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">reasoner_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">implements_profiles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">OwlProfile</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AxiomFilter</span><span class="p">:</span>
-    <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Axiom</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">about</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">references</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">ontologies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axiom_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">Axiom</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axiom_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">funowl</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">axiom_type</span><span class="p">]</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">axiom_type</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -171,11 +174,64 @@
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">OwlInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    presents ontology as an OWL ontology using an OWL datamodel</span>
+<span class="sd">    Presents an ontology as an OWL ontology using the py-horned-owl object model.</span>
 
-<span class="sd">    We leverage the :ref:`_funowl_datamodel`</span>
+<span class="sd">    We leverage the :ref:`funowl_datamodel`, now backed by py-horned-owl.</span>
 
-<span class="sd">    Currently there is one implementation, the :ref:`funowl_implementation`</span>
+<span class="sd">    Currently there is one implementation, the :ref:`funowl_implementation`.</span>
+
+<span class="sd">    **Quick examples**</span>
+
+<span class="sd">    Load a local OWL file through the default selector logic and inspect asserted</span>
+<span class="sd">    OWL axioms:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">       from oaklib import get_adapter</span>
+
+<span class="sd">       oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">       for axiom in oi.subclass_axioms(subclass=&quot;GO:0005634&quot;):</span>
+<span class="sd">           print(type(axiom).__name__, axiom)</span>
+
+<span class="sd">    Filter annotation assertions for a single subject:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">       from oaklib import get_adapter</span>
+
+<span class="sd">       oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">       labels = list(</span>
+<span class="sd">           oi.annotation_assertion_axioms(</span>
+<span class="sd">               subject=&quot;GO:0005634&quot;,</span>
+<span class="sd">               property=&quot;rdfs:label&quot;,</span>
+<span class="sd">           )</span>
+<span class="sd">       )</span>
+
+<span class="sd">    Project lightweight graph-style relationships from OWL axioms:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">       from oaklib import get_adapter</span>
+
+<span class="sd">       oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">       direct = list(oi.relationships(subjects=[&quot;GO:0005634&quot;]))</span>
+<span class="sd">       entailed = list(</span>
+<span class="sd">           oi.relationships(</span>
+<span class="sd">               subjects=[&quot;GO:0005634&quot;],</span>
+<span class="sd">               include_entailed=True,</span>
+<span class="sd">           )</span>
+<span class="sd">       )</span>
+
+<span class="sd">    **Reasoning status**</span>
+
+<span class="sd">    ``OwlInterface`` does not currently expose a pluggable OWL reasoner. For the</span>
+<span class="sd">    horned-owl-backed implementation, ``reasoner_configurations()`` returns an</span>
+<span class="sd">    empty list and ``ReasonerConfiguration`` is not accepted by axiom filtering.</span>
+
+<span class="sd">    Some graph-facing methods can still return a lightweight, implementation-</span>
+<span class="sd">    specific closure when ``include_entailed=True`` is used. Treat that as</span>
+<span class="sd">    projected graph closure over supported OWL patterns, not as complete OWL</span>
+<span class="sd">    reasoning or satisfiability checking.</span>
 
 <span class="sd">    In future the SqlDatabase implementation will implement this, as well as:</span>
 
@@ -183,7 +239,7 @@
 <span class="sd">    - robot/owlapi via py4j</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">functional_writer</span><span class="p">:</span> <span class="n">FunctionalWriter</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">functional_writer</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">owl_ontology</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Ontology</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
@@ -207,8 +263,8 @@
 <a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">subclass_axioms</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">subclass</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">superclass</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">subclass</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">superclass</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reasoner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ReasonerConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SubClassOf</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -218,23 +274,23 @@
 <span class="sd">        :param superclass: if specified, constrains to axioms where this is the superclass</span>
 <span class="sd">        :param reasoner:</span>
 <span class="sd">        :return:</span>
+
+<span class="sd">        **Example**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           from oaklib import get_adapter</span>
+
+<span class="sd">           oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">           for axiom in oi.subclass_axioms(subclass=&quot;GO:0005634&quot;):</span>
+<span class="sd">               print(axiom)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">(</span><span class="n">reasoner</span><span class="o">=</span><span class="n">reasoner</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">SubClassOf</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">subclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">m</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subClassExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subClassExpression</span><span class="p">,</span> <span class="n">subclass</span><span class="p">):</span>
-                            <span class="n">m</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                <span class="k">if</span> <span class="n">superclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">m</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">superClassExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">superClassExpression</span><span class="p">,</span> <span class="n">subclass</span><span class="p">):</span>
-                            <span class="n">m</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
-                        <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">subclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="n">subclass</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">superclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">sup</span><span class="p">,</span> <span class="n">superclass</span><span class="p">):</span>
+                    <span class="k">continue</span>
                 <span class="k">yield</span> <span class="n">axiom</span></div>
 
 
@@ -242,8 +298,8 @@
 <a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">equivalence_axioms</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">about</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">references</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">about</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">references</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reasoner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ReasonerConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">EquivalentClasses</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -253,6 +309,15 @@
 <span class="sd">        :param references:</span>
 <span class="sd">        :param reasoner:</span>
 <span class="sd">        :return:</span>
+
+<span class="sd">        **Example**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           from oaklib import get_adapter</span>
+
+<span class="sd">           oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">           eq_axioms = list(oi.equivalence_axioms(about=&quot;GO:0031965&quot;))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_axioms</span><span class="p">(</span>
             <span class="n">reasoner</span><span class="o">=</span><span class="n">reasoner</span><span class="p">,</span>
@@ -263,7 +328,7 @@
 <div class="viewcode-block" id="OwlInterface.annotation_assertion_axioms">
 <a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">annotation_assertion_axioms</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">property</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">property</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">AnnotationAssertion</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Filters all matching annotation axioms</span>
@@ -272,25 +337,37 @@
 <span class="sd">        :param property:</span>
 <span class="sd">        :param value:</span>
 <span class="sd">        :return:</span>
+
+<span class="sd">        **Example**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           from oaklib import get_adapter</span>
+
+<span class="sd">           oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">           labels = list(</span>
+<span class="sd">               oi.annotation_assertion_axioms(</span>
+<span class="sd">                   subject=&quot;GO:0005634&quot;,</span>
+<span class="sd">                   property=&quot;rdfs:label&quot;,</span>
+<span class="sd">               )</span>
+<span class="sd">           )</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
-            <span class="c1"># TODO: use indexing to speed this up</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">AnnotationAssertion</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">subject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">subject</span><span class="p">):</span>
-                        <span class="k">continue</span>
-                <span class="k">if</span> <span class="nb">property</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">property</span><span class="p">,</span> <span class="nb">property</span><span class="p">):</span>
-                        <span class="k">continue</span>
-                <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-                        <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">subject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">subject</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="nb">property</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">ann</span><span class="o">.</span><span class="n">ap</span><span class="p">,</span> <span class="nb">property</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">ann</span><span class="o">.</span><span class="n">av</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                    <span class="k">continue</span>
                 <span class="k">yield</span> <span class="n">axiom</span></div>
 
 
 <div class="viewcode-block" id="OwlInterface.disjoint_pairs">
 <a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.disjoint_pairs">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">disjoint_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">disjoint_pairs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets all disjoint pairs of entities</span>
 
@@ -299,10 +376,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">DisjointClasses</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">classExpressions</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">classExpressions</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-                        <span class="k">if</span> <span class="ow">not</span> <span class="n">subjects</span> <span class="ow">or</span> <span class="p">(</span><span class="n">c1</span> <span class="ow">in</span> <span class="n">subjects</span> <span class="ow">or</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">):</span>
-                            <span class="k">yield</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span></div>
+                <span class="k">for</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">subjects</span> <span class="ow">or</span> <span class="p">(</span><span class="n">c1</span> <span class="ow">in</span> <span class="n">subjects</span> <span class="ow">or</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">):</span>
+                        <span class="k">yield</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span></div>
 
 
 <div class="viewcode-block" id="OwlInterface.is_disjoint">
@@ -343,6 +419,15 @@
 <span class="sd">        Lists all available reasoner configurations</span>
 
 <span class="sd">        :return:</span>
+
+<span class="sd">        **Example**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           from oaklib import get_adapter</span>
+
+<span class="sd">           oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">           configs = oi.reasoner_configurations()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
@@ -350,13 +435,35 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">entity_iri_to_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">IRI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CURIE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_entity_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_axiom_component</span><span class="p">(</span><span class="n">axiom</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Axiom</span><span class="p">,</span> <span class="n">AnnotatedComponent</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Axiom</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">AnnotatedComponent</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">axiom</span><span class="o">.</span><span class="n">component</span>
+        <span class="k">return</span> <span class="n">axiom</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_entity_iri</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IRI</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">curie</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">Literal</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">curie</span> <span class="o">==</span> <span class="n">entity</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">entity</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">first</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_literal_value</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">LITERAL_TYPES</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">entity</span><span class="o">.</span><span class="n">literal</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_entity_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+        <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_iri</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iri</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">curie</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span>
+        <span class="n">literal_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_literal_value</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">literal_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">curie</span> <span class="o">==</span> <span class="n">literal_value</span> <span class="ow">or</span> <span class="n">curie</span> <span class="o">==</span> <span class="n">entity</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_axiom_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axiom</span><span class="p">:</span> <span class="n">Axiom</span><span class="p">,</span> <span class="n">conditions</span><span class="p">:</span> <span class="n">AxiomFilter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">conditions</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -390,14 +497,13 @@
 <span class="sd">        :return: entity IRI iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">SubClassOf</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_is_about</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subClassExpression</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_is_about</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">sub</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">e</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">EquivalentClasses</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axiom</span><span class="o">.</span><span class="n">classExpressions</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axiom</span><span class="o">.</span><span class="n">first</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_is_about</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">e</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># TODO: all axiom types</span>
             <span class="k">pass</span></div>
 
 
@@ -412,44 +518,38 @@
 <span class="sd">        :return: entity IRI iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">SubClassOf</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subClassExpression</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">sub</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">e</span>
-            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">superClassExpression</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">sup</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">e</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">EquivalentClasses</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">DisjointClasses</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axiom</span><span class="o">.</span><span class="n">classExpressions</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axiom</span><span class="o">.</span><span class="n">first</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">e</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># TODO: all axiom types</span>
             <span class="k">pass</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_expression_references</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ClassExpression</span><span class="p">,</span> <span class="n">ObjectPropertyExpression</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">IRI</span><span class="p">]:</span>
-        <span class="c1"># TODO: generalize signature</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-            <span class="c1"># https://github.com/hsolbrig/funowl/issues/19</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">full_uri</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">functional_writer</span><span class="o">.</span><span class="n">g</span><span class="p">):</span>
-                    <span class="k">yield</span> <span class="n">ex</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="k">pass</span>
+        <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_iri</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iri</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">iri</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ObjectIntersectionOf</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ObjectUnionOf</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex</span><span class="o">.</span><span class="n">classExpressions</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex</span><span class="o">.</span><span class="n">first</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">r</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ObjectSomeValuesFrom</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ObjectAllValuesFrom</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">ope</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">x</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">classExpression</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_references</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">bce</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">x</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_expression_is_about</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span> <span class="n">ClassExpression</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">IRI</span><span class="p">]:</span>
-        <span class="c1"># TODO: generalize signature</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">ex</span>
+        <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_iri</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iri</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">iri</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_axiom_references_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axiom</span><span class="p">:</span> <span class="n">Axiom</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axiom_references</span><span class="p">(</span><span class="n">axiom</span><span class="p">):</span>
@@ -466,6 +566,15 @@
 
 <span class="sd">        :param property:</span>
 <span class="sd">        :return:</span>
+
+<span class="sd">        **Example**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           from oaklib import get_adapter</span>
+
+<span class="sd">           oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">           characteristics = list(oi.property_characteristics(&quot;BFO:0000050&quot;))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pc_tuples</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">(</span><span class="n">TransitiveObjectProperty</span><span class="p">,</span> <span class="n">OWL_TRANSITIVE_PROPERTY</span><span class="p">),</span>
@@ -477,11 +586,12 @@
         <span class="n">pcs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">pc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pc</span> <span class="ow">in</span> <span class="n">pc_tuples</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">pcs</span><span class="p">):</span>
+                <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_iri</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">iri</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="k">for</span> <span class="n">pc</span><span class="p">,</span> <span class="n">pc_curie</span> <span class="ow">in</span> <span class="n">pc_tuples</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">pc</span><span class="p">):</span>
-                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">)</span> <span class="o">==</span> <span class="nb">property</span><span class="p">:</span>
-                                <span class="k">yield</span> <span class="n">pc_curie</span></div>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">pc</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span> <span class="o">==</span> <span class="nb">property</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">pc_curie</span></div>
 
 
 <div class="viewcode-block" id="OwlInterface.transitive_object_properties">
@@ -491,29 +601,50 @@
 <span class="sd">        Gets all transitive object properties</span>
 
 <span class="sd">        :return:</span>
+
+<span class="sd">        **Example**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           from oaklib import get_adapter</span>
+
+<span class="sd">           oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">           transitive_properties = list(oi.transitive_object_properties())</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">TransitiveObjectProperty</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-                    <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">)</span></div>
+                <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_iri</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">iri</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="OwlInterface.simple_subproperty_of_chains">
 <a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.simple_subproperty_of_chains">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">simple_subproperty_of_chains</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets all property chains of where the super property is a chain of IRIs</span>
+<span class="sd">        Gets all property chains with a named super-property.</span>
 
 <span class="sd">        :return:</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           from oaklib import get_adapter</span>
+
+<span class="sd">           oi = get_adapter(&quot;path/to/my-ontology.owl&quot;)</span>
+<span class="sd">           chains = list(oi.simple_subproperty_of_chains())</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">SubObjectPropertyOf</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">superObjectPropertyExpression</span><span class="p">,</span> <span class="n">ObjectPropertyChain</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subObjectPropertyExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
-                        <span class="n">chain_exprs</span> <span class="o">=</span> <span class="n">axiom</span><span class="o">.</span><span class="n">superObjectPropertyExpression</span><span class="o">.</span><span class="n">objectPropertyExpressions</span>
-                        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">IRI</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chain_exprs</span><span class="p">):</span>
-                            <span class="n">chain</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chain_exprs</span><span class="p">]</span>
-                            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subObjectPropertyExpression</span><span class="p">),</span> <span class="n">chain</span></div>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">SubObjectPropertyOf</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">super_iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_iri</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">sup</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">super_iri</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">chain_iris</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_entity_iri</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">axiom</span><span class="o">.</span><span class="n">sub</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">iri</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">iri</span> <span class="ow">in</span> <span class="n">chain_iris</span><span class="p">):</span>
+                    <span class="n">chain</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span> <span class="k">for</span> <span class="n">iri</span> <span class="ow">in</span> <span class="n">chain_iris</span><span class="p">]</span>
+                    <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">super_iri</span><span class="p">),</span> <span class="n">chain</span></div>
 </div>
 
 </pre></div>
