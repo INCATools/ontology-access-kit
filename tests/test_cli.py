@@ -4,7 +4,10 @@ import logging
 import re
 import subprocess
 import sys
+import tempfile
 import unittest
+from pathlib import Path
+from shutil import copyfile
 from typing import Optional
 
 import rdflib
@@ -99,6 +102,18 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("subset", out)
         self.assertIn("validate", out)
         self.assertEqual(0, result.exit_code)
+
+    def test_input_type_and_sniff_for_functional_owl_suffix(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            disguised_path = Path(tmpdir) / "go-nucleus-functional.owl"
+            copyfile(TEST_OWL_OFN, disguised_path)
+            for args in (
+                ["-I", "ofn", "-i", str(disguised_path), "labels", NUCLEUS],
+                ["-i", str(disguised_path), "labels", NUCLEUS],
+            ):
+                result = self.runner.invoke(main, args)
+                self.assertEqual(0, result.exit_code, result.output)
+                self.assertIn("nucleus", result.stdout)
 
     def test_multilingual(self):
         for input_arg in [INPUT_DIR / "hp-international-test.db"]:

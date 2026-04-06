@@ -70,6 +70,25 @@ from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import logical_definition_matches
 
 logger = logging.getLogger(__name__)
+SERIALIZATION_ALIASES = {
+    "functional": "ofn",
+    "functional-owl": "ofn",
+    "functional-syntax": "ofn",
+    "funowl": "ofn",
+    "manchester": "ofn",
+    "omn": "ofn",
+    "ofn": "ofn",
+    "owl": "owl",
+    "owl-xml": "owx",
+    "owl/xml": "owx",
+    "owlxml": "owx",
+    "owx": "owx",
+    "rdf": "rdf",
+    "rdf-xml": "rdf",
+    "rdf/xml": "rdf",
+    "rdfxml": "rdf",
+    "xml": "rdf",
+}
 DECLARATION_TYPES = (
     DeclareClass,
     DeclareObjectProperty,
@@ -152,13 +171,55 @@ class FunOwlImplementation(
             else:
                 local_path = Path(local_path)
                 logger.info("Loading %s into py-horned-owl", local_path)
-                doc = pyhornedowl.open_ontology_from_file(str(local_path))
-                if local_path.suffix in {".ofn", ".omn"}:
+                serialization = self._serialization_for_path(local_path)
+                if resource is not None and serialization is not None:
+                    resource.format = serialization
+                doc = pyhornedowl.open_ontology_from_file(
+                    str(local_path), serialization=serialization
+                )
+                if serialization == "ofn":
                     self.prefix_map().update(self._extract_prefix_declarations(local_path))
                 else:
                     self.prefix_map().update(self._extract_prefixes_from_rdf(local_path))
             self.ontology_document = doc
         self.functional_writer = self.ontology_document
+
+    def _serialization_for_path(self, path: Path) -> Optional[str]:
+        explicit_format = None if self.resource is None else self.resource.format
+        serialization = self._normalize_serialization(explicit_format)
+        if serialization is not None:
+            return serialization
+        return self._sniff_serialization(path)
+
+    @staticmethod
+    def _normalize_serialization(format_name: Optional[str]) -> Optional[str]:
+        if format_name is None:
+            return None
+        key = format_name.strip().lower().replace("_", "-").replace(" ", "-")
+        return SERIALIZATION_ALIASES.get(key, key)
+
+    @staticmethod
+    def _sniff_serialization(path: Path) -> Optional[str]:
+        suffix = path.suffix.lower()
+        if suffix in {".ofn", ".omn"}:
+            return "ofn"
+        if suffix == ".owx":
+            return "owx"
+        if suffix not in {".owl", ".rdf", ".xml"}:
+            return None
+        try:
+            head = path.read_text(encoding="utf-8", errors="ignore")[:4096]
+        except OSError:
+            logger.debug("Could not sniff OWL serialization for %s", path, exc_info=True)
+            return None
+        head = head.lstrip("\ufeff \t\r\n")
+        if head.startswith("Prefix(") or head.startswith("Ontology("):
+            return "ofn"
+        if re.match(r"<Ontology(?:\s|>)", head):
+            return "owx"
+        if head.startswith("<?xml") or head.startswith("<rdf:RDF") or "xmlns:rdf=" in head:
+            return "rdf"
+        return None
 
     @staticmethod
     def _extract_prefix_declarations(path: Path) -> Mapping[str, str]:
