@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from shutil import copyfile
 
 try:
     from gilda.grounder import Grounder
@@ -73,6 +74,14 @@ class TestResource(unittest.TestCase):
             print(a)
             assocs.append((a.subject, a.object))
         self.assertCountEqual(expected, assocs)
+
+    def test_funowl_sniffs_functional_syntax_for_owl_suffix(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            disguised_path = Path(tmpdir) / "go-nucleus-functional.owl"
+            copyfile(INPUT_DIR / "go-nucleus.ofn", disguised_path)
+            adapter = get_adapter(str(disguised_path))
+            self.assertIsInstance(adapter, FunOwlImplementation)
+            self.assertEqual("nucleus", adapter.label("GO:0005634"))
 
     @unittest.skipIf(not have_gilda, "Gilda not available")
     @unittest.skipIf(sys.platform == "win32", "Skipping test_gilda_from_descriptor on Windows")
