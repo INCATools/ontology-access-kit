@@ -18,8 +18,8 @@ URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_who
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
 | [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
 
 
 

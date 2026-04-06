@@ -156,6 +156,25 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.axioms.logical_definition_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">logical_definition_matches</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">SERIALIZATION_ALIASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;ofn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;functional-owl&quot;</span><span class="p">:</span> <span class="s2">&quot;ofn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;functional-syntax&quot;</span><span class="p">:</span> <span class="s2">&quot;ofn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;funowl&quot;</span><span class="p">:</span> <span class="s2">&quot;ofn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;manchester&quot;</span><span class="p">:</span> <span class="s2">&quot;ofn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;omn&quot;</span><span class="p">:</span> <span class="s2">&quot;ofn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ofn&quot;</span><span class="p">:</span> <span class="s2">&quot;ofn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;owl&quot;</span><span class="p">:</span> <span class="s2">&quot;owl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;owl-xml&quot;</span><span class="p">:</span> <span class="s2">&quot;owx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;owl/xml&quot;</span><span class="p">:</span> <span class="s2">&quot;owx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;owlxml&quot;</span><span class="p">:</span> <span class="s2">&quot;owx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;owx&quot;</span><span class="p">:</span> <span class="s2">&quot;owx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rdf&quot;</span><span class="p">:</span> <span class="s2">&quot;rdf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rdf-xml&quot;</span><span class="p">:</span> <span class="s2">&quot;rdf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rdf/xml&quot;</span><span class="p">:</span> <span class="s2">&quot;rdf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rdfxml&quot;</span><span class="p">:</span> <span class="s2">&quot;rdf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;xml&quot;</span><span class="p">:</span> <span class="s2">&quot;rdf&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 <span class="n">DECLARATION_TYPES</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">DeclareClass</span><span class="p">,</span>
     <span class="n">DeclareObjectProperty</span><span class="p">,</span>
@@ -240,13 +259,55 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">local_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">local_path</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading </span><span class="si">%s</span><span class="s2"> into py-horned-owl&quot;</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
-                <span class="n">doc</span> <span class="o">=</span> <span class="n">pyhornedowl</span><span class="o">.</span><span class="n">open_ontology_from_file</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">local_path</span><span class="p">))</span>
-                <span class="k">if</span> <span class="n">local_path</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;.ofn&quot;</span><span class="p">,</span> <span class="s2">&quot;.omn&quot;</span><span class="p">}:</span>
+                <span class="n">serialization</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serialization_for_path</span><span class="p">(</span><span class="n">local_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">resource</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">serialization</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">resource</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">serialization</span>
+                <span class="n">doc</span> <span class="o">=</span> <span class="n">pyhornedowl</span><span class="o">.</span><span class="n">open_ontology_from_file</span><span class="p">(</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">local_path</span><span class="p">),</span> <span class="n">serialization</span><span class="o">=</span><span class="n">serialization</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">serialization</span> <span class="o">==</span> <span class="s2">&quot;ofn&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extract_prefix_declarations</span><span class="p">(</span><span class="n">local_path</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extract_prefixes_from_rdf</span><span class="p">(</span><span class="n">local_path</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ontology_document</span> <span class="o">=</span> <span class="n">doc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">functional_writer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ontology_document</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_serialization_for_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">explicit_format</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">format</span>
+        <span class="n">serialization</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_serialization</span><span class="p">(</span><span class="n">explicit_format</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">serialization</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">serialization</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sniff_serialization</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_serialization</span><span class="p">(</span><span class="n">format_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">format_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">format_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SERIALIZATION_ALIASES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sniff_serialization</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;.ofn&quot;</span><span class="p">,</span> <span class="s2">&quot;.omn&quot;</span><span class="p">}:</span>
+            <span class="k">return</span> <span class="s2">&quot;ofn&quot;</span>
+        <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.owx&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;owx&quot;</span>
+        <span class="k">if</span> <span class="n">suffix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;.owl&quot;</span><span class="p">,</span> <span class="s2">&quot;.rdf&quot;</span><span class="p">,</span> <span class="s2">&quot;.xml&quot;</span><span class="p">}:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)[:</span><span class="mi">4096</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Could not sniff OWL serialization for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\ufeff</span><span class="s2"> </span><span class="se">\t\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">head</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Prefix(&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">head</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Ontology(&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;ofn&quot;</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;Ontology(?:\s|&gt;)&quot;</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;owx&quot;</span>
+        <span class="k">if</span> <span class="n">head</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;?xml&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">head</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;rdf:RDF&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;xmlns:rdf=&quot;</span> <span class="ow">in</span> <span class="n">head</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;rdf&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract_prefix_declarations</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
