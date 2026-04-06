@@ -11,6 +11,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v6.0.2
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v6.2.0
@@ -18,8 +20,15 @@ jobs:
         python-version: 3.12
 
     - name: Build source and wheel archives
+      env:
+        OAK_BUILD_TAG: ${{ github.event.release.tag_name }}
       run: |
         make build-whl
+
+    - name: Verify release artifact version
+      run: |
+        ls -1 dist
+        ! ls dist/oaklib-0.0.0* 1>/dev/null 2>&1
 
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@v1.2.2

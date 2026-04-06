@@ -8,10 +8,22 @@ tests:
 
 .PHONY: build-whl
 build-whl:
-	#Set the version of oaklib and build the python whl.
-	$(INSTALL)
-	uv version $(git describe --tags --abbrev=0)
-	uv build 
+	# Set the version from the release tag before building the wheel.
+	# uv-dynamic-versioning does not currently derive the version for `uv build`.
+	@build_tag="$${OAK_BUILD_TAG:-$$(git describe --tags --abbrev=0)}"; \
+	build_version="$$(printf '%s\n' "$$build_tag" | sed -E 's/^v//; s/-rc([0-9]+)$$/rc\1/')"; \
+	case "$$build_tag" in \
+		v[0-9]*.[0-9]*.[0-9]*|v[0-9]*.[0-9]*.[0-9]*-rc[0-9]*) ;; \
+		*) echo "Unsupported release tag: $$build_tag"; exit 1 ;; \
+	esac; \
+	tmpdir="$$(mktemp -d)"; \
+	trap 'rm -rf "$$tmpdir"' EXIT; \
+	echo "Building oaklib $$build_version from $$build_tag"; \
+	git archive --format=tar HEAD | tar -xf - -C "$$tmpdir"; \
+	python3 -c 'import re, sys; from pathlib import Path; path = Path(sys.argv[1]); version = sys.argv[2]; text = path.read_text(); text, n = re.subn(r"(?m)^version = \"[^\"]+\"$$", f"version = \"{version}\"", text, count=1); assert n == 1, "Could not update version in pyproject.toml"; path.write_text(text)' "$$tmpdir/pyproject.toml" "$$build_version" \
+	&& (cd "$$tmpdir" && uv build) \
+	&& mkdir -p dist \
+	&& cp "$$tmpdir"/dist/* dist/
 
 # not yet deployed
 doctest:
@@ -169,4 +181,3 @@ phenio-benchmarks:
 phenio-profiles:
 	python $(PROFILER_SCRIPT) $(SEMSIMIAN_PHENIO_PROFILE)
 	python $(PROFILER_SCRIPT) $(NON_SEMSIMIAN_PHENIO_PROFILE)
-

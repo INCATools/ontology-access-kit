@@ -17,6 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v6.0.2
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v6.2.0
@@ -29,6 +31,11 @@ jobs:
     - name: Build source and wheel archives
       run: |
         make build-whl
+
+    - name: Verify release artifact version
+      run: |
+        ls -1 dist
+        ! ls dist/oaklib-0.0.0* 1>/dev/null 2>&1
 
 #    - name: Publish package to TestPyPI
 #      uses: pypa/gh-action-pypi-publish@release/v1
