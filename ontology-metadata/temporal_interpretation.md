@@ -18,8 +18,8 @@ URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
