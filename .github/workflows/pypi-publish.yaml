@@ -1,6 +1,7 @@
 name: Publish Python Package
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
@@ -8,11 +9,17 @@ jobs:
   build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write
 
     steps:
     - uses: actions/checkout@v6.0.2
       with:
         fetch-depth: 0
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v7.3.0
 
     - name: Set up Python
       uses: actions/setup-python@v6.2.0
@@ -31,7 +38,6 @@ jobs:
         ! ls dist/oaklib-0.0.0* 1>/dev/null 2>&1
 
     - name: Publish distribution 📦 to PyPI
-      uses: pypa/gh-action-pypi-publish@v1.2.2
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        user: __token__
-        password: ${{ secrets.pypi_password }}
+        verbose: true
