@@ -23,8 +23,8 @@ URI: [ontoassoc:property_values](https://w3id.org/oak/association/property_value
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
 
 

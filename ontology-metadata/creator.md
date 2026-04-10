@@ -24,18 +24,18 @@ URI: [dcterms:creator](http://purl.org/dc/terms/creator)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [HasProvenance](HasProvenance.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Property](Property.md) |  |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 | [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Image](Image.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [Class](Class.md) |  |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [Ontology](Ontology.md) | An OWL ontology |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Property](Property.md) |  |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Image](Image.md) |  |  no  |
 
 
 

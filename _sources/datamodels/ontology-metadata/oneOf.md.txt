@@ -23,9 +23,9 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ClassExpression](ClassExpression.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
 | [Restriction](Restriction.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
