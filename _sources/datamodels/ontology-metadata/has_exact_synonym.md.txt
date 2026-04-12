@@ -24,18 +24,18 @@ URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExact
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
 | [Property](Property.md) |  |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Image](Image.md) |  |  no  |
+| [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |  no  |
 | [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 | [Agent](Agent.md) |  |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |  no  |
-| [Image](Image.md) |  |  no  |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [Class](Class.md) |  |  no  |
 
 
