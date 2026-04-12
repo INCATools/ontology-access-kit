@@ -10,6 +10,7 @@ jobs:
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       id-token: write
 
     steps:
