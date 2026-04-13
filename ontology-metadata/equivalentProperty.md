@@ -23,8 +23,8 @@ URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 

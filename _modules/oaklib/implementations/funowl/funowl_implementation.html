@@ -93,6 +93,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyhornedowl</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">rdflib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sssom_schema</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sssom</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">kgcl_schema.datamodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">kgcl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyhornedowl.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">IRI</span><span class="p">,</span>
@@ -124,6 +125,8 @@
 <span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels</span><span class="w"> </span><span class="kn">import</span> <span class="n">obograph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.search_datamodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchTermSyntax</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span>
     <span class="n">EQUIVALENT_CLASS</span><span class="p">,</span>
@@ -145,15 +148,19 @@
     <span class="n">RDF_TYPE</span><span class="p">,</span>
     <span class="n">RDFS_DOMAIN</span><span class="p">,</span>
     <span class="n">RDFS_RANGE</span><span class="p">,</span>
+    <span class="n">SEMAPV</span><span class="p">,</span>
+    <span class="n">SKOS_MATCH_PREDICATES</span><span class="p">,</span>
     <span class="n">SUBPROPERTY_OF</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">LANGUAGE_TAG</span><span class="p">,</span> <span class="n">RELATIONSHIP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.mapping_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.owl_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OwlInterface</span><span class="p">,</span> <span class="n">ReasonerConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.patcher_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatcherInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.axioms.logical_definition_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">logical_definition_matches</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.mapping.sssom_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">inject_mapping_sources</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">SERIALIZATION_ALIASES</span> <span class="o">=</span> <span class="p">{</span>
@@ -227,6 +234,7 @@
     <span class="n">OboGraphInterface</span><span class="p">,</span>
     <span class="n">PatcherInterface</span><span class="p">,</span>
     <span class="n">SearchInterface</span><span class="p">,</span>
+    <span class="n">MappingProviderInterface</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An experimental partial implementation of :ref:`OwlInterface`</span>
@@ -417,7 +425,14 @@
         <span class="k">return</span> <span class="n">SimpleLiteral</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_single_valued_assignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">property</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ontology</span><span class="o">.</span><span class="n">get_annotations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="nb">property</span><span class="p">))</span>
+        <span class="n">subject_iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="n">property_iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="nb">property</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">subject_iri</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">property_iri</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ontology</span><span class="o">.</span><span class="n">get_annotations</span><span class="p">(</span><span class="n">subject_iri</span><span class="p">,</span> <span class="n">property_iri</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">values</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Multiple values for </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="p">,</span> <span class="nb">property</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
@@ -517,15 +532,113 @@
                 <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">alias_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="p">[]):</span>
                     <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">obograph</span><span class="o">.</span><span class="n">SynonymPropertyValue</span><span class="p">(</span><span class="n">pred</span><span class="o">=</span><span class="n">pred_text</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">simple_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">xref</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HAS_DBXREF</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">yield</span> <span class="n">HAS_DBXREF</span><span class="p">,</span> <span class="n">cast</span><span class="p">(</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">xref</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">predicate</span> <span class="ow">in</span> <span class="n">SKOS_MATCH_PREDICATES</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">mapped_curie</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="k">yield</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">cast</span><span class="p">(</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">mapped_curie</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">]:</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_mapping</span><span class="p">(</span><span class="n">subject_id</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicate_id</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">object_id</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span>
+                <span class="n">subject_id</span><span class="o">=</span><span class="n">subject_id</span><span class="p">,</span>
+                <span class="n">predicate_id</span><span class="o">=</span><span class="n">predicate_id</span><span class="p">,</span>
+                <span class="n">object_id</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
+                <span class="n">mapping_justification</span><span class="o">=</span><span class="n">sssom</span><span class="o">.</span><span class="n">EntityReference</span><span class="p">(</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">mapping</span>
+
+        <span class="n">direct_mappings</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simple_mappings_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">predicate_id</span><span class="p">,</span> <span class="n">object_id</span> <span class="ow">in</span> <span class="n">direct_mappings</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">predicate_id</span><span class="p">,</span> <span class="n">object_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">_mapping</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">predicate_id</span><span class="p">,</span> <span class="n">object_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">direct_mappings</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">owl_type</span><span class="p">(</span><span class="n">curie</span><span class="p">)):</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">predicate_id</span><span class="p">,</span> <span class="n">object_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple_mappings_by_curie</span><span class="p">(</span><span class="n">entity</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">object_id</span> <span class="o">!=</span> <span class="n">curie</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">predicate_id</span><span class="p">,</span> <span class="n">object_id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">_mapping</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">predicate_id</span><span class="p">,</span> <span class="n">object_id</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">basic_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SearchConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">()</span>
+        <span class="n">property_names</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">properties</span><span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">property_names</span><span class="p">:</span>
+            <span class="n">property_names</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;LABEL&quot;</span><span class="p">,</span> <span class="s2">&quot;ALIAS&quot;</span><span class="p">}</span>
+
+        <span class="n">flags</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">force_case_insensitive</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">normalized_search_term</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">search_term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">force_case_insensitive</span> <span class="k">else</span> <span class="n">search_term</span>
+        <span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_normalize</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">force_case_insensitive</span> <span class="k">else</span> <span class="n">value</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">syntax</span> <span class="o">==</span> <span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">STARTS_WITH</span><span class="p">:</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">_normalize</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">normalized_search_term</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="o">.</span><span class="n">syntax</span> <span class="o">==</span> <span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">REGULAR_EXPRESSION</span><span class="p">:</span>
+            <span class="n">prog</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">search_term</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">)</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">prog</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="o">.</span><span class="n">is_partial</span><span class="p">:</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">normalized_search_term</span> <span class="ow">in</span> <span class="n">_normalize</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">_normalize</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">normalized_search_term</span>
+
+        <span class="n">search_all</span> <span class="o">=</span> <span class="s2">&quot;ANYTHING&quot;</span> <span class="ow">in</span> <span class="n">property_names</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">include_obsoletes_in_results</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">search_all</span> <span class="ow">or</span> <span class="s2">&quot;LABEL&quot;</span> <span class="ow">in</span> <span class="n">property_names</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">label</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span> <span class="ow">and</span> <span class="n">matches</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                    <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">curie</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">search_all</span> <span class="ow">or</span> <span class="s2">&quot;IDENTIFIER&quot;</span> <span class="ow">in</span> <span class="n">property_names</span><span class="p">)</span> <span class="ow">and</span> <span class="n">matches</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                    <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">curie</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">search_all</span> <span class="ow">or</span> <span class="s2">&quot;ALIAS&quot;</span> <span class="ow">in</span> <span class="n">property_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">matches</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span> <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="n">curie</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                        <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                        <span class="k">yield</span> <span class="n">curie</span>
+                    <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">search_all</span> <span class="ow">or</span> <span class="s2">&quot;MAPPED_IDENTIFIER&quot;</span> <span class="ow">in</span> <span class="n">property_names</span><span class="p">:</span>
+                <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">matches</span><span class="p">(</span><span class="n">xref</span><span class="p">)</span> <span class="k">for</span> <span class="n">xref</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HAS_DBXREF</span><span class="p">,</span> <span class="p">[])):</span>
+                    <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                        <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                        <span class="k">yield</span> <span class="n">curie</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">node</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">]:</span>
         <span class="n">entity_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">owl_type</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
         <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="n">node_id</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">CURIE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span> <span class="k">if</span> <span class="n">expand_curies</span> <span class="k">else</span> <span class="n">curie</span>
+        <span class="k">if</span> <span class="n">node_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">node_id</span> <span class="o">=</span> <span class="n">curie</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">entity_types</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown entity: </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">node_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
             <span class="n">owl_type</span> <span class="ow">in</span> <span class="n">entity_types</span>
             <span class="k">for</span> <span class="n">owl_type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">OWL_OBJECT_PROPERTY</span><span class="p">,</span> <span class="n">OWL_ANNOTATION_PROPERTY</span><span class="p">,</span> <span class="n">OWL_DATATYPE_PROPERTY</span><span class="p">]</span>
@@ -535,7 +648,6 @@
             <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;INDIVIDUAL&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;CLASS&quot;</span>
-        <span class="n">node_id</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">CURIE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span> <span class="k">if</span> <span class="n">expand_curies</span> <span class="k">else</span> <span class="n">curie</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">include_metadata</span><span class="p">:</span>
             <span class="n">meta</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Meta</span><span class="p">()</span>
