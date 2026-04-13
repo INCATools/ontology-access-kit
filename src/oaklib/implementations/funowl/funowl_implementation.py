@@ -7,6 +7,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Set, 
 
 import pyhornedowl
 import rdflib
+import sssom_schema as sssom
 from kgcl_schema.datamodel import kgcl
 from pyhornedowl.model import (
     IRI,
@@ -61,15 +62,19 @@ from oaklib.datamodels.vocabulary import (
     RDF_TYPE,
     RDFS_DOMAIN,
     RDFS_RANGE,
+    SEMAPV,
+    SKOS_MATCH_PREDICATES,
     SUBPROPERTY_OF,
 )
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import logical_definition_matches
+from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 logger = logging.getLogger(__name__)
 SERIALIZATION_ALIASES = {
@@ -141,6 +146,7 @@ class FunOwlImplementation(
     OboGraphInterface,
     PatcherInterface,
     SearchInterface,
+    MappingProviderInterface,
 ):
     """
     An experimental partial implementation of :ref:`OwlInterface`
@@ -331,7 +337,14 @@ class FunOwlImplementation(
         return SimpleLiteral(str(value))
 
     def _single_valued_assignment(self, curie: CURIE, property: CURIE) -> Optional[str]:
-        values = self._ontology.get_annotations(self.curie_to_uri(curie), self.curie_to_uri(property))
+        subject_iri = self.curie_to_uri(curie)
+        property_iri = self.curie_to_uri(property)
+        if subject_iri is None or property_iri is None:
+            return None
+        try:
+            values = self._ontology.get_annotations(subject_iri, property_iri)
+        except TypeError:
+            return None
         if values:
             if len(values) > 1:
                 logger.warning("Multiple values for %s %s = %s", curie, property, values)
@@ -430,6 +443,48 @@ class FunOwlImplementation(
                 pred_text = predicate.split(":")[-1]
                 for value in alias_map.get(predicate, []):
                     yield curie, obograph.SynonymPropertyValue(pred=pred_text, val=value)
+
+    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[tuple[PRED_CURIE, CURIE]]:
+        metadata = self.entity_metadata_map(curie)
+        for xref in metadata.get(HAS_DBXREF, []):
+            yield HAS_DBXREF, cast(CURIE, xref)
+        for predicate in SKOS_MATCH_PREDICATES:
+            for mapped_curie in metadata.get(predicate, []):
+                yield predicate, cast(CURIE, mapped_curie)
+
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+        seen = set()
+
+        def _mapping(subject_id: CURIE, predicate_id: PRED_CURIE, object_id: CURIE) -> sssom.Mapping:
+            mapping = sssom.Mapping(
+                subject_id=subject_id,
+                predicate_id=predicate_id,
+                object_id=object_id,
+                mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
+            )
+            inject_mapping_sources(mapping)
+            return mapping
+
+        direct_mappings = list(self.simple_mappings_by_curie(curie))
+        for predicate_id, object_id in direct_mappings:
+            key = (curie, predicate_id, object_id)
+            if key in seen:
+                continue
+            seen.add(key)
+            yield _mapping(curie, predicate_id, object_id)
+
+        if direct_mappings or self.label(curie) is not None or set(self.owl_type(curie)):
+            return
+
+        for entity in self.entities(filter_obsoletes=False):
+            for predicate_id, object_id in self.simple_mappings_by_curie(entity):
+                if object_id != curie:
+                    continue
+                key = (entity, predicate_id, object_id)
+                if key in seen:
+                    continue
+                seen.add(key)
+                yield _mapping(entity, predicate_id, object_id)
 
     def basic_search(
         self, search_term: str, config: Optional[SearchConfiguration] = None
