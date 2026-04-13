@@ -66,6 +66,21 @@ TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 SYNONYMIZER_RULES_FILE = INPUT_DIR / "cli-synonymizer-rules.yaml"
+MINIMAL_CL_FUNOWL = """\
+Prefix(obo:=<http://purl.obolibrary.org/obo/>)
+Prefix(oboInOwl:=<http://www.geneontology.org/formats/oboInOwl#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(<http://example.org/cl-edit.owl>
+Declaration(Class(obo:CL_0000540))
+AnnotationAssertion(oboInOwl:hasDbXref obo:CL_0000540 "BTO:0000938")
+AnnotationAssertion(oboInOwl:hasDbXref obo:CL_0000540 "CALOHA:TS-0683")
+AnnotationAssertion(rdfs:label obo:CL_0000540 "neuron"^^xsd:string)
+SubClassOf(obo:CL_0000540 obo:CL_0000000)
+)
+"""
 
 
 def _outpath(test: str, fmt: str = "tmp") -> str:
@@ -94,6 +109,10 @@ class TestCommandLineInterface(unittest.TestCase):
         with open(path) as f:
             return "".join(f.readlines())
 
+    def _write_minimal_cl_funowl(self, path: Path) -> Path:
+        path.write_text(MINIMAL_CL_FUNOWL, encoding="utf-8")
+        return path
+
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
@@ -114,6 +133,74 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(main, args)
                 self.assertEqual(0, result.exit_code, result.output)
                 self.assertIn("nucleus", result.stdout)
+
+    def test_functional_owl_info_and_tree_with_search_and_undeclared_ancestors(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            disguised_path = self._write_minimal_cl_funowl(Path(tmpdir) / "cl-edit.owl")
+            outpath = Path(tmpdir) / "info.tsv"
+
+            result = self.runner.invoke(
+                main, ["-I", "ofn", "-i", str(disguised_path), "info", "neuron", "-o", str(outpath)]
+            )
+            self.assertEqual(0, result.exit_code, result.output)
+            self.assertIn("CL:0000540", outpath.read_text(encoding="utf-8"))
+            self.assertIn("neuron", outpath.read_text(encoding="utf-8"))
+
+            result = self.runner.invoke(
+                main, ["-I", "ofn", "-i", str(disguised_path), "tree", "-p", "i", "CL:0000540"]
+            )
+            self.assertEqual(0, result.exit_code, result.output)
+            self.assertIn("CL:0000540", result.stdout)
+            self.assertIn("CL:0000000", result.stdout)
+
+    def test_functional_owl_mappings(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            disguised_path = self._write_minimal_cl_funowl(Path(tmpdir) / "cl-edit.owl")
+            outpath = Path(tmpdir) / "mappings.csv"
+            reverse_outpath = Path(tmpdir) / "reverse-mappings.csv"
+
+            result = self.runner.invoke(
+                main,
+                [
+                    "-I",
+                    "ofn",
+                    "-i",
+                    str(disguised_path),
+                    "mappings",
+                    "CL:0000540",
+                    "-O",
+                    "csv",
+                    "-o",
+                    str(outpath),
+                ],
+            )
+
+            self.assertEqual(0, result.exit_code, result.output)
+            output = outpath.read_text(encoding="utf-8")
+            self.assertIn("CL:0000540", output)
+            self.assertIn("BTO:0000938", output)
+            self.assertIn("CALOHA:TS-0683", output)
+
+            reverse_result = self.runner.invoke(
+                main,
+                [
+                    "-I",
+                    "ofn",
+                    "-i",
+                    str(disguised_path),
+                    "mappings",
+                    "BTO:0000938",
+                    "-O",
+                    "csv",
+                    "-o",
+                    str(reverse_outpath),
+                ],
+            )
+
+            self.assertEqual(0, reverse_result.exit_code, reverse_result.output)
+            reverse_output = reverse_outpath.read_text(encoding="utf-8")
+            self.assertIn("CL:0000540", reverse_output)
+            self.assertIn("BTO:0000938", reverse_output)
 
     def test_multilingual(self):
         for input_arg in [INPUT_DIR / "hp-international-test.db"]:
