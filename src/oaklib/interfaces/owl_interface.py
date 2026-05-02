@@ -3,35 +3,34 @@ import itertools
 from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Iterable, List, Optional, Tuple, Type, Union
+from typing import Any, Callable, Iterable, List, Optional, Tuple, Type, TypeAlias, Union
 
-# TODO: add funowl to dependencies
-import funowl
-from funowl import (
+from pyhornedowl import PyIndexedOntology, model
+from pyhornedowl.model import (
     IRI,
+    AnnotatedComponent,
     AnnotationAssertion,
     AsymmetricObjectProperty,
-    Axiom,
     Class,
     ClassExpression,
+    Component,
+    DatatypeLiteral,
     DisjointClasses,
     EquivalentClasses,
     IrreflexiveObjectProperty,
-    Literal,
+    LanguageLiteral,
     ObjectAllValuesFrom,
     ObjectIntersectionOf,
-    ObjectPropertyChain,
     ObjectPropertyExpression,
     ObjectSomeValuesFrom,
     ObjectUnionOf,
-    Ontology,
     ReflexiveObjectProperty,
+    SimpleLiteral,
     SubClassOf,
     SubObjectPropertyOf,
     SymmetricObjectProperty,
     TransitiveObjectProperty,
 )
-from funowl.writers import FunctionalWriter
 
 from oaklib.datamodels.vocabulary import (
     OWL_ASYMMETRIC_PROPERTY,
@@ -42,6 +41,10 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
+
+Axiom: TypeAlias = Component
+Ontology: TypeAlias = PyIndexedOntology
+LITERAL_TYPES = (SimpleLiteral, DatatypeLiteral, LanguageLiteral)
 
 
 class OwlProfile(Enum):
@@ -54,22 +57,22 @@ class OwlProfile(Enum):
 
 @dataclass
 class ReasonerConfiguration:
-    reasoner: str = None
-    reasoner_version: str = None
-    implements_profiles: List[OwlProfile] = None
+    reasoner: Optional[str] = None
+    reasoner_version: Optional[str] = None
+    implements_profiles: Optional[List[OwlProfile]] = None
 
 
 @dataclass
 class AxiomFilter:
-    type: Optional[Type[Axiom]] = None
+    type: Optional[Type[Any]] = None
     about: Optional[Union[CURIE, List[CURIE]]] = None
     references: Optional[CURIE] = None
-    func: Callable = None
+    func: Optional[Callable[..., Any]] = None
     ontologies: Optional[List[CURIE]] = None
 
-    def set_type(self, axiom_type: Union[str, Type[Axiom]]) -> None:
+    def set_type(self, axiom_type: Union[str, Type[Any]]) -> None:
         if isinstance(axiom_type, str):
-            matches = [obj for n, obj in inspect.getmembers(funowl) if n == axiom_type]
+            matches = [obj for n, obj in inspect.getmembers(model) if n == axiom_type]
             if len(matches) == 1:
                 self.type = matches[0]
             elif len(matches) == 0:
@@ -83,11 +86,64 @@ class AxiomFilter:
 @dataclass
 class OwlInterface(BasicOntologyInterface, ABC):
     """
-    presents ontology as an OWL ontology using an OWL datamodel
+    Presents an ontology as an OWL ontology using the py-horned-owl object model.
 
-    We leverage the :ref:`_funowl_datamodel`
+    We leverage the :ref:`funowl_datamodel`, now backed by py-horned-owl.
 
-    Currently there is one implementation, the :ref:`funowl_implementation`
+    Currently there is one implementation, the :ref:`funowl_implementation`.
+
+    **Quick examples**
+
+    Load a local OWL file through the default selector logic and inspect asserted
+    OWL axioms:
+
+    .. code-block:: python
+
+       from oaklib import get_adapter
+
+       oi = get_adapter("path/to/my-ontology.owl")
+       for axiom in oi.subclass_axioms(subclass="GO:0005634"):
+           print(type(axiom).__name__, axiom)
+
+    Filter annotation assertions for a single subject:
+
+    .. code-block:: python
+
+       from oaklib import get_adapter
+
+       oi = get_adapter("path/to/my-ontology.owl")
+       labels = list(
+           oi.annotation_assertion_axioms(
+               subject="GO:0005634",
+               property="rdfs:label",
+           )
+       )
+
+    Project lightweight graph-style relationships from OWL axioms:
+
+    .. code-block:: python
+
+       from oaklib import get_adapter
+
+       oi = get_adapter("path/to/my-ontology.owl")
+       direct = list(oi.relationships(subjects=["GO:0005634"]))
+       entailed = list(
+           oi.relationships(
+               subjects=["GO:0005634"],
+               include_entailed=True,
+           )
+       )
+
+    **Reasoning status**
+
+    ``OwlInterface`` does not currently expose a pluggable OWL reasoner. For the
+    horned-owl-backed implementation, ``reasoner_configurations()`` returns an
+    empty list and ``ReasonerConfiguration`` is not accepted by axiom filtering.
+
+    Some graph-facing methods can still return a lightweight, implementation-
+    specific closure when ``include_entailed=True`` is used. Treat that as
+    projected graph closure over supported OWL patterns, not as complete OWL
+    reasoning or satisfiability checking.
 
     In future the SqlDatabase implementation will implement this, as well as:
 
@@ -95,7 +151,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
     - robot/owlapi via py4j
     """
 
-    functional_writer: FunctionalWriter = None
+    functional_writer: Any = None
 
     def owl_ontology(self) -> Ontology:
         raise NotImplementedError
@@ -117,8 +173,8 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def subclass_axioms(
         self,
-        subclass: CURIE = None,
-        superclass: CURIE = None,
+        subclass: Optional[CURIE] = None,
+        superclass: Optional[CURIE] = None,
         reasoner: Optional[ReasonerConfiguration] = None,
     ) -> Iterable[SubClassOf]:
         """
@@ -128,29 +184,29 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :param superclass: if specified, constrains to axioms where this is the superclass
         :param reasoner:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           for axiom in oi.subclass_axioms(subclass="GO:0005634"):
+               print(axiom)
         """
         for axiom in self.axioms(reasoner=reasoner):
             if isinstance(axiom, SubClassOf):
-                if subclass is not None:
-                    m = False
-                    if isinstance(axiom.subClassExpression, IRI):
-                        if self._entity_matches(axiom.subClassExpression, subclass):
-                            m = True
-                    if not m:
-                        continue
-                if superclass is not None:
-                    m = False
-                    if isinstance(axiom.superClassExpression, IRI):
-                        if self._entity_matches(axiom.superClassExpression, subclass):
-                            m = True
-                    if not m:
-                        continue
+                if subclass is not None and not self._entity_matches(axiom.sub, subclass):
+                    continue
+                if superclass is not None and not self._entity_matches(axiom.sup, superclass):
+                    continue
                 yield axiom
 
     def equivalence_axioms(
         self,
-        about: CURIE = None,
-        references: CURIE = None,
+        about: Optional[CURIE] = None,
+        references: Optional[CURIE] = None,
         reasoner: Optional[ReasonerConfiguration] = None,
     ) -> Iterable[EquivalentClasses]:
         """
@@ -160,6 +216,15 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :param references:
         :param reasoner:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           eq_axioms = list(oi.equivalence_axioms(about="GO:0031965"))
         """
         return self.filter_axioms(
             reasoner=reasoner,
@@ -167,7 +232,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
         )
 
     def annotation_assertion_axioms(
-        self, subject: CURIE = None, property: CURIE = None, value: Any = None
+        self, subject: Optional[CURIE] = None, property: Optional[CURIE] = None, value: Any = None
     ) -> Iterable[AnnotationAssertion]:
         """
         Filters all matching annotation axioms
@@ -176,22 +241,34 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :param property:
         :param value:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           labels = list(
+               oi.annotation_assertion_axioms(
+                   subject="GO:0005634",
+                   property="rdfs:label",
+               )
+           )
         """
         for axiom in self.axioms():
-            # TODO: use indexing to speed this up
             if isinstance(axiom, AnnotationAssertion):
-                if subject is not None:
-                    if not self._entity_matches(axiom.subject, subject):
-                        continue
-                if property is not None:
-                    if not self._entity_matches(axiom.property, property):
-                        continue
-                if value is not None:
-                    if not self._entity_matches(axiom.value, value):
-                        continue
+                if subject is not None and not self._entity_matches(axiom.subject, subject):
+                    continue
+                if property is not None and not self._entity_matches(axiom.ann.ap, property):
+                    continue
+                if value is not None and not self._entity_matches(axiom.ann.av, value):
+                    continue
                 yield axiom
 
-    def disjoint_pairs(self, subjects: Iterable[CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
+    def disjoint_pairs(
+        self, subjects: Optional[Iterable[CURIE]] = None
+    ) -> Iterable[Tuple[CURIE, CURIE]]:
         """
         Gets all disjoint pairs of entities
 
@@ -200,10 +277,9 @@ class OwlInterface(BasicOntologyInterface, ABC):
         """
         for axiom in self.axioms():
             if isinstance(axiom, DisjointClasses):
-                if isinstance(axiom.classExpressions, list):
-                    for c1, c2 in itertools.combinations(axiom.classExpressions, 2):
-                        if not subjects or (c1 in subjects or c2 in subjects):
-                            yield c1, c2
+                for c1, c2 in itertools.combinations(axiom.first, 2):
+                    if not subjects or (c1 in subjects or c2 in subjects):
+                        yield c1, c2
 
     def is_disjoint(self, subject: CURIE, object: CURIE) -> bool:
         """
@@ -235,19 +311,50 @@ class OwlInterface(BasicOntologyInterface, ABC):
         Lists all available reasoner configurations
 
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           configs = oi.reasoner_configurations()
         """
         return []
 
     def entity_iri_to_curie(self, entity: IRI) -> CURIE:
         raise NotImplementedError
 
-    def _entity_matches(self, entity: Any, curie: Union[CURIE, Any]):
+    @staticmethod
+    def _axiom_component(axiom: Union[Axiom, AnnotatedComponent]) -> Axiom:
+        if isinstance(axiom, AnnotatedComponent):
+            return axiom.component
+        return axiom
+
+    @staticmethod
+    def _entity_iri(entity: Any) -> Optional[IRI]:
         if isinstance(entity, IRI):
-            return curie == self.entity_iri_to_curie(entity)
-        elif isinstance(entity, Literal):
-            return curie == entity
-        else:
-            return False
+            return entity
+        first = getattr(entity, "first", None)
+        if isinstance(first, IRI):
+            return first
+        return None
+
+    @staticmethod
+    def _literal_value(entity: Any) -> Optional[str]:
+        if isinstance(entity, LITERAL_TYPES):
+            return entity.literal
+        return None
+
+    def _entity_matches(self, entity: Any, curie: Union[CURIE, Any]):
+        iri = self._entity_iri(entity)
+        if iri is not None:
+            return curie == self.entity_iri_to_curie(iri)
+        literal_value = self._literal_value(entity)
+        if literal_value is not None:
+            return curie == literal_value or curie == entity
+        return False
 
     def _axiom_matches(self, axiom: Axiom, conditions: AxiomFilter) -> bool:
         if conditions.type is not None:
@@ -279,14 +386,13 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :return: entity IRI iterator
         """
         if isinstance(axiom, SubClassOf):
-            for e in self._expression_is_about(axiom.subClassExpression):
+            for e in self._expression_is_about(axiom.sub):
                 yield e
         elif isinstance(axiom, EquivalentClasses):
-            for x in axiom.classExpressions:
+            for x in axiom.first:
                 for e in self._expression_is_about(x):
                     yield e
         else:
-            # TODO: all axiom types
             pass
 
     def axiom_references(self, axiom: Axiom) -> Iterable[IRI]:
@@ -298,43 +404,37 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :return: entity IRI iterator
         """
         if isinstance(axiom, SubClassOf):
-            for e in self._expression_references(axiom.subClassExpression):
+            for e in self._expression_references(axiom.sub):
                 yield e
-            for e in self._expression_references(axiom.superClassExpression):
+            for e in self._expression_references(axiom.sup):
                 yield e
         elif isinstance(axiom, EquivalentClasses) or isinstance(axiom, DisjointClasses):
-            for x in axiom.classExpressions:
+            for x in axiom.first:
                 for e in self._expression_references(x):
                     yield e
         else:
-            # TODO: all axiom types
             pass
 
     def _expression_references(
         self, ex: Union[ClassExpression, ObjectPropertyExpression]
     ) -> Iterable[IRI]:
-        # TODO: generalize signature
-        if isinstance(ex, IRI):
-            # https://github.com/hsolbrig/funowl/issues/19
-            try:
-                if ex.full_uri(self.functional_writer.g):
-                    yield ex
-            except AttributeError:
-                pass
+        iri = self._entity_iri(ex)
+        if iri is not None:
+            yield iri
         elif isinstance(ex, ObjectIntersectionOf) or isinstance(ex, ObjectUnionOf):
-            for x in ex.classExpressions:
+            for x in ex.first:
                 for r in self._expression_references(x):
                     yield r
         elif isinstance(ex, ObjectSomeValuesFrom) or isinstance(ex, ObjectAllValuesFrom):
-            for x in self._expression_references(ex.objectPropertyExpression):
+            for x in self._expression_references(ex.ope):
                 yield x
-            for x in self._expression_references(ex.classExpression):
+            for x in self._expression_references(ex.bce):
                 yield x
 
     def _expression_is_about(self, ex: ClassExpression) -> Iterable[IRI]:
-        # TODO: generalize signature
-        if isinstance(ex, IRI):
-            yield ex
+        iri = self._entity_iri(ex)
+        if iri is not None:
+            yield iri
 
     def _axiom_references_curies(self, axiom: Axiom) -> Iterable[CURIE]:
         for e in self.axiom_references(axiom):
@@ -349,6 +449,15 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
         :param property:
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           characteristics = list(oi.property_characteristics("BFO:0000050"))
         """
         pc_tuples = [
             (TransitiveObjectProperty, OWL_TRANSITIVE_PROPERTY),
@@ -360,34 +469,56 @@ class OwlInterface(BasicOntologyInterface, ABC):
         pcs = tuple([pc[0] for pc in pc_tuples])
         for axiom in self.axioms():
             if isinstance(axiom, pcs):
+                iri = self._entity_iri(axiom.first)
+                if iri is None:
+                    continue
                 for pc, pc_curie in pc_tuples:
-                    if isinstance(axiom, pc):
-                        if isinstance(axiom.objectPropertyExpression, IRI):
-                            if self.entity_iri_to_curie(axiom.objectPropertyExpression) == property:
-                                yield pc_curie
+                    if isinstance(axiom, pc) and self.entity_iri_to_curie(iri) == property:
+                        yield pc_curie
 
     def transitive_object_properties(self) -> Iterable[CURIE]:
         """
         Gets all transitive object properties
 
         :return:
+
+        **Example**
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           transitive_properties = list(oi.transitive_object_properties())
         """
         for axiom in self.axioms():
             if isinstance(axiom, TransitiveObjectProperty):
-                if isinstance(axiom.objectPropertyExpression, IRI):
-                    yield self.entity_iri_to_curie(axiom.objectPropertyExpression)
+                iri = self._entity_iri(axiom.first)
+                if iri is not None:
+                    yield self.entity_iri_to_curie(iri)
 
     def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
         """
-        Gets all property chains of where the super property is a chain of IRIs
+        Gets all property chains with a named super-property.
 
         :return:
+
+        Example
+        -------
+
+        .. code-block:: python
+
+           from oaklib import get_adapter
+
+           oi = get_adapter("path/to/my-ontology.owl")
+           chains = list(oi.simple_subproperty_of_chains())
         """
         for axiom in self.axioms():
-            if isinstance(axiom, SubObjectPropertyOf):
-                if isinstance(axiom.superObjectPropertyExpression, ObjectPropertyChain):
-                    if isinstance(axiom.subObjectPropertyExpression, IRI):
-                        chain_exprs = axiom.superObjectPropertyExpression.objectPropertyExpressions
-                        if all(isinstance(p, IRI) for p in chain_exprs):
-                            chain = [self.entity_iri_to_curie(p) for p in chain_exprs]
-                            yield self.entity_iri_to_curie(axiom.subObjectPropertyExpression), chain
+            if isinstance(axiom, SubObjectPropertyOf) and isinstance(axiom.sub, list):
+                super_iri = self._entity_iri(axiom.sup)
+                if super_iri is None:
+                    continue
+                chain_iris = [self._entity_iri(p) for p in axiom.sub]
+                if all(iri is not None for iri in chain_iris):
+                    chain = [self.entity_iri_to_curie(iri) for iri in chain_iris]
+                    yield self.entity_iri_to_curie(super_iri), chain

@@ -1,6 +1,7 @@
 import os
 import time
 import unittest
+from datetime import timedelta
 
 from oaklib.utilities.caching import CachePolicy, FileCache
 
@@ -14,7 +15,10 @@ class TestCachePolicy(unittest.TestCase):
         self.assertFalse(policy.never_refresh)
         self.assertFalse(policy.reset)
 
-        self.assertEqual(CachePolicy.REFRESH, policy)
+        # This test made more sense when CachePolicy.from_string("refresh") was globally the exact same object as
+        # CachePolicy.REFRESH whenever called. However in python 3.13 you can't have properties on classes anymore
+        # so CachePolicy.REFRESH just makes a new object with max_age=0
+        self.assertEqual(policy._max_age, 0)
 
         now = time.time()
         self.assertTrue(policy.refresh(now))
@@ -28,7 +32,7 @@ class TestCachePolicy(unittest.TestCase):
         self.assertFalse(policy.always_refresh)
         self.assertFalse(policy.reset)
 
-        self.assertEqual(CachePolicy.NO_REFRESH, policy)
+        self.assertEqual(policy._max_age, timedelta.max.total_seconds())
 
         now = time.time()
         self.assertFalse(policy.refresh(now))
@@ -39,19 +43,19 @@ class TestCachePolicy(unittest.TestCase):
         self.assertTrue(policy.refresh_file("inexistent-file"))
 
     def test_reset_policy(self):
-        policy = CachePolicy.from_string("reset")
-        self.assertEqual(policy, CachePolicy.from_string("clear"))
+        # These should a policy with the same properties.
+        reset_policy = CachePolicy.from_string("reset")
+        clear_policy = CachePolicy.from_string("clear")
+        self.assertEqual(reset_policy._max_age, clear_policy._max_age, -1)
 
-        self.assertTrue(policy.reset)
-        self.assertFalse(policy.always_refresh)
-        self.assertFalse(policy.never_refresh)
-
-        self.assertEqual(CachePolicy.RESET, policy)
+        self.assertTrue(reset_policy.reset, clear_policy.reset)
+        self.assertFalse(reset_policy.always_refresh, clear_policy.always_refresh)
+        self.assertFalse(reset_policy.never_refresh, clear_policy.never_refresh)
 
         now = time.time()
-        self.assertTrue(policy.refresh(now))
-        self.assertTrue(policy.refresh(now + 86400))
-        self.assertTrue(policy.refresh(now - 86400))
+        self.assertTrue(reset_policy.refresh(now), clear_policy.refresh(now))
+        self.assertTrue(reset_policy.refresh(now + 86400), clear_policy.refresh(now + 86400))
+        self.assertTrue(reset_policy.refresh(now - 86400), clear_policy.refresh(now - 86400))
 
     def test_refresh_after_1day_policy(self):
         policy = CachePolicy.from_string("1d")
@@ -73,16 +77,16 @@ class TestCachePolicy(unittest.TestCase):
             pass
         os.utime(path, (now - 259200, now - 259200))
 
-        self.assertTrue(CachePolicy.REFRESH.refresh_file(path))
-        self.assertTrue(CachePolicy.RESET.refresh_file(path))
-        self.assertFalse(CachePolicy.NO_REFRESH.refresh_file(path))
+        self.assertTrue(CachePolicy.REFRESH().refresh_file(path))
+        self.assertTrue(CachePolicy.RESET().refresh_file(path))
+        self.assertFalse(CachePolicy.NO_REFRESH().refresh_file(path))
         self.assertTrue(CachePolicy.from_string("2d").refresh_file(path))
         self.assertFalse(CachePolicy.from_string("4d").refresh_file(path))
 
         os.unlink(path)
 
         # Inexistent file gets refreshed even under no-refresh
-        self.assertTrue(CachePolicy.NO_REFRESH.refresh_file(path))
+        self.assertTrue(CachePolicy.NO_REFRESH().refresh_file(path))
 
     def test_parsing_durations(self):
         self.assertEqual(CachePolicy.from_string("1")._max_age, 86400)
@@ -92,7 +96,10 @@ class TestCachePolicy(unittest.TestCase):
         self.assertEqual(CachePolicy.from_string("1m")._max_age, 86400 * 30)
         self.assertEqual(CachePolicy.from_string("1y")._max_age, 86400 * 365)
 
-        self.assertIsNone(CachePolicy.from_string("bogus"))
+    def test_invalid_policy(self):
+        with self.assertRaises(ValueError) as context:
+            CachePolicy.from_string("bogus")
+        self.assertEqual("bogus is an invalid cache policy", str(context.exception))
 
 
 class TestFileCache(unittest.TestCase):
@@ -100,16 +107,31 @@ class TestFileCache(unittest.TestCase):
     def test_parse_cache_configuration(self):
         cache = FileCache(None)  # we don't need a Pystow module here
 
-        with self.assertLogs() as log:
-            cache._get_configuration("tests/input/cache.conf")
-        self.assertTrue("missing caching policy" in log.output[0])
-        self.assertTrue("invalid caching policy" in log.output[1])
+        cache._get_configuration("tests/input/cache_configs/cache.conf")
 
         self.assertEqual(cache._default_policy._max_age, 86400 * 7)
         self.assertEqual(cache._policies[0][0], "uberon.db")
         self.assertEqual(cache._policies[0][1]._max_age, 86400 * 7 * 2)
         self.assertEqual(cache._policies[1][0], "fb*.db")
         self.assertEqual(cache._policies[1][1]._max_age, 86400 * 30)
+
+    def test_parse_invalid_cache_configuration(self):
+        cache = FileCache(None)  # we don't need a Pystow module here
+
+        with self.assertRaises(ValueError) as context:
+            cache._get_configuration("tests/input/cache_configs/cache_invalid.conf")
+        self.assertEqual("bogus is an invalid cache policy", str(context.exception))
+
+    def test_parse_missing_cache_configuration(self):
+        cache = FileCache(None)  # we don't need a Pystow module here
+
+        with self.assertRaises(ValueError) as context:
+            cache._get_configuration("tests/input/cache_configs/cache_missing.conf")
+        self.assertEqual(
+            "cache_missing.conf(2) --- missing_policy.db is missing a cache policy. " +\
+             "Should be provided in the form 'missing_policy.db = $POLICY'",
+            str(context.exception),
+        )
 
     def test_policy_selector(self):
         cache = FileCache(None)

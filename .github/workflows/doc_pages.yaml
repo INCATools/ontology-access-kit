@@ -18,35 +18,27 @@ jobs:
       with:
         python-version: 3.12
 
-        #    - name: Install Poetry.
-#      uses: snok/install-poetry@v1.3
-    - name: Install Poetry
-      run: |
-        pip install --upgrade pip
-        pip install poetry
+    - name: Download uv
+      uses: astral-sh/setup-uv@v7.3.0
 
 
-    - name: install
-      run: poetry install -E docs
+    - name: Install python packages
+      run: uv sync --extra "docs"
+    
+    - name: Install pandoc 
+      run: make get-pandoc
+       
+    - name: Prep ./gh-pages directory
+      run: make prep-gh-pages-dir
 
-    - name: Install dependencies for nbsphinx
-      run: |
-        sudo apt update
-        sudo apt install -y pandoc
-        
-    - name: Run Pandoc
-      run: |
-        pandoc --version
+    - name: Run all gendoc commands
+      run: make run-all-gendoc-cmds 
 
-    - name: Build documentation.
-      run: |
-        mkdir gh-pages
-        touch gh-pages/.nojekyll
-        poetry run make gendoc
-        cd docs/
-        poetry run sphinx-build -b html . _build
-        cp -r _build/* ../gh-pages/
-        cp -r datamodels/* ../gh-pages/
+    - name: Execute sphinx-build
+      run: make sphinx-cmd
+
+    - name: Stage docs
+      run: make stage-docs
 
     - name: Deploy documentation.
       if: ${{ github.event_name == 'push' }}

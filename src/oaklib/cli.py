@@ -652,7 +652,7 @@ def main(
     if input:
         if wrap_adapter:
             input = wrap_adapter + ":" + input
-        settings.impl = get_adapter(input)
+        settings.impl = get_adapter(input, format=input_type)
         settings.impl.autosave = autosave
     if merge and not add:
         raise ValueError("Cannot use --merge without --add")

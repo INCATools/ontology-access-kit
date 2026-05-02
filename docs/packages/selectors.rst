@@ -31,7 +31,10 @@ Examples of scheme-less descriptors, implicit implementation:
 
 - :code:`tests/input/go-nucleus.obo` - local :term:`OBO Format` file loaded with pronto
 - :code:`tests/input/go-nucleus.json` - local :term:`OBO Graphs` json format file loaded with pronto
-- :code:`tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with rdflib at the moment, may change)
+- :code:`tests/input/go-nucleus.owl` - local OWL file loaded with the horned-owl-backed :ref:`funowl_implementation`
+- :code:`tests/input/go-nucleus.ofn` - local :term:`Functional Syntax` OWL file loaded with the horned-owl-backed :ref:`funowl_implementation`
+- :code:`tests/input/go-nucleus.omn` - local Manchester OWL file loaded with the horned-owl-backed :ref:`funowl_implementation`
+- :code:`tests/input/go-nucleus.owx` - local OWL/XML file loaded with the horned-owl-backed :ref:`funowl_implementation`
 - :code:`tests/input/go-nucleus.owl.ttl` - local OWL :term:`Turtle` file (loaded with rdflib at the moment, may change)
 - :code:`tests/input/go-nucleus.db` - local sqlite3 db loaded with SqlImplementation
 - :code:`http://purl.obolibrary.org/obo/pato.obo` - NOT IMPLEMENTED; download locally for now
@@ -44,6 +47,8 @@ Examples of explicit schemes:
 - :code:`pronto:tests/input/go-nucleus.obo` - local :term:`OBO Format` file loaded with pronto
 - :code:`pronto:tests/input/go-nucleus.json` - local :term:`OBO Graphs` json format file loaded with pronto
 - :code:`pronto:tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with pronto at the moment may change)
+- :code:`funowl:tests/input/go-nucleus.owl` - local OWL file loaded with the horned-owl-backed OWL object model
+- :code:`funowl:tests/input/go-nucleus.ofn` - local :term:`Functional Syntax` OWL file loaded with the horned-owl-backed OWL object model
 - :code:`pronto:tests/input/go-nucleus.db` - local sqlite3 db loaded with SqlImplementation
 - :code:`prontolib:pato.obo` - remote :term:`OBO Format` file loaded from OBO Library with pronto
 - :code:`prontolib:pato.owl` - remote owl format file loaded from OBO Library with pronto
@@ -120,7 +125,11 @@ funowl
 
 Implementation: :ref:`funowl_implementation`
 
-NOT IMPLEMENTED YET
+This selector name is retained for backward compatibility. The implementation is
+now backed by ``py-horned-owl`` while continuing to accept ``funowl:...``
+selectors. Plain local paths ending in ``.owl``, ``.ofn``, ``.omn``, or
+``.owx`` also resolve to this implementation by default; use an explicit scheme
+such as ``sqlite:`` or ``sparql:`` to force a different backend.
 
 Functions
 ----

@@ -1,9 +1,8 @@
 import logging
 import unittest
 
-from funowl import EquivalentClasses, SubClassOf
-from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
+from pyhornedowl.model import EquivalentClasses, SubClassOf
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -11,16 +10,19 @@ from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from tests import CHEBI_NUCLEUS, HUMAN, INPUT_DIR, NUCLEUS, VACUOLE
+from tests.test_implementations import ComplianceTester
 
 TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
+TEST_GRAPH_PROJECTION_ONT = INPUT_DIR / "graph_projection.owl"
 TEST_INST_ONT = INPUT_DIR / "inst.ofn"
 NEW_NAME = "new name"
 
 
 class TestFunOwlImplementation(unittest.TestCase):
     def setUp(self) -> None:
-        resource = OntologyResource(TEST_ONT)
+        resource = OntologyResource(str(TEST_ONT))
         self.oi = FunOwlImplementation(resource)
+        self.compliance_tester = ComplianceTester(self)
 
     def test_entities(self):
         curies = list(self.oi.entities())
@@ -28,7 +30,6 @@ class TestFunOwlImplementation(unittest.TestCase):
         self.assertIn(CHEBI_NUCLEUS, curies)
         self.assertIn(HUMAN, curies)
 
-    @unittest.skip("OboGraph not yet implemented")
     def test_edges(self):
         oi = self.oi
         curies = list(oi.entities())
@@ -40,7 +41,6 @@ class TestFunOwlImplementation(unittest.TestCase):
             raise NotImplementedError
 
     def test_filter_axioms(self):
-        FunctionalWriter()
         oi = self.oi
         self.assertCountEqual(
             list(oi.axioms()),
@@ -60,7 +60,7 @@ class TestFunOwlImplementation(unittest.TestCase):
         for ax in nucleus_axioms:
             if isinstance(ax, SubClassOf):
                 n_subclass += 1
-                self.assertEqual(NUCLEUS, oi.entity_iri_to_curie(ax.subClassExpression))
+                self.assertEqual(NUCLEUS, oi.entity_iri_to_curie(ax.sub.first))
         self.assertEqual(n_subclass, 3)
         self.assertGreater(len(nucleus_axioms), 2)
         nucleus_ref_axioms = list(oi.filter_axioms(AxiomFilter(references=NUCLEUS)))
@@ -72,6 +72,25 @@ class TestFunOwlImplementation(unittest.TestCase):
         self.assertGreater(len(nucleus_ref_axioms), 3)
         for ax in nucleus_axioms:
             self.assertIn(ax, nucleus_ref_axioms)
+
+    def test_relationships(self):
+        self.compliance_tester.test_relationships(self.oi)
+
+    def test_rbox_relationships(self):
+        self.compliance_tester.test_rbox_relationships(self.oi)
+
+    def test_equiv_relationships(self):
+        self.compliance_tester.test_equiv_relationships(self.oi)
+
+    def test_graph_projections(self):
+        oi = FunOwlImplementation(OntologyResource(str(TEST_GRAPH_PROJECTION_ONT)))
+        self.compliance_tester.test_graph_projections(oi)
+
+    def test_logical_definitions(self):
+        self.compliance_tester.test_logical_definitions(self.oi)
+
+    def test_ancestors_descendants(self):
+        self.compliance_tester.test_ancestors_descendants(self.oi)
 
     def test_patcher(self):
         oi = self.oi

@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from shutil import copyfile
 
 try:
     from gilda.grounder import Grounder
@@ -15,6 +16,7 @@ except ImportError:
     have_gilda = False
 
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
+from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -28,7 +30,6 @@ from oaklib.selector import get_adapter, get_resource_from_shorthand
 from tests import INPUT_DIR
 
 
-@unittest.skipIf(not have_gilda, "Gilda not available")
 class TestResource(unittest.TestCase):
     def test_from_descriptor(self):
         # no scheme
@@ -36,10 +37,14 @@ class TestResource(unittest.TestCase):
         assert resource.implementation_class == ProntoImplementation
         self.assertEqual("foo.obo", resource.slug)
         resource = get_resource_from_shorthand("foo.owl")
-        # this may change:
-        assert resource.implementation_class == SparqlImplementation
+        assert resource.implementation_class == FunOwlImplementation
+        resource = get_resource_from_shorthand("foo.ofn")
+        assert resource.implementation_class == FunOwlImplementation
+        resource = get_resource_from_shorthand("foo.omn")
+        assert resource.implementation_class == FunOwlImplementation
+        resource = get_resource_from_shorthand("foo.owx")
+        assert resource.implementation_class == FunOwlImplementation
         resource = get_resource_from_shorthand("foo.ttl")
-        # this may change:
         assert resource.implementation_class == SparqlImplementation
         resource = get_resource_from_shorthand("pronto:foo.owl")
         assert resource.implementation_class == ProntoImplementation
@@ -70,6 +75,15 @@ class TestResource(unittest.TestCase):
             assocs.append((a.subject, a.object))
         self.assertCountEqual(expected, assocs)
 
+    def test_funowl_sniffs_functional_syntax_for_owl_suffix(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            disguised_path = Path(tmpdir) / "go-nucleus-functional.owl"
+            copyfile(INPUT_DIR / "go-nucleus.ofn", disguised_path)
+            adapter = get_adapter(str(disguised_path))
+            self.assertIsInstance(adapter, FunOwlImplementation)
+            self.assertEqual("nucleus", adapter.label("GO:0005634"))
+
+    @unittest.skipIf(not have_gilda, "Gilda not available")
     @unittest.skipIf(sys.platform == "win32", "Skipping test_gilda_from_descriptor on Windows")
     def test_gilda_from_descriptor(self):
         """Test the Gilda implementation."""

@@ -163,7 +163,9 @@ SubClassOf, SomeValuesFrom, Annotations).
 There are a variety of ways of consuming OWL in OAK
 
 - The recommended way is to use :ref:`sql_implementation`, which works off of RDF/OWL compiled to sqlite3
-- You can also use :ref:`funowl_implementation`, but this requires the ontology is in :term:`Functional Syntax`
+- You can also use :ref:`funowl_implementation`; the selector name is historical,
+  but the adapter is now backed by ``py-horned-owl`` and is the default for local
+  ``.owl``, ``.ofn``, ``.omn``, and ``.owx`` paths
 - You can use a local or remote OWL ontologies serialized as RDF via the :ref:`sparql_implementation`
 - Using a tool like :ref:`ROBOT` to convert an OWL ontology to a serialization like :term:`OBO Format`
 
@@ -199,4 +201,3 @@ Can I use OAK as a text annotator?
 -----------------------------------
 
 Yes. See the :ref:`text_annotator_interface`.
-

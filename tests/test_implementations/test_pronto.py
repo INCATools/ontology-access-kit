@@ -47,6 +47,8 @@ TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
 TEST_SKOS_MAPPINGS_ONT = INPUT_DIR / "mapping-predicates-test.obo"
 
 
+# TODO: Remove this once pronto/fastobo is fixed.
+@unittest.skip("Fastobo>0.12.1 has a broken parser that causes an error.")
 class TestProntoImplementation(unittest.TestCase):
     def setUp(self) -> None:
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)

@@ -804,7 +804,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             if not id_prefixes or get_curie_prefix(curie) in id_prefixes:
                 candidates.append(curie)
         logging.info(f"Candidates: {len(candidates)}")
-        for subject, pred, object in self.all_relationships():
+        for subject, pred, object in self.relationships():
             if subject == object:
                 continue
             if ignore_owl_thing and object == OWL_THING:
@@ -853,7 +853,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         all_curies = set(list(self.entities(owl_type=OWL_CLASS)))
         candidates = all_curies
         logging.info(f"Candidates: {len(candidates)}")
-        for subject, pred, object in self.all_relationships():
+        for subject, pred, object in self.relationships():
             if subject == object:
                 continue
             if ignore_owl_nothing and subject == OWL_NOTHING:
@@ -890,7 +890,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             self.roots(predicates=predicates, ignore_owl_thing=True, filter_obsoletes=True)
         )
         logging.info(f"Candidates: {len(candidates)}; filtering using {predicates}")
-        for subject, pred, object in self.all_relationships():
+        for subject, pred, object in self.relationships():
             if subject == object:
                 continue
             if subject == OWL_NOTHING:

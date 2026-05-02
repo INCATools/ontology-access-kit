@@ -1,12 +1,13 @@
 import logging
 from collections import defaultdict
 from copy import deepcopy
-from typing import Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from sssom_schema import Mapping, MappingCardinalityEnum
 
 import oaklib.datamodels.obograph as og
 from oaklib import get_adapter
+from oaklib.datamodels.cross_ontology_diff import EntityReference
 from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_EXACT_MATCH
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -23,12 +24,19 @@ def _prefix(curie: CURIE) -> str:
     return curie.split(":")[0].lower()
 
 
+def _is_reciprocated(subject_id: Union[str, EntityReference, None], mappings: Iterable[Mapping]):
+    for m in mappings:
+        if m.object_id == subject_id:
+            return True
+    return False
+
+
 def unreciprocated_mappings(
     subject_oi: MappingProviderInterface,
     object_oi: MappingProviderInterface,
     filter_unidirectional: bool = True,
     both_directions: bool = True,
-) -> Iterator[Mapping]:
+) -> Iterable[Mapping]:
     """
     yields all mappings from all terms in subject ontology where the object
     is in the object ontology, and the object does not have the reciprocal mapping
@@ -47,26 +55,30 @@ def unreciprocated_mappings(
     :param both_directions: if True (default) also calculate from object to subject
     :return:
     """
-    groups = group_mappings_by_source_pairs(subject_oi, object_oi)
-    for m in subject_oi.sssom_mappings_by_source():
-        subject_src = subject_source(m)
+    groups: Dict[Tuple[str, str], List[Mapping]] = group_mappings_by_source_pairs(
+        subject_oi, object_oi
+    )
+    # del groups[('Y','Z')]
+    subject_mappings: List[Mapping] = list(subject_oi.sssom_mappings_by_source())
+    for m in subject_mappings:
+        subject_src: str = subject_source(m)
         object_src = object_source(m)
         subject_id = m.subject_id
         object_id = m.object_id
+        object_mappings = object_oi.get_sssom_mappings_by_curie(object_id)
         if filter_unidirectional:
             if (object_src, subject_src) not in groups:
-                return
-        is_reciprocated = False
-        for rm in object_oi.get_sssom_mappings_by_curie(object_id):
-            if rm.object_id == subject_id:
-                is_reciprocated = True
-                break
+                logging.info(
+                    f"({object_src},{subject_src}) not in {groups.keys()} (keys of groups dict)"
+                )
+                continue
+        is_reciprocated = _is_reciprocated(subject_id, object_mappings)
         if not is_reciprocated:
             yield m
     if both_directions:
         if subject_oi != object_oi:
             for m in unreciprocated_mappings(
-                object_oi,
+                object_oi,  # subject_oi and object_oi are inverted
                 subject_oi,
                 filter_unidirectional=filter_unidirectional,
                 both_directions=False,

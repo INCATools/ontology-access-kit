@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import fnmatch
 import logging
 import os.path
@@ -7,6 +9,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from appdirs import user_config_dir
+from click import ParamType
 from pystow.utils import base_from_gzip_name, name_from_url
 
 from oaklib.datamodels.vocabulary import APP_NAME
@@ -112,7 +115,7 @@ class CachePolicy(object):
     _click_type = None
 
     @classmethod
-    def from_string(cls, value):
+    def from_string(cls, value) -> CachePolicy:
         """Creates a new instance from a string representation.
 
         This is the recommended way of getting a CachePolicy object. The value
@@ -142,11 +145,11 @@ class CachePolicy(object):
 
         value = value.lower()
         if value == "refresh":
-            return cls.REFRESH
+            return cls.REFRESH()
         elif value == "no-refresh":
-            return cls.NO_REFRESH
+            return cls.NO_REFRESH()
         elif value in ["reset", "clear"]:
-            return cls.RESET
+            return cls.RESET()
         else:
             if m := re.match("^([0-9]+)([sdwmy])?", value):
                 num, qual = m.groups()
@@ -156,37 +159,38 @@ class CachePolicy(object):
                     return cls(int(num))
                 else:
                     return cls(timedelta(days=int(num) * _durations[qual]).total_seconds())
-            return None
+        raise ValueError(f"{value} is an invalid cache policy")
 
     @classmethod
-    @property
-    def REFRESH(cls):
+    #    @property
+    def REFRESH(cls) -> CachePolicy:
         """A policy that cached data should always be refreshed."""
-
+        return cls(max_age=0)
         if cls._refresh_policy is None:
             cls._refresh_policy = cls(max_age=0)
         return cls._refresh_policy
 
     @classmethod
-    @property
-    def NO_REFRESH(cls):
+    #    @property
+    def NO_REFRESH(cls) -> CachePolicy:
         """A policy that cached data should never be refreshed."""
+        return cls(max_age=timedelta.max.total_seconds())
 
         if cls._no_refresh_policy is None:
             cls._no_refresh_policy = cls(max_age=timedelta.max.total_seconds())
         return cls._no_refresh_policy
 
     @classmethod
-    @property
-    def RESET(cls):
+    #    @property
+    def RESET(cls) -> CachePolicy:
         """A policy that cached data should be cleared and refreshed."""
-
+        return cls(max_age=-1)
         if cls._reset_policy is None:
             cls._reset_policy = cls(max_age=-1)
         return cls._reset_policy
 
     @classmethod
-    @property
+    #    @property
     def ClickType(cls):
         """Helper method to parse a CachePolicy with Click.
 
@@ -200,24 +204,19 @@ class CachePolicy(object):
                           default="1w")
         """
 
-        if cls._click_type is None:
-            from click import ParamType
+        class CachePolicyParamType(ParamType):
+            name = "cache-policy"
 
-            class CachePolicyParamType(ParamType):
-                name = "cache-policy"
+            def convert(self, value, param, ctx):
+                if isinstance(value, cls):
+                    return value
 
-                def convert(self, value, param, ctx):
-                    if isinstance(value, cls):
-                        return value
+                if p := cls.from_string(value):
+                    return p
+                else:
+                    self.fail(f"Cannot convert '{value}' to a cache policy", param, ctx)
 
-                    if p := cls.from_string(value):
-                        return p
-                    else:
-                        self.fail(f"Cannot convert '{value}' to a cache policy", param, ctx)
-
-            cls._click_type = CachePolicyParamType()
-
-        return cls._click_type
+        return CachePolicyParamType()
 
 
 class FileCache(object):
@@ -380,10 +379,10 @@ class FileCache(object):
                 items = line.split("=", maxsplit=1)
                 pattern = items[0].strip()
                 if len(items) != 2:
-                    _logger.warning(
-                        f"{filename}({n}): Ignoring missing caching policy for {pattern}"
+                    raise ValueError(
+                        f"{filename}({n}) --- {items[0].strip()} "
+                        f"is missing a cache policy. Should be provided in the form '{items[0]} = $POLICY'"
                     )
-                    continue
 
                 policy = CachePolicy.from_string(items[1].strip())
                 if policy is None:
