@@ -38,6 +38,7 @@ from pyhornedowl.model import (
 )
 
 from oaklib.datamodels import obograph
+from oaklib.datamodels.search import SearchConfiguration, SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
     EQUIVALENT_CLASS,
@@ -413,6 +414,57 @@ class FunOwlImplementation(
             alias_map[predicate].extend(metadata.get(predicate, []))
         return dict(alias_map)
 
+    def basic_search(
+        self, search_term: str, config: Optional[SearchConfiguration] = None
+    ) -> Iterable[CURIE]:
+        if config is None:
+            config = SearchConfiguration()
+        properties = list(config.properties or [])
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            matcher = lambda text: str(text).startswith(search_term)
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+            prog = re.compile(search_term)
+            matcher = lambda text: prog.search(str(text))
+        elif config.is_partial:
+            matcher = lambda text: search_term in str(text)
+        else:
+            matcher = lambda text: str(text) == search_term
+        search_all = SearchProperty(SearchProperty.ANYTHING) in properties
+        search_label = search_all or not properties or SearchProperty(SearchProperty.LABEL) in properties
+        search_identifier = search_all or SearchProperty(SearchProperty.IDENTIFIER) in properties
+        search_alias = search_all or SearchProperty(SearchProperty.ALIAS) in properties
+        search_mapped = search_all or SearchProperty(SearchProperty.MAPPED_IDENTIFIER) in properties
+        seen: Set[CURIE] = set()
+        for curie in self.entities(filter_obsoletes=False):
+            if search_label:
+                label = self.label(curie)
+                if label and matcher(label):
+                    if curie not in seen:
+                        seen.add(curie)
+                        yield curie
+                    continue
+            if search_identifier and matcher(curie):
+                if curie not in seen:
+                    seen.add(curie)
+                    yield curie
+                continue
+            if search_alias:
+                for alias in self.entity_aliases(curie):
+                    if alias and matcher(alias):
+                        if curie not in seen:
+                            seen.add(curie)
+                            yield curie
+                        break
+                if curie in seen:
+                    continue
+            if search_mapped:
+                for xref in self.entity_metadata_map(curie).get(HAS_DBXREF, []):
+                    if matcher(xref):
+                        if curie not in seen:
+                            seen.add(curie)
+                            yield curie
+                        break
+
     def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[tuple[CURIE, CURIE]]:
         for curie in curies:
             for subset in self.entity_metadata_map(curie).get(IN_SUBSET, []):
@@ -434,10 +486,11 @@ class FunOwlImplementation(
     ) -> Optional[obograph.Node]:
         entity_types = set(self.owl_type(curie))
         label = self.label(curie)
+        node_id = cast(CURIE, self.curie_to_uri(curie)) if expand_curies else curie
         if not entity_types and label is None:
             if strict:
                 raise ValueError(f"Unknown entity: {curie}")
-            return None
+            return obograph.Node(id=node_id, type="CLASS")
         if any(
             owl_type in entity_types
             for owl_type in [OWL_OBJECT_PROPERTY, OWL_ANNOTATION_PROPERTY, OWL_DATATYPE_PROPERTY]
@@ -447,7 +500,6 @@ class FunOwlImplementation(
             node_type = "INDIVIDUAL"
         else:
             node_type = "CLASS"
-        node_id = cast(CURIE, self.curie_to_uri(curie)) if expand_curies else curie
         meta = None
         if include_metadata:
             meta = obograph.Meta()

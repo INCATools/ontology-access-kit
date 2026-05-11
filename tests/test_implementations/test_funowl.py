@@ -1,9 +1,12 @@
 import logging
+import tempfile
 import unittest
+from pathlib import Path
 
 from kgcl_schema.datamodel import kgcl
 from pyhornedowl.model import EquivalentClasses, SubClassOf
 
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter
@@ -16,6 +19,18 @@ TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
 TEST_GRAPH_PROJECTION_ONT = INPUT_DIR / "graph_projection.owl"
 TEST_INST_ONT = INPUT_DIR / "inst.ofn"
 NEW_NAME = "new name"
+EXTERNAL_REFERENCE_OFN = """\
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(CL:=<http://purl.obolibrary.org/obo/CL_>)
+Prefix(BFO:=<http://purl.obolibrary.org/obo/BFO_>)
+Prefix(GO:=<http://purl.obolibrary.org/obo/GO_>)
+Ontology(
+Declaration(Class(CL:0000540))
+AnnotationAssertion(rdfs:label CL:0000540 "neuron")
+SubClassOf(CL:0000540 GO:0008150)
+SubClassOf(CL:0000540 ObjectSomeValuesFrom(BFO:0000050 GO:0008150))
+)
+"""
 
 
 class TestFunOwlImplementation(unittest.TestCase):
@@ -91,6 +106,21 @@ class TestFunOwlImplementation(unittest.TestCase):
 
     def test_ancestors_descendants(self):
         self.compliance_tester.test_ancestors_descendants(self.oi)
+
+    def test_basic_search(self):
+        self.assertIn(NUCLEUS, list(self.oi.basic_search("nucleus")))
+        cfg = SearchConfiguration(is_partial=True)
+        self.assertIn(NUCLEUS, list(self.oi.basic_search("nucl", config=cfg)))
+
+    def test_stub_nodes_for_unresolved_external_references(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "external-ref.ofn"
+            path.write_text(EXTERNAL_REFERENCE_OFN)
+            oi = FunOwlImplementation(OntologyResource(str(path)))
+            graph = oi.direct_graph("CL:0000540")
+            node_ids = {node.id for node in graph.nodes}
+            self.assertIn("CL:0000540", node_ids)
+            self.assertIn("GO:0008150", node_ids)
 
     def test_patcher(self):
         oi = self.oi

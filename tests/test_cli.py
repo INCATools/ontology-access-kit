@@ -66,6 +66,18 @@ TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 SYNONYMIZER_RULES_FILE = INPUT_DIR / "cli-synonymizer-rules.yaml"
+EXTERNAL_REFERENCE_OFN = """\
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(CL:=<http://purl.obolibrary.org/obo/CL_>)
+Prefix(BFO:=<http://purl.obolibrary.org/obo/BFO_>)
+Prefix(GO:=<http://purl.obolibrary.org/obo/GO_>)
+Ontology(
+Declaration(Class(CL:0000540))
+AnnotationAssertion(rdfs:label CL:0000540 "neuron")
+SubClassOf(CL:0000540 GO:0008150)
+SubClassOf(CL:0000540 ObjectSomeValuesFrom(BFO:0000050 GO:0008150))
+)
+"""
 
 
 def _outpath(test: str, fmt: str = "tmp") -> str:
@@ -114,6 +126,35 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(main, args)
                 self.assertEqual(0, result.exit_code, result.output)
                 self.assertIn("nucleus", result.stdout)
+
+    def test_funowl_info_search_and_graph_outputs(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            ontology_path = Path(tmpdir) / "external-ref.ofn"
+            ontology_path.write_text(EXTERNAL_REFERENCE_OFN)
+            viz_out = Path(tmpdir) / "viz.json"
+            for args, expected in (
+                (["-I", "ofn", "-i", str(ontology_path), "info", "neuron"], "CL:0000540 ! neuron"),
+                (
+                    ["-I", "ofn", "-i", str(ontology_path), "info", "l~neur"],
+                    "CL:0000540 ! neuron",
+                ),
+                (
+                    ["-I", "ofn", "-i", str(ontology_path), "info", "CL:0000540", "-O", "obo"],
+                    "id: CL:0000540",
+                ),
+            ):
+                result = self.runner.invoke(main, args)
+                self.assertEqual(0, result.exit_code, result.output)
+                self.assertIn(expected, result.stdout)
+            result = self.runner.invoke(
+                main,
+                ["-I", "ofn", "-i", str(ontology_path), "viz", "CL:0000540", "-O", "json", "-o", str(viz_out)],
+            )
+            self.assertEqual(0, result.exit_code, result.output)
+            obj = json.load(open(viz_out))
+            node_ids = {node["id"] for node in obj["nodes"]}
+            self.assertIn("CL:0000540", node_ids)
+            self.assertIn("GO:0008150", node_ids)
 
     def test_multilingual(self):
         for input_arg in [INPUT_DIR / "hp-international-test.db"]:
