@@ -61,6 +61,12 @@ class TestResource(unittest.TestCase):
         resource = get_resource_from_shorthand("ontobee:")
         assert resource.implementation_class == OntobeeImplementation
         self.assertIsNone(resource.slug)
+        resource = get_resource_from_shorthand("funowl:foo.owl")
+        assert resource.implementation_class == FunOwlImplementation
+        self.assertEqual("foo.owl", resource.slug)
+        resource = get_resource_from_shorthand("owl:foo.owl")
+        assert resource.implementation_class == FunOwlImplementation
+        self.assertEqual("foo.owl", resource.slug)
 
     def test_input_specification(self):
         os.chdir(INPUT_DIR.parent.parent)
@@ -82,6 +88,13 @@ class TestResource(unittest.TestCase):
             adapter = get_adapter(str(disguised_path))
             self.assertIsInstance(adapter, FunOwlImplementation)
             self.assertEqual("nucleus", adapter.label("GO:0005634"))
+
+    def test_owl_scheme_uses_funowl_implementation(self):
+        for scheme in ["owl", "funowl"]:
+            with self.subTest(scheme=scheme):
+                adapter = get_adapter(f"{scheme}:{INPUT_DIR / 'go-nucleus.ofn'}")
+                self.assertIsInstance(adapter, FunOwlImplementation)
+                self.assertEqual("nucleus", adapter.label("GO:0005634"))
 
     @unittest.skipIf(not have_gilda, "Gilda not available")
     @unittest.skipIf(sys.platform == "win32", "Skipping test_gilda_from_descriptor on Windows")
