@@ -30,14 +30,13 @@ TERM_DATA = {
 
 
 class TestOlsImplementation(unittest.TestCase):
-    @patch("oaklib.implementations.ols.ols_implementation.EBIClient")
-    def setUp(self, mock_ebi_client) -> None:
+    def setUp(self) -> None:
         # Setup mock client
         mock_client = MagicMock()
-        mock_ebi_client.return_value = mock_client
 
         # Create implementation
-        oi = OlsImplementation(OntologyResource("go"))
+        with patch.object(OlsImplementation, "ols_client_class", return_value=mock_client):
+            oi = OlsImplementation(OntologyResource("go"))
         # Mock the uri_to_curie method to handle our test cases
         oi.uri_to_curie = MagicMock()
         oi.uri_to_curie.side_effect = lambda uri, *args, **kwargs: {

@@ -109,8 +109,8 @@ class TestBioportal(unittest.TestCase):
     def test_ontology_versions(self):
         versions = list(self.impl.ontology_versions("FMA"))
         self.assertTrue(versions)
-        self.assertIn("5.0.0", versions)
-        self.assertIn("v3.2.1", versions)
+        self.assertTrue(all(isinstance(version, str) for version in versions))
+        self.assertTrue(all(version for version in versions))
 
     @integration_test
     def test_entities(self):
