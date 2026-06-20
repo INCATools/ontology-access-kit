@@ -23,20 +23,20 @@ URI: [rdfs:comment](http://www.w3.org/2000/01/rdf-schema#comment)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
-| [Property](Property.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [HasUserInformation](HasUserInformation.md) |  |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [Agent](Agent.md) |  |  no  |
-| [Image](Image.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Property](Property.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Class](Class.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [HasUserInformation](HasUserInformation.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
 
 
 

@@ -23,20 +23,20 @@ URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Property](Property.md) |  |  no  |
-| [Class](Class.md) |  |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Property](Property.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [Thing](Thing.md) |  |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Class](Class.md) |  |  no  |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [NamedObject](NamedObject.md) | Anything with an IRI |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Agent](Agent.md) |  |  no  |
 | [Image](Image.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Ontology](Ontology.md) | An OWL ontology |  no  |
 
 
 
