@@ -47,7 +47,8 @@ Examples of explicit schemes:
 - :code:`pronto:tests/input/go-nucleus.obo` - local :term:`OBO Format` file loaded with pronto
 - :code:`pronto:tests/input/go-nucleus.json` - local :term:`OBO Graphs` json format file loaded with pronto
 - :code:`pronto:tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with pronto at the moment may change)
-- :code:`funowl:tests/input/go-nucleus.owl` - local OWL file loaded with the horned-owl-backed OWL object model
+- :code:`owl:tests/input/go-nucleus.owl` - local OWL file loaded with the horned-owl-backed OWL object model
+- :code:`funowl:tests/input/go-nucleus.owl` - backward-compatible alias for the horned-owl-backed OWL object model
 - :code:`funowl:tests/input/go-nucleus.ofn` - local :term:`Functional Syntax` OWL file loaded with the horned-owl-backed OWL object model
 - :code:`pronto:tests/input/go-nucleus.db` - local sqlite3 db loaded with SqlImplementation
 - :code:`prontolib:pato.obo` - remote :term:`OBO Format` file loaded from OBO Library with pronto
@@ -120,14 +121,14 @@ Implementation: :ref:`bioportal_implementation`
 
 Currently the slug is ignored
 
-funowl
-^^^^
+owl and funowl
+^^^^^^^^^^^^^^
 
 Implementation: :ref:`funowl_implementation`
 
-This selector name is retained for backward compatibility. The implementation is
-now backed by ``py-horned-owl`` while continuing to accept ``funowl:...``
-selectors. Plain local paths ending in ``.owl``, ``.ofn``, ``.omn``, or
+The ``owl:`` selector loads local OWL files with the py-horned-owl-backed OWL
+object model. The older ``funowl:`` selector name is retained as a
+backward-compatible alias. Plain local paths ending in ``.owl``, ``.ofn``, ``.omn``, or
 ``.owx`` also resolve to this implementation by default; use an explicit scheme
 such as ``sqlite:`` or ``sparql:`` to force a different backend.
 

@@ -149,6 +149,7 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
             "sqlite": SqlImplementation,
             "rdflib": SparqlImplementation,
             "oak": OakMetaModelImplementation,
+            "owl": FunOwlImplementation,
             "cx": CXImplementation,
             "ndexbio": CXImplementation,
             "semsimian": SemSimianImplementation,
