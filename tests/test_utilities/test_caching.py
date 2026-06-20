@@ -148,7 +148,7 @@ class TestFileCache(unittest.TestCase):
         self.assertEqual(cache._get_policy("fbbt.db")._max_age, 86400 * 7 * 3)
         self.assertEqual(cache._get_policy("fbdv.db")._max_age, 86400 * 30)
         self.assertEqual(cache._get_policy("fbcv.db")._max_age, 86400 * 30)
-        self.assertEqual(cache._get_policy("other.db")._max_age, 86400 * 7)
+        self.assertEqual(cache._get_policy("other.db")._max_age, 86400 * 30)
 
         # Check that "forced policy" takes precedence
         cache.force_policy(CachePolicy.from_string("2d"))

@@ -235,7 +235,7 @@ class FileCache(object):
         """
 
         self._module = module
-        self._default_policy = CachePolicy.from_string("1w")
+        self._default_policy = CachePolicy.from_string("1m")
         self._forced_policy = None
         self._policies = []
         self._config_file = os.path.join(user_config_dir(APP_NAME), "cache.conf")
