@@ -66,7 +66,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#ontobee">ontobee</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ols">ols</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bioportal">bioportal</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#funowl">funowl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#owl-and-funowl">owl and funowl</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
@@ -162,7 +162,8 @@ to simplify things for you the user, please be patient!</p>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.obo</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.json</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> json format file loaded with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.owl</span></code> - local OWL rdf/xml format file (loaded with pronto at the moment may change)</p></li>
-<li><p><code class="code docutils literal notranslate"><span class="pre">funowl:tests/input/go-nucleus.owl</span></code> - local OWL file loaded with the horned-owl-backed OWL object model</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">owl:tests/input/go-nucleus.owl</span></code> - local OWL file loaded with the horned-owl-backed OWL object model</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">funowl:tests/input/go-nucleus.owl</span></code> - backward-compatible alias for the horned-owl-backed OWL object model</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">funowl:tests/input/go-nucleus.ofn</span></code> - local <a class="reference internal" href="../glossary.html#term-Functional-Syntax"><span class="xref std std-term">Functional Syntax</span></a> OWL file loaded with the horned-owl-backed OWL object model</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.db</span></code> - local sqlite3 db loaded with SqlImplementation</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">prontolib:pato.obo</span></code> - remote <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded from OBO Library with pronto</p></li>
@@ -219,12 +220,12 @@ to simplify things for you the user, please be patient!</p>
 <p>Implementation: <a class="reference internal" href="implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a></p>
 <p>Currently the slug is ignored</p>
 </section>
-<section id="funowl">
-<h3>funowl<a class="headerlink" href="#funowl" title="Link to this heading"></a></h3>
+<section id="owl-and-funowl">
+<h3>owl and funowl<a class="headerlink" href="#owl-and-funowl" title="Link to this heading"></a></h3>
 <p>Implementation: <a class="reference internal" href="implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a></p>
-<p>This selector name is retained for backward compatibility. The implementation is
-now backed by <code class="docutils literal notranslate"><span class="pre">py-horned-owl</span></code> while continuing to accept <code class="docutils literal notranslate"><span class="pre">funowl:...</span></code>
-selectors. Plain local paths ending in <code class="docutils literal notranslate"><span class="pre">.owl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ofn</span></code>, <code class="docutils literal notranslate"><span class="pre">.omn</span></code>, or
+<p>The <code class="docutils literal notranslate"><span class="pre">owl:</span></code> selector loads local OWL files with the py-horned-owl-backed OWL
+object model. The older <code class="docutils literal notranslate"><span class="pre">funowl:</span></code> selector name is retained as a
+backward-compatible alias. Plain local paths ending in <code class="docutils literal notranslate"><span class="pre">.owl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ofn</span></code>, <code class="docutils literal notranslate"><span class="pre">.omn</span></code>, or
 <code class="docutils literal notranslate"><span class="pre">.owx</span></code> also resolve to this implementation by default; use an explicit scheme
 such as <code class="docutils literal notranslate"><span class="pre">sqlite:</span></code> or <code class="docutils literal notranslate"><span class="pre">sparql:</span></code> to force a different backend.</p>
 </section>

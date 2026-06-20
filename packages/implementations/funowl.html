@@ -84,8 +84,9 @@
              
   <section id="funowl-adapter">
 <span id="funowl-implementation"></span><h1>FunOwl Adapter<a class="headerlink" href="#funowl-adapter" title="Link to this heading"></a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">funowl</span></code> adapter keeps its historical selector and class name for backward
-compatibility, but it is now implemented on top of
+<p>The <code class="docutils literal notranslate"><span class="pre">owl:</span></code> selector loads local OWL files with the py-horned-owl-backed OWL
+object model. The older <code class="docutils literal notranslate"><span class="pre">funowl:</span></code> selector and class name are retained for
+backward compatibility, but the implementation is now built on
 <a class="reference external" href="https://github.com/ontology-tools/py-horned-owl">py-horned-owl</a> rather than
 the old <code class="docutils literal notranslate"><span class="pre">funowl</span></code> package. Plain local <code class="docutils literal notranslate"><span class="pre">.owl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ofn</span></code>, <code class="docutils literal notranslate"><span class="pre">.omn</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">.owx</span></code> paths resolve here by default unless you choose an explicit scheme such
