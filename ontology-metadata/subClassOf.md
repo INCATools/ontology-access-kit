@@ -24,8 +24,8 @@ URI: [rdfs:subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Class](Class.md) |  |  yes  |
-| [ClassExpression](ClassExpression.md) |  |  no  |
 | [Restriction](Restriction.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
