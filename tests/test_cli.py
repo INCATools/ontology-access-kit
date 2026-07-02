@@ -153,6 +153,28 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("CL:0000540", result.stdout)
             self.assertIn("CL:0000000", result.stdout)
 
+            viz_out = Path(tmpdir) / "viz.json"
+            result = self.runner.invoke(
+                main,
+                [
+                    "-I",
+                    "ofn",
+                    "-i",
+                    str(disguised_path),
+                    "viz",
+                    "CL:0000540",
+                    "-O",
+                    "json",
+                    "-o",
+                    str(viz_out),
+                ],
+            )
+            self.assertEqual(0, result.exit_code, result.output)
+            obj = json.loads(viz_out.read_text(encoding="utf-8"))
+            node_ids = {node["id"] for node in obj["nodes"]}
+            self.assertIn("CL:0000540", node_ids)
+            self.assertIn("CL:0000000", node_ids)
+
     def test_functional_owl_mappings(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             disguised_path = self._write_minimal_cl_funowl(Path(tmpdir) / "cl-edit.owl")

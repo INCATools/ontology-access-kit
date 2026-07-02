@@ -1,21 +1,36 @@
 import logging
+import tempfile
 import unittest
+from pathlib import Path
 
 from kgcl_schema.datamodel import kgcl
 from pyhornedowl.model import EquivalentClasses, SubClassOf
 
+from oaklib.datamodels.search import SearchConfiguration, SearchProperty, SearchTermSyntax
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
-from tests import CHEBI_NUCLEUS, HUMAN, INPUT_DIR, NUCLEUS, VACUOLE
+from tests import BIOLOGICAL_PROCESS, CHEBI_NUCLEUS, HUMAN, INPUT_DIR, NUCLEUS, VACUOLE
 from tests.test_implementations import ComplianceTester
 
 TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
 TEST_GRAPH_PROJECTION_ONT = INPUT_DIR / "graph_projection.owl"
 TEST_INST_ONT = INPUT_DIR / "inst.ofn"
 NEW_NAME = "new name"
+EXTERNAL_REFERENCE_OFN = """\
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(CL:=<http://purl.obolibrary.org/obo/CL_>)
+Prefix(BFO:=<http://purl.obolibrary.org/obo/BFO_>)
+Prefix(GO:=<http://purl.obolibrary.org/obo/GO_>)
+Ontology(
+Declaration(Class(CL:0000540))
+AnnotationAssertion(rdfs:label CL:0000540 "neuron")
+SubClassOf(CL:0000540 GO:0008150)
+SubClassOf(CL:0000540 ObjectSomeValuesFrom(BFO:0000050 GO:0008150))
+)
+"""
 
 
 class TestFunOwlImplementation(unittest.TestCase):
@@ -91,6 +106,71 @@ class TestFunOwlImplementation(unittest.TestCase):
 
     def test_ancestors_descendants(self):
         self.compliance_tester.test_ancestors_descendants(self.oi)
+
+    def test_basic_search(self):
+        self.assertIn(NUCLEUS, list(self.oi.basic_search("nucleus")))
+        self.assertIn(
+            NUCLEUS,
+            list(self.oi.basic_search("nucl", config=SearchConfiguration(is_partial=True))),
+        )
+        self.assertIn(
+            NUCLEUS,
+            list(
+                self.oi.basic_search(
+                    "GO:00056",
+                    config=SearchConfiguration(
+                        properties=[SearchProperty.IDENTIFIER],
+                        syntax=SearchTermSyntax.STARTS_WITH,
+                    ),
+                )
+            ),
+        )
+        self.assertIn(
+            NUCLEUS,
+            list(
+                self.oi.basic_search(
+                    "nuc.*us",
+                    config=SearchConfiguration(
+                        properties=[SearchProperty.LABEL],
+                        syntax=SearchTermSyntax.REGULAR_EXPRESSION,
+                    ),
+                )
+            ),
+        )
+        self.assertIn(
+            NUCLEUS,
+            list(
+                self.oi.basic_search(
+                    "cell nucleus",
+                    config=SearchConfiguration(properties=[SearchProperty.ALIAS]),
+                )
+            ),
+        )
+        self.assertIn(
+            NUCLEUS,
+            list(
+                self.oi.basic_search(
+                    "Wikipedia:Cell_nucleus",
+                    config=SearchConfiguration(properties=[SearchProperty.MAPPED_IDENTIFIER]),
+                )
+            ),
+        )
+
+    def test_stub_nodes_for_unresolved_external_references(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "external-ref.ofn"
+            path.write_text(EXTERNAL_REFERENCE_OFN, encoding="utf-8")
+            oi = FunOwlImplementation(OntologyResource(str(path)))
+
+            self.assertIsNone(oi.label(BIOLOGICAL_PROCESS))
+            self.assertEqual(BIOLOGICAL_PROCESS, oi.node(BIOLOGICAL_PROCESS).id)
+            with self.assertRaises(ValueError):
+                oi.node(BIOLOGICAL_PROCESS, strict=True)
+
+            graph = oi.direct_graph("CL:0000540")
+            node_ids = {node.id for node in graph.nodes}
+            self.assertIn("CL:0000540", node_ids)
+            self.assertIn(BIOLOGICAL_PROCESS, node_ids)
 
     def test_patcher(self):
         oi = self.oi
