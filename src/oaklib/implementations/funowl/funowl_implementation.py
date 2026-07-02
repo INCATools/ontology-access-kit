@@ -503,9 +503,9 @@ class FunOwlImplementation(
         def _normalize(value: str) -> str:
             return value.lower() if config.force_case_insensitive else value
 
-        if config.syntax == SearchTermSyntax.STARTS_WITH:
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
             matches = lambda value: _normalize(value).startswith(normalized_search_term)
-        elif config.syntax == SearchTermSyntax.REGULAR_EXPRESSION:
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
             prog = re.compile(search_term, flags=flags)
             matches = lambda value: prog.search(value) is not None
         elif config.is_partial:
