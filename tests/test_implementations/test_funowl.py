@@ -4,14 +4,15 @@ import unittest
 from pathlib import Path
 
 from kgcl_schema.datamodel import kgcl
-from pyhornedowl.model import EquivalentClasses, SubClassOf
-
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty, SearchTermSyntax
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
+from pyhornedowl.model import EquivalentClasses, SubClassOf
+
 from tests import BIOLOGICAL_PROCESS, CHEBI_NUCLEUS, HUMAN, INPUT_DIR, NUCLEUS, VACUOLE
 from tests.test_implementations import ComplianceTester
 
@@ -31,6 +32,23 @@ SubClassOf(CL:0000540 GO:0008150)
 SubClassOf(CL:0000540 ObjectSomeValuesFrom(BFO:0000050 GO:0008150))
 )
 """
+CLOSURE_OFN = """\
+Prefix(EX:=<http://example.org/EX_>)
+Prefix(BFO:=<http://purl.obolibrary.org/obo/BFO_>)
+Ontology(
+Declaration(Class(EX:0001))
+Declaration(Class(EX:0002))
+Declaration(Class(EX:0003))
+Declaration(Class(EX:0004))
+Declaration(Class(EX:0005))
+Declaration(Class(EX:0006))
+Declaration(ObjectProperty(BFO:0000050))
+SubClassOf(EX:0002 EX:0001)
+SubClassOf(EX:0003 EX:0002)
+SubClassOf(EX:0004 ObjectSomeValuesFrom(BFO:0000050 EX:0001))
+SubClassOf(EX:0005 EX:0004)
+)
+"""
 
 
 class TestFunOwlImplementation(unittest.TestCase):
@@ -38,6 +56,11 @@ class TestFunOwlImplementation(unittest.TestCase):
         resource = OntologyResource(str(TEST_ONT))
         self.oi = FunOwlImplementation(resource)
         self.compliance_tester = ComplianceTester(self)
+
+    def _implementation_from_text(self, tmpdir: str, text: str) -> FunOwlImplementation:
+        path = Path(tmpdir) / "test.ofn"
+        path.write_text(text, encoding="utf-8")
+        return FunOwlImplementation(OntologyResource(str(path)))
 
     def test_entities(self):
         curies = list(self.oi.entities())
@@ -106,6 +129,76 @@ class TestFunOwlImplementation(unittest.TestCase):
 
     def test_ancestors_descendants(self):
         self.compliance_tester.test_ancestors_descendants(self.oi)
+
+    def test_cached_closure_traversal_filters_predicates(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            oi = self._implementation_from_text(tmpdir, CLOSURE_OFN)
+
+            isa_descendants = set(oi.descendants("EX:0001", predicates=[IS_A], reflexive=False))
+            self.assertEqual(isa_descendants, {"EX:0002", "EX:0003"})
+
+            part_of_descendants = set(
+                oi.descendants("EX:0001", predicates=[PART_OF], reflexive=False)
+            )
+            self.assertEqual(part_of_descendants, {"EX:0004"})
+
+            hierarchical_descendants = set(
+                oi.descendants("EX:0001", predicates=[IS_A, PART_OF], reflexive=False)
+            )
+            self.assertEqual(
+                hierarchical_descendants,
+                {"EX:0002", "EX:0003", "EX:0004", "EX:0005"},
+            )
+
+            hierarchical_ancestors = set(
+                oi.ancestors("EX:0005", predicates=[IS_A, PART_OF], reflexive=False)
+            )
+            self.assertEqual(hierarchical_ancestors, {"EX:0001", "EX:0004"})
+            self.assertIn(
+                "EX:0005",
+                set(oi.ancestors("EX:0005", predicates=[IS_A, PART_OF])),
+            )
+
+    def test_cached_closure_traversal_handles_multi_start(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            oi = self._implementation_from_text(tmpdir, CLOSURE_OFN)
+
+            descendants = set(
+                oi.descendants(["EX:0001", "EX:0004"], predicates=[IS_A], reflexive=False)
+            )
+            self.assertEqual(descendants, {"EX:0002", "EX:0003", "EX:0005"})
+
+    def test_cached_closure_traversal_does_not_use_graph_walker(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            oi = self._implementation_from_text(tmpdir, CLOSURE_OFN)
+
+            def fail_incoming_relationship_map(*args, **kwargs):
+                raise AssertionError("descendants should use the cached adjacency index")
+
+            oi.incoming_relationship_map = fail_incoming_relationship_map
+            descendants = set(oi.descendants("EX:0001", predicates=[IS_A], reflexive=False))
+            self.assertEqual(descendants, {"EX:0002", "EX:0003"})
+
+    def test_cached_closure_cache_invalidates_after_edge_patch(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            oi = self._implementation_from_text(tmpdir, CLOSURE_OFN)
+
+            self.assertNotIn(
+                "EX:0006",
+                set(oi.descendants("EX:0001", predicates=[IS_A], reflexive=False)),
+            )
+            oi.apply_patch(
+                kgcl.EdgeCreation(
+                    id=generate_change_id(),
+                    subject="EX:0006",
+                    predicate=IS_A,
+                    object="EX:0001",
+                )
+            )
+            self.assertIn(
+                "EX:0006",
+                set(oi.descendants("EX:0001", predicates=[IS_A], reflexive=False)),
+            )
 
     def test_basic_search(self):
         self.assertIn(NUCLEUS, list(self.oi.basic_search("nucleus")))
