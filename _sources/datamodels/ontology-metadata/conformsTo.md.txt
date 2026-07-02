@@ -23,18 +23,18 @@ URI: [dcterms:conformsTo](http://purl.org/dc/terms/conformsTo)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Class](Class.md) |  |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Agent](Agent.md) |  |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Image](Image.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
-| [HasCategory](HasCategory.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Class](Class.md) |  |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HasCategory](HasCategory.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Property](Property.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 
 
 

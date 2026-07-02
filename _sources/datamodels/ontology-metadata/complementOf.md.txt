@@ -23,9 +23,9 @@ URI: [owl:complementOf](http://www.w3.org/2002/07/owl#complementOf)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Restriction](Restriction.md) |  |  no  |
-| [ClassExpression](ClassExpression.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
+| [Restriction](Restriction.md) |  |  no  |
 
 
 

@@ -25,8 +25,8 @@ URI: [obographs:id](https://github.com/geneontology/obographs/id)
 | --- | --- | --- |
 | [SubsetDefinition](SubsetDefinition.md) |  |  no  |
 | [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |  no  |
-| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
 | [Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
 
 
 

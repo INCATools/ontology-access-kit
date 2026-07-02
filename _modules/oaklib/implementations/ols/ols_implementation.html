@@ -310,10 +310,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">==</span> <span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">HOP</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;HOP traversal is not implemented for OLS&quot;</span><span class="p">)</span>
-        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">iter_hierarchical_ancestors</span>
+        <span class="n">path_key</span> <span class="o">=</span> <span class="s2">&quot;hierarchicalAncestors&quot;</span>
         <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">predicates</span> <span class="o">==</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">]:</span>
-                <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">iter_ancestors</span>
+                <span class="n">path_key</span> <span class="o">=</span> <span class="s2">&quot;ancestors&quot;</span>
             <span class="k">elif</span> <span class="n">IS_A</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OLS always include </span><span class="si">{</span><span class="n">IS_A</span><span class="si">}</span><span class="s2">, you selected: </span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">start_curies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_curie_list</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)</span>
@@ -321,8 +321,11 @@
         <span class="n">ontology</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">start_curies</span><span class="p">:</span>
             <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">ontology</span><span class="o">=</span><span class="n">ontology</span><span class="p">,</span> <span class="n">iri</span><span class="o">=</span><span class="n">iri</span><span class="p">)</span>
-            <span class="n">ancs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="s2">&quot;obo_id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span> <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;obo_id&quot;</span><span class="p">))</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ontologies/</span><span class="si">{</span><span class="n">ontology</span><span class="si">}</span><span class="s2">/terms/</span><span class="si">{</span><span class="n">_double_quote_iri</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path_key</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_paged</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                <span class="n">obo_id</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;obo_id&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">obo_id</span><span class="p">:</span>
+                    <span class="n">ancs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">obo_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">reflexive</span><span class="p">:</span>
             <span class="n">ancs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">ancs</span><span class="p">)</span>
@@ -360,13 +363,48 @@
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">start_curies</span><span class="p">:</span>
             <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
             <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ontologies/</span><span class="si">{</span><span class="n">ontology</span><span class="si">}</span><span class="s2">/terms/</span><span class="si">{</span><span class="n">_double_quote_iri</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path_key</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_paged</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;terms&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_paged</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
                 <span class="n">obo_id</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;obo_id&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">obo_id</span><span class="p">:</span>
                     <span class="n">descs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">obo_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">reflexive</span><span class="p">:</span>
             <span class="n">descs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">descs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_iter_paged</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;terms&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over every record of a paged OLS4 collection endpoint.</span>
+
+<span class="sd">        This walks the pages explicitly using the ``page``/``size`` query</span>
+<span class="sd">        parameters and the ``page.totalPages`` field of the HAL response,</span>
+<span class="sd">        rather than relying on ``ols_client.Client.get_paged``. That client</span>
+<span class="sd">        helper looks for the *next* page under ``_links.href``, but OLS4 (like</span>
+<span class="sd">        any HAL API) exposes it under ``_links.next.href``; the top-level key is</span>
+<span class="sd">        never present, so the loop terminates after the first page and every</span>
+<span class="sd">        result set is silently truncated to ``size`` (500) records. High-level</span>
+<span class="sd">        terms such as ``GO:0005575`` (cellular_component) have thousands of</span>
+<span class="sd">        descendants, so that truncation turns closure queries into silent false</span>
+<span class="sd">        negatives. See https://github.com/ai4curation/ai-gene-review/issues/1653.</span>
+
+<span class="sd">        :param path: the collection endpoint, relative to the API base URL</span>
+<span class="sd">        :param key: the ``_embedded`` key to slice each page from</span>
+<span class="sd">        :param size: the page size (OLS4 caps this at 500)</span>
+<span class="sd">        :yields: every record across all pages</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_json</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span> <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">})</span>
+            <span class="n">embedded</span> <span class="o">=</span> <span class="p">(</span><span class="n">response</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_embedded&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">embedded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+            <span class="k">yield from</span> <span class="n">records</span>
+            <span class="n">page_info</span> <span class="o">=</span> <span class="p">(</span><span class="n">response</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;page&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="n">total_pages</span> <span class="o">=</span> <span class="n">page_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalPages&quot;</span><span class="p">)</span>
+            <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">records</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">total_pages</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">page</span> <span class="o">&gt;=</span> <span class="n">total_pages</span><span class="p">:</span>
+                <span class="k">break</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_as_curie_list</span><span class="p">(</span><span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
