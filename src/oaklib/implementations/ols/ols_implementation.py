@@ -224,10 +224,10 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         """
         if method is not None and method == GraphTraversalMethod.HOP:
             raise NotImplementedError("HOP traversal is not implemented for OLS")
-        func = self.client.iter_hierarchical_ancestors
+        path_key = "hierarchicalAncestors"
         if predicates:
             if predicates == [IS_A]:
-                func = self.client.iter_ancestors
+                path_key = "ancestors"
             elif IS_A not in predicates:
                 raise NotImplementedError(f"OLS always include {IS_A}, you selected: {predicates}")
         start_curies = self._as_curie_list(start_curies)
@@ -235,8 +235,11 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         ontology = self.focus_ontology
         for curie in start_curies:
             iri = self.curie_to_uri(curie)
-            records = func(ontology=ontology, iri=iri)
-            ancs.update(record["obo_id"] for record in records if record.get("obo_id"))
+            path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/{path_key}"
+            for record in self._iter_paged(path):
+                obo_id = record.get("obo_id")
+                if obo_id:
+                    ancs.add(obo_id)
         if reflexive:
             ancs.update(start_curies)
         return list(ancs)
@@ -274,13 +277,48 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         for curie in start_curies:
             iri = self.curie_to_uri(curie)
             path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/{path_key}"
-            for record in self.client.get_paged(path, key="terms"):
+            for record in self._iter_paged(path):
                 obo_id = record.get("obo_id")
                 if obo_id:
                     descs.add(obo_id)
         if reflexive:
             descs.update(start_curies)
         return list(descs)
+
+    def _iter_paged(
+        self, path: str, key: str = "terms", size: int = 500
+    ) -> Iterator[Dict[str, Any]]:
+        """Iterate over every record of a paged OLS4 collection endpoint.
+
+        This walks the pages explicitly using the ``page``/``size`` query
+        parameters and the ``page.totalPages`` field of the HAL response,
+        rather than relying on ``ols_client.Client.get_paged``. That client
+        helper looks for the *next* page under ``_links.href``, but OLS4 (like
+        any HAL API) exposes it under ``_links.next.href``; the top-level key is
+        never present, so the loop terminates after the first page and every
+        result set is silently truncated to ``size`` (500) records. High-level
+        terms such as ``GO:0005575`` (cellular_component) have thousands of
+        descendants, so that truncation turns closure queries into silent false
+        negatives. See https://github.com/ai4curation/ai-gene-review/issues/1653.
+
+        :param path: the collection endpoint, relative to the API base URL
+        :param key: the ``_embedded`` key to slice each page from
+        :param size: the page size (OLS4 caps this at 500)
+        :yields: every record across all pages
+        """
+        page = 0
+        while True:
+            response = self.client.get_json(path, params={"size": size, "page": page})
+            embedded = (response or {}).get("_embedded") or {}
+            records = embedded.get(key) or []
+            yield from records
+            page_info = (response or {}).get("page") or {}
+            total_pages = page_info.get("totalPages")
+            page += 1
+            if not records:
+                break
+            if total_pages is not None and page >= total_pages:
+                break
 
     @staticmethod
     def _as_curie_list(start_curies: Union[CURIE, List[CURIE]]) -> List[CURIE]:
