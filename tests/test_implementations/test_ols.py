@@ -197,12 +197,29 @@ class TestOlsImplementation(unittest.TestCase):
         oi.focus_ontology = "go"
         self.assertIsNone(oi.label("GO:9999999"))
 
+    @staticmethod
+    def _hal_page(obo_ids, number, total_pages, key="terms"):
+        """Build one page of an OLS4 HAL collection response.
+
+        Mirrors the real payload shape: records live under ``_embedded[key]``,
+        paging metadata under ``page``, and (crucially) the link to the next
+        page is nested under ``_links.next.href`` -- never at ``_links.href``.
+        """
+        links = {"self": {"href": "https://ols.example/self"}}
+        if number + 1 < total_pages:
+            links["next"] = {"href": f"https://ols.example/next?page={number + 1}"}
+        return {
+            "_embedded": {key: [{"obo_id": obo_id} for obo_id in obo_ids]},
+            "_links": links,
+            "page": {"size": 500, "totalPages": total_pages, "number": number},
+        }
+
     def test_ancestors(self):
         oi = self.oi
-        self.mock_client.iter_hierarchical_ancestors.return_value = [
-            {"obo_id": CYTOPLASM},
-            {"obo_id": CELLULAR_COMPONENT},
-        ]
+        # hierarchicalAncestors endpoint (default, is_a + part_of)
+        self.mock_client.get_json.return_value = self._hal_page(
+            [CYTOPLASM, CELLULAR_COMPONENT], number=0, total_pages=1
+        )
 
         # reflexive is True by default, so the start term is included
         ancs = list(oi.ancestors([VACUOLE]))
@@ -221,18 +238,18 @@ class TestOlsImplementation(unittest.TestCase):
         assert CYTOPLASM in ancs
         assert CELLULAR_COMPONENT in ancs
 
-        self.mock_client.iter_ancestors.return_value = [{"obo_id": CELLULAR_COMPONENT}]
-
+        # ancestors endpoint (is_a only)
+        self.mock_client.get_json.return_value = self._hal_page(
+            [CELLULAR_COMPONENT], number=0, total_pages=1
+        )
         ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A], reflexive=False))
-        assert CYTOPLASM not in ancs
         assert CELLULAR_COMPONENT in ancs
 
     def test_descendants(self):
         oi = self.oi
-        self.mock_client.get_paged.return_value = [
-            {"obo_id": CYTOPLASM},
-            {"obo_id": CELLULAR_COMPONENT},
-        ]
+        self.mock_client.get_json.return_value = self._hal_page(
+            [CYTOPLASM, CELLULAR_COMPONENT], number=0, total_pages=1
+        )
 
         # bare string CURIE should not be treated as an iterable of characters
         descs = list(oi.descendants(CELLULAR_COMPONENT, reflexive=False))
@@ -240,10 +257,53 @@ class TestOlsImplementation(unittest.TestCase):
         assert CELLULAR_COMPONENT in descs  # returned by the mocked endpoint
 
         # reflexive includes the start term
-        self.mock_client.get_paged.return_value = [{"obo_id": CYTOPLASM}]
+        self.mock_client.get_json.return_value = self._hal_page(
+            [CYTOPLASM], number=0, total_pages=1
+        )
         descs = list(oi.descendants(CELLULAR_COMPONENT, reflexive=True))
         assert CELLULAR_COMPONENT in descs
         assert CYTOPLASM in descs
+
+    def test_descendants_are_not_truncated_to_first_page(self):
+        """Descendants must span every page, not just the first.
+
+        Regression test for the OLS adapter silently truncating closure
+        queries to the first page (~500 terms). Querying descendants of a
+        high-level term such as GO:0005575 (cellular_component) returned only
+        491 GO terms via ``ols:go`` versus 4076 via ``sqlite:obo:go``, causing
+        silent false negatives in downstream ``reachable_from`` validation.
+        See https://github.com/ai4curation/ai-gene-review/issues/1653.
+
+        Here we simulate a three-page response (1200 descendants). A paginator
+        that stops after the first page would return only 500; a correct one
+        returns all 1200.
+        """
+        oi = self.oi
+        total_pages = 3
+        page_terms = [
+            [f"GO:{n:07d}" for n in range(0, 500)],
+            [f"GO:{n:07d}" for n in range(500, 1000)],
+            [f"GO:{n:07d}" for n in range(1000, 1200)],
+        ]
+        pages = [
+            self._hal_page(terms, number=i, total_pages=total_pages)
+            for i, terms in enumerate(page_terms)
+        ]
+        self.mock_client.get_json.side_effect = pages
+
+        descs = {d for d in oi.descendants(CELLULAR_COMPONENT, reflexive=False)}
+
+        expected = {curie for terms in page_terms for curie in terms}
+        # All pages collected, not just the first 500.
+        self.assertEqual(len(descs), 1200)
+        self.assertEqual(descs, expected)
+        # And every page was actually fetched (page=0, page=1, page=2).
+        self.assertEqual(self.mock_client.get_json.call_count, total_pages)
+        requested_pages = [
+            call.kwargs.get("params", {}).get("page")
+            for call in self.mock_client.get_json.call_args_list
+        ]
+        self.assertEqual(requested_pages, [0, 1, 2])
 
     def test_basic_search(self):
         self.oi.focus_ontology = None
