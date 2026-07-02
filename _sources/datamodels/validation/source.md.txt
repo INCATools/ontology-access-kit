@@ -18,8 +18,8 @@ URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 | [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
 
 
