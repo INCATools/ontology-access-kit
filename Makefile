@@ -2,9 +2,12 @@ INSTALL = uv sync
 RUN = uv run
 
 .PHONY: tests
+# Run the test suite in parallel with pytest-xdist. Override PYTEST_ARGS to
+# customise, e.g. `make tests PYTEST_ARGS=-n0` to run serially when debugging.
+PYTEST_ARGS ?= -n auto
 tests:
 	$(INSTALL)
-	$(RUN) pytest tests
+	$(RUN) pytest tests $(PYTEST_ARGS)
 
 .PHONY: build-whl
 build-whl:

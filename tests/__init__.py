@@ -1,5 +1,6 @@
 import difflib
 import math
+import os
 from pathlib import Path
 from typing import List
 
@@ -8,6 +9,17 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 ROOT = Path(__file__).resolve().parent
 INPUT_DIR = ROOT / "input"
 OUTPUT_DIR = ROOT / "output"
+
+# When the test suite is parallelised with pytest-xdist, every worker imports
+# this module in its own subprocess. Many tests write to shared, mutable output
+# files (e.g. ``output/go-nucleus.db``), so without isolation concurrent workers
+# would clobber each other's files and produce flaky failures. Give each xdist
+# worker its own output subdirectory. When running serially (no xdist) the
+# behaviour is unchanged.
+_XDIST_WORKER = os.environ.get("PYTEST_XDIST_WORKER")
+if _XDIST_WORKER:
+    OUTPUT_DIR = OUTPUT_DIR / _XDIST_WORKER
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 SCHEMA_DIR = Path(ROOT) / "../src/linkml"
 EXTERNAL_DB_DIR = Path(ROOT) / "../db"  # for integration tests: optional
 EXAMPLE_ONTOLOGY_OBO = Path(INPUT_DIR) / "go-nucleus.obo"
