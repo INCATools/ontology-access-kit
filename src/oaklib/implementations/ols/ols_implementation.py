@@ -1,6 +1,7 @@
 from collections import ChainMap
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from urllib.parse import quote
 
 import requests
 from ols_client import Client, EBIClient, TIBClient
@@ -16,6 +17,7 @@ from oaklib.implementations.ols.constants import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, LANGUAGE_TAG, PRED_CURIE
@@ -30,6 +32,50 @@ __all__ = [
 
 ANNOTATION = Dict[str, Any]
 SEARCH_ROWS = 50
+
+
+def _double_quote_iri(iri: str) -> str:
+    """Double-encode an IRI for use in OLS4 term path segments.
+
+    See: https://www.ebi.ac.uk/ols/docs/api
+    """
+    return quote(quote(iri, safe=""), safe="")
+
+
+def _first_term(response: Any) -> Optional[Dict[str, Any]]:
+    """Normalise an OLS ``get_term`` response down to a single term record.
+
+    The OLS4 API (as returned by ``ols_client``) wraps term lookups in a
+    paged/search-style payload of the form ``{"_embedded": {"terms": [...]}}``.
+    Older/flat payloads that already look like a single term (i.e. contain a
+    ``label`` key directly) are returned unchanged so this helper works across
+    client versions.
+
+    :param response: the raw response from ``client.get_term``
+    :return: the first term record, or None if there are none
+    """
+    if not response:
+        return None
+    if isinstance(response, dict) and "_embedded" in response:
+        terms = (response.get("_embedded") or {}).get("terms") or []
+        return terms[0] if terms else None
+    return response
+
+
+def _scalar(value: Any) -> Optional[str]:
+    """Coerce an OLS field to a scalar string.
+
+    Some OLS4 fields (e.g. ``description``) are returned as lists; take the
+    first non-empty element in that case.
+    """
+    if value is None:
+        return None
+    if isinstance(value, (list, tuple)):
+        for item in value:
+            if item:
+                return item
+        return None
+    return value
 
 oxo_pred_mappings = {
     ScopeEnum.EXACT.text: "skos:exactMatch",
@@ -80,10 +126,12 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
 
         ontology = self.focus_ontology
         iri = self.curie_to_uri(curie)
-        term = self.client.get_term(ontology=ontology, iri=iri)
-        if term and "label" in term:
-            self.label_cache[curie] = term["label"]
-            return term["label"]
+        term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
+        if term:
+            label = _scalar(term.get("label"))
+            if label is not None:
+                self.label_cache[curie] = label
+                return label
         return None
 
     def labels(
@@ -116,10 +164,12 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
 
         ontology = self.focus_ontology
         iri = self.curie_to_uri(curie)
-        term = self.client.get_term(ontology=ontology, iri=iri)
-        if term and "description" in term and term["description"]:
-            self.definition_cache[curie] = term["description"]
-            return term["description"]
+        term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
+        if term:
+            definition = _scalar(term.get("description"))
+            if definition:
+                self.definition_cache[curie] = definition
+                return definition
         return None
 
     def definitions(
@@ -154,23 +204,89 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def ancestors(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive: bool = True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
+        """
+        Ancestors of the given term(s), as computed by the OLS hierarchy endpoints.
+
+        The ``reflexive`` and ``method`` keywords are accepted for compatibility with
+        the other graph adapters (see :class:`OboGraphInterface`).
+
+        :param start_curies: curie or curies to start the walk from
+        :param predicates: only traverse over these (traverses over all if this is not set)
+        :param reflexive: include the start curie(s) in the result
+        :param method: only the default (ENTAILMENT-style) traversal is supported
+        :return: all ancestor CURIEs
+        """
+        if method is not None and method == GraphTraversalMethod.HOP:
+            raise NotImplementedError("HOP traversal is not implemented for OLS")
         func = self.client.iter_hierarchical_ancestors
         if predicates:
             if predicates == [IS_A]:
                 func = self.client.iter_ancestors
             elif IS_A not in predicates:
                 raise NotImplementedError(f"OLS always include {IS_A}, you selected: {predicates}")
-        if not isinstance(start_curies, list):
-            start_curies = [start_curies]
+        start_curies = self._as_curie_list(start_curies)
         ancs = set()
         ontology = self.focus_ontology
         for curie in start_curies:
             iri = self.curie_to_uri(curie)
             records = func(ontology=ontology, iri=iri)
-            ancs.update(record["obo_id"] for record in records)
+            ancs.update(record["obo_id"] for record in records if record.get("obo_id"))
+        if reflexive:
+            ancs.update(start_curies)
         return list(ancs)
+
+    def descendants(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive: bool = True,
+        method: Optional[GraphTraversalMethod] = None,
+    ) -> Iterable[CURIE]:
+        """
+        Descendants of the given term(s), backed by the OLS4 descendant endpoints.
+
+        As with :meth:`ancestors`, OLS traversal always includes the ``is_a`` (subClassOf)
+        relation, so ``predicates`` may either be omitted or must include ``rdfs:subClassOf``.
+
+        :param start_curies: curie or curies to start the walk from
+        :param predicates: only traverse over these (traverses over all if this is not set)
+        :param reflexive: include the start curie(s) in the result
+        :param method: only the default (ENTAILMENT-style) traversal is supported
+        :return: all descendant CURIEs
+        """
+        if method is not None and method == GraphTraversalMethod.HOP:
+            raise NotImplementedError("HOP traversal is not implemented for OLS")
+        path_key = "hierarchicalDescendants"
+        if predicates:
+            if predicates == [IS_A]:
+                path_key = "descendants"
+            elif IS_A not in predicates:
+                raise NotImplementedError(f"OLS always include {IS_A}, you selected: {predicates}")
+        start_curies = self._as_curie_list(start_curies)
+        descs = set()
+        ontology = self.focus_ontology
+        for curie in start_curies:
+            iri = self.curie_to_uri(curie)
+            path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/{path_key}"
+            for record in self.client.get_paged(path, key="terms"):
+                obo_id = record.get("obo_id")
+                if obo_id:
+                    descs.add(obo_id)
+        if reflexive:
+            descs.update(start_curies)
+        return list(descs)
+
+    @staticmethod
+    def _as_curie_list(start_curies: Union[CURIE, List[CURIE]]) -> List[CURIE]:
+        if isinstance(start_curies, str):
+            return [start_curies]
+        return list(start_curies)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface

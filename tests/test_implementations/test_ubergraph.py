@@ -170,6 +170,18 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertNotIn(VACUOLE, descs)
 
     @skip_on_remote_error
+    def test_descendants_bare_string(self):
+        """A bare string CURIE must not be treated as an iterable of characters.
+
+        See https://github.com/INCATools/ontology-access-kit/issues/883
+        """
+        oi = self.oi
+        from_list = set(oi.descendants([CYTOPLASM], predicates=[IS_A]))
+        from_string = set(oi.descendants(CYTOPLASM, predicates=[IS_A]))
+        self.assertEqual(from_list, from_string)
+        self.assertIn(CYTOPLASM, from_string)
+
+    @skip_on_remote_error
     def test_ancestor_graph(self):
         oi = self.oi
         for preds in [None, [IS_A], [IS_A, PART_OF]]:
