@@ -897,6 +897,8 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         return node
 
     def hierarchical_descendants(self, start_curies: Union[CURIE, List[CURIE]]) -> Iterable[CURIE]:
+        if not isinstance(start_curies, list):
+            start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s rdfs:subClassOf* ?o", _sparql_values("o", query_uris)]
         query = SparqlQuery(select=["?s"], distinct=True, where=where)

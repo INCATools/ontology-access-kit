@@ -334,6 +334,8 @@ class UbergraphImplementation(
         if method and method == GraphTraversalMethod.HOP:
             raise NotImplementedError("HOP not implemented for ubergraph")
         # TODO: DRY
+        if not isinstance(start_curies, list):
+            start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s ?p ?o", "?s a owl:Class", f'VALUES ?o {{ {" ".join(query_uris)} }}']
         if predicates:

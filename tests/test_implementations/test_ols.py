@@ -156,6 +156,47 @@ class TestOlsImplementation(unittest.TestCase):
         #     logging.info(yaml_dumper.dumps(m))
         # assert any(m for m in mappings if m.object_id == "EMAPA:32725")
 
+    def test_label_from_ols4_payload(self):
+        """label() should parse the paged OLS4 ``_embedded.terms`` payload."""
+        self.mock_client.get_term.return_value = {
+            "_embedded": {
+                "terms": [
+                    {
+                        "iri": "http://purl.obolibrary.org/obo/GO_0008150",
+                        "label": "biological_process",
+                        "description": ["A biological process ..."],
+                    }
+                ]
+            }
+        }
+        oi = self.oi
+        oi.focus_ontology = "go"
+        self.assertEqual(oi.label("GO:0008150"), "biological_process")
+
+    def test_definition_from_ols4_payload(self):
+        """definition() should parse OLS4 payloads where description is a list."""
+        self.mock_client.get_term.return_value = {
+            "_embedded": {
+                "terms": [
+                    {
+                        "iri": "http://purl.obolibrary.org/obo/GO_0008150",
+                        "label": "biological_process",
+                        "description": ["A biological process represents ..."],
+                    }
+                ]
+            }
+        }
+        oi = self.oi
+        oi.focus_ontology = "go"
+        self.assertEqual(oi.definition("GO:0008150"), "A biological process represents ...")
+
+    def test_label_missing_term(self):
+        """label() should return None when OLS returns no terms."""
+        self.mock_client.get_term.return_value = {"_embedded": {"terms": []}}
+        oi = self.oi
+        oi.focus_ontology = "go"
+        self.assertIsNone(oi.label("GO:9999999"))
+
     def test_ancestors(self):
         oi = self.oi
         self.mock_client.iter_hierarchical_ancestors.return_value = [
@@ -163,15 +204,46 @@ class TestOlsImplementation(unittest.TestCase):
             {"obo_id": CELLULAR_COMPONENT},
         ]
 
+        # reflexive is True by default, so the start term is included
         ancs = list(oi.ancestors([VACUOLE]))
+        assert VACUOLE in ancs
+        assert CYTOPLASM in ancs
+        assert CELLULAR_COMPONENT in ancs
+
+        # reflexive=False excludes the start term
+        ancs = list(oi.ancestors([VACUOLE], reflexive=False))
+        assert VACUOLE not in ancs
+        assert CYTOPLASM in ancs
+        assert CELLULAR_COMPONENT in ancs
+
+        # a bare string CURIE should behave like a single-element list
+        ancs = list(oi.ancestors(VACUOLE, reflexive=False))
         assert CYTOPLASM in ancs
         assert CELLULAR_COMPONENT in ancs
 
         self.mock_client.iter_ancestors.return_value = [{"obo_id": CELLULAR_COMPONENT}]
 
-        ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A]))
+        ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A], reflexive=False))
         assert CYTOPLASM not in ancs
         assert CELLULAR_COMPONENT in ancs
+
+    def test_descendants(self):
+        oi = self.oi
+        self.mock_client.get_paged.return_value = [
+            {"obo_id": CYTOPLASM},
+            {"obo_id": CELLULAR_COMPONENT},
+        ]
+
+        # bare string CURIE should not be treated as an iterable of characters
+        descs = list(oi.descendants(CELLULAR_COMPONENT, reflexive=False))
+        assert CYTOPLASM in descs
+        assert CELLULAR_COMPONENT in descs  # returned by the mocked endpoint
+
+        # reflexive includes the start term
+        self.mock_client.get_paged.return_value = [{"obo_id": CYTOPLASM}]
+        descs = list(oi.descendants(CELLULAR_COMPONENT, reflexive=True))
+        assert CELLULAR_COMPONENT in descs
+        assert CYTOPLASM in descs
 
     def test_basic_search(self):
         self.oi.focus_ontology = None
