@@ -10,18 +10,23 @@ on:
   pull_request:
     branches: [ main ]
 
+# Cancel superseded runs on pull requests (e.g. when new commits are pushed),
+# but never cancel runs on main so pushed commits are always fully validated.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   lint:
+    # ruff lint results do not depend on the runner's Python version, so a
+    # single version is sufficient (target version is pinned in pyproject.toml).
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ "3.10", "3.11", "3.12", "3.13" ]
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v4.3.0
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
       - name: Install dependencies
         run: |
           pip install tox
@@ -44,6 +49,9 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7.3.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
 
       - name: setup python environment
         uses: actions/setup-python@v6
