@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.resource import OntologyResource
 from tests import CELLULAR_COMPONENT, CYTOPLASM, VACUOLE
@@ -304,6 +304,66 @@ class TestOlsImplementation(unittest.TestCase):
             for call in self.mock_client.get_json.call_args_list
         ]
         self.assertEqual(requested_pages, [0, 1, 2])
+
+    def _descendants_endpoint(self, predicates):
+        """Return the OLS endpoint hit by ``descendants`` for the given predicates.
+
+        Drives a single-page ``descendants`` call and reads back the path that
+        was passed to ``get_json`` (its trailing segment names the endpoint).
+        """
+        self.mock_client.get_json.reset_mock(side_effect=True)
+        self.mock_client.get_json.return_value = self._hal_page(
+            [CYTOPLASM], number=0, total_pages=1
+        )
+        list(self.oi.descendants(CELLULAR_COMPONENT, predicates=predicates))
+        path = self.mock_client.get_json.call_args_list[0].args[0]
+        return path.rsplit("/", 1)[-1]
+
+    def test_descendants_isa_and_partof_use_hierarchical_endpoint(self):
+        """``predicates=[IS_A, PART_OF]`` must query the hierarchical endpoint.
+
+        OLS closes over is_a + part_of via ``hierarchicalDescendants`` (e.g.
+        GO:0005634 nucleus has 24 is_a-only descendants but 473 hierarchical
+        descendants). OAK selects the endpoint from ``predicates``:
+
+        * ``[IS_A]``            -> ``descendants``              (is_a only)
+        * ``[IS_A, PART_OF]``   -> ``hierarchicalDescendants``  (is_a + part_of)
+        * ``None`` / unset      -> ``hierarchicalDescendants``  (all relations)
+
+        Note: OLS has no endpoint for an arbitrary predicate subset -- the
+        hierarchical endpoint returns the ontology's full hierarchical relation
+        set (is_a + part_of for GO), so ``[IS_A, PART_OF]`` is served by it.
+        """
+        self.assertEqual(self._descendants_endpoint([IS_A]), "descendants")
+        self.assertEqual(
+            self._descendants_endpoint([IS_A, PART_OF]), "hierarchicalDescendants"
+        )
+        # order-independent
+        self.assertEqual(
+            self._descendants_endpoint([PART_OF, IS_A]), "hierarchicalDescendants"
+        )
+        # default (no predicates) also traverses is_a + part_of
+        self.assertEqual(self._descendants_endpoint(None), "hierarchicalDescendants")
+
+    def test_descendants_isa_and_partof_paginate_fully(self):
+        """The is_a + part_of closure is paged the same way as the is_a one."""
+        oi = self.oi
+        page_terms = [
+            [f"GO:{n:07d}" for n in range(0, 500)],
+            [f"GO:{n:07d}" for n in range(500, 730)],
+        ]
+        pages = [
+            self._hal_page(terms, number=i, total_pages=len(page_terms))
+            for i, terms in enumerate(page_terms)
+        ]
+        self.mock_client.get_json.reset_mock(side_effect=True)
+        self.mock_client.get_json.side_effect = pages
+
+        descs = set(oi.descendants(CELLULAR_COMPONENT, predicates=[IS_A, PART_OF], reflexive=False))
+
+        self.assertEqual(descs, {curie for terms in page_terms for curie in terms})
+        self.assertEqual(len(descs), 730)
+        self.assertEqual(self.mock_client.get_json.call_count, 2)
 
     def test_basic_search(self):
         self.oi.focus_ontology = None
