@@ -2,6 +2,8 @@ import itertools
 import unittest
 from unittest.mock import MagicMock, patch
 
+import requests
+
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
@@ -197,6 +199,13 @@ class TestOlsImplementation(unittest.TestCase):
         oi.focus_ontology = "go"
         self.assertIsNone(oi.label("GO:9999999"))
 
+    def test_label_missing_iri_http_error(self):
+        """label() should return None when OLS returns 404 for a non-term IRI."""
+        self.mock_client.get_term.side_effect = requests.HTTPError()
+        oi = self.oi
+        oi.focus_ontology = "go"
+        self.assertIsNone(oi.label(IS_A))
+
     @staticmethod
     def _hal_page(obo_ids, number, total_pages, key="terms"):
         """Build one page of an OLS4 HAL collection response.
@@ -244,6 +253,26 @@ class TestOlsImplementation(unittest.TestCase):
         )
         ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A], reflexive=False))
         assert CELLULAR_COMPONENT in ancs
+
+    def test_entailed_relationships(self):
+        oi = self.oi
+
+        def mock_get_json(path, **kwargs):
+            if path.endswith("/ancestors"):
+                return self._hal_page([CELLULAR_COMPONENT], number=0, total_pages=1)
+            if path.endswith("/hierarchicalAncestors"):
+                return self._hal_page([CELLULAR_COMPONENT, CYTOPLASM], number=0, total_pages=1)
+            raise AssertionError(f"Unexpected path: {path}")
+
+        self.mock_client.get_json.side_effect = mock_get_json
+
+        rels = list(
+            oi.relationships(subjects=[VACUOLE], predicates=[IS_A, PART_OF], include_entailed=True)
+        )
+
+        self.assertIn((VACUOLE, IS_A, VACUOLE), rels)
+        self.assertIn((VACUOLE, IS_A, CELLULAR_COMPONENT), rels)
+        self.assertIn((VACUOLE, PART_OF, CYTOPLASM), rels)
 
     def test_descendants(self):
         oi = self.oi
@@ -335,13 +364,9 @@ class TestOlsImplementation(unittest.TestCase):
         set (is_a + part_of for GO), so ``[IS_A, PART_OF]`` is served by it.
         """
         self.assertEqual(self._descendants_endpoint([IS_A]), "descendants")
-        self.assertEqual(
-            self._descendants_endpoint([IS_A, PART_OF]), "hierarchicalDescendants"
-        )
+        self.assertEqual(self._descendants_endpoint([IS_A, PART_OF]), "hierarchicalDescendants")
         # order-independent
-        self.assertEqual(
-            self._descendants_endpoint([PART_OF, IS_A]), "hierarchicalDescendants"
-        )
+        self.assertEqual(self._descendants_endpoint([PART_OF, IS_A]), "hierarchicalDescendants")
         # default (no predicates) also traverses is_a + part_of
         self.assertEqual(self._descendants_endpoint(None), "hierarchicalDescendants")
 

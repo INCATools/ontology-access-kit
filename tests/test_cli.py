@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 from shutil import copyfile
 from typing import Optional
+from unittest.mock import MagicMock, patch
 
 import rdflib
 import yaml
@@ -430,6 +431,91 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("GO:0031965", out)
             self.assertNotIn("subClassOf", out)
             self.assertNotIn("BFO", out)
+
+    def test_ols_ancestors_cli(self):
+        mock_client = MagicMock()
+        mock_client.get_json.return_value = {
+            "_embedded": {
+                "terms": [
+                    {"obo_id": CYTOPLASM},
+                    {"obo_id": CELLULAR_COMPONENT},
+                ]
+            },
+            "page": {"size": 500, "totalPages": 1, "number": 0},
+        }
+        mock_client.get_term.return_value = {"_embedded": {"terms": []}}
+
+        with patch(
+            "oaklib.implementations.ols.ols_implementation.OlsImplementation.ols_client_class",
+            return_value=mock_client,
+        ):
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    "ols:go",
+                    "ancestors",
+                    "-p",
+                    "i,p",
+                    NUCLEUS,
+                ],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        self.assertIn(NUCLEUS, result.stdout)
+        self.assertIn(CYTOPLASM, result.stdout)
+        self.assertIn(CELLULAR_COMPONENT, result.stdout)
+
+        path = mock_client.get_json.call_args.args[0]
+        self.assertIn("hierarchicalAncestors", path)
+
+    def test_ols_relationships_include_entailed_cli(self):
+        mock_client = MagicMock()
+
+        def mock_get_json(path, **kwargs):
+            if path.endswith("/ancestors"):
+                return {
+                    "_embedded": {"terms": [{"obo_id": CELLULAR_COMPONENT}]},
+                    "page": {"size": 500, "totalPages": 1, "number": 0},
+                }
+            if path.endswith("/hierarchicalAncestors"):
+                return {
+                    "_embedded": {
+                        "terms": [
+                            {"obo_id": CELLULAR_COMPONENT},
+                            {"obo_id": CYTOPLASM},
+                        ]
+                    },
+                    "page": {"size": 500, "totalPages": 1, "number": 0},
+                }
+            raise AssertionError(f"Unexpected path: {path}")
+
+        mock_client.get_json.side_effect = mock_get_json
+        mock_client.get_term.return_value = {"_embedded": {"terms": []}}
+
+        with patch(
+            "oaklib.implementations.ols.ols_implementation.OlsImplementation.ols_client_class",
+            return_value=mock_client,
+        ):
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    "ols:go",
+                    "relationships",
+                    "-p",
+                    "i,p",
+                    NUCLEUS,
+                    "--include-entailed",
+                ],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        self.assertIn(NUCLEUS, result.stdout)
+        self.assertIn("rdfs:subClassOf", result.stdout)
+        self.assertIn(CELLULAR_COMPONENT, result.stdout)
+        self.assertIn("BFO:0000050", result.stdout)
+        self.assertIn(CYTOPLASM, result.stdout)
 
     def test_logical_definitions(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}"]:
