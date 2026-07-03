@@ -9,7 +9,7 @@ from pyhornedowl.model import EquivalentClasses, SubClassOf
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
@@ -177,6 +177,25 @@ class TestFunOwlImplementation(unittest.TestCase):
 
             oi.incoming_relationship_map = fail_incoming_relationship_map
             descendants = set(oi.descendants("EX:0001", predicates=[IS_A], reflexive=False))
+            self.assertEqual(descendants, {"EX:0002", "EX:0003"})
+
+    def test_entailed_closure_uses_precomputed_targets(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            oi = self._implementation_from_text(tmpdir, CLOSURE_OFN)
+            oi._entailed_adjacency_indexes()
+
+            def fail_transitive_targets(*args, **kwargs):
+                raise AssertionError("entailment traversal should use precomputed targets")
+
+            oi._transitive_targets = fail_transitive_targets
+            descendants = set(
+                oi.descendants(
+                    "EX:0001",
+                    predicates=[IS_A],
+                    reflexive=False,
+                    method=GraphTraversalMethod.ENTAILMENT,
+                )
+            )
             self.assertEqual(descendants, {"EX:0002", "EX:0003"})
 
     def test_cached_closure_cache_invalidates_after_edge_patch(self):

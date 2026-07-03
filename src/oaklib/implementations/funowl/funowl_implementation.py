@@ -845,7 +845,10 @@ class FunOwlImplementation(
         adjacency_map = self._select_adjacency_map(index, predicates)
         targets: Set[CURIE] = set()
         for curie in start_curie_list:
-            targets.update(self._transitive_targets(curie, adjacency_map))
+            if include_entailed:
+                targets.update(adjacency_map.get(curie, set()))
+            else:
+                targets.update(self._transitive_targets(curie, adjacency_map))
         if reflexive:
             targets.update(start_curie_list)
         else:
