@@ -1815,10 +1815,12 @@ def ancestors(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     # writer.display_options = display.split(',')
     writer.file = output
-    if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
+    if callable(getattr(impl, "ancestors", None)) and isinstance(impl, SearchInterface):
         if graph_traversal_method:
             graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
-            if graph_traversal_method == GraphTraversalMethod.HOP:
+            if graph_traversal_method == GraphTraversalMethod.HOP and isinstance(
+                impl, OboGraphInterface
+            ):
                 impl.precompute_lookups()
         actual_predicates = process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
@@ -1840,15 +1842,10 @@ def ancestors(
             else:
                 raise NotImplementedError
         else:
-            if isinstance(impl, OboGraphInterface):
-                logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
-                ancs = list(
-                    impl.ancestors(curies, actual_predicates, method=graph_traversal_method)
-                )
-                for a_curie, a_label in impl.labels(ancs):
-                    writer.emit(dict(id=a_curie, label=a_label))
-            else:
-                raise NotImplementedError
+            logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
+            ancs = list(impl.ancestors(curies, actual_predicates, method=graph_traversal_method))
+            for a_curie, a_label in impl.labels(ancs):
+                writer.emit(dict(id=a_curie, label=a_label))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     writer.finish()
