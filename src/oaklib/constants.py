@@ -23,6 +23,8 @@ TIMEOUT_SECONDS = 30
 # https://github.com/INCATools/ontology-access-kit/issues/897 and
 # https://github.com/INCATools/semantic-sql/issues/110. Override with the environment
 # variable OAKLIB_SEMSQL_SQLITE_URL_BASE if you need a different provider or mirror.
+# Note: this is read once, when the module is first imported, so the environment variable
+# must be set before ``oaklib.constants`` is imported for the override to take effect.
 SEMSQL_SQLITE_URL_BASE = os.environ.get(
     "OAKLIB_SEMSQL_SQLITE_URL_BASE", "https://semanticsql.berkeleybop.io"
 )

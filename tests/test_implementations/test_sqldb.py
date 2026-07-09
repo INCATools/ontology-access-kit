@@ -1,4 +1,5 @@
 import logging
+import os
 import shutil
 import unittest
 from unittest.mock import patch
@@ -12,7 +13,11 @@ from sqlalchemy import delete
 
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.conf import CONF_DIR_PATH
-from oaklib.constants import FILE_CACHE, SEMSQL_SQLITE_URL_BASE
+from oaklib.constants import (
+    FILE_CACHE,
+    SEMSQL_SQLITE_DOWNLOAD_KWARGS,
+    SEMSQL_SQLITE_URL_BASE,
+)
 from oaklib.datamodels import obograph
 from oaklib.datamodels.input_specification import InputSpecification
 from oaklib.datamodels.search import SearchConfiguration
@@ -108,15 +113,28 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual(download_kwargs["backend"], "requests")
         self.assertIn("User-Agent", download_kwargs["headers"])
 
+    @unittest.skipUnless(
+        os.environ.get("OAKLIB_RUN_NETWORK_TESTS"),
+        "network test; set OAKLIB_RUN_NETWORK_TESTS=1 to enable",
+    )
     def test_obo_selector_download_url_reachable(self) -> None:
         """Integration: the CDN URL used by the ``sqlite:obo:`` selector should be reachable.
 
         This guards against a discrepancy between the old S3 bucket and the new CDN
-        (e.g. a missing file or an unexpected redirect). Skipped when offline.
+        (e.g. a missing file or an unexpected redirect). It makes a live network call, so
+        it is opt-in via the OAKLIB_RUN_NETWORK_TESTS environment variable and is skipped
+        when offline.
+
+        The request mirrors the production download path -- same backend headers, in
+        particular the User-Agent -- because the CDN's Cloudflare front rejects the default
+        ``Python-urllib`` User-Agent with HTTP 403. Testing with a different User-Agent would
+        not exercise the condition this PR fixes.
         """
         url = f"{SEMSQL_SQLITE_URL_BASE}/bfo.db.gz"
+        headers = SEMSQL_SQLITE_DOWNLOAD_KWARGS["headers"]
         try:
-            resp = requests.head(url, timeout=30, allow_redirects=True)
+            resp = requests.get(url, headers=headers, timeout=30, stream=True)
+            resp.close()
         except requests.RequestException as e:
             self.skipTest(f"network unavailable: {e}")
         self.assertEqual(
