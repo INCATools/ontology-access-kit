@@ -121,10 +121,10 @@
 <section id="download-a-sqlite-file">
 <h2>Download a SQLite file<a class="headerlink" href="#download-a-sqlite-file" title="Link to this heading"></a></h2>
 <p>You can download ready made SQLite files for any <span class="xref std std-term">OBO</span> Library ontology</p>
-<p>For example: the Cell Ontology (CL) is available from <a class="reference external" href="https://s3.amazonaws.com/bbop-sqlite/cl.db.gz">https://s3.amazonaws.com/bbop-sqlite/cl.db.gz</a></p>
+<p>For example: the Cell Ontology (CL) is available from <a class="reference external" href="https://semanticsql.berkeleybop.io/cl.db.gz">https://semanticsql.berkeleybop.io/cl.db.gz</a></p>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">bbop</span><span class="o">-</span><span class="n">sqlite</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">semanticsql</span><span class="o">.</span><span class="n">berkeleybop</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">gzip</span> <span class="o">-</span><span class="n">d</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">relationships</span> <span class="s2">&quot;enteric neuron&quot;</span>
 </pre></div>
@@ -191,7 +191,7 @@
 <p>OAK will automatically treat anything with <code class="docutils literal notranslate"><span class="pre">.db</span></code> as a sqlite database</p>
 </div>
 <p>You can be more explicit and force the sqlite adapter to be used, regardless of suffix using a <code class="docutils literal notranslate"><span class="pre">sqlite</span></code> <span class="xref std std-ref">selector</span>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">bbop</span><span class="o">-</span><span class="n">sqlite</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">semanticsql</span><span class="o">.</span><span class="n">berkeleybop</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">gzip</span> <span class="o">-</span><span class="n">d</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">relationships</span> <span class="s2">&quot;enteric neuron&quot;</span>
 </pre></div>

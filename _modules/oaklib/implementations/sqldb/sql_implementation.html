@@ -150,7 +150,11 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">oaklib.datamodels.ontology_metadata</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">om</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">oaklib.datamodels.validation_datamodel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">vdm</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">FILE_CACHE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FILE_CACHE</span><span class="p">,</span>
+    <span class="n">SEMSQL_SQLITE_DOWNLOAD_KWARGS</span><span class="p">,</span>
+    <span class="n">SEMSQL_SQLITE_URL_BASE</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels</span><span class="w"> </span><span class="kn">import</span> <span class="n">obograph</span><span class="p">,</span> <span class="n">ontology_metadata</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.association</span><span class="w"> </span><span class="kn">import</span> <span class="n">Association</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.obograph</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -429,9 +433,11 @@
                 <span class="c1"># Note: this can take some time</span>
                 <span class="n">prefix</span> <span class="o">=</span> <span class="n">locator</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;obo:&quot;</span><span class="p">)</span> <span class="p">:]</span>
                 <span class="c1"># Option 1 uses direct URL construction:</span>
-                <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://s3.amazonaws.com/bbop-sqlite/</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.db.gz&quot;</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SEMSQL_SQLITE_URL_BASE</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.db.gz&quot;</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ensuring gunzipped for </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">db_path</span> <span class="o">=</span> <span class="n">FILE_CACHE</span><span class="o">.</span><span class="n">ensure_gunzip</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">autoclean</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">db_path</span> <span class="o">=</span> <span class="n">FILE_CACHE</span><span class="o">.</span><span class="n">ensure_gunzip</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">autoclean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download_kwargs</span><span class="o">=</span><span class="n">SEMSQL_SQLITE_DOWNLOAD_KWARGS</span>
+                <span class="p">)</span>
                 <span class="c1"># Option 2 uses botocore to interface with the S3 API directly:</span>
                 <span class="c1"># db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket=&quot;bbop-sqlite&quot;, s3_key=f&quot;{prefix}.db&quot;)</span>
                 <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">db_path</span><span class="si">}</span><span class="s2">&quot;</span>

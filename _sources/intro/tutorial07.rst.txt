@@ -16,14 +16,14 @@ Download a SQLite file
 
 You can download ready made SQLite files for any :term:`OBO` Library ontology
 
-For example: the Cell Ontology (CL) is available from https://s3.amazonaws.com/bbop-sqlite/cl.db.gz
+For example: the Cell Ontology (CL) is available from https://semanticsql.berkeleybop.io/cl.db.gz
 
 Example
 ^^^^^
 
 .. code-block::
 
-    wget https://s3.amazonaws.com/bbop-sqlite/cl.db.gz
+    wget https://semanticsql.berkeleybop.io/cl.db.gz
     gzip -d cl.db.gz
     runoak -i cl.db relationships "enteric neuron"
 
@@ -47,7 +47,7 @@ You can be more explicit and force the sqlite adapter to be used, regardless of 
 
 .. code-block::
 
-    wget https://s3.amazonaws.com/bbop-sqlite/cl.db.gz
+    wget https://semanticsql.berkeleybop.io/cl.db.gz
     gzip -d cl.db.gz
     runoak -i sqlite:cl.db relationships "enteric neuron"
 

@@ -9,14 +9,15 @@ Currently the sqlite version of ontologies are not distributed alongside them in
 You can either
 
  - (a) make the sqlite file yourself, see [INCATools/semantic-sql](https://github.com/INCATools/semantic-sql)
- - (b) get a ready-made download from the [s3 bucket](https://s3.amazonaws.com/bbop-sqlite/)
+ - (b) get a ready-made download from [semanticsql.berkeleybop.io](https://semanticsql.berkeleybop.io/)
 
 The second option is likely easiest.
 
 For example:
 
 ```bash
-wget https://s3.amazonaws.com/bbop-sqlite/uberon.db
+wget https://semanticsql.berkeleybop.io/uberon.db.gz
+gzip -d uberon.db.gz
 ```
 
 ### Step 2: Install oaklib

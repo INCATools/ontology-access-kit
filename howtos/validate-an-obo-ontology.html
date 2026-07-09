@@ -115,11 +115,12 @@
 <p>You can either</p>
 <ul class="simple">
 <li><p>(a) make the sqlite file yourself, see <a class="reference external" href="https://github.com/INCATools/semantic-sql">INCATools/semantic-sql</a></p></li>
-<li><p>(b) get a ready-made download from the <a class="reference external" href="https://s3.amazonaws.com/bbop-sqlite/">s3 bucket</a></p></li>
+<li><p>(b) get a ready-made download from <a class="reference external" href="https://semanticsql.berkeleybop.io/">semanticsql.berkeleybop.io</a></p></li>
 </ul>
 <p>The second option is likely easiest.</p>
 <p>For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://s3.amazonaws.com/bbop-sqlite/uberon.db
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://semanticsql.berkeleybop.io/uberon.db.gz
+gzip<span class="w"> </span>-d<span class="w"> </span>uberon.db.gz
 </pre></div>
 </div>
 </section>

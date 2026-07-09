@@ -28,8 +28,8 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 | [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  yes  |
 | [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |  no  |
 | [Edge](Edge.md) | An edge is a simple typed relationship between two nodes |  yes  |
-| [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |  no  |
 | [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
+| [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |  no  |
 
 
 
