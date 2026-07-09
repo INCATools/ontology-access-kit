@@ -1,7 +1,10 @@
 import logging
+import os
 import shutil
 import unittest
+from unittest.mock import patch
 
+import requests
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
@@ -10,6 +13,11 @@ from sqlalchemy import delete
 
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.conf import CONF_DIR_PATH
+from oaklib.constants import (
+    FILE_CACHE,
+    SEMSQL_SQLITE_DOWNLOAD_KWARGS,
+    SEMSQL_SQLITE_URL_BASE,
+)
 from oaklib.datamodels import obograph
 from oaklib.datamodels.input_specification import InputSpecification
 from oaklib.datamodels.search import SearchConfiguration
@@ -84,6 +92,54 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         res = OntologyResource(slug=f"sqlite:///{str(INPUT_DIR / 'NO_SUCH_FILE')}")
         with self.assertRaises(FileNotFoundError):
             _ = SqlImplementation(res)
+
+    def test_obo_selector_download_url(self) -> None:
+        """The ``sqlite:obo:`` selector should build a URL against the semantic-sql CDN.
+
+        See https://github.com/INCATools/ontology-access-kit/issues/897 -- the pre-built
+        databases moved from the raw S3 bucket to the vendor-neutral CloudFront/Cloudflare
+        location. We mock the download so the test does not hit the network.
+        """
+        with patch.object(FILE_CACHE, "ensure_gunzip", return_value=str(DB)) as mock_ensure:
+            oi = get_adapter("sqlite:obo:go-nucleus")
+            self.assertIsInstance(oi, BasicOntologyInterface)
+        mock_ensure.assert_called_once()
+        url = mock_ensure.call_args.kwargs["url"]
+        self.assertEqual(url, f"{SEMSQL_SQLITE_URL_BASE}/go-nucleus.db.gz")
+        self.assertTrue(url.startswith("https://semanticsql.berkeleybop.io/"))
+        # A non-urllib User-Agent is required: the CDN's Cloudflare front rejects the
+        # default ``Python-urllib`` User-Agent with HTTP 403.
+        download_kwargs = mock_ensure.call_args.kwargs["download_kwargs"]
+        self.assertEqual(download_kwargs["backend"], "requests")
+        self.assertIn("User-Agent", download_kwargs["headers"])
+
+    @unittest.skipUnless(
+        os.environ.get("OAKLIB_RUN_NETWORK_TESTS"),
+        "network test; set OAKLIB_RUN_NETWORK_TESTS=1 to enable",
+    )
+    def test_obo_selector_download_url_reachable(self) -> None:
+        """Integration: the CDN URL used by the ``sqlite:obo:`` selector should be reachable.
+
+        This guards against a discrepancy between the old S3 bucket and the new CDN
+        (e.g. a missing file or an unexpected redirect). It makes a live network call, so
+        it is opt-in via the OAKLIB_RUN_NETWORK_TESTS environment variable and is skipped
+        when offline.
+
+        The request mirrors the production download path -- same backend headers, in
+        particular the User-Agent -- because the CDN's Cloudflare front rejects the default
+        ``Python-urllib`` User-Agent with HTTP 403. Testing with a different User-Agent would
+        not exercise the condition this PR fixes.
+        """
+        url = f"{SEMSQL_SQLITE_URL_BASE}/bfo.db.gz"
+        headers = SEMSQL_SQLITE_DOWNLOAD_KWARGS["headers"]
+        try:
+            resp = requests.get(url, headers=headers, timeout=30, stream=True)
+            resp.close()
+        except requests.RequestException as e:
+            self.skipTest(f"network unavailable: {e}")
+        self.assertEqual(
+            resp.status_code, 200, f"Expected HTTP 200 from {url}, got {resp.status_code}"
+        )
 
     @unittest.skip("Contents of go-nucleus file need to be aligned")
     def test_relationships(self):

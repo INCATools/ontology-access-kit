@@ -251,13 +251,17 @@ class FileCache(object):
 
         self._forced_policy = policy
 
-    def ensure_gunzip(self, url, name=None, autoclean=True):
+    def ensure_gunzip(self, url, name=None, autoclean=True, download_kwargs=None):
         """Looks up and maybe downloads and gunzips a file.
 
         This is a wrapper around Pystow's method of the same name. It behaves
         similarly but, if the file is already present in the cache, it will
         additionally check whether it needs to be downloaded again, according
         to the current caching policy.
+
+        :param download_kwargs: optional keyword arguments passed through to
+            :func:`pystow.utils.download` (e.g. to select a download backend or
+            set request headers).
         """
 
         if self._forced_policy == CachePolicy.RESET:
@@ -270,7 +274,13 @@ class FileCache(object):
         db_path = self._module.join(name=ungz_name)
 
         if self._get_policy(ungz_name).refresh_file(db_path):
-            self._module.ensure_gunzip(url=url, name=name, autoclean=autoclean, force=True)
+            self._module.ensure_gunzip(
+                url=url,
+                name=name,
+                autoclean=autoclean,
+                force=True,
+                download_kwargs=download_kwargs,
+            )
 
         return db_path
 

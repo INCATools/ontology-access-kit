@@ -64,7 +64,11 @@ from sssom_schema import Mapping
 
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
-from oaklib.constants import FILE_CACHE
+from oaklib.constants import (
+    FILE_CACHE,
+    SEMSQL_SQLITE_DOWNLOAD_KWARGS,
+    SEMSQL_SQLITE_URL_BASE,
+)
 from oaklib.datamodels import obograph, ontology_metadata
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.obograph import (
@@ -341,9 +345,11 @@ class SqlImplementation(
                 # Note: this can take some time
                 prefix = locator[len("obo:") :]
                 # Option 1 uses direct URL construction:
-                url = f"https://s3.amazonaws.com/bbop-sqlite/{prefix}.db.gz"
+                url = f"{SEMSQL_SQLITE_URL_BASE}/{prefix}.db.gz"
                 logging.info(f"Ensuring gunzipped for {url}")
-                db_path = FILE_CACHE.ensure_gunzip(url=url, autoclean=False)
+                db_path = FILE_CACHE.ensure_gunzip(
+                    url=url, autoclean=False, download_kwargs=SEMSQL_SQLITE_DOWNLOAD_KWARGS
+                )
                 # Option 2 uses botocore to interface with the S3 API directly:
                 # db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket="bbop-sqlite", s3_key=f"{prefix}.db")
                 locator = f"sqlite:///{db_path}"
