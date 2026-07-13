@@ -35,6 +35,7 @@ class TestOlsImplementation(unittest.TestCase):
     def setUp(self) -> None:
         # Setup mock client
         mock_client = MagicMock()
+        mock_client.get_ontology.return_value = {"config": {"hierarchicalProperties": []}}
 
         # Create implementation
         with patch.object(OlsImplementation, "ols_client_class", return_value=mock_client):
@@ -198,13 +199,75 @@ class TestOlsImplementation(unittest.TestCase):
         oi = self.oi
         oi.focus_ontology = "go"
         self.assertIsNone(oi.label("GO:9999999"))
+        self.assertIsNone(oi.label("GO:9999999"))
+        self.mock_client.get_term.assert_called_once()
 
     def test_label_missing_iri_http_error(self):
-        """label() should return None when OLS returns 404 for a non-term IRI."""
-        self.mock_client.get_term.side_effect = requests.HTTPError()
+        """label() should cache a 404 for a non-term IRI as a missing label."""
+        response = requests.Response()
+        response.status_code = 404
+        self.mock_client.get_term.side_effect = requests.HTTPError(response=response)
         oi = self.oi
         oi.focus_ontology = "go"
         self.assertIsNone(oi.label(IS_A))
+        self.assertIsNone(oi.label(IS_A))
+        self.assertIn(IS_A, oi.label_cache)
+        self.assertIsNone(oi.label_cache[IS_A])
+        self.mock_client.get_term.assert_called_once()
+
+    def test_definition_missing_iri_http_error(self):
+        """definition() should cache a 404 for a non-term IRI as missing."""
+        response = requests.Response()
+        response.status_code = 404
+        self.mock_client.get_term.side_effect = requests.HTTPError(response=response)
+        oi = self.oi
+        oi.focus_ontology = "go"
+        self.assertIsNone(oi.definition(IS_A))
+        self.assertIsNone(oi.definition(IS_A))
+        self.assertIn(IS_A, oi.definition_cache)
+        self.assertIsNone(oi.definition_cache[IS_A])
+        self.mock_client.get_term.assert_called_once()
+
+    def test_term_lookup_http_error_without_status_is_raised(self):
+        """A response-less HTTPError is not a confirmed missing term."""
+        oi = self.oi
+        oi.focus_ontology = "go"
+        for method_name, cache_name in [
+            ("label", "label_cache"),
+            ("definition", "definition_cache"),
+        ]:
+            with self.subTest(method=method_name):
+                cache = getattr(oi, cache_name)
+                cache.clear()
+                self.mock_client.get_term.reset_mock()
+                error = requests.HTTPError()
+                self.mock_client.get_term.side_effect = error
+                with self.assertRaises(requests.HTTPError) as raised:
+                    getattr(oi, method_name)(IS_A)
+                self.assertIs(error, raised.exception)
+                self.mock_client.get_term.assert_called_once()
+                self.assertNotIn(IS_A, cache)
+
+    def test_term_lookup_non_404_http_errors_are_raised(self):
+        """Authentication, throttling, and server failures must not look missing."""
+        oi = self.oi
+        oi.focus_ontology = "go"
+        for method_name, cache_name in [
+            ("label", "label_cache"),
+            ("definition", "definition_cache"),
+        ]:
+            for status_code in [401, 403, 429, 500]:
+                with self.subTest(method=method_name, status_code=status_code):
+                    cache = getattr(oi, cache_name)
+                    cache.clear()
+                    response = requests.Response()
+                    response.status_code = status_code
+                    error = requests.HTTPError(response=response)
+                    self.mock_client.get_term.side_effect = error
+                    with self.assertRaises(requests.HTTPError) as raised:
+                        getattr(oi, method_name)(IS_A)
+                    self.assertIs(error, raised.exception)
+                    self.assertNotIn(IS_A, cache)
 
     @staticmethod
     def _hal_page(obo_ids, number, total_pages, key="terms"):
@@ -273,6 +336,63 @@ class TestOlsImplementation(unittest.TestCase):
         self.assertIn((VACUOLE, IS_A, VACUOLE), rels)
         self.assertIn((VACUOLE, IS_A, CELLULAR_COMPONENT), rels)
         self.assertIn((VACUOLE, PART_OF, CYTOPLASM), rels)
+
+    def test_entailed_part_of_rejects_additional_hierarchical_predicates(self):
+        """Hierarchy closure differences are ambiguous when OLS configures other predicates."""
+        part_of_iri = "http://purl.obolibrary.org/obo/BFO_0000050"
+        custom_hierarchy_iri = "http://example.org/custom_hierarchy"
+        self.mock_client.get_ontology.return_value = {
+            "config": {
+                "hierarchicalProperties": [
+                    part_of_iri,
+                    custom_hierarchy_iri,
+                ]
+            }
+        }
+
+        def mock_uri_to_curie(uri, *args, **kwargs):
+            if uri == part_of_iri:
+                return PART_OF
+            if kwargs.get("use_uri_fallback"):
+                return uri
+            return None
+
+        self.oi.uri_to_curie.side_effect = mock_uri_to_curie
+
+        with self.assertRaisesRegex(NotImplementedError, "additional hierarchical predicates"):
+            list(
+                self.oi.relationships(
+                    subjects=[VACUOLE],
+                    predicates=[IS_A, PART_OF],
+                    include_entailed=True,
+                )
+            )
+
+        self.mock_client.get_json.assert_not_called()
+        self.assertTrue(
+            all(call.kwargs.get("use_uri_fallback") for call in self.oi.uri_to_curie.call_args_list)
+        )
+
+    def test_entailed_isa_ignores_additional_hierarchical_predicates(self):
+        """An is-a-only closure remains unambiguous for every OLS hierarchy config."""
+        self.mock_client.get_ontology.return_value = {
+            "config": {
+                "hierarchicalProperties": [
+                    "http://purl.obolibrary.org/obo/BFO_0000050",
+                    "http://purl.obolibrary.org/obo/RO_0002202",
+                ]
+            }
+        }
+        self.mock_client.get_json.return_value = self._hal_page(
+            [CELLULAR_COMPONENT], number=0, total_pages=1
+        )
+
+        rels = list(
+            self.oi.relationships(subjects=[VACUOLE], predicates=[IS_A], include_entailed=True)
+        )
+
+        self.assertIn((VACUOLE, IS_A, CELLULAR_COMPONENT), rels)
+        self.mock_client.get_ontology.assert_not_called()
 
     def test_descendants(self):
         oi = self.oi

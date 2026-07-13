@@ -2245,7 +2245,7 @@ def descendants(
     writer.file = output
     if graph_traversal_method:
         graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
-    if not isinstance(impl, OboGraphInterface):
+    if not callable(getattr(impl, "descendants", None)) or not isinstance(impl, SearchInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     actual_predicates = process_predicates_arg(predicates)
     curies = list(query_terms_iterator(terms, impl))

@@ -93,8 +93,8 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
     """
 
     ols_client_class: ClassVar[type[Client]]
-    label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
-    definition_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
+    label_cache: Dict[CURIE, Optional[str]] = field(default_factory=lambda: {})
+    definition_cache: Dict[CURIE, Optional[str]] = field(default_factory=lambda: {})
     base_url = "https://www.ebi.ac.uk/spot/oxo/api/mappings"
     _prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
@@ -129,14 +129,14 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         iri = self.curie_to_uri(curie)
         try:
             term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
-        except requests.HTTPError:
-            return None
-        if term:
-            label = _scalar(term.get("label"))
-            if label is not None:
-                self.label_cache[curie] = label
-                return label
-        return None
+        except requests.HTTPError as error:
+            if error.response is None or error.response.status_code != requests.codes.not_found:
+                raise
+            label = None
+        else:
+            label = _scalar(term.get("label")) if term else None
+        self.label_cache[curie] = label
+        return label
 
     def labels(
         self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
@@ -170,14 +170,16 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         iri = self.curie_to_uri(curie)
         try:
             term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
-        except requests.HTTPError:
-            return None
-        if term:
-            definition = _scalar(term.get("description"))
-            if definition:
-                self.definition_cache[curie] = definition
-                return definition
-        return None
+        except requests.HTTPError as error:
+            if error.response is None or error.response.status_code != requests.codes.not_found:
+                raise
+            definition = None
+        else:
+            definition = _scalar(term.get("description")) if term else None
+            if not definition:
+                definition = None
+        self.definition_cache[curie] = definition
+        return definition
 
     def definitions(
         self,
@@ -307,8 +309,9 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         Yield relationships from OLS term graph and hierarchy endpoints.
 
         Direct relationships are read from the OLS ``graph`` endpoint. Entailed
-        hierarchy relationships are approximated from OLS closure endpoints:
-        ``ancestors``/``descendants`` for ``is_a`` and the extra nodes from
+        hierarchy relationships are read from OLS closure endpoints:
+        ``ancestors``/``descendants`` for ``is_a`` and, when the ontology has no
+        other configured hierarchy predicates, the extra nodes from
         ``hierarchicalAncestors``/``hierarchicalDescendants`` for ``part_of``.
 
         :param subjects: constrain search to these subjects
@@ -419,6 +422,16 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
                 "OLS entailed relationships support only "
                 f"{sorted(supported_predicates)}; got {sorted(predicate_set)}"
             )
+        if PART_OF in predicate_set:
+            additional_hierarchical_predicates = (
+                self._ols_hierarchical_predicates() - supported_predicates
+            )
+            if additional_hierarchical_predicates:
+                raise NotImplementedError(
+                    "OLS cannot distinguish entailed part_of relationships from "
+                    "the ontology's additional hierarchical predicates: "
+                    f"{sorted(additional_hierarchical_predicates)}"
+                )
 
         yielded = set()
         if subjects:
@@ -454,6 +467,30 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
                 if objects and obj not in objects:
                     continue
                 yield subject, PART_OF, obj
+
+    def _ols_hierarchical_predicates(self) -> set[PRED_CURIE]:
+        """Return the predicates included in the OLS hierarchical closure.
+
+        OLS always includes ``rdfs:subClassOf``. Its ontology metadata reports
+        additional predicates in ``config.hierarchicalProperties``; when that
+        setting is empty or absent, OLS defaults to ``part_of``.
+        """
+        metadata = self.client.get_ontology(self.focus_ontology)
+        config = metadata.get("config") if isinstance(metadata, dict) else None
+        if not isinstance(config, dict):
+            raise NotImplementedError(
+                "OLS ontology metadata does not expose configured hierarchical predicates"
+            )
+        configured_properties = config.get("hierarchicalProperties") or [self.curie_to_uri(PART_OF)]
+        if isinstance(configured_properties, str):
+            configured_properties = [configured_properties]
+
+        predicates = {IS_A}
+        for property_iri in configured_properties:
+            predicate = self.uri_to_curie(property_iri, strict=False, use_uri_fallback=True)
+            if predicate:
+                predicates.add(predicate)
+        return predicates
 
     def _entailed_hierarchy_relationships_to_object(
         self, obj: CURIE, predicate_set: set

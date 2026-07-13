@@ -469,8 +469,46 @@ class TestCommandLineInterface(unittest.TestCase):
         path = mock_client.get_json.call_args.args[0]
         self.assertIn("hierarchicalAncestors", path)
 
+    def test_ols_descendants_cli(self):
+        mock_client = MagicMock()
+        mock_client.get_json.return_value = {
+            "_embedded": {
+                "terms": [
+                    {"obo_id": NUCLEUS},
+                    {"obo_id": CYTOPLASM},
+                ]
+            },
+            "page": {"size": 500, "totalPages": 1, "number": 0},
+        }
+        mock_client.get_term.return_value = {"_embedded": {"terms": []}}
+
+        with patch(
+            "oaklib.implementations.ols.ols_implementation.OlsImplementation.ols_client_class",
+            return_value=mock_client,
+        ):
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    "ols:go",
+                    "descendants",
+                    "-p",
+                    "i,p",
+                    CELLULAR_COMPONENT,
+                ],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        self.assertIn(CELLULAR_COMPONENT, result.stdout)
+        self.assertIn(NUCLEUS, result.stdout)
+        self.assertIn(CYTOPLASM, result.stdout)
+
+        path = mock_client.get_json.call_args.args[0]
+        self.assertIn("hierarchicalDescendants", path)
+
     def test_ols_relationships_include_entailed_cli(self):
         mock_client = MagicMock()
+        mock_client.get_ontology.return_value = {"config": {"hierarchicalProperties": []}}
 
         def mock_get_json(path, **kwargs):
             if path.endswith("/ancestors"):
