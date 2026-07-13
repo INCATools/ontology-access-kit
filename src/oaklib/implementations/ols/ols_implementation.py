@@ -391,21 +391,26 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/graph"
         response = self.client.get_json(path)
         for edge in (response or {}).get("edges") or []:
+            if not isinstance(edge, dict):
+                continue
             source = edge.get("source")
             predicate = edge.get("uri")
             target = edge.get("target")
-            if not (source and predicate and target):
+            if not all(isinstance(value, str) and value for value in (source, predicate, target)):
                 continue
-            subject_curie = self.uri_to_curie(source, strict=False)
-            predicate_curie = self.uri_to_curie(predicate, strict=False)
-            object_curie = self.uri_to_curie(target, strict=False)
+            subject_curie = self.uri_to_curie(source, strict=False, use_uri_fallback=True)
+            predicate_curie = self.uri_to_curie(predicate, strict=False, use_uri_fallback=True)
+            object_curie = self.uri_to_curie(target, strict=False, use_uri_fallback=True)
+            relationship = (subject_curie, predicate_curie, object_curie)
+            if not all(isinstance(value, str) and value for value in relationship):
+                continue
             if subjects and subject_curie not in subjects:
                 continue
             if objects and object_curie not in objects:
                 continue
             if predicates and predicate_curie not in predicates:
                 continue
-            yield subject_curie, predicate_curie, object_curie
+            yield relationship
 
     def _entailed_hierarchy_relationships(
         self,

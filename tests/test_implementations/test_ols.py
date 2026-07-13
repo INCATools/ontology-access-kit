@@ -337,6 +337,60 @@ class TestOlsImplementation(unittest.TestCase):
         self.assertIn((VACUOLE, IS_A, CELLULAR_COMPONENT), rels)
         self.assertIn((VACUOLE, PART_OF, CYTOPLASM), rels)
 
+    def test_graph_relationships_preserve_unmapped_uris(self):
+        """Direct graph edges should retain URIs that cannot be contracted."""
+        known_source_iri = "http://purl.obolibrary.org/obo/GO_0005773"
+        known_target_iri = "http://purl.obolibrary.org/obo/GO_0005737"
+        unknown_source_iri = "http://example.org/unknown_source"
+        unknown_target_iri = "http://example.org/unknown_target"
+        unknown_predicate_iri = "http://example.org/unknown_predicate"
+        unconvertible_iri = "http://example.org/unconvertible"
+        self.mock_client.get_json.return_value = {
+            "edges": [
+                {
+                    "source": unknown_source_iri,
+                    "uri": unknown_predicate_iri,
+                    "target": known_target_iri,
+                },
+                {
+                    "source": known_source_iri,
+                    "uri": unknown_predicate_iri,
+                    "target": unknown_target_iri,
+                },
+                {
+                    "source": 42,
+                    "uri": unknown_predicate_iri,
+                    "target": known_target_iri,
+                },
+                {
+                    "source": unconvertible_iri,
+                    "uri": unknown_predicate_iri,
+                    "target": known_target_iri,
+                },
+            ]
+        }
+
+        def mock_uri_to_curie(uri, *args, **kwargs):
+            known_curies = {
+                known_source_iri: VACUOLE,
+                known_target_iri: CYTOPLASM,
+            }
+            if uri in known_curies:
+                return known_curies[uri]
+            if uri == unconvertible_iri:
+                return None
+            if kwargs.get("use_uri_fallback"):
+                return uri
+            return None
+
+        self.oi.uri_to_curie.side_effect = mock_uri_to_curie
+
+        incoming = list(self.oi.relationships(objects=[CYTOPLASM]))
+        outgoing = list(self.oi.relationships(subjects=[VACUOLE]))
+
+        self.assertEqual({(unknown_source_iri, unknown_predicate_iri, CYTOPLASM)}, set(incoming))
+        self.assertEqual({(VACUOLE, unknown_predicate_iri, unknown_target_iri)}, set(outgoing))
+
     def test_entailed_part_of_rejects_additional_hierarchical_predicates(self):
         """Hierarchy closure differences are ambiguous when OLS configures other predicates."""
         part_of_iri = "http://purl.obolibrary.org/obo/BFO_0000050"

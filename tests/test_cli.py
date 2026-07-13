@@ -27,6 +27,9 @@ from oaklib.datamodels.vocabulary import (
     SKOS_CLOSE_MATCH,
     SKOS_EXACT_MATCH,
 )
+from oaklib.implementations.wikidata.wikidata_implementation import (
+    WikidataImplementation,
+)
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
     ATOM,
@@ -505,6 +508,40 @@ class TestCommandLineInterface(unittest.TestCase):
 
         path = mock_client.get_json.call_args.args[0]
         self.assertIn("hierarchicalDescendants", path)
+
+    def test_wikidata_ancestors_cli_without_graph_traversal_method(self):
+        clear_cli_settings()
+        with (
+            patch.object(
+                WikidataImplementation, "ancestors", autospec=True, return_value=[]
+            ) as mock_traversal,
+            patch.object(WikidataImplementation, "labels", autospec=True, return_value=[]),
+        ):
+            result = self.runner.invoke(
+                main,
+                ["-i", "wikidata:", "ancestors", "-p", "i", "wikidata:Q1"],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        mock_traversal.assert_called_once()
+        self.assertNotIn("method", mock_traversal.call_args.kwargs)
+
+    def test_wikidata_descendants_cli_without_graph_traversal_method(self):
+        clear_cli_settings()
+        with (
+            patch.object(
+                WikidataImplementation, "descendants", autospec=True, return_value=[]
+            ) as mock_traversal,
+            patch.object(WikidataImplementation, "labels", autospec=True, return_value=[]),
+        ):
+            result = self.runner.invoke(
+                main,
+                ["-i", "wikidata:", "descendants", "-p", "i", "wikidata:Q1"],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        mock_traversal.assert_called_once()
+        self.assertNotIn("method", mock_traversal.call_args.kwargs)
 
     def test_ols_relationships_include_entailed_cli(self):
         mock_client = MagicMock()
