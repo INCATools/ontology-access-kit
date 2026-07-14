@@ -10,8 +10,10 @@ license = "Apache-2.0"
 readme = "README.md"
 
 dependencies = [
-    "curies>=0.6.6,<0.11", #TODO: needs to be downgraded below 0.11 because curie.convert.parse_uri is returning None; causing TestOboGraphUtils to fail
-    "pronto",
+    "curies>=0.6.6",
+    # >=2.5 keeps pip from backtracking to ancient pronto (0.12.x) that uses the
+    # removed collections.Mapping and breaks on import under Python >=3.10.
+    "pronto>=2.5",
     "SPARQLWrapper",
     "SQLAlchemy>=1.4.32",
     "linkml-runtime>=1.5.3",
