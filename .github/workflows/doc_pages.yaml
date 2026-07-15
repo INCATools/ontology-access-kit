@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python 3.
       uses: actions/setup-python@v6.2.0
       with:
-        python-version: 3.12
+        python-version: 3.14
 
     - name: Download uv
       uses: astral-sh/setup-uv@v7.3.0

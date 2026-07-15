@@ -5,7 +5,7 @@ description = "Ontology Access Kit: Python library for common ontology operation
 authors = [
     {name="Chris Mungall", email="cjm@berkeleybop.org"}
 ]
-requires-python = ">=3.10,<4,<3.14"
+requires-python = ">=3.10,<4,<3.15"
 license = "Apache-2.0"
 readme = "README.md"
 
@@ -23,7 +23,7 @@ dependencies = [
     "appdirs>=1.4.4",
     "semsql>=0.3.1",
     "kgcl-schema>=0.6.9,<1",
-    "py-horned-owl>=1.1.0",
+    "py-horned-owl>=1.4.1",
     "kgcl-rdflib==0.5.0",
     "llm>=0.14,<1",
     "pystow>=0.7.28",
@@ -156,3 +156,4 @@ target-version = "py310"
 [tool.ruff.lint.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
+
