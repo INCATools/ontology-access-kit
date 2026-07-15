@@ -1815,10 +1815,14 @@ def ancestors(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     # writer.display_options = display.split(',')
     writer.file = output
-    if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
+    if callable(getattr(impl, "ancestors", None)) and isinstance(impl, SearchInterface):
+        traversal_kwargs = {}
         if graph_traversal_method:
             graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
-            if graph_traversal_method == GraphTraversalMethod.HOP:
+            traversal_kwargs["method"] = graph_traversal_method
+            if graph_traversal_method == GraphTraversalMethod.HOP and isinstance(
+                impl, OboGraphInterface
+            ):
                 impl.precompute_lookups()
         actual_predicates = process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
@@ -1840,15 +1844,10 @@ def ancestors(
             else:
                 raise NotImplementedError
         else:
-            if isinstance(impl, OboGraphInterface):
-                logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
-                ancs = list(
-                    impl.ancestors(curies, actual_predicates, method=graph_traversal_method)
-                )
-                for a_curie, a_label in impl.labels(ancs):
-                    writer.emit(dict(id=a_curie, label=a_label))
-            else:
-                raise NotImplementedError
+            logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
+            ancs = list(impl.ancestors(curies, actual_predicates, **traversal_kwargs))
+            for a_curie, a_label in impl.labels(ancs):
+                writer.emit(dict(id=a_curie, label=a_label))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     writer.finish()
@@ -2246,15 +2245,15 @@ def descendants(
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    traversal_kwargs = {}
     if graph_traversal_method:
         graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
-    if not isinstance(impl, OboGraphInterface):
+        traversal_kwargs["method"] = graph_traversal_method
+    if not callable(getattr(impl, "descendants", None)) or not isinstance(impl, SearchInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     actual_predicates = process_predicates_arg(predicates)
     curies = list(query_terms_iterator(terms, impl))
-    result_it = impl.descendants(
-        curies, predicates=actual_predicates, method=graph_traversal_method
-    )
+    result_it = impl.descendants(curies, predicates=actual_predicates, **traversal_kwargs)
     writer.emit_multiple(result_it)
     writer.finish()
 

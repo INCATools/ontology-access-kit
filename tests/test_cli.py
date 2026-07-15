@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 from shutil import copyfile
 from typing import Optional
+from unittest.mock import MagicMock, patch
 
 import rdflib
 import yaml
@@ -25,6 +26,9 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     SKOS_CLOSE_MATCH,
     SKOS_EXACT_MATCH,
+)
+from oaklib.implementations.wikidata.wikidata_implementation import (
+    WikidataImplementation,
 )
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
@@ -430,6 +434,163 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("GO:0031965", out)
             self.assertNotIn("subClassOf", out)
             self.assertNotIn("BFO", out)
+
+    def test_ols_ancestors_cli(self):
+        mock_client = MagicMock()
+        mock_client.get_json.return_value = {
+            "_embedded": {
+                "terms": [
+                    {"obo_id": CYTOPLASM},
+                    {"obo_id": CELLULAR_COMPONENT},
+                ]
+            },
+            "page": {"size": 500, "totalPages": 1, "number": 0},
+        }
+        mock_client.get_term.return_value = {"_embedded": {"terms": []}}
+
+        with patch(
+            "oaklib.implementations.ols.ols_implementation.OlsImplementation.ols_client_class",
+            return_value=mock_client,
+        ):
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    "ols:go",
+                    "ancestors",
+                    "-p",
+                    "i,p",
+                    NUCLEUS,
+                ],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        self.assertIn(NUCLEUS, result.stdout)
+        self.assertIn(CYTOPLASM, result.stdout)
+        self.assertIn(CELLULAR_COMPONENT, result.stdout)
+
+        path = mock_client.get_json.call_args.args[0]
+        self.assertIn("hierarchicalAncestors", path)
+
+    def test_ols_descendants_cli(self):
+        mock_client = MagicMock()
+        mock_client.get_json.return_value = {
+            "_embedded": {
+                "terms": [
+                    {"obo_id": NUCLEUS},
+                    {"obo_id": CYTOPLASM},
+                ]
+            },
+            "page": {"size": 500, "totalPages": 1, "number": 0},
+        }
+        mock_client.get_term.return_value = {"_embedded": {"terms": []}}
+
+        with patch(
+            "oaklib.implementations.ols.ols_implementation.OlsImplementation.ols_client_class",
+            return_value=mock_client,
+        ):
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    "ols:go",
+                    "descendants",
+                    "-p",
+                    "i,p",
+                    CELLULAR_COMPONENT,
+                ],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        self.assertIn(CELLULAR_COMPONENT, result.stdout)
+        self.assertIn(NUCLEUS, result.stdout)
+        self.assertIn(CYTOPLASM, result.stdout)
+
+        path = mock_client.get_json.call_args.args[0]
+        self.assertIn("hierarchicalDescendants", path)
+
+    def test_wikidata_ancestors_cli_without_graph_traversal_method(self):
+        clear_cli_settings()
+        with (
+            patch.object(
+                WikidataImplementation, "ancestors", autospec=True, return_value=[]
+            ) as mock_traversal,
+            patch.object(WikidataImplementation, "labels", autospec=True, return_value=[]),
+        ):
+            result = self.runner.invoke(
+                main,
+                ["-i", "wikidata:", "ancestors", "-p", "i", "wikidata:Q1"],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        mock_traversal.assert_called_once()
+        self.assertNotIn("method", mock_traversal.call_args.kwargs)
+
+    def test_wikidata_descendants_cli_without_graph_traversal_method(self):
+        clear_cli_settings()
+        with (
+            patch.object(
+                WikidataImplementation, "descendants", autospec=True, return_value=[]
+            ) as mock_traversal,
+            patch.object(WikidataImplementation, "labels", autospec=True, return_value=[]),
+        ):
+            result = self.runner.invoke(
+                main,
+                ["-i", "wikidata:", "descendants", "-p", "i", "wikidata:Q1"],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        mock_traversal.assert_called_once()
+        self.assertNotIn("method", mock_traversal.call_args.kwargs)
+
+    def test_ols_relationships_include_entailed_cli(self):
+        mock_client = MagicMock()
+        mock_client.get_ontology.return_value = {"config": {"hierarchicalProperties": []}}
+
+        def mock_get_json(path, **kwargs):
+            if path.endswith("/ancestors"):
+                return {
+                    "_embedded": {"terms": [{"obo_id": CELLULAR_COMPONENT}]},
+                    "page": {"size": 500, "totalPages": 1, "number": 0},
+                }
+            if path.endswith("/hierarchicalAncestors"):
+                return {
+                    "_embedded": {
+                        "terms": [
+                            {"obo_id": CELLULAR_COMPONENT},
+                            {"obo_id": CYTOPLASM},
+                        ]
+                    },
+                    "page": {"size": 500, "totalPages": 1, "number": 0},
+                }
+            raise AssertionError(f"Unexpected path: {path}")
+
+        mock_client.get_json.side_effect = mock_get_json
+        mock_client.get_term.return_value = {"_embedded": {"terms": []}}
+
+        with patch(
+            "oaklib.implementations.ols.ols_implementation.OlsImplementation.ols_client_class",
+            return_value=mock_client,
+        ):
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    "ols:go",
+                    "relationships",
+                    "-p",
+                    "i,p",
+                    NUCLEUS,
+                    "--include-entailed",
+                ],
+            )
+
+        self.assertEqual(0, result.exit_code, result.output)
+        self.assertIn(NUCLEUS, result.stdout)
+        self.assertIn("rdfs:subClassOf", result.stdout)
+        self.assertIn(CELLULAR_COMPONENT, result.stdout)
+        self.assertIn("BFO:0000050", result.stdout)
+        self.assertIn(CYTOPLASM, result.stdout)
 
     def test_logical_definitions(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}"]:

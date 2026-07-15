@@ -12,10 +12,10 @@ from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation
-from oaklib.datamodels.vocabulary import IS_A, SEMAPV
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, SEMAPV
 from oaklib.implementations.ols.constants import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
-from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
+from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod
 from oaklib.interfaces.search_interface import SearchInterface
@@ -77,6 +77,7 @@ def _scalar(value: Any) -> Optional[str]:
         return None
     return value
 
+
 oxo_pred_mappings = {
     ScopeEnum.EXACT.text: "skos:exactMatch",
     ScopeEnum.BROADER.text: "skos:broadMatch",
@@ -92,8 +93,8 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
     """
 
     ols_client_class: ClassVar[type[Client]]
-    label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
-    definition_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
+    label_cache: Dict[CURIE, Optional[str]] = field(default_factory=lambda: {})
+    definition_cache: Dict[CURIE, Optional[str]] = field(default_factory=lambda: {})
     base_url = "https://www.ebi.ac.uk/spot/oxo/api/mappings"
     _prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
@@ -126,13 +127,16 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
 
         ontology = self.focus_ontology
         iri = self.curie_to_uri(curie)
-        term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
-        if term:
-            label = _scalar(term.get("label"))
-            if label is not None:
-                self.label_cache[curie] = label
-                return label
-        return None
+        try:
+            term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
+        except requests.HTTPError as error:
+            if error.response is None or error.response.status_code != requests.codes.not_found:
+                raise
+            label = None
+        else:
+            label = _scalar(term.get("label")) if term else None
+        self.label_cache[curie] = label
+        return label
 
     def labels(
         self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
@@ -164,13 +168,18 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
 
         ontology = self.focus_ontology
         iri = self.curie_to_uri(curie)
-        term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
-        if term:
-            definition = _scalar(term.get("description"))
-            if definition:
-                self.definition_cache[curie] = definition
-                return definition
-        return None
+        try:
+            term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
+        except requests.HTTPError as error:
+            if error.response is None or error.response.status_code != requests.codes.not_found:
+                raise
+            definition = None
+        else:
+            definition = _scalar(term.get("description")) if term else None
+            if not definition:
+                definition = None
+        self.definition_cache[curie] = definition
+        return definition
 
     def definitions(
         self,
@@ -284,6 +293,223 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
         if reflexive:
             descs.update(start_curies)
         return list(descs)
+
+    def relationships(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = False,
+        exclude_blank: bool = True,
+        invert: bool = False,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Yield relationships from OLS term graph and hierarchy endpoints.
+
+        Direct relationships are read from the OLS ``graph`` endpoint. Entailed
+        hierarchy relationships are read from OLS closure endpoints:
+        ``ancestors``/``descendants`` for ``is_a`` and, when the ontology has no
+        other configured hierarchy predicates, the extra nodes from
+        ``hierarchicalAncestors``/``hierarchicalDescendants`` for ``part_of``.
+
+        :param subjects: constrain search to these subjects
+        :param predicates: constrain search to these predicates
+        :param objects: constrain search to these objects
+        :param include_tbox: accepted for interface compatibility
+        :param include_abox: accepted for interface compatibility
+        :param include_entailed: include hierarchy closure edges
+        :param exclude_blank: accepted for interface compatibility
+        :param invert: invert subject/object constraints and returned triples
+        :return: relationship triples
+        """
+        if invert:
+            for s, p, o in self.relationships(
+                subjects=objects,
+                predicates=predicates,
+                objects=subjects,
+                include_tbox=include_tbox,
+                include_abox=include_abox,
+                include_entailed=include_entailed,
+                exclude_blank=exclude_blank,
+            ):
+                yield o, p, s
+            return
+
+        subject_list = list(subjects) if subjects else None
+        object_list = list(objects) if objects else None
+        predicate_list = list(predicates) if predicates else None
+
+        if not subject_list and not object_list:
+            raise NotImplementedError(
+                "OLS relationships must be constrained by subjects or objects"
+            )
+
+        if include_entailed:
+            yield from self._entailed_hierarchy_relationships(
+                subjects=subject_list,
+                predicates=predicate_list,
+                objects=object_list,
+            )
+            return
+
+        yielded = set()
+        if subject_list:
+            object_set = set(object_list) if object_list else None
+            for subject in subject_list:
+                for rel in self._graph_relationships(
+                    subject,
+                    predicates=predicate_list,
+                    subjects={subject},
+                    objects=object_set,
+                ):
+                    if rel not in yielded:
+                        yielded.add(rel)
+                        yield rel
+        else:
+            for obj in object_list:
+                for rel in self._graph_relationships(
+                    obj,
+                    predicates=predicate_list,
+                    objects={obj},
+                ):
+                    if rel not in yielded:
+                        yielded.add(rel)
+                        yield rel
+
+    def _graph_relationships(
+        self,
+        focus_curie: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        subjects: set = None,
+        objects: set = None,
+    ) -> Iterator[RELATIONSHIP]:
+        """Return direct graph relationships from the OLS term graph endpoint."""
+        ontology = self.focus_ontology
+        iri = self.curie_to_uri(focus_curie)
+        path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/graph"
+        response = self.client.get_json(path)
+        for edge in (response or {}).get("edges") or []:
+            if not isinstance(edge, dict):
+                continue
+            source = edge.get("source")
+            predicate = edge.get("uri")
+            target = edge.get("target")
+            if not all(isinstance(value, str) and value for value in (source, predicate, target)):
+                continue
+            subject_curie = self.uri_to_curie(source, strict=False, use_uri_fallback=True)
+            predicate_curie = self.uri_to_curie(predicate, strict=False, use_uri_fallback=True)
+            object_curie = self.uri_to_curie(target, strict=False, use_uri_fallback=True)
+            relationship = (subject_curie, predicate_curie, object_curie)
+            if not all(isinstance(value, str) and value for value in relationship):
+                continue
+            if subjects and subject_curie not in subjects:
+                continue
+            if objects and object_curie not in objects:
+                continue
+            if predicates and predicate_curie not in predicates:
+                continue
+            yield relationship
+
+    def _entailed_hierarchy_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        """Return entailed hierarchy relationships supported by OLS closures."""
+        supported_predicates = {IS_A, PART_OF}
+        predicate_set = set(predicates) if predicates else supported_predicates
+        unsupported_predicates = predicate_set - supported_predicates
+        if unsupported_predicates:
+            raise NotImplementedError(
+                "OLS entailed relationships support only "
+                f"{sorted(supported_predicates)}; got {sorted(predicate_set)}"
+            )
+        if PART_OF in predicate_set:
+            additional_hierarchical_predicates = (
+                self._ols_hierarchical_predicates() - supported_predicates
+            )
+            if additional_hierarchical_predicates:
+                raise NotImplementedError(
+                    "OLS cannot distinguish entailed part_of relationships from "
+                    "the ontology's additional hierarchical predicates: "
+                    f"{sorted(additional_hierarchical_predicates)}"
+                )
+
+        yielded = set()
+        if subjects:
+            object_set = set(objects) if objects else None
+            for subject in subjects:
+                for rel in self._entailed_hierarchy_relationships_from_subject(
+                    subject, predicate_set, object_set
+                ):
+                    if rel not in yielded:
+                        yielded.add(rel)
+                        yield rel
+        elif objects:
+            for obj in objects:
+                for rel in self._entailed_hierarchy_relationships_to_object(obj, predicate_set):
+                    if rel not in yielded:
+                        yielded.add(rel)
+                        yield rel
+
+    def _entailed_hierarchy_relationships_from_subject(
+        self, subject: CURIE, predicate_set: set, objects: set = None
+    ) -> Iterator[RELATIONSHIP]:
+        isa_ancestors = set(self.ancestors(subject, predicates=[IS_A], reflexive=True))
+        if IS_A in predicate_set:
+            for obj in isa_ancestors:
+                if objects and obj not in objects:
+                    continue
+                yield subject, IS_A, obj
+        if PART_OF in predicate_set:
+            hierarchy_ancestors = set(
+                self.ancestors(subject, predicates=[IS_A, PART_OF], reflexive=True)
+            )
+            for obj in hierarchy_ancestors - isa_ancestors:
+                if objects and obj not in objects:
+                    continue
+                yield subject, PART_OF, obj
+
+    def _ols_hierarchical_predicates(self) -> set[PRED_CURIE]:
+        """Return the predicates included in the OLS hierarchical closure.
+
+        OLS always includes ``rdfs:subClassOf``. Its ontology metadata reports
+        additional predicates in ``config.hierarchicalProperties``; when that
+        setting is empty or absent, OLS defaults to ``part_of``.
+        """
+        metadata = self.client.get_ontology(self.focus_ontology)
+        config = metadata.get("config") if isinstance(metadata, dict) else None
+        if not isinstance(config, dict):
+            raise NotImplementedError(
+                "OLS ontology metadata does not expose configured hierarchical predicates"
+            )
+        configured_properties = config.get("hierarchicalProperties") or [self.curie_to_uri(PART_OF)]
+        if isinstance(configured_properties, str):
+            configured_properties = [configured_properties]
+
+        predicates = {IS_A}
+        for property_iri in configured_properties:
+            predicate = self.uri_to_curie(property_iri, strict=False, use_uri_fallback=True)
+            if predicate:
+                predicates.add(predicate)
+        return predicates
+
+    def _entailed_hierarchy_relationships_to_object(
+        self, obj: CURIE, predicate_set: set
+    ) -> Iterator[RELATIONSHIP]:
+        isa_descendants = set(self.descendants(obj, predicates=[IS_A], reflexive=True))
+        if IS_A in predicate_set:
+            for subject in isa_descendants:
+                yield subject, IS_A, obj
+        if PART_OF in predicate_set:
+            hierarchy_descendants = set(
+                self.descendants(obj, predicates=[IS_A, PART_OF], reflexive=True)
+            )
+            for subject in hierarchy_descendants - isa_descendants:
+                yield subject, PART_OF, obj
 
     def _iter_paged(
         self, path: str, key: str = "terms", size: int = 500
