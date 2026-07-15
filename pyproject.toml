@@ -5,7 +5,7 @@ description = "Ontology Access Kit: Python library for common ontology operation
 authors = [
     {name="Chris Mungall", email="cjm@berkeleybop.org"}
 ]
-requires-python = ">=3.10,<4,<3.14"
+requires-python = ">=3.10,<4,<3.15"
 license = "Apache-2.0"
 readme = "README.md"
 
@@ -25,7 +25,7 @@ dependencies = [
     "appdirs>=1.4.4",
     "semsql>=0.3.1",
     "kgcl-schema>=0.6.9,<1",
-    "py-horned-owl>=1.1.0",
+    "py-horned-owl>=1.4.1",
     "kgcl-rdflib==0.5.0",
     "llm>=0.14,<1",
     "pystow>=0.7.28",
@@ -38,6 +38,7 @@ dependencies = [
     "pysolr>=3.9.0,<4",
     "eutils>=0.6.0", #TODO: eutils==0.6.1 is only created for python>=3.12. It's forcing us to use setuptools. We need to go into the innards of the code and replace this dependency with an api call - GHIssue 852
     "setuptools<82", #We need this for eutils==0.6.0    
+    "lxml>5.4.0", # floor for 3.14 wheels; needed for eutils `>=0.6.0`
     "requests-cache>1.0.1,<2",
     "click",
     "pydantic",
@@ -158,3 +159,4 @@ target-version = "py310"
 [tool.ruff.lint.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
+
