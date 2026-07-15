@@ -36,7 +36,7 @@ dependencies = [
     "pysolr>=3.9.0,<4",
     "eutils>=0.6.0", #TODO: eutils==0.6.1 is only created for python>=3.12. It's forcing us to use setuptools. We need to go into the innards of the code and replace this dependency with an api call - GHIssue 852
     "setuptools<82", #We need this for eutils==0.6.0    
-    "lxml>5.4.0", #Need this for eutils
+    "lxml>5.4.0", # floor for 3.14 wheels; needed for eutils `>=0.6.0`
     "requests-cache>1.0.1,<2",
     "click",
     "pydantic",
