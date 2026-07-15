@@ -1006,7 +1006,10 @@ def induce_graph_prefix_map(
     graph: Union[Graph, GraphDocument], converter: Converter
 ) -> Dict[str, str]:
     def _id_to_prefix(id: CURIE) -> Optional[str]:
-        pfx, _ = converter.parse_uri(id)
+        # curies >=0.11 returns None for a URI it cannot parse, whereas earlier
+        # versions returned a (None, None) tuple; handle both.
+        reference = converter.parse_uri(id)
+        pfx = reference[0] if reference is not None else None
         if pfx:
             return pfx
         parts = id.split(":")
