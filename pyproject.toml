@@ -1,6 +1,5 @@
 [project]
 name = "oaklib"
-version = "0.0.0"
 description = "Ontology Access Kit: Python library for common ontology operations over a variety of backends"
 authors = [
     {name="Chris Mungall", email="cjm@berkeleybop.org"}
@@ -8,6 +7,7 @@ authors = [
 requires-python = ">=3.10,<4,<3.15"
 license = "Apache-2.0"
 readme = "README.md"
+dynamic = ["version"]
 
 dependencies = [
     "curies>=0.6.6",
@@ -108,6 +108,9 @@ seaborn = ["seaborn"]
 
 [tool.uv]
 default-groups = ["dev", "gilda"]
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
 
 [tool.black]
 line-length = 100
