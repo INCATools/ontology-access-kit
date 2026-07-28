@@ -23,18 +23,18 @@ URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Class](Class.md) |  |  yes  |
-| [Image](Image.md) |  |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Property](Property.md) |  |  yes  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Class](Class.md) |  |  yes  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
+| [Property](Property.md) |  |  yes  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Image](Image.md) |  |  no  |
 
 
 

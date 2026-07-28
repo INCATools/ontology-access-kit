@@ -18,19 +18,19 @@ URI: [rdfs:seeAlso](http://www.w3.org/2000/01/rdf-schema#seeAlso)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
-| [Class](Class.md) |  |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Image](Image.md) |  |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Property](Property.md) |  |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [HasUserInformation](HasUserInformation.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Class](Class.md) |  |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Image](Image.md) |  |  no  |
 
 
 

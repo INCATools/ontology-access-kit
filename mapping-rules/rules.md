@@ -18,8 +18,8 @@ URI: [mappingrules:rules](https://w3id.org/oak/mapping-rules-datamodel/rules)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements |  no  |
 | [MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules |  no  |
+| [RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements |  no  |
 
 
 
