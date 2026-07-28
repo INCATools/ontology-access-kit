@@ -28,8 +28,6 @@ jobs:
         python-version: 3.14
 
     - name: Build source and wheel archives
-      env:
-        OAK_BUILD_TAG: ${{ github.event.release.tag_name }}
       run: |
         make build-whl
 

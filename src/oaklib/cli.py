@@ -30,7 +30,6 @@ import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
 from kgcl_schema.datamodel import kgcl
-from linkml._version import __version__
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.introspection import package_schemaview
@@ -39,7 +38,7 @@ from pydantic import BaseModel
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
-from oaklib import datamodels
+from oaklib import __version__, datamodels
 from oaklib.constants import FILE_CACHE
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels import synonymizer_datamodel
