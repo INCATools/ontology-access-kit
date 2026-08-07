@@ -1,3 +1,4 @@
+import itertools
 import logging
 import re
 from collections import defaultdict
@@ -23,6 +24,7 @@ from pyhornedowl.model import (
     DeclareDatatype,
     DeclareNamedIndividual,
     DeclareObjectProperty,
+    DisjointClasses,
     EquivalentClasses,
     InverseObjectProperties,
     LanguageLiteral,
@@ -32,6 +34,7 @@ from pyhornedowl.model import (
     ObjectPropertyDomain,
     ObjectPropertyRange,
     ObjectSomeValuesFrom,
+    OntologyAnnotation,
     SimpleLiteral,
     SubClassOf,
     SubObjectPropertyOf,
@@ -44,11 +47,14 @@ from oaklib.datamodels.search_datamodel import SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
     EQUIVALENT_CLASS,
+    HAS_BROAD_SYNONYM,
     HAS_DBXREF,
     HAS_DEFINITION_CURIE,
     HAS_EXACT_SYNONYM,
     HAS_NARROW_SYNONYM,
+    HAS_OBSOLESCENCE_REASON,
     HAS_RELATED_SYNONYM,
+    HAS_SYNONYM_TYPE,
     IN_SUBSET,
     INVERSE_OF,
     IS_A,
@@ -60,20 +66,27 @@ from oaklib.datamodels.vocabulary import (
     OWL_OBJECT_PROPERTY,
     OWL_TRANSITIVE_PROPERTY,
     RDF_TYPE,
+    RDFS_COMMENT,
     RDFS_DOMAIN,
     RDFS_RANGE,
     SEMAPV,
     SKOS_MATCH_PREDICATES,
     SUBPROPERTY_OF,
+    TERM_REPLACED_BY,
+    TERMS_MERGED,
 )
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
-from oaklib.types import CURIE, PRED_CURIE
+from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
+from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import logical_definition_matches
+from oaklib.utilities.identifier_utils import synonym_type_code_from_curie
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 logger = logging.getLogger(__name__)
@@ -125,8 +138,13 @@ SYNONYM_PREDICATES = [
     HAS_EXACT_SYNONYM,
     HAS_NARROW_SYNONYM,
     HAS_RELATED_SYNONYM,
+    HAS_BROAD_SYNONYM,
 ]
 XSD_BOOLEAN = "http://www.w3.org/2001/XMLSchema#boolean"
+XSD_STRING_CURIE = "xsd:string"
+RDF_LANGSTRING_CURIE = "rdf:langString"
+#: syntaxes that py-horned-owl cannot write; these are routed via OBO Graphs
+NON_OWL_DUMP_SYNTAXES = {"json", "obojson", "obographs", "obo", "fhirjson", "cx"}
 
 
 @dataclass(frozen=True)
@@ -148,9 +166,12 @@ AdjacencyIndex = Dict[Optional[PRED_CURIE], AdjacencyMap]
 class FunOwlImplementation(
     OwlInterface,
     OboGraphInterface,
+    DumperInterface,
     PatcherInterface,
     SearchInterface,
     MappingProviderInterface,
+    SummaryStatisticsInterface,
+    TextAnnotatorInterface,
 ):
     """
     An experimental partial implementation of :ref:`OwlInterface`
@@ -183,6 +204,15 @@ class FunOwlImplementation(
         default_factory=dict, init=False, repr=False
     )
     _owl_type_map_cache: Optional[Dict[CURIE, Set[CURIE]]] = field(
+        default=None, init=False, repr=False
+    )
+    _annotation_index_cache: Optional[Dict[CURIE, List[AnnotatedComponent]]] = field(
+        default=None, init=False, repr=False
+    )
+    _label_index_cache: Optional[Dict[str, List[CURIE]]] = field(
+        default=None, init=False, repr=False
+    )
+    _subproperty_descendant_cache: Optional[Dict[PRED_CURIE, Set[PRED_CURIE]]] = field(
         default=None, init=False, repr=False
     )
 
@@ -296,6 +326,9 @@ class FunOwlImplementation(
         self._entailed_incoming_adjacency_cache = None
         self._metadata_map_cache.clear()
         self._owl_type_map_cache = None
+        self._annotation_index_cache = None
+        self._label_index_cache = None
+        self._subproperty_descendant_cache = None
 
     def _sync_prefix_mapping(self, curie: CURIE) -> None:
         if ":" not in curie:
@@ -337,13 +370,19 @@ class FunOwlImplementation(
         if iri is not None:
             return self.entity_iri_to_curie(iri)
         literal = self._literal_value(value)
-        if literal is not None:
-            return literal
-        return None
+        if literal is None:
+            return None
+        if isinstance(value, DatatypeLiteral) and str(value.datatype_iri) == XSD_BOOLEAN:
+            # align with the SQL adapter, which reports owl:deprecated as a bool
+            return literal.lower() in {"1", "true", "yes"}
+        return literal
 
     @staticmethod
-    def _is_truthy(values: Iterable[str]) -> bool:
-        return any(v.lower() in {"1", "true", "yes"} for v in values)
+    def _is_truthy(values: Iterable[Any]) -> bool:
+        return any(
+            value is True or (isinstance(value, str) and value.lower() in {"1", "true", "yes"})
+            for value in values
+        )
 
     @staticmethod
     def _merge_scopes(left: str, right: str) -> str:
@@ -356,15 +395,66 @@ class FunOwlImplementation(
             return DatatypeLiteral(str(value).lower(), IRI.parse(XSD_BOOLEAN))
         return SimpleLiteral(str(value))
 
+    def _annotation_assertion_index(self) -> Dict[CURIE, List[AnnotatedComponent]]:
+        """Index every ``AnnotationAssertion`` axiom by the CURIE of its subject.
+
+        py-horned-owl exposes axioms as a flat collection, so answering "what is
+        asserted about entity X?" by scanning is O(size of ontology) *per entity*.
+        Bulk operations such as :meth:`entities` (which filters obsoletes) or
+        :meth:`labels` over every term then become quadratic. Building this index
+        once makes each lookup a dictionary access.
+
+        The index is invalidated by :meth:`_invalidate_caches` whenever the
+        ontology is patched.
+
+        :return: mapping between subject CURIE and the annotated axioms about it
+        """
+        if self._annotation_index_cache is None:
+            index: Dict[CURIE, List[AnnotatedComponent]] = defaultdict(list)
+            for annotated in self._ontology.get_axioms():
+                component = annotated.component
+                if not isinstance(component, AnnotationAssertion):
+                    continue
+                subject_curie = self._named_curie(component.subject)
+                if subject_curie is not None:
+                    index[subject_curie].append(annotated)
+            self._annotation_index_cache = dict(index)
+        return self._annotation_index_cache
+
+    def annotation_assertion_axioms(
+        self, subject: Optional[CURIE] = None, property: Optional[CURIE] = None, value: Any = None
+    ) -> Iterable[AnnotationAssertion]:
+        if subject is None:
+            yield from super().annotation_assertion_axioms(
+                subject=subject, property=property, value=value
+            )
+            return
+        for annotated in self._annotation_assertion_index().get(subject, []):
+            axiom = annotated.component
+            if property is not None and not self._entity_matches(axiom.ann.ap, property):
+                continue
+            if value is not None and not self._entity_matches(axiom.ann.av, value):
+                continue
+            yield axiom
+
+    def _axiom_annotation_map(self, annotated: AnnotatedComponent) -> Dict[PRED_CURIE, List[str]]:
+        """Return the annotations *on* an axiom (e.g. the xrefs on a definition)."""
+        annotation_map: Dict[PRED_CURIE, List[str]] = defaultdict(list)
+        for annotation in annotated.ann or []:
+            predicate = self._named_curie(annotation.ap)
+            value = self._annotation_value(annotation.av)
+            if predicate is None or value is None:
+                continue
+            annotation_map[predicate].append(value)
+        return dict(annotation_map)
+
+    def _annotation_axioms_for(self, curie: CURIE, property: CURIE) -> Iterator[AnnotatedComponent]:
+        for annotated in self._annotation_assertion_index().get(curie, []):
+            if self._named_curie(annotated.component.ann.ap) == property:
+                yield annotated
+
     def _single_valued_assignment(self, curie: CURIE, property: CURIE) -> Optional[str]:
-        subject_iri = self.curie_to_uri(curie)
-        property_iri = self.curie_to_uri(property)
-        if subject_iri is None or property_iri is None:
-            return None
-        try:
-            values = self._ontology.get_annotations(subject_iri, property_iri)
-        except TypeError:
-            return None
+        values = self.entity_metadata_map(curie).get(property, [])
         if values:
             if len(values) > 1:
                 logger.warning("Multiple values for %s %s = %s", curie, property, values)
@@ -374,8 +464,39 @@ class FunOwlImplementation(
     def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         return self._single_valued_assignment(curie, HAS_DEFINITION_CURIE)
 
+    def definitions(
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
+    ) -> Iterator[Tuple[CURIE, Optional[str], Dict]]:
+        for curie in curies:
+            definition = self.definition(curie, lang=lang)
+            if not definition and not include_missing:
+                continue
+            metadata: Dict[PRED_CURIE, List[str]] = {}
+            if include_metadata:
+                for annotated in self._annotation_axioms_for(curie, HAS_DEFINITION_CURIE):
+                    metadata = self._axiom_annotation_map(annotated)
+                    break
+            yield curie, definition, metadata
+
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         return self._single_valued_assignment(curie, LABEL_PREDICATE)
+
+    def _label_index(self) -> Dict[str, List[CURIE]]:
+        if self._label_index_cache is None:
+            index: Dict[str, List[CURIE]] = defaultdict(list)
+            for curie in self.entities(filter_obsoletes=False):
+                label = self.label(curie)
+                if label is not None:
+                    index[label].append(curie)
+            self._label_index_cache = dict(index)
+        return self._label_index_cache
+
+    def curies_by_label(self, label: str) -> List[CURIE]:
+        return list(self._label_index().get(label, []))
 
     def _owl_type_map(self) -> Dict[CURIE, Set[CURIE]]:
         if self._owl_type_map_cache is None:
@@ -413,6 +534,33 @@ class FunOwlImplementation(
             if owl_type is None or owl_type in type_map.get(curie, set()):
                 yield curie
 
+    def ontologies(self) -> Iterable[CURIE]:
+        iri = self._ontology.get_iri()
+        if iri is None:
+            return
+        yield cast(CURIE, self.uri_to_curie(str(iri), use_uri_fallback=True))
+
+    def ontology_metadata_map(self, ontology: CURIE) -> Dict[PRED_CURIE, List[str]]:
+        metadata_map: Dict[PRED_CURIE, List[str]] = defaultdict(list)
+        for annotated in self._ontology.get_components():
+            component = annotated.component
+            if not isinstance(component, OntologyAnnotation):
+                continue
+            predicate = self._named_curie(component.first.ap)
+            value = self._annotation_value(component.first.av)
+            if predicate is None or value is None:
+                continue
+            metadata_map[predicate].append(value)
+        # ontology-level assertions may also be made about the ontology IRI itself
+        for predicate, values in self.entity_metadata_map(ontology).items():
+            metadata_map[predicate].extend(values)
+        return dict(metadata_map)
+
+    def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
+        version_iri = self._ontology.get_version_iri()
+        if version_iri is not None:
+            yield str(version_iri)
+
     def owl_types(self, entities: Iterable[CURIE]) -> Iterable[tuple[CURIE, CURIE]]:
         type_map = self._owl_type_map()
         for curie in entities:
@@ -421,13 +569,18 @@ class FunOwlImplementation(
 
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         for curie in self.entities(filter_obsoletes=False):
-            if self._is_truthy(self.entity_metadata_map(curie).get(DEPRECATED_PREDICATE, [])):
-                yield curie
+            metadata = self.entity_metadata_map(curie)
+            if not self._is_truthy(metadata.get(DEPRECATED_PREDICATE, [])):
+                continue
+            if not include_merged and TERMS_MERGED in metadata.get(HAS_OBSOLESCENCE_REASON, []):
+                continue
+            yield curie
 
     def entity_metadata_map(self, curie: CURIE) -> Dict[PRED_CURIE, List[str]]:
         if curie not in self._metadata_map_cache:
             metadata_map: Dict[PRED_CURIE, List[str]] = defaultdict(list)
-            for axiom in self.annotation_assertion_axioms(subject=curie):
+            for annotated in self._annotation_assertion_index().get(curie, []):
+                axiom = annotated.component
                 predicate = self._named_curie(axiom.ann.ap)
                 value = self._annotation_value(axiom.ann.av)
                 if predicate is None or value is None:
@@ -436,31 +589,111 @@ class FunOwlImplementation(
             self._metadata_map_cache[curie] = dict(metadata_map)
         return self._metadata_map_cache[curie]
 
+    def entities_metadata_statements(
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, PRED_CURIE, str, Optional[str], Dict]]:
+        predicate_set = set(predicates) if predicates is not None else None
+        for curie in curies:
+            for annotated in self._annotation_assertion_index().get(curie, []):
+                axiom = annotated.component
+                predicate = self._named_curie(axiom.ann.ap)
+                value = self._annotation_value(axiom.ann.av)
+                if predicate is None or value is None:
+                    continue
+                if predicate_set is not None and predicate not in predicate_set:
+                    continue
+                datatype = self._annotation_datatype(axiom.ann.av)
+                nested = self._axiom_annotation_map(annotated) if include_nested_metadata else {}
+                yield curie, predicate, value, datatype, nested
+
+    def _annotation_datatype(self, value: Any) -> Optional[str]:
+        """Return the CURIE for the datatype of an annotation value, if it is a literal."""
+        if isinstance(value, DatatypeLiteral):
+            return self.uri_to_curie(str(value.datatype_iri), use_uri_fallback=True)
+        if isinstance(value, SimpleLiteral):
+            return XSD_STRING_CURIE
+        if isinstance(value, LanguageLiteral):
+            return RDF_LANGSTRING_CURIE
+        return None
+
     def entity_alias_map(self, curie: CURIE) -> Dict[PRED_CURIE, List[str]]:
         alias_map: Dict[PRED_CURIE, List[str]] = defaultdict(list)
-        label = self.label(curie)
-        if label is not None:
-            alias_map[LABEL_PREDICATE].append(label)
         metadata = self.entity_metadata_map(curie)
+        # an entity may carry more than one rdfs:label (e.g. "part of" and "part_of");
+        # all of them are aliases, even though only one is returned by label()
+        labels = [value for value in metadata.get(LABEL_PREDICATE, []) if isinstance(value, str)]
+        if labels:
+            alias_map[LABEL_PREDICATE].extend(labels)
         for predicate in SYNONYM_PREDICATES:
-            alias_map[predicate].extend(metadata.get(predicate, []))
+            values = metadata.get(predicate, [])
+            if values:
+                alias_map[predicate].extend(values)
         return dict(alias_map)
 
-    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[tuple[CURIE, CURIE]]:
+    @staticmethod
+    def _subset_code(subset: str) -> SUBSET_CURIE:
+        """Compact ``obo:go#goslim_generic`` down to ``goslim_generic``."""
+        if "#" in subset:
+            return cast(SUBSET_CURIE, subset.split("#")[-1])
+        return cast(SUBSET_CURIE, subset)
+
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
         for curie in curies:
             for subset in self.entity_metadata_map(curie).get(IN_SUBSET, []):
-                yield curie, cast(CURIE, subset)
+                yield curie, self._subset_code(subset)
+
+    def subsets(self) -> Iterable[SUBSET_CURIE]:
+        seen = set()
+        for _, subset in self.terms_subsets(self.entities(filter_obsoletes=False)):
+            if subset not in seen:
+                seen.add(subset)
+                yield subset
+
+    def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        for curie, curie_subset in self.terms_subsets(self.entities(filter_obsoletes=False)):
+            if curie_subset == subset:
+                yield curie
 
     def synonym_property_values(
         self, subject: CURIE | Iterable[CURIE]
     ) -> Iterator[tuple[CURIE, obograph.SynonymPropertyValue]]:
         subjects = [subject] if isinstance(subject, str) else list(subject)
         for curie in subjects:
-            alias_map = self.entity_alias_map(curie)
             for predicate in SYNONYM_PREDICATES:
                 pred_text = predicate.split(":")[-1]
-                for value in alias_map.get(predicate, []):
-                    yield curie, obograph.SynonymPropertyValue(pred=pred_text, val=value)
+                for annotated in self._annotation_axioms_for(curie, predicate):
+                    value = self._annotation_value(annotated.component.ann.av)
+                    if value is None:
+                        continue
+                    spv = obograph.SynonymPropertyValue(pred=pred_text, val=value)
+                    self._decorate_property_value(spv, self._axiom_annotation_map(annotated))
+                    yield curie, spv
+
+    def _decorate_property_value(
+        self, pv: obograph.PropertyValue, annotations: Dict[PRED_CURIE, List[str]]
+    ) -> None:
+        """Attach axiom annotations (xrefs, synonym type, other) to an obograph value."""
+        xrefs = annotations.get(HAS_DBXREF, [])
+        if xrefs:
+            pv.xrefs = list(xrefs)
+        if isinstance(pv, obograph.SynonymPropertyValue):
+            synonym_types = annotations.get(HAS_SYNONYM_TYPE, [])
+            if synonym_types:
+                pv.synonymType = synonym_type_code_from_curie(synonym_types[0])
+                if len(synonym_types) > 1:
+                    logger.warning("Ignoring multiple synonym types: %s", synonym_types)
+        basic_property_values = [
+            obograph.BasicPropertyValue(pred=predicate, val=value)
+            for predicate, values in annotations.items()
+            if predicate != HAS_DBXREF
+            for value in values
+        ]
+        if basic_property_values:
+            pv.meta = obograph.Meta(basicPropertyValues=basic_property_values)
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[tuple[PRED_CURIE, CURIE]]:
         metadata = self.entity_metadata_map(curie)
@@ -562,6 +795,15 @@ class FunOwlImplementation(
                     if curie not in seen:
                         seen.add(curie)
                         yield curie
+        if search_all or "REPLACEMENT_IDENTIFIER" in property_names:
+            # the search term matches an obsolete entity; the *replacement* is returned
+            for curie in self.entities(filter_obsoletes=False):
+                if not matches(curie):
+                    continue
+                for replacement in self.entity_metadata_map(curie).get(TERM_REPLACED_BY, []):
+                    if replacement not in seen:
+                        seen.add(replacement)
+                        yield replacement
 
     def node(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
@@ -584,26 +826,69 @@ class FunOwlImplementation(
             node_type = "INDIVIDUAL"
         else:
             node_type = "CLASS"
-        meta = None
-        if include_metadata:
-            meta = obograph.Meta()
-            metadata_map = self.entity_metadata_map(curie)
-            definition = self.definition(curie)
-            if definition:
-                meta.definition = obograph.DefinitionPropertyValue(val=definition)
-            for xref in metadata_map.get(HAS_DBXREF, []):
-                cast(List[obograph.XrefPropertyValue], meta.xrefs).append(
-                    obograph.XrefPropertyValue(val=xref)
+        return obograph.Node(
+            id=node_id,
+            lbl=label,
+            type=node_type,
+            meta=self._node_meta(curie, include_metadata=include_metadata),
+        )
+
+    def _node_meta(self, curie: CURIE, include_metadata=False) -> obograph.Meta:
+        """Build the obograph ``Meta`` block for an entity.
+
+        Basic metadata (definition, synonyms, xrefs, subsets, comments) is always
+        included; ``include_metadata`` additionally attaches the annotations
+        *on* those axioms, e.g. the xrefs supporting a definition or the type of
+        a synonym. This mirrors the behaviour of the SQL adapter.
+        """
+        meta = obograph.Meta()
+        metadata_map = self.entity_metadata_map(curie)
+        handled_predicates = {
+            HAS_DEFINITION_CURIE,
+            HAS_DBXREF,
+            IN_SUBSET,
+            LABEL_PREDICATE,
+            RDFS_COMMENT,
+            *SYNONYM_PREDICATES,
+        }
+        for annotated in self._annotation_axioms_for(curie, HAS_DEFINITION_CURIE):
+            definition = self._annotation_value(annotated.component.ann.av)
+            if not definition:
+                continue
+            meta.definition = obograph.DefinitionPropertyValue(val=definition)
+            if include_metadata:
+                self._decorate_property_value(
+                    meta.definition, self._axiom_annotation_map(annotated)
                 )
-            for comment in metadata_map.get("rdfs:comment", []):
-                cast(List[str], meta.comments).append(comment)
-            for subset in metadata_map.get(IN_SUBSET, []):
-                cast(List[str], meta.subsets).append(subset)
-            if self._is_truthy(metadata_map.get(DEPRECATED_PREDICATE, [])):
-                meta.deprecated = True
-            for _, synonym in self.synonym_property_values([curie]):
-                cast(List[obograph.SynonymPropertyValue], meta.synonyms).append(synonym)
-        return obograph.Node(id=node_id, lbl=label, type=node_type, meta=meta)
+            break
+        for annotated in self._annotation_axioms_for(curie, HAS_DBXREF):
+            xref = self._annotation_value(annotated.component.ann.av)
+            if xref is None:
+                continue
+            pv = obograph.XrefPropertyValue(val=xref)
+            if include_metadata:
+                self._decorate_property_value(pv, self._axiom_annotation_map(annotated))
+            cast(List[obograph.XrefPropertyValue], meta.xrefs).append(pv)
+        for comment in metadata_map.get(RDFS_COMMENT, []):
+            cast(List[str], meta.comments).append(comment)
+        for subset in metadata_map.get(IN_SUBSET, []):
+            cast(List[str], meta.subsets).append(subset)
+        if self._is_truthy(metadata_map.get(DEPRECATED_PREDICATE, [])):
+            meta.deprecated = True
+        for _, synonym in self.synonym_property_values([curie]):
+            if not include_metadata:
+                synonym.xrefs = []
+                synonym.meta = None
+                synonym.synonymType = None
+            cast(List[obograph.SynonymPropertyValue], meta.synonyms).append(synonym)
+        for predicate, values in metadata_map.items():
+            if predicate in handled_predicates:
+                continue
+            for value in values:
+                cast(List[obograph.BasicPropertyValue], meta.basicPropertyValues).append(
+                    obograph.BasicPropertyValue(pred=predicate, val=value)
+                )
+        return meta
 
     def logical_definitions(
         self,
@@ -666,6 +951,34 @@ class FunOwlImplementation(
     def axioms(self, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Component]:
         for axiom in self._ontology.get_axioms():
             yield axiom.component
+
+    def disjoint_pairs(
+        self, subjects: Optional[Iterable[CURIE]] = None
+    ) -> Iterable[Tuple[CURIE, CURIE]]:
+        subject_set = set(subjects) if subjects is not None else None
+        for axiom in self.axioms():
+            if not isinstance(axiom, DisjointClasses):
+                continue
+            curies = [self._named_curie(expression) for expression in axiom.first]
+            named = [curie for curie in curies if curie is not None]
+            for left, right in itertools.combinations(named, 2):
+                if subject_set is None or left in subject_set or right in subject_set:
+                    yield left, right
+
+    def is_disjoint(self, subject: CURIE, object: CURIE, bidirectional=True) -> bool:
+        """Test whether two entities are asserted or entailed to be disjoint.
+
+        Two classes are entailed disjoint if any of their (reflexive) is-a
+        ancestors are asserted disjoint from each other.
+        """
+        subject_ancestors = set(self.ancestors(subject, predicates=[IS_A], reflexive=True))
+        object_ancestors = set(self.ancestors(object, predicates=[IS_A], reflexive=True))
+        for left, right in self.disjoint_pairs():
+            if left in subject_ancestors and right in object_ancestors:
+                return True
+            if bidirectional and right in subject_ancestors and left in object_ancestors:
+                return True
+        return False
 
     def _project_axiom_relationships(self, axiom: Component) -> Iterator[ProjectedRelationship]:
         if isinstance(axiom, SubClassOf):
@@ -812,6 +1125,34 @@ class FunOwlImplementation(
             ) = self._build_adjacency_indexes(self._entailed_relationships())
         return self._entailed_outgoing_adjacency_cache, self._entailed_incoming_adjacency_cache
 
+    def _subproperty_descendants(self) -> Dict[PRED_CURIE, Set[PRED_CURIE]]:
+        """Map each property onto its transitive sub-properties."""
+        if self._subproperty_descendant_cache is None:
+            children: Dict[PRED_CURIE, Set[PRED_CURIE]] = defaultdict(set)
+            for relationship in self._direct_relationships():
+                if relationship.predicate == SUBPROPERTY_OF:
+                    children[relationship.object].add(relationship.subject)
+            self._subproperty_descendant_cache = {
+                parent: self._transitive_targets(parent, children) for parent in children
+            }
+        return self._subproperty_descendant_cache
+
+    def _expand_predicates(self, predicates: Optional[List[PRED_CURIE]]) -> Optional[List[CURIE]]:
+        """Expand a predicate list with sub-properties.
+
+        ``C SubClassOf part_of some D`` also entails ``C SubClassOf overlaps some D``
+        when ``part_of`` is a sub-property of ``overlaps``, so a walk over
+        ``overlaps`` must also follow ``part_of`` edges.
+        """
+        if predicates is None:
+            return None
+        descendant_map = self._subproperty_descendants()
+        expanded: Set[PRED_CURIE] = set()
+        for predicate in predicates:
+            expanded.add(predicate)
+            expanded.update(descendant_map.get(predicate, set()))
+        return sorted(expanded)
+
     @staticmethod
     def _select_adjacency_map(
         index: AdjacencyIndex, predicates: Optional[List[PRED_CURIE]]
@@ -842,7 +1183,7 @@ class FunOwlImplementation(
             else self._direct_adjacency_indexes()
         )
         index = incoming_index if incoming else outgoing_index
-        adjacency_map = self._select_adjacency_map(index, predicates)
+        adjacency_map = self._select_adjacency_map(index, self._expand_predicates(predicates))
         targets: Set[CURIE] = set()
         for curie in start_curie_list:
             if include_entailed:
@@ -978,12 +1319,23 @@ class FunOwlImplementation(
                                 )
                             )
                     if relationship.predicate not in RELATIONSHIP_EXCLUDED_FROM_INHERITANCE:
+                        # C SubClassOf R some D, C' SubClassOf C |= C' SubClassOf R some D
                         for descendant in descendants.get(relationship.subject, set()):
                             changed |= add_relationship(
                                 ProjectedRelationship(
                                     descendant,
                                     relationship.predicate,
                                     relationship.object,
+                                    relationship.scope,
+                                )
+                            )
+                        # C SubClassOf R some D, D SubClassOf D' |= C SubClassOf R some D'
+                        for ancestor in class_ancestors.get(relationship.object, set()):
+                            changed |= add_relationship(
+                                ProjectedRelationship(
+                                    relationship.subject,
+                                    relationship.predicate,
+                                    ancestor,
                                     relationship.scope,
                                 )
                             )
@@ -996,15 +1348,23 @@ class FunOwlImplementation(
                                 relationship.scope,
                             )
                         )
-                    for inverse_predicate in inverse_properties.get(relationship.predicate, set()):
-                        changed |= add_relationship(
-                            ProjectedRelationship(
-                                relationship.object,
-                                inverse_predicate,
-                                relationship.subject,
-                                relationship.scope,
+                    if relationship.scope == "abox":
+                        # a R b |= b inverse(R) a. This holds for individuals only:
+                        # at the class level `C SubClassOf R some D` does *not*
+                        # entail `D SubClassOf inverse(R) some C`, and applying it
+                        # there makes the closure explode (see the reflexive
+                        # `BFO:0000002 part_of BFO:0000002` axiom in go-nucleus).
+                        for inverse_predicate in inverse_properties.get(
+                            relationship.predicate, set()
+                        ):
+                            changed |= add_relationship(
+                                ProjectedRelationship(
+                                    relationship.object,
+                                    inverse_predicate,
+                                    relationship.subject,
+                                    relationship.scope,
+                                )
                             )
-                        )
                 for predicate in transitive_properties:
                     adjacency_map: Dict[CURIE, List[tuple[CURIE, str]]] = defaultdict(list)
                     for relationship in relationships_by_predicate.get(predicate, []):
@@ -1125,6 +1485,11 @@ class FunOwlImplementation(
 
     def dump(self, path: Optional[str] = None, syntax: Optional[str] = None, **kwargs):
         syntax = syntax or "ofn"
+        if syntax in NON_OWL_DUMP_SYNTAXES:
+            # obograph-json, obo-format, fhir, cx, ... are produced by first
+            # projecting the ontology to an OBO Graph
+            DumperInterface.dump(self, path=path, syntax=syntax, **kwargs)
+            return
         if syntax == "ofn":
             out = self._ontology.save_to_string("ofn")
         elif syntax in {"ttl", "turtle"}:
