@@ -89,7 +89,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyhornedowl</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">rdflib</span>
@@ -155,7 +155,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">LANGUAGE_TAG</span><span class="p">,</span> <span class="n">RELATIONSHIP</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.mapping_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProviderInterface</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphTraversalMethod</span><span class="p">,</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.owl_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OwlInterface</span><span class="p">,</span> <span class="n">ReasonerConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.patcher_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatcherInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
@@ -226,6 +226,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span>
 
 
+<span class="n">AdjacencyMap</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>
+<span class="n">AdjacencyIndex</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">],</span> <span class="n">AdjacencyMap</span><span class="p">]</span>
+
+
 <div class="viewcode-block" id="FunOwlImplementation">
 <a class="viewcode-back" href="../../../../packages/implementations/funowl.html#oaklib.implementations.funowl.funowl_implementation.FunOwlImplementation">[docs]</a>
 <span class="nd">@dataclass</span>
@@ -249,6 +253,18 @@
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">_entailed_relationship_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ProjectedRelationship</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">_direct_outgoing_adjacency_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AdjacencyIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">_direct_incoming_adjacency_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AdjacencyIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">_entailed_outgoing_adjacency_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AdjacencyIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">_entailed_incoming_adjacency_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AdjacencyIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">_metadata_map_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
@@ -362,6 +378,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_edge_index</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_direct_relationship_cache</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_relationship_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_direct_outgoing_adjacency_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_direct_incoming_adjacency_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_outgoing_adjacency_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_incoming_adjacency_cache</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_map_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_owl_type_map_cache</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -461,9 +481,7 @@
                     <span class="k">if</span> <span class="n">curie</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="n">type_map</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OWL_OBJECT_PROPERTY</span><span class="p">)</span>
                         <span class="n">type_map</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OWL_TRANSITIVE_PROPERTY</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_owl_type_map_cache</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">curie</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">types</span> <span class="ow">in</span> <span class="n">type_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_owl_type_map_cache</span> <span class="o">=</span> <span class="p">{</span><span class="n">curie</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">types</span> <span class="ow">in</span> <span class="n">type_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_owl_type_map_cache</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">owl_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
@@ -543,7 +561,9 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">]:</span>
         <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">_mapping</span><span class="p">(</span><span class="n">subject_id</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicate_id</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">object_id</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_mapping</span><span class="p">(</span>
+            <span class="n">subject_id</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicate_id</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">object_id</span><span class="p">:</span> <span class="n">CURIE</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">:</span>
             <span class="n">mapping</span> <span class="o">=</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span>
                 <span class="n">subject_id</span><span class="o">=</span><span class="n">subject_id</span><span class="p">,</span>
                 <span class="n">predicate_id</span><span class="o">=</span><span class="n">predicate_id</span><span class="p">,</span>
@@ -604,7 +624,11 @@
         <span class="n">search_all</span> <span class="o">=</span> <span class="s2">&quot;ANYTHING&quot;</span> <span class="ow">in</span> <span class="n">property_names</span>
         <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">include_obsoletes_in_results</span><span class="p">):</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">search_all</span> <span class="ow">or</span> <span class="s2">&quot;LABEL&quot;</span> <span class="ow">in</span> <span class="n">property_names</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">label</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span> <span class="ow">and</span> <span class="n">matches</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">search_all</span> <span class="ow">or</span> <span class="s2">&quot;LABEL&quot;</span> <span class="ow">in</span> <span class="n">property_names</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">label</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+                <span class="ow">and</span> <span class="n">matches</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="p">):</span>
                 <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
                     <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
                     <span class="k">yield</span> <span class="n">curie</span>
@@ -820,9 +844,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_direct_relationship_cache</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_transitive_targets</span><span class="p">(</span>
-        <span class="n">source</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">adjacency_map</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_transitive_targets</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">adjacency_map</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">stack</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adjacency_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">set</span><span class="p">()))</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
@@ -832,6 +854,136 @@
             <span class="n">targets</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
             <span class="n">stack</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">adjacency_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">targets</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">targets</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_as_curie_list</span><span class="p">(</span><span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">start_curies</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_adjacency_indexes</span><span class="p">(</span>
+        <span class="n">relationships</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ProjectedRelationship</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">AdjacencyIndex</span><span class="p">,</span> <span class="n">AdjacencyIndex</span><span class="p">]:</span>
+        <span class="n">outgoing</span><span class="p">:</span> <span class="n">AdjacencyIndex</span> <span class="o">=</span> <span class="p">{</span><span class="kc">None</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)}</span>
+        <span class="n">incoming</span><span class="p">:</span> <span class="n">AdjacencyIndex</span> <span class="o">=</span> <span class="p">{</span><span class="kc">None</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)}</span>
+        <span class="k">for</span> <span class="n">relationship</span> <span class="ow">in</span> <span class="n">relationships</span><span class="p">:</span>
+            <span class="n">outgoing</span><span class="p">[</span><span class="kc">None</span><span class="p">][</span><span class="n">relationship</span><span class="o">.</span><span class="n">subject</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">relationship</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+            <span class="n">incoming</span><span class="p">[</span><span class="kc">None</span><span class="p">][</span><span class="n">relationship</span><span class="o">.</span><span class="n">object</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">relationship</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
+            <span class="n">outgoing</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">relationship</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">))[</span><span class="n">relationship</span><span class="o">.</span><span class="n">subject</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">relationship</span><span class="o">.</span><span class="n">object</span>
+            <span class="p">)</span>
+            <span class="n">incoming</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">relationship</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">))[</span><span class="n">relationship</span><span class="o">.</span><span class="n">object</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">relationship</span><span class="o">.</span><span class="n">subject</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">outgoing</span><span class="p">,</span> <span class="n">incoming</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_direct_adjacency_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">AdjacencyIndex</span><span class="p">,</span> <span class="n">AdjacencyIndex</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_direct_outgoing_adjacency_cache</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_direct_incoming_adjacency_cache</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_direct_outgoing_adjacency_cache</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_direct_incoming_adjacency_cache</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_adjacency_indexes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_direct_relationships</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_direct_outgoing_adjacency_cache</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_direct_incoming_adjacency_cache</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_entailed_adjacency_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">AdjacencyIndex</span><span class="p">,</span> <span class="n">AdjacencyIndex</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_outgoing_adjacency_cache</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_incoming_adjacency_cache</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_outgoing_adjacency_cache</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_incoming_adjacency_cache</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_adjacency_indexes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_entailed_relationships</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_outgoing_adjacency_cache</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_incoming_adjacency_cache</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_adjacency_map</span><span class="p">(</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">AdjacencyIndex</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="n">predicates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predicates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">predicates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{})</span>
+        <span class="n">adjacency_map</span><span class="p">:</span> <span class="n">AdjacencyMap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">predicate</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">adjacency_map</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adjacency_map</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_closure_targets</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]],</span>
+        <span class="n">reflexive</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">incoming</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="n">start_curie_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_curie_list</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)</span>
+        <span class="n">outgoing_index</span><span class="p">,</span> <span class="n">incoming_index</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_adjacency_indexes</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">include_entailed</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_direct_adjacency_indexes</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">incoming_index</span> <span class="k">if</span> <span class="n">incoming</span> <span class="k">else</span> <span class="n">outgoing_index</span>
+        <span class="n">adjacency_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_adjacency_map</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span>
+        <span class="n">targets</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">start_curie_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">include_entailed</span><span class="p">:</span>
+                <span class="n">targets</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">adjacency_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="nb">set</span><span class="p">()))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">targets</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transitive_targets</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">adjacency_map</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">reflexive</span><span class="p">:</span>
+            <span class="n">targets</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">start_curie_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">targets</span><span class="o">.</span><span class="n">difference_update</span><span class="p">(</span><span class="n">start_curie_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ancestors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reflexive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GraphTraversalMethod</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ancestors obtained from cached predicate adjacency maps.</span>
+
+<span class="sd">        This avoids repeatedly scanning the full projected relationship list during</span>
+<span class="sd">        graph walks over large OWL files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closure_targets</span><span class="p">(</span>
+            <span class="n">start_curies</span><span class="p">,</span>
+            <span class="n">predicates</span><span class="p">,</span>
+            <span class="n">reflexive</span><span class="p">,</span>
+            <span class="n">incoming</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">include_entailed</span><span class="o">=</span><span class="n">method</span> <span class="o">==</span> <span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">descendants</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reflexive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GraphTraversalMethod</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Descendants obtained from cached predicate adjacency maps.</span>
+
+<span class="sd">        This avoids repeatedly scanning the full projected relationship list during</span>
+<span class="sd">        graph walks over large OWL files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closure_targets</span><span class="p">(</span>
+            <span class="n">start_curies</span><span class="p">,</span>
+            <span class="n">predicates</span><span class="p">,</span>
+            <span class="n">reflexive</span><span class="p">,</span>
+            <span class="n">incoming</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">include_entailed</span><span class="o">=</span><span class="n">method</span> <span class="o">==</span> <span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_entailed_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ProjectedRelationship</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_relationship_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
