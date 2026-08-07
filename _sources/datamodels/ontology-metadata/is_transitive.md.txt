@@ -18,8 +18,8 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
