@@ -3,7 +3,7 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Set, cast
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Set, Tuple, Union, cast
 
 import pyhornedowl
 import rdflib
@@ -69,7 +69,7 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -140,6 +140,10 @@ class ProjectedRelationship:
         return self.subject, self.predicate, self.object
 
 
+AdjacencyMap = Dict[CURIE, Set[CURIE]]
+AdjacencyIndex = Dict[Optional[PRED_CURIE], AdjacencyMap]
+
+
 @dataclass
 class FunOwlImplementation(
     OwlInterface,
@@ -161,6 +165,18 @@ class FunOwlImplementation(
         default=None, init=False, repr=False
     )
     _entailed_relationship_cache: Optional[List[ProjectedRelationship]] = field(
+        default=None, init=False, repr=False
+    )
+    _direct_outgoing_adjacency_cache: Optional[AdjacencyIndex] = field(
+        default=None, init=False, repr=False
+    )
+    _direct_incoming_adjacency_cache: Optional[AdjacencyIndex] = field(
+        default=None, init=False, repr=False
+    )
+    _entailed_outgoing_adjacency_cache: Optional[AdjacencyIndex] = field(
+        default=None, init=False, repr=False
+    )
+    _entailed_incoming_adjacency_cache: Optional[AdjacencyIndex] = field(
         default=None, init=False, repr=False
     )
     _metadata_map_cache: Dict[CURIE, Dict[PRED_CURIE, List[str]]] = field(
@@ -274,6 +290,10 @@ class FunOwlImplementation(
         self._entailed_edge_index = None
         self._direct_relationship_cache = None
         self._entailed_relationship_cache = None
+        self._direct_outgoing_adjacency_cache = None
+        self._direct_incoming_adjacency_cache = None
+        self._entailed_outgoing_adjacency_cache = None
+        self._entailed_incoming_adjacency_cache = None
         self._metadata_map_cache.clear()
         self._owl_type_map_cache = None
 
@@ -373,9 +393,7 @@ class FunOwlImplementation(
                     if curie is not None:
                         type_map[curie].add(OWL_OBJECT_PROPERTY)
                         type_map[curie].add(OWL_TRANSITIVE_PROPERTY)
-            self._owl_type_map_cache = {
-                curie: set(types) for curie, types in type_map.items()
-            }
+            self._owl_type_map_cache = {curie: set(types) for curie, types in type_map.items()}
         return self._owl_type_map_cache
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
@@ -455,7 +473,9 @@ class FunOwlImplementation(
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
         seen = set()
 
-        def _mapping(subject_id: CURIE, predicate_id: PRED_CURIE, object_id: CURIE) -> sssom.Mapping:
+        def _mapping(
+            subject_id: CURIE, predicate_id: PRED_CURIE, object_id: CURIE
+        ) -> sssom.Mapping:
             mapping = sssom.Mapping(
                 subject_id=subject_id,
                 predicate_id=predicate_id,
@@ -516,7 +536,11 @@ class FunOwlImplementation(
         search_all = "ANYTHING" in property_names
         seen = set()
         for curie in self.entities(filter_obsoletes=not config.include_obsoletes_in_results):
-            if (search_all or "LABEL" in property_names) and (label := self.label(curie)) and matches(label):
+            if (
+                (search_all or "LABEL" in property_names)
+                and (label := self.label(curie))
+                and matches(label)
+            ):
                 if curie not in seen:
                     seen.add(curie)
                     yield curie
@@ -732,9 +756,7 @@ class FunOwlImplementation(
         return self._direct_relationship_cache
 
     @staticmethod
-    def _transitive_targets(
-        source: CURIE, adjacency_map: Mapping[CURIE, Set[CURIE]]
-    ) -> Set[CURIE]:
+    def _transitive_targets(source: CURIE, adjacency_map: Mapping[CURIE, Set[CURIE]]) -> Set[CURIE]:
         stack = list(adjacency_map.get(source, set()))
         targets = set()
         while stack:
@@ -744,6 +766,136 @@ class FunOwlImplementation(
             targets.add(target)
             stack.extend(adjacency_map.get(target, set()).difference(targets))
         return targets
+
+    @staticmethod
+    def _as_curie_list(start_curies: Union[CURIE, List[CURIE]]) -> List[CURIE]:
+        if isinstance(start_curies, str):
+            return [start_curies]
+        return list(start_curies)
+
+    @staticmethod
+    def _build_adjacency_indexes(
+        relationships: Iterable[ProjectedRelationship],
+    ) -> Tuple[AdjacencyIndex, AdjacencyIndex]:
+        outgoing: AdjacencyIndex = {None: defaultdict(set)}
+        incoming: AdjacencyIndex = {None: defaultdict(set)}
+        for relationship in relationships:
+            outgoing[None][relationship.subject].add(relationship.object)
+            incoming[None][relationship.object].add(relationship.subject)
+            outgoing.setdefault(relationship.predicate, defaultdict(set))[relationship.subject].add(
+                relationship.object
+            )
+            incoming.setdefault(relationship.predicate, defaultdict(set))[relationship.object].add(
+                relationship.subject
+            )
+        return outgoing, incoming
+
+    def _direct_adjacency_indexes(self) -> Tuple[AdjacencyIndex, AdjacencyIndex]:
+        if (
+            self._direct_outgoing_adjacency_cache is None
+            or self._direct_incoming_adjacency_cache is None
+        ):
+            (
+                self._direct_outgoing_adjacency_cache,
+                self._direct_incoming_adjacency_cache,
+            ) = self._build_adjacency_indexes(self._direct_relationships())
+        return self._direct_outgoing_adjacency_cache, self._direct_incoming_adjacency_cache
+
+    def _entailed_adjacency_indexes(self) -> Tuple[AdjacencyIndex, AdjacencyIndex]:
+        if (
+            self._entailed_outgoing_adjacency_cache is None
+            or self._entailed_incoming_adjacency_cache is None
+        ):
+            (
+                self._entailed_outgoing_adjacency_cache,
+                self._entailed_incoming_adjacency_cache,
+            ) = self._build_adjacency_indexes(self._entailed_relationships())
+        return self._entailed_outgoing_adjacency_cache, self._entailed_incoming_adjacency_cache
+
+    @staticmethod
+    def _select_adjacency_map(
+        index: AdjacencyIndex, predicates: Optional[List[PRED_CURIE]]
+    ) -> Mapping[CURIE, Set[CURIE]]:
+        if predicates is None:
+            return index.get(None, {})
+        if len(predicates) == 1:
+            return index.get(predicates[0], {})
+        adjacency_map: AdjacencyMap = defaultdict(set)
+        for predicate in predicates:
+            for source, targets in index.get(predicate, {}).items():
+                adjacency_map[source].update(targets)
+        return adjacency_map
+
+    def _closure_targets(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: Optional[List[PRED_CURIE]],
+        reflexive: bool,
+        *,
+        incoming: bool,
+        include_entailed: bool,
+    ) -> List[CURIE]:
+        start_curie_list = self._as_curie_list(start_curies)
+        outgoing_index, incoming_index = (
+            self._entailed_adjacency_indexes()
+            if include_entailed
+            else self._direct_adjacency_indexes()
+        )
+        index = incoming_index if incoming else outgoing_index
+        adjacency_map = self._select_adjacency_map(index, predicates)
+        targets: Set[CURIE] = set()
+        for curie in start_curie_list:
+            if include_entailed:
+                targets.update(adjacency_map.get(curie, set()))
+            else:
+                targets.update(self._transitive_targets(curie, adjacency_map))
+        if reflexive:
+            targets.update(start_curie_list)
+        else:
+            targets.difference_update(start_curie_list)
+        return list(targets)
+
+    def ancestors(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        reflexive: bool = True,
+        method: Optional[GraphTraversalMethod] = None,
+    ) -> Iterable[CURIE]:
+        """
+        Ancestors obtained from cached predicate adjacency maps.
+
+        This avoids repeatedly scanning the full projected relationship list during
+        graph walks over large OWL files.
+        """
+        return self._closure_targets(
+            start_curies,
+            predicates,
+            reflexive,
+            incoming=False,
+            include_entailed=method == GraphTraversalMethod.ENTAILMENT,
+        )
+
+    def descendants(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        reflexive: bool = True,
+        method: Optional[GraphTraversalMethod] = None,
+    ) -> Iterable[CURIE]:
+        """
+        Descendants obtained from cached predicate adjacency maps.
+
+        This avoids repeatedly scanning the full projected relationship list during
+        graph walks over large OWL files.
+        """
+        return self._closure_targets(
+            start_curies,
+            predicates,
+            reflexive,
+            incoming=True,
+            include_entailed=method == GraphTraversalMethod.ENTAILMENT,
+        )
 
     def _entailed_relationships(self) -> List[ProjectedRelationship]:
         if self._entailed_relationship_cache is None:
