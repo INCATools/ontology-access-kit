@@ -466,7 +466,38 @@ class FunOwlImplementation(
             return values[0]
         return None
 
+    def _language_tagged_value(
+        self, curie: CURIE, property: CURIE, lang: LANGUAGE_TAG
+    ) -> Optional[str]:
+        """Return the value of an annotation in a particular language.
+
+        Following the convention used by the other adapters, an untagged literal is
+        taken to be in the default language. It is also used as the fallback when the
+        requested language is not available, so a lookup always returns something if
+        the entity is annotated at all.
+        """
+        fallback = None
+        for annotated in self._annotation_axioms_for(curie, property):
+            value = annotated.component.ann.av
+            if isinstance(value, LanguageLiteral) and value.lang == lang:
+                return value.literal
+            if isinstance(value, (SimpleLiteral, DatatypeLiteral)):
+                fallback = value.literal
+        return fallback
+
+    def languages(self) -> Iterable[LANGUAGE_TAG]:
+        """Yield every language tag used on a label or definition in this ontology."""
+        seen = set()
+        for annotated_axioms in self._annotation_assertion_index().values():
+            for annotated in annotated_axioms:
+                value = annotated.component.ann.av
+                if isinstance(value, LanguageLiteral) and value.lang not in seen:
+                    seen.add(value.lang)
+                    yield value.lang
+
     def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang is not None:
+            return self._language_tagged_value(curie, HAS_DEFINITION_CURIE, lang)
         return self._single_valued_assignment(curie, HAS_DEFINITION_CURIE)
 
     def definitions(
@@ -488,7 +519,45 @@ class FunOwlImplementation(
             yield curie, definition, metadata
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang is not None:
+            return self._language_tagged_value(curie, LABEL_PREDICATE, lang)
         return self._single_valued_assignment(curie, LABEL_PREDICATE)
+
+    def multilingual_labels(
+        self,
+        curies: Iterable[CURIE],
+        allow_none=True,
+        langs: Optional[List[LANGUAGE_TAG]] = None,
+    ) -> Iterable[Tuple[CURIE, str, LANGUAGE_TAG]]:
+        """
+        Yield (curie, label, language) triples.
+
+        Untagged literals are reported with a language of ``None``, and are only
+        included when the default language is requested (or no languages are given).
+
+        :param curies: entities to look up
+        :param allow_none: yield a (curie, None, None) triple for entities with no label
+        :param langs: restrict to these language tags
+        :return: iterator over (curie, label, language) triples
+        """
+        wanted = set(langs) if langs is not None else None
+        include_untagged = wanted is None or self.default_language in wanted
+        for curie in curies:
+            found = False
+            for annotated in self._annotation_axioms_for(curie, LABEL_PREDICATE):
+                value = annotated.component.ann.av
+                if isinstance(value, LanguageLiteral):
+                    if wanted is not None and value.lang not in wanted:
+                        continue
+                    found = True
+                    yield curie, value.literal, value.lang
+                elif isinstance(value, (SimpleLiteral, DatatypeLiteral)):
+                    if not include_untagged:
+                        continue
+                    found = True
+                    yield curie, value.literal, None
+            if not found and allow_none:
+                yield curie, None, None
 
     def _label_index(self) -> Dict[str, List[CURIE]]:
         if self._label_index_cache is None:

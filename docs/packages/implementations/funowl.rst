@@ -21,6 +21,8 @@ them, this adapter is the one to reach for when you need axiom-level access:
 disjointness, transitive properties and property chains are all queryable. It also
 implements the graph, search, patch, dump, summary-statistics and text-annotation
 interfaces, so it is a drop-in replacement for the SQL adapter in most workflows.
+Language-tagged literals are respected, so multilingual ontologies can be queried
+by language.
 
 .. note ::
 

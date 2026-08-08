@@ -21,6 +21,7 @@ TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
 TEST_GRAPH_PROJECTION_ONT = INPUT_DIR / "graph_projection.owl"
 TEST_INST_ONT = INPUT_DIR / "inst.ofn"
 TEST_OBSOLETION_ONT = INPUT_DIR / "obsoletion_test.owl"
+TEST_MULTILINGUAL_ONT = INPUT_DIR / "hp-international-test.ofn"
 NEW_NAME = "new name"
 EXTERNAL_REFERENCE_OFN = """\
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
@@ -168,6 +169,10 @@ class TestFunOwlImplementation(unittest.TestCase):
     def test_obsolete_entities(self):
         oi = FunOwlImplementation(OntologyResource(str(TEST_OBSOLETION_ONT)))
         self.compliance_tester.test_obsolete_entities(oi)
+
+    def test_multilingual(self):
+        oi = FunOwlImplementation(OntologyResource(str(TEST_MULTILINGUAL_ONT)))
+        self.compliance_tester.test_multilingual(oi)
 
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
