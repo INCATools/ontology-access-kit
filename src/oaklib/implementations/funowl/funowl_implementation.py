@@ -215,6 +215,9 @@ class FunOwlImplementation(
     _subproperty_descendant_cache: Optional[Dict[PRED_CURIE, Set[PRED_CURIE]]] = field(
         default=None, init=False, repr=False
     )
+    _reported_multivalued: Set[Tuple[CURIE, PRED_CURIE]] = field(
+        default_factory=set, init=False, repr=False
+    )
 
     def __post_init__(self):
         resource = self.resource
@@ -456,7 +459,9 @@ class FunOwlImplementation(
     def _single_valued_assignment(self, curie: CURIE, property: CURIE) -> Optional[str]:
         values = self.entity_metadata_map(curie).get(property, [])
         if values:
-            if len(values) > 1:
+            if len(values) > 1 and (curie, property) not in self._reported_multivalued:
+                # warn once per entity/property: label() is called in tight loops
+                self._reported_multivalued.add((curie, property))
                 logger.warning("Multiple values for %s %s = %s", curie, property, values)
             return values[0]
         return None
