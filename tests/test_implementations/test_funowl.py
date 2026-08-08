@@ -1,6 +1,5 @@
 import logging
 import tempfile
-import time
 import unittest
 from pathlib import Path
 
@@ -418,9 +417,13 @@ class TestFunOwlImplementation(unittest.TestCase):
 
         ``entity_metadata_map`` used to filter the full axiom list for each entity,
         which made bulk operations -- ``entities()`` (which filters obsoletes),
-        ``labels()``, ``nodes()`` -- quadratic in the size of the ontology. The
-        adapter now builds one subject-keyed index, so the number of full axiom
-        scans is independent of the number of entities queried.
+        ``labels()``, ``nodes()`` -- quadratic in the size of the ontology:
+        ``entities()`` alone took ~2.9s on this 295-entity ontology, versus ~0.04s
+        now. The adapter builds one subject-keyed index instead, so the number of
+        full axiom scans is independent of how many entities are queried.
+
+        This counts scans rather than measuring elapsed time, so it is a
+        deterministic guard rather than a timing-sensitive one.
         """
         oi = FunOwlImplementation(OntologyResource(str(TEST_ONT)))
         counter = _ScanCountingOntology(oi.ontology_document)
@@ -441,23 +444,6 @@ class TestFunOwlImplementation(unittest.TestCase):
         self.assertLess(
             counter.scans, 10, f"{len(entities)} entities caused {counter.scans} axiom scans"
         )
-
-    def test_bulk_operations_are_fast(self):
-        """Guard against a regression to quadratic bulk lookups.
-
-        Before the subject-keyed annotation index, ``entities()`` alone took ~3
-        seconds on this 295-entity test ontology; it now takes well under a tenth
-        of that. The threshold is deliberately loose so the test is not flaky on
-        slow CI machines, but it is still ~30x below the old timing.
-        """
-        oi = FunOwlImplementation(OntologyResource(str(TEST_ONT)))
-        start = time.time()
-        entities = list(oi.entities())
-        list(oi.labels(entities))
-        for entity in entities:
-            oi.entity_metadata_map(entity)
-        elapsed = time.time() - start
-        self.assertLess(elapsed, 1.0, f"bulk lookups took {elapsed:.2f}s")
 
     def test_patcher(self):
         oi = self.oi
