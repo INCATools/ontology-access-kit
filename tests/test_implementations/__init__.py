@@ -1269,11 +1269,15 @@ class ComplianceTester:
             test.assertGreater(len(g.edges), 0)
             test.assertGreater(len(g.logicalDefinitionAxioms), 0)
 
-    def test_subgraph_from_traversal(self, oi: OboGraphInterface):
+    def test_subgraph_from_traversal(self, oi: OboGraphInterface, ignore_reflexive_edges=False):
         """
         Tests subgraph_from_traversal in OboGraphInterface
 
         :param oi: OboGraphInterface
+        :param ignore_reflexive_edges: exclude ``X p X`` edges from the edge counts.
+            Adapters that read OWL directly report reflexive existential axioms such as
+            ``SubClassOf(BFO:0000002 ObjectSomeValuesFrom(part_of BFO:0000002))``, whereas
+            normalized sources (obo format, semsql) drop them.
         :return:
         """
         test = self.test
@@ -1342,8 +1346,11 @@ class ComplianceTester:
             ) = case
             traversal = TraversalConfiguration(up_distance=up_dist, down_distance=down_dist)
             graph = oi.subgraph_from_traversal(seeds, predicates=predicates, traversal=traversal)
+            edges = graph.edges
+            if ignore_reflexive_edges:
+                edges = [edge for edge in edges if edge.sub != edge.obj]
             test.assertEqual(expected_num_nodes, len(graph.nodes), f"Failed for case: {case}")
-            test.assertEqual(expected_num_edges, len(graph.edges), f"Failed for case: {case}")
+            test.assertEqual(expected_num_edges, len(edges), f"Failed for case: {case}")
             node_ids = [n.id for n in graph.nodes]
             for node_id in expected_nodes_subset:
                 test.assertIn(node_id, node_ids, f"Failed for case: {case}")
@@ -2279,7 +2286,24 @@ class ComplianceTester:
                 test.assertEqual(subject_start, ann.subject_start)
                 test.assertEqual(subject_end, ann.subject_end)
 
-    def test_entities_metadata_statements(self, oi: BasicOntologyInterface):
+    def test_entities_metadata_statements(
+        self,
+        oi: BasicOntologyInterface,
+        ordered=True,
+        ignore_predicates: Optional[List[str]] = None,
+    ):
+        """
+        Tests retrieval of metadata statements.
+
+        :param oi:
+        :param ordered: if True, the statements must come back in the canonical
+            (predicate, value) order used by the SQL adapter. Adapters backed by an
+            unordered axiom store can only guarantee the same *set* of statements.
+        :param ignore_predicates: statements with these predicates are dropped before
+            comparison. Used where the OWL and semsql test fixtures genuinely differ,
+            e.g. ``never_in_taxon`` is asserted in go-nucleus.ofn but not in go-nucleus.db.
+        :return:
+        """
         test = self.test
 
         cases = [
@@ -2557,7 +2581,12 @@ class ComplianceTester:
         for case in cases:
             curies, predicates, expected_result = case
             results = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
+            if ignore_predicates:
+                results = [
+                    statement for statement in results if statement[1] not in ignore_predicates
+                ]
             test.assertCountEqual(results, expected_result)
-            test.assertCountEqual(results[0], expected_result[0])
-            for idx, result in enumerate(results):
-                test.assertEqual(result, expected_result[idx])
+            if ordered:
+                test.assertCountEqual(results[0], expected_result[0])
+                for idx, result in enumerate(results):
+                    test.assertEqual(result, expected_result[idx])
