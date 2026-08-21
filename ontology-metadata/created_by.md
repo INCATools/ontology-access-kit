@@ -23,19 +23,19 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Property](Property.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Image](Image.md) |  |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [Class](Class.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Class](Class.md) |  |  no  |
 
 
 
