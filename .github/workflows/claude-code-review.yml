@@ -1,0 +1,69 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# Only one review per PR at a time; superseded runs are cancelled so that a
+# rapid series of pushes does not fan out into several concurrent reviews.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  claude-review:
+    # Pull requests from forks do not have access to repository secrets, so the
+    # token below would be empty and the job would fail. Skip them rather than
+    # reporting a red check on every external contribution.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          # In v1, providing a `prompt` runs in automation mode, which does NOT
+          # post a comment by default. track_progress restores the v0.x
+          # "post the review as a PR comment" behavior and auto-injects PR context.
+          track_progress: true
+
+          # Prompt for the automated review (no @claude mention needed).
+          prompt: |
+            Please review this pull request and provide feedback on:
+            - Code quality and best practices
+            - Potential bugs or issues
+            - Performance considerations
+            - Security concerns
+            - Test coverage
+
+            OAK is a library, so pay particular attention to:
+            - Backwards compatibility of the public Python API and of the
+              `runoak` CLI (option names, output formats, exit codes)
+            - Consistency with the adapter/implementation pattern: behavior
+              shared across backends belongs in the interface or a mixin rather
+              than being reimplemented per adapter
+            - Doctests, which serve as both documentation and tests; new
+              user-facing functions should generally carry one
+
+            Be constructive and helpful in your feedback.
+
+          # Args passed through to the Claude CLI. Use the `opus` alias rather
+          # than a dated model id so the workflow tracks the current Opus and
+          # won't 404 when a specific version is retired.
+          claude_args: |
+            --model opus
