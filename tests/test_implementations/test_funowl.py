@@ -7,7 +7,7 @@ from kgcl_schema.datamodel import kgcl
 from pyhornedowl.model import EquivalentClasses, SubClassOf
 
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty, SearchTermSyntax
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, NEVER_IN_TAXON, PART_OF
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter
@@ -19,6 +19,8 @@ from tests.test_implementations import ComplianceTester
 TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
 TEST_GRAPH_PROJECTION_ONT = INPUT_DIR / "graph_projection.owl"
 TEST_INST_ONT = INPUT_DIR / "inst.ofn"
+TEST_OBSOLETION_ONT = INPUT_DIR / "obsoletion_test.owl"
+TEST_MULTILINGUAL_ONT = INPUT_DIR / "hp-international-test.ofn"
 NEW_NAME = "new name"
 EXTERNAL_REFERENCE_OFN = """\
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
@@ -49,6 +51,21 @@ SubClassOf(EX:0004 ObjectSomeValuesFrom(BFO:0000050 EX:0001))
 SubClassOf(EX:0005 EX:0004)
 )
 """
+
+
+class _ScanCountingOntology:
+    """Wraps a py-horned-owl ontology and counts full axiom scans."""
+
+    def __init__(self, delegate):
+        self._delegate = delegate
+        self.scans = 0
+
+    def get_axioms(self, *args, **kwargs):
+        self.scans += 1
+        return self._delegate.get_axioms(*args, **kwargs)
+
+    def __getattr__(self, name):
+        return getattr(self._delegate, name)
 
 
 class TestFunOwlImplementation(unittest.TestCase):
@@ -111,8 +128,115 @@ class TestFunOwlImplementation(unittest.TestCase):
         for ax in nucleus_axioms:
             self.assertIn(ax, nucleus_ref_axioms)
 
+    # ---------------------------------------------------------------------
+    # Compliance tests: these mirror the coverage of tests/test_implementations/test_sqldb.py
+    # ---------------------------------------------------------------------
+
+    def test_labels(self):
+        self.compliance_tester.test_labels(self.oi)
+
+    def test_definitions(self):
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
+
+    def test_owl_types(self):
+        # skip_oio: as with the SQL adapter, the test ontology does not type its
+        # subset and synonym-type properties
+        self.compliance_tester.test_owl_types(self.oi, skip_oio=True)
+
+    def test_synonyms(self):
+        self.compliance_tester.test_synonyms(self.oi)
+
+    def test_synonym_types(self):
+        self.compliance_tester.test_synonym_types(self.oi)
+
+    def test_defined_bys(self):
+        self.compliance_tester.test_defined_bys(self.oi)
+
+    def test_subsets(self):
+        self.compliance_tester.test_subsets(self.oi)
+
+    def test_metadata(self):
+        self.compliance_tester.test_metadata(self.oi)
+
+    def test_entities_metadata_statements(self):
+        # never_in_taxon is asserted in go-nucleus.ofn but not in go-nucleus.db, and
+        # an OWL axiom store has no canonical statement ordering
+        self.compliance_tester.test_entities_metadata_statements(
+            self.oi, ordered=False, ignore_predicates=[NEVER_IN_TAXON]
+        )
+
+    def test_obsolete_entities(self):
+        oi = FunOwlImplementation(OntologyResource(str(TEST_OBSOLETION_ONT)))
+        self.compliance_tester.test_obsolete_entities(oi)
+
+    def test_multilingual(self):
+        oi = FunOwlImplementation(OntologyResource(str(TEST_MULTILINGUAL_ONT)))
+        self.compliance_tester.test_multilingual(oi)
+
+    def test_sssom_mappings(self):
+        self.compliance_tester.test_sssom_mappings(self.oi)
+
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi)
+
+    def test_entailed_relationships(self):
+        self.compliance_tester.test_entailed_relationships(self.oi)
+
+    def test_obograph_node(self):
+        self.compliance_tester.test_obograph_node(self.oi)
+
+    def test_as_obograph(self):
+        self.compliance_tester.test_as_obograph(self.oi)
+
+    def test_subgraph_from_traversal(self):
+        # OWL retains reflexive existentials such as
+        # SubClassOf(BFO:0000002 ObjectSomeValuesFrom(part_of BFO:0000002)) that
+        # normalized sources drop
+        self.compliance_tester.test_subgraph_from_traversal(self.oi, ignore_reflexive_edges=True)
+
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi)
+
+    def test_dump_obograph(self):
+        self.compliance_tester.test_dump_obograph(self.oi)
+
+    def test_chains(self):
+        self.compliance_tester.test_chains(self.oi)
+
+    def test_disjoint_with(self):
+        self.compliance_tester.test_disjoint_with(self.oi)
+
+    def test_transitive_object_properties(self):
+        self.compliance_tester.test_transitive_object_properties(self.oi)
+
+    def test_simple_subproperty_of_chains(self):
+        self.compliance_tester.test_simple_subproperty_of_chains(self.oi)
+
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)
+
+    def test_ontologies(self):
+        self.assertEqual(["obo:go.owl"], list(self.oi.ontologies()))
+        self.assertEqual(
+            ["1.2"], self.oi.ontology_metadata_map("obo:go.owl")["oio:hasOBOFormatVersion"]
+        )
+
+    def test_summary_statistics(self):
+        """Summary statistics over the OWL file.
+
+        The counts differ from the SQL adapter's because go-nucleus.db and
+        go-nucleus.ofn are not byte-for-byte equivalent test fixtures; what is
+        asserted here is that the generic statistics machinery is wired up.
+        """
+        oi = self.oi
+        oi.include_residuals = True
+        stats = oi.branch_summary_statistics(include_entailed=True)
+        self.assertEqual(204, stats.class_count)
+        self.assertEqual(98, stats.class_count_with_text_definitions)
+        self.assertEqual(221, stats.edge_count_by_predicate[IS_A].filtered_count)
+        self.assertEqual(29, stats.edge_count_by_predicate[PART_OF].filtered_count)
+        self.assertEqual(260, stats.distinct_synonym_count)
+        self.assertEqual(269, stats.synonym_statement_count)
 
     def test_rbox_relationships(self):
         self.compliance_tester.test_rbox_relationships(self.oi)
@@ -283,6 +407,43 @@ class TestFunOwlImplementation(unittest.TestCase):
             node_ids = {node.id for node in graph.nodes}
             self.assertIn("CL:0000540", node_ids)
             self.assertIn(BIOLOGICAL_PROCESS, node_ids)
+
+    # ---------------------------------------------------------------------
+    # Performance
+    # ---------------------------------------------------------------------
+
+    def test_metadata_lookups_do_not_rescan_the_ontology(self):
+        """Per-entity metadata lookups must not scan every axiom.
+
+        ``entity_metadata_map`` used to filter the full axiom list for each entity,
+        which made bulk operations -- ``entities()`` (which filters obsoletes),
+        ``labels()``, ``nodes()`` -- quadratic in the size of the ontology:
+        ``entities()`` alone took ~2.9s on this 295-entity ontology, versus ~0.04s
+        now. The adapter builds one subject-keyed index instead, so the number of
+        full axiom scans is independent of how many entities are queried.
+
+        This counts scans rather than measuring elapsed time, so it is a
+        deterministic guard rather than a timing-sensitive one.
+        """
+        oi = FunOwlImplementation(OntologyResource(str(TEST_ONT)))
+        counter = _ScanCountingOntology(oi.ontology_document)
+        oi.ontology_document = counter
+
+        entities = list(oi.entities())
+        self.assertGreater(len(entities), 100)
+        scans_after_entities = counter.scans
+        for entity in entities:
+            oi.entity_metadata_map(entity)
+        self.assertEqual(
+            scans_after_entities,
+            counter.scans,
+            "metadata lookups triggered additional full axiom scans",
+        )
+        # a handful of indexes are built lazily; the point is that this is a
+        # constant, not one scan per entity
+        self.assertLess(
+            counter.scans, 10, f"{len(entities)} entities caused {counter.scans} axiom scans"
+        )
 
     def test_patcher(self):
         oi = self.oi

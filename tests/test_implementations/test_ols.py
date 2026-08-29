@@ -1,14 +1,107 @@
 import itertools
+import os
 import unittest
 from unittest.mock import MagicMock, patch
 
 import requests
 
+from oaklib import get_adapter
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import (
+    DEPRECATED_PREDICATE,
+    HAS_DBXREF,
+    HAS_DEFINITION_CURIE,
+    HAS_EXACT_SYNONYM,
+    HAS_NARROW_SYNONYM,
+    IN_SUBSET,
+    IS_A,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
+    PART_OF,
+    TERM_REPLACED_BY,
+)
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.resource import OntologyResource
-from tests import CELLULAR_COMPONENT, CYTOPLASM, VACUOLE
+from tests import CELLULAR_COMPONENT, CYTOPLASM, NUCLEUS, VACUOLE
+
+#: set to run the tests that talk to the live EBI OLS service
+RUN_NETWORK_TESTS = bool(os.environ.get("OAKLIB_RUN_NETWORK_TESTS"))
+
+#: A trimmed copy of the real OLS4 payload for GO:0005634, retaining every field the
+#: adapter reads. Keeping a realistic record here means the offline tests exercise the
+#: same parsing paths as a live query.
+NUCLEUS_PAYLOAD = {
+    "iri": "http://purl.obolibrary.org/obo/GO_0005634",
+    "lang": "en",
+    "label": "nucleus",
+    "description": ["A membrane-bounded organelle of eukaryotic cells."],
+    "synonyms": ["cell nucleus", "horsetail nucleus"],
+    "annotation": {
+        "database_cross_reference": [
+            "NIF_Subcellular:sao1702920020",
+            "Wikipedia:Cell_nucleus",
+        ],
+        "has_obo_namespace": ["cellular_component"],
+        "id": ["GO:0005634"],
+    },
+    "ontology_name": "go",
+    "ontology_prefix": "GO",
+    "is_obsolete": False,
+    "term_replaced_by": None,
+    "is_defining_ontology": True,
+    "short_form": "GO_0005634",
+    "obo_id": "GO:0005634",
+    "in_subset": ["goslim_generic", "goslim_yeast"],
+    "obo_definition_citation": [
+        {
+            "definition": "A membrane-bounded organelle of eukaryotic cells.",
+            "oboXrefs": [{"database": "GOC", "id": "go_curators"}],
+        }
+    ],
+    "obo_xref": [
+        {"database": "NIF_Subcellular", "id": "sao1702920020"},
+        {"database": "Wikipedia", "id": "Cell_nucleus"},
+    ],
+    "obo_synonym": [
+        {
+            "name": "horsetail nucleus",
+            "scope": "hasNarrowSynonym",
+            "type": None,
+            "xrefs": [
+                {"database": "GOC", "id": "al"},
+                {"database": "PMID", "id": "15030757"},
+            ],
+        },
+        {
+            "name": "cell nucleus",
+            "scope": "hasExactSynonym",
+            "type": "http://purl.obolibrary.org/obo/go#systematic_synonym",
+            "xrefs": [],
+        },
+    ],
+}
+
+#: OLS payload for an obsolete, merged term
+OBSOLETE_PAYLOAD = {
+    "iri": "http://purl.obolibrary.org/obo/GO_0000004",
+    "label": "GO_0000004",
+    "description": [],
+    "obo_id": "GO:0000004",
+    "is_obsolete": True,
+    "term_replaced_by": "GO_0008150",
+    "ontology_prefix": "GO",
+    "annotation": {
+        "has obsolescence reason": ["http://purl.obolibrary.org/obo/IAO_0000227"],
+        "term replaced by": ["http://purl.obolibrary.org/obo/GO_0008150"],
+    },
+}
+
+
+def _terms_response(*terms):
+    """Wrap term records the way the OLS4 ``/terms`` endpoint does."""
+    return {"_embedded": {"terms": list(terms)}}
+
 
 # Example term data for mocking OLS API responses
 TERM_DATA = {
@@ -615,3 +708,256 @@ class TestOlsImplementation(unittest.TestCase):
         results = list(itertools.islice(self.oi.basic_search("swimming", config), 20))
         self.assertIn("OMIT:0014415", results)  # OMIT:0014415 == Swimming
         self.assertNotIn("OMIT:0014416", results)  # OMIT:0014416 == Swimming Pools
+
+
+class TestOlsTermMetadata(unittest.TestCase):
+    """Tests for the term-payload derived features of the OLS adapter.
+
+    These mirror the compliance coverage the SQL adapter gets, but are driven from a
+    captured OLS payload so they run offline and deterministically.
+    """
+
+    def setUp(self) -> None:
+        mock_client = MagicMock()
+        mock_client.get_ontology.return_value = {"config": {"hierarchicalProperties": []}}
+        mock_client.get_term.return_value = _terms_response(NUCLEUS_PAYLOAD)
+        with patch.object(OlsImplementation, "ols_client_class", return_value=mock_client):
+            self.oi = OlsImplementation(OntologyResource("go"))
+        self.mock_client = mock_client
+
+    def test_is_obograph_interface(self):
+        """The OLS adapter serves graph queries, so it must declare the interface."""
+        self.assertIsInstance(self.oi, OboGraphInterface)
+
+    def test_term_metadata_is_fetched_once(self):
+        """Every property of a term comes from a single HTTP round trip.
+
+        ``label()`` and ``definition()`` used to issue one request each, doubling the
+        latency of the most common usage pattern.
+        """
+        oi = self.oi
+        self.assertEqual("nucleus", oi.label(NUCLEUS))
+        self.assertTrue(oi.definition(NUCLEUS).startswith("A membrane-bounded organelle"))
+        self.assertEqual(3, len(oi.entity_aliases(NUCLEUS)))
+        self.assertIn(HAS_DBXREF, oi.entity_metadata_map(NUCLEUS))
+        self.mock_client.get_term.assert_called_once()
+
+    def test_labels(self):
+        self.assertEqual([(NUCLEUS, "nucleus")], list(self.oi.labels([NUCLEUS])))
+
+    def test_entity_aliases(self):
+        self.assertCountEqual(
+            ["nucleus", "cell nucleus", "horsetail nucleus"],
+            self.oi.entity_aliases(NUCLEUS),
+        )
+
+    def test_entity_alias_map(self):
+        self.assertEqual(
+            {
+                "rdfs:label": ["nucleus"],
+                HAS_NARROW_SYNONYM: ["horsetail nucleus"],
+                HAS_EXACT_SYNONYM: ["cell nucleus"],
+            },
+            self.oi.entity_alias_map(NUCLEUS),
+        )
+
+    def test_synonym_property_values(self):
+        synonyms = {spv.val: spv for _, spv in self.oi.synonym_property_values([NUCLEUS])}
+        self.assertCountEqual(["cell nucleus", "horsetail nucleus"], synonyms)
+        narrow = synonyms["horsetail nucleus"]
+        self.assertEqual("hasNarrowSynonym", narrow.pred)
+        self.assertCountEqual(["GOC:al", "PMID:15030757"], narrow.xrefs)
+        exact = synonyms["cell nucleus"]
+        self.assertEqual("hasExactSynonym", exact.pred)
+        self.assertEqual("systematic_synonym", exact.synonymType)
+
+    def test_synonyms_missing_from_obo_synonym_are_still_reported(self):
+        """OLS does not always repeat flat synonyms in ``obo_synonym``."""
+        payload = dict(NUCLEUS_PAYLOAD)
+        payload["obo_synonym"] = [NUCLEUS_PAYLOAD["obo_synonym"][0]]
+        self.mock_client.get_term.return_value = _terms_response(payload)
+        synonyms = {spv.val: spv.pred for _, spv in self.oi.synonym_property_values([NUCLEUS])}
+        self.assertEqual(
+            {"horsetail nucleus": "hasNarrowSynonym", "cell nucleus": "hasExactSynonym"},
+            synonyms,
+        )
+
+    def test_definitions_with_metadata(self):
+        [(curie, definition, metadata)] = list(
+            self.oi.definitions([NUCLEUS], include_metadata=True)
+        )
+        self.assertEqual(NUCLEUS, curie)
+        self.assertTrue(definition.startswith("A membrane-bounded organelle"))
+        self.assertEqual(["GOC:go_curators"], metadata[HAS_DBXREF])
+
+    def test_entity_metadata_map(self):
+        metadata = self.oi.entity_metadata_map(NUCLEUS)
+        self.assertTrue(metadata[HAS_DEFINITION_CURIE][0].startswith("A membrane-bounded"))
+        self.assertCountEqual(
+            ["NIF_Subcellular:sao1702920020", "Wikipedia:Cell_nucleus"],
+            metadata[HAS_DBXREF],
+        )
+        self.assertCountEqual(["goslim_generic", "goslim_yeast"], metadata[IN_SUBSET])
+        self.assertEqual(["cellular_component"], metadata["oio:hasOBONamespace"])
+        self.assertNotIn(DEPRECATED_PREDICATE, metadata)
+
+    def test_obsolete_term_metadata(self):
+        self.mock_client.get_term.return_value = _terms_response(OBSOLETE_PAYLOAD)
+        metadata = self.oi.entity_metadata_map("GO:0000004")
+        self.assertEqual([True], metadata[DEPRECATED_PREDICATE])
+        self.assertEqual(["GO:0008150"], metadata[TERM_REPLACED_BY])
+        self.assertEqual(["IAO:0000227"], metadata["IAO:0000231"])
+
+    def test_terms_subsets(self):
+        self.assertCountEqual(
+            [(NUCLEUS, "goslim_generic"), (NUCLEUS, "goslim_yeast")],
+            list(self.oi.terms_subsets([NUCLEUS])),
+        )
+
+    def test_simple_mappings(self):
+        self.assertCountEqual(
+            [
+                (HAS_DBXREF, "NIF_Subcellular:sao1702920020"),
+                (HAS_DBXREF, "Wikipedia:Cell_nucleus"),
+            ],
+            list(self.oi.simple_mappings_by_curie(NUCLEUS)),
+        )
+
+    def test_defined_by(self):
+        self.assertEqual("GO", self.oi.defined_by(NUCLEUS))
+
+    def test_owl_type_class(self):
+        self.assertEqual([OWL_CLASS], self.oi.owl_type(NUCLEUS))
+
+    def test_owl_type_object_property(self):
+        """A term lookup that 404s falls through to the properties endpoint."""
+        response = requests.Response()
+        response.status_code = 404
+        self.mock_client.get_term.side_effect = requests.HTTPError(response=response)
+        self.mock_client.get_json.return_value = {
+            "_embedded": {"properties": [{"iri": "http://purl.obolibrary.org/obo/BFO_0000050"}]}
+        }
+        self.assertEqual([OWL_OBJECT_PROPERTY], self.oi.owl_type(PART_OF))
+
+    def test_node(self):
+        node = self.oi.node(NUCLEUS, include_metadata=True)
+        self.assertEqual(NUCLEUS, node.id)
+        self.assertEqual("nucleus", node.lbl)
+        self.assertEqual("CLASS", node.type)
+        self.assertTrue(node.meta.definition.val.startswith("A membrane-bounded"))
+        self.assertEqual(["GOC:go_curators"], node.meta.definition.xrefs)
+        self.assertCountEqual(
+            ["NIF_Subcellular:sao1702920020", "Wikipedia:Cell_nucleus"],
+            [xref.val for xref in node.meta.xrefs],
+        )
+        self.assertCountEqual(["goslim_generic", "goslim_yeast"], node.meta.subsets)
+        self.assertCountEqual(
+            [("hasExactSynonym", "cell nucleus"), ("hasNarrowSynonym", "horsetail nucleus")],
+            [(spv.pred, spv.val) for spv in node.meta.synonyms],
+        )
+
+    def test_node_for_unknown_entity(self):
+        self.mock_client.get_term.return_value = _terms_response()
+        node = self.oi.node("GO:9999999")
+        self.assertEqual("GO:9999999", node.id)
+        self.assertIsNone(node.lbl)
+        with self.assertRaises(ValueError):
+            self.oi.node("GO:9999999", strict=True)
+
+    def test_entities_populates_the_term_cache(self):
+        """Paging through terms should prime the cache, not force a refetch per term."""
+        self.mock_client.get_json.return_value = {
+            "_embedded": {"terms": [NUCLEUS_PAYLOAD]},
+            "page": {"size": 500, "totalPages": 1, "number": 0},
+        }
+        self.assertEqual([NUCLEUS], list(self.oi.entities()))
+        self.mock_client.get_term.reset_mock()
+        self.assertEqual("nucleus", self.oi.label(NUCLEUS))
+        self.mock_client.get_term.assert_not_called()
+
+    def test_entities_rejects_unsupported_owl_type(self):
+        with self.assertRaises(NotImplementedError):
+            list(self.oi.entities(owl_type=OWL_OBJECT_PROPERTY))
+
+    def test_language_specific_label(self):
+        """A language tag bypasses ``get_term`` so the ``lang`` parameter can be passed."""
+        self.mock_client.get_json.return_value = _terms_response(
+            {**NUCLEUS_PAYLOAD, "label": "noyau", "lang": "fr"}
+        )
+        self.assertEqual("noyau", self.oi.label(NUCLEUS, lang="fr"))
+        self.assertEqual("nucleus", self.oi.label(NUCLEUS))
+        params = self.mock_client.get_json.call_args.kwargs["params"]
+        self.assertEqual("fr", params["lang"])
+
+    def test_ontology_metadata_map(self):
+        self.mock_client.get_ontology.return_value = {
+            "config": {
+                "title": "Gene Ontology",
+                "version": "2026-06-15",
+                "fileLocation": "http://purl.obolibrary.org/obo/go/extensions/go-plus.owl",
+            }
+        }
+        metadata = self.oi.ontology_metadata_map("go")
+        self.assertEqual(["Gene Ontology"], metadata["dcterms:title"])
+        self.assertEqual(["2026-06-15"], metadata["owl:versionInfo"])
+        self.assertEqual(["2026-06-15"], list(self.oi.ontology_versions("go")))
+
+    def test_languages(self):
+        self.mock_client.get_ontology.return_value = {"languages": ["en", "fr", "cs"]}
+        self.assertCountEqual(["en", "fr", "cs"], list(self.oi.languages()))
+        self.assertTrue(self.oi.multilingual)
+
+
+@unittest.skipUnless(
+    RUN_NETWORK_TESTS,
+    "network test; set OAKLIB_RUN_NETWORK_TESTS=1 to enable",
+)
+class TestOlsLive(unittest.TestCase):
+    """End-to-end tests against the live EBI OLS service.
+
+    These are excluded from the default run because they depend on an external
+    service, but they are what guarantees the offline payloads above stay honest.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.oi = get_adapter("ols:go")
+
+    def test_label_and_definition(self):
+        self.assertEqual("nucleus", self.oi.label(NUCLEUS))
+        self.assertTrue(self.oi.definition(NUCLEUS).startswith("A membrane-bounded organelle"))
+
+    def test_aliases(self):
+        aliases = self.oi.entity_aliases(NUCLEUS)
+        self.assertIn("nucleus", aliases)
+        self.assertIn("cell nucleus", aliases)
+
+    def test_metadata_map(self):
+        metadata = self.oi.entity_metadata_map(NUCLEUS)
+        self.assertIn("Wikipedia:Cell_nucleus", metadata[HAS_DBXREF])
+        self.assertIn("goslim_generic", metadata[IN_SUBSET])
+
+    def test_node(self):
+        node = self.oi.node(NUCLEUS, include_metadata=True)
+        self.assertEqual("nucleus", node.lbl)
+        self.assertTrue(node.meta.definition.val)
+
+    def test_ancestors(self):
+        ancestors = list(self.oi.ancestors([VACUOLE], predicates=[IS_A, PART_OF]))
+        self.assertIn(CELLULAR_COMPONENT, ancestors)
+        self.assertIn(CYTOPLASM, ancestors)
+
+    def test_descendants_are_complete(self):
+        """Closure queries must page through the whole result set."""
+        descendants = list(self.oi.descendants(CELLULAR_COMPONENT, predicates=[IS_A]))
+        self.assertGreater(len(descendants), 1000)
+
+    def test_owl_types(self):
+        self.assertEqual([OWL_CLASS], self.oi.owl_type(NUCLEUS))
+        self.assertEqual([OWL_OBJECT_PROPERTY], self.oi.owl_type(PART_OF))
+
+    def test_multilingual(self):
+        hp = get_adapter("ols:hp")
+        self.assertIn("fr", list(hp.languages()))
+        self.assertEqual("Phenotypic abnormality", hp.label("HP:0000118"))
+        self.assertEqual("Anomalie phénotypique", hp.label("HP:0000118", lang="fr"))
