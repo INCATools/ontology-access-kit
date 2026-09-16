@@ -68,7 +68,7 @@ prep-gh-pages-dir:
 RUN_GENDOC = $(RUN) --with 'linkml<1.9' gen-doc --dialect myst
 
 .PHONY: run-all-gendoc-cmds
-run-all-gendoc-cmds: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc gendoc-itemlist gendoc-ce
+run-all-gendoc-cmds: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc gendoc-itemlist gendoc-ce gendoc-vsc
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/ontology-metadata/

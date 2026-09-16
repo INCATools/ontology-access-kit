@@ -25,6 +25,7 @@ not need this.
    sssom/index
    funowl/index
    kgcl/index
+   semsql/index
    similarity/index
    summary-statistics/index
    taxon-constraints/index
@@ -34,9 +35,9 @@ not need this.
    text-annotator/index
    cross-ontology-diff/index
    association/index
-   fhir/index
-   item-lists/index
-   value_set_configuration/index
+   class-enrichment/index
+   item-list/index
+   value-set-configuration/index
 
 
 
