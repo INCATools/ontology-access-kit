@@ -19,6 +19,7 @@ Implementations (also known as *adapters*) implement one or more :ref:`interface
    sparql
    ubergraph
    ontobee
+   kgf
    ols
    gilda
    aggregator

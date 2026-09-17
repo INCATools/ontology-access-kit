@@ -510,6 +510,15 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
 
     - See :ref:`patcher_interface`.
 
+   KGF
+    Knowledge Graph Framework (KGF) is a read-only HTTP API serving immutable, versioned
+    :term:`RDF` bundles. Rather than a :term:`Query Language`, it offers triple pattern
+    fragments, node description, full-text search and batch label lookup. The reference
+    deployment is the FRINK / Proto-OKN service at `<https://apps.okn.us/kgf>`_, which
+    hosts several dozen knowledge graphs including :term:`Ubergraph`.
+
+    - See :ref:`kgf`.
+
    Semantic Similarity
     A means of measuring similarity between either pairs of ontology concepts, or between entities annotated using ontology
     concepts. There is a wide variety of different methods for calculating semantic similarity, for example :term:`Jaccard Similarity`

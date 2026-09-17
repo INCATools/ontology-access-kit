@@ -64,6 +64,8 @@ Examples of explicit schemes:
 - :code:`ols:pato` pato in OLS (NOT IMPLEMENTED)
 - :code:`ubergraph:` all of OLS
 - :code:`ubergraph:pato` pato in ubergraph
+- :code:`kgf:ubergraph` the ubergraph bundle on the KGF service
+- :code:`kgf:ubergraph@v0.0.2` a pinned release of that bundle
 
 See :ref:`cli` for more examples
 
@@ -113,6 +115,15 @@ ols
 Implementation: :ref:`ols_implementation`
 
 Currently the slug is ignored
+
+kgf
+^^^^
+
+Implementation: :ref:`kgf`
+
+The slug is the identifier of a dataset on a :term:`KGF` service, optionally followed by
+``@`` and a release, e.g. ``ubergraph``, ``ubergraph@v0.0.2``. A full dataset URL selects
+a dataset on a KGF deployment other than the default one.
 
 bioportal
 ^^^^

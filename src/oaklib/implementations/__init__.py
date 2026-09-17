@@ -14,6 +14,7 @@ from oaklib.implementations.amigo.amigo_implementation import AmiGOImplementatio
 from oaklib.implementations.cx.cx_implementation import CXImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
+from oaklib.implementations.kgf.kgf_implementation import KGFImplementation
 from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
 from oaklib.implementations.llm_implementation import LLMImplementation
 from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
@@ -99,6 +100,7 @@ __all__ = [
     "FunOwlImplementation",
     "GildaImplementation",
     "LLMImplementation",
+    "KGFImplementation",
     "KGXImplementation",
     "RobotTemplateImplementation",
     "UniprotImplementation",
