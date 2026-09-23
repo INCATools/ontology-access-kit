@@ -1,7 +1,7 @@
 """Exercise the eutils adapter contract without an NCBI request."""
 
 from types import SimpleNamespace
-from unittest.mock import Mock
+from unittest.mock import Mock, call
 
 from oaklib.implementations.ncbi.pubmed_implementation import PubMedImplementation
 
@@ -24,4 +24,4 @@ def test_pubmed_eutils_article_contract():
     metadata = adapter.entity_metadata_map("PMID:1")
     assert metadata["year"] == article.year
     assert metadata["authors"] == article.authors
-    client.efetch.assert_called_with(db="pubmed", id="1")
+    assert client.efetch.call_args_list == [call(db="pubmed", id="1")] * 3
