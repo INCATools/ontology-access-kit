@@ -3,9 +3,9 @@ import math
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
-from typing import Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from rdflib import OWL, RDF, RDFS, URIRef
+from rdflib import OWL, RDF, RDFS
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
@@ -26,6 +26,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
+from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
 __all__ = [
@@ -419,13 +420,74 @@ class UbergraphImplementation(
 
     def get_information_content(
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
-    ) -> float:
+    ) -> Optional[float]:
         if predicates is not None:
             raise NotImplementedError("Only predetermined predicates allowed")
-        ics = self._get_anns(curie, URIRef(RelationGraphEnum.normalizedInformationContent.value))
+        ics = list(self.information_content_scores([curie]))
         if len(ics) > 1:
             raise ValueError(f"Multiple ICs for {curie} = {ics}")
-        return float(ics[0])
+        if not ics:
+            return None
+        return ics[0][1]
+
+    def information_content_scores(
+        self,
+        curies: Optional[Iterable[CURIE]] = None,
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+        term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Yields entity-score pairs using the IC scores precomputed by Ubergraph.
+
+        Ubergraph stores a normalized IC (0-100) for each class, computed over the
+        full entailed (redundant) graph. These are fetched directly in a single query
+        per chunk, avoiding the generic approach of first enumerating every entity
+        in the triplestore.
+
+        If custom predicates, associations, or a preloaded IC map are requested,
+        this falls back to the generic implementation.
+        """
+        if (
+            use_associations
+            or predicates
+            or object_closure_predicates
+            or term_to_entities_map
+            or self.cached_information_content_map is not None
+        ):
+            if object_closure_predicates or predicates:
+                logging.warning(
+                    "Ubergraph only has precomputed IC for its default closure; "
+                    "computing IC for custom predicates requires enumerating all entities "
+                    "and may be very slow"
+                )
+            yield from super().information_content_scores(
+                curies,
+                predicates=predicates,
+                object_closure_predicates=object_closure_predicates,
+                use_associations=use_associations,
+                term_to_entities_map=term_to_entities_map,
+                **kwargs,
+            )
+            return
+        # IC triples live in the merged ontology graph, not the per-ontology named graphs,
+        # so queries are passed as strings to avoid restricting them to the named graph
+        ic_pred = f"<{RelationGraphEnum.normalizedInformationContent.value}>"
+        if curies is None:
+            query = SparqlQuery(select=["?s", "?ic"], where=[f"?s {ic_pred} ?ic"])
+            ng = self.named_graph
+            if ng:
+                query.where.append(f"GRAPH <{ng}> {{ ?s a owl:Class }}")
+            for row in self._sparql_query(query.query_str()):
+                yield self.uri_to_curie(row["s"]["value"]), float(row["ic"]["value"])
+            return
+        for curie_chunk in chunk(curies):
+            query = SparqlQuery(select=["?s", "?ic"], where=[f"?s {ic_pred} ?ic"])
+            query.add_values("s", [self.curie_to_sparql(c) for c in curie_chunk])
+            for row in self._sparql_query(query.query_str()):
+                yield self.uri_to_curie(row["s"]["value"]), float(row["ic"]["value"])
 
     def pairwise_similarity(
         self, subject: CURIE, object: CURIE = None, predicates: List[PRED_CURIE] = None
