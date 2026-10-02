@@ -249,6 +249,17 @@ class TestUbergraphImplementation(unittest.TestCase):
                 self.assertIn(CELL, ancs)
                 self.assertIn(CELLULAR_COMPONENT, ancs)
 
+    @skip_on_remote_error
+    def test_information_content_scores(self):
+        """
+        Tests that precomputed IC scores are fetched directly, without enumerating all entities.
+        """
+        oi = self.oi
+        ics = dict(oi.information_content_scores([NUCLEUS, CELLULAR_COMPONENT, NEURON]))
+        self.assertCountEqual([NUCLEUS, CELLULAR_COMPONENT, NEURON], ics.keys())
+        self.assertGreater(ics[NUCLEUS], ics[CELLULAR_COMPONENT])
+        self.assertEqual(ics[NUCLEUS], oi.get_information_content(NUCLEUS))
+
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
         """
