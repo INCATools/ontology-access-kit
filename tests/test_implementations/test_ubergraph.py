@@ -269,6 +269,16 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi.normalized_information_content = True
         normalized_ic = oi.get_information_content(NUCLEUS)
         self.assertAlmostEqual(normalized_ic / 100 * math.log2(n), ics[NUCLEUS])
+        method = oi.information_content_method()
+        self.assertEqual("normalized", method.scale.code.text)
+        self.assertEqual("ubergraph", method.source)
+        self.assertEqual(n, method.background_count)
+        oi.normalized_information_content = False
+        self.assertEqual("log2_bits", oi.information_content_method().scale.code.text)
+        # custom predicates fall back to OAK's own computation
+        self.assertEqual(
+            "oaklib", oi.information_content_method(object_closure_predicates=[PART_OF]).source
+        )
 
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
