@@ -286,6 +286,19 @@ class TestUbergraphImplementation(unittest.TestCase):
         )
         self.assertLessEqual(isa_part_of_ics[NUCLEUS], isa_ics[NUCLEUS])
 
+    def test_information_content_scores_uses_cached_map(self):
+        """
+        Tests a preloaded IC map takes precedence over Ubergraph's own scores, for any
+        predicates, consistent with information_content_method. No remote queries are made.
+        """
+        oi = UbergraphImplementation()
+        oi.set_information_content_scores([(NUCLEUS, 1.5)])
+        for preds in [None, [IS_A], [IS_A, PART_OF]]:
+            ics = dict(oi.information_content_scores([NUCLEUS], object_closure_predicates=preds))
+            self.assertEqual({NUCLEUS: 1.5}, ics)
+            method = oi.information_content_method(object_closure_predicates=preds)
+            self.assertEqual("oaklib", method.source)
+
     @skip_on_remote_error
     def test_summary_statistics(self):
         """

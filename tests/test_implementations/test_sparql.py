@@ -318,6 +318,57 @@ class TestSparqlImplementation(unittest.TestCase):
         grouped = oi.global_summary_statistics(group_by="oio:hasOBONamespace")
         self.assertEqual(25, grouped.partitions["cellular_component"].class_count)
 
+    def test_query_with_retries(self):
+        """Tests transient errors are retried, and other errors are not."""
+        from unittest.mock import MagicMock, patch
+        from urllib.error import HTTPError
+
+        from oaklib.implementations.sparql.abstract_sparql_implementation import (
+            MAX_QUERY_ATTEMPTS,
+            _query_with_retries,
+        )
+
+        def http_error(code):
+            return HTTPError("http://example.org", code, "error", None, None)
+
+        sw = MagicMock()
+        sw.queryAndConvert.side_effect = [http_error(503), ConnectionResetError(), {"ok": 1}]
+        with patch("time.sleep") as sleep:
+            self.assertEqual({"ok": 1}, _query_with_retries(sw))
+        self.assertEqual(3, sw.queryAndConvert.call_count)
+        self.assertEqual(2, sleep.call_count)
+        sw = MagicMock()
+        sw.queryAndConvert.side_effect = http_error(400)
+        with patch("time.sleep"), self.assertRaises(HTTPError):
+            _query_with_retries(sw)
+        self.assertEqual(1, sw.queryAndConvert.call_count)
+        sw = MagicMock()
+        sw.queryAndConvert.side_effect = http_error(503)
+        with patch("time.sleep"), self.assertRaises(HTTPError):
+            _query_with_retries(sw)
+        self.assertEqual(MAX_QUERY_ATTEMPTS, sw.queryAndConvert.call_count)
+
+    def test_clone_wrapper(self):
+        """Tests connection settings are kept for queries run in parallel."""
+        import SPARQLWrapper
+
+        from oaklib.implementations.sparql.abstract_sparql_implementation import _clone_wrapper
+
+        sw = SPARQLWrapper.SPARQLWrapper("http://example.org/sparql", agent="test-agent")
+        sw.addCustomHttpHeader("X-Test", "1")
+        sw.setCredentials("user", "pw")
+        sw.setTimeout(30)
+        clone = _clone_wrapper(sw)
+        self.assertEqual("http://example.org/sparql", clone.endpoint)
+        self.assertEqual("test-agent", clone.agent)
+        self.assertEqual({"X-Test": "1"}, clone.customHttpHeaders)
+        self.assertEqual(("user", "pw"), (clone.user, clone.passwd))
+        self.assertEqual(30, clone.timeout)
+
+    def test_statistics_filter_escaping(self):
+        filters = self.oi._statistics_entity_filter(property_values={"rdfs:label": 'a "b"'})
+        self.assertIn('= "a \\"b\\""', filters[0])
+
     def test_blazegraph_search_clause(self):
         """Tests the search clause for Blazegraph endpoints honors the search syntax."""
         oi = self.oi

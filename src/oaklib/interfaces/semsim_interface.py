@@ -225,6 +225,16 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
 
         IC scores are only comparable if they were computed using the same method.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.obo")
+        >>> method = adapter.information_content_method(object_closure_predicates=["rdfs:subClassOf"])
+        >>> str(method.scale)
+        'log2_bits'
+        >>> str(method.corpus)
+        'ontology'
+        >>> method.closure_predicates
+        ['rdfs:subClassOf']
+
         :param object_closure_predicates: predicates used to compute term frequencies
         :param use_associations: if True, associations are used as the corpus
         :return: description of the method

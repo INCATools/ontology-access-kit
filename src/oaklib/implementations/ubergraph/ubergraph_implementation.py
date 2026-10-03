@@ -508,22 +508,24 @@ class UbergraphImplementation(
         These are fetched directly in a single query per chunk, avoiding the generic
         approach of first enumerating every entity in the triplestore.
 
-        If other closure predicates, associations, or a preloaded IC map are requested,
-        this falls back to the generic implementation.
+        Other closure predicates are handled by counting
+        (see :meth:`_information_content_scores_by_counting`). If associations, a
+        term-to-entities map, or a preloaded IC map are used, this falls back to the
+        generic implementation.
         """
         ic_enum = self._precomputed_ic_predicate(object_closure_predicates)
-        if ic_enum is None and curies is not None:
+        use_generic = (
+            use_associations
+            or term_to_entities_map
+            or self.cached_information_content_map is not None
+        )
+        if ic_enum is None and curies is not None and not use_generic:
             yield from self._information_content_scores_by_counting(
                 curies, object_closure_predicates
             )
             return
-        if (
-            ic_enum is None
-            or use_associations
-            or term_to_entities_map
-            or self.cached_information_content_map is not None
-        ):
-            if ic_enum is None:
+        if ic_enum is None or use_generic:
+            if ic_enum is None and not use_generic:
                 logging.warning(
                     "Ubergraph only has precomputed IC for subClassOf or subClassOf+existential "
                     "closures; computing IC for all terms with other predicates requires "
@@ -666,6 +668,9 @@ class UbergraphImplementation(
 
             ln(N) = ln(c) / (1 - s / 100)
 
+        Terms with large counts are used, as for small c the estimate is sensitive to the
+        precision of the stored score; the median of several estimates is taken.
+
         :return: background count
         """
         if self._ic_background_count is None:
@@ -674,16 +679,20 @@ class UbergraphImplementation(
                 where=[
                     f"?s <{RelationGraphEnum.referenceCount.value}> ?c",
                     f"?s <{RelationGraphEnum.normalizedInformationContent.value}> ?ic",
-                    "FILTER (?c > 1)",
+                    "FILTER (?c > 1000)",
                 ],
-                limit=1,
+                limit=5,
             )
             rows = self._sparql_query(query.query_str())
             if not rows:
                 raise ValueError("Cannot determine IC background count from Ubergraph")
-            c = int(rows[0]["c"]["value"])
-            score = float(rows[0]["ic"]["value"])
-            self._ic_background_count = round(math.exp(math.log(c) / (1 - score / 100)))
+            estimates = sorted(
+                math.exp(math.log(int(r["c"]["value"])) / (1 - float(r["ic"]["value"]) / 100))
+                for r in rows
+            )
+            if estimates[-1] - estimates[0] > 0.001 * estimates[0]:
+                logging.warning(f"Inconsistent estimates of IC background count: {estimates}")
+            self._ic_background_count = round(estimates[len(estimates) // 2])
             logging.info(f"Ubergraph IC background count={self._ic_background_count}")
         return self._ic_background_count
 
