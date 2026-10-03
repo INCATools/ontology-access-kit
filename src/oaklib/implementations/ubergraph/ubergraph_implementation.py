@@ -48,6 +48,7 @@ class RelationGraphEnum(Enum):
     normalizedSubClassInformationContent = (
         "http://reasoner.renci.org/vocab/normalizedSubClassInformationContent"
     )
+    referenceCount = "http://reasoner.renci.org/vocab/referenceCount"
 
 
 @dataclass
@@ -83,7 +84,14 @@ class UbergraphImplementation(
 
     >>> adapter = get_adapter("ubergraph:cl")
 
+    Information content scores are returned as log2 bits, consistent with other adapters.
+    Set ``normalized_information_content`` to get Ubergraph's native 0-100 scores instead.
     """
+
+    normalized_information_content: bool = False
+    """If True, return Ubergraph's native normalized (0-100) IC scores rather than log2 bits."""
+
+    _ic_background_count: Optional[int] = None
 
     def _default_url(self) -> str:
         return "https://ubergraph.apps.renci.org/sparql"
@@ -456,7 +464,11 @@ class UbergraphImplementation(
         (``normalizedInformationContent``), or by ``rdfs:subClassOf`` only
         (``normalizedSubClassInformationContent``, used when the closure predicates are
         just ``rdfs:subClassOf``). Scores are scaled to 0-100, so the log base is
-        irrelevant; the equivalent log2 IC is ``score / 100 * log2(N)``.
+        irrelevant.
+
+        Unless ``normalized_information_content`` is set, scores are converted to log2 bits,
+        ``score / 100 * log2(N)``, where N is recovered from the stored ``referenceCount``
+        of any term (see :meth:`information_content_background_count`).
 
         These are fetched directly in a single query per chunk, avoiding the generic
         approach of first enumerating every entity in the triplestore.
@@ -500,13 +512,50 @@ class UbergraphImplementation(
             if ng:
                 query.where.append(f"GRAPH <{ng}> {{ ?s a owl:Class }}")
             for row in self._sparql_query(query.query_str()):
-                yield self.uri_to_curie(row["s"]["value"]), float(row["ic"]["value"])
+                yield self.uri_to_curie(row["s"]["value"]), self._ic_from_score(row["ic"]["value"])
             return
         for curie_chunk in chunk(curies):
             query = SparqlQuery(select=["?s", "?ic"], where=[f"?s {ic_pred} ?ic"])
             query.add_values("s", [self.curie_to_sparql(c) for c in curie_chunk])
             for row in self._sparql_query(query.query_str()):
-                yield self.uri_to_curie(row["s"]["value"]), float(row["ic"]["value"])
+                yield self.uri_to_curie(row["s"]["value"]), self._ic_from_score(row["ic"]["value"])
+
+    def information_content_background_count(self) -> int:
+        """
+        Returns N, the number of terms in the background set used by Ubergraph to compute IC.
+
+        This is not stored directly, but can be recovered from any term with a reference
+        count c > 1 and normalized score s, since s = 100 * (1 - ln(c) / ln(N)):
+
+            ln(N) = ln(c) / (1 - s / 100)
+
+        :return: background count
+        """
+        if self._ic_background_count is None:
+            query = SparqlQuery(
+                select=["?c", "?ic"],
+                where=[
+                    f"?s <{RelationGraphEnum.referenceCount.value}> ?c",
+                    f"?s <{RelationGraphEnum.normalizedInformationContent.value}> ?ic",
+                    "FILTER (?c > 1)",
+                ],
+                limit=1,
+            )
+            rows = self._sparql_query(query.query_str())
+            if not rows:
+                raise ValueError("Cannot determine IC background count from Ubergraph")
+            c = int(rows[0]["c"]["value"])
+            score = float(rows[0]["ic"]["value"])
+            self._ic_background_count = round(math.exp(math.log(c) / (1 - score / 100)))
+            logging.info(f"Ubergraph IC background count={self._ic_background_count}")
+        return self._ic_background_count
+
+    def _ic_from_score(self, score: Union[str, float]) -> float:
+        """Convert a normalized Ubergraph IC score to log2 bits, unless native scores requested."""
+        score = float(score)
+        if self.normalized_information_content:
+            return score
+        return score / 100 * math.log2(self.information_content_background_count())
 
     def pairwise_similarity(
         self, subject: CURIE, object: CURIE = None, predicates: List[PRED_CURIE] = None
@@ -526,7 +575,7 @@ class UbergraphImplementation(
         query = SparqlQuery(select=["?a", "?ic"], distinct=True, where=where)
         bindings = self._sparql_query(query.query_str())
         ics = {
-            self.uri_to_curie(row["a"]["value"]): float(self.uri_to_curie(row["ic"]["value"]))
+            self.uri_to_curie(row["a"]["value"]): self._ic_from_score(row["ic"]["value"])
             for row in bindings
         }
         max_ic = max(list(ics.values()))
