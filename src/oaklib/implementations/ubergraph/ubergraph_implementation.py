@@ -1,12 +1,10 @@
 import logging
 import math
 from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-import SPARQLWrapper
 from rdflib import OWL, RDF, RDFS
 
 from oaklib.datamodels import obograph
@@ -19,7 +17,6 @@ from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
     _as_rdf_obj,
-    _query_with_retries,
     _sparql_values,
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
@@ -31,11 +28,11 @@ from oaklib.interfaces.rdf_interface import TRIPLE
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from oaklib.utilities.iterator_utils import chunk
-from oaklib.utilities.rate_limiter import check_limit
 
 LARGE_TERM_REFERENCE_COUNT = 100000
 """Terms with more references than this are counted individually when computing IC."""
@@ -70,6 +67,7 @@ class UbergraphImplementation(
     MappingProviderInterface,
     SemanticSimilarityInterface,
     SubsetterInterface,
+    SummaryStatisticsInterface,
     UsagesInterface,
 ):
     """
@@ -100,9 +98,6 @@ class UbergraphImplementation(
 
     normalized_information_content: bool = False
     """If True, return Ubergraph's native normalized (0-100) IC scores rather than log2 bits."""
-
-    max_concurrent_queries: int = 4
-    """Maximum number of queries to run in parallel, for operations that use parallel queries."""
 
     _ic_background_count: Optional[int] = None
 
@@ -629,27 +624,6 @@ class UbergraphImplementation(
                 score = -math.log(count / n) / math.log(n) * 100
                 yield curie, self._ic_from_score(score)
 
-    def _sparql_queries_concurrently(self, queries: List[str]) -> List[List[dict]]:
-        """
-        Runs independent queries in parallel, each with its own connection.
-
-        :param queries: complete SPARQL query strings
-        :return: list of bindings, one per query, in the same order
-        """
-
-        def _run(query: str) -> List[dict]:
-            sw = SPARQLWrapper.SPARQLWrapper(self.sparql_wrapper.endpoint)
-            sw.setQuery(query)
-            sw.setReturnFormat(SPARQLWrapper.JSON)
-            sw.setMethod(SPARQLWrapper.POST)
-            check_limit()
-            return _query_with_retries(sw)["results"]["bindings"]
-
-        if len(queries) <= 1 or self.max_concurrent_queries <= 1:
-            return [_run(q) for q in queries]
-        with ThreadPoolExecutor(max_workers=self.max_concurrent_queries) as executor:
-            return list(executor.map(_run, queries))
-
     def _precomputed_ic_predicate(
         self, object_closure_predicates: Optional[List[PRED_CURIE]]
     ) -> Optional[RelationGraphEnum]:
@@ -719,6 +693,58 @@ class UbergraphImplementation(
         if self.normalized_information_content:
             return score
         return score / 100 * math.log2(self.information_content_background_count())
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: SummaryStatisticsInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def _statistics_graph(self) -> Optional[str]:
+        # asserted axioms, for either the selected ontology or all ontologies
+        return self.named_graph or RelationGraphEnum.ontology.value
+
+    def _descendants_pattern(self, var: str, roots: List[CURIE]) -> str:
+        root_uris = " ".join(self.curie_to_sparql(r) for r in roots)
+        return (
+            f"VALUES ?_root {{ {root_uris} }} "
+            f"GRAPH <{RelationGraphEnum.redundant.value}> {{ {var} rdfs:subClassOf ?_root }}"
+        )
+
+    def _relation_graph_count_queries(
+        self, graph: RelationGraphEnum, filters: List[str]
+    ) -> Dict[str, str]:
+        """
+        Queries counting edges by predicate in one of the relation graphs.
+
+        For all of Ubergraph, a single grouped count times out, so the predicates are
+        listed, and each is counted separately, which is fast.
+        """
+        ng = self.named_graph
+        if ng:
+            # relation graphs are not partitioned by ontology
+            filters = filters + [f"GRAPH <{ng}> {{ ?s a owl:Class }}"]
+        if filters:
+            q = (
+                f"SELECT ?p (COUNT(*) AS ?n) WHERE {{ GRAPH <{graph.value}> {{ ?s ?p ?o }} "
+                f"{' '.join(filters)} }} GROUP BY ?p"
+            )
+            return {f"{graph.name}": q}
+        rows = self._sparql_query(
+            f"SELECT DISTINCT ?p WHERE {{ GRAPH <{graph.value}> {{ ?s ?p ?o }} }}"
+        )
+        queries = {}
+        for row in rows:
+            p = row["p"]["value"]
+            queries[f"{graph.name}_{p}"] = (
+                f"SELECT ?p (COUNT(*) AS ?n) WHERE {{ "
+                f"GRAPH <{graph.value}> {{ ?s <{p}> ?o }} BIND(<{p}> AS ?p) }} GROUP BY ?p"
+            )
+        return queries
+
+    def _edge_count_by_predicate_queries(self, filters: List[str]) -> Dict[str, str]:
+        return self._relation_graph_count_queries(RelationGraphEnum.nonredundant, filters)
+
+    def _entailed_edge_count_by_predicate_queries(self, filters: List[str]) -> Dict[str, str]:
+        return self._relation_graph_count_queries(RelationGraphEnum.redundant, filters)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RdfInterface

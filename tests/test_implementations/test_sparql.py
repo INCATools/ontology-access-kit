@@ -5,7 +5,7 @@ import unittest
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
+from oaklib.datamodels.vocabulary import HAS_DBXREF, IS_A, PART_OF, RDF_TYPE
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.resource import OntologyResource
@@ -285,6 +285,38 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertEqual(1, len(ontologies))
         m = oi.ontology_metadata_map(ontologies[0])
         self.assertIn("rdf:type", m)
+
+    def test_summary_statistics(self):
+        """
+        Tests summary statistics computed with aggregate queries.
+
+        Expected values were checked against direct counts over the RDF graph.
+        """
+        oi = self.oi
+        stats = oi.branch_summary_statistics()
+        self.assertEqual(204, stats.class_count)
+        self.assertEqual(28, stats.deprecated_class_count)
+        self.assertEqual(176, stats.non_deprecated_class_count)
+        self.assertEqual(98, stats.class_count_with_text_definitions)
+        self.assertEqual(4262, stats.rdf_triple_count)
+        self.assertEqual(336, stats.subclass_of_axiom_count)
+        self.assertEqual(63, stats.equivalent_classes_axiom_count)
+        self.assertEqual(16, stats.subset_count)
+        self.assertEqual(269, stats.synonym_statement_count)
+        self.assertEqual(260, stats.distinct_synonym_count)
+        self.assertEqual(162, stats.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count)
+        self.assertEqual(221, stats.edge_count_by_predicate[IS_A].filtered_count)
+        self.assertEqual(29, stats.edge_count_by_predicate[PART_OF].filtered_count)
+        self.assertIn("goslim_generic", stats.class_count_by_subset)
+        self.assertIn("Wikipedia", stats.mapping_statement_count_by_object_source)
+        cc_classes = set(oi.descendants([CELLULAR_COMPONENT], predicates=[IS_A]))
+        stats_cc = oi.branch_summary_statistics("cc", branch_roots=[CELLULAR_COMPONENT])
+        self.assertEqual(len(cc_classes), stats_cc.class_count)
+        stats_go = oi.branch_summary_statistics("go", prefixes=["GO"])
+        self.assertLess(stats_go.class_count, stats.class_count)
+        self.assertEqual(28, stats_go.deprecated_class_count)
+        grouped = oi.global_summary_statistics(group_by="oio:hasOBONamespace")
+        self.assertEqual(25, grouped.partitions["cellular_component"].class_count)
 
     def test_blazegraph_search_clause(self):
         """Tests the search clause for Blazegraph endpoints honors the search syntax."""
