@@ -7,6 +7,9 @@ from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.similarity import (
     BestMatch,
+    InformationContentCorpusEnum,
+    InformationContentMethod,
+    InformationContentScaleEnum,
     TermInfo,
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
@@ -211,6 +214,32 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
             if len(pairs) > 1:
                 raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
             return pairs[0][1]
+
+    def information_content_method(
+        self,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+    ) -> InformationContentMethod:
+        """
+        Describes how :meth:`information_content_scores` computes IC with the given options.
+
+        IC scores are only comparable if they were computed using the same method.
+
+        :param object_closure_predicates: predicates used to compute term frequencies
+        :param use_associations: if True, associations are used as the corpus
+        :return: description of the method
+        """
+        corpus = (
+            InformationContentCorpusEnum.associations
+            if use_associations
+            else InformationContentCorpusEnum.ontology
+        )
+        return InformationContentMethod(
+            scale=InformationContentScaleEnum.log2_bits,
+            corpus=corpus,
+            closure_predicates=list(object_closure_predicates or []),
+            source="oaklib",
+        )
 
     def information_content_scores(
         self,

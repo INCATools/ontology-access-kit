@@ -2828,6 +2828,10 @@ def information_content(
     actual_predicates = process_predicates_arg(predicates)
     n = 0
     logging.info("Fetching ICs...")
+    ic_method = impl.information_content_method(
+        object_closure_predicates=actual_predicates, use_associations=use_associations
+    )
+    logging.info(f"IC method: {json.dumps(json_dumper.to_dict(ic_method))}")
     if terms:
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             logging.info("** Next chunk:")

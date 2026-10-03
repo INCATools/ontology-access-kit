@@ -8,7 +8,12 @@ from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 from rdflib import OWL, RDF, RDFS
 
 from oaklib.datamodels import obograph
-from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.similarity import (
+    InformationContentCorpusEnum,
+    InformationContentMethod,
+    InformationContentScaleEnum,
+    TermPairwiseSimilarity,
+)
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
@@ -476,12 +481,7 @@ class UbergraphImplementation(
         If other closure predicates, associations, or a preloaded IC map are requested,
         this falls back to the generic implementation.
         """
-        if object_closure_predicates and list(object_closure_predicates) == [IS_A]:
-            ic_enum = RelationGraphEnum.normalizedSubClassInformationContent
-        elif not object_closure_predicates:
-            ic_enum = RelationGraphEnum.normalizedInformationContent
-        else:
-            ic_enum = None
+        ic_enum = self._precomputed_ic_predicate(object_closure_predicates)
         if (
             ic_enum is None
             or use_associations
@@ -519,6 +519,43 @@ class UbergraphImplementation(
             query.add_values("s", [self.curie_to_sparql(c) for c in curie_chunk])
             for row in self._sparql_query(query.query_str()):
                 yield self.uri_to_curie(row["s"]["value"]), self._ic_from_score(row["ic"]["value"])
+
+    def _precomputed_ic_predicate(
+        self, object_closure_predicates: Optional[List[PRED_CURIE]]
+    ) -> Optional[RelationGraphEnum]:
+        """Returns the precomputed IC predicate for the closure predicates, if there is one."""
+        if not object_closure_predicates:
+            return RelationGraphEnum.normalizedInformationContent
+        if list(object_closure_predicates) == [IS_A]:
+            return RelationGraphEnum.normalizedSubClassInformationContent
+        return None
+
+    def information_content_method(
+        self,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+    ) -> InformationContentMethod:
+        if (
+            use_associations
+            or self.cached_information_content_map is not None
+            or self._precomputed_ic_predicate(object_closure_predicates) is None
+        ):
+            return super().information_content_method(
+                object_closure_predicates=object_closure_predicates,
+                use_associations=use_associations,
+            )
+        scale = (
+            InformationContentScaleEnum.normalized
+            if self.normalized_information_content
+            else InformationContentScaleEnum.log2_bits
+        )
+        return InformationContentMethod(
+            scale=scale,
+            corpus=InformationContentCorpusEnum.ontology,
+            closure_predicates=list(object_closure_predicates or []),
+            background_count=self.information_content_background_count(),
+            source="ubergraph",
+        )
 
     def information_content_background_count(self) -> int:
         """
@@ -598,6 +635,7 @@ class UbergraphImplementation(
             list(self.ancestors(object, predicates=predicates)),
         )
         sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
+        sim.information_content_method = self.information_content_method()
         return sim
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

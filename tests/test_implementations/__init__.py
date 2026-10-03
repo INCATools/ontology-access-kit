@@ -2152,6 +2152,14 @@ class ComplianceTester:
             m[curie] = score
             print(f"{curie} IC= {score}")
         test.assertGreater(len(m), 0)
+        method = oi.information_content_method(
+            object_closure_predicates=[IS_A, PART_OF], use_associations=use_associations
+        )
+        test.assertEqual("log2_bits", method.scale.code.text)
+        test.assertEqual(
+            "associations" if use_associations else "ontology", method.corpus.code.text
+        )
+        test.assertCountEqual([IS_A, PART_OF], method.closure_predicates)
         if use_associations:
             # test.assertEqual(m[CELLULAR_COMPONENT], 0.0, "all genes are under cell component")
             test.assertEqual(m[PHOTORECEPTOR_OUTER_SEGMENT], 0.0, "not in graph")

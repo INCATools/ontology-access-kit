@@ -136,6 +136,7 @@ class TermPairwiseSimilarity(PairwiseSimilarity):
     cosine_similarity: Optional[float] = None
     dice_similarity: Optional[Union[float, ZeroToOne]] = None
     phenodigm_score: Optional[Union[float, NonNegativeFloat]] = None
+    information_content_method: Optional[Union[dict, "InformationContentMethod"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.subject_id):
@@ -197,6 +198,13 @@ class TermPairwiseSimilarity(PairwiseSimilarity):
             self.phenodigm_score, NonNegativeFloat
         ):
             self.phenodigm_score = NonNegativeFloat(self.phenodigm_score)
+
+        if self.information_content_method is not None and not isinstance(
+            self.information_content_method, InformationContentMethod
+        ):
+            self.information_content_method = InformationContentMethod(
+                **as_dict(self.information_content_method)
+            )
 
         super().__post_init__(**kwargs)
 
@@ -267,6 +275,55 @@ class TermSetPairwiseSimilarity(PairwiseSimilarity):
 
         if self.metric is not None and not isinstance(self.metric, URIorCURIE):
             self.metric = URIorCURIE(self.metric)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class InformationContentMethod(YAMLRoot):
+    """
+    Describes how information content (IC) scores were computed. IC scores are only comparable if they were computed
+    using the same method. If absent, IC scores are assumed to be log2 bits computed by OAK using the ontology as the
+    corpus.
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SIM["InformationContentMethod"]
+    class_class_curie: ClassVar[str] = "sim:InformationContentMethod"
+    class_name: ClassVar[str] = "InformationContentMethod"
+    class_model_uri: ClassVar[URIRef] = SIM.InformationContentMethod
+
+    scale: Union[str, "InformationContentScaleEnum"] = None
+    corpus: Optional[Union[str, "InformationContentCorpusEnum"]] = None
+    closure_predicates: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
+    background_count: Optional[Union[int, ItemCount]] = None
+    source: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.scale):
+            self.MissingRequiredField("scale")
+        if not isinstance(self.scale, InformationContentScaleEnum):
+            self.scale = InformationContentScaleEnum(self.scale)
+
+        if self.corpus is not None and not isinstance(self.corpus, InformationContentCorpusEnum):
+            self.corpus = InformationContentCorpusEnum(self.corpus)
+
+        if not isinstance(self.closure_predicates, list):
+            self.closure_predicates = (
+                [self.closure_predicates] if self.closure_predicates is not None else []
+            )
+        self.closure_predicates = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.closure_predicates
+        ]
+
+        if self.background_count is not None and not isinstance(self.background_count, ItemCount):
+            self.background_count = ItemCount(self.background_count)
+
+        if self.source is not None and not isinstance(self.source, str):
+            self.source = str(self.source)
 
         super().__post_init__(**kwargs)
 
@@ -348,6 +405,36 @@ class BestMatch(YAMLRoot):
 
 
 # Enumerations
+class InformationContentScaleEnum(EnumDefinitionImpl):
+
+    log2_bits = PermissibleValue(
+        text="log2_bits",
+        description="IC(t) = -log2(Pr(t)), i.e. information measured in bits. This is the default.",
+    )
+    normalized = PermissibleValue(
+        text="normalized",
+        description="""IC(t) = -log(Pr(t)) / log(N) * 100, i.e. IC scaled to 0-100 relative to the maximum possible IC for a background set of size N. Used by Ubergraph.""",
+    )
+
+    _defn = EnumDefinition(
+        name="InformationContentScaleEnum",
+    )
+
+
+class InformationContentCorpusEnum(EnumDefinitionImpl):
+
+    ontology = PermissibleValue(
+        text="ontology",
+        description="""Term frequency is the number of terms in the ontology that are descendants of the term (reflexive, using the closure predicates)""",
+    )
+    associations = PermissibleValue(
+        text="associations",
+        description="""Term frequency is the number of entities annotated to the term or any of its descendants (using the closure predicates)""",
+    )
+
+    _defn = EnumDefinition(
+        name="InformationContentCorpusEnum",
+    )
 
 
 # Slots
@@ -727,4 +814,58 @@ slots.bestMatch__similarity = Slot(
     model_uri=SIM.bestMatch__similarity,
     domain=None,
     range=Union[dict, TermPairwiseSimilarity],
+)
+
+slots.information_content_method = Slot(
+    uri=SIM.information_content_method,
+    name="information_content_method",
+    curie=SIM.curie("information_content_method"),
+    model_uri=SIM.information_content_method,
+    domain=None,
+    range=Optional[Union[dict, InformationContentMethod]],
+)
+
+slots.informationContentMethod__scale = Slot(
+    uri=SIM.scale,
+    name="informationContentMethod__scale",
+    curie=SIM.curie("scale"),
+    model_uri=SIM.informationContentMethod__scale,
+    domain=None,
+    range=Union[str, "InformationContentScaleEnum"],
+)
+
+slots.informationContentMethod__corpus = Slot(
+    uri=SIM.corpus,
+    name="informationContentMethod__corpus",
+    curie=SIM.curie("corpus"),
+    model_uri=SIM.informationContentMethod__corpus,
+    domain=None,
+    range=Optional[Union[str, "InformationContentCorpusEnum"]],
+)
+
+slots.informationContentMethod__closure_predicates = Slot(
+    uri=SIM.closure_predicates,
+    name="informationContentMethod__closure_predicates",
+    curie=SIM.curie("closure_predicates"),
+    model_uri=SIM.informationContentMethod__closure_predicates,
+    domain=None,
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
+slots.informationContentMethod__background_count = Slot(
+    uri=SIM.background_count,
+    name="informationContentMethod__background_count",
+    curie=SIM.curie("background_count"),
+    model_uri=SIM.informationContentMethod__background_count,
+    domain=None,
+    range=Optional[Union[int, ItemCount]],
+)
+
+slots.informationContentMethod__source = Slot(
+    uri=SIM.source,
+    name="informationContentMethod__source",
+    curie=SIM.curie("source"),
+    model_uri=SIM.informationContentMethod__source,
+    domain=None,
+    range=Optional[str],
 )
