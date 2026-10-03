@@ -85,10 +85,33 @@ _OWL_TYPE_TO_NODE_TYPE = {
 MAX_GET_QUERY_LENGTH = 1500
 """Queries longer than this are sent via HTTP POST, as many endpoints reject long URLs."""
 
+MAX_INLINE_VALUES = 1000
+"""Maximum number of values to inline in a query, beyond which a graph pattern is used."""
+
 MAX_QUERY_ATTEMPTS = 4
 """Maximum number of attempts for a query that fails with a transient error."""
 
 RETRY_HTTP_CODES = {429, 502, 503, 504}
+
+
+def _escape_literal(value: Any) -> str:
+    """Escape a value for use inside a double-quoted SPARQL string literal."""
+    return str(value).replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+
+
+def _clone_wrapper(sw: SPARQLWrapper.SPARQLWrapper) -> SPARQLWrapper.SPARQLWrapper:
+    """
+    A new wrapper for the same endpoint with the same connection settings
+    (agent, credentials, headers, timeout), for use in a separate thread.
+    """
+    clone = SPARQLWrapper.SPARQLWrapper(sw.endpoint, agent=sw.agent)
+    clone.customHttpHeaders = dict(sw.customHttpHeaders)
+    if sw.user is not None:
+        clone.setCredentials(sw.user, sw.passwd)
+        clone.setHTTPAuth(sw.http_auth)
+    if sw.timeout is not None:
+        clone.setTimeout(sw.timeout)
+    return clone
 
 
 def _is_transient_error(e: Exception) -> bool:
@@ -415,10 +438,15 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             try:
                 if self.graph:
                     return self._sparql_query(query)
-                sw = SPARQLWrapper.SPARQLWrapper(self.sparql_wrapper.endpoint)
-                sw.setQuery(prefix_lines + query)
+                sw = _clone_wrapper(self.sparql_wrapper)
+                full_query = prefix_lines + query
+                sw.setQuery(full_query)
                 sw.setReturnFormat(JSON)
-                sw.setMethod(SPARQLWrapper.POST)
+                sw.setMethod(
+                    SPARQLWrapper.POST
+                    if len(full_query) > MAX_GET_QUERY_LENGTH
+                    else SPARQLWrapper.GET
+                )
                 check_limit()
                 return _query_with_retries(sw)["results"]["bindings"]
             except Exception as e:
@@ -445,10 +473,11 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     def _descendants_pattern(self, var: str, roots: List[CURIE]) -> str:
         """Pattern binding var to the reflexive is-a descendants of the roots."""
         if hasattr(self, "descendants"):
-            # property paths are slow on some stores, so the descendants are listed
+            # property paths are slow on some stores, so small branches are listed
             descendants = set(self.descendants(roots, predicates=[IS_A])).union(roots)
-            uris = " ".join(self.curie_to_sparql(d) for d in descendants)
-            return f"VALUES {var} {{ {uris} }}"
+            if len(descendants) <= MAX_INLINE_VALUES:
+                uris = " ".join(self.curie_to_sparql(d) for d in descendants)
+                return f"VALUES {var} {{ {uris} }}"
         root_uris = " ".join(self.curie_to_sparql(r) for r in roots)
         return f"VALUES ?_root {{ {root_uris} }} {var} rdfs:subClassOf* ?_root"
 
@@ -467,7 +496,8 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 if pred == PREFIX_PREDICATE:
                     vals = v if isinstance(v, list) else [v]
                     conds = " || ".join(
-                        f'STRSTARTS(STR(?s), "{self.curie_to_uri(f"{x}:")}")' for x in vals
+                        f'STRSTARTS(STR(?s), "{_escape_literal(self.curie_to_uri(f"{x}:"))}")'
+                        for x in vals
                     )
                     patterns.append(f"FILTER({conds})")
                     continue
@@ -476,11 +506,12 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                     patterns.append(f"FILTER NOT EXISTS {{ ?s {pred_uri} ?_pv{i} }}")
                 else:
                     vals = v if isinstance(v, list) else [v]
-                    conds = " || ".join(f'str(?_pv{i}) = "{x}"' for x in vals)
+                    conds = " || ".join(f'str(?_pv{i}) = "{_escape_literal(x)}"' for x in vals)
                     patterns.append(f"?s {pred_uri} ?_pv{i} . FILTER({conds})")
         if prefixes:
             conds = " || ".join(
-                f'STRSTARTS(STR(?s), "{self.curie_to_uri(f"{prefix}:")}")' for prefix in prefixes
+                f'STRSTARTS(STR(?s), "{_escape_literal(self.curie_to_uri(f"{prefix}:"))}")'
+                for prefix in prefixes
             )
             patterns.append(f"FILTER({conds})")
         return patterns
@@ -1314,7 +1345,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         :param config:
         :return: a where clause binding ?v
         """
-        escaped = search_term.replace("\\", "\\\\").replace('"', '\\"')
+        escaped = _escape_literal(search_term)
         if config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
             return f'FILTER(regex(str(?v), "{escaped}", "i"))'
         if config.syntax == SearchTermSyntax(SearchTermSyntax.LUCENE):
