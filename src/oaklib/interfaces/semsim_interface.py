@@ -14,7 +14,7 @@ from oaklib.datamodels.similarity import (
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
-from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.datamodels.vocabulary import OWL_CLASS, OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -317,7 +317,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                     yield curie, self.cached_information_content_map[curie]
             return
         logging.info("Calculating and caching IC map from ontology")
-        all_entities = list(self.entities())
+        # the background set is all classes, consistent with SqlImplementation
+        all_entities = list(self.entities(owl_type=OWL_CLASS))
         num_entities = len(all_entities)
         if not isinstance(self, OboGraphInterface):
             raise NotImplementedError
