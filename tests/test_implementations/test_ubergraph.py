@@ -259,6 +259,9 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertCountEqual([NUCLEUS, CELLULAR_COMPONENT, NEURON], ics.keys())
         self.assertGreater(ics[NUCLEUS], ics[CELLULAR_COMPONENT])
         self.assertEqual(ics[NUCLEUS], oi.get_information_content(NUCLEUS))
+        isa_ics = dict(oi.information_content_scores([NUCLEUS], object_closure_predicates=[IS_A]))
+        self.assertIn(NUCLEUS, isa_ics)
+        self.assertGreaterEqual(isa_ics[NUCLEUS], ics[NUCLEUS])
 
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
