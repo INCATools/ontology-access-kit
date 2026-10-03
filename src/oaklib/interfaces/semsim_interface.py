@@ -295,7 +295,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         yielded_owl_thing = False
         for curie in curies:
             descendants = list(self.descendants([curie], object_closure_predicates))
-            yield curie, -math.log(len(descendants) / num_entities)
+            yield curie, -math.log2(len(descendants) / num_entities)
             if curie == OWL_THING:
                 yielded_owl_thing = True
         # inject owl:Thing, which always has zero information

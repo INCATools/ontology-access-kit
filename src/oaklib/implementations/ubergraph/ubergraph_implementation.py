@@ -9,6 +9,7 @@ from rdflib import OWL, RDF, RDFS
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
     _as_rdf_obj,
@@ -44,6 +45,9 @@ class RelationGraphEnum(Enum):
     redundant = "http://reasoner.renci.org/redundant"
     nonredundant = "http://reasoner.renci.org/nonredundant"
     normalizedInformationContent = "http://reasoner.renci.org/vocab/normalizedInformationContent"
+    normalizedSubClassInformationContent = (
+        "http://reasoner.renci.org/vocab/normalizedSubClassInformationContent"
+    )
 
 
 @dataclass
@@ -421,9 +425,9 @@ class UbergraphImplementation(
     def get_information_content(
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
     ) -> Optional[float]:
-        if predicates is not None:
+        if predicates is not None and list(predicates) != [IS_A]:
             raise NotImplementedError("Only predetermined predicates allowed")
-        ics = list(self.information_content_scores([curie]))
+        ics = list(self.information_content_scores([curie], object_closure_predicates=predicates))
         if len(ics) > 1:
             raise ValueError(f"Multiple ICs for {curie} = {ics}")
         if not ics:
@@ -442,26 +446,41 @@ class UbergraphImplementation(
         """
         Yields entity-score pairs using the IC scores precomputed by Ubergraph.
 
-        Ubergraph stores a normalized IC (0-100) for each class, computed over the
-        full entailed (redundant) graph. These are fetched directly in a single query
-        per chunk, avoiding the generic approach of first enumerating every entity
-        in the triplestore.
+        Ubergraph precomputes IC for each class from the redundant (entailed, reflexive)
+        graph, see `<https://github.com/INCATools/ubergraph/blob/master/ic.dl>`_:
 
-        If custom predicates, associations, or a preloaded IC map are requested,
+            IC(t) = -log(count(t) / N) / log(N) * 100
+
+        where N is the number of terms in the redundant graph, and count(t) is the number
+        of terms related to t by ``rdfs:subClassOf`` or any existential relation
+        (``normalizedInformationContent``), or by ``rdfs:subClassOf`` only
+        (``normalizedSubClassInformationContent``, used when the closure predicates are
+        just ``rdfs:subClassOf``). Scores are scaled to 0-100, so the log base is
+        irrelevant; the equivalent log2 IC is ``score / 100 * log2(N)``.
+
+        These are fetched directly in a single query per chunk, avoiding the generic
+        approach of first enumerating every entity in the triplestore.
+
+        If other closure predicates, associations, or a preloaded IC map are requested,
         this falls back to the generic implementation.
         """
+        if object_closure_predicates and list(object_closure_predicates) == [IS_A]:
+            ic_enum = RelationGraphEnum.normalizedSubClassInformationContent
+        elif not object_closure_predicates:
+            ic_enum = RelationGraphEnum.normalizedInformationContent
+        else:
+            ic_enum = None
         if (
-            use_associations
-            or predicates
-            or object_closure_predicates
+            ic_enum is None
+            or use_associations
             or term_to_entities_map
             or self.cached_information_content_map is not None
         ):
-            if object_closure_predicates or predicates:
+            if ic_enum is None:
                 logging.warning(
-                    "Ubergraph only has precomputed IC for its default closure; "
-                    "computing IC for custom predicates requires enumerating all entities "
-                    "and may be very slow"
+                    "Ubergraph only has precomputed IC for subClassOf or subClassOf+existential "
+                    "closures; computing IC for other predicates requires enumerating all "
+                    "entities and may be very slow"
                 )
             yield from super().information_content_scores(
                 curies,
@@ -474,7 +493,7 @@ class UbergraphImplementation(
             return
         # IC triples live in the merged ontology graph, not the per-ontology named graphs,
         # so queries are passed as strings to avoid restricting them to the named graph
-        ic_pred = f"<{RelationGraphEnum.normalizedInformationContent.value}>"
+        ic_pred = f"<{ic_enum.value}>"
         if curies is None:
             query = SparqlQuery(select=["?s", "?ic"], where=[f"?s {ic_pred} ?ic"])
             ng = self.named_graph
