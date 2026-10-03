@@ -224,6 +224,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         Describes how :meth:`information_content_scores` computes IC with the given options.
 
         IC scores are only comparable if they were computed using the same method.
+        Scores loaded with :meth:`load_information_content_scores` or
+        :meth:`set_information_content_scores` are assumed to be in log2 bits.
 
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("tests/input/go-nucleus.obo")

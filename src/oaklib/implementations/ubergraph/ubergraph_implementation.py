@@ -509,16 +509,14 @@ class UbergraphImplementation(
         approach of first enumerating every entity in the triplestore.
 
         Other closure predicates are handled by counting
-        (see :meth:`_information_content_scores_by_counting`). If associations, a
-        term-to-entities map, or a preloaded IC map are used, this falls back to the
-        generic implementation.
+        (see :meth:`_information_content_scores_by_counting`). If associations or a
+        preloaded IC map are used, this falls back to the generic implementation.
         """
         ic_enum = self._precomputed_ic_predicate(object_closure_predicates)
-        use_generic = (
-            use_associations
-            or term_to_entities_map
-            or self.cached_information_content_map is not None
-        )
+        if term_to_entities_map:
+            # not used by any implementation of the generic method
+            logging.warning("term_to_entities_map is not supported for Ubergraph; ignoring")
+        use_generic = use_associations or self.cached_information_content_map is not None
         if ic_enum is None and curies is not None and not use_generic:
             yield from self._information_content_scores_by_counting(
                 curies, object_closure_predicates

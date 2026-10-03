@@ -106,6 +106,11 @@ def _clone_wrapper(sw: SPARQLWrapper.SPARQLWrapper) -> SPARQLWrapper.SPARQLWrapp
     """
     clone = SPARQLWrapper.SPARQLWrapper(sw.endpoint, agent=sw.agent)
     clone.customHttpHeaders = dict(sw.customHttpHeaders)
+    clone.onlyConneg = sw.onlyConneg
+    for name, values in sw.parameters.items():
+        if name != "query":
+            for value in values:
+                clone.addParameter(name, value)
     if sw.user is not None:
         clone.setCredentials(sw.user, sw.passwd)
         clone.setHTTPAuth(sw.http_auth)
