@@ -299,6 +299,29 @@ class TestUbergraphImplementation(unittest.TestCase):
             method = oi.information_content_method(object_closure_predicates=preds)
             self.assertEqual("oaklib", method.source)
 
+    def test_information_content_scores_ignores_term_to_entities_map(self):
+        """
+        Tests term_to_entities_map, which no implementation supports, does not divert to the
+        generic implementation, which would enumerate all classes in Ubergraph.
+        """
+        from unittest.mock import patch
+
+        from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+
+        oi = UbergraphImplementation()
+        with (
+            patch.object(SemanticSimilarityInterface, "information_content_scores") as generic,
+            patch.object(oi, "_information_content_scores_by_counting", return_value=iter([])),
+        ):
+            list(
+                oi.information_content_scores(
+                    [NUCLEUS],
+                    object_closure_predicates=[IS_A, PART_OF],
+                    term_to_entities_map={NUCLEUS: ["X:1"]},
+                )
+            )
+            generic.assert_not_called()
+
     @skip_on_remote_error
     def test_summary_statistics(self):
         """
