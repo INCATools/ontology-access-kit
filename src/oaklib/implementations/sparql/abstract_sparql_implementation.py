@@ -1,15 +1,17 @@
 import logging
+import time
 import typing
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from urllib.error import HTTPError, URLError
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
 import rdflib
 import SPARQLWrapper
 from kgcl_schema.datamodel import kgcl
-from rdflib import RDFS, BNode, Literal, URIRef
+from rdflib import OWL, RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
 from sssom_schema import Mapping
@@ -25,10 +27,13 @@ from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
     HAS_DEFINITION_URI,
     IDENTIFIER_PREDICATE,
+    IN_SUBSET,
     IS_A,
     IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBO_PURL,
+    OWL_VERSION_INFO,
+    OWL_VERSION_IRI,
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
@@ -47,8 +52,9 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.rdf_interface import RDF_TRIPLE, TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
-from oaklib.types import CURIE, URI
+from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.mapping.sssom_utils import (
     create_sssom_mapping,
     inject_mapping_sources,
@@ -56,6 +62,48 @@ from oaklib.utilities.mapping.sssom_utils import (
 from oaklib.utilities.rate_limiter import check_limit
 
 VAL_VAR = "v"
+
+_OWL_TYPE_TO_NODE_TYPE = {
+    str(OWL.Class): "CLASS",
+    str(OWL.ObjectProperty): "PROPERTY",
+    str(OWL.AnnotationProperty): "PROPERTY",
+    str(OWL.DatatypeProperty): "PROPERTY",
+    str(OWL.NamedIndividual): "INDIVIDUAL",
+}
+
+MAX_GET_QUERY_LENGTH = 1500
+"""Queries longer than this are sent via HTTP POST, as many endpoints reject long URLs."""
+
+MAX_QUERY_ATTEMPTS = 4
+"""Maximum number of attempts for a query that fails with a transient error."""
+
+RETRY_HTTP_CODES = {429, 502, 503, 504}
+
+
+def _is_transient_error(e: Exception) -> bool:
+    """True if the error is likely transient (overloaded endpoint or dropped connection)."""
+    if isinstance(e, HTTPError):
+        return e.code in RETRY_HTTP_CODES
+    return isinstance(e, (URLError, ConnectionError, TimeoutError))
+
+
+def _query_with_retries(sw: SPARQLWrapper.SPARQLWrapper, convert=True):
+    """
+    Execute the query set on a SPARQLWrapper, retrying transient errors with exponential backoff.
+
+    :param sw: wrapper with the query already set
+    :param convert: if True, return converted results, otherwise the raw QueryResult
+    :return:
+    """
+    for attempt in range(1, MAX_QUERY_ATTEMPTS + 1):
+        try:
+            return sw.queryAndConvert() if convert else sw.query()
+        except Exception as e:
+            if attempt == MAX_QUERY_ATTEMPTS or not _is_transient_error(e):
+                raise
+            delay = 2 ** (attempt - 1)
+            logging.warning(f"Query failed ({e}); retrying in {delay}s (attempt {attempt})")
+            time.sleep(delay)
 
 
 def _sparql_values(var_name: str, vals: List[str]):
@@ -113,6 +161,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     sparql_wrapper: SPARQLWrapper = None
     graph: rdflib.Graph = None
     _list_of_named_graphs: List[str] = None
+    _subset_uris: Dict[str, List[str]] = None
 
     def __post_init__(self):
         if self.sparql_wrapper is None:
@@ -242,6 +291,97 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
+    def _ontology_uri(self, ontology: CURIE) -> str:
+        """SPARQL IRI for an ontology, as yielded by :meth:`ontologies`."""
+        if ontology.startswith("http"):
+            return f"<{ontology}>"
+        if ":" not in ontology:
+            # uri_to_curie strips the OBO PURL from ontology IRIs, e.g. go/go-base.owl
+            return f"<{OBO_PURL}{ontology}>"
+        return self.curie_to_sparql(ontology)
+
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
+        query = SparqlQuery(select=["?p", "?o"], where=[f"{self._ontology_uri(ontology)} ?p ?o"])
+        m = defaultdict(list)
+        for row in self._sparql_query(query):
+            m[self.uri_to_curie(row["p"]["value"])].append(row["o"]["value"])
+        return dict(m)
+
+    def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
+        m = self.ontology_metadata_map(ontology)
+        for pred in [OWL_VERSION_IRI, OWL_VERSION_INFO]:
+            yield from m.get(pred, [])
+
+    def _subset_short_form(self, subset_uri: str) -> SUBSET_CURIE:
+        """OBO subsets are contracted to the part after the hash, e.g. goslim_generic."""
+        return subset_uri.split("#")[-1] if "#" in subset_uri else self.uri_to_curie(subset_uri)
+
+    def _subset_uri_map(self) -> Dict[SUBSET_CURIE, List[str]]:
+        """Maps subset short forms to the IRIs of subsets with that short form."""
+        if self._subset_uris is None:
+            query = SparqlQuery(
+                select=["?subset"], distinct=True, where=[f"?s {IN_SUBSET} ?subset"]
+            )
+            m = defaultdict(list)
+            for row in self._sparql_query(query):
+                uri = row["subset"]["value"]
+                m[self._subset_short_form(uri)].append(uri)
+            self._subset_uris = dict(m)
+        return self._subset_uris
+
+    def subsets(self) -> Iterable[SUBSET_CURIE]:
+        yield from self._subset_uri_map().keys()
+
+    def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        if subset.startswith("http"):
+            uris = [subset]
+        elif ":" in subset:
+            uris = [self.curie_to_uri(subset)]
+        else:
+            uris = self._subset_uri_map().get(subset, [])
+            if not uris:
+                raise ValueError(f"Subset {subset} not found")
+        query = SparqlQuery(
+            select=["?s"],
+            distinct=True,
+            where=[f"?s {IN_SUBSET} ?subset", _sparql_values("subset", [f"<{u}>" for u in uris])],
+        )
+        for row in self._sparql_query(query):
+            yield self.uri_to_curie(row["s"]["value"])
+
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        for curie_chunk in chunk(curies):
+            query = SparqlQuery(
+                select=["?s", "?subset"],
+                where=[
+                    f"?s {IN_SUBSET} ?subset",
+                    _sparql_values("s", [self.curie_to_sparql(c) for c in curie_chunk]),
+                ],
+            )
+            for row in self._sparql_query(query):
+                yield (
+                    self.uri_to_curie(row["s"]["value"]),
+                    self._subset_short_form(row["subset"]["value"]),
+                )
+
+    def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
+        # these prefixes are not in the default prefix map
+        preds = [
+            "<https://w3id.org/biolink/vocab/category>",
+            "<http://dbpedia.org/ontology/category>",
+        ]
+        for curie_chunk in chunk(curies):
+            query = SparqlQuery(
+                select=["?s", "?c"],
+                where=[
+                    "?s ?p ?c",
+                    _sparql_values("p", preds),
+                    _sparql_values("s", [self.curie_to_sparql(c) for c in curie_chunk]),
+                ],
+            )
+            for row in self._sparql_query(query):
+                yield self.uri_to_curie(row["s"]["value"]), self.uri_to_curie(row["c"]["value"])
+
     def list_of_named_graphs(self) -> List[URI]:
         if self._list_of_named_graphs:
             return self._list_of_named_graphs
@@ -249,8 +389,9 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         sw = self.sparql_wrapper
         sw.setQuery(query)
         sw.setReturnFormat(JSON)
+        sw.setMethod(SPARQLWrapper.GET)
         check_limit()
-        ret = sw.queryAndConvert()
+        ret = _query_with_retries(sw)
         logging.debug(f"RET={ret}")
         self._list_of_named_graphs = [row["g"]["value"] for row in ret["results"]["bindings"]]
         return self._list_of_named_graphs
@@ -296,8 +437,11 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             logging.info(f"QUERY={query} // sw={sw}")
             sw.setQuery(query)
             sw.setReturnFormat(JSON)
+            sw.setMethod(
+                SPARQLWrapper.POST if len(query) > MAX_GET_QUERY_LENGTH else SPARQLWrapper.GET
+            )
             check_limit()
-            ret = sw.queryAndConvert()
+            ret = _query_with_retries(sw)
             logging.debug(f"queryResults={ret}")
             return ret["results"]["bindings"]
 
@@ -820,6 +964,33 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+    def _blazegraph_search_clause(self, search_term: str, config: SearchConfiguration) -> str:
+        """
+        Generates a search clause using the Blazegraph full text index.
+
+        The index matches whole tokens (or token prefixes), so for exact and starts-with
+        searches it is used to narrow candidates, and a filter applies the exact semantics.
+        Partial (substring) and regular expression searches cannot use the index, and
+        require a scan of all values, which is slow on large triplestores.
+
+        :param search_term:
+        :param config:
+        :return: a where clause binding ?v
+        """
+        escaped = search_term.replace("\\", "\\\\").replace('"', '\\"')
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+            return f'FILTER(regex(str(?v), "{escaped}", "i"))'
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.LUCENE):
+            raise NotImplementedError("Lucene not implemented")
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            return f'?v bds:search "{escaped}*" . FILTER(strStarts(str(?v), "{escaped}"))'
+        if config.is_partial:
+            # substrings may start mid-token, so the index cannot be used
+            return f'FILTER(contains(str(?v), "{escaped}"))'
+        if config.is_partial is False:
+            return f'?v bds:search "{escaped}" . FILTER(str(?v) = "{escaped}")'
+        return f'?v bds:search "{escaped}"'
+
     def basic_search(
         self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
@@ -829,7 +1000,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             search_term = self.curie_to_uri(search_term)
 
         if self._is_blazegraph():
-            filter_clause = f'?v bds:search "{search_term}"'
+            filter_clause = self._blazegraph_search_clause(search_term, config)
         else:
             if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
                 filter_clause = f'strStarts(str(?v), "{search_term}")'
@@ -883,6 +1054,11 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> obograph.Node:
         params = dict(id=curie, lbl=self.label(curie))
+        rdf_types = set(self._get_anns(curie, "rdf:type"))
+        for owl_type, node_type in _OWL_TYPE_TO_NODE_TYPE.items():
+            if owl_type in rdf_types:
+                params["type"] = node_type
+                break
         node = obograph.Node(**params)
         if include_metadata:
             meta = obograph.Meta()

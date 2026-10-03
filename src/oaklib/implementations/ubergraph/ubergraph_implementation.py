@@ -1,10 +1,12 @@
 import logging
 import math
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
+import SPARQLWrapper
 from rdflib import OWL, RDF, RDFS
 
 from oaklib.datamodels import obograph
@@ -12,12 +14,12 @@ from oaklib.datamodels.similarity import (
     InformationContentCorpusEnum,
     InformationContentMethod,
     InformationContentScaleEnum,
-    TermPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
     _as_rdf_obj,
+    _query_with_retries,
     _sparql_values,
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
@@ -33,7 +35,10 @@ from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from oaklib.utilities.iterator_utils import chunk
-from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
+from oaklib.utilities.rate_limiter import check_limit
+
+LARGE_TERM_REFERENCE_COUNT = 100000
+"""Terms with more references than this are counted individually when computing IC."""
 
 __all__ = [
     "RelationGraphEnum",
@@ -95,6 +100,9 @@ class UbergraphImplementation(
 
     normalized_information_content: bool = False
     """If True, return Ubergraph's native normalized (0-100) IC scores rather than log2 bits."""
+
+    max_concurrent_queries: int = 4
+    """Maximum number of queries to run in parallel, for operations that use parallel queries."""
 
     _ic_background_count: Optional[int] = None
 
@@ -328,16 +336,19 @@ class UbergraphImplementation(
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
+        # the redundant graph holds the reflexive transitive closure of subClassOf and
+        # existential relationships; other graphs include non-hierarchical axioms
         where = [
-            "?s ?p ?o",
+            f"GRAPH <{RelationGraphEnum.redundant.value}> {{ ?s ?p ?o }}",
             "?o a owl:Class",
-            # f'?p a owl:ObjectProperty',
             _sparql_values("s", query_uris),
         ]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("p", pred_uris))
         query = SparqlQuery(select=["?o"], distinct=True, where=where)
+        if not reflexive:
+            query.add_filter("?o != ?s")
         bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["o"]["value"])
@@ -355,11 +366,17 @@ class UbergraphImplementation(
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
-        where = ["?s ?p ?o", "?s a owl:Class", f'VALUES ?o {{ {" ".join(query_uris)} }}']
+        where = [
+            f"GRAPH <{RelationGraphEnum.redundant.value}> {{ ?s ?p ?o }}",
+            "?s a owl:Class",
+            _sparql_values("o", query_uris),
+        ]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
-            where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
+            where.append(_sparql_values("p", pred_uris))
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
+        if not reflexive:
+            query.add_filter("?s != ?o")
         bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
@@ -400,8 +417,24 @@ class UbergraphImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def common_ancestors(
-        self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        subject_ancestors: List[CURIE] = None,
+        object_ancestors: List[CURIE] = None,
+        include_owl_thing: bool = True,
     ) -> Iterable[CURIE]:
+        if subject_ancestors is not None and object_ancestors is not None:
+            yield from super().common_ancestors(
+                subject,
+                object,
+                predicates,
+                subject_ancestors=subject_ancestors,
+                object_ancestors=object_ancestors,
+                include_owl_thing=include_owl_thing,
+            )
+            return
         s_uri = self.curie_to_sparql(subject)
         o_uri = self.curie_to_sparql(object)
         where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", "?a a owl:Class"]
@@ -415,7 +448,11 @@ class UbergraphImplementation(
             yield self.uri_to_curie(row["a"]["value"])
 
     def most_recent_common_ancestors(
-        self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        include_owl_thing: bool = True,
     ) -> Iterable[CURIE]:
         s_uri = self.curie_to_sparql(subject)
         o_uri = self.curie_to_sparql(object)
@@ -438,8 +475,6 @@ class UbergraphImplementation(
     def get_information_content(
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
     ) -> Optional[float]:
-        if predicates is not None and list(predicates) != [IS_A]:
-            raise NotImplementedError("Only predetermined predicates allowed")
         ics = list(self.information_content_scores([curie], object_closure_predicates=predicates))
         if len(ics) > 1:
             raise ValueError(f"Multiple ICs for {curie} = {ics}")
@@ -482,6 +517,11 @@ class UbergraphImplementation(
         this falls back to the generic implementation.
         """
         ic_enum = self._precomputed_ic_predicate(object_closure_predicates)
+        if ic_enum is None and curies is not None:
+            yield from self._information_content_scores_by_counting(
+                curies, object_closure_predicates
+            )
+            return
         if (
             ic_enum is None
             or use_associations
@@ -491,8 +531,8 @@ class UbergraphImplementation(
             if ic_enum is None:
                 logging.warning(
                     "Ubergraph only has precomputed IC for subClassOf or subClassOf+existential "
-                    "closures; computing IC for other predicates requires enumerating all "
-                    "entities and may be very slow"
+                    "closures; computing IC for all terms with other predicates requires "
+                    "enumerating all entities and may be very slow"
                 )
             yield from super().information_content_scores(
                 curies,
@@ -520,6 +560,96 @@ class UbergraphImplementation(
             for row in self._sparql_query(query.query_str()):
                 yield self.uri_to_curie(row["s"]["value"]), self._ic_from_score(row["ic"]["value"])
 
+    def _information_content_scores_by_counting(
+        self, curies: Iterable[CURIE], object_closure_predicates: List[PRED_CURIE]
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Computes IC for arbitrary closure predicates by counting reflexive descendants in the
+        redundant graph, using the same background set as Ubergraph's precomputed scores.
+
+        For ``rdfs:subClassOf`` this gives identical results to
+        ``normalizedSubClassInformationContent``.
+
+        Counting is fast for most terms, but can take seconds for very general terms with
+        millions of descendants, which make a batched query time out. Terms are therefore
+        split using Ubergraph's precomputed ``referenceCount`` (the count over all predicates,
+        an upper bound): small terms are counted in one batched query, and large terms are
+        counted individually, in parallel.
+        """
+        n = self.information_content_background_count()
+        pred_uris = [self.curie_to_sparql(p) for p in object_closure_predicates]
+        redundant = RelationGraphEnum.redundant.value
+        for curie_chunk in chunk(curies):
+            # reference counts also serve to filter out unknown terms
+            query = SparqlQuery(
+                select=["?o", "?c"],
+                where=[
+                    _sparql_values("o", [self.curie_to_sparql(c) for c in curie_chunk]),
+                    f"?o <{RelationGraphEnum.referenceCount.value}> ?c",
+                ],
+            )
+            reference_counts = {
+                self.uri_to_curie(row["o"]["value"]): int(row["c"]["value"])
+                for row in self._sparql_query(query.query_str())
+            }
+            small = [c for c, rc in reference_counts.items() if rc <= LARGE_TERM_REFERENCE_COUNT]
+            large = [c for c, rc in reference_counts.items() if rc > LARGE_TERM_REFERENCE_COUNT]
+            # counts exclude the term itself, which is added below
+            counts = {}
+            if small:
+                query = SparqlQuery(
+                    select=["?o", "(COUNT(DISTINCT ?s) AS ?c)"],
+                    where=[
+                        _sparql_values("o", [self.curie_to_sparql(c) for c in small]),
+                        _sparql_values("p", pred_uris),
+                        f"GRAPH <{redundant}> {{ ?s ?p ?o }}",
+                        "FILTER (?s != ?o)",
+                    ],
+                )
+                # not restricted to the named graph, for consistency with precomputed scores
+                for row in self._sparql_query(query.query_str() + " GROUP BY ?o"):
+                    counts[self.uri_to_curie(row["o"]["value"])] = int(row["c"]["value"])
+            large_queries = []
+            for curie in large:
+                uri = self.curie_to_sparql(curie)
+                query = SparqlQuery(
+                    select=["(COUNT(DISTINCT ?s) AS ?c)"],
+                    where=[
+                        _sparql_values("p", pred_uris),
+                        f"GRAPH <{redundant}> {{ ?s ?p {uri} }}",
+                        f"FILTER (?s != {uri})",
+                    ],
+                )
+                large_queries.append(query.query_str())
+            large_results = self._sparql_queries_concurrently(large_queries)
+            for curie, rows in zip(large, large_results, strict=True):
+                counts[curie] = int(rows[0]["c"]["value"]) if rows else 0
+            for curie in reference_counts:
+                count = counts.get(curie, 0) + 1
+                score = -math.log(count / n) / math.log(n) * 100
+                yield curie, self._ic_from_score(score)
+
+    def _sparql_queries_concurrently(self, queries: List[str]) -> List[List[dict]]:
+        """
+        Runs independent queries in parallel, each with its own connection.
+
+        :param queries: complete SPARQL query strings
+        :return: list of bindings, one per query, in the same order
+        """
+
+        def _run(query: str) -> List[dict]:
+            sw = SPARQLWrapper.SPARQLWrapper(self.sparql_wrapper.endpoint)
+            sw.setQuery(query)
+            sw.setReturnFormat(SPARQLWrapper.JSON)
+            sw.setMethod(SPARQLWrapper.POST)
+            check_limit()
+            return _query_with_retries(sw)["results"]["bindings"]
+
+        if len(queries) <= 1 or self.max_concurrent_queries <= 1:
+            return [_run(q) for q in queries]
+        with ThreadPoolExecutor(max_workers=self.max_concurrent_queries) as executor:
+            return list(executor.map(_run, queries))
+
     def _precomputed_ic_predicate(
         self, object_closure_predicates: Optional[List[PRED_CURIE]]
     ) -> Optional[RelationGraphEnum]:
@@ -535,11 +665,7 @@ class UbergraphImplementation(
         object_closure_predicates: List[PRED_CURIE] = None,
         use_associations: bool = None,
     ) -> InformationContentMethod:
-        if (
-            use_associations
-            or self.cached_information_content_map is not None
-            or self._precomputed_ic_predicate(object_closure_predicates) is None
-        ):
+        if use_associations or self.cached_information_content_map is not None:
             return super().information_content_method(
                 object_closure_predicates=object_closure_predicates,
                 use_associations=use_associations,
@@ -593,50 +719,6 @@ class UbergraphImplementation(
         if self.normalized_information_content:
             return score
         return score / 100 * math.log2(self.information_content_background_count())
-
-    def pairwise_similarity(
-        self, subject: CURIE, object: CURIE = None, predicates: List[PRED_CURIE] = None
-    ) -> TermPairwiseSimilarity:
-        s_uri = self.curie_to_sparql(subject)
-        o_uri = self.curie_to_sparql(object)
-        where = [
-            f"{s_uri} ?sp ?a",
-            f"{o_uri} ?op ?a",
-            "?a a owl:Class",
-            f"?a <{RelationGraphEnum.normalizedInformationContent.value}> ?ic",
-        ]
-        if predicates:
-            pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
-            where.append(_sparql_values("sp", pred_uris))
-            where.append(_sparql_values("op", pred_uris))
-        query = SparqlQuery(select=["?a", "?ic"], distinct=True, where=where)
-        bindings = self._sparql_query(query.query_str())
-        ics = {
-            self.uri_to_curie(row["a"]["value"]): self._ic_from_score(row["ic"]["value"])
-            for row in bindings
-        }
-        max_ic = max(list(ics.values()))
-        best_mrcas = [a for a in ics if ics[a] == max_ic]
-        mrca = best_mrcas[0]
-        sim = TermPairwiseSimilarity(subject_id=subject, object_id=object, ancestor_id=mrca)
-        for curie, label in self.labels([subject, object, mrca]):
-            if label is None:
-                continue
-            # print(f'C={curie} L={label}')
-            if curie == subject:
-                sim.subject_label = label
-            if curie == object:
-                sim.object_label = label
-            if curie == mrca:
-                sim.ancestor_label = label
-        sim.ancestor_information_content = max_ic
-        sim.jaccard_similarity = setwise_jaccard_similarity(
-            list(self.ancestors(subject, predicates=predicates)),
-            list(self.ancestors(object, predicates=predicates)),
-        )
-        sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
-        sim.information_content_method = self.information_content_method()
-        return sim
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RdfInterface

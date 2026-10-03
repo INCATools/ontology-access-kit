@@ -275,10 +275,16 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertEqual(n, method.background_count)
         oi.normalized_information_content = False
         self.assertEqual("log2_bits", oi.information_content_method().scale.code.text)
-        # custom predicates fall back to OAK's own computation
+        # custom predicates are computed by counting, consistent with the precomputed scores
         self.assertEqual(
-            "oaklib", oi.information_content_method(object_closure_predicates=[PART_OF]).source
+            "ubergraph", oi.information_content_method(object_closure_predicates=[PART_OF]).source
         )
+        counted = dict(oi._information_content_scores_by_counting([NUCLEUS], [IS_A]))
+        self.assertAlmostEqual(isa_ics[NUCLEUS], counted[NUCLEUS])
+        isa_part_of_ics = dict(
+            oi.information_content_scores([NUCLEUS], object_closure_predicates=[IS_A, PART_OF])
+        )
+        self.assertLessEqual(isa_part_of_ics[NUCLEUS], isa_ics[NUCLEUS])
 
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
