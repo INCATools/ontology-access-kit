@@ -1,5 +1,6 @@
 import functools
 import logging
+import math
 import unittest
 from urllib.error import HTTPError, URLError
 
@@ -262,6 +263,12 @@ class TestUbergraphImplementation(unittest.TestCase):
         isa_ics = dict(oi.information_content_scores([NUCLEUS], object_closure_predicates=[IS_A]))
         self.assertIn(NUCLEUS, isa_ics)
         self.assertGreaterEqual(isa_ics[NUCLEUS], ics[NUCLEUS])
+        # scores are log2 bits by default; native normalized scores are 0-100
+        n = oi.information_content_background_count()
+        self.assertLessEqual(ics[NUCLEUS], math.log2(n))
+        oi.normalized_information_content = True
+        normalized_ic = oi.get_information_content(NUCLEUS)
+        self.assertAlmostEqual(normalized_ic / 100 * math.log2(n), ics[NUCLEUS])
 
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
