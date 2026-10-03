@@ -286,6 +286,22 @@ class TestUbergraphImplementation(unittest.TestCase):
         )
         self.assertLessEqual(isa_part_of_ics[NUCLEUS], isa_ics[NUCLEUS])
 
+    @skip_on_remote_error
+    def test_summary_statistics(self):
+        """
+        Tests summary statistics for a single ontology within Ubergraph.
+        """
+        from oaklib import get_adapter
+
+        oi = get_adapter("ubergraph:go")
+        stats = oi.branch_summary_statistics()
+        self.assertGreater(stats.class_count, 40000)
+        self.assertGreater(stats.class_count_with_text_definitions, 30000)
+        self.assertGreater(stats.edge_count_by_predicate[IS_A].filtered_count, 40000)
+        self.assertGreater(stats.edge_count_by_predicate[PART_OF].filtered_count, 1000)
+        self.assertIn("goslim_generic", stats.class_count_by_subset)
+        self.assertEqual(1, len(stats.ontologies))
+
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
         """
