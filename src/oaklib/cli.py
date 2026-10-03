@@ -804,8 +804,8 @@ def subsets(output: str):
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for subset in impl.subsets():
-            print(f"{subset} ! {impl.label(subset)}")
+        for subset, label in impl.labels(list(impl.subsets())):
+            print(f"{subset} ! {label}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

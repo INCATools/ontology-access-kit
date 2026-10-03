@@ -266,6 +266,45 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi)
 
+    def test_subsets(self):
+        oi = self.oi
+        subsets = list(oi.subsets())
+        self.assertIn("goslim_generic", subsets)
+        self.assertIn(NUCLEUS, list(oi.subset_members("goslim_generic")))
+        self.assertIn((NUCLEUS, "goslim_generic"), list(oi.terms_subsets([NUCLEUS])))
+        with self.assertRaises(ValueError):
+            list(oi.subset_members("no_such_subset"))
+
+    def test_node_type(self):
+        self.assertEqual("CLASS", self.oi.node(NUCLEUS).type)
+        self.assertEqual("PROPERTY", self.oi.node(PART_OF).type)
+
+    def test_ontology_metadata(self):
+        oi = self.oi
+        ontologies = list(oi.ontologies())
+        self.assertEqual(1, len(ontologies))
+        m = oi.ontology_metadata_map(ontologies[0])
+        self.assertIn("rdf:type", m)
+
+    def test_blazegraph_search_clause(self):
+        """Tests the search clause for Blazegraph endpoints honors the search syntax."""
+        oi = self.oi
+
+        def clause(term, **kwargs):
+            return oi._blazegraph_search_clause(term, SearchConfiguration(**kwargs))
+
+        self.assertEqual('?v bds:search "nucleus"', clause("nucleus"))
+        self.assertIn('FILTER(str(?v) = "nucleus")', clause("nucleus", is_partial=False))
+        self.assertIn('bds:search "nucl*"', clause("nucl", syntax=SearchTermSyntax.STARTS_WITH))
+        self.assertIn(
+            'strStarts(str(?v), "nucl")', clause("nucl", syntax=SearchTermSyntax.STARTS_WITH)
+        )
+        partial = clause("ucle", is_partial=True)
+        self.assertIn('contains(str(?v), "ucle")', partial)
+        self.assertNotIn("bds:search", partial)
+        regex = clause('^nucl\\w+ "x"', syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        self.assertEqual('FILTER(regex(str(?v), "^nucl\\\\w+ \\"x\\"", "i"))', regex)
+
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))

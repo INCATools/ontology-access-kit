@@ -390,12 +390,17 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
             if max_ic < min_ancestor_information_content:
                 return None
         logging.debug(f"MRCA = {anc} with {max_ic}")
+        missing = [c for c in (subject, object) if c not in ics]
+        if missing:
+            ics.update(
+                self.information_content_scores(missing, object_closure_predicates=predicates)
+            )
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
             ancestor_id=anc,
-            subject_information_content=ics.get(subject, self.get_information_content(subject)),
-            object_information_content=ics.get(object, self.get_information_content(object)),
+            subject_information_content=ics.get(subject),
+            object_information_content=ics.get(object),
             ancestor_information_content=max_ic,
             jaccard_similarity=jaccard_similarity,
         )
