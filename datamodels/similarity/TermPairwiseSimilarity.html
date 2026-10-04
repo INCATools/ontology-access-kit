@@ -107,6 +107,15 @@
         
       TermPairwiseSimilarity : dice_similarity
         
+      TermPairwiseSimilarity : information_content_method
+        
+          
+    
+    
+    TermPairwiseSimilarity --&gt; &quot;0..1&quot; InformationContentMethod : information_content_method
+    click InformationContentMethod href &quot;../InformationContentMethod&quot;
+
+        
       TermPairwiseSimilarity : jaccard_similarity
         
       TermPairwiseSimilarity : object_id
@@ -229,6 +238,11 @@
 <td><p>the geometric mean of the jaccard similarity and the information content</p></td>
 <td><p>direct</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="information_content_method.html"><span class="std std-doc">information_content_method</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="InformationContentMethod.html"><span class="std std-doc">InformationContentMethod</span></a></p></td>
+<td><p>How the information content scores in this object were computed</p></td>
+<td><p>direct</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -306,6 +320,7 @@ slots:
 - cosine_similarity
 - dice_similarity
 - phenodigm_score
+- information_content_method
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -496,6 +511,17 @@ attributes:
     - TermPairwiseSimilarity
     range: NonNegativeFloat
     equals_expression: sqrt({jaccard_similarity} * {information_content})
+  information_content_method:
+    name: information_content_method
+    description: How the information content scores in this object were computed
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    alias: information_content_method
+    owner: TermPairwiseSimilarity
+    domain_of:
+    - TermPairwiseSimilarity
+    range: InformationContentMethod
+    inlined: true
 
 </pre></div>
 </div>

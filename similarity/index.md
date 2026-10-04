@@ -13,6 +13,7 @@ Name: similarity
 | Class | Description |
 | --- | --- |
 | [BestMatch](BestMatch.md) | None |
+| [InformationContentMethod](InformationContentMethod.md) | Describes how information content (IC) scores were computed. IC scores are only comparable if they were computed using the same method. If absent, IC scores are assumed to be log2 bits computed by OAK using the ontology as the corpus. |
 | [PairwiseSimilarity](PairwiseSimilarity.md) | Abstract grouping for representing individual pairwise similarities |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |
@@ -29,11 +30,15 @@ Name: similarity
 | [ancestor_label](ancestor_label.md) | the name or label of the ancestor concept |
 | [ancestor_source](ancestor_source.md) |  |
 | [average_score](average_score.md) |  |
+| [background_count](background_count.md) | The number of items (terms or annotated entities) in the background set, i |
 | [best_score](best_score.md) |  |
+| [closure_predicates](closure_predicates.md) | The predicates used to compute the reflexive transitive closure when determin... |
+| [corpus](corpus.md) | The corpus used to determine term frequencies |
 | [cosine_similarity](cosine_similarity.md) | the dot product of two node embeddings divided by the product of their length... |
 | [dice_similarity](dice_similarity.md) |  |
 | [id](id.md) |  |
 | [information_content](information_content.md) | The IC is the negative log of the probability of the concept |
+| [information_content_method](information_content_method.md) | How the information content scores in this object were computed |
 | [intersection_count](intersection_count.md) |  |
 | [jaccard_similarity](jaccard_similarity.md) | The number of concepts in the intersection divided by the number in the union |
 | [label](label.md) |  |
@@ -52,8 +57,10 @@ Name: similarity
 | [object_termset](object_termset.md) |  |
 | [overlap_coefficient](overlap_coefficient.md) |  |
 | [phenodigm_score](phenodigm_score.md) | the geometric mean of the jaccard similarity and the information content |
+| [scale](scale.md) | The scale or units of the IC scores |
 | [score](score.md) | Abstract base slot for different kinds of scores |
 | [similarity](similarity.md) |  |
+| [source](source.md) | The system or resource that computed the scores, e |
 | [subject_best_matches](subject_best_matches.md) |  |
 | [subject_id](subject_id.md) | The first of the two entities being compared |
 | [subject_information_content](subject_information_content.md) | The IC of the subject |
@@ -69,6 +76,8 @@ Name: similarity
 
 | Enumeration | Description |
 | --- | --- |
+| [InformationContentCorpusEnum](InformationContentCorpusEnum.md) |  |
+| [InformationContentScaleEnum](InformationContentScaleEnum.md) |  |
 
 
 ## Types

@@ -126,16 +126,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="BestMatch.html"><span class="std std-doc">BestMatch</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="PairwiseSimilarity.html"><span class="std std-doc">PairwiseSimilarity</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="InformationContentMethod.html"><span class="std std-doc">InformationContentMethod</span></a></p></td>
+<td><p>Describes how information content (IC) scores were computed. IC scores are only comparable if they were computed using the same method. If absent, IC scores are assumed to be log2 bits computed by OAK using the ontology as the corpus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="PairwiseSimilarity.html"><span class="std std-doc">PairwiseSimilarity</span></a></p></td>
 <td><p>Abstract grouping for representing individual pairwise similarities</p></td>
 </tr>
-<tr class="row-even"><td><p>        <a class="reference internal" href="TermPairwiseSimilarity.html"><span class="std std-doc">TermPairwiseSimilarity</span></a></p></td>
+<tr class="row-odd"><td><p>        <a class="reference internal" href="TermPairwiseSimilarity.html"><span class="std std-doc">TermPairwiseSimilarity</span></a></p></td>
 <td><p>A simple pairwise similarity between two atomic concepts/terms</p></td>
 </tr>
-<tr class="row-odd"><td><p>        <a class="reference internal" href="TermSetPairwiseSimilarity.html"><span class="std std-doc">TermSetPairwiseSimilarity</span></a></p></td>
+<tr class="row-even"><td><p>        <a class="reference internal" href="TermSetPairwiseSimilarity.html"><span class="std std-doc">TermSetPairwiseSimilarity</span></a></p></td>
 <td><p>A simple pairwise similarity between two sets of concepts/terms</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="TermInfo.html"><span class="std std-doc">TermInfo</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="TermInfo.html"><span class="std std-doc">TermInfo</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 </tbody>
@@ -165,20 +168,32 @@
 <tr class="row-even"><td><p><a class="reference internal" href="average_score.html"><span class="std std-doc">average_score</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="best_score.html"><span class="std std-doc">best_score</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="background_count.html"><span class="std std-doc">background_count</span></a></p></td>
+<td><p>The number of items (terms or annotated entities) in the background set, i</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="best_score.html"><span class="std std-doc">best_score</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="cosine_similarity.html"><span class="std std-doc">cosine_similarity</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="closure_predicates.html"><span class="std std-doc">closure_predicates</span></a></p></td>
+<td><p>The predicates used to compute the reflexive transitive closure when determin…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="corpus.html"><span class="std std-doc">corpus</span></a></p></td>
+<td><p>The corpus used to determine term frequencies</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="cosine_similarity.html"><span class="std std-doc">cosine_similarity</span></a></p></td>
 <td><p>the dot product of two node embeddings divided by the product of their length…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="dice_similarity.html"><span class="std std-doc">dice_similarity</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="dice_similarity.html"><span class="std std-doc">dice_similarity</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="information_content.html"><span class="std std-doc">information_content</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="information_content.html"><span class="std std-doc">information_content</span></a></p></td>
 <td><p>The IC is the negative log of the probability of the concept</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="information_content_method.html"><span class="std std-doc">information_content_method</span></a></p></td>
+<td><p>How the information content scores in this object were computed</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="intersection_count.html"><span class="std std-doc">intersection_count</span></a></p></td>
 <td><p></p></td>
@@ -234,11 +249,17 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="phenodigm_score.html"><span class="std std-doc">phenodigm_score</span></a></p></td>
 <td><p>the geometric mean of the jaccard similarity and the information content</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="score.html"><span class="std std-doc">score</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="scale.html"><span class="std std-doc">scale</span></a></p></td>
+<td><p>The scale or units of the IC scores</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="score.html"><span class="std std-doc">score</span></a></p></td>
 <td><p>Abstract base slot for different kinds of scores</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="similarity.html"><span class="std std-doc">similarity</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="similarity.html"><span class="std std-doc">similarity</span></a></p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
+<td><p>The system or resource that computed the scores, e</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_best_matches.html"><span class="std std-doc">subject_best_matches</span></a></p></td>
 <td><p></p></td>
@@ -278,6 +299,14 @@
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="InformationContentCorpusEnum.html"><span class="std std-doc">InformationContentCorpusEnum</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="InformationContentScaleEnum.html"><span class="std std-doc">InformationContentScaleEnum</span></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
 </table>
 </section>
 <section id="types">

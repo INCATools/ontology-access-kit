@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: InformationContentMethod &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: InformationContentMethod</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/similarity/InformationContentMethod.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-informationcontentmethod">
+<h1>Class: InformationContentMethod<a class="headerlink" href="#class-informationcontentmethod" title="Link to this heading"></a></h1>
+<p><em>Describes how information content (IC) scores were computed. IC scores are only comparable if they were computed using the same method. If absent, IC scores are assumed to be log2 bits computed by OAK using the ontology as the corpus.</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/similarity/InformationContentMethod">sim:InformationContentMethod</a></p>
+<div class="mermaid">
+             classDiagram
+    class InformationContentMethod
+    click InformationContentMethod href &quot;../InformationContentMethod&quot;
+      InformationContentMethod : background_count
+        
+      InformationContentMethod : closure_predicates
+        
+      InformationContentMethod : corpus
+        
+          
+    
+    
+    InformationContentMethod --&gt; &quot;0..1&quot; InformationContentCorpusEnum : corpus
+    click InformationContentCorpusEnum href &quot;../InformationContentCorpusEnum&quot;
+
+        
+      InformationContentMethod : scale
+        
+          
+    
+    
+    InformationContentMethod --&gt; &quot;1&quot; InformationContentScaleEnum : scale
+    click InformationContentScaleEnum href &quot;../InformationContentScaleEnum&quot;
+
+        
+      InformationContentMethod : source
+        
+      
+        </div><!-- no inheritance hierarchy -->
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="scale.html"><span class="std std-doc">scale</span></a></p></td>
+<td><p>1 <br/> <a class="reference internal" href="InformationContentScaleEnum.html"><span class="std std-doc">InformationContentScaleEnum</span></a></p></td>
+<td><p>The scale or units of the IC scores</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="corpus.html"><span class="std std-doc">corpus</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="InformationContentCorpusEnum.html"><span class="std std-doc">InformationContentCorpusEnum</span></a></p></td>
+<td><p>The corpus used to determine term frequencies</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="closure_predicates.html"><span class="std std-doc">closure_predicates</span></a></p></td>
+<td><p>* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The predicates used to compute the reflexive transitive closure when determin…</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="background_count.html"><span class="std std-doc">background_count</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="ItemCount.html"><span class="std std-doc">ItemCount</span></a></p></td>
+<td><p>The number of items (terms or annotated entities) in the background set, i</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The system or resource that computed the scores, e</p></td>
+<td><p>direct</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usages">
+<h2>Usages<a class="headerlink" href="#usages" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>used by</p></th>
+<th class="head"><p>used in</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="TermPairwiseSimilarity.html"><span class="std std-doc">TermPairwiseSimilarity</span></a></p></td>
+<td><p><a class="reference internal" href="information_content_method.html"><span class="std std-doc">information_content_method</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="std std-doc">InformationContentMethod</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Link to this heading"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>from schema: https://w3id.org/oak/similarity</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>sim:InformationContentMethod</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>sim:InformationContentMethod</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Link to this heading"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Link to this heading"></a></h3>
+<details>
+```yaml
+name: InformationContentMethod
+description: Describes how information content (IC) scores were computed. IC scores
+  are only comparable if they were computed using the same method. If absent, IC scores
+  are assumed to be log2 bits computed by OAK using the ontology as the corpus.
+from_schema: https://w3id.org/oak/similarity
+attributes:
+  scale:
+    name: scale
+    description: The scale or units of the IC scores
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    domain_of:
+    - InformationContentMethod
+    range: InformationContentScaleEnum
+    required: true
+  corpus:
+    name: corpus
+    description: The corpus used to determine term frequencies
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    domain_of:
+    - InformationContentMethod
+    range: InformationContentCorpusEnum
+  closure_predicates:
+    name: closure_predicates
+    description: The predicates used to compute the reflexive transitive closure when
+      determining term frequencies. If empty, all predicates are used.
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    domain_of:
+    - InformationContentMethod
+    range: uriorcurie
+    multivalued: true
+  background_count:
+    name: background_count
+    description: The number of items (terms or annotated entities) in the background
+      set, i.e. N in Pr(t) = freq(t)/N
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    domain_of:
+    - InformationContentMethod
+    range: ItemCount
+  source:
+    name: source
+    description: The system or resource that computed the scores, e.g. oaklib, ubergraph
+    examples:
+    - value: ubergraph
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    domain_of:
+    - InformationContentMethod
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: InformationContentMethod
+description: Describes how information content (IC) scores were computed. IC scores
+  are only comparable if they were computed using the same method. If absent, IC scores
+  are assumed to be log2 bits computed by OAK using the ontology as the corpus.
+from_schema: https://w3id.org/oak/similarity
+attributes:
+  scale:
+    name: scale
+    description: The scale or units of the IC scores
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    alias: scale
+    owner: InformationContentMethod
+    domain_of:
+    - InformationContentMethod
+    range: InformationContentScaleEnum
+    required: true
+  corpus:
+    name: corpus
+    description: The corpus used to determine term frequencies
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    alias: corpus
+    owner: InformationContentMethod
+    domain_of:
+    - InformationContentMethod
+    range: InformationContentCorpusEnum
+  closure_predicates:
+    name: closure_predicates
+    description: The predicates used to compute the reflexive transitive closure when
+      determining term frequencies. If empty, all predicates are used.
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    alias: closure_predicates
+    owner: InformationContentMethod
+    domain_of:
+    - InformationContentMethod
+    range: uriorcurie
+    multivalued: true
+  background_count:
+    name: background_count
+    description: The number of items (terms or annotated entities) in the background
+      set, i.e. N in Pr(t) = freq(t)/N
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    alias: background_count
+    owner: InformationContentMethod
+    domain_of:
+    - InformationContentMethod
+    range: ItemCount
+  source:
+    name: source
+    description: The system or resource that computed the scores, e.g. oaklib, ubergraph
+    examples:
+    - value: ubergraph
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    alias: source
+    owner: InformationContentMethod
+    domain_of:
+    - InformationContentMethod
+    range: string
+
+</pre></div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
