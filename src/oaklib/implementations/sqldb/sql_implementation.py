@@ -143,6 +143,7 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
+from oaklib.interfaces.embedding_provider_interface import EmbeddingProviderInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
@@ -285,6 +286,7 @@ class SqlImplementation(
     DumperInterface,
     MergeInterface,
     UsagesInterface,
+    EmbeddingProviderInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.

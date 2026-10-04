@@ -615,3 +615,114 @@ class TestOlsImplementation(unittest.TestCase):
         results = list(itertools.islice(self.oi.basic_search("swimming", config), 20))
         self.assertIn("OMIT:0014415", results)  # OMIT:0014415 == Swimming
         self.assertNotIn("OMIT:0014416", results)  # OMIT:0014416 == Swimming Pools
+
+
+def _response(status_code=200, payload=None):
+    response = MagicMock()
+    response.status_code = status_code
+    response.json.return_value = payload
+    if status_code >= 400:
+        response.raise_for_status.side_effect = requests.HTTPError(response=response)
+    return response
+
+
+HP_SYNDACTYLY = "HP:0001159"
+HP_FINGER_SYNDACTYLY = "HP:0006101"
+HP_UNKNOWN = "HP:9999999"
+EMBEDDINGS = {
+    HP_SYNDACTYLY: [1.0, 0.0, 0.0],
+    HP_FINGER_SYNDACTYLY: [1.0, 1.0, 0.0],
+}
+MODELS = [
+    {"model": "model-a", "can_embed": False},
+    {"model": "model-b", "can_embed": True},
+]
+
+
+class TestOlsEmbeddings(unittest.TestCase):
+    """Tests for the EmbeddingProviderInterface over OLS, with the API mocked."""
+
+    def setUp(self) -> None:
+        from oaklib.utilities.embeddings.embedding_cache import EmbeddingCache
+
+        mock_client = MagicMock()
+        mock_client.base_url = "https://example.org/ols4/api"
+        with patch.object(OlsImplementation, "ols_client_class", return_value=mock_client):
+            oi = OlsImplementation(OntologyResource("hp"))
+        oi._embedding_cache = EmbeddingCache(":memory:")
+        self.calls = []
+
+        def fake_request(method, path, params=None, **kwargs):
+            self.calls.append((method, path, params))
+            if path == "llm_models":
+                return _response(payload=MODELS)
+            if path.endswith("/llm_embedding") and path != "classes/llm_embedding":
+                curie = next((c for c in EMBEDDINGS if c.replace(":", "_") in path), None)
+                if curie is None:
+                    return _response(404, {"status": 404})
+                return _response(payload=EMBEDDINGS[curie])
+            if path.endswith("/llm_similar") or path.startswith("classes/llm_"):
+                return _response(
+                    payload={
+                        "elements": [
+                            {
+                                "iri": "http://purl.obolibrary.org/obo/HP_0001159",
+                                "label": ["Syndactyly"],
+                                "score": 1.0,
+                            },
+                            {
+                                "iri": "http://purl.obolibrary.org/obo/HP_0006101",
+                                "label": ["Finger syndactyly"],
+                                "score": 0.75,
+                            },
+                        ]
+                    }
+                )
+            raise AssertionError(f"Unexpected request: {method} {path}")
+
+        oi._embedding_request = MagicMock(side_effect=fake_request)
+        self.oi = oi
+
+    def test_models(self):
+        self.assertEqual(self.oi.embedding_models(), ["model-a", "model-b"])
+
+    def test_embeddings_and_cache(self):
+        ids, m = self.oi.entity_embeddings([HP_SYNDACTYLY, HP_UNKNOWN, HP_FINGER_SYNDACTYLY])
+        self.assertEqual(ids, [HP_SYNDACTYLY, HP_FINGER_SYNDACTYLY])
+        self.assertEqual(m.shape, (2, 3))
+        fetches = [c for c in self.calls if c[1].endswith("/llm_embedding")]
+        self.assertEqual(len(fetches), 3)
+        self.assertTrue(all(c[2] == {"model": "model-a"} for c in fetches))
+        # second call is served entirely from the cache, including the miss
+        self.oi.entity_embeddings([HP_SYNDACTYLY, HP_UNKNOWN, HP_FINGER_SYNDACTYLY])
+        self.assertEqual(len([c for c in self.calls if c[1].endswith("/llm_embedding")]), 3)
+        # a different model is cached separately
+        self.oi.entity_embeddings([HP_SYNDACTYLY], model="model-b")
+        self.assertEqual(len([c for c in self.calls if c[1].endswith("/llm_embedding")]), 4)
+
+    def test_similarity(self):
+        sim = self.oi.embedding_similarity(HP_SYNDACTYLY, HP_FINGER_SYNDACTYLY)
+        self.assertAlmostEqual(sim, 2**-0.5, places=5)
+        self.assertIsNone(self.oi.embedding_similarity(HP_SYNDACTYLY, HP_UNKNOWN))
+
+    def test_nearest_entities(self):
+        results = list(self.oi.nearest_entities(HP_SYNDACTYLY, limit=5))
+        # query term is excluded; OLS scores of (1 + cos) / 2 are converted to cosine
+        self.assertEqual(results, [(HP_FINGER_SYNDACTYLY, 0.5)])
+        self.assertEqual(self.oi.label(HP_FINGER_SYNDACTYLY), "Finger syndactyly")
+
+    def test_nearest_entities_to_text(self):
+        results = list(self.oi.nearest_entities_to_text("webbed fingers", limit=1))
+        self.assertEqual(results, [(HP_SYNDACTYLY, 1.0)])
+        _, path, params = self.calls[-1]
+        self.assertEqual(path, "classes/llm_search")
+        # defaults to a model that can embed text, and to the focus ontology
+        self.assertEqual(params["model"], "model-b")
+        self.assertEqual(params["ontologyId"], "hp")
+        with self.assertRaises(ValueError):
+            list(self.oi.nearest_entities_to_text("webbed fingers", model="model-a"))
+
+    def test_nearest_entities_to_vector(self):
+        results = list(self.oi.nearest_entities_to_vector([1.0, 0.0, 0.0], limit=2))
+        self.assertEqual([c for c, _ in results], [HP_SYNDACTYLY, HP_FINGER_SYNDACTYLY])
+        self.assertEqual(self.calls[-1][0], "POST")
