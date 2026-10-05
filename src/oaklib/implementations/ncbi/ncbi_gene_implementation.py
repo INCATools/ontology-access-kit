@@ -27,8 +27,11 @@ from oaklib.types import CURIE, PRED_CURIE
 EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
 ELINK_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
+ESUMMARY_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
 
 logger = logging.getLogger(__name__)
+
+ESUMMARY_BATCH_SIZE = 100
 
 
 @dataclass
@@ -70,11 +73,45 @@ class NCBIGeneImplementation(
         for _, lbl in self.labels([curie]):
             return lbl
 
+    def _gene_id(self, curie: CURIE) -> Optional[str]:
+        if curie.startswith("NCBIGene:"):
+            return curie.split(":")[1]
+        if curie.isnumeric():
+            return curie
+        return None
+
+    def _fetch_missing_labels(self, curies: Iterable[CURIE]) -> None:
+        """Populate the label property cache for gene IDs not already present.
+
+        The cache is normally filled as a side effect of association queries;
+        this fills gaps via the E-utilities esummary endpoint, batching IDs.
+        """
+        missing = []
+        for curie in curies:
+            if self._gene_id(curie) and not self.property_cache.get(curie, RDFS_LABEL):
+                missing.append(curie)
+        for i in range(0, len(missing), ESUMMARY_BATCH_SIZE):
+            batch = missing[i : i + ESUMMARY_BATCH_SIZE]
+            params = {
+                "db": "gene",
+                "id": ",".join(self._gene_id(curie) for curie in batch),
+                "retmode": "json",
+            }
+            response = self.requests_session.get(ESUMMARY_URL, params, timeout=TIMEOUT_SECONDS)
+            response.raise_for_status()
+            results = response.json().get("result", {})
+            for curie in batch:
+                record = results.get(self._gene_id(curie))
+                if record and record.get("name"):
+                    self.property_cache.add(curie, RDFS_LABEL, record["name"])
+
     def labels(
         self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
     ) -> Iterable[Tuple[CURIE, str]]:
         if lang:
             raise NotImplementedError
+        curies = list(curies)
+        self._fetch_missing_labels(curies)
         for curie in curies:
             yield curie, self.property_cache.get(curie, RDFS_LABEL)
 
