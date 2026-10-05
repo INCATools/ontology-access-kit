@@ -13,3 +13,4 @@ classic semantic similarity.
    Embeddings-Tutorial
    Subsumption-Recapitulation
    Phenotype-Profile-Matching
+   Ontology-vs-Text-Similarity
