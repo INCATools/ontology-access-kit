@@ -36,7 +36,7 @@ def cosine_similarity_matrix(a: np.ndarray, b: Optional[np.ndarray] = None) -> n
     """
     a = np.asarray(a, dtype=float)
     b = a if b is None else np.asarray(b, dtype=float)
-    return _l2_normalize(a) @ _l2_normalize(b).T
+    return np.clip(_l2_normalize(a) @ _l2_normalize(b).T, -1.0, 1.0)
 
 
 def jaccard_similarity_matrix(a: np.ndarray, b: Optional[np.ndarray] = None) -> np.ndarray:

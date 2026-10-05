@@ -42,6 +42,8 @@ ANNOTATION = Dict[str, Any]
 SEARCH_ROWS = 50
 EMBEDDING_CACHE_NAME = "ols-embeddings.db"
 EMBEDDING_FETCH_WORKERS = 4
+OBSOLETE_HEADROOM = 10
+"""Extra results requested from OLS so that filtering obsoletes still yields enough."""
 
 
 def _double_quote_iri(iri: str) -> str:
@@ -113,6 +115,8 @@ class BaseOlsImplementation(
     client: Client = field(init=False)
     use_embedding_cache: bool = True
     """If True, embeddings fetched from OLS are stored in a local sqlite cache."""
+    embedding_filter_obsoletes: bool = True
+    """If True, obsolete classes are removed from embedding search results."""
     _embedding_cache: Optional[EmbeddingCache] = None
     _embedding_model_info: Optional[List[Dict[str, Any]]] = None
 
@@ -736,6 +740,9 @@ class BaseOlsImplementation(
         for element in response.json().get("elements", []):
             if n >= limit:
                 break
+            # OLS returns obsolete classes and has no parameter to exclude them
+            if element.get("isObsolete") and self.embedding_filter_obsoletes:
+                continue
             curie = self.uri_to_curie(element["iri"]) if element.get("iri") else None
             curie = curie or _scalar(element.get("curie"))
             label = _scalar(element.get("label"))
@@ -765,7 +772,7 @@ class BaseOlsImplementation(
         response = self._embedding_request(
             "GET",
             f"classes/{_double_quote_iri(iri)}/llm_similar",
-            params={"model": model, "size": limit + 1},
+            params={"model": model, "size": limit + 1 + OBSOLETE_HEADROOM},
         )
         if response.status_code == requests.codes.not_found:
             return
@@ -788,7 +795,7 @@ class BaseOlsImplementation(
             yield from super().nearest_entities_to_vector(vector, limit, model, candidates)
             return
         model = self._resolve_model(model)
-        params = {"model": model, "size": limit}
+        params = {"model": model, "size": limit + OBSOLETE_HEADROOM}
         if self.focus_ontology:
             params["ontologyId"] = self.focus_ontology
         response = self._embedding_request(
@@ -819,7 +826,7 @@ class BaseOlsImplementation(
             model = text_models[0]
         elif model not in text_models:
             raise ValueError(f"OLS cannot embed text with {model}; use one of {text_models}")
-        params = {"q": text, "model": model, "size": limit}
+        params = {"q": text, "model": model, "size": limit + OBSOLETE_HEADROOM}
         if self.focus_ontology:
             params["ontologyId"] = self.focus_ontology
         response = self._embedding_request("GET", "classes/llm_search", params=params)

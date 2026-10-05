@@ -126,3 +126,64 @@ class TestClosureEmbeddings(unittest.TestCase):
         self.assertTrue(0 < sim.average_score <= 1)
         self.assertAlmostEqual(sim.best_score, 1.0)
         self.assertFalse(math.isnan(sim.average_score))
+
+
+class FakeEmbeddingModel:
+    """Deterministic bag-of-characters embedding, standing in for an llm model."""
+
+    model_id = "fake-embed"
+
+    def __init__(self):
+        self.calls = 0
+
+    def embed(self, text):
+        v = np.zeros(26)
+        for ch in text.lower():
+            if "a" <= ch <= "z":
+                v[ord(ch) - ord("a")] += 1
+        return v.tolist()
+
+    def embed_multi(self, texts):
+        for t in texts:
+            self.calls += 1
+            yield self.embed(t)
+
+
+class TestLLMEmbeddings(unittest.TestCase):
+    def setUp(self) -> None:
+        self.adapter = get_adapter(f"llm:sqlite:{DB}")
+        self.adapter._embedding_cache = EmbeddingCache(":memory:")
+        self.fake = FakeEmbeddingModel()
+        self.adapter._get_embedding_model = lambda model_id: self.fake
+        self.adapter.embedding_model_id = "fake-embed"
+
+    def test_embedding_text(self):
+        self.assertEqual(self.adapter.embedding_text(NUCLEUS), "nucleus")
+        self.adapter.embedding_text_template = "{label}: {definition}"
+        self.assertTrue(self.adapter.embedding_text(NUCLEUS).startswith("nucleus: A membrane"))
+
+    def test_embeddings_cached(self):
+        ids, m = self.adapter.entity_embeddings([NUCLEUS, VACUOLE, "X:NO_LABEL"])
+        self.assertEqual(ids, [NUCLEUS, VACUOLE])
+        self.assertEqual(m.shape, (2, 26))
+        self.assertEqual(self.fake.calls, 2)
+        self.adapter.entity_embeddings([NUCLEUS, VACUOLE, "X:NO_LABEL"])
+        self.assertEqual(self.fake.calls, 2)
+        # a different template is cached separately
+        self.adapter.embedding_text_template = "{label}: {definition}"
+        self.adapter.entity_embeddings([NUCLEUS])
+        self.assertEqual(self.fake.calls, 3)
+
+    def test_pairwise_similarity(self):
+        sim = self.adapter.pairwise_similarity(NUCLEUS, NUCLEUS)
+        self.assertAlmostEqual(sim.cosine_similarity, 1.0, places=5)
+        sim = self.adapter.pairwise_similarity(NUCLEUS, VACUOLE)
+        self.assertTrue(0 < sim.cosine_similarity < 1)
+
+    def test_text_search(self):
+        results = list(
+            self.adapter.nearest_entities_to_text(
+                "nucleus", limit=1, candidates=[NUCLEUS, VACUOLE, IMBO]
+            )
+        )
+        self.assertEqual(results[0][0], NUCLEUS)

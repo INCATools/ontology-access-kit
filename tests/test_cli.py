@@ -1510,6 +1510,46 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("x:bone_element", contents)
             self.assertIn("bone tissue", contents)
 
+    def test_embedding_commands(self):
+        result = self.runner.invoke(main, ["-i", TEST_DB, "embedding-models"])
+        self.assertEqual(0, result.exit_code)
+        self.assertIn("closure", result.stdout)
+        result = self.runner.invoke(
+            main, ["-i", TEST_DB, "embeddings", "-m", "closure", NUCLEUS, VACUOLE]
+        )
+        self.assertEqual(0, result.exit_code)
+        rows = list(csv.DictReader(result.stdout.splitlines(), delimiter="\t"))
+        self.assertEqual([r["id"] for r in rows], [NUCLEUS, VACUOLE])
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                TEST_DB,
+                "embedding-similarity",
+                "--metric",
+                "jaccard",
+                NUCLEUS,
+                "@",
+                VACUOLE,
+                "-o",
+                TEST_OUT,
+            ],
+        )
+        self.assertEqual(0, result.exit_code)
+        with open(TEST_OUT) as f:
+            rows = list(csv.DictReader(f, delimiter="\t"))
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["object_label"], "vacuole")
+        self.assertGreater(float(rows[0]["score"]), 0.5)
+        result = self.runner.invoke(
+            main, ["-i", TEST_DB, "nearest-entities", NUCLEUS, "-L", "2", "-o", TEST_OUT]
+        )
+        self.assertEqual(0, result.exit_code)
+        with open(TEST_OUT) as f:
+            rows = list(csv.DictReader(f, delimiter="\t"))
+        self.assertEqual(rows[0]["id"], IMBO)
+        self.assertEqual(len(rows), 2)
+
     def test_similarity(self):
         result = self.runner.invoke(
             main,

@@ -671,6 +671,12 @@ class TestOlsEmbeddings(unittest.TestCase):
                                 "score": 1.0,
                             },
                             {
+                                "iri": "http://purl.obolibrary.org/obo/HP_0010692",
+                                "label": ["obsolete 2-5 finger syndactyly"],
+                                "isObsolete": True,
+                                "score": 0.9,
+                            },
+                            {
                                 "iri": "http://purl.obolibrary.org/obo/HP_0006101",
                                 "label": ["Finger syndactyly"],
                                 "score": 0.75,
