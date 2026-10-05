@@ -94,6 +94,7 @@ from oaklib.interfaces.differ_interface import (
     DiffConfiguration,
     DifferInterface,
 )
+from oaklib.interfaces.embedding_provider_interface import EmbeddingProviderInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
@@ -2724,6 +2725,194 @@ def similarity(
         writer.emit(sim)
     writer.finish()
     writer.file.close()
+
+
+embedding_model_option = click.option(
+    "--model",
+    "-m",
+    help="Embedding model; see the embedding-models command. Defaults to the adapter default.",
+)
+
+
+def _embedding_impl() -> EmbeddingProviderInterface:
+    impl = settings.impl
+    if not isinstance(impl, EmbeddingProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    return impl
+
+
+def _split_term_sets(terms, impl):
+    terms = list(terms)
+    if "@" in terms:
+        ix = terms.index("@")
+        return list(query_terms_iterator(terms[0:ix], impl)), list(
+            query_terms_iterator(terms[ix + 1 :], impl)
+        )
+    set1 = list(query_terms_iterator(terms, impl))
+    return set1, set1
+
+
+@main.command()
+@output_option
+@output_type_option
+def embedding_models(output, output_type):
+    """
+    List the embedding models available for an adapter.
+
+    Example:
+
+        runoak -i ols:hp embedding-models
+
+    The ``closure`` model is available for any adapter that can compute ancestors; it
+    encodes each term as a multi-hot vector of its reflexive ancestors.
+    """
+    impl = _embedding_impl()
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    for model in impl.embedding_models():
+        writer.emit(dict(model=model), label_fields=[])
+    writer.finish()
+
+
+@main.command()
+@embedding_model_option
+@click.option(
+    "-o",
+    "--output",
+    help="Output path. The format is chosen by suffix: .parquet, .csv, or .tsv (default).",
+)
+@click.argument("terms", nargs=-1)
+def embeddings(terms, model, output):
+    """
+    Export embedding vectors for terms, one row per term.
+
+    Example:
+
+        runoak -i ols:hp embeddings .desc//p=i HP:0001155 -m text-embedding-3-small_pca512 -o hand.tsv
+
+    Using ontology closure vectors:
+
+        runoak -i sqlite:obo:hp embeddings -m closure .desc//p=i HP:0001155 -o hand-closure.tsv
+
+    Vectors from OLS are cached locally, so repeated calls do not re-query OLS.
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/packages/interfaces/embedding-provider
+    """
+    impl = _embedding_impl()
+    df = impl.embeddings_dataframe(query_terms_iterator(terms, impl), model=model)
+    df.columns = [f"d{c}" for c in df.columns]
+    if output and output.endswith(".parquet"):
+        try:
+            df.to_parquet(output)
+        except ImportError as e:
+            raise click.ClickException(f"Parquet output requires pyarrow: {e}") from e
+    elif output and output.endswith(".csv"):
+        df.to_csv(output)
+    else:
+        df.to_csv(output or sys.stdout, sep="\t")
+
+
+@main.command()
+@embedding_model_option
+@output_option
+@output_type_option
+@autolabel_option
+@click.option("--limit", "-L", default=10, show_default=True, help="Number of results per query")
+@click.option(
+    "--text/--no-text",
+    default=False,
+    show_default=True,
+    help="If set, each argument is treated as free text rather than a term query",
+)
+@click.argument("terms", nargs=-1)
+def nearest_entities(terms, model, output, output_type, autolabel, limit, text):
+    """
+    Find the entities with the most similar embeddings.
+
+    Example:
+
+        runoak -i ols:hp nearest-entities HP:0001159 -L 5
+
+    Free text queries (embedded by the adapter; for OLS only some models support this):
+
+        runoak -i ols:hp nearest-entities --text "webbed fingers"
+
+    Scores are cosine similarities.
+    """
+    impl = _embedding_impl()
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    if text:
+        queries = [(t, impl.nearest_entities_to_text(t, limit=limit, model=model)) for t in terms]
+    else:
+        queries = [
+            (c, impl.nearest_entities(c, limit=limit, model=model))
+            for c in query_terms_iterator(terms, impl)
+        ]
+    for query, results in queries:
+        for curie, score in results:
+            row = dict(query=query, id=curie, score=score)
+            if autolabel:
+                if not text:
+                    row["query_label"] = impl.label(query)
+                row["label"] = impl.label(curie)
+            writer.emit(row, label_fields=[])
+    writer.finish()
+
+
+@main.command()
+@embedding_model_option
+@output_option
+@output_type_option
+@autolabel_option
+@click.option(
+    "--metric",
+    type=click.Choice(["cosine", "jaccard"]),
+    default="cosine",
+    show_default=True,
+    help="Vector similarity metric",
+)
+@click.option(
+    "--matrix/--no-matrix",
+    default=False,
+    show_default=True,
+    help="If set, write a wide subject x object matrix (TSV) rather than one row per pair",
+)
+@click.argument("terms", nargs=-1)
+def embedding_similarity(terms, model, output, output_type, autolabel, metric, matrix):
+    """
+    All by all similarity of terms using embeddings.
+
+    Use "@" to separate the two sets of terms; without it, all terms are compared
+    with each other.
+
+    Example:
+
+        runoak -i ols:hp embedding-similarity HP:0001159 HP:0006101 @ HP:0001770 HP:0000118
+
+    Comparing classic ontology closure vectors:
+
+        runoak -i sqlite:obo:hp embedding-similarity -m closure --metric jaccard HP:0001159 @ HP:0001770
+    """
+    impl = _embedding_impl()
+    set1, set2 = _split_term_sets(terms, impl)
+    df = impl.embedding_similarity_matrix(set1, set2, model=model, metric=metric)
+    if matrix:
+        df.to_csv(output, sep="\t", index_label="id")
+        return
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    labels = dict(impl.labels(set(set1) | set(set2))) if autolabel else {}
+    for s, row in df.iterrows():
+        for o, score in row.items():
+            r = dict(subject_id=s, object_id=o, score=float(score))
+            if autolabel:
+                r["subject_label"] = labels.get(s)
+                r["object_label"] = labels.get(o)
+            writer.emit(r, label_fields=[])
+    writer.finish()
 
 
 @main.command()
@@ -6340,7 +6529,7 @@ def diff_terms(output, other_ontology, terms):
     if len(terms) == 2:
         [term, other_term] = terms
     elif len(terms) == 1:
-        (term, other_term) = terms[0], None
+        term, other_term = terms[0], None
     else:
         raise ValueError(f"Must pass one or two terms; got: {terms}")
     if isinstance(impl, DifferInterface):
