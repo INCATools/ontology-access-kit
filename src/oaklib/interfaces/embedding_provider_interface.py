@@ -250,21 +250,24 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         objects: List[CURIE],
         model: Optional[str] = None,
         labels: bool = False,
+        metric: str = "cosine",
     ) -> TermSetPairwiseSimilarity:
         """
-        Compare two sets of entities using best-match average over cosine similarity.
+        Compare two sets of entities using best-match average over vector similarity.
 
         This is the embedding analog of
         :meth:`SemanticSimilarityInterface.termset_pairwise_similarity`; the score of
-        each best match is a cosine similarity.
+        each best match is the vector similarity under ``metric``.
 
         :param subjects: first set of entities (e.g. a patient's phenotypes)
         :param objects: second set of entities (e.g. a disease's phenotypes)
         :param model: model name
         :param labels: if True, populate labels
+        :param metric: ``cosine`` (default) or ``jaccard``
         :return: set-wise similarity, with ``average_score`` as the best-match average
         """
-        df = self.embedding_similarity_matrix(subjects, objects, model=model)
+        df = self.embedding_similarity_matrix(subjects, objects, model=model, metric=metric)
+        score_slot = f"{metric}_similarity"
         sim = TermSetPairwiseSimilarity()
         for x in subjects:
             sim.subject_termset[x] = TermInfo(x)
@@ -285,7 +288,7 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
                         match_target=target,
                         score=score,
                         similarity=TermPairwiseSimilarity(
-                            subject_id=pair[0], object_id=pair[1], cosine_similarity=score
+                            subject_id=pair[0], object_id=pair[1], **{score_slot: score}
                         ),
                     )
                     scores.append(score)

@@ -126,6 +126,10 @@ class TestClosureEmbeddings(unittest.TestCase):
         self.assertTrue(0 < sim.average_score <= 1)
         self.assertAlmostEqual(sim.best_score, 1.0)
         self.assertFalse(math.isnan(sim.average_score))
+        jsim = self.adapter.embedding_termset_similarity([NUCLEUS], [VACUOLE], metric="jaccard")
+        best = jsim.subject_best_matches[NUCLEUS]
+        self.assertAlmostEqual(best.score, best.similarity.jaccard_similarity)
+        self.assertLess(best.score, 1.0)
 
 
 class FakeEmbeddingModel:

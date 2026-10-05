@@ -27,6 +27,10 @@ Implementations:
     >>> ols.embedding_similarity("HP:0001159", "HP:0006101", model="text-embedding-3-small_pca512")  # doctest: +SKIP
     >>> list(ols.nearest_entities_to_text("webbed fingers", limit=5))  # doctest: +SKIP
 
+See the :ref:`embeddings_examples` notebooks for worked examples, and the
+``embedding-models``, ``embeddings``, ``nearest-entities`` and ``embedding-similarity``
+commands for command-line access.
+
 .. currentmodule:: oaklib.interfaces.embedding_provider_interface
 
 .. autoclass:: EmbeddingProviderInterface
