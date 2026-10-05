@@ -732,3 +732,23 @@ class TestOlsEmbeddings(unittest.TestCase):
         results = list(self.oi.nearest_entities_to_vector([1.0, 0.0, 0.0], limit=2))
         self.assertEqual([c for c, _ in results], [HP_SYNDACTYLY, HP_FINGER_SYNDACTYLY])
         self.assertEqual(self.calls[-1][0], "POST")
+
+    def test_fetch_failures_not_cached(self):
+        original = self.oi._embedding_request.side_effect
+        flaky = {"n": 0}
+
+        def failing(method, path, params=None, **kwargs):
+            if "HP_0006101" in path and path.endswith("/llm_embedding"):
+                flaky["n"] += 1
+                return _response(503, {"status": 503})
+            return original(method, path, params, **kwargs)
+
+        self.oi._embedding_request.side_effect = failing
+        with patch("oaklib.implementations.ols.ols_implementation.time.sleep"):
+            ids, _ = self.oi.entity_embeddings([HP_SYNDACTYLY, HP_FINGER_SYNDACTYLY])
+        self.assertEqual(ids, [HP_SYNDACTYLY])
+        self.assertEqual(flaky["n"], 3)  # one attempt plus two retries
+        # the failure is not cached, so it is retried (and now succeeds)
+        self.oi._embedding_request.side_effect = original
+        ids, _ = self.oi.entity_embeddings([HP_SYNDACTYLY, HP_FINGER_SYNDACTYLY])
+        self.assertEqual(ids, [HP_SYNDACTYLY, HP_FINGER_SYNDACTYLY])

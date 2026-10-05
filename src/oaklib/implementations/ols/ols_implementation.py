@@ -1,4 +1,5 @@
 import logging
+import time
 from collections import ChainMap
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -42,6 +43,8 @@ ANNOTATION = Dict[str, Any]
 SEARCH_ROWS = 50
 EMBEDDING_CACHE_NAME = "ols-embeddings.db"
 EMBEDDING_FETCH_WORKERS = 4
+EMBEDDING_FETCH_CHUNK = 100
+EMBEDDING_FETCH_RETRIES = 2
 OBSOLETE_HEADROOM = 10
 """Extra results requested from OLS so that filtering obsoletes still yields enough."""
 
@@ -708,14 +711,21 @@ class BaseOlsImplementation(
         iri = self.curie_to_uri(curie)
         if not iri:
             return None
-        response = self._embedding_request(
-            "GET", f"classes/{_double_quote_iri(iri)}/llm_embedding", params={"model": model}
-        )
-        if response.status_code == requests.codes.not_found:
-            return None
-        response.raise_for_status()
-        vector = response.json()
-        return np.asarray(vector, dtype=np.float32) if vector else None
+        path = f"classes/{_double_quote_iri(iri)}/llm_embedding"
+        for attempt in range(EMBEDDING_FETCH_RETRIES + 1):
+            try:
+                response = self._embedding_request("GET", path, params={"model": model})
+                if response.status_code == requests.codes.not_found:
+                    return None
+                response.raise_for_status()
+                vector = response.json()
+                return np.asarray(vector, dtype=np.float32) if vector else None
+            except requests.RequestException as e:
+                status = e.response.status_code if e.response is not None else None
+                if attempt == EMBEDDING_FETCH_RETRIES or (status is not None and status < 500):
+                    raise
+                logger.info(f"Retrying {curie} after error: {e}")
+                time.sleep(2**attempt)
 
     def _fetch_embeddings(
         self, curies: List[CURIE], model: str
@@ -724,14 +734,39 @@ class BaseOlsImplementation(
         source = self.client.base_url
         vectors = cache.get(source, model, curies) if cache else {}
         missing = [c for c in curies if c not in vectors]
-        if missing:
-            logger.info(f"Fetching {len(missing)} embeddings for {model} from OLS")
-            with ThreadPoolExecutor(max_workers=EMBEDDING_FETCH_WORKERS) as executor:
-                results = list(executor.map(lambda c: self._fetch_embedding(c, model), missing))
-            fetched = {c: results[i] for i, c in enumerate(missing)}
-            if cache:
-                cache.put(source, model, fetched)
-            vectors.update(fetched)
+        if not missing:
+            return vectors
+        logger.info(f"Fetching {len(missing)} embeddings for {model} from OLS")
+
+        def fetch(curie: CURIE):
+            try:
+                return curie, self._fetch_embedding(curie, model), None
+            except requests.RequestException as e:
+                return curie, None, e
+
+        failures = []
+        with ThreadPoolExecutor(max_workers=EMBEDDING_FETCH_WORKERS) as executor:
+            # cache each chunk as it completes, so an interrupted fetch can be resumed
+            for i in range(0, len(missing), EMBEDDING_FETCH_CHUNK):
+                fetched = {}
+                for curie, vector, error in executor.map(
+                    fetch, missing[i : i + EMBEDDING_FETCH_CHUNK]
+                ):
+                    if error is None:
+                        fetched[curie] = vector
+                    else:
+                        failures.append((curie, error))
+                if cache:
+                    cache.put(source, model, fetched)
+                vectors.update(fetched)
+                logger.info(
+                    f"Fetched {min(i + EMBEDDING_FETCH_CHUNK, len(missing))}/{len(missing)}"
+                )
+        if failures:
+            logger.warning(
+                f"Could not fetch {len(failures)} embeddings from OLS (not cached); "
+                f"first error for {failures[0][0]}: {failures[0][1]}"
+            )
         return vectors
 
     def _iter_scored_elements(self, response: requests.Response, limit: int):
