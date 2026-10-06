@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 GENE_REQUESTS_CACHE = ".gene_requests_cache"
 
 
-BASE_URL = "http://api-v3.monarchinitiative.org/v3/api"
+BASE_URL = "https://api-v3.monarchinitiative.org/v3/api"
 
 
 @dataclass
@@ -161,7 +161,13 @@ class MonarchImplementation(
         if defn:
             meta.definition = obograph.DefinitionPropertyValue(val=defn)
         meta.xrefs = [obograph.XrefPropertyValue(val=x) for x in obj.get("xrefs", [])]
-        return obograph.Node(id=curie, lbl=obj.get("symbol", None), type="CLASS", meta=meta)
+        # The v3 entity payload carries the display label in ``name`` for every
+        # category (ontology classes, LOINC measurements, genes...). ``symbol`` is
+        # populated only for genes, where it equals ``name``; reading it alone
+        # left ``label()`` returning None for all non-gene entities.
+        return obograph.Node(
+            id=curie, lbl=obj.get("name") or obj.get("symbol"), type="CLASS", meta=meta
+        )
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         node = self.node(curie)
