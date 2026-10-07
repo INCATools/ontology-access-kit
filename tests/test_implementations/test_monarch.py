@@ -33,6 +33,7 @@ BRCA1 = {
     "symbol": "BRCA1",
     "full_name": "BRCA1 DNA repair associated",
     "xrefs": [],
+    "in_taxon": "NCBITaxon:9606",
 }
 
 # Clinical measurement (LOINC): ``name`` is the LOINC long common name.
@@ -43,6 +44,7 @@ SERUM_POTASSIUM = {
     "symbol": None,
     "description": None,
     "xrefs": [],
+    "in_taxon": None,
 }
 
 ENTITIES = {e["id"]: e for e in (HYPERKALEMIA, BRCA1, SERUM_POTASSIUM)}
@@ -63,6 +65,8 @@ def _fake_get(url: str, **_kwargs) -> MagicMock:
         if curie in ENTITIES:
             return _fake_response(200, ENTITIES[curie])
         return _fake_response(404)
+    if url.startswith(f"{BASE_URL}/association/all"):
+        return _fake_response(200, {"items": [], "total": 0})
     raise AssertionError(f"unexpected URL in test: {url}")
 
 
@@ -96,6 +100,15 @@ class TestMonarchImplementation(unittest.TestCase):
         self.assertEqual(
             self.oi.definition("HP:0002153"),
             HYPERKALEMIA["description"],
+        )
+
+    def test_relationships_skip_null_in_taxon(self):
+        # Non-gene entities carry the key with a null value; yielding an
+        # empty object used to break graph traversal with "Got an empty filler".
+        self.assertEqual(list(self.oi.relationships(subjects=["LOINC:2823-3"])), [])
+        self.assertEqual(
+            list(self.oi.relationships(subjects=["HGNC:1100"])),
+            [("HGNC:1100", "RO:0002162", "NCBITaxon:9606")],
         )
 
     def test_unknown_entity(self):

@@ -203,7 +203,9 @@ class MonarchImplementation(
                     f"Error fetching issues: {response.status_code} from {url} // {response.text}"
                 )
             obj = response.json()
-            if "in_taxon" in obj:
+            # The key is present with a null value on non-gene entities, and an
+            # empty object breaks graph traversal downstream.
+            if obj.get("in_taxon"):
                 yield curie, IN_TAXON, obj["in_taxon"]
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
