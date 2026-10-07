@@ -146,9 +146,12 @@ class MonarchImplementation(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> Optional[obograph.Node]:
         session = self.requests_session()
-        url = f"{BASE_URL}/entity/{curie }"
+        url = f"{BASE_URL}/entity/{curie}"
         response = session.get(url)
         if response.status_code == 500 and not strict:
+            # An unlabelled node is indistinguishable from an unknown term to a
+            # caller that uses label() as an existence check, so say what happened.
+            logger.warning(f"Monarch API returned 500 for {curie}; returning an ID-only node")
             return obograph.Node(id=curie)
         if response.status_code != 200:
             return None

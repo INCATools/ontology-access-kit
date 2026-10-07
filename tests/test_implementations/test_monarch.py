@@ -47,7 +47,13 @@ SERUM_POTASSIUM = {
     "in_taxon": None,
 }
 
-ENTITIES = {e["id"]: e for e in (HYPERKALEMIA, BRCA1, SERUM_POTASSIUM)}
+# Hypothetical payload with no ``name``: the ``symbol`` fallback is kept for it.
+SYMBOL_ONLY = {"id": "HGNC:0", "category": "biolink:Gene", "symbol": "SYMONLY", "xrefs": []}
+
+# CURIE for which the fake API answers HTTP 500.
+SERVER_ERROR_CURIE = "HP:0000500"
+
+ENTITIES = {e["id"]: e for e in (HYPERKALEMIA, BRCA1, SERUM_POTASSIUM, SYMBOL_ONLY)}
 
 
 def _fake_response(status_code: int, payload=None) -> MagicMock:
@@ -64,6 +70,8 @@ def _fake_get(url: str, **_kwargs) -> MagicMock:
         curie = url[len(prefix) :]
         if curie in ENTITIES:
             return _fake_response(200, ENTITIES[curie])
+        if curie == SERVER_ERROR_CURIE:
+            return _fake_response(500)
         return _fake_response(404)
     if url.startswith(f"{BASE_URL}/association/all"):
         return _fake_response(200, {"items": [], "total": 0})
@@ -101,6 +109,19 @@ class TestMonarchImplementation(unittest.TestCase):
             self.oi.definition("HP:0002153"),
             HYPERKALEMIA["description"],
         )
+
+    def test_label_falls_back_to_symbol(self):
+        self.assertEqual(self.oi.label("HGNC:0"), "SYMONLY")
+
+    def test_server_error_returns_id_only_node_unless_strict(self):
+        with self.assertLogs(
+            "oaklib.implementations.monarch.monarch_implementation", level="WARNING"
+        ) as logs:
+            node = self.oi.node(SERVER_ERROR_CURIE)
+        self.assertEqual(node.id, SERVER_ERROR_CURIE)
+        self.assertIsNone(node.lbl)
+        self.assertTrue(any("500" in line for line in logs.output))
+        self.assertIsNone(self.oi.node(SERVER_ERROR_CURIE, strict=True))
 
     def test_relationships_skip_null_in_taxon(self):
         # Non-gene entities carry the key with a null value; yielding an
