@@ -35,8 +35,12 @@ dependencies = [
     "airium>=0.2.5",
     "ndex2>=3.5.0",
     "pysolr>=3.9.0,<4",
-    "eutils>=0.6.0", #TODO: eutils==0.6.1 is only created for python>=3.12. It's forcing us to use setuptools. We need to go into the innards of the code and replace this dependency with an api call - GHIssue 852
-    "setuptools<82", #We need this for eutils==0.6.0    
+    # eutils 0.6.1 removes pkg_resources but requires Python >=3.12. Keep the
+    # legacy setuptools cap only on interpreters that still need eutils 0.6.0.
+    # Replacing the remaining eutils dependency is tracked in issue #852.
+    "eutils>=0.6.0,<0.6.1; python_version < '3.12'",
+    "eutils>=0.6.1; python_version >= '3.12'",
+    "setuptools<82; python_version < '3.12'",
     "lxml>5.4.0", # floor for 3.14 wheels; needed for eutils `>=0.6.0`
     "requests-cache>1.0.1,<2",
     "click",
@@ -162,4 +166,3 @@ target-version = "py310"
 [tool.ruff.lint.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
-
