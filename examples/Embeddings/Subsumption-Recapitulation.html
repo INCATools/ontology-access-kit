@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subsumption Recapitulation: Do LLM Embeddings Encode the Ontology Hierarchy? &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Phenotype Profile Matching: Classic Semantic Similarity vs LLM Embeddings" href="Phenotype-Profile-Matching.html" />
+    <link rel="prev" title="Ontology Term Embeddings in OAK" href="Embeddings-Tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Embeddings Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Embeddings-Tutorial.html">Ontology Term Embeddings in OAK</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Subsumption Recapitulation: Do LLM Embeddings Encode the Ontology Hierarchy?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Sampling-term-pairs">Sampling term pairs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Vectors-for-every-model">Vectors for every model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#1.-Does-embedding-similarity-track-ontology-similarity?">1. Does embedding similarity track ontology similarity?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.-Is-a-term's-parent-closer-than-its-sibling?">2. Is a term’s parent closer than its sibling?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Where-the-models-get-it-wrong">Where the models get it wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Phenotype-Profile-Matching.html">Phenotype Profile Matching: Classic Semantic Similarity vs LLM Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ontology-vs-Text-Similarity.html">Where Ontology Similarity and Text-Embedding Similarity Disagree</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../AdHoc/index.html">Ad Hoc Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Embeddings Examples</a></li>
+      <li class="breadcrumb-item active">Subsumption Recapitulation: Do LLM Embeddings Encode the Ontology Hierarchy?</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Embeddings/Subsumption-Recapitulation.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Subsumption-Recapitulation:-Do-LLM-Embeddings-Encode-the-Ontology-Hierarchy?">
+<h1>Subsumption Recapitulation: Do LLM Embeddings Encode the Ontology Hierarchy?<a class="headerlink" href="#Subsumption-Recapitulation:-Do-LLM-Embeddings-Encode-the-Ontology-Hierarchy?" title="Link to this heading"></a></h1>
+<p>LLM embeddings of ontology terms are built only from text (labels, and possibly definitions). Ontologies encode <strong>subsumption</strong>: <em>finger syndactyly</em> is a kind of <em>syndactyly</em>. This notebook asks how much of that hierarchy can be recovered from embedding space.</p>
+<p>We compare the four embedding models hosted by OLS with the ontology itself, written as <code class="docutils literal notranslate"><span class="pre">closure</span></code> vectors (each term is a multi-hot vector of its ancestors). All comparisons use the same <code class="docutils literal notranslate"><span class="pre">EmbeddingProviderInterface</span></code> code, so the only thing that changes between rows is the source of the vectors.</p>
+<p><strong>Design.</strong> From the HPO phenotypic abnormality branch we sample:</p>
+<ul class="simple">
+<li><p><strong>parent pairs</strong>: a term and one of its direct <code class="docutils literal notranslate"><span class="pre">is_a</span></code> parents</p></li>
+<li><p><strong>sibling pairs</strong>: the same term and another child of that parent (not subsuming or subsumed); these are the hard negatives, because they are as close in the graph as a parent is</p></li>
+<li><p><strong>random pairs</strong>: two terms drawn at random from the branch</p></li>
+</ul>
+<p>We then ask two questions:</p>
+<ol class="arabic simple">
+<li><p>Does embedding similarity track ontology similarity (closure Jaccard)?</p></li>
+<li><p>For each term, is its <strong>parent</strong> closer than a <strong>sibling</strong>? Cosine is symmetric, so this is the most that a single similarity score can say about subsumption; it cannot tell which term is the parent.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s2">&quot;eutils&quot;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1"># reference palette (categorical slots in fixed order; sequential blue ramp)</span>
+<span class="n">BLUE</span><span class="p">,</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="n">AQUA</span> <span class="o">=</span> <span class="s2">&quot;#2a78d6&quot;</span><span class="p">,</span> <span class="s2">&quot;#eb6834&quot;</span><span class="p">,</span> <span class="s2">&quot;#1baf7a&quot;</span>
+<span class="n">INK</span><span class="p">,</span> <span class="n">INK2</span><span class="p">,</span> <span class="n">GRID</span><span class="p">,</span> <span class="n">SURFACE</span> <span class="o">=</span> <span class="s2">&quot;#0b0b0b&quot;</span><span class="p">,</span> <span class="s2">&quot;#52514e&quot;</span><span class="p">,</span> <span class="s2">&quot;#e4e3df&quot;</span><span class="p">,</span> <span class="s2">&quot;#fcfcfb&quot;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;figure.facecolor&quot;</span><span class="p">:</span> <span class="n">SURFACE</span><span class="p">,</span> <span class="s2">&quot;axes.facecolor&quot;</span><span class="p">:</span> <span class="n">SURFACE</span><span class="p">,</span> <span class="s2">&quot;savefig.facecolor&quot;</span><span class="p">:</span> <span class="n">SURFACE</span><span class="p">,</span>
+    <span class="s2">&quot;axes.edgecolor&quot;</span><span class="p">:</span> <span class="n">GRID</span><span class="p">,</span> <span class="s2">&quot;axes.labelcolor&quot;</span><span class="p">:</span> <span class="n">INK2</span><span class="p">,</span> <span class="s2">&quot;axes.titlecolor&quot;</span><span class="p">:</span> <span class="n">INK</span><span class="p">,</span>
+    <span class="s2">&quot;axes.grid&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;grid.color&quot;</span><span class="p">:</span> <span class="n">GRID</span><span class="p">,</span> <span class="s2">&quot;grid.linewidth&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>
+    <span class="s2">&quot;axes.spines.top&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;axes.spines.right&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;xtick.color&quot;</span><span class="p">:</span> <span class="n">INK2</span><span class="p">,</span> <span class="s2">&quot;ytick.color&quot;</span><span class="p">:</span> <span class="n">INK2</span><span class="p">,</span> <span class="s2">&quot;text.color&quot;</span><span class="p">:</span> <span class="n">INK</span><span class="p">,</span>
+    <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;axes.titlesize&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;figure.dpi&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">SEQUENTIAL</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">blend_palette</span><span class="p">([</span><span class="s2">&quot;#f0efec&quot;</span><span class="p">,</span> <span class="s2">&quot;#86b6ef&quot;</span><span class="p">,</span> <span class="s2">&quot;#2a78d6&quot;</span><span class="p">,</span> <span class="s2">&quot;#0d366b&quot;</span><span class="p">],</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">spearmanr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span>
+
+<span class="n">hp</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="n">ols</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ols:hp&quot;</span><span class="p">)</span>
+<span class="n">MODELS</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">embedding_models</span><span class="p">()</span>
+<span class="n">PHENOTYPIC_ABNORMALITY</span> <span class="o">=</span> <span class="s2">&quot;HP:0000118&quot;</span>
+</pre></div>
+</div>
+</div>
+<section id="Sampling-term-pairs">
+<h2>Sampling term pairs<a class="headerlink" href="#Sampling-term-pairs" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">terms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">hp</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">PHENOTYPIC_ABNORMALITY</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;HP:&quot;</span><span class="p">))</span>
+
+<span class="n">ancestors</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">anc</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ancestors</span><span class="p">:</span>
+        <span class="n">ancestors</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="o">-</span> <span class="p">{</span><span class="s2">&quot;owl:Thing&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">ancestors</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+
+<span class="n">parents</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">hp</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;HP:&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;HP:&quot;</span><span class="p">):</span>
+        <span class="n">parents</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        <span class="n">children</span><span class="p">[</span><span class="n">o</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terms</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">]</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+<span class="n">triples</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">parents</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">(</span><span class="n">PHENOTYPIC_ABNORMALITY</span><span class="p">,</span> <span class="s2">&quot;HP:0000001&quot;</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="n">siblings</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">children</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">c</span> <span class="ow">and</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">anc</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">anc</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">siblings</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">triples</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">siblings</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">triples</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">150</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="n">random_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">terms</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">150</span><span class="p">)]</span>
+
+<span class="n">pairs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">triples</span><span class="p">]</span>
+    <span class="o">+</span> <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;sibling&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">triples</span><span class="p">]</span>
+    <span class="o">+</span> <span class="p">[(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">random_pairs</span><span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;subject&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">all_terms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">object</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s2"> terms in branch; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">triples</span><span class="p">)</span><span class="si">}</span><span class="s2"> (term, parent, sibling) triples; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_terms</span><span class="p">)</span><span class="si">}</span><span class="s2"> distinct terms&quot;</span><span class="p">)</span>
+<span class="n">pairs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+19177 terms in branch; 150 (term, parent, sibling) triples; 729 distinct terms
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kind
+parent     150
+random     150
+sibling    150
+dtype: int64
+</pre></div></div>
+</div>
+</section>
+<section id="Vectors-for-every-model">
+<h2>Vectors for every model<a class="headerlink" href="#Vectors-for-every-model" title="Link to this heading"></a></h2>
+<p>One matrix per model. OLS vectors are cached locally after the first run.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pair_cosines</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">):</span>
+    <span class="n">ids</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">all_terms</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">)}</span>
+    <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;cosine&quot;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">pairs</span><span class="o">.</span><span class="n">object</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ix</span> <span class="ow">or</span> <span class="n">o</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ix</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">ix</span><span class="p">[</span><span class="n">s</span><span class="p">]],</span> <span class="n">m</span><span class="p">[</span><span class="n">ix</span><span class="p">[</span><span class="n">o</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;cosine&quot;</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">a</span> <span class="o">@</span> <span class="n">b</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">|</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="n">pairs</span><span class="p">[</span><span class="s2">&quot;closure_jaccard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair_cosines</span><span class="p">(</span><span class="n">hp</span><span class="p">,</span> <span class="s2">&quot;closure&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;jaccard&quot;</span><span class="p">)</span>
+<span class="n">pairs</span><span class="p">[</span><span class="s2">&quot;closure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair_cosines</span><span class="p">(</span><span class="n">hp</span><span class="p">,</span> <span class="s2">&quot;closure&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">MODELS</span><span class="p">:</span>
+    <span class="n">pairs</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair_cosines</span><span class="p">(</span><span class="n">ols</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<span class="n">SOURCES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;closure&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">MODELS</span>
+<span class="n">pairs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>subject</th>
+      <th>object</th>
+      <th>kind</th>
+      <th>closure_jaccard</th>
+      <th>closure</th>
+      <th>harrier-oss-v1-27b_pca512</th>
+      <th>llama-embed-nemotron-8b_pca512</th>
+      <th>text-embedding-3-large_pca512</th>
+      <th>text-embedding-3-small_pca512</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>HP:0012712</td>
+      <td>HP:0000365</td>
+      <td>parent</td>
+      <td>0.857143</td>
+      <td>0.925820</td>
+      <td>0.826311</td>
+      <td>0.739575</td>
+      <td>0.838928</td>
+      <td>0.819596</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>HP:0100623</td>
+      <td>HP:0000036</td>
+      <td>parent</td>
+      <td>0.900000</td>
+      <td>0.948683</td>
+      <td>0.864599</td>
+      <td>0.876593</td>
+      <td>0.779589</td>
+      <td>0.792845</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>HP:0002343</td>
+      <td>HP:0000238</td>
+      <td>parent</td>
+      <td>0.900000</td>
+      <td>0.948683</td>
+      <td>0.831912</td>
+      <td>0.721223</td>
+      <td>0.837716</td>
+      <td>0.790062</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>HP:6000651</td>
+      <td>HP:0010660</td>
+      <td>parent</td>
+      <td>0.684211</td>
+      <td>0.827170</td>
+      <td>0.930526</td>
+      <td>0.855038</td>
+      <td>0.900561</td>
+      <td>0.873528</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>HP:0033265</td>
+      <td>HP:0031265</td>
+      <td>parent</td>
+      <td>0.923077</td>
+      <td>0.960769</td>
+      <td>0.717179</td>
+      <td>0.471363</td>
+      <td>0.636514</td>
+      <td>0.522678</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="1.-Does-embedding-similarity-track-ontology-similarity?">
+<h2>1. Does embedding similarity track ontology similarity?<a class="headerlink" href="#1.-Does-embedding-similarity-track-ontology-similarity?" title="Link to this heading"></a></h2>
+<p>Each point is a pair of terms. The x-axis is the Jaccard similarity of the two terms’ ancestor sets (classic semantic similarity), and the y-axis is cosine similarity in each model’s embedding space.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">KIND_COLORS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">BLUE</span><span class="p">,</span> <span class="s2">&quot;sibling&quot;</span><span class="p">:</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">:</span> <span class="n">AQUA</span><span class="p">}</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">MODELS</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">MODELS</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">KIND_COLORS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">pairs</span><span class="p">[</span><span class="n">pairs</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">kind</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">closure_jaccard</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+                   <span class="n">edgecolors</span><span class="o">=</span><span class="n">SURFACE</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">kind</span><span class="p">)</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">closure_jaccard</span><span class="p">,</span> <span class="n">pairs</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s2">&quot;omit&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_pca512&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">Spearman ρ = </span><span class="si">{</span><span class="n">rho</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;closure Jaccard (ontology)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;cosine similarity (embedding)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;pair&quot;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_Embeddings_Subsumption-Recapitulation_8_0.png" src="../../_images/examples_Embeddings_Subsumption-Recapitulation_8_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Spearman ρ, all pairs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">spearmanr</span><span class="p">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">closure_jaccard</span><span class="p">,</span> <span class="n">pairs</span><span class="p">[</span><span class="n">m</span><span class="p">],</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s2">&quot;omit&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">SOURCES</span><span class="p">],</span>
+    <span class="s2">&quot;Spearman ρ, parent + sibling only&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">spearmanr</span><span class="p">(</span><span class="o">*</span><span class="n">pairs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pairs</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;closure_jaccard&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s2">&quot;omit&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">SOURCES</span>
+    <span class="p">],</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">SOURCES</span><span class="p">)</span>
+<span class="n">corr</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Spearman ρ, all pairs</th>
+      <th>Spearman ρ, parent + sibling only</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>closure</th>
+      <td>0.999</td>
+      <td>0.999</td>
+    </tr>
+    <tr>
+      <th>harrier-oss-v1-27b_pca512</th>
+      <td>0.775</td>
+      <td>0.313</td>
+    </tr>
+    <tr>
+      <th>llama-embed-nemotron-8b_pca512</th>
+      <td>0.687</td>
+      <td>0.108</td>
+    </tr>
+    <tr>
+      <th>text-embedding-3-large_pca512</th>
+      <td>0.768</td>
+      <td>0.297</td>
+    </tr>
+    <tr>
+      <th>text-embedding-3-small_pca512</th>
+      <td>0.739</td>
+      <td>0.230</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>All four LLM models correlate well with ontology similarity when random pairs are included (ρ ≈ 0.7 to 0.8), because unrelated terms are easy to separate. Among closely related terms (parents and siblings only) the correlation falls to ρ ≈ 0.1 to 0.3: in text space, the fine structure of the hierarchy is largely invisible. In the scatter plots, parent pairs (blue) and sibling pairs (orange) overlap almost completely on the y-axis, even though the ontology separates them on the x-axis. (The
+<code class="docutils literal notranslate"><span class="pre">closure</span></code> row is a sanity check: cosine and Jaccard over the same binary vectors are nearly monotonic.)</p>
+</section>
+<section id="2.-Is-a-term's-parent-closer-than-its-sibling?">
+<h2>2. Is a term’s parent closer than its sibling?<a class="headerlink" href="#2.-Is-a-term's-parent-closer-than-its-sibling?" title="Link to this heading"></a></h2>
+<p>For each sampled term, we check whether cosine(term, parent) &gt; cosine(term, sibling). Chance is 50%.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">par</span> <span class="o">=</span> <span class="n">pairs</span><span class="p">[</span><span class="n">pairs</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sib</span> <span class="o">=</span> <span class="n">pairs</span><span class="p">[</span><span class="n">pairs</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;sibling&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wilson</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">1.96</span><span class="p">):</span>
+    <span class="c1"># 95% Wilson score interval for a proportion</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="n">n</span>
+    <span class="n">centre</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">centre</span> <span class="o">-</span> <span class="n">half</span><span class="p">,</span> <span class="n">centre</span> <span class="o">+</span> <span class="n">half</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">SOURCES</span><span class="p">:</span>
+    <span class="n">k</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">par</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">sib</span><span class="p">[</span><span class="n">m</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="nb">len</span><span class="p">(</span><span class="n">par</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">wilson</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;parent closer than sibling&quot;</span><span class="p">:</span> <span class="n">k</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;95% CI low&quot;</span><span class="p">:</span> <span class="n">lo</span><span class="p">,</span> <span class="s2">&quot;95% CI high&quot;</span><span class="p">:</span> <span class="n">hi</span><span class="p">})</span>
+<span class="n">wins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">))</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_pca512&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">SOURCES</span><span class="p">]</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">wins</span><span class="p">[</span><span class="s2">&quot;parent closer than sibling&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">err</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="o">-</span> <span class="n">wins</span><span class="p">[</span><span class="s2">&quot;95% CI low&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">wins</span><span class="p">[</span><span class="s2">&quot;95% CI high&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">v</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">err</span><span class="p">,</span> <span class="n">error_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ecolor&quot;</span><span class="p">:</span> <span class="n">INK2</span><span class="p">,</span> <span class="s2">&quot;elinewidth&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;capsize&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;chance&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;axes fraction&quot;</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">wins</span><span class="p">[</span><span class="s2">&quot;95% CI high&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">hi</span> <span class="o">+</span> <span class="mf">0.015</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;fraction of terms whose parent is closer than a sibling (95% CI)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">wins</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>parent closer than sibling</th>
+      <th>95% CI low</th>
+      <th>95% CI high</th>
+    </tr>
+    <tr>
+      <th>source</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>closure</th>
+      <td>0.987</td>
+      <td>0.953</td>
+      <td>0.996</td>
+    </tr>
+    <tr>
+      <th>harrier-oss-v1-27b_pca512</th>
+      <td>0.620</td>
+      <td>0.540</td>
+      <td>0.694</td>
+    </tr>
+    <tr>
+      <th>llama-embed-nemotron-8b_pca512</th>
+      <td>0.447</td>
+      <td>0.369</td>
+      <td>0.527</td>
+    </tr>
+    <tr>
+      <th>text-embedding-3-large_pca512</th>
+      <td>0.587</td>
+      <td>0.507</td>
+      <td>0.662</td>
+    </tr>
+    <tr>
+      <th>text-embedding-3-small_pca512</th>
+      <td>0.493</td>
+      <td>0.414</td>
+      <td>0.573</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_Embeddings_Subsumption-Recapitulation_11_1.png" src="../../_images/examples_Embeddings_Subsumption-Recapitulation_11_1.png" />
+</div>
+</div>
+</section>
+<section id="Where-the-models-get-it-wrong">
+<h2>Where the models get it wrong<a class="headerlink" href="#Where-the-models-get-it-wrong" title="Link to this heading"></a></h2>
+<p>The cases where a model places a sibling closer than the parent show the kinds of structure that text similarity misses: siblings that share most of their wording, and parents with generic labels.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;text-embedding-3-large_pca512&quot;</span>
+<span class="n">miss</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">par</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">sib</span><span class="p">[</span><span class="n">model</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">miss</span><span class="p">[</span><span class="s2">&quot;sibling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sib</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">miss</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">]</span>
+<span class="n">miss</span><span class="p">[</span><span class="s2">&quot;cos(term, parent)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">miss</span><span class="p">[</span><span class="n">model</span><span class="p">]</span>
+<span class="n">miss</span><span class="p">[</span><span class="s2">&quot;cos(term, sibling)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sib</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">miss</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">model</span><span class="p">]</span>
+<span class="n">lbl</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">miss</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">miss</span><span class="o">.</span><span class="n">object</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">miss</span><span class="o">.</span><span class="n">sibling</span><span class="p">)))</span>
+<span class="n">miss</span> <span class="o">=</span> <span class="n">miss</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">term</span><span class="o">=</span><span class="n">miss</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">lbl</span><span class="p">),</span> <span class="n">parent</span><span class="o">=</span><span class="n">miss</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">lbl</span><span class="p">),</span> <span class="n">sibling</span><span class="o">=</span><span class="n">miss</span><span class="o">.</span><span class="n">sibling</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">lbl</span><span class="p">))</span>
+<span class="n">miss</span><span class="p">[[</span><span class="s2">&quot;term&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;sibling&quot;</span><span class="p">,</span> <span class="s2">&quot;cos(term, parent)&quot;</span><span class="p">,</span> <span class="s2">&quot;cos(term, sibling)&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>term</th>
+      <th>parent</th>
+      <th>sibling</th>
+      <th>cos(term, parent)</th>
+      <th>cos(term, sibling)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4</th>
+      <td>Podocyte myelin figures</td>
+      <td>Abnormal glomerular visceral epithelial cell m...</td>
+      <td>Podocyte foot process effacement</td>
+      <td>0.637</td>
+      <td>0.687</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Jumping</td>
+      <td>Stereotypic whole-body movements</td>
+      <td>Stereotypical body rocking</td>
+      <td>0.455</td>
+      <td>0.490</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Excessive purine production</td>
+      <td>Abnormal homeostasis</td>
+      <td>Abnormal glucose homeostasis</td>
+      <td>0.421</td>
+      <td>0.443</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Upper eyelid erythema</td>
+      <td>Eyelid erythema</td>
+      <td>Lower eyelid erythema</td>
+      <td>0.916</td>
+      <td>0.933</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Increased circulating interleukin 8 concentration</td>
+      <td>Abnormal circulating interleukin concentration</td>
+      <td>Increased circulating interleukin 13 concentra...</td>
+      <td>0.713</td>
+      <td>0.725</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Decreased circulating alkaline phosphatase act...</td>
+      <td>Abnormality of alkaline phosphatase level</td>
+      <td>Elevated circulating alkaline phosphatase conc...</td>
+      <td>0.862</td>
+      <td>0.866</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Best corrected visual acuity 0.9 LogMAR</td>
+      <td>Abnormal best corrected visual acuity test</td>
+      <td>Best corrected visual acuity 3.0 LogMAR</td>
+      <td>0.753</td>
+      <td>0.932</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Intrathoracic hemangioma</td>
+      <td>Hemangioma</td>
+      <td>Visceral hemangioma</td>
+      <td>0.753</td>
+      <td>0.797</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Philtrum with midline raphe</td>
+      <td>Abnormality of the philtrum</td>
+      <td>Short philtrum</td>
+      <td>0.616</td>
+      <td>0.725</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Triceps areflexia</td>
+      <td>Areflexia of upper limbs</td>
+      <td>Biceps areflexia</td>
+      <td>0.803</td>
+      <td>0.908</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Coarse structure: yes.</strong> All four OLS-hosted LLM embedding models separate related from unrelated HPO terms well.</p></li>
+<li><p><strong>Fine structure: barely.</strong> Given a term, its direct parent is not reliably closer than a sibling. The best models (harrier, text-embedding-3-large) are only modestly above chance, and nemotron and text-embedding-3-small are at chance. The ontology closure gets this right 99% of the time (the misses involve terms with several parents).</p></li>
+<li><p><strong>Direction: no.</strong> Cosine similarity is symmetric, so embeddings alone cannot say which of two terms subsumes the other. That needs the ontology, or an asymmetric scoring method such as a trained entailment classifier.</p></li>
+</ul>
+<p>In practice, LLM embeddings are useful for finding the right neighbourhood (search, grounding, candidate mappings), but they should not stand in for the hierarchy when exact subsumption matters.</p>
+<p><strong>Caveats.</strong> 150 triples per condition gives 95% intervals of about ±8 percentage points, so differences between the LLM models are indicative only. OLS embeds a fixed text per class (see <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/issues/918">#918</a>), and embedding labels plus definitions may behave differently; the <code class="docutils literal notranslate"><span class="pre">llm:</span></code> adapter can test that. Increase the sample size in the sampling cell to tighten the estimates. Vectors are cached, so only new terms are fetched from OLS.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Embeddings-Tutorial.html" class="btn btn-neutral float-left" title="Ontology Term Embeddings in OAK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Phenotype-Profile-Matching.html" class="btn btn-neutral float-right" title="Phenotype Profile Matching: Classic Semantic Similarity vs LLM Embeddings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

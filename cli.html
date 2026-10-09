@@ -89,6 +89,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-via-mappings">diff-via-mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-disjoints">disjoints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-embedding-models">embedding-models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-embedding-similarity">embedding-similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-embeddings">embeddings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-enrichment">enrichment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-expand-subsets">expand-subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract">extract</a></li>
@@ -108,6 +111,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-logical-definitions">logical-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-mappings">mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-migrate-curies">migrate-curies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-nearest-entities">nearest-entities</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-normalize">normalize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-obsoletes">obsoletes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-ontologies">ontologies</a></li>
@@ -2522,6 +2526,154 @@ to avoid killer queries.</p>
 </dd></dl>
 
 </section>
+<section id="runoak-embedding-models">
+<h4>embedding-models<a class="headerlink" href="#runoak-embedding-models" title="Link to this heading"></a></h4>
+<p>List the embedding models available for an adapter.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ols:hp embedding-models</p>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">closure</span></code> model is available for any adapter that can compute ancestors; it
+encodes each term as a multi-hot vector of its reflexive ancestors.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>embedding-models<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-models-o">
+<span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embedding-models-o" title="Link to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-models-O">
+<span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embedding-models-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+</section>
+<section id="runoak-embedding-similarity">
+<h4>embedding-similarity<a class="headerlink" href="#runoak-embedding-similarity" title="Link to this heading"></a></h4>
+<p>All by all similarity of terms using embeddings.</p>
+<p>Use “&#64;” to separate the two sets of terms; without it, all terms are compared
+with each other.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ols:hp embedding-similarity HP:0001159 HP:0006101 &#64; HP:0001770 HP:0000118</p>
+</div></blockquote>
+<p>Comparing classic ontology closure vectors:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:hp embedding-similarity -m closure –metric jaccard HP:0001159 &#64; HP:0001770</p>
+</div></blockquote>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>embedding-similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-m">
+<span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-m" title="Link to this definition"></a></dt>
+<dd><p>Embedding model; see the embedding-models command. Defaults to the adapter default.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-o">
+<span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-o" title="Link to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-O">
+<span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-autolabel">
+<span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-autolabel" title="Link to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-metric">
+<span class="sig-name descname"><span class="pre">--metric</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;metric&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-metric" title="Link to this definition"></a></dt>
+<dd><p>Vector similarity metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'cosine'</span></code></p>
+</dd>
+<dt class="field-even">Options<span class="colon">:</span></dt>
+<dd class="field-even"><p>cosine | jaccard</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-matrix">
+<span class="sig-name descname"><span class="pre">--matrix</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-matrix</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-matrix" title="Link to this definition"></a></dt>
+<dd><p>If set, write a wide subject x object matrix (TSV) rather than one row per pair</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-arg-TERMS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-embeddings">
+<h4>embeddings<a class="headerlink" href="#runoak-embeddings" title="Link to this heading"></a></h4>
+<p>Export embedding vectors for terms, one row per term.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ols:hp embeddings .desc//p=i HP:0001155 -m text-embedding-3-small_pca512 -o hand.tsv</p>
+</div></blockquote>
+<p>Using ontology closure vectors:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:hp embeddings -m closure .desc//p=i HP:0001155 -o hand-closure.tsv</p>
+</div></blockquote>
+<p>Vectors from OLS are cached locally, so repeated calls do not re-query OLS.</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/packages/interfaces/embedding-provider">https://incatools.github.io/ontology-access-kit/packages/interfaces/embedding-provider</a></p>
+</div></blockquote>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>embeddings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embeddings-m">
+<span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embeddings-m" title="Link to this definition"></a></dt>
+<dd><p>Embedding model; see the embedding-models command. Defaults to the adapter default.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embeddings-o">
+<span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embeddings-o" title="Link to this definition"></a></dt>
+<dd><p>Output path. The format is chosen by suffix: .parquet, .csv, or .tsv (default).</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-embeddings-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-embeddings-arg-TERMS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-enrichment">
 <h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Link to this heading"></a></h4>
 <p>Run class enrichment analysis.</p>
@@ -4127,6 +4279,82 @@ source and the target</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-migrate-curies-arg-CURIE_PAIRS">
 <span class="sig-name descname"><span class="pre">CURIE_PAIRS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-migrate-curies-arg-CURIE_PAIRS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-nearest-entities">
+<h4>nearest-entities<a class="headerlink" href="#runoak-nearest-entities" title="Link to this heading"></a></h4>
+<p>Find the entities with the most similar embeddings.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ols:hp nearest-entities HP:0001159 -L 5</p>
+</div></blockquote>
+<p>Free text queries (embedded by the adapter; for OLS only some models support this):</p>
+<blockquote>
+<div><p>runoak -i ols:hp nearest-entities –text “webbed fingers”</p>
+</div></blockquote>
+<p>Scores are cosine similarities.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>nearest-entities<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-nearest-entities-m">
+<span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-nearest-entities-m" title="Link to this definition"></a></dt>
+<dd><p>Embedding model; see the embedding-models command. Defaults to the adapter default.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-nearest-entities-o">
+<span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-nearest-entities-o" title="Link to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-nearest-entities-O">
+<span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-nearest-entities-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-nearest-entities-autolabel">
+<span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-nearest-entities-autolabel" title="Link to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-nearest-entities-L">
+<span class="sig-name descname"><span class="pre">-L</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--limit</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;limit&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-nearest-entities-L" title="Link to this definition"></a></dt>
+<dd><p>Number of results per query</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-nearest-entities-text">
+<span class="sig-name descname"><span class="pre">--text</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-text</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-nearest-entities-text" title="Link to this definition"></a></dt>
+<dd><p>If set, each argument is treated as free text rather than a term query</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-nearest-entities-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-nearest-entities-arg-TERMS" title="Link to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 

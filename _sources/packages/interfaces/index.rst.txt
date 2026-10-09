@@ -43,6 +43,7 @@ The most common operations are found in the :ref:`basic_ontology_interface`
    differ
    patcher
    semantic-similarity
+   embedding-provider
    association-provider
    class-enrichment
    dumper

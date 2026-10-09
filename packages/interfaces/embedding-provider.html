@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Embedding Provider Interface &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Association Provider Interface" href="association-provider.html" />
+    <link rel="prev" title="Semantic Similarity Interface" href="semantic-similarity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">OAK Library Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html">Search Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html">Validator Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html">Differ Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Embedding Provider Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface"><code class="docutils literal notranslate"><span class="pre">EmbeddingProviderInterface</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html">Dumper Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregator.html">Aggregator Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../selectors.html">Ontology Adapter Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../converters/index.html">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">OAK Library Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">Embedding Provider Interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/packages/interfaces/embedding-provider.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="embedding-provider-interface">
+<span id="id1"></span><h1>Embedding Provider Interface<a class="headerlink" href="#embedding-provider-interface" title="Link to this heading"></a></h1>
+<p>Provides vector embeddings for ontology entities, as numpy matrices or pandas
+DataFrames, together with operations derived from them: pairwise and all-by-all
+similarity, nearest-neighbour search, and set-wise (best match average) comparison.</p>
+<p>Implementations:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../implementations/ols.html#ols-implementation"><span class="std std-ref">Ontology Lookup Service (OLS) Adapter</span></a> serves precomputed embeddings for several models
+(see <code class="docutils literal notranslate"><span class="pre">embedding_models()</span></code>), cached locally so OLS is only asked once per
+term and model. The cache follows the OAK <code class="docutils literal notranslate"><span class="pre">--caching</span></code> policy (default: refresh
+after 1 month). OLS reports similarity as <code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">cosine)</span> <span class="pre">/</span> <span class="pre">2</span></code>; OAK converts this
+back to plain cosine.</p></li>
+<li><p>Any adapter that can compute ancestors (e.g. <code class="docutils literal notranslate"><span class="pre">sqlite</span></code>) provides the <code class="docutils literal notranslate"><span class="pre">closure</span></code>
+model, in which each term is a multi-hot vector of its reflexive ancestors. This
+puts classic ontology-based similarity on the same footing as learned embeddings;
+e.g. Jaccard over closure vectors is identical to ancestor-set Jaccard.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ols</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ols:hp&quot;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">([</span><span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0006101&quot;</span><span class="p">])</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ols</span><span class="o">.</span><span class="n">embedding_similarity</span><span class="p">(</span><span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0006101&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;text-embedding-3-small_pca512&quot;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ols</span><span class="o">.</span><span class="n">nearest_entities_to_text</span><span class="p">(</span><span class="s2">&quot;webbed fingers&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>  
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="../../examples/Embeddings/index.html#embeddings-examples"><span class="std std-ref">Embeddings Examples</span></a> notebooks for worked examples, and the
+<code class="docutils literal notranslate"><span class="pre">embedding-models</span></code>, <code class="docutils literal notranslate"><span class="pre">embeddings</span></code>, <code class="docutils literal notranslate"><span class="pre">nearest-entities</span></code> and <code class="docutils literal notranslate"><span class="pre">embedding-similarity</span></code>
+commands for command-line access.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.embedding_provider_interface.</span></span><span class="sig-name descname"><span class="pre">EmbeddingProviderInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_prefix_map:</span> <span class="pre">~typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface" title="Link to this definition"></a></dt>
+<dd><p>Provides vector embeddings for entities, and operations over them.</p>
+<p>The core method is <a class="reference internal" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings" title="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">entity_embeddings()</span></code></a>, which returns a numpy matrix with one
+row per entity. Similarity, nearest-neighbour search and set-wise (best match)
+comparison are derived from it, so a backend only needs to supply vectors;
+backends that can do more natively (e.g. server-side vector search) override
+the relevant methods.</p>
+<p>Each backend offers one or more named <em>models</em> (see <a class="reference internal" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_models" title="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_models"><code class="xref py py-meth docutils literal notranslate"><span class="pre">embedding_models()</span></code></a>).
+Vectors from different models are not comparable.</p>
+<p>Any adapter that also implements <code class="xref py py-class docutils literal notranslate"><span class="pre">OboGraphInterface</span></code> additionally supports
+the <code class="docutils literal notranslate"><span class="pre">closure</span></code> pseudo-model, in which each term is a multi-hot vector of its
+reflexive ancestors. This makes classic ontology-based similarity directly
+comparable with learned embeddings:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.db&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ids</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">([</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">,</span> <span class="s2">&quot;GO:0005635&quot;</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;closure&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">embedding_similarity</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">,</span> <span class="s2">&quot;GO:0005634&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;closure&quot;</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.default_embedding_model">
+<span class="sig-name descname"><span class="pre">default_embedding_model</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.default_embedding_model" title="Link to this definition"></a></dt>
+<dd><p>Model used when none is specified.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.closure_embedding_predicates">
+<span class="sig-name descname"><span class="pre">closure_embedding_predicates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.closure_embedding_predicates" title="Link to this definition"></a></dt>
+<dd><p>Predicates traversed by the <code class="docutils literal notranslate"><span class="pre">closure</span></code> model; None means is_a only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_models">
+<span class="sig-name descname"><span class="pre">embedding_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.embedding_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_models" title="Link to this definition"></a></dt>
+<dd><p>Names of the models this adapter can provide embeddings for.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of model names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings">
+<span class="sig-name descname"><span class="pre">entity_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.entity_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings" title="Link to this definition"></a></dt>
+<dd><p>Embed a collection of entities as a matrix.</p>
+<p>Entities for which no vector is available are dropped; the returned list
+gives the entity for each row, in input order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curies</strong> – entities to embed</p></li>
+<li><p><strong>model</strong> – model name; defaults to the adapter’s default model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of (curies, matrix with one row per curie)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embedding">
+<span class="sig-name descname"><span class="pre">entity_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.entity_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embedding" title="Link to this definition"></a></dt>
+<dd><p>Embed a single entity.</p>
+<p>Note that for the <code class="docutils literal notranslate"><span class="pre">closure</span></code> model the vector dimensions depend on the set of
+entities embedded together, so use <a class="reference internal" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings" title="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">entity_embeddings()</span></code></a> to compare.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – entity to embed</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vector, or None if the entity has no embedding</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embeddings_dataframe">
+<span class="sig-name descname"><span class="pre">embeddings_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.embeddings_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embeddings_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Embed a collection of entities as a DataFrame indexed by entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curies</strong> – entities to embed</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame with one row per entity and one column per dimension</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.text_embedding">
+<span class="sig-name descname"><span class="pre">text_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.text_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.text_embedding" title="Link to this definition"></a></dt>
+<dd><p>Embed arbitrary text, using the same space as the entity embeddings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> – text to embed</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_similarity_matrix">
+<span class="sig-name descname"><span class="pre">embedding_similarity_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subjects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cosine'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.embedding_similarity_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_similarity_matrix" title="Link to this definition"></a></dt>
+<dd><p>All-by-all similarity between two sets of entities.</p>
+<p>Entities without embeddings are omitted from the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subjects</strong> – row entities</p></li>
+<li><p><strong>objects</strong> – column entities; defaults to subjects</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+<li><p><strong>metric</strong> – <code class="docutils literal notranslate"><span class="pre">cosine</span></code> (default) or <code class="docutils literal notranslate"><span class="pre">jaccard</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame indexed by subject, with a column per object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_similarity">
+<span class="sig-name descname"><span class="pre">embedding_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cosine'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.embedding_similarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_similarity" title="Link to this definition"></a></dt>
+<dd><p>Similarity between a pair of entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subject</strong> – first entity</p></li>
+<li><p><strong>object</strong> – second entity</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+<li><p><strong>metric</strong> – <code class="docutils literal notranslate"><span class="pre">cosine</span></code> (default) or <code class="docutils literal notranslate"><span class="pre">jaccard</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>similarity score, or None if either entity has no embedding</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_pairwise_similarity">
+<span class="sig-name descname"><span class="pre">embedding_pairwise_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TermPairwiseSimilarity</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.embedding_pairwise_similarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_pairwise_similarity" title="Link to this definition"></a></dt>
+<dd><p>Pairwise similarity as a <code class="xref py py-class docutils literal notranslate"><span class="pre">TermPairwiseSimilarity</span></code> object.</p>
+<p>Only the <code class="docutils literal notranslate"><span class="pre">cosine_similarity</span></code> slot is populated. This allows embedding-based
+scores to be used anywhere semantic similarity results are expected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subject</strong> – first entity</p></li>
+<li><p><strong>object</strong> – second entity</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>similarity object, or None if either entity has no embedding</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_termset_similarity">
+<span class="sig-name descname"><span class="pre">embedding_termset_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subjects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cosine'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TermSetPairwiseSimilarity</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.embedding_termset_similarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_termset_similarity" title="Link to this definition"></a></dt>
+<dd><p>Compare two sets of entities using best-match average over vector similarity.</p>
+<p>This is the embedding analog of
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.termset_pairwise_similarity()</span></code>; the score of
+each best match is the vector similarity under <code class="docutils literal notranslate"><span class="pre">metric</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subjects</strong> – first set of entities (e.g. a patient’s phenotypes)</p></li>
+<li><p><strong>objects</strong> – second set of entities (e.g. a disease’s phenotypes)</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+<li><p><strong>labels</strong> – if True, populate labels</p></li>
+<li><p><strong>metric</strong> – <code class="docutils literal notranslate"><span class="pre">cosine</span></code> (default) or <code class="docutils literal notranslate"><span class="pre">jaccard</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set-wise similarity, with <code class="docutils literal notranslate"><span class="pre">average_score</span></code> as the best-match average</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities">
+<span class="sig-name descname"><span class="pre">nearest_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.nearest_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities" title="Link to this definition"></a></dt>
+<dd><p>Find the entities whose embeddings are most similar to that of a given entity.</p>
+<p>The default implementation is a brute-force comparison against <code class="docutils literal notranslate"><span class="pre">candidates</span></code>
+(by default, all entities in the adapter). Backends with a vector index
+override this.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – query entity</p></li>
+<li><p><strong>limit</strong> – maximum number of results</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+<li><p><strong>candidates</strong> – entities to search over</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>iterator of (entity, score) tuples, best first (excluding the query entity)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities_to_vector">
+<span class="sig-name descname"><span class="pre">nearest_entities_to_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.nearest_entities_to_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities_to_vector" title="Link to this definition"></a></dt>
+<dd><p>Find the entities whose embeddings are most similar to a given vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vector</strong> – query vector, in the space of <code class="docutils literal notranslate"><span class="pre">model</span></code></p></li>
+<li><p><strong>limit</strong> – maximum number of results</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+<li><p><strong>candidates</strong> – entities to search over</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>iterator of (entity, score) tuples, best first</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities_to_text">
+<span class="sig-name descname"><span class="pre">nearest_entities_to_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/embedding_provider_interface.html#EmbeddingProviderInterface.nearest_entities_to_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities_to_text" title="Link to this definition"></a></dt>
+<dd><p>Find the entities whose embeddings are most similar to an embedding of some text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> – query text</p></li>
+<li><p><strong>limit</strong> – maximum number of results</p></li>
+<li><p><strong>model</strong> – model name</p></li>
+<li><p><strong>candidates</strong> – entities to search over</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>iterator of (entity, score) tuples, best first</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="semantic-similarity.html" class="btn btn-neutral float-left" title="Semantic Similarity Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="association-provider.html" class="btn btn-neutral float-right" title="Association Provider Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

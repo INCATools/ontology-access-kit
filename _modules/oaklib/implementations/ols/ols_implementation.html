@@ -84,16 +84,21 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.implementations.ols.ols_implementation</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChainMap</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChainMap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">quote</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pystow</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ols_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">EBIClient</span><span class="p">,</span> <span class="n">TIBClient</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sssom_schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">TIMEOUT_SECONDS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">FILE_CACHE</span><span class="p">,</span> <span class="n">TIMEOUT_SECONDS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels</span><span class="w"> </span><span class="kn">import</span> <span class="n">oxo</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.oxo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScopeEnum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchProperty</span>
@@ -102,11 +107,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.ols.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SEARCH_CONFIG</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.implementations.ols.oxo_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_oxo_payload</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">PREFIX_MAP</span><span class="p">,</span> <span class="n">RELATIONSHIP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.embedding_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmbeddingProviderInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.mapping_provider_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphTraversalMethod</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.search_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.text_annotator_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">LANGUAGE_TAG</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.embeddings.embedding_cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmbeddingCache</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># Abstract classes</span>
@@ -116,8 +123,16 @@
     <span class="s2">&quot;TIBOlsImplementation&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
 <span class="n">ANNOTATION</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <span class="n">SEARCH_ROWS</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">EMBEDDING_CACHE_NAME</span> <span class="o">=</span> <span class="s2">&quot;ols-embeddings.db&quot;</span>
+<span class="n">EMBEDDING_FETCH_WORKERS</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">EMBEDDING_FETCH_CHUNK</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">EMBEDDING_FETCH_RETRIES</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">OBSOLETE_HEADROOM</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="sd">&quot;&quot;&quot;Extra results requested from OLS so that filtering obsoletes still yields enough.&quot;&quot;&quot;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_double_quote_iri</span><span class="p">(</span><span class="n">iri</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -173,7 +188,9 @@
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">BaseOlsImplementation</span><span class="p">(</span><span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">TextAnnotatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseOlsImplementation</span><span class="p">(</span>
+    <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">TextAnnotatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">EmbeddingProviderInterface</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation over OLS and OxO APIs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -185,6 +202,12 @@
     <span class="n">_prefix_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{})</span>
     <span class="n">focus_ontology</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Client</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">use_embedding_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If True, embeddings fetched from OLS are stored in a local sqlite cache.&quot;&quot;&quot;</span>
+    <span class="n">embedding_filter_obsoletes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If True, obsolete classes are removed from embedding search results.&quot;&quot;&quot;</span>
+    <span class="n">_embedding_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EmbeddingCache</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_embedding_model_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ols_client_class</span><span class="p">()</span>
@@ -708,6 +731,227 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">oxo_s</span><span class="o">.</span><span class="n">curie</span><span class="p">,</span> <span class="n">oxo_s</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">oxo_o</span><span class="o">.</span><span class="n">curie</span><span class="p">,</span> <span class="n">oxo_o</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
             <span class="k">yield</span> <span class="n">mapping</span>
+
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1"># Implements: EmbeddingProviderInterface</span>
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1">#</span>
+    <span class="c1"># OLS serves precomputed class embeddings for several models. Note that OLS</span>
+    <span class="c1"># reports similarity scores rescaled to [0, 1] as (1 + cosine) / 2; we convert</span>
+    <span class="c1"># these back to plain cosine similarity, so that scores are consistent with</span>
+    <span class="c1"># those computed locally from the vectors.</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_embedding_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/v2/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_embedding_request</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_api</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_embedding_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EmbeddingCache</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_embedding_cache</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># honors the OAK cache policy (e.g. `runoak --caching`); default is 1 month</span>
+            <span class="n">policy</span> <span class="o">=</span> <span class="n">FILE_CACHE</span><span class="o">.</span><span class="n">_get_policy</span><span class="p">(</span><span class="n">EMBEDDING_CACHE_NAME</span><span class="p">)</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">pystow</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;oaklib&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">EMBEDDING_CACHE_NAME</span><span class="p">)</span>
+            <span class="n">cache</span> <span class="o">=</span> <span class="n">EmbeddingCache</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">is_stale</span><span class="o">=</span><span class="n">policy</span><span class="o">.</span><span class="n">refresh</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">policy</span><span class="o">.</span><span class="n">reset</span><span class="p">:</span>
+                <span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+                <span class="n">cache</span><span class="o">.</span><span class="n">is_stale</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_cache</span> <span class="o">=</span> <span class="n">cache</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_cache</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_embedding_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove locally cached embeddings for this OLS instance.&quot;&quot;&quot;</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_embedding_cache</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cache</span><span class="p">:</span>
+            <span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_embedding_models_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_model_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_request</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;llm_models&quot;</span><span class="p">)</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_model_info</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not retrieve embedding models from OLS: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_model_info</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_model_info</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">embedding_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Names of the embedding models served by this OLS instance.</span>
+
+<span class="sd">        The first model is the OLS default.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_models_info</span><span class="p">()]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_text_embedding_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_models_info</span><span class="p">()</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;can_embed&quot;</span><span class="p">)]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">iri</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;classes/</span><span class="si">{</span><span class="n">_double_quote_iri</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span><span class="si">}</span><span class="s2">/llm_embedding&quot;</span>
+        <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EMBEDDING_FETCH_RETRIES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_request</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">})</span>
+                <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">not_found</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">None</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+                <span class="n">vector</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="k">if</span> <span class="n">vector</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="n">attempt</span> <span class="o">==</span> <span class="n">EMBEDDING_FETCH_RETRIES</span> <span class="ow">or</span> <span class="p">(</span><span class="n">status</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">status</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">):</span>
+                    <span class="k">raise</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrying </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2"> after error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">attempt</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_embeddings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_embedding_cache</span><span class="p">()</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">base_url</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">curies</span><span class="p">)</span> <span class="k">if</span> <span class="n">cache</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">vectors</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fetching </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2"> embeddings for </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> from OLS&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">curie</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_embedding</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">model</span><span class="p">),</span> <span class="kc">None</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">curie</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">e</span>
+
+        <span class="n">failures</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">EMBEDDING_FETCH_WORKERS</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="c1"># cache each chunk as it completes, so an interrupted fetch can be resumed</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">),</span> <span class="n">EMBEDDING_FETCH_CHUNK</span><span class="p">):</span>
+                <span class="n">fetched</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">vector</span><span class="p">,</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                    <span class="n">fetch</span><span class="p">,</span> <span class="n">missing</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">EMBEDDING_FETCH_CHUNK</span><span class="p">]</span>
+                <span class="p">):</span>
+                    <span class="k">if</span> <span class="n">error</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">fetched</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">failures</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curie</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">cache</span><span class="p">:</span>
+                    <span class="n">cache</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">fetched</span><span class="p">)</span>
+                <span class="n">vectors</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fetched</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Fetched </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">EMBEDDING_FETCH_CHUNK</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">))</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">failures</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not fetch </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">failures</span><span class="p">)</span><span class="si">}</span><span class="s2"> embeddings from OLS (not cached); &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;first error for </span><span class="si">{</span><span class="n">failures</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">failures</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">vectors</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_iter_scored_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;elements&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="c1"># OLS returns obsolete classes and has no parameter to exclude them</span>
+            <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;isObsolete&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_filter_obsoletes</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">element</span><span class="p">[</span><span class="s2">&quot;iri&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iri&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">curie</span> <span class="o">=</span> <span class="n">curie</span> <span class="ow">or</span> <span class="n">_scalar</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;curie&quot;</span><span class="p">))</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">_scalar</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">curie</span> <span class="ow">and</span> <span class="n">label</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;score&quot;</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">score</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nearest_entities</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">candidates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the classes with the most similar embeddings, using the OLS vector index.</span>
+
+<span class="sd">        Results are not restricted to the focus ontology.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">nearest_entities</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_request</span><span class="p">(</span>
+            <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;classes/</span><span class="si">{</span><span class="n">_double_quote_iri</span><span class="p">(</span><span class="n">iri</span><span class="p">)</span><span class="si">}</span><span class="s2">/llm_similar&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">limit</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">OBSOLETE_HEADROOM</span><span class="p">},</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">not_found</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_scored_elements</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">limit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">curie</span><span class="p">]</span>
+        <span class="k">yield from</span> <span class="n">results</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nearest_entities_to_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">candidates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the classes closest to a vector, using the OLS vector index.</span>
+
+<span class="sd">        If a focus ontology is set, results are restricted to it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">nearest_entities_to_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">limit</span> <span class="o">+</span> <span class="n">OBSOLETE_HEADROOM</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;ontologyId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_request</span><span class="p">(</span>
+            <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;classes/llm_embedding&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vector</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_scored_elements</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nearest_entities_to_text</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">candidates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the classes closest to some text, embedded server-side by OLS.</span>
+
+<span class="sd">        Only some OLS models can embed text; if no model is specified, the first such</span>
+<span class="sd">        model is used. If a focus ontology is set, results are restricted to it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">nearest_entities_to_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">text_models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text_embedding_models</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">text_models</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This OLS instance has no models that can embed text&quot;</span><span class="p">)</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">text_models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_models</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OLS cannot embed text with </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">; use one of </span><span class="si">{</span><span class="n">text_models</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">limit</span> <span class="o">+</span> <span class="n">OBSOLETE_HEADROOM</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;ontologyId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding_request</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;classes/llm_search&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_scored_elements</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
 
     <span class="c1"># def fill_gaps(self, msdoc: MappingSetDocument, confidence: float = 1.0) -&gt; int:</span>
     <span class="c1">#     curie_map = curie_to_uri_map(msdoc)</span>

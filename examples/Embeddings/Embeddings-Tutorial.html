@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ontology Term Embeddings in OAK &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Subsumption Recapitulation: Do LLM Embeddings Encode the Ontology Hierarchy?" href="Subsumption-Recapitulation.html" />
+    <link rel="prev" title="Embeddings Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Commands/index.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ontologies/index.html">Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Adapters/index.html">Adapter Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Interfaces/index.html">Interfaces Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Embeddings Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ontology Term Embeddings in OAK</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Connecting-to-OLS">Connecting to OLS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Vectors-as-numpy-and-pandas">Vectors as numpy and pandas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Pairwise-similarity">Pairwise similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Nearest-neighbours-and-text-search">Nearest neighbours and text search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classic-semantic-similarity-as-vectors:-the-closure-model">Classic semantic similarity as vectors: the <code class="docutils literal notranslate"><span class="pre">closure</span></code> model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Comparing-the-similarity-structure-of-models">Comparing the similarity structure of models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Comparing-sets-of-terms">Comparing sets of terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#LLM-embeddings-computed-on-demand">LLM embeddings computed on demand</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Command-line">Command line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#See-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Subsumption-Recapitulation.html">Subsumption Recapitulation: Do LLM Embeddings Encode the Ontology Hierarchy?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Phenotype-Profile-Matching.html">Phenotype Profile Matching: Classic Semantic Similarity vs LLM Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ontology-vs-Text-Similarity.html">Where Ontology Similarity and Text-Embedding Similarity Disagree</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../AdHoc/index.html">Ad Hoc Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Embeddings Examples</a></li>
+      <li class="breadcrumb-item active">Ontology Term Embeddings in OAK</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/Embeddings/Embeddings-Tutorial.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Ontology-Term-Embeddings-in-OAK">
+<h1>Ontology Term Embeddings in OAK<a class="headerlink" href="#Ontology-Term-Embeddings-in-OAK" title="Link to this heading"></a></h1>
+<p>This notebook introduces the <code class="docutils literal notranslate"><span class="pre">EmbeddingProviderInterface</span></code>, which gives direct access to <strong>vector embeddings of ontology terms</strong> as numpy matrices and pandas DataFrames, along with operations built on them (similarity, nearest neighbours, text search, and best-match comparison of term sets).</p>
+<p>Backends:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Adapter</p></th>
+<th class="head"><p>Models</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ols:&lt;ontology&gt;</span></code></p></td>
+<td><p>precomputed LLM embeddings hosted by <a class="reference external" href="https://www.ebi.ac.uk/ols4">OLS</a></p></td>
+<td><p>several models, 512-d (PCA-reduced); cached locally</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">llm:&lt;adapter&gt;</span></code></p></td>
+<td><p>any embedding model supported by the <a class="reference external" href="https://llm.datasette.io">llm</a> library</p></td>
+<td><p>embeds labels (or labels + definitions) on demand; cached locally</p></td>
+</tr>
+<tr class="row-even"><td><p>any adapter that can compute ancestors (e.g. <code class="docutils literal notranslate"><span class="pre">sqlite:obo:hp</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">closure</span></code></p></td>
+<td><p>each term is a multi-hot vector of its reflexive ancestors</p></td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">closure</span></code> model is how “classic” ontology semantic similarity looks when written as vectors. Jaccard similarity of closure vectors <strong>is</strong> the familiar ancestor-set Jaccard, so classic and learned embeddings can be compared with exactly the same code.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s2">&quot;eutils&quot;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1"># reference palette (categorical slots in fixed order; sequential blue ramp)</span>
+<span class="n">BLUE</span><span class="p">,</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="n">AQUA</span> <span class="o">=</span> <span class="s2">&quot;#2a78d6&quot;</span><span class="p">,</span> <span class="s2">&quot;#eb6834&quot;</span><span class="p">,</span> <span class="s2">&quot;#1baf7a&quot;</span>
+<span class="n">INK</span><span class="p">,</span> <span class="n">INK2</span><span class="p">,</span> <span class="n">GRID</span><span class="p">,</span> <span class="n">SURFACE</span> <span class="o">=</span> <span class="s2">&quot;#0b0b0b&quot;</span><span class="p">,</span> <span class="s2">&quot;#52514e&quot;</span><span class="p">,</span> <span class="s2">&quot;#e4e3df&quot;</span><span class="p">,</span> <span class="s2">&quot;#fcfcfb&quot;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;figure.facecolor&quot;</span><span class="p">:</span> <span class="n">SURFACE</span><span class="p">,</span> <span class="s2">&quot;axes.facecolor&quot;</span><span class="p">:</span> <span class="n">SURFACE</span><span class="p">,</span> <span class="s2">&quot;savefig.facecolor&quot;</span><span class="p">:</span> <span class="n">SURFACE</span><span class="p">,</span>
+    <span class="s2">&quot;axes.edgecolor&quot;</span><span class="p">:</span> <span class="n">GRID</span><span class="p">,</span> <span class="s2">&quot;axes.labelcolor&quot;</span><span class="p">:</span> <span class="n">INK2</span><span class="p">,</span> <span class="s2">&quot;axes.titlecolor&quot;</span><span class="p">:</span> <span class="n">INK</span><span class="p">,</span>
+    <span class="s2">&quot;axes.grid&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;grid.color&quot;</span><span class="p">:</span> <span class="n">GRID</span><span class="p">,</span> <span class="s2">&quot;grid.linewidth&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>
+    <span class="s2">&quot;axes.spines.top&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;axes.spines.right&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;xtick.color&quot;</span><span class="p">:</span> <span class="n">INK2</span><span class="p">,</span> <span class="s2">&quot;ytick.color&quot;</span><span class="p">:</span> <span class="n">INK2</span><span class="p">,</span> <span class="s2">&quot;text.color&quot;</span><span class="p">:</span> <span class="n">INK</span><span class="p">,</span>
+    <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;axes.titlesize&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;figure.dpi&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">SEQUENTIAL</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">blend_palette</span><span class="p">([</span><span class="s2">&quot;#f0efec&quot;</span><span class="p">,</span> <span class="s2">&quot;#86b6ef&quot;</span><span class="p">,</span> <span class="s2">&quot;#2a78d6&quot;</span><span class="p">,</span> <span class="s2">&quot;#0d366b&quot;</span><span class="p">],</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Connecting-to-OLS">
+<h2>Connecting to OLS<a class="headerlink" href="#Connecting-to-OLS" title="Link to this heading"></a></h2>
+<p>OLS serves embeddings for every class it indexes, for several models:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+
+<span class="n">ols</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ols:hp&quot;</span><span class="p">)</span>
+<span class="n">ols</span><span class="o">.</span><span class="n">embedding_models</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;harrier-oss-v1-27b_pca512&#39;,
+ &#39;llama-embed-nemotron-8b_pca512&#39;,
+ &#39;text-embedding-3-large_pca512&#39;,
+ &#39;text-embedding-3-small_pca512&#39;]
+</pre></div></div>
+</div>
+</section>
+<section id="Vectors-as-numpy-and-pandas">
+<h2>Vectors as numpy and pandas<a class="headerlink" href="#Vectors-as-numpy-and-pandas" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">entity_embeddings</span></code> returns the CURIEs that have vectors and a matrix with one row per CURIE. Vectors are cached in a local sqlite database (under <code class="docutils literal notranslate"><span class="pre">~/.data/oaklib/embeddings</span></code>), so OLS is only asked once per term and model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hand_terms</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span>  <span class="c1"># Syndactyly</span>
+    <span class="s2">&quot;HP:0006101&quot;</span><span class="p">,</span>  <span class="c1"># Finger syndactyly</span>
+    <span class="s2">&quot;HP:0001770&quot;</span><span class="p">,</span>  <span class="c1"># Toe syndactyly</span>
+    <span class="s2">&quot;HP:0001161&quot;</span><span class="p">,</span>  <span class="c1"># Hand polydactyly</span>
+    <span class="s2">&quot;HP:0001829&quot;</span><span class="p">,</span>  <span class="c1"># Foot polydactyly</span>
+    <span class="s2">&quot;HP:0001155&quot;</span><span class="p">,</span>  <span class="c1"># Abnormality of the hand</span>
+    <span class="s2">&quot;HP:0001760&quot;</span><span class="p">,</span>  <span class="c1"># Abnormal foot morphology</span>
+    <span class="s2">&quot;HP:0000568&quot;</span><span class="p">,</span>  <span class="c1"># Microphthalmia</span>
+    <span class="s2">&quot;HP:0000478&quot;</span><span class="p">,</span>  <span class="c1"># Abnormality of the eye</span>
+    <span class="s2">&quot;HP:0001250&quot;</span><span class="p">,</span>  <span class="c1"># Seizure</span>
+<span class="p">]</span>
+<span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">hand_terms</span><span class="p">)</span>
+<span class="n">matrix</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(10, 512)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ols</span><span class="o">.</span><span class="n">embeddings_dataframe</span><span class="p">(</span><span class="n">hand_terms</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;text-embedding-3-large_pca512&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>HP:0001159</th>
+      <td>0.096</td>
+      <td>-0.007</td>
+      <td>-0.201</td>
+      <td>-0.119</td>
+      <td>-0.137</td>
+      <td>0.003</td>
+    </tr>
+    <tr>
+      <th>HP:0006101</th>
+      <td>0.064</td>
+      <td>-0.042</td>
+      <td>-0.216</td>
+      <td>-0.085</td>
+      <td>-0.159</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>HP:0001770</th>
+      <td>0.091</td>
+      <td>0.001</td>
+      <td>-0.189</td>
+      <td>-0.122</td>
+      <td>-0.142</td>
+      <td>-0.009</td>
+    </tr>
+    <tr>
+      <th>HP:0001161</th>
+      <td>0.068</td>
+      <td>-0.057</td>
+      <td>-0.183</td>
+      <td>-0.096</td>
+      <td>-0.152</td>
+      <td>-0.024</td>
+    </tr>
+    <tr>
+      <th>HP:0001829</th>
+      <td>0.084</td>
+      <td>-0.004</td>
+      <td>-0.178</td>
+      <td>-0.112</td>
+      <td>-0.172</td>
+      <td>-0.007</td>
+    </tr>
+    <tr>
+      <th>HP:0001155</th>
+      <td>0.108</td>
+      <td>-0.077</td>
+      <td>-0.241</td>
+      <td>-0.038</td>
+      <td>-0.166</td>
+      <td>-0.016</td>
+    </tr>
+    <tr>
+      <th>HP:0001760</th>
+      <td>0.109</td>
+      <td>-0.001</td>
+      <td>-0.228</td>
+      <td>-0.073</td>
+      <td>-0.172</td>
+      <td>-0.020</td>
+    </tr>
+    <tr>
+      <th>HP:0000568</th>
+      <td>0.087</td>
+      <td>-0.016</td>
+      <td>-0.254</td>
+      <td>-0.052</td>
+      <td>-0.169</td>
+      <td>0.053</td>
+    </tr>
+    <tr>
+      <th>HP:0000478</th>
+      <td>0.105</td>
+      <td>-0.047</td>
+      <td>-0.241</td>
+      <td>-0.033</td>
+      <td>-0.142</td>
+      <td>0.003</td>
+    </tr>
+    <tr>
+      <th>HP:0001250</th>
+      <td>0.064</td>
+      <td>-0.076</td>
+      <td>-0.236</td>
+      <td>-0.020</td>
+      <td>-0.005</td>
+      <td>0.030</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Pairwise-similarity">
+<h2>Pairwise similarity<a class="headerlink" href="#Pairwise-similarity" title="Link to this heading"></a></h2>
+<p>Scores are cosine similarities computed locally from the vectors. OLS’s own similarity endpoints report <code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">cosine)</span> <span class="pre">/</span> <span class="pre">2</span></code>; OAK converts these back to cosine so that all scores are on the same scale (<a class="reference external" href="https://github.com/INCATools/ontology-access-kit/issues/915">#915</a>).</p>
+<p>Different models disagree substantially, even on the same pair of terms:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">pairs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0006101&quot;</span><span class="p">),</span>  <span class="c1"># syndactyly vs finger syndactyly (subclass)</span>
+    <span class="p">(</span><span class="s2">&quot;HP:0006101&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0001770&quot;</span><span class="p">),</span>  <span class="c1"># finger vs toe syndactyly (siblings)</span>
+    <span class="p">(</span><span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0001161&quot;</span><span class="p">),</span>  <span class="c1"># syndactyly vs hand polydactyly</span>
+    <span class="p">(</span><span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0001250&quot;</span><span class="p">),</span>  <span class="c1"># syndactyly vs seizure (unrelated)</span>
+<span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ols</span><span class="o">.</span><span class="n">labels</span><span class="p">({</span><span class="n">t</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pairs</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">p</span><span class="p">}))</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">ols</span><span class="o">.</span><span class="n">embedding_models</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;pair&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">labels</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">labels</span><span class="p">[</span><span class="n">o</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;cosine&quot;</span><span class="p">:</span> <span class="n">ols</span><span class="o">.</span><span class="n">embedding_similarity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;pair&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>harrier-oss-v1-27b_pca512</th>
+      <th>llama-embed-nemotron-8b_pca512</th>
+      <th>text-embedding-3-large_pca512</th>
+      <th>text-embedding-3-small_pca512</th>
+    </tr>
+    <tr>
+      <th>pair</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Finger syndactyly / Toe syndactyly</th>
+      <td>0.853</td>
+      <td>0.906</td>
+      <td>0.846</td>
+      <td>0.854</td>
+    </tr>
+    <tr>
+      <th>Syndactyly / Finger syndactyly</th>
+      <td>0.939</td>
+      <td>0.875</td>
+      <td>0.922</td>
+      <td>0.871</td>
+    </tr>
+    <tr>
+      <th>Syndactyly / Hand polydactyly</th>
+      <td>0.806</td>
+      <td>0.648</td>
+      <td>0.815</td>
+      <td>0.724</td>
+    </tr>
+    <tr>
+      <th>Syndactyly / Seizure</th>
+      <td>0.369</td>
+      <td>0.366</td>
+      <td>0.268</td>
+      <td>0.392</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Note that absolute cosine values are not comparable across models: each model has its own “background” similarity for unrelated terms. Rankings within a model are what matter.</p>
+</section>
+<section id="Nearest-neighbours-and-text-search">
+<h2>Nearest neighbours and text search<a class="headerlink" href="#Nearest-neighbours-and-text-search" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nearest_entities</span></code> uses the OLS vector index; results can come from any ontology in OLS (useful for finding mappings). Obsolete classes are filtered out.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;text-embedding-3-large_pca512&quot;</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">ols</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">ols</span><span class="o">.</span><span class="n">nearest_entities</span><span class="p">(</span><span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;cosine&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>cosine</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>HP:0006101</td>
+      <td>Finger syndactyly</td>
+      <td>0.922</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>HP:0001770</td>
+      <td>Toe syndactyly</td>
+      <td>0.909</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>HP:0010554</td>
+      <td>Cutaneous finger syndactyly</td>
+      <td>0.868</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>HP:0010704</td>
+      <td>1-2 finger cutaneous syndactyly</td>
+      <td>0.859</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>HP:0010709</td>
+      <td>2-4 finger cutaneous syndactyly</td>
+      <td>0.857</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>HP:0001233</td>
+      <td>2-3 finger cutaneous syndactyly</td>
+      <td>0.850</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>HP:0010713</td>
+      <td>1-5 toe syndactyly</td>
+      <td>0.844</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>HP:0006097</td>
+      <td>3-4 finger osseus syndactyly</td>
+      <td>0.842</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Free-text queries are embedded by OLS. Only some OLS models can embed text; by default the first such model is used, and results are restricted to the adapter’s ontology:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">ols</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">ols</span><span class="o">.</span><span class="n">nearest_entities_to_text</span><span class="p">(</span><span class="s2">&quot;webbed fingers&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;cosine&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>cosine</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>HP:0001159</td>
+      <td>Syndactyly</td>
+      <td>0.821</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>HP:0010704</td>
+      <td>1-2 finger cutaneous syndactyly</td>
+      <td>0.813</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>HP:0006101</td>
+      <td>Finger syndactyly</td>
+      <td>0.711</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>HP:0010554</td>
+      <td>Cutaneous finger syndactyly</td>
+      <td>0.696</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>HP:0010709</td>
+      <td>2-4 finger cutaneous syndactyly</td>
+      <td>0.686</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Classic-semantic-similarity-as-vectors:-the-closure-model">
+<h2>Classic semantic similarity as vectors: the <code class="docutils literal notranslate"><span class="pre">closure</span></code> model<a class="headerlink" href="#Classic-semantic-similarity-as-vectors:-the-closure-model" title="Link to this heading"></a></h2>
+<p>Any adapter that can compute ancestors provides the <code class="docutils literal notranslate"><span class="pre">closure</span></code> model. Each term is a multi-hot vector over the union of the ancestors of the terms being encoded:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.embeddings.closure_embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">closure_embeddings</span>
+
+<span class="n">hp</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="n">ids</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span><span class="n">hp</span><span class="p">,</span> <span class="n">hand_terms</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">closure_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">hp</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">hp</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vocab</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">closure_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># show the dimensions (ancestors) that are not shared by all three terms</span>
+<span class="n">closure_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">closure_df</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(3, 16)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Abnormal foot morphology</th>
+      <th>Toe syndactyly</th>
+      <th>Abnormal toe morphology</th>
+      <th>Abnormality of the lower limb</th>
+      <th>Finger syndactyly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Syndactyly</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Finger syndactyly</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Toe syndactyly</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Jaccard similarity over closure vectors is identical to the ancestor-set Jaccard computed by the <code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span>
+
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+    <span class="n">vec</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">embedding_similarity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;closure&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;jaccard&quot;</span><span class="p">)</span>
+    <span class="n">classic</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">pairwise_similarity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span><span class="o">.</span><span class="n">jaccard_similarity</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">labels</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">labels</span><span class="p">[</span><span class="n">o</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> vector=</span><span class="si">{</span><span class="n">vec</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> classic=</span><span class="si">{</span><span class="n">classic</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+          Syndactyly / Finger syndactyly    vector=0.9167 classic=0.9167
+   Finger syndactyly / Toe syndactyly       vector=0.6875 classic=0.6875
+          Syndactyly / Hand polydactyly     vector=0.4762 classic=0.4762
+          Syndactyly / Seizure              vector=0.1429 classic=0.1429
+</pre></div></div>
+</div>
+</section>
+<section id="Comparing-the-similarity-structure-of-models">
+<h2>Comparing the similarity structure of models<a class="headerlink" href="#Comparing-the-similarity-structure-of-models" title="Link to this heading"></a></h2>
+<p>Below are all-by-all similarity matrices for the same ten terms: ontology closure (cosine) versus two OLS-hosted LLM embedding models. The closure model only sees the ontology graph; the LLM models only see the text of the terms.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">short</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">ols</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">hand_terms</span><span class="p">}</span>
+<span class="n">panels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;closure (ontology)&quot;</span><span class="p">,</span> <span class="n">hp</span><span class="p">,</span> <span class="s2">&quot;closure&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;text-embedding-3-large&quot;</span><span class="p">,</span> <span class="n">ols</span><span class="p">,</span> <span class="s2">&quot;text-embedding-3-large_pca512&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;harrier-oss-v1-27b&quot;</span><span class="p">,</span> <span class="n">ols</span><span class="p">,</span> <span class="s2">&quot;harrier-oss-v1-27b_pca512&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">adapter</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">panels</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">embedding_similarity_matrix</span><span class="p">(</span><span class="n">hand_terms</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">short</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">short</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">SEQUENTIAL</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">cbar</span><span class="o">=</span><span class="n">ax</span> <span class="ow">is</span> <span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;cosine similarity&quot;</span><span class="p">,</span> <span class="s2">&quot;shrink&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">},</span>
+                <span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linecolor</span><span class="o">=</span><span class="n">SURFACE</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_Embeddings_Embeddings-Tutorial_18_0.png" src="../../_images/examples_Embeddings_Embeddings-Tutorial_18_0.png" />
+</div>
+</div>
+<p>All three put the limb terms in one block, and the eye terms and seizure apart from it. They differ in the details. The closure model scores the general terms (“Abnormality of the hand”, “Abnormal foot morphology”) as only moderately similar to their own descendants, because those descendants have many extra ancestors. The LLM models place them closer. The two LLM models also have very different “background” similarity between unrelated terms (compare the Seizure row). This is why absolute
+cosine thresholds do not transfer between models; rankings within a model are more meaningful.</p>
+</section>
+<section id="Comparing-sets-of-terms">
+<h2>Comparing sets of terms<a class="headerlink" href="#Comparing-sets-of-terms" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">embedding_termset_similarity</span></code> compares two sets of terms (e.g. a patient profile and a disease profile) by best-match average, returning the same <code class="docutils literal notranslate"><span class="pre">TermSetPairwiseSimilarity</span></code> object as classic semantic similarity:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">patient</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;HP:0006101&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0000568&quot;</span><span class="p">]</span>           <span class="c1"># finger syndactyly, microphthalmia</span>
+<span class="n">disease</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;HP:0001159&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0000478&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0001250&quot;</span><span class="p">]</span>  <span class="c1"># syndactyly, eye abnormality, seizure</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">embedding_termset_similarity</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="n">disease</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;text-embedding-3-large_pca512&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best match average:&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">average_score</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">sim</span><span class="o">.</span><span class="n">subject_best_matches</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">bm</span><span class="o">.</span><span class="n">match_source_label</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">bm</span><span class="o">.</span><span class="n">match_target_label</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">bm</span><span class="o">.</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+best match average: 0.705
+  Finger syndactyly -&gt; Syndactyly (0.922)
+  Microphthalmia -&gt; Abnormality of the eye (0.703)
+</pre></div></div>
+</div>
+</section>
+<section id="LLM-embeddings-computed-on-demand">
+<h2>LLM embeddings computed on demand<a class="headerlink" href="#LLM-embeddings-computed-on-demand" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">llm:</span></code> adapter wraps another adapter and embeds term text with any model supported by the <code class="docutils literal notranslate"><span class="pre">llm</span></code> library (OpenAI, sentence-transformers via plugins, …). The text template is configurable, so you can compare label-only with label + definition embeddings. This needs an API key (or a local model plugin), so it is not run here:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">llm_adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;llm:sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="n">llm_adapter</span><span class="o">.</span><span class="n">embedding_model_id</span> <span class="o">=</span> <span class="s2">&quot;text-embedding-3-small&quot;</span>
+<span class="n">llm_adapter</span><span class="o">.</span><span class="n">embedding_text_template</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{label}</span><span class="s2">: </span><span class="si">{definition}</span><span class="s2">&quot;</span>
+<span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">llm_adapter</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">hand_terms</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="Command-line">
+<h2>Command line<a class="headerlink" href="#Command-line" title="Link to this heading"></a></h2>
+<p>The same operations are available from <code class="docutils literal notranslate"><span class="pre">runoak</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>ols:hp<span class="w"> </span>embedding-models
+runoak<span class="w"> </span>-i<span class="w"> </span>ols:hp<span class="w"> </span>embeddings<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span>HP:0001155<span class="w"> </span>-m<span class="w"> </span>text-embedding-3-large_pca512<span class="w"> </span>-o<span class="w"> </span>hand.tsv
+runoak<span class="w"> </span>-i<span class="w"> </span>ols:hp<span class="w"> </span>nearest-entities<span class="w"> </span>HP:0001159<span class="w"> </span>-L<span class="w"> </span><span class="m">5</span>
+runoak<span class="w"> </span>-i<span class="w"> </span>ols:hp<span class="w"> </span>nearest-entities<span class="w"> </span>--text<span class="w"> </span><span class="s2">&quot;webbed fingers&quot;</span>
+runoak<span class="w"> </span>-i<span class="w"> </span>ols:hp<span class="w"> </span>embedding-similarity<span class="w"> </span>HP:0001159<span class="w"> </span>HP:0006101<span class="w"> </span>@<span class="w"> </span>HP:0001770<span class="w"> </span>HP:0001250
+runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>embedding-similarity<span class="w"> </span>-m<span class="w"> </span>closure<span class="w"> </span>--metric<span class="w"> </span>jaccard<span class="w"> </span>HP:0001159<span class="w"> </span>@<span class="w"> </span>HP:0001770
+</pre></div>
+</div>
+</section>
+<section id="See-also">
+<h2>See also<a class="headerlink" href="#See-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="Subsumption-Recapitulation.html"><span class="doc">Subsumption recapitulation</span></a>: do LLM embeddings encode the ontology hierarchy?</p></li>
+<li><p><a class="reference internal" href="Phenotype-Profile-Matching.html"><span class="doc">Phenotype profile matching</span></a>: retrieving diseases from noisy phenotype profiles with classic and embedding-based similarity.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Embeddings Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Subsumption-Recapitulation.html" class="btn btn-neutral float-right" title="Subsumption Recapitulation: Do LLM Embeddings Encode the Ontology Hierarchy?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oaklib.interfaces.embedding_provider_interface &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oaklib.interfaces.embedding_provider_interface</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for oaklib.interfaces.embedding_provider_interface</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">statistics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.similarity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BestMatch</span><span class="p">,</span>
+    <span class="n">TermInfo</span><span class="p">,</span>
+    <span class="n">TermPairwiseSimilarity</span><span class="p">,</span>
+    <span class="n">TermSetPairwiseSimilarity</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.embeddings.closure_embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">closure_embeddings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.embeddings.vector_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">similarity_matrix</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;EmbeddingProviderInterface&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CLOSURE_MODEL&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">CLOSURE_MODEL</span> <span class="o">=</span> <span class="s2">&quot;closure&quot;</span>
+<span class="sd">&quot;&quot;&quot;Pseudo-model that encodes each term as a multi-hot vector of its reflexive ancestors.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EmbeddingProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides vector embeddings for entities, and operations over them.</span>
+
+<span class="sd">    The core method is :meth:`entity_embeddings`, which returns a numpy matrix with one</span>
+<span class="sd">    row per entity. Similarity, nearest-neighbour search and set-wise (best match)</span>
+<span class="sd">    comparison are derived from it, so a backend only needs to supply vectors;</span>
+<span class="sd">    backends that can do more natively (e.g. server-side vector search) override</span>
+<span class="sd">    the relevant methods.</span>
+
+<span class="sd">    Each backend offers one or more named *models* (see :meth:`embedding_models`).</span>
+<span class="sd">    Vectors from different models are not comparable.</span>
+
+<span class="sd">    Any adapter that also implements :class:`OboGraphInterface` additionally supports</span>
+<span class="sd">    the ``closure`` pseudo-model, in which each term is a multi-hot vector of its</span>
+<span class="sd">    reflexive ancestors. This makes classic ontology-based similarity directly</span>
+<span class="sd">    comparable with learned embeddings:</span>
+
+<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">    &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.db&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ids, m = adapter.entity_embeddings([&quot;GO:0005634&quot;, &quot;GO:0005635&quot;], model=&quot;closure&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; m.shape[0]</span>
+<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; round(adapter.embedding_similarity(&quot;GO:0005634&quot;, &quot;GO:0005634&quot;, model=&quot;closure&quot;), 3)</span>
+<span class="sd">    1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_embedding_model</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model used when none is specified.&quot;&quot;&quot;</span>
+
+    <span class="n">closure_embedding_predicates</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Predicates traversed by the ``closure`` model; None means is_a only.&quot;&quot;&quot;</span>
+
+    <span class="c1"># ---------------------------------------------------------------</span>
+    <span class="c1"># Backend hooks</span>
+    <span class="c1"># ---------------------------------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_embeddings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch vectors for entities from the backend.</span>
+
+<span class="sd">        Implementations should return a mapping containing an entry for every entity</span>
+<span class="sd">        that has a vector; entities without vectors may be omitted or mapped to None.</span>
+
+<span class="sd">        :param curies: entities to fetch</span>
+<span class="sd">        :param model: the model name</span>
+<span class="sd">        :return: mapping from entity to vector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not provide model </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ---------------------------------------------------------------</span>
+    <span class="c1"># Core API</span>
+    <span class="c1"># ---------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.embedding_models">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_models">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embedding_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Names of the models this adapter can provide embeddings for.</span>
+
+<span class="sd">        :return: list of model names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">CLOSURE_MODEL</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_embedding_model</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_embedding_model</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_models</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">models</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not provide any embedding models&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.entity_embeddings">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entity_embeddings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Embed a collection of entities as a matrix.</span>
+
+<span class="sd">        Entities for which no vector is available are dropped; the returned list</span>
+<span class="sd">        gives the entity for each row, in input order.</span>
+
+<span class="sd">        :param curies: entities to embed</span>
+<span class="sd">        :param model: model name; defaults to the adapter&#39;s default model</span>
+<span class="sd">        :return: tuple of (curies, matrix with one row per curie)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">curies</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="n">CLOSURE_MODEL</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> cannot compute closures&quot;</span><span class="p">)</span>
+            <span class="n">ids</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">closure_embedding_predicates</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_embeddings</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies</span> <span class="k">if</span> <span class="n">vectors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ids</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">vectors</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.entity_embedding">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embedding">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entity_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Embed a single entity.</span>
+
+<span class="sd">        Note that for the ``closure`` model the vector dimensions depend on the set of</span>
+<span class="sd">        entities embedded together, so use :meth:`entity_embeddings` to compare.</span>
+
+<span class="sd">        :param curie: entity to embed</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :return: vector, or None if the entity has no embedding</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">([</span><span class="n">curie</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">ids</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.embeddings_dataframe">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embeddings_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embeddings_dataframe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Embed a collection of entities as a DataFrame indexed by entity.</span>
+
+<span class="sd">        :param curies: entities to embed</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :return: DataFrame with one row per entity and one column per dimension</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.text_embedding">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.text_embedding">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">text_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Embed arbitrary text, using the same space as the entity embeddings.</span>
+
+<span class="sd">        :param text: text to embed</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :return: vector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> cannot embed arbitrary text&quot;</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ---------------------------------------------------------------</span>
+    <span class="c1"># Derived operations</span>
+    <span class="c1"># ---------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.embedding_similarity_matrix">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_similarity_matrix">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embedding_similarity_matrix</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">objects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        All-by-all similarity between two sets of entities.</span>
+
+<span class="sd">        Entities without embeddings are omitted from the result.</span>
+
+<span class="sd">        :param subjects: row entities</span>
+<span class="sd">        :param objects: column entities; defaults to subjects</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :param metric: ``cosine`` (default) or ``jaccard``</span>
+<span class="sd">        :return: DataFrame indexed by subject, with a column per object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
+        <span class="n">objects</span> <span class="o">=</span> <span class="n">subjects</span> <span class="k">if</span> <span class="n">objects</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
+        <span class="c1"># embed together so that closure vectors share dimensions</span>
+        <span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">subjects</span> <span class="o">+</span> <span class="n">objects</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">row_ix</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">)}</span>
+        <span class="n">s_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">row_ix</span><span class="p">]</span>
+        <span class="n">o_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">row_ix</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">s_ids</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">o_ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">s_ids</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">o_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">sims</span> <span class="o">=</span> <span class="n">similarity_matrix</span><span class="p">(</span>
+            <span class="n">matrix</span><span class="p">[[</span><span class="n">row_ix</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s_ids</span><span class="p">]],</span> <span class="n">matrix</span><span class="p">[[</span><span class="n">row_ix</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">o_ids</span><span class="p">]],</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">s_ids</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">o_ids</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.embedding_similarity">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_similarity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embedding_similarity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
+        <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Similarity between a pair of entities.</span>
+
+<span class="sd">        :param subject: first entity</span>
+<span class="sd">        :param object: second entity</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :param metric: ``cosine`` (default) or ``jaccard``</span>
+<span class="sd">        :return: similarity score, or None if either entity has no embedding</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_similarity_matrix</span><span class="p">([</span><span class="n">subject</span><span class="p">],</span> <span class="p">[</span><span class="nb">object</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.embedding_pairwise_similarity">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_pairwise_similarity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embedding_pairwise_similarity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TermPairwiseSimilarity</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pairwise similarity as a :class:`TermPairwiseSimilarity` object.</span>
+
+<span class="sd">        Only the ``cosine_similarity`` slot is populated. This allows embedding-based</span>
+<span class="sd">        scores to be used anywhere semantic similarity results are expected.</span>
+
+<span class="sd">        :param subject: first entity</span>
+<span class="sd">        :param object: second entity</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :return: similarity object, or None if either entity has no embedding</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_similarity</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">score</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">TermPairwiseSimilarity</span><span class="p">(</span><span class="n">subject_id</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">object_id</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="o">=</span><span class="n">score</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.embedding_termset_similarity">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.embedding_termset_similarity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embedding_termset_similarity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermSetPairwiseSimilarity</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare two sets of entities using best-match average over vector similarity.</span>
+
+<span class="sd">        This is the embedding analog of</span>
+<span class="sd">        :meth:`SemanticSimilarityInterface.termset_pairwise_similarity`; the score of</span>
+<span class="sd">        each best match is the vector similarity under ``metric``.</span>
+
+<span class="sd">        :param subjects: first set of entities (e.g. a patient&#39;s phenotypes)</span>
+<span class="sd">        :param objects: second set of entities (e.g. a disease&#39;s phenotypes)</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :param labels: if True, populate labels</span>
+<span class="sd">        :param metric: ``cosine`` (default) or ``jaccard``</span>
+<span class="sd">        :return: set-wise similarity, with ``average_score`` as the best-match average</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_similarity_matrix</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+        <span class="n">score_slot</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">_similarity&quot;</span>
+        <span class="n">sim</span> <span class="o">=</span> <span class="n">TermSetPairwiseSimilarity</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">subject_termset</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">TermInfo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">object_termset</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">TermInfo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">best_matches</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">subject_best_matches</span><span class="p">,</span> <span class="n">df</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">object_best_matches</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">T</span><span class="p">),</span>
+            <span class="p">):</span>
+                <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                    <span class="n">target</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
+                    <span class="n">pair</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="n">df</span> <span class="k">else</span> <span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+                    <span class="n">best_matches</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">BestMatch</span><span class="p">(</span>
+                        <span class="n">source</span><span class="p">,</span>
+                        <span class="n">match_target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                        <span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span>
+                        <span class="n">similarity</span><span class="o">=</span><span class="n">TermPairwiseSimilarity</span><span class="p">(</span>
+                            <span class="n">subject_id</span><span class="o">=</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">object_id</span><span class="o">=</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="p">{</span><span class="n">score_slot</span><span class="p">:</span> <span class="n">score</span><span class="p">}</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">scores</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">average_score</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">best_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
+            <span class="n">label_ix</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">curies</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">subject_termset</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">object_termset</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label_ix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">subject_best_matches</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">sim</span><span class="o">.</span><span class="n">object_best_matches</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">match_source_label</span> <span class="o">=</span> <span class="n">label_ix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">match_source</span><span class="p">)</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">match_target_label</span> <span class="o">=</span> <span class="n">label_ix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">match_target</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sim</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.nearest_entities">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nearest_entities</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">candidates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the entities whose embeddings are most similar to that of a given entity.</span>
+
+<span class="sd">        The default implementation is a brute-force comparison against ``candidates``</span>
+<span class="sd">        (by default, all entities in the adapter). Backends with a vector index</span>
+<span class="sd">        override this.</span>
+
+<span class="sd">        :param curie: query entity</span>
+<span class="sd">        :param limit: maximum number of results</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :param candidates: entities to search over</span>
+<span class="sd">        :return: iterator of (entity, score) tuples, best first (excluding the query entity)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">curie</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_similarity_matrix</span><span class="p">([</span><span class="n">curie</span><span class="p">],</span> <span class="n">candidates</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="n">c</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">score</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.nearest_entities_to_vector">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities_to_vector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nearest_entities_to_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">candidates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the entities whose embeddings are most similar to a given vector.</span>
+
+<span class="sd">        :param vector: query vector, in the space of ``model``</span>
+<span class="sd">        :param limit: maximum number of results</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :param candidates: entities to search over</span>
+<span class="sd">        :return: iterator of (entity, score) tuples, best first</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">candidates</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">vector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Query vector has </span><span class="si">{</span><span class="n">vector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> dimensions but </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> embeddings &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;have </span><span class="si">{</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">similarity_matrix</span><span class="p">(</span><span class="n">vector</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">matrix</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">scores</span><span class="p">)[:</span><span class="n">limit</span><span class="p">]:</span>
+            <span class="k">yield</span> <span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="EmbeddingProviderInterface.nearest_entities_to_text">
+<a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.nearest_entities_to_text">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nearest_entities_to_text</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">candidates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the entities whose embeddings are most similar to an embedding of some text.</span>
+
+<span class="sd">        :param text: query text</span>
+<span class="sd">        :param limit: maximum number of results</span>
+<span class="sd">        :param model: model name</span>
+<span class="sd">        :param candidates: entities to search over</span>
+<span class="sd">        :return: iterator of (entity, score) tuples, best first</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_embedding</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearest_entities_to_vector</span><span class="p">(</span>
+            <span class="n">vector</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">candidates</span><span class="o">=</span><span class="n">candidates</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

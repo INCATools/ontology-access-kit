@@ -23,18 +23,18 @@ URI: [skos:broadMatch](http://www.w3.org/2004/02/skos/core#broadMatch)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Image](Image.md) |  |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Class](Class.md) |  |  yes  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Image](Image.md) |  |  no  |
+| [Class](Class.md) |  |  yes  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 | [Agent](Agent.md) |  |  no  |
-| [Property](Property.md) |  |  yes  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [HasMappings](HasMappings.md) |  |  no  |
+| [Property](Property.md) |  |  yes  |
 
 
 
