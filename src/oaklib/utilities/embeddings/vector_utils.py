@@ -12,6 +12,10 @@ __all__ = [
 ]
 
 
+_MAX_TEMP_ELEMENTS = 10_000_000
+"""Upper bound on the size of temporary arrays created by weighted Jaccard."""
+
+
 def _l2_normalize(m: np.ndarray) -> np.ndarray:
     norms = np.linalg.norm(m, axis=1, keepdims=True)
     norms[norms == 0] = 1.0
@@ -79,12 +83,18 @@ def weighted_jaccard_similarity_matrix(a: np.ndarray, b: Optional[np.ndarray] = 
     """
     a = np.asarray(a, dtype=float)
     b = a if b is None else np.asarray(b, dtype=float)
+    if (a < 0).any() or (b < 0).any():
+        raise ValueError("weighted_jaccard requires non-negative vectors")
     out = np.zeros((a.shape[0], b.shape[0]))
+    # process columns of the output in chunks to bound the size of temporary arrays
+    chunk = max(1, _MAX_TEMP_ELEMENTS // max(1, b.shape[1]))
     for i, row in enumerate(a):
-        num = np.minimum(row, b).sum(axis=1)
-        den = np.maximum(row, b).sum(axis=1)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            out[i] = np.where(den > 0, num / den, 0.0)
+        for start in range(0, b.shape[0], chunk):
+            block = b[start : start + chunk]
+            num = np.minimum(row, block).sum(axis=1)
+            den = np.maximum(row, block).sum(axis=1)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                out[i, start : start + chunk] = np.where(den > 0, num / den, 0.0)
     return out
 
 
