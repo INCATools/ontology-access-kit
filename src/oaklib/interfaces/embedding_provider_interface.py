@@ -11,8 +11,10 @@ from oaklib.datamodels.similarity import (
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
+from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE
 from oaklib.utilities.embeddings.closure_embeddings import closure_embeddings
 from oaklib.utilities.embeddings.vector_utils import similarity_matrix
@@ -20,10 +22,19 @@ from oaklib.utilities.embeddings.vector_utils import similarity_matrix
 __all__ = [
     "EmbeddingProviderInterface",
     "CLOSURE_MODEL",
+    "CLOSURE_IC_MODEL",
 ]
 
 CLOSURE_MODEL = "closure"
 """Pseudo-model that encodes each term as a multi-hot vector of its reflexive ancestors."""
+
+CLOSURE_IC_MODEL = "closure_ic"
+"""Pseudo-model like ``closure``, but each ancestor is weighted by its information content.
+
+Weighted Jaccard over these vectors (the default metric for this model) is the simGIC
+similarity measure. The weights come from the adapter's ``information_content_scores``,
+so their meaning depends on the adapter: e.g. ontology-structure IC for sqlite, but
+annotation-frequency IC for AmiGO, or a precomputed IC map if one has been loaded."""
 
 
 class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
@@ -41,8 +52,11 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
 
     Any adapter that also implements :class:`OboGraphInterface` additionally supports
     the ``closure`` pseudo-model, in which each term is a multi-hot vector of its
-    reflexive ancestors. This makes classic ontology-based similarity directly
-    comparable with learned embeddings:
+    reflexive ancestors. Adapters that can also compute information content support
+    ``closure_ic``, in which each ancestor is weighted by its IC; weighted Jaccard over
+    these vectors is the simGIC measure. Set ``closure_embedding_predicates`` to
+    traverse other relations, e.g. ``[IS_A, PART_OF]``. This makes classic
+    ontology-based similarity directly comparable with learned embeddings:
 
     >>> from oaklib import get_adapter
     >>> adapter = get_adapter("tests/input/go-nucleus.db")
@@ -51,6 +65,12 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
     2
     >>> round(adapter.embedding_similarity("GO:0005634", "GO:0005634", model="closure"), 3)
     1.0
+
+    With ``closure_ic``, similarity defaults to weighted Jaccard, i.e. simGIC:
+
+    >>> s = adapter.embedding_similarity("GO:0005634", "GO:0005773", model="closure_ic")
+    >>> 0 < s < 1
+    True
     """
 
     default_embedding_model = None
@@ -88,9 +108,12 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
 
         :return: list of model names
         """
+        models = []
         if isinstance(self, OboGraphInterface):
-            return [CLOSURE_MODEL]
-        return []
+            models.append(CLOSURE_MODEL)
+            if isinstance(self, SemanticSimilarityInterface):
+                models.append(CLOSURE_IC_MODEL)
+        return models
 
     def _resolve_model(self, model: Optional[str]) -> str:
         if model:
@@ -101,6 +124,13 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         if not models:
             raise ValueError(f"{type(self).__name__} does not provide any embedding models")
         return models[0]
+
+    def _resolve_metric(self, metric: Optional[str], model: Optional[str]) -> str:
+        if metric:
+            return metric
+        if self._resolve_model(model) == CLOSURE_IC_MODEL:
+            return "weighted_jaccard"
+        return "cosine"
 
     def entity_embeddings(
         self, curies: Iterable[CURIE], model: Optional[str] = None
@@ -117,12 +147,21 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         """
         model = self._resolve_model(model)
         curies = list(dict.fromkeys(curies))
-        if model == CLOSURE_MODEL:
+        if model in (CLOSURE_MODEL, CLOSURE_IC_MODEL):
             if not isinstance(self, OboGraphInterface):
                 raise NotImplementedError(f"{type(self).__name__} cannot compute closures")
-            ids, _, matrix = closure_embeddings(
-                self, curies, predicates=self.closure_embedding_predicates
-            )
+            predicates = self.closure_embedding_predicates
+            ids, vocab, matrix = closure_embeddings(self, curies, predicates=predicates)
+            if model == CLOSURE_IC_MODEL:
+                if not isinstance(self, SemanticSimilarityInterface):
+                    raise NotImplementedError(f"{type(self).__name__} cannot compute IC")
+                ic = dict(
+                    self.information_content_scores(
+                        vocab, object_closure_predicates=predicates or [IS_A]
+                    )
+                )
+                weights = np.array([ic.get(v, 0.0) for v in vocab], dtype=matrix.dtype)
+                matrix = matrix * weights
             return ids, matrix
         vectors = self._fetch_embeddings(curies, model)
         ids = [c for c in curies if vectors.get(c) is not None]
@@ -177,7 +216,7 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         subjects: Iterable[CURIE],
         objects: Optional[Iterable[CURIE]] = None,
         model: Optional[str] = None,
-        metric: str = "cosine",
+        metric: Optional[str] = None,
     ) -> pd.DataFrame:
         """
         All-by-all similarity between two sets of entities.
@@ -187,9 +226,11 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         :param subjects: row entities
         :param objects: column entities; defaults to subjects
         :param model: model name
-        :param metric: ``cosine`` (default) or ``jaccard``
+        :param metric: ``cosine``, ``jaccard`` or ``weighted_jaccard``; defaults to
+            ``weighted_jaccard`` for ``closure_ic`` and ``cosine`` otherwise
         :return: DataFrame indexed by subject, with a column per object
         """
+        metric = self._resolve_metric(metric, model)
         subjects = list(subjects)
         objects = subjects if objects is None else list(objects)
         # embed together so that closure vectors share dimensions
@@ -209,7 +250,7 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         subject: CURIE,
         object: CURIE,
         model: Optional[str] = None,
-        metric: str = "cosine",
+        metric: Optional[str] = None,
     ) -> Optional[float]:
         """
         Similarity between a pair of entities.
@@ -217,7 +258,8 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         :param subject: first entity
         :param object: second entity
         :param model: model name
-        :param metric: ``cosine`` (default) or ``jaccard``
+        :param metric: ``cosine``, ``jaccard`` or ``weighted_jaccard``; defaults to
+            ``weighted_jaccard`` for ``closure_ic`` and ``cosine`` otherwise
         :return: similarity score, or None if either entity has no embedding
         """
         df = self.embedding_similarity_matrix([subject], [object], model=model, metric=metric)
@@ -250,7 +292,7 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         objects: List[CURIE],
         model: Optional[str] = None,
         labels: bool = False,
-        metric: str = "cosine",
+        metric: Optional[str] = None,
     ) -> TermSetPairwiseSimilarity:
         """
         Compare two sets of entities using best-match average over vector similarity.
@@ -263,11 +305,15 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         :param objects: second set of entities (e.g. a disease's phenotypes)
         :param model: model name
         :param labels: if True, populate labels
-        :param metric: ``cosine`` (default) or ``jaccard``
+        :param metric: ``cosine``, ``jaccard`` or ``weighted_jaccard``; defaults to
+            ``weighted_jaccard`` for ``closure_ic`` and ``cosine`` otherwise
         :return: set-wise similarity, with ``average_score`` as the best-match average
         """
+        metric = self._resolve_metric(metric, model)
         df = self.embedding_similarity_matrix(subjects, objects, model=model, metric=metric)
-        score_slot = f"{metric}_similarity"
+        # TermPairwiseSimilarity has no slot for some metrics (e.g. weighted_jaccard);
+        # their scores are still on each BestMatch and in the average
+        score_slot = {"cosine": "cosine_similarity", "jaccard": "jaccard_similarity"}.get(metric)
         sim = TermSetPairwiseSimilarity()
         for x in subjects:
             sim.subject_termset[x] = TermInfo(x)
@@ -288,7 +334,9 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
                         match_target=target,
                         score=score,
                         similarity=TermPairwiseSimilarity(
-                            subject_id=pair[0], object_id=pair[1], **{score_slot: score}
+                            subject_id=pair[0],
+                            object_id=pair[1],
+                            **({score_slot: score} if score_slot else {}),
                         ),
                     )
                     scores.append(score)

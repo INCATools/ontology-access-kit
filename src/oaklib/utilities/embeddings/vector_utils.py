@@ -7,8 +7,13 @@ import numpy as np
 __all__ = [
     "cosine_similarity_matrix",
     "jaccard_similarity_matrix",
+    "weighted_jaccard_similarity_matrix",
     "similarity_matrix",
 ]
+
+
+_MAX_TEMP_ELEMENTS = 10_000_000
+"""Upper bound on the size of temporary arrays created by weighted Jaccard."""
 
 
 def _l2_normalize(m: np.ndarray) -> np.ndarray:
@@ -61,9 +66,42 @@ def jaccard_similarity_matrix(a: np.ndarray, b: Optional[np.ndarray] = None) -> 
         return np.where(union > 0, intersection / union, 0.0)
 
 
+def weighted_jaccard_similarity_matrix(a: np.ndarray, b: Optional[np.ndarray] = None) -> np.ndarray:
+    """
+    All-by-all weighted (Ruzicka) Jaccard similarity: sum of minima over sum of maxima.
+
+    For binary vectors this is ordinary Jaccard. For closure vectors weighted by
+    information content, it is the IC-weighted ancestor overlap known as simGIC.
+
+    >>> a = np.array([[2.0, 1.0, 0.0], [0.0, 1.0, 3.0]])
+    >>> weighted_jaccard_similarity_matrix(a).round(3).tolist()
+    [[1.0, 0.167], [0.167, 1.0]]
+
+    :param a: an (m x d) non-negative matrix
+    :param b: an (n x d) non-negative matrix; defaults to ``a``
+    :return: an (m x n) matrix of weighted Jaccard similarities
+    """
+    a = np.asarray(a, dtype=float)
+    b = a if b is None else np.asarray(b, dtype=float)
+    if (a < 0).any() or (b < 0).any():
+        raise ValueError("weighted_jaccard requires non-negative vectors")
+    out = np.zeros((a.shape[0], b.shape[0]))
+    # process columns of the output in chunks to bound the size of temporary arrays
+    chunk = max(1, _MAX_TEMP_ELEMENTS // max(1, b.shape[1]))
+    for i, row in enumerate(a):
+        for start in range(0, b.shape[0], chunk):
+            block = b[start : start + chunk]
+            num = np.minimum(row, block).sum(axis=1)
+            den = np.maximum(row, block).sum(axis=1)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                out[i, start : start + chunk] = np.where(den > 0, num / den, 0.0)
+    return out
+
+
 METRICS = {
     "cosine": cosine_similarity_matrix,
     "jaccard": jaccard_similarity_matrix,
+    "weighted_jaccard": weighted_jaccard_similarity_matrix,
 }
 
 
@@ -75,7 +113,7 @@ def similarity_matrix(
 
     :param a: an (m x d) matrix
     :param b: an (n x d) matrix; defaults to ``a``
-    :param metric: one of ``cosine`` or ``jaccard``
+    :param metric: one of ``cosine``, ``jaccard`` or ``weighted_jaccard``
     :return: an (m x n) matrix
     """
     if metric not in METRICS:
