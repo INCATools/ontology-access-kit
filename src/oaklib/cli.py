@@ -2870,9 +2870,8 @@ def nearest_entities(terms, model, output, output_type, autolabel, limit, text):
 @click.option(
     "--metric",
     type=click.Choice(["cosine", "jaccard", "weighted_jaccard"]),
-    default="cosine",
-    show_default=True,
-    help="Vector similarity metric",
+    help="Vector similarity metric. Defaults to weighted_jaccard (simGIC) for the closure_ic"
+    " model and cosine otherwise. weighted_jaccard requires non-negative vectors.",
 )
 @click.option(
     "--matrix/--no-matrix",
@@ -2895,6 +2894,10 @@ def embedding_similarity(terms, model, output, output_type, autolabel, metric, m
     Comparing classic ontology closure vectors:
 
         runoak -i sqlite:obo:hp embedding-similarity -m closure --metric jaccard HP:0001159 @ HP:0001770
+
+    IC-weighted closure vectors, compared with weighted Jaccard (simGIC):
+
+        runoak -i sqlite:obo:hp embedding-similarity -m closure_ic HP:0001159 @ HP:0001770
     """
     impl = _embedding_impl()
     set1, set2 = _split_term_sets(terms, impl)

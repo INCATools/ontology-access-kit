@@ -46,6 +46,21 @@ class TestVectorUtils(unittest.TestCase):
         weighted = binary * np.array([1.0, 2.0, 3.0, 4.0])
         # rows 0 and 1 share weights 1+2 out of a union of 1+2+3
         self.assertAlmostEqual(weighted_jaccard_similarity_matrix(weighted)[0, 1], 0.5)
+        with self.assertRaises(ValueError):
+            weighted_jaccard_similarity_matrix(np.array([[1.0, -1.0]]))
+
+    def test_weighted_jaccard_chunked(self):
+        from oaklib.utilities.embeddings import vector_utils
+
+        rng = np.random.default_rng(0)
+        a, b = rng.random((3, 7)), rng.random((11, 7))
+        expected = weighted_jaccard_similarity_matrix(a, b)
+        original = vector_utils._MAX_TEMP_ELEMENTS
+        try:
+            vector_utils._MAX_TEMP_ELEMENTS = 14  # two rows of b per chunk
+            np.testing.assert_array_almost_equal(weighted_jaccard_similarity_matrix(a, b), expected)
+        finally:
+            vector_utils._MAX_TEMP_ELEMENTS = original
 
 
 class TestEmbeddingCache(unittest.TestCase):
@@ -91,6 +106,10 @@ class TestClosureEmbeddings(unittest.TestCase):
                 s, o, model=CLOSURE_IC_MODEL, metric="weighted_jaccard"
             )
             self.assertAlmostEqual(got, expected, places=5)
+            # weighted Jaccard is the default metric for closure_ic
+            self.assertAlmostEqual(
+                self.adapter.embedding_similarity(s, o, model=CLOSURE_IC_MODEL), got, places=6
+            )
 
     def test_closure_predicates(self):
         try:
