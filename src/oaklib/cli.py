@@ -2869,7 +2869,7 @@ def nearest_entities(terms, model, output, output_type, autolabel, limit, text):
 @autolabel_option
 @click.option(
     "--metric",
-    type=click.Choice(["cosine", "jaccard"]),
+    type=click.Choice(["cosine", "jaccard", "weighted_jaccard"]),
     default="cosine",
     show_default=True,
     help="Vector similarity metric",

@@ -7,6 +7,7 @@ import numpy as np
 __all__ = [
     "cosine_similarity_matrix",
     "jaccard_similarity_matrix",
+    "weighted_jaccard_similarity_matrix",
     "similarity_matrix",
 ]
 
@@ -61,9 +62,36 @@ def jaccard_similarity_matrix(a: np.ndarray, b: Optional[np.ndarray] = None) -> 
         return np.where(union > 0, intersection / union, 0.0)
 
 
+def weighted_jaccard_similarity_matrix(a: np.ndarray, b: Optional[np.ndarray] = None) -> np.ndarray:
+    """
+    All-by-all weighted (Ruzicka) Jaccard similarity: sum of minima over sum of maxima.
+
+    For binary vectors this is ordinary Jaccard. For closure vectors weighted by
+    information content, it is the IC-weighted ancestor overlap known as simGIC.
+
+    >>> a = np.array([[2.0, 1.0, 0.0], [0.0, 1.0, 3.0]])
+    >>> weighted_jaccard_similarity_matrix(a).round(3).tolist()
+    [[1.0, 0.167], [0.167, 1.0]]
+
+    :param a: an (m x d) non-negative matrix
+    :param b: an (n x d) non-negative matrix; defaults to ``a``
+    :return: an (m x n) matrix of weighted Jaccard similarities
+    """
+    a = np.asarray(a, dtype=float)
+    b = a if b is None else np.asarray(b, dtype=float)
+    out = np.zeros((a.shape[0], b.shape[0]))
+    for i, row in enumerate(a):
+        num = np.minimum(row, b).sum(axis=1)
+        den = np.maximum(row, b).sum(axis=1)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            out[i] = np.where(den > 0, num / den, 0.0)
+    return out
+
+
 METRICS = {
     "cosine": cosine_similarity_matrix,
     "jaccard": jaccard_similarity_matrix,
+    "weighted_jaccard": weighted_jaccard_similarity_matrix,
 }
 
 
@@ -75,7 +103,7 @@ def similarity_matrix(
 
     :param a: an (m x d) matrix
     :param b: an (n x d) matrix; defaults to ``a``
-    :param metric: one of ``cosine`` or ``jaccard``
+    :param metric: one of ``cosine``, ``jaccard`` or ``weighted_jaccard``
     :return: an (m x n) matrix
     """
     if metric not in METRICS:
