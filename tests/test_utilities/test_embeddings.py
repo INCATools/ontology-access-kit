@@ -5,8 +5,9 @@ import unittest
 import numpy as np
 
 from oaklib import get_adapter
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.embedding_provider_interface import (
+    CLOSURE_IC_MODEL,
     CLOSURE_MODEL,
     EmbeddingProviderInterface,
 )
@@ -15,6 +16,7 @@ from oaklib.utilities.embeddings.embedding_cache import EmbeddingCache
 from oaklib.utilities.embeddings.vector_utils import (
     cosine_similarity_matrix,
     jaccard_similarity_matrix,
+    weighted_jaccard_similarity_matrix,
 )
 from tests import IMBO, INPUT_DIR, NUCLEAR_ENVELOPE, NUCLEUS, VACUOLE
 
@@ -35,6 +37,15 @@ class TestVectorUtils(unittest.TestCase):
         m = jaccard_similarity_matrix(a, b)
         self.assertAlmostEqual(m[0, 0], 2 / 3)
         self.assertAlmostEqual(m[0, 1], 0.0)
+
+    def test_weighted_jaccard(self):
+        binary = np.array([[1, 1, 1, 0], [1, 1, 0, 0], [0, 0, 0, 1]], dtype=float)
+        np.testing.assert_array_almost_equal(
+            weighted_jaccard_similarity_matrix(binary), jaccard_similarity_matrix(binary)
+        )
+        weighted = binary * np.array([1.0, 2.0, 3.0, 4.0])
+        # rows 0 and 1 share weights 1+2 out of a union of 1+2+3
+        self.assertAlmostEqual(weighted_jaccard_similarity_matrix(weighted)[0, 1], 0.5)
 
 
 class TestEmbeddingCache(unittest.TestCase):
@@ -65,6 +76,31 @@ class TestClosureEmbeddings(unittest.TestCase):
     def test_interface(self):
         self.assertIsInstance(self.adapter, EmbeddingProviderInterface)
         self.assertIn(CLOSURE_MODEL, self.adapter.embedding_models())
+
+    def test_closure_ic_is_simgic(self):
+        """Weighted Jaccard over IC-weighted closure vectors is simGIC."""
+        self.assertIn(CLOSURE_IC_MODEL, self.adapter.embedding_models())
+        for s, o in [(NUCLEUS, VACUOLE), (NUCLEUS, NUCLEAR_ENVELOPE)]:
+            a = set(self.adapter.ancestors(s, predicates=[IS_A], reflexive=True)) - {"owl:Thing"}
+            b = set(self.adapter.ancestors(o, predicates=[IS_A], reflexive=True)) - {"owl:Thing"}
+            ic = dict(
+                self.adapter.information_content_scores(a | b, object_closure_predicates=[IS_A])
+            )
+            expected = sum(ic.get(x, 0) for x in a & b) / sum(ic.get(x, 0) for x in a | b)
+            got = self.adapter.embedding_similarity(
+                s, o, model=CLOSURE_IC_MODEL, metric="weighted_jaccard"
+            )
+            self.assertAlmostEqual(got, expected, places=5)
+
+    def test_closure_predicates(self):
+        try:
+            self.adapter.closure_embedding_predicates = [IS_A, PART_OF]
+            ids, m = self.adapter.entity_embeddings([NUCLEAR_ENVELOPE], model=CLOSURE_MODEL)
+            with_part_of = m.sum()
+        finally:
+            self.adapter.closure_embedding_predicates = None
+        ids, m = self.adapter.entity_embeddings([NUCLEAR_ENVELOPE], model=CLOSURE_MODEL)
+        self.assertGreater(with_part_of, m.sum())
 
     def test_closure_vectors(self):
         ids, vocab, m = closure_embeddings(self.adapter, [NUCLEUS, VACUOLE])

@@ -11,8 +11,10 @@ from oaklib.datamodels.similarity import (
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
+from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE
 from oaklib.utilities.embeddings.closure_embeddings import closure_embeddings
 from oaklib.utilities.embeddings.vector_utils import similarity_matrix
@@ -20,10 +22,16 @@ from oaklib.utilities.embeddings.vector_utils import similarity_matrix
 __all__ = [
     "EmbeddingProviderInterface",
     "CLOSURE_MODEL",
+    "CLOSURE_IC_MODEL",
 ]
 
 CLOSURE_MODEL = "closure"
 """Pseudo-model that encodes each term as a multi-hot vector of its reflexive ancestors."""
+
+CLOSURE_IC_MODEL = "closure_ic"
+"""Pseudo-model like ``closure``, but each ancestor is weighted by its information content.
+
+Weighted Jaccard over these vectors is the simGIC similarity measure."""
 
 
 class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
@@ -41,8 +49,11 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
 
     Any adapter that also implements :class:`OboGraphInterface` additionally supports
     the ``closure`` pseudo-model, in which each term is a multi-hot vector of its
-    reflexive ancestors. This makes classic ontology-based similarity directly
-    comparable with learned embeddings:
+    reflexive ancestors. Adapters that can also compute information content support
+    ``closure_ic``, in which each ancestor is weighted by its IC; weighted Jaccard over
+    these vectors is the simGIC measure. Set ``closure_embedding_predicates`` to
+    traverse other relations, e.g. ``[IS_A, PART_OF]``. This makes classic
+    ontology-based similarity directly comparable with learned embeddings:
 
     >>> from oaklib import get_adapter
     >>> adapter = get_adapter("tests/input/go-nucleus.db")
@@ -88,9 +99,12 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
 
         :return: list of model names
         """
+        models = []
         if isinstance(self, OboGraphInterface):
-            return [CLOSURE_MODEL]
-        return []
+            models.append(CLOSURE_MODEL)
+            if isinstance(self, SemanticSimilarityInterface):
+                models.append(CLOSURE_IC_MODEL)
+        return models
 
     def _resolve_model(self, model: Optional[str]) -> str:
         if model:
@@ -117,12 +131,22 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         """
         model = self._resolve_model(model)
         curies = list(dict.fromkeys(curies))
-        if model == CLOSURE_MODEL:
+        if model in (CLOSURE_MODEL, CLOSURE_IC_MODEL):
             if not isinstance(self, OboGraphInterface):
                 raise NotImplementedError(f"{type(self).__name__} cannot compute closures")
-            ids, _, matrix = closure_embeddings(
-                self, curies, predicates=self.closure_embedding_predicates
-            )
+            predicates = self.closure_embedding_predicates
+            ids, vocab, matrix = closure_embeddings(self, curies, predicates=predicates)
+            if model == CLOSURE_IC_MODEL:
+                if not isinstance(self, SemanticSimilarityInterface):
+                    raise NotImplementedError(f"{type(self).__name__} cannot compute IC")
+                ic = dict(
+                    self.information_content_scores(
+                        vocab, object_closure_predicates=predicates or [IS_A]
+                    )
+                )
+                ids, _, matrix = closure_embeddings(
+                    self, ids, predicates=predicates, vocabulary=vocab, weights=ic
+                )
             return ids, matrix
         vectors = self._fetch_embeddings(curies, model)
         ids = [c for c in curies if vectors.get(c) is not None]
@@ -187,7 +211,7 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         :param subjects: row entities
         :param objects: column entities; defaults to subjects
         :param model: model name
-        :param metric: ``cosine`` (default) or ``jaccard``
+        :param metric: ``cosine`` (default), ``jaccard`` or ``weighted_jaccard``
         :return: DataFrame indexed by subject, with a column per object
         """
         subjects = list(subjects)
@@ -217,7 +241,7 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         :param subject: first entity
         :param object: second entity
         :param model: model name
-        :param metric: ``cosine`` (default) or ``jaccard``
+        :param metric: ``cosine`` (default), ``jaccard`` or ``weighted_jaccard``
         :return: similarity score, or None if either entity has no embedding
         """
         df = self.embedding_similarity_matrix([subject], [object], model=model, metric=metric)
@@ -263,11 +287,11 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         :param objects: second set of entities (e.g. a disease's phenotypes)
         :param model: model name
         :param labels: if True, populate labels
-        :param metric: ``cosine`` (default) or ``jaccard``
+        :param metric: ``cosine`` (default), ``jaccard`` or ``weighted_jaccard``
         :return: set-wise similarity, with ``average_score`` as the best-match average
         """
         df = self.embedding_similarity_matrix(subjects, objects, model=model, metric=metric)
-        score_slot = f"{metric}_similarity"
+        score_slot = {"cosine": "cosine_similarity", "jaccard": "jaccard_similarity"}.get(metric)
         sim = TermSetPairwiseSimilarity()
         for x in subjects:
             sim.subject_termset[x] = TermInfo(x)
@@ -288,7 +312,9 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
                         match_target=target,
                         score=score,
                         similarity=TermPairwiseSimilarity(
-                            subject_id=pair[0], object_id=pair[1], **{score_slot: score}
+                            subject_id=pair[0],
+                            object_id=pair[1],
+                            **({score_slot: score} if score_slot else {}),
                         ),
                     )
                     scores.append(score)

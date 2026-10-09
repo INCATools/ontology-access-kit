@@ -8,7 +8,7 @@ vectors is identical to the ancestor-set Jaccard used by
 :meth:`SemanticSimilarityInterface.pairwise_similarity`.
 """
 
-from typing import Iterable, List, Optional, Tuple
+from typing import Dict, Iterable, List, Optional, Tuple
 
 import numpy as np
 
@@ -26,9 +26,13 @@ def closure_embeddings(
     curies: Iterable[CURIE],
     predicates: Optional[List[PRED_CURIE]] = None,
     vocabulary: Optional[List[CURIE]] = None,
+    weights: Optional[Dict[CURIE, float]] = None,
 ) -> Tuple[List[CURIE], List[CURIE], np.ndarray]:
     """
     Encode terms as multi-hot vectors of their reflexive ancestors.
+
+    If ``weights`` is supplied, each ancestor's position holds its weight (e.g. its
+    information content) instead of 1; ancestors without a weight get 0.
 
     Unless ``vocabulary`` is supplied, the vector dimensions are the union of the
     ancestors of the requested terms. Vectors are therefore only comparable with
@@ -38,6 +42,7 @@ def closure_embeddings(
     :param curies: the terms to encode
     :param predicates: predicates to traverse; defaults to is_a
     :param vocabulary: the terms that make up the vector dimensions
+    :param weights: optional weight for each ancestor, e.g. information content
     :return: tuple of (encoded curies, vocabulary, matrix of shape (len(curies), len(vocabulary)))
     """
     if predicates is None:
@@ -55,5 +60,5 @@ def closure_embeddings(
         for anc in closures[c]:
             col = index.get(anc)
             if col is not None:
-                matrix[row, col] = 1.0
+                matrix[row, col] = 1.0 if weights is None else weights.get(anc, 0.0)
     return curies, list(vocabulary), matrix
