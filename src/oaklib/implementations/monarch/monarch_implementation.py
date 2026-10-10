@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 GENE_REQUESTS_CACHE = ".gene_requests_cache"
 
 
-BASE_URL = "http://api-v3.monarchinitiative.org/v3/api"
+BASE_URL = "https://api-v3.monarchinitiative.org/v3/api"
 
 
 @dataclass
@@ -146,9 +146,12 @@ class MonarchImplementation(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> Optional[obograph.Node]:
         session = self.requests_session()
-        url = f"{BASE_URL}/entity/{curie }"
+        url = f"{BASE_URL}/entity/{curie}"
         response = session.get(url)
         if response.status_code == 500 and not strict:
+            # An unlabelled node is indistinguishable from an unknown term to a
+            # caller that uses label() as an existence check, so say what happened.
+            logger.warning(f"Monarch API returned 500 for {curie}; returning an ID-only node")
             return obograph.Node(id=curie)
         if response.status_code != 200:
             return None
@@ -161,7 +164,13 @@ class MonarchImplementation(
         if defn:
             meta.definition = obograph.DefinitionPropertyValue(val=defn)
         meta.xrefs = [obograph.XrefPropertyValue(val=x) for x in obj.get("xrefs", [])]
-        return obograph.Node(id=curie, lbl=obj.get("symbol", None), type="CLASS", meta=meta)
+        # The v3 entity payload carries the display label in ``name`` for every
+        # category (ontology classes, LOINC measurements, genes...). ``symbol`` is
+        # populated only for genes, where it equals ``name``; reading it alone
+        # left ``label()`` returning None for all non-gene entities.
+        return obograph.Node(
+            id=curie, lbl=obj.get("name") or obj.get("symbol"), type="CLASS", meta=meta
+        )
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         node = self.node(curie)
@@ -197,7 +206,9 @@ class MonarchImplementation(
                     f"Error fetching issues: {response.status_code} from {url} // {response.text}"
                 )
             obj = response.json()
-            if "in_taxon" in obj:
+            # The key is present with a null value on non-gene entities, and an
+            # empty object breaks graph traversal downstream.
+            if obj.get("in_taxon"):
                 yield curie, IN_TAXON, obj["in_taxon"]
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
