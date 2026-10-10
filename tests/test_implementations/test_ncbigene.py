@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from xml.etree import ElementTree  # noqa S405
 
 from oaklib import get_adapter
@@ -50,3 +50,29 @@ class TestNCBIGene(unittest.TestCase):
                     if assoc.evidence_type == "IDA":
                         found += 1
         self.assertEqual(found, 1)
+
+    def test_labels_cache_miss_fetches_esummary(self):
+        """Tests that labels() fetches missing labels via esummary, batched and cached."""
+        adapter = self.adapter
+        response = MagicMock()
+        response.raise_for_status.return_value = None
+        response.json.return_value = {
+            "result": {
+                "12810": {"name": "Coch"},
+                "1956": {"name": "EGFR"},
+            }
+        }
+        with patch.object(
+            adapter.requests_session, "get", return_value=response
+        ) as mock_get:
+            labels = list(adapter.labels(["NCBIGene:12810", "NCBIGene:1956"]))
+            self.assertEqual(labels, [("NCBIGene:12810", "Coch"), ("NCBIGene:1956", "EGFR")])
+            self.assertEqual(mock_get.call_count, 1)
+            self.assertEqual(
+                mock_get.call_args[0][1],
+                {"db": "gene", "id": "12810,1956", "retmode": "json"},
+            )
+            # second call should be served from the property cache
+            labels = list(adapter.labels(["NCBIGene:12810"]))
+            self.assertEqual(labels, [("NCBIGene:12810", "Coch")])
+            self.assertEqual(mock_get.call_count, 1)
