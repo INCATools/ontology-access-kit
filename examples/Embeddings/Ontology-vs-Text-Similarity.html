@@ -70,8 +70,9 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Where Ontology Similarity and Text-Embedding Similarity Disagree</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Sampling-pairs">Sampling pairs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Scoring">Scoring</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#The-scatter-plots">The scatter plots</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#The-corners">The corners</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#How-well-does-each-ontology-measure-agree-with-text?">How well does each ontology measure agree with text?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#The-corners-(IC-weighted-Jaccard-vs-text)">The corners (IC-weighted Jaccard vs text)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#The-corner-pairs">The corner pairs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#What-the-corners-show">What the corners show</a></li>
 </ul>
 </li>
@@ -112,16 +113,23 @@
              
   <section id="Where-Ontology-Similarity-and-Text-Embedding-Similarity-Disagree">
 <h1>Where Ontology Similarity and Text-Embedding Similarity Disagree<a class="headerlink" href="#Where-Ontology-Similarity-and-Text-Embedding-Similarity-Disagree" title="Link to this heading"></a></h1>
-<p>For a sample of term pairs in each of several ontologies, we compute two similarities:</p>
+<p>For a sample of term pairs in each of several ontologies, we compare:</p>
 <ul class="simple">
-<li><p><strong>ontology similarity</strong>: Jaccard similarity of the two terms’ <code class="docutils literal notranslate"><span class="pre">is_a</span></code> ancestor sets (the <code class="docutils literal notranslate"><span class="pre">closure</span></code> model in OAK);</p></li>
+<li><p><strong>ontology similarity</strong>, computed from the terms’ ancestor closures in three ways:</p>
+<ol class="arabic simple">
+<li><p>Jaccard over <code class="docutils literal notranslate"><span class="pre">is_a</span></code> ancestors;</p></li>
+<li><p>Jaccard over <code class="docutils literal notranslate"><span class="pre">is_a</span></code> + <code class="docutils literal notranslate"><span class="pre">part_of</span></code> ancestors;</p></li>
+<li><p><strong>IC-weighted</strong> Jaccard over <code class="docutils literal notranslate"><span class="pre">is_a</span></code> + <code class="docutils literal notranslate"><span class="pre">part_of</span></code> ancestors (simGIC), in which each shared ancestor counts in proportion to its information content, so sharing a generic ancestor counts for little;</p></li>
+</ol>
+</li>
 <li><p><strong>text similarity</strong>: cosine similarity of the terms’ LLM embeddings, as served by OLS.</p></li>
 </ul>
-<p>Most pairs fall along a common trend. The interesting cases are in the <strong>corners</strong>, where the two measures disagree:</p>
+<p>Most pairs fall along a common trend. The interesting cases are in the <strong>corners</strong>, where ontology and text disagree:</p>
 <ul class="simple">
-<li><p><strong>ontology-similar, text-dissimilar</strong>: terms that are close in the hierarchy but described in different words (e.g. synonyms the model doesn’t know, or terms grouped by a logical criterion that their names don’t reflect);</p></li>
-<li><p><strong>text-similar, ontology-dissimilar</strong>: terms that read alike but are classified far apart (e.g. a shared word with different meanings, or the same concept modelled in two places, which may point to a modelling problem in the ontology).</p></li>
+<li><p><strong>ontology-similar, text-dissimilar</strong>: terms that are close in the hierarchy but described in different words;</p></li>
+<li><p><strong>text-similar, ontology-dissimilar</strong>: terms that read alike but are classified far apart.</p></li>
 </ul>
+<p>All three ontology measures are available through OAK’s <code class="docutils literal notranslate"><span class="pre">EmbeddingProviderInterface</span></code>: the <code class="docutils literal notranslate"><span class="pre">closure</span></code> and <code class="docutils literal notranslate"><span class="pre">closure_ic</span></code> models produce the vectors, with <code class="docutils literal notranslate"><span class="pre">closure_embedding_predicates</span></code> controlling which relations are followed, and the <code class="docutils literal notranslate"><span class="pre">jaccard</span></code> / <code class="docutils literal notranslate"><span class="pre">weighted_jaccard</span></code> metrics compare them.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -158,25 +166,41 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">OWL_CLASS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">OWL_CLASS</span><span class="p">,</span> <span class="n">PART_OF</span>
 
 <span class="n">MODEL</span> <span class="o">=</span> <span class="s2">&quot;text-embedding-3-large_pca512&quot;</span>
-<span class="n">ONTOLOGIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hp&quot;</span><span class="p">:</span> <span class="s2">&quot;HP&quot;</span><span class="p">,</span> <span class="s2">&quot;mondo&quot;</span><span class="p">:</span> <span class="s2">&quot;MONDO&quot;</span><span class="p">,</span> <span class="s2">&quot;go&quot;</span><span class="p">:</span> <span class="s2">&quot;GO&quot;</span><span class="p">,</span> <span class="s2">&quot;cl&quot;</span><span class="p">:</span> <span class="s2">&quot;CL&quot;</span><span class="p">}</span>
-<span class="n">N_RELATED</span><span class="p">,</span> <span class="n">N_RANDOM</span><span class="p">,</span> <span class="n">N_SHOW</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">8</span>
+<span class="c1"># ontology -&gt; (id prefix, root to sample within; None for the whole ontology)</span>
+<span class="n">ONTOLOGIES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;hp&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;HP&quot;</span><span class="p">,</span> <span class="s2">&quot;HP:0000118&quot;</span><span class="p">),</span>  <span class="c1"># Phenotypic abnormality</span>
+    <span class="s2">&quot;mondo&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;MONDO&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="s2">&quot;go&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;GO&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="s2">&quot;cl&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CL&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">N_RELATED</span><span class="p">,</span> <span class="n">N_RANDOM</span><span class="p">,</span> <span class="n">N_SHOW</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span>
+<span class="n">MEASURES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;jaccard_isa&quot;</span><span class="p">:</span> <span class="s2">&quot;Jaccard (is_a)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jaccard_isa_partof&quot;</span><span class="p">:</span> <span class="s2">&quot;Jaccard (is_a + part_of)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;simgic&quot;</span><span class="p">:</span> <span class="s2">&quot;IC-weighted Jaccard (is_a + part_of)&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">PRIMARY</span> <span class="o">=</span> <span class="s2">&quot;simgic&quot;</span>
 </pre></div>
 </div>
 </div>
 <section id="Sampling-pairs">
 <h2>Sampling pairs<a class="headerlink" href="#Sampling-pairs" title="Link to this heading"></a></h2>
-<p>Purely random pairs are almost all unrelated, so they would pile up in one corner. To cover the whole range of ontology similarity, most pairs are sampled by picking a term, moving up to a random one of its ancestors, then down to a random descendant of that ancestor. A smaller number of fully random pairs is added. Only terms from the ontology’s own namespace are used (no imported terms) and obsolete terms are excluded.</p>
+<p>Purely random pairs are almost all unrelated, so they would pile up in one corner. To cover the whole range of ontology similarity, most pairs are sampled by picking a term, moving up to a random one of its <code class="docutils literal notranslate"><span class="pre">is_a</span></code> ancestors, then down to a random descendant of that ancestor. A smaller number of fully random pairs is added. Only terms from the ontology’s own namespace are used (no imported terms), obsolete terms are excluded, and for HP only terms under <em>Phenotypic abnormality</em> are used (no
+clinical modifiers, inheritance modes, etc).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sample_pairs</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sample_pairs</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-    <span class="n">terms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">)</span>
-                   <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">root</span><span class="p">:</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">)</span>
+    <span class="n">terms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span>
     <span class="n">term_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
     <span class="n">pairs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">N_RELATED</span><span class="p">:</span>
@@ -195,9 +219,9 @@
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
 
 <span class="n">adapters</span><span class="p">,</span> <span class="n">pair_sets</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">ONTOLOGIES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ONTOLOGIES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">adapters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sqlite:obo:</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ols:</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-    <span class="n">pair_sets</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_pairs</span><span class="p">(</span><span class="n">adapters</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">prefix</span><span class="p">)</span>
+    <span class="n">pair_sets</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_pairs</span><span class="p">(</span><span class="n">adapters</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pair_sets</span><span class="p">[</span><span class="n">name</span><span class="p">]),</span> <span class="s2">&quot;pairs&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -216,26 +240,37 @@ cl 400 pairs
 </section>
 <section id="Scoring">
 <h2>Scoring<a class="headerlink" href="#Scoring" title="Link to this heading"></a></h2>
-<p>Closure vectors are computed in one call per ontology so that they share dimensions; text vectors come from OLS and are cached locally.</p>
+<p>For each ontology, closure vectors for all sampled terms are computed in one call so that they share dimensions. Information content (IC) is computed from the ontology structure (how many terms each ancestor subsumes), over the same <code class="docutils literal notranslate"><span class="pre">is_a</span></code> + <code class="docutils literal notranslate"><span class="pre">part_of</span></code> closure. In the IC-weighted vectors, the shared position with the largest value is the <strong>most informative common ancestor</strong> (MICA); it is listed in the tables to show where the ontology places the pair.</p>
+<p>The same vectors are available directly from the adapter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">onto</span><span class="o">.</span><span class="n">closure_embedding_predicates</span> <span class="o">=</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]</span>
+<span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">onto</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">terms</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;closure_ic&quot;</span><span class="p">)</span>
+<span class="n">onto</span><span class="o">.</span><span class="n">embedding_similarity_matrix</span><span class="p">(</span><span class="n">terms</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;closure_ic&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;weighted_jaccard&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.embeddings.closure_embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">closure_embeddings</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">most_specific_common_ancestor</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="n">common</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))</span>
-    <span class="n">common</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="s2">&quot;owl:Thing&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">common</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">common</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]))))</span>
+<span class="n">PREDICATES</span> <span class="o">=</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]</span>
 
-<span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">jaccard</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">|</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_jaccard</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">frames</span><span class="p">,</span> <span class="n">micas</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">onto</span><span class="p">,</span> <span class="n">ols</span><span class="p">)</span> <span class="ow">in</span> <span class="n">adapters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">pairs</span> <span class="o">=</span> <span class="n">pair_sets</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="n">terms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">t</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pairs</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">p</span><span class="p">})</span>
-    <span class="n">ids</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span><span class="n">onto</span><span class="p">,</span> <span class="n">terms</span><span class="p">)</span>
-    <span class="n">cix</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">)}</span>
+    <span class="n">ids1</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">C1</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span><span class="n">onto</span><span class="p">,</span> <span class="n">terms</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">])</span>
+    <span class="n">ids2</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">C2</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span><span class="n">onto</span><span class="p">,</span> <span class="n">terms</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">PREDICATES</span><span class="p">)</span>
+    <span class="n">ic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">onto</span><span class="o">.</span><span class="n">information_content_scores</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="n">PREDICATES</span><span class="p">))</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span><span class="n">onto</span><span class="p">,</span> <span class="n">ids2</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">PREDICATES</span><span class="p">,</span> <span class="n">vocabulary</span><span class="o">=</span><span class="n">vocab</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">ic</span><span class="p">)</span>
+    <span class="n">ix1</span><span class="p">,</span> <span class="n">ix2</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids1</span><span class="p">)},</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids2</span><span class="p">)}</span>
     <span class="n">tids</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">(</span><span class="n">terms</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">MODEL</span><span class="p">)</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">tix</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tids</span><span class="p">)}</span>
@@ -243,13 +278,20 @@ cl 400 pairs
     <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tix</span> <span class="ow">or</span> <span class="n">b</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tix</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">cix</span><span class="p">[</span><span class="n">a</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">C</span><span class="p">[</span><span class="n">cix</span><span class="p">[</span><span class="n">b</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">0</span>
-        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;ontology&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span>
-                     <span class="s2">&quot;ontology_sim&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">|</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
-                     <span class="s2">&quot;text_sim&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">tix</span><span class="p">[</span><span class="n">a</span><span class="p">]]</span> <span class="o">@</span> <span class="n">T</span><span class="p">[</span><span class="n">tix</span><span class="p">[</span><span class="n">b</span><span class="p">]])})</span>
+        <span class="n">wa</span><span class="p">,</span> <span class="n">wb</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">ix2</span><span class="p">[</span><span class="n">a</span><span class="p">]],</span> <span class="n">W</span><span class="p">[</span><span class="n">ix2</span><span class="p">[</span><span class="n">b</span><span class="p">]]</span>
+        <span class="n">shared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">wa</span><span class="p">,</span> <span class="n">wb</span><span class="p">)</span>
+        <span class="n">micas</span><span class="p">[(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)]</span> <span class="o">=</span> <span class="n">vocab</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">shared</span><span class="o">.</span><span class="n">argmax</span><span class="p">())]</span> <span class="k">if</span> <span class="n">shared</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;ontology&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span>
+            <span class="s2">&quot;jaccard_isa&quot;</span><span class="p">:</span> <span class="n">jaccard</span><span class="p">(</span><span class="n">C1</span><span class="p">[</span><span class="n">ix1</span><span class="p">[</span><span class="n">a</span><span class="p">]],</span> <span class="n">C1</span><span class="p">[</span><span class="n">ix1</span><span class="p">[</span><span class="n">b</span><span class="p">]]),</span>
+            <span class="s2">&quot;jaccard_isa_partof&quot;</span><span class="p">:</span> <span class="n">jaccard</span><span class="p">(</span><span class="n">C2</span><span class="p">[</span><span class="n">ix2</span><span class="p">[</span><span class="n">a</span><span class="p">]],</span> <span class="n">C2</span><span class="p">[</span><span class="n">ix2</span><span class="p">[</span><span class="n">b</span><span class="p">]]),</span>
+            <span class="s2">&quot;simgic&quot;</span><span class="p">:</span> <span class="n">weighted_jaccard</span><span class="p">(</span><span class="n">wa</span><span class="p">,</span> <span class="n">wb</span><span class="p">),</span>
+            <span class="s2">&quot;text_sim&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">tix</span><span class="p">[</span><span class="n">a</span><span class="p">]]</span> <span class="o">@</span> <span class="n">T</span><span class="p">[</span><span class="n">tix</span><span class="p">[</span><span class="n">b</span><span class="p">]]),</span>
+        <span class="p">})</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
-    <span class="c1"># disagreement: difference of within-ontology percentile ranks</span>
-    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;disagreement&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">ontology_sim</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">pct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">text_sim</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">pct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># disagreement: difference of within-ontology percentile ranks, per measure</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">MEASURES</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;disagreement_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">pct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">text_sim</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">pct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> pairs scored (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> missing a text embedding)&quot;</span><span class="p">)</span>
 <span class="n">scores</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -268,33 +310,140 @@ cl: 400 pairs scored (0 missing a text embedding)
 </pre></div></div>
 </div>
 </section>
-<section id="The-scatter-plots">
-<h2>The scatter plots<a class="headerlink" href="#The-scatter-plots" title="Link to this heading"></a></h2>
-<p>Each point is a pair. The <strong>disagreement</strong> score is the difference between a pair’s percentile rank under ontology similarity and its percentile rank under text similarity. The 8 most extreme pairs in each direction are highlighted and numbered; the tables below list them.</p>
+<section id="How-well-does-each-ontology-measure-agree-with-text?">
+<h2>How well does each ontology measure agree with text?<a class="headerlink" href="#How-well-does-each-ontology-measure-agree-with-text?" title="Link to this heading"></a></h2>
+<p>Spearman correlation between each ontology measure and text similarity:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">spearmanr</span>
 
-<span class="n">ONTO_ONLY</span><span class="p">,</span> <span class="n">TEXT_ONLY</span> <span class="o">=</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="n">AQUA</span>
+<span class="n">agreement</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="n">label</span><span class="p">:</span> <span class="n">scores</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ontology&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">:</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">m</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">text_sim</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">MEASURES</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">})</span>
+<span class="n">agreement</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">agreement</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="n">agreement</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Jaccard (is_a)</th>
+      <th>Jaccard (is_a + part_of)</th>
+      <th>IC-weighted Jaccard (is_a + part_of)</th>
+    </tr>
+    <tr>
+      <th>ontology</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>HP</th>
+      <td>0.748</td>
+      <td>0.748</td>
+      <td>0.789</td>
+    </tr>
+    <tr>
+      <th>MONDO</th>
+      <td>0.628</td>
+      <td>0.628</td>
+      <td>0.732</td>
+    </tr>
+    <tr>
+      <th>GO</th>
+      <td>0.706</td>
+      <td>0.725</td>
+      <td>0.760</td>
+    </tr>
+    <tr>
+      <th>CL</th>
+      <td>0.662</td>
+      <td>0.598</td>
+      <td>0.672</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ONTOLOGIES</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">MEASURES</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ontology&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">MEASURES</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">m</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">text_sim</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">m</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">text_sim</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">\n</span><span class="s2">Spearman ρ = </span><span class="si">{</span><span class="n">rho</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">1.03</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;text similarity (cosine)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ontology similarity&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_Embeddings_Ontology-vs-Text-Similarity_9_0.png" src="../../_images/examples_Embeddings_Ontology-vs-Text-Similarity_9_0.png" />
+</div>
+</div>
+</section>
+<section id="The-corners-(IC-weighted-Jaccard-vs-text)">
+<h2>The corners (IC-weighted Jaccard vs text)<a class="headerlink" href="#The-corners-(IC-weighted-Jaccard-vs-text)" title="Link to this heading"></a></h2>
+<p>The <strong>disagreement</strong> score is the difference between a pair’s percentile rank under ontology similarity and its percentile rank under text similarity. The 20 most extreme pairs in each direction are highlighted and numbered; the tables below list them.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ONTO_ONLY</span><span class="p">,</span> <span class="n">TEXT_ONLY</span> <span class="o">=</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="n">AQUA</span>
+<span class="n">d_col</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;disagreement_</span><span class="si">{</span><span class="n">PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="n">corners</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">11.5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ontology&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)):</span>
-    <span class="n">onto_only</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="n">N_SHOW</span><span class="p">,</span> <span class="s2">&quot;disagreement&quot;</span><span class="p">)</span>
-    <span class="n">text_only</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">N_SHOW</span><span class="p">,</span> <span class="s2">&quot;disagreement&quot;</span><span class="p">)</span>
+    <span class="n">onto_only</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="n">N_SHOW</span><span class="p">,</span> <span class="n">d_col</span><span class="p">)</span>
+    <span class="n">text_only</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">N_SHOW</span><span class="p">,</span> <span class="n">d_col</span><span class="p">)</span>
     <span class="n">corners</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">onto_only</span><span class="p">,</span> <span class="n">text_only</span><span class="p">)</span>
     <span class="n">rest</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">onto_only</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">text_only</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rest</span><span class="o">.</span><span class="n">ontology_sim</span><span class="p">,</span> <span class="n">rest</span><span class="o">.</span><span class="n">text_sim</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rest</span><span class="p">[</span><span class="n">PRIMARY</span><span class="p">],</span> <span class="n">rest</span><span class="o">.</span><span class="n">text_sim</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">sub</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">((</span><span class="n">onto_only</span><span class="p">,</span> <span class="n">ONTO_ONLY</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">text_only</span><span class="p">,</span> <span class="n">TEXT_ONLY</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">)):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">ontology_sim</span><span class="p">,</span> <span class="n">sub</span><span class="o">.</span><span class="n">text_sim</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">46</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="n">SURFACE</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="n">PRIMARY</span><span class="p">],</span> <span class="n">sub</span><span class="o">.</span><span class="n">text_sim</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="n">SURFACE</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">iterrows</span><span class="p">(),</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">ontology_sim</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text_sim</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                        <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK2</span><span class="p">)</span>
-    <span class="n">rho</span> <span class="o">=</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ontology_sim</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">text_sim</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">PRIMARY</span><span class="p">],</span> <span class="n">r</span><span class="o">.</span><span class="n">text_sim</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                        <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">6.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK2</span><span class="p">)</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">PRIMARY</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">text_sim</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">  (n = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">, Spearman ρ = </span><span class="si">{</span><span class="n">rho</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ontology similarity (ancestor Jaccard)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ontology similarity (</span><span class="si">{</span><span class="n">MEASURES</span><span class="p">[</span><span class="n">PRIMARY</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]:</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;text similarity (cosine, </span><span class="si">{</span><span class="n">MODEL</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_pca512&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 <span class="n">handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Line2D</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">ONTO_ONLY</span><span class="p">,</span> <span class="n">TEXT_ONLY</span><span class="p">)]</span>
@@ -308,33 +457,135 @@ cl: 400 pairs scored (0 missing a text embedding)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_Embeddings_Ontology-vs-Text-Similarity_8_0.png" src="../../_images/examples_Embeddings_Ontology-vs-Text-Similarity_8_0.png" />
+<img alt="../../_images/examples_Embeddings_Ontology-vs-Text-Similarity_11_0.png" src="../../_images/examples_Embeddings_Ontology-vs-Text-Similarity_11_0.png" />
 </div>
+</div>
+<p>How stable are the corners across ontology measures? For each ontology, the number of the top-20 pairs in each corner that are also in the top 20 under the other measures:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">scores</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ontology&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">corner</span><span class="p">,</span> <span class="n">pick</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;ontology-similar, text-dissimilar&quot;</span><span class="p">,</span> <span class="s2">&quot;nlargest&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;text-similar, ontology-dissimilar&quot;</span><span class="p">,</span> <span class="s2">&quot;nsmallest&quot;</span><span class="p">)):</span>
+        <span class="n">top</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pick</span><span class="p">)(</span><span class="n">N_SHOW</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;disagreement_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">MEASURES</span><span class="p">}</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;ontology&quot;</span><span class="p">:</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s2">&quot;corner&quot;</span><span class="p">:</span> <span class="n">corner</span><span class="p">,</span>
+                     <span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;shared with </span><span class="si">{</span><span class="n">MEASURES</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="p">[</span><span class="n">PRIMARY</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">top</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">MEASURES</span> <span class="k">if</span> <span class="n">m</span> <span class="o">!=</span> <span class="n">PRIMARY</span><span class="p">}})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;ontology&quot;</span><span class="p">,</span> <span class="s2">&quot;corner&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>shared with Jaccard (is_a)</th>
+      <th>shared with Jaccard (is_a + part_of)</th>
+    </tr>
+    <tr>
+      <th>ontology</th>
+      <th>corner</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">HP</th>
+      <th>ontology-similar, text-dissimilar</th>
+      <td>15</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>text-similar, ontology-dissimilar</th>
+      <td>11</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">MONDO</th>
+      <th>ontology-similar, text-dissimilar</th>
+      <td>17</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>text-similar, ontology-dissimilar</th>
+      <td>11</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">GO</th>
+      <th>ontology-similar, text-dissimilar</th>
+      <td>14</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>text-similar, ontology-dissimilar</th>
+      <td>11</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">CL</th>
+      <th>ontology-similar, text-dissimilar</th>
+      <td>13</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>text-similar, ontology-dissimilar</th>
+      <td>7</td>
+      <td>14</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 </section>
-<section id="The-corners">
-<h2>The corners<a class="headerlink" href="#The-corners" title="Link to this heading"></a></h2>
-<p>For each ontology, the two tables list the most extreme disagreements. “Common ancestor” is the most specific shared <code class="docutils literal notranslate"><span class="pre">is_a</span></code> ancestor, which shows how far apart the ontology places the two terms.</p>
+<section id="The-corner-pairs">
+<h2>The corner pairs<a class="headerlink" href="#The-corner-pairs" title="Link to this heading"></a></h2>
+<p>For each ontology, the two tables list the 20 most extreme disagreements under the IC-weighted measure, with all three ontology scores. “MICA” is the most informative common ancestor over <code class="docutils literal notranslate"><span class="pre">is_a</span></code> + <code class="docutils literal notranslate"><span class="pre">part_of</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_colwidth&quot;</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_colwidth&quot;</span><span class="p">,</span> <span class="mi">55</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_rows&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">corner_table</span><span class="p">(</span><span class="n">onto</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">onto</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">a</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">b</span><span class="p">)))</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">a</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">|</span> <span class="p">{</span><span class="n">micas</span><span class="p">[(</span><span class="n">r</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">b</span><span class="p">)]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">sub</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()}</span> <span class="o">-</span> <span class="p">{</span><span class="kc">None</span><span class="p">}</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">onto</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
     <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">iterrows</span><span class="p">(),</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">mica</span> <span class="o">=</span> <span class="n">most_specific_common_ancestor</span><span class="p">(</span><span class="n">onto</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(),</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">mica</span> <span class="o">=</span> <span class="n">micas</span><span class="p">[(</span><span class="n">r</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">b</span><span class="p">)]</span>
         <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
             <span class="s2">&quot;#&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="s2">&quot;term 1&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">a</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
             <span class="s2">&quot;term 2&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">b</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ontology sim&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">ontology_sim</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-            <span class="s2">&quot;text sim&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text_sim</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-            <span class="s2">&quot;common ancestor&quot;</span><span class="p">:</span> <span class="n">onto</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">mica</span><span class="p">)</span> <span class="k">if</span> <span class="n">mica</span> <span class="k">else</span> <span class="s2">&quot;(none)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text_sim</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s2">&quot;IC-Jaccard&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">simgic</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s2">&quot;Jaccard is_a+part_of&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">jaccard_isa_partof</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s2">&quot;Jaccard is_a&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">jaccard_isa</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s2">&quot;MICA&quot;</span><span class="p">:</span> <span class="n">labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">mica</span><span class="p">,</span> <span class="n">mica</span><span class="p">)</span> <span class="k">if</span> <span class="n">mica</span> <span class="k">else</span> <span class="s2">&quot;(none)&quot;</span><span class="p">,</span>
         <span class="p">})</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
 
@@ -380,12 +631,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -396,67 +651,203 @@ cl: 400 pairs scored (0 missing a text embedding)
   <tbody>
     <tr>
       <th>O1</th>
-      <td>Contiguous gene syndrome (HP:0001466)</td>
-      <td>Imprinted (HP:0034338)</td>
+      <td>Slough (HP:0020013)</td>
+      <td>Trichilemmal cyst (HP:0025246)</td>
+      <td>0.14</td>
+      <td>0.31</td>
       <td>0.60</td>
-      <td>0.11</td>
-      <td>Inheritance qualifier</td>
+      <td>0.60</td>
+      <td>Localized skin lesion</td>
     </tr>
     <tr>
       <th>O2</th>
-      <td>Ameliorated by (HP:0025254)</td>
-      <td>Multiple-finger involvement (HP:6001122)</td>
-      <td>0.33</td>
-      <td>0.14</td>
-      <td>Clinical modifier</td>
+      <td>Light-chain paraproteinemia (HP:0031048)</td>
+      <td>Increased anti-dust mite IgE antibody level (HP:041...</td>
+      <td>0.29</td>
+      <td>0.54</td>
+      <td>0.72</td>
+      <td>0.72</td>
+      <td>Abnormal circulating immunoglobulin concentration</td>
     </tr>
     <tr>
       <th>O3</th>
-      <td>Posterior fossa localization (HP:0430129)</td>
-      <td>Exacerbated by exposure to sunlight (HP:6001075)</td>
-      <td>0.22</td>
-      <td>0.07</td>
-      <td>Clinical modifier</td>
+      <td>Fragmented elastic fibers in the dermis (HP:0025167)</td>
+      <td>V-sign (HP:0025536)</td>
+      <td>0.03</td>
+      <td>0.18</td>
+      <td>0.38</td>
+      <td>0.38</td>
+      <td>Abnormal skin morphology</td>
     </tr>
     <tr>
       <th>O4</th>
-      <td>Microscopic hematuria (HP:0002907)</td>
-      <td>Waxy casts (HP:0031202)</td>
+      <td>Abnormality of abdominal situs (HP:0011620)</td>
+      <td>Isomerism (HP:0031853)</td>
+      <td>0.28</td>
+      <td>0.36</td>
       <td>0.50</td>
-      <td>0.26</td>
-      <td>Abnormal urine cytology</td>
+      <td>0.50</td>
+      <td>Heterotaxy</td>
     </tr>
     <tr>
       <th>O5</th>
-      <td>Blue-field entoptic phenomenon (HP:0020331)</td>
-      <td>Difficulty adjusting to changes in luminance (HP:0030512)</td>
+      <td>Abnormal saccadic eye movements (HP:0000570)</td>
+      <td>Compensatory chin elevation (HP:0001477)</td>
+      <td>0.31</td>
+      <td>0.34</td>
       <td>0.62</td>
-      <td>0.33</td>
-      <td>Abnormality of vision</td>
+      <td>0.62</td>
+      <td>Abnormality of eye movement</td>
     </tr>
     <tr>
       <th>O6</th>
-      <td>Conus terminalis arteriovenous malformation (HP:0031939)</td>
-      <td>Spinal cord granuloma (HP:6000257)</td>
-      <td>0.67</td>
-      <td>0.35</td>
-      <td>Abnormal spinal cord morphology</td>
+      <td>Abnormality of vitamin metabolism (HP:0100508)</td>
+      <td>Shortened O-fucosylated glycan on properdin (HP:041...</td>
+      <td>0.15</td>
+      <td>0.17</td>
+      <td>0.40</td>
+      <td>0.40</td>
+      <td>Abnormal metabolism</td>
     </tr>
     <tr>
       <th>O7</th>
-      <td>Exercise-triggered malignant hyperthermia (HP:0034732)</td>
-      <td>Mucus in stool (HP:6000686)</td>
-      <td>0.27</td>
-      <td>0.14</td>
-      <td>Abnormality of metabolism/homeostasis</td>
+      <td>Hip pain (HP:0030838)</td>
+      <td>Fish odor (HP:0410020)</td>
+      <td>0.15</td>
+      <td>0.16</td>
+      <td>0.43</td>
+      <td>0.43</td>
+      <td>Constitutional symptom</td>
     </tr>
     <tr>
       <th>O8</th>
-      <td>Tapered tooth (HP:0033781)</td>
-      <td>Lip hyperpigmentation (HP:0100816)</td>
+      <td>Recurrent skin infections (HP:0001581)</td>
+      <td>Autoimmune encephalitis (HP:5210423)</td>
+      <td>0.20</td>
+      <td>0.18</td>
       <td>0.33</td>
-      <td>0.19</td>
+      <td>0.33</td>
+      <td>Increased inflammatory response</td>
+    </tr>
+    <tr>
+      <th>O9</th>
+      <td>Partial development of the penile shaft (HP:0008708)</td>
+      <td>Varicocele (HP:0012871)</td>
+      <td>0.38</td>
+      <td>0.45</td>
+      <td>0.67</td>
+      <td>0.67</td>
+      <td>Abnormal male external genitalia morphology</td>
+    </tr>
+    <tr>
+      <th>O10</th>
+      <td>CNS hypermyelination (HP:0012754)</td>
+      <td>Empty delta sign (HP:0032267)</td>
+      <td>0.16</td>
+      <td>0.15</td>
+      <td>0.42</td>
+      <td>0.42</td>
+      <td>Morphological central nervous system abnormality</td>
+    </tr>
+    <tr>
+      <th>O11</th>
+      <td>Granuloma (HP:0032252)</td>
+      <td>Decreased HLA-DR+ T cell proportion (HP:5200034)</td>
+      <td>0.14</td>
+      <td>0.13</td>
+      <td>0.31</td>
+      <td>0.31</td>
+      <td>Abnormal immune system morphology</td>
+    </tr>
+    <tr>
+      <th>O12</th>
+      <td>Geophagia (HP:0025062)</td>
+      <td>Bulimia (HP:0100739)</td>
+      <td>0.44</td>
+      <td>0.54</td>
+      <td>0.75</td>
+      <td>0.75</td>
+      <td>Abnormal eating behavior</td>
+    </tr>
+    <tr>
+      <th>O13</th>
+      <td>Metaphyseal sclerosis (HP:0004979)</td>
+      <td>Deviation of the 4th toe (HP:0010338)</td>
+      <td>0.28</td>
+      <td>0.24</td>
+      <td>0.47</td>
+      <td>0.47</td>
+      <td>Abnormal limb bone morphology</td>
+    </tr>
+    <tr>
+      <th>O14</th>
+      <td>Anti-transcription intermediary factor-1gamma antib...</td>
+      <td>Unusual norovirus infection (HP:5210310)</td>
+      <td>0.18</td>
+      <td>0.15</td>
+      <td>0.40</td>
+      <td>0.40</td>
+      <td>Abnormality of immune system physiology</td>
+    </tr>
+    <tr>
+      <th>O15</th>
+      <td>Anti-SEZ6L2 antibody (HP:5000032)</td>
+      <td>Unusual fungal arthritis (HP:5210209)</td>
+      <td>-0.00</td>
+      <td>0.08</td>
+      <td>0.22</td>
+      <td>0.22</td>
+      <td>Abnormality of immune system physiology</td>
+    </tr>
+    <tr>
+      <th>O16</th>
+      <td>Abnormality of superior crus of antihelix (HP:0011245)</td>
+      <td>Long ear (HP:0400004)</td>
+      <td>0.41</td>
+      <td>0.44</td>
+      <td>0.67</td>
+      <td>0.67</td>
+      <td>Abnormal pinna morphology</td>
+    </tr>
+    <tr>
+      <th>O17</th>
+      <td>Reduced eye contact (HP:0000817)</td>
+      <td>Use of another person's body to communicate (HP:400...</td>
+      <td>0.45</td>
+      <td>0.49</td>
+      <td>0.73</td>
+      <td>0.73</td>
+      <td>Abnormal nonverbal communicative behavior</td>
+    </tr>
+    <tr>
+      <th>O18</th>
+      <td>Jaw claudication (HP:0030164)</td>
+      <td>Absent superficial temporal artery pulse (HP:6000786)</td>
+      <td>0.44</td>
+      <td>0.46</td>
+      <td>0.70</td>
+      <td>0.70</td>
+      <td>Abnormal arterial physiology</td>
+    </tr>
+    <tr>
+      <th>O19</th>
+      <td>Peg-shaped maxillary lateral incisors (HP:0006342)</td>
+      <td>Tongue hyperpigmentation (HP:6001529)</td>
+      <td>0.27</td>
+      <td>0.18</td>
+      <td>0.39</td>
+      <td>0.39</td>
       <td>Abnormal oral morphology</td>
+    </tr>
+    <tr>
+      <th>O20</th>
+      <td>Nephropathy (HP:0000112)</td>
+      <td>Steroid-dependent nephrotic syndrome (HP:0025650)</td>
+      <td>0.45</td>
+      <td>0.47</td>
+      <td>0.73</td>
+      <td>0.73</td>
+      <td>Abnormal renal physiology</td>
     </tr>
   </tbody>
 </table>
@@ -495,12 +886,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -511,66 +906,202 @@ cl: 400 pairs scored (0 missing a text embedding)
   <tbody>
     <tr>
       <th>T1</th>
-      <td>Undermodelled hand bones (HP:0004292)</td>
-      <td>Complete duplication of the proximal phalanx of the 3rd ...</td>
-      <td>0.11</td>
-      <td>0.54</td>
-      <td>Abnormality of limbs</td>
+      <td>Osteoma cutis (HP:0025027)</td>
+      <td>Patchy sclerosis of the proximal phalanx of the 3rd...</td>
+      <td>0.49</td>
+      <td>0.01</td>
+      <td>0.05</td>
+      <td>0.05</td>
+      <td>Phenotypic abnormality</td>
     </tr>
     <tr>
       <th>T2</th>
-      <td>Absent phalangeal crease (HP:0006109)</td>
-      <td>Unilateral perisylvian polymicrogyria (HP:0032406)</td>
-      <td>0.07</td>
-      <td>0.37</td>
-      <td>Phenotypic abnormality</td>
+      <td>Synostosis involving the 5th metacarpal (HP:0009708)</td>
+      <td>Proximal radioulnar joint dislocation (HP:6000890)</td>
+      <td>0.57</td>
+      <td>0.04</td>
+      <td>0.13</td>
+      <td>0.13</td>
+      <td>Abnormality of the upper limb</td>
     </tr>
     <tr>
       <th>T3</th>
-      <td>Almond-shaped palpebral fissure (HP:0007874)</td>
-      <td>Congruous homonymous hemianopia (HP:0030518)</td>
-      <td>0.10</td>
-      <td>0.44</td>
-      <td>Phenotypic abnormality</td>
+      <td>Bone-in-a-bone appearance of forearm (HP:0003955)</td>
+      <td>Bullet-shaped middle phalanx of the 3rd finger (HP:...</td>
+      <td>0.58</td>
+      <td>0.06</td>
+      <td>0.17</td>
+      <td>0.17</td>
+      <td>Abnormality of the upper limb</td>
     </tr>
     <tr>
       <th>T4</th>
-      <td>Abnormal stapes morphology (HP:0008628)</td>
-      <td>Fractured carpal bone (HP:0041248)</td>
-      <td>0.09</td>
-      <td>0.40</td>
-      <td>Phenotypic abnormality</td>
+      <td>Psychotic episodes (HP:0000725)</td>
+      <td>Focal aware emotional seizure with laughing (HP:003...</td>
+      <td>0.58</td>
+      <td>0.06</td>
+      <td>0.22</td>
+      <td>0.22</td>
+      <td>Abnormal nervous system physiology</td>
     </tr>
     <tr>
       <th>T5</th>
-      <td>Abnormality of the periorbital region (HP:0000606)</td>
-      <td>Carpal bone aplasia (HP:0004231)</td>
-      <td>0.07</td>
-      <td>0.36</td>
-      <td>Phenotypic abnormality</td>
+      <td>Periorbital fullness (HP:0000629)</td>
+      <td>Lower eyelid edema (HP:0012568)</td>
+      <td>0.84</td>
+      <td>0.16</td>
+      <td>0.30</td>
+      <td>0.30</td>
+      <td>Abnormality of the periorbital region</td>
     </tr>
     <tr>
       <th>T6</th>
-      <td>Short middle phalanx of the 2nd toe (HP:0010435)</td>
-      <td>Abnormal hypopharynx morphology (HP:3000053)</td>
-      <td>0.05</td>
-      <td>0.29</td>
-      <td>Phenotypic abnormality</td>
+      <td>Hypoplasia of the ovary (HP:0008724)</td>
+      <td>Increased antral follicle count (HP:0033086)</td>
+      <td>0.58</td>
+      <td>0.08</td>
+      <td>0.24</td>
+      <td>0.24</td>
+      <td>Abnormality of the genital system</td>
     </tr>
     <tr>
       <th>T7</th>
-      <td>Premature adrenarche (HP:0012412)</td>
-      <td>Preterm intraventricular hemorrhage (HP:0030747)</td>
-      <td>0.09</td>
-      <td>0.35</td>
+      <td>Abnormality of liposaccharide metabolism (HP:0010968)</td>
+      <td>Abnormality of abdominal situs (HP:0011620)</td>
+      <td>0.45</td>
+      <td>0.02</td>
+      <td>0.20</td>
+      <td>0.20</td>
       <td>Phenotypic abnormality</td>
     </tr>
     <tr>
       <th>T8</th>
-      <td>Cholestatic liver disease (HP:0002611)</td>
-      <td>Choroidal hemangioma (HP:0007872)</td>
+      <td>Abnormality of the joint spaces of the elbow (HP:00...</td>
+      <td>Irregular epiphysis of the proximal phalanx of the ...</td>
+      <td>0.54</td>
+      <td>0.07</td>
+      <td>0.18</td>
+      <td>0.18</td>
+      <td>Abnormality of the upper limb</td>
+    </tr>
+    <tr>
+      <th>T9</th>
+      <td>Fatigable weakness of bulbar muscles (HP:0030192)</td>
+      <td>Cervical motion tenderness (HP:6000107)</td>
+      <td>0.38</td>
+      <td>0.01</td>
+      <td>0.12</td>
+      <td>0.12</td>
+      <td>Phenotypic abnormality</td>
+    </tr>
+    <tr>
+      <th>T10</th>
+      <td>Chordee (HP:0000041)</td>
+      <td>Vesicoallantoic abdominal wall defect (HP:0030733)</td>
+      <td>0.45</td>
+      <td>0.04</td>
+      <td>0.18</td>
+      <td>0.18</td>
+      <td>Abnormality of the genitourinary system</td>
+    </tr>
+    <tr>
+      <th>T11</th>
+      <td>Increased circulating lactate concentration (HP:000...</td>
+      <td>Elevated urinary 5-amino-4-imidazolecarboxamide-rib...</td>
+      <td>0.46</td>
+      <td>0.05</td>
+      <td>0.20</td>
+      <td>0.20</td>
+      <td>Abnormality of metabolism/homeostasis</td>
+    </tr>
+    <tr>
+      <th>T12</th>
+      <td>Absent middle phalanx of 4th finger (HP:0009294)</td>
+      <td>Patchy sclerosis of the middle phalanx of the 4th f...</td>
+      <td>0.78</td>
+      <td>0.19</td>
+      <td>0.33</td>
+      <td>0.33</td>
+      <td>Abnormality of the middle phalanx of the 4th finger</td>
+    </tr>
+    <tr>
+      <th>T13</th>
+      <td>Medially fused radial epiphyseal plates (HP:0004013)</td>
+      <td>Abnormal renal corticomedullary differentiation (HP...</td>
+      <td>0.34</td>
+      <td>0.01</td>
+      <td>0.07</td>
+      <td>0.07</td>
+      <td>Phenotypic abnormality</td>
+    </tr>
+    <tr>
+      <th>T14</th>
+      <td>Fibrous tissue neoplasm (HP:0012316)</td>
+      <td>Neoplasm of the parathyroid gland (HP:0100733)</td>
+      <td>0.57</td>
+      <td>0.09</td>
+      <td>0.27</td>
+      <td>0.27</td>
+      <td>Neoplasm</td>
+    </tr>
+    <tr>
+      <th>T15</th>
+      <td>Chiari type I malformation (HP:0007099)</td>
+      <td>Abdominal aortic dissection (HP:0033311)</td>
+      <td>0.35</td>
+      <td>0.01</td>
       <td>0.10</td>
-      <td>0.37</td>
+      <td>0.10</td>
+      <td>Phenotypic abnormality</td>
+    </tr>
+    <tr>
+      <th>T16</th>
+      <td>Adrenal pheochromocytoma (HP:0006748)</td>
+      <td>Uterine adenofibroma (HP:0034709)</td>
+      <td>0.46</td>
+      <td>0.05</td>
+      <td>0.12</td>
+      <td>0.12</td>
+      <td>Neoplasm by anatomical site</td>
+    </tr>
+    <tr>
+      <th>T17</th>
+      <td>Unilateral radial aplasia (HP:0011908)</td>
+      <td>Primary vesicoureteral reflux (HP:0033738)</td>
+      <td>0.32</td>
+      <td>0.01</td>
+      <td>0.06</td>
+      <td>0.06</td>
+      <td>Phenotypic abnormality</td>
+    </tr>
+    <tr>
+      <th>T18</th>
+      <td>Attached earlobe (HP:0009907)</td>
+      <td>Splayed superior cerebellar peduncle (HP:0030285)</td>
+      <td>0.34</td>
+      <td>0.01</td>
+      <td>0.10</td>
+      <td>0.10</td>
+      <td>Phenotypic abnormality</td>
+    </tr>
+    <tr>
+      <th>T19</th>
+      <td>Abnormal presence of ultra-large von Willebrand fac...</td>
+      <td>Abnormality of mentalis muscle (HP:3000007)</td>
+      <td>0.34</td>
+      <td>0.01</td>
+      <td>0.10</td>
+      <td>0.10</td>
+      <td>Phenotypic abnormality</td>
+    </tr>
+    <tr>
+      <th>T20</th>
+      <td>Nephroptosis (HP:0011126)</td>
+      <td>Knee extension contracture (HP:0034672)</td>
+      <td>0.36</td>
+      <td>0.01</td>
+      <td>0.10</td>
+      <td>0.10</td>
       <td>Phenotypic abnormality</td>
     </tr>
   </tbody>
@@ -610,12 +1141,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -626,67 +1161,203 @@ cl: 400 pairs scored (0 missing a text embedding)
   <tbody>
     <tr>
       <th>O1</th>
-      <td>monosodium glutamate sensitivity (MONDO:0009280)</td>
-      <td>Lamb-Shaffer syndrome (MONDO:0014778)</td>
-      <td>0.83</td>
-      <td>0.14</td>
-      <td>hereditary disease</td>
-    </tr>
-    <tr>
-      <th>O2</th>
-      <td>autism, susceptibility to, 20 (MONDO:0030004)</td>
-      <td>gallbladder disease 4 (MONDO:1010151)</td>
-      <td>0.70</td>
-      <td>0.14</td>
-      <td>inherited disease susceptibility</td>
-    </tr>
-    <tr>
-      <th>O3</th>
-      <td>fat necrosis of breast (MONDO:0001101)</td>
-      <td>intellectual disability, anterior maxillary protrusion, ...</td>
-      <td>0.50</td>
-      <td>0.04</td>
-      <td>human disease</td>
-    </tr>
-    <tr>
-      <th>O4</th>
-      <td>maleylacetoacetate isomerase deficiency (MONDO:0060527)</td>
-      <td>immunodeficiency 109 with lymphoproliferation (MONDO:085...</td>
-      <td>0.62</td>
-      <td>0.16</td>
-      <td>hereditary disease</td>
-    </tr>
-    <tr>
-      <th>O5</th>
-      <td>fire ant poisoning (MONDO:0100341)</td>
-      <td>OFD1-related ciliopathy (MONDO:1040039)</td>
-      <td>0.47</td>
-      <td>0.04</td>
-      <td>disease by etiologic mechanism</td>
-    </tr>
-    <tr>
-      <th>O6</th>
       <td>dilated cardiomyopathy 2A (MONDO:0012746)</td>
       <td>46,XY sex reversal 6 (MONDO:0013410)</td>
-      <td>0.50</td>
       <td>0.10</td>
+      <td>0.28</td>
+      <td>0.50</td>
+      <td>0.50</td>
       <td>familial cardiomyopathy</td>
     </tr>
     <tr>
-      <th>O7</th>
-      <td>otosclerosis 8 (MONDO:0012797)</td>
-      <td>Giacheti syndrome (MONDO:0013037)</td>
-      <td>0.50</td>
-      <td>0.11</td>
+      <th>O2</th>
+      <td>monosodium glutamate sensitivity (MONDO:0009280)</td>
+      <td>Lamb-Shaffer syndrome (MONDO:0014778)</td>
+      <td>0.14</td>
+      <td>0.29</td>
+      <td>0.83</td>
+      <td>0.83</td>
       <td>hereditary disease</td>
     </tr>
     <tr>
-      <th>O8</th>
-      <td>immunoglobulin M deficiency, horse (MONDO:1012135)</td>
-      <td>spermatic cord varicoele, non-human animal (MONDO:1017019)</td>
-      <td>0.57</td>
+      <th>O3</th>
+      <td>autism, susceptibility to, 20 (MONDO:0030004)</td>
+      <td>gallbladder disease 4 (MONDO:1010151)</td>
+      <td>0.14</td>
+      <td>0.28</td>
+      <td>0.70</td>
+      <td>0.70</td>
+      <td>inherited disease susceptibility</td>
+    </tr>
+    <tr>
+      <th>O4</th>
+      <td>trigonocephaly (MONDO:0000156)</td>
+      <td>osteogenesis imperfecta, type 20 (MONDO:0032846)</td>
+      <td>0.19</td>
+      <td>0.35</td>
+      <td>0.61</td>
+      <td>0.61</td>
+      <td>bone development disease</td>
+    </tr>
+    <tr>
+      <th>O5</th>
+      <td>fat necrosis of breast (MONDO:0001101)</td>
+      <td>intellectual disability, anterior maxillary protrus...</td>
+      <td>0.04</td>
+      <td>0.12</td>
+      <td>0.50</td>
+      <td>0.50</td>
+      <td>human disease</td>
+    </tr>
+    <tr>
+      <th>O6</th>
+      <td>maleylacetoacetate isomerase deficiency (MONDO:0060...</td>
+      <td>immunodeficiency 109 with lymphoproliferation (MOND...</td>
       <td>0.16</td>
+      <td>0.18</td>
+      <td>0.62</td>
+      <td>0.62</td>
+      <td>hereditary disease</td>
+    </tr>
+    <tr>
+      <th>O7</th>
+      <td>fire ant poisoning (MONDO:0100341)</td>
+      <td>OFD1-related ciliopathy (MONDO:1040039)</td>
+      <td>0.04</td>
+      <td>0.11</td>
+      <td>0.47</td>
+      <td>0.47</td>
+      <td>disease by etiologic mechanism</td>
+    </tr>
+    <tr>
+      <th>O8</th>
+      <td>fumaric aciduria (MONDO:0011730)</td>
+      <td>Leber-like hereditary optic neuropathy, autosomal r...</td>
+      <td>0.23</td>
+      <td>0.31</td>
+      <td>0.54</td>
+      <td>0.54</td>
+      <td>inborn mitochondrial metabolism disorder</td>
+    </tr>
+    <tr>
+      <th>O9</th>
+      <td>neonatal abstinence syndrome (MONDO:0005566)</td>
+      <td>ectodermal dysplasia 13, hair/tooth type (MONDO:004...</td>
+      <td>0.03</td>
+      <td>0.11</td>
+      <td>0.39</td>
+      <td>0.39</td>
+      <td>syndromic disease</td>
+    </tr>
+    <tr>
+      <th>O10</th>
+      <td>portosystemic shunt, non-human animal (MONDO:1011409)</td>
+      <td>XX difference of sexual development, dog (MONDO:101...</td>
+      <td>0.20</td>
+      <td>0.23</td>
+      <td>0.56</td>
+      <td>0.56</td>
+      <td>disorder of development or morphogenesis, non-human...</td>
+    </tr>
+    <tr>
+      <th>O11</th>
+      <td>patent ductus venosus (MONDO:0011089)</td>
+      <td>hypertrophic cardiomyopathy 16 (MONDO:0013455)</td>
+      <td>0.16</td>
+      <td>0.14</td>
+      <td>0.44</td>
+      <td>0.44</td>
+      <td>cardiovascular disorder</td>
+    </tr>
+    <tr>
+      <th>O12</th>
+      <td>Huntington disease, non-human animal (MONDO:1010231)</td>
+      <td>acute equine grass sickness (MONDO:1016381)</td>
+      <td>0.20</td>
+      <td>0.20</td>
+      <td>0.50</td>
+      <td>0.50</td>
+      <td>central nervous system disorder, non-human animal</td>
+    </tr>
+    <tr>
+      <th>O13</th>
+      <td>infectious ectromelia (MONDO:0005809)</td>
+      <td>ascarid impaction, non-human animal (MONDO:1014847)</td>
+      <td>0.24</td>
+      <td>0.34</td>
+      <td>0.71</td>
+      <td>0.71</td>
+      <td>infectious disease, non-human animal</td>
+    </tr>
+    <tr>
+      <th>O14</th>
+      <td>otosclerosis 8 (MONDO:0012797)</td>
+      <td>Giacheti syndrome (MONDO:0013037)</td>
+      <td>0.11</td>
+      <td>0.12</td>
+      <td>0.50</td>
+      <td>0.50</td>
+      <td>hereditary disease</td>
+    </tr>
+    <tr>
+      <th>O15</th>
+      <td>oculocutaneous albinism, OCA2-related, Mexican tetr...</td>
+      <td>intestinal malabsorption, non-human animal (MONDO:1...</td>
+      <td>0.13</td>
+      <td>0.13</td>
+      <td>0.47</td>
+      <td>0.47</td>
       <td>disease by body system or component, non-human animal</td>
+    </tr>
+    <tr>
+      <th>O16</th>
+      <td>immunoglobulin M deficiency, horse (MONDO:1012135)</td>
+      <td>spermatic cord varicoele, non-human animal (MONDO:1...</td>
+      <td>0.16</td>
+      <td>0.14</td>
+      <td>0.57</td>
+      <td>0.57</td>
+      <td>disease by body system or component, non-human animal</td>
+    </tr>
+    <tr>
+      <th>O17</th>
+      <td>moyamoya angiopathy-short stature-facial dysmorphis...</td>
+      <td>aneurysm, intracranial berry, 9 (MONDO:0012949)</td>
+      <td>0.26</td>
+      <td>0.45</td>
+      <td>0.66</td>
+      <td>0.66</td>
+      <td>cerebral arterial disease</td>
+    </tr>
+    <tr>
+      <th>O18</th>
+      <td>spinocerebellar degeneration with slow eye movement...</td>
+      <td>Alzheimer disease 5 (MONDO:0011194)</td>
+      <td>0.23</td>
+      <td>0.30</td>
+      <td>0.53</td>
+      <td>0.53</td>
+      <td>hereditary dementia</td>
+    </tr>
+    <tr>
+      <th>O19</th>
+      <td>gastrointestinal tuberculosis (MONDO:0005768)</td>
+      <td>nail infection (MONDO:0024487)</td>
+      <td>0.18</td>
+      <td>0.17</td>
+      <td>0.50</td>
+      <td>0.50</td>
+      <td>infectious disease</td>
+    </tr>
+    <tr>
+      <th>O20</th>
+      <td>onychodystrophy, non-human animal (MONDO:1017354)</td>
+      <td>Appaloosa horse parentage syndrome (MONDO:1017535)</td>
+      <td>0.26</td>
+      <td>0.45</td>
+      <td>0.83</td>
+      <td>0.83</td>
+      <td>skin disorder, non-human animal</td>
     </tr>
   </tbody>
 </table>
@@ -725,12 +1396,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -741,67 +1416,203 @@ cl: 400 pairs scored (0 missing a text embedding)
   <tbody>
     <tr>
       <th>T1</th>
-      <td>malignant thyroid stimulating hormone producing neoplasm...</td>
-      <td>functional pancreatic neuroendocrine tumor (MONDO:0023206)</td>
-      <td>0.25</td>
-      <td>0.55</td>
-      <td>functioning endocrine neoplasm</td>
-    </tr>
-    <tr>
-      <th>T2</th>
-      <td>ampulla of vater mucinous adenocarcinoma (MONDO:0002736)</td>
-      <td>diffuse cavernous hemangioma of the rectum (MONDO:0022985)</td>
-      <td>0.19</td>
-      <td>0.42</td>
-      <td>intestinal neoplasm</td>
-    </tr>
-    <tr>
-      <th>T3</th>
-      <td>non-keratinizing sinonasal squamous cell carcinoma (MOND...</td>
-      <td>maxillary sinus adenocarcinoma (MONDO:0004328)</td>
-      <td>0.30</td>
-      <td>0.73</td>
-      <td>nasal cavity and paranasal sinus carcinoma</td>
-    </tr>
-    <tr>
-      <th>T4</th>
       <td>endobronchial lipoma (MONDO:0000961)</td>
       <td>lipid-rich breast carcinoma (MONDO:0021090)</td>
-      <td>0.27</td>
       <td>0.50</td>
+      <td>0.07</td>
+      <td>0.27</td>
+      <td>0.27</td>
       <td>neoplasm</td>
     </tr>
     <tr>
+      <th>T2</th>
+      <td>autosomal dominant nocturnal frontal lobe epilepsy ...</td>
+      <td>subependymal giant cell astrocytoma (MONDO:0016693)</td>
+      <td>0.34</td>
+      <td>0.04</td>
+      <td>0.23</td>
+      <td>0.23</td>
+      <td>nervous system disorder</td>
+    </tr>
+    <tr>
+      <th>T3</th>
+      <td>pyloric stenosis, infantile hypertrophic, 1 (MONDO:...</td>
+      <td>pseudotumor cerebri (MONDO:0009468)</td>
+      <td>0.35</td>
+      <td>0.05</td>
+      <td>0.28</td>
+      <td>0.28</td>
+      <td>disease by body system or component</td>
+    </tr>
+    <tr>
+      <th>T4</th>
+      <td>late congenital syphilis (MONDO:0005821)</td>
+      <td>short stature, intellectual disability, callosal ag...</td>
+      <td>0.34</td>
+      <td>0.05</td>
+      <td>0.28</td>
+      <td>0.28</td>
+      <td>disease by etiologic mechanism</td>
+    </tr>
+    <tr>
       <th>T5</th>
-      <td>childhood embryonal testis carcinoma (MONDO:0003788)</td>
-      <td>transitional cell carcinoma of the corpus uteri (MONDO:0...</td>
-      <td>0.26</td>
-      <td>0.44</td>
-      <td>reproductive system cancer</td>
+      <td>parapharyngeal meningioma (MONDO:0004502)</td>
+      <td>benign neoplasm of epiglottis (MONDO:0021446)</td>
+      <td>0.50</td>
+      <td>0.08</td>
+      <td>0.32</td>
+      <td>0.32</td>
+      <td>neoplasm</td>
     </tr>
     <tr>
       <th>T6</th>
-      <td>adrenocortical carcinoma, hereditary (MONDO:0008734)</td>
-      <td>squamous cell carcinoma of the small intestine (MONDO:00...</td>
-      <td>0.23</td>
-      <td>0.37</td>
-      <td>carcinoma</td>
+      <td>silent sinus syndrome (MONDO:0019108)</td>
+      <td>PNPLA6-related spastic paraplegia with or without a...</td>
+      <td>0.31</td>
+      <td>0.04</td>
+      <td>0.24</td>
+      <td>0.24</td>
+      <td>disease by body system or component</td>
     </tr>
     <tr>
       <th>T7</th>
-      <td>childhood immature teratoma of ovary (MONDO:0004082)</td>
-      <td>childhood central nervous system germinoma (MONDO:0004452)</td>
-      <td>0.31</td>
-      <td>0.63</td>
-      <td>malignant childhood germ cell neoplasm</td>
+      <td>ampulla of vater mucinous adenocarcinoma (MONDO:000...</td>
+      <td>diffuse cavernous hemangioma of the rectum (MONDO:0...</td>
+      <td>0.42</td>
+      <td>0.07</td>
+      <td>0.19</td>
+      <td>0.19</td>
+      <td>intestinal neoplasm</td>
     </tr>
     <tr>
       <th>T8</th>
-      <td>spinal cord lipoma (MONDO:0001790)</td>
-      <td>diffuse intrinsic pontine glioma (MONDO:0006033)</td>
+      <td>sphenoidal sinus cancer (MONDO:0001994)</td>
+      <td>acquired laryngomalacia (MONDO:0850295)</td>
+      <td>0.31</td>
+      <td>0.04</td>
+      <td>0.18</td>
+      <td>0.18</td>
+      <td>respiratory system disorder</td>
+    </tr>
+    <tr>
+      <th>T9</th>
+      <td>episodic ataxia type 2 (MONDO:0007163)</td>
+      <td>combined deficiency of factor V and factor VIII (MO...</td>
+      <td>0.33</td>
+      <td>0.05</td>
+      <td>0.30</td>
+      <td>0.30</td>
+      <td>disease by body system or component</td>
+    </tr>
+    <tr>
+      <th>T10</th>
+      <td>retinal hemangioblastoma (MONDO:0003343)</td>
+      <td>breast papillary carcinoma (MONDO:0003532)</td>
+      <td>0.32</td>
+      <td>0.05</td>
+      <td>0.20</td>
+      <td>0.20</td>
+      <td>neoplasm</td>
+    </tr>
+    <tr>
+      <th>T11</th>
+      <td>osteoporosis-pseudoglioma syndrome (MONDO:0009820)</td>
+      <td>limb-girdle muscular dystrophy (MONDO:0016971)</td>
+      <td>0.32</td>
+      <td>0.05</td>
+      <td>0.19</td>
+      <td>0.19</td>
+      <td>musculoskeletal system disorder</td>
+    </tr>
+    <tr>
+      <th>T12</th>
+      <td>gastric linitis plastica (MONDO:0018184)</td>
+      <td>supratip dysplasia (MONDO:0018757)</td>
       <td>0.29</td>
-      <td>0.49</td>
-      <td>central nervous system neoplasm</td>
+      <td>0.04</td>
+      <td>0.25</td>
+      <td>0.25</td>
+      <td>disease by body system or component</td>
+    </tr>
+    <tr>
+      <th>T13</th>
+      <td>epulis (MONDO:0003396)</td>
+      <td>benign peripheral nerve granular cell tumor (MONDO:...</td>
+      <td>0.33</td>
+      <td>0.06</td>
+      <td>0.27</td>
+      <td>0.27</td>
+      <td>cancer or benign tumor</td>
+    </tr>
+    <tr>
+      <th>T14</th>
+      <td>malignant thyroid stimulating hormone producing neo...</td>
+      <td>functional pancreatic neuroendocrine tumor (MONDO:0...</td>
+      <td>0.55</td>
+      <td>0.10</td>
+      <td>0.25</td>
+      <td>0.25</td>
+      <td>functioning endocrine neoplasm</td>
+    </tr>
+    <tr>
+      <th>T15</th>
+      <td>benign mammary dysplasia (MONDO:0004808)</td>
+      <td>trichoepithelioma, multiple familial, 2 (MONDO:0012...</td>
+      <td>0.34</td>
+      <td>0.06</td>
+      <td>0.31</td>
+      <td>0.31</td>
+      <td>disease by body system or component</td>
+    </tr>
+    <tr>
+      <th>T16</th>
+      <td>nephrolithiasis, X-linked recessive, with renal fai...</td>
+      <td>tapetal degeneration, dog (MONDO:1012263)</td>
+      <td>0.27</td>
+      <td>0.04</td>
+      <td>0.26</td>
+      <td>0.26</td>
+      <td>disease</td>
+    </tr>
+    <tr>
+      <th>T17</th>
+      <td>tympanosclerosis (MONDO:0001443)</td>
+      <td>laryngeal papillomatosis (MONDO:0023597)</td>
+      <td>0.37</td>
+      <td>0.07</td>
+      <td>0.26</td>
+      <td>0.26</td>
+      <td>otorhinolaryngologic disease</td>
+    </tr>
+    <tr>
+      <th>T18</th>
+      <td>pontocerebellar hypoplasia type 2C (MONDO:0012891)</td>
+      <td>noonan syndrome 12 (MONDO:0032839)</td>
+      <td>0.39</td>
+      <td>0.07</td>
+      <td>0.25</td>
+      <td>0.25</td>
+      <td>developmental defect during embryogenesis</td>
+    </tr>
+    <tr>
+      <th>T19</th>
+      <td>neurofibroma of the esophagus (MONDO:0004837)</td>
+      <td>porokeratotic eccrine ostial and dermal duct nevus ...</td>
+      <td>0.31</td>
+      <td>0.06</td>
+      <td>0.24</td>
+      <td>0.24</td>
+      <td>neoplasm</td>
+    </tr>
+    <tr>
+      <th>T20</th>
+      <td>autoimmune thrombocytopenic purpura, dog (MONDO:101...</td>
+      <td>myositis ossificans, pig (MONDO:1010920)</td>
+      <td>0.32</td>
+      <td>0.06</td>
+      <td>0.32</td>
+      <td>0.32</td>
+      <td>disease by body system or component, non-human animal</td>
     </tr>
   </tbody>
 </table>
@@ -840,12 +1651,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -856,67 +1671,203 @@ cl: 400 pairs scored (0 missing a text embedding)
   <tbody>
     <tr>
       <th>O1</th>
-      <td>perikaryon (GO:0043204)</td>
-      <td>extrahaustorial matrix (GO:0085036)</td>
-      <td>0.80</td>
-      <td>0.09</td>
-      <td>cellular anatomical structure</td>
+      <td>ground meristem histogenesis (GO:0010066)</td>
+      <td>style development (GO:0048479)</td>
+      <td>0.15</td>
+      <td>0.27</td>
+      <td>0.45</td>
+      <td>0.62</td>
+      <td>reproductive structure development</td>
     </tr>
     <tr>
       <th>O2</th>
-      <td>meiotic spindle pole (GO:0090619)</td>
-      <td>vascular endothelial glycocalyx (GO:0120239)</td>
-      <td>0.62</td>
-      <td>0.06</td>
-      <td>cellular anatomical structure</td>
-    </tr>
-    <tr>
-      <th>O3</th>
-      <td>ground meristem histogenesis (GO:0010066)</td>
-      <td>style development (GO:0048479)</td>
-      <td>0.62</td>
-      <td>0.15</td>
-      <td>plant gross anatomical part developmental process</td>
-    </tr>
-    <tr>
-      <th>O4</th>
       <td>catecholamine uptake (GO:0090493)</td>
       <td>migracytosis (GO:0140495)</td>
-      <td>0.50</td>
       <td>0.14</td>
+      <td>0.25</td>
+      <td>0.50</td>
+      <td>0.50</td>
       <td>transport</td>
     </tr>
     <tr>
+      <th>O3</th>
+      <td>RecFOR complex (GO:0043850)</td>
+      <td>Hpa2 acetyltransferase complex (GO:1990331)</td>
+      <td>0.19</td>
+      <td>0.37</td>
+      <td>0.61</td>
+      <td>0.38</td>
+      <td>chromosome</td>
+    </tr>
+    <tr>
+      <th>O4</th>
+      <td>phosphatidylinositol 3-kinase complex, class III (G...</td>
+      <td>pellicular membrane (GO:0120267)</td>
+      <td>0.08</td>
+      <td>0.17</td>
+      <td>0.38</td>
+      <td>0.21</td>
+      <td>membrane</td>
+    </tr>
+    <tr>
       <th>O5</th>
-      <td>secondary cell wall (GO:0009531)</td>
-      <td>basal ring of apical complex (GO:0020032)</td>
-      <td>0.62</td>
-      <td>0.22</td>
-      <td>cellular anatomical structure</td>
+      <td>telomerase holoenzyme complex (GO:0005697)</td>
+      <td>repressor ecdysone receptor complex (GO:0008231)</td>
+      <td>0.27</td>
+      <td>0.49</td>
+      <td>0.72</td>
+      <td>0.50</td>
+      <td>nuclear protein-containing complex</td>
     </tr>
     <tr>
       <th>O6</th>
-      <td>Nebenkern (GO:0016006)</td>
-      <td>apoplast (GO:0048046)</td>
-      <td>0.53</td>
-      <td>0.20</td>
+      <td>meiotic spindle pole (GO:0090619)</td>
+      <td>vascular endothelial glycocalyx (GO:0120239)</td>
+      <td>0.06</td>
+      <td>0.12</td>
+      <td>0.33</td>
+      <td>0.62</td>
       <td>cellular anatomical structure</td>
     </tr>
     <tr>
       <th>O7</th>
-      <td>protein-phosphoribosyl dephospho-coenzyme A linkage (GO:...</td>
-      <td>fractalkine production (GO:0032603)</td>
-      <td>0.32</td>
-      <td>0.08</td>
-      <td>macromolecule metabolic process</td>
+      <td>viral integration complex (GO:0019035)</td>
+      <td>endospore cortex (GO:0043595)</td>
+      <td>0.12</td>
+      <td>0.14</td>
+      <td>0.40</td>
+      <td>0.33</td>
+      <td>cellular anatomical structure</td>
     </tr>
     <tr>
       <th>O8</th>
+      <td>protein-phosphoribosyl dephospho-coenzyme A linkage...</td>
+      <td>fractalkine production (GO:0032603)</td>
+      <td>0.08</td>
+      <td>0.12</td>
+      <td>0.32</td>
+      <td>0.32</td>
+      <td>macromolecule metabolic process</td>
+    </tr>
+    <tr>
+      <th>O9</th>
+      <td>perikaryon (GO:0043204)</td>
+      <td>extrahaustorial matrix (GO:0085036)</td>
+      <td>0.09</td>
+      <td>0.11</td>
+      <td>0.29</td>
+      <td>0.80</td>
+      <td>cellular anatomical structure</td>
+    </tr>
+    <tr>
+      <th>O10</th>
       <td>L-galactose dehydrogenase activity (GO:0010349)</td>
       <td>prostaglandin F synthase activity (GO:0047017)</td>
-      <td>0.78</td>
       <td>0.33</td>
-      <td>oxidoreductase activity, acting on the CH-OH group of do...</td>
+      <td>0.48</td>
+      <td>0.78</td>
+      <td>0.78</td>
+      <td>oxidoreductase activity, acting on the CH-OH group ...</td>
+    </tr>
+    <tr>
+      <th>O11</th>
+      <td>LRR domain binding (GO:0030275)</td>
+      <td>V2 vasopressin receptor binding (GO:0031896)</td>
+      <td>0.20</td>
+      <td>0.20</td>
+      <td>0.45</td>
+      <td>0.45</td>
+      <td>protein binding</td>
+    </tr>
+    <tr>
+      <th>O12</th>
+      <td>positive regulation of interferon-beta production (...</td>
+      <td>RNA destabilization (GO:0050779)</td>
+      <td>0.25</td>
+      <td>0.25</td>
+      <td>0.42</td>
+      <td>0.42</td>
+      <td>positive regulation of macromolecule metabolic process</td>
+    </tr>
+    <tr>
+      <th>O13</th>
+      <td>lymphatic endothelial cell differentiation (GO:0060...</td>
+      <td>superior temporal gyrus development (GO:0071109)</td>
+      <td>0.15</td>
+      <td>0.14</td>
+      <td>0.29</td>
+      <td>0.31</td>
+      <td>system development</td>
+    </tr>
+    <tr>
+      <th>O14</th>
+      <td>selenocysteine incorporation (GO:0001514)</td>
+      <td>regulation of translation at postsynapse, modulatin...</td>
+      <td>0.26</td>
+      <td>0.26</td>
+      <td>0.41</td>
+      <td>0.47</td>
+      <td>regulation of translation</td>
+    </tr>
+    <tr>
+      <th>O15</th>
+      <td>potassium:proton exchanging ATPase complex (GO:0005...</td>
+      <td>HFE-transferrin receptor complex (GO:1990712)</td>
+      <td>0.33</td>
+      <td>0.42</td>
+      <td>0.65</td>
+      <td>0.50</td>
+      <td>plasma membrane protein complex</td>
+    </tr>
+    <tr>
+      <th>O16</th>
+      <td>late endosome (GO:0005770)</td>
+      <td>fusiform vesicle (GO:0120002)</td>
+      <td>0.37</td>
+      <td>0.65</td>
+      <td>0.82</td>
+      <td>0.83</td>
+      <td>cytoplasmic vesicle</td>
+    </tr>
+    <tr>
+      <th>O17</th>
+      <td>secondary cell wall (GO:0009531)</td>
+      <td>basal ring of apical complex (GO:0020032)</td>
+      <td>0.22</td>
+      <td>0.18</td>
+      <td>0.47</td>
+      <td>0.62</td>
+      <td>cellular anatomical structure</td>
+    </tr>
+    <tr>
+      <th>O18</th>
+      <td>L-galactose dehydrogenase activity (GO:0010349)</td>
+      <td>taxane 13-alpha-hydroxylase activity (GO:0050598)</td>
+      <td>0.23</td>
+      <td>0.17</td>
+      <td>0.42</td>
+      <td>0.42</td>
+      <td>oxidoreductase activity</td>
+    </tr>
+    <tr>
+      <th>O19</th>
+      <td>growth factor receptor binding (GO:0070851)</td>
+      <td>K6-linked polyubiquitin modification-dependent prot...</td>
+      <td>0.27</td>
+      <td>0.22</td>
+      <td>0.50</td>
+      <td>0.50</td>
+      <td>protein binding</td>
+    </tr>
+    <tr>
+      <th>O20</th>
+      <td>sucrase-isomaltase complex (GO:0070014)</td>
+      <td>7SK snRNP (GO:0120259)</td>
+      <td>0.23</td>
+      <td>0.16</td>
+      <td>0.33</td>
+      <td>0.38</td>
+      <td>protein-containing complex</td>
     </tr>
   </tbody>
 </table>
@@ -955,12 +1906,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -971,67 +1926,203 @@ cl: 400 pairs scored (0 missing a text embedding)
   <tbody>
     <tr>
       <th>T1</th>
-      <td>negative regulation of dendritic spine development (GO:0...</td>
-      <td>positive regulation of dendritic spine morphogenesis (GO...</td>
-      <td>0.16</td>
-      <td>0.83</td>
-      <td>regulation of dendritic spine development</td>
-    </tr>
-    <tr>
-      <th>T2</th>
       <td>integrin alpha9-beta1 complex (GO:0034679)</td>
-      <td>negative regulation of fibronectin-dependent thymocyte m...</td>
-      <td>0.00</td>
+      <td>negative regulation of fibronectin-dependent thymoc...</td>
       <td>0.41</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
       <td>(none)</td>
     </tr>
     <tr>
+      <th>T2</th>
+      <td>negative regulation of dendritic spine development ...</td>
+      <td>positive regulation of dendritic spine morphogenesi...</td>
+      <td>0.83</td>
+      <td>0.07</td>
+      <td>0.16</td>
+      <td>0.16</td>
+      <td>regulation of dendritic spine development</td>
+    </tr>
+    <tr>
       <th>T3</th>
-      <td>protein localization to linear element (GO:0036181)</td>
-      <td>positive regulation of protein localization to presynaps...</td>
-      <td>0.14</td>
-      <td>0.44</td>
-      <td>biological_process</td>
+      <td>establishment or maintenance of cytoskeleton polari...</td>
+      <td>maintenance of neuroblast polarity (GO:0045201)</td>
+      <td>0.74</td>
+      <td>0.07</td>
+      <td>0.16</td>
+      <td>0.38</td>
+      <td>establishment or maintenance of cell polarity</td>
     </tr>
     <tr>
       <th>T4</th>
-      <td>UDP-N-acetylglucosamine transmembrane transporter activi...</td>
-      <td>2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinylt...</td>
-      <td>0.17</td>
+      <td>UDP-N-acetylglucosamine transmembrane transporter a...</td>
+      <td>2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succ...</td>
       <td>0.47</td>
+      <td>0.02</td>
+      <td>0.10</td>
+      <td>0.17</td>
       <td>molecular_function</td>
     </tr>
     <tr>
       <th>T5</th>
-      <td>azurophil granule membrane (GO:0035577)</td>
-      <td>negative regulation of lysosomal membrane permeability (...</td>
-      <td>0.00</td>
-      <td>0.35</td>
-      <td>(none)</td>
+      <td>protein localization to linear element (GO:0036181)</td>
+      <td>positive regulation of protein localization to pres...</td>
+      <td>0.44</td>
+      <td>0.02</td>
+      <td>0.14</td>
+      <td>0.14</td>
+      <td>biological_process</td>
     </tr>
     <tr>
       <th>T6</th>
-      <td>isocitrate-homoisocitrate dehydrogenase activity (GO:003...</td>
-      <td>negative regulation of catalytic activity (GO:0043086)</td>
-      <td>0.14</td>
-      <td>0.43</td>
-      <td>process</td>
+      <td>azurophil granule membrane (GO:0035577)</td>
+      <td>negative regulation of lysosomal membrane permeabil...</td>
+      <td>0.35</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>(none)</td>
     </tr>
     <tr>
       <th>T7</th>
-      <td>protein-N(PI)-phosphohistidine-trehalose phosphotransfer...</td>
-      <td>galactosamine-6-phosphate isomerase activity (GO:0043877)</td>
-      <td>0.20</td>
+      <td>protein-N(PI)-phosphohistidine-trehalose phosphotra...</td>
+      <td>galactosamine-6-phosphate isomerase activity (GO:00...</td>
       <td>0.48</td>
+      <td>0.04</td>
+      <td>0.13</td>
+      <td>0.20</td>
       <td>catalytic activity</td>
     </tr>
     <tr>
       <th>T8</th>
-      <td>positive regulation of antibacterial peptide secretion (...</td>
-      <td>positive regulation of defense response to oomycetes (GO...</td>
-      <td>0.25</td>
+      <td>inhibitory killer cell immunoglobulin-like receptor...</td>
+      <td>positive regulation of complement-dependent cytotox...</td>
       <td>0.55</td>
-      <td>positive regulation of defense response</td>
+      <td>0.07</td>
+      <td>0.22</td>
+      <td>0.26</td>
+      <td>regulation of cellular process</td>
+    </tr>
+    <tr>
+      <th>T9</th>
+      <td>isocitrate-homoisocitrate dehydrogenase activity (G...</td>
+      <td>negative regulation of catalytic activity (GO:0043086)</td>
+      <td>0.43</td>
+      <td>0.03</td>
+      <td>0.14</td>
+      <td>0.14</td>
+      <td>process</td>
+    </tr>
+    <tr>
+      <th>T10</th>
+      <td>alcohol O-cinnamoyltransferase activity (GO:0047182)</td>
+      <td>allyl-alcohol dehydrogenase activity (GO:0047655)</td>
+      <td>0.64</td>
+      <td>0.11</td>
+      <td>0.33</td>
+      <td>0.33</td>
+      <td>catalytic activity</td>
+    </tr>
+    <tr>
+      <th>T11</th>
+      <td>long-chain fatty acid-CoA ligase activity (GO:0004467)</td>
+      <td>methionine-tRNA ligase activity (GO:0004825)</td>
+      <td>0.51</td>
+      <td>0.08</td>
+      <td>0.17</td>
+      <td>0.28</td>
+      <td>ligase activity</td>
+    </tr>
+    <tr>
+      <th>T12</th>
+      <td>5-methyltetrahydropteroyltriglutamate-homocysteine ...</td>
+      <td>maleylacetate reductase activity (GO:0018506)</td>
+      <td>0.53</td>
+      <td>0.09</td>
+      <td>0.31</td>
+      <td>0.31</td>
+      <td>catalytic activity</td>
+    </tr>
+    <tr>
+      <th>T13</th>
+      <td>death-inducing signaling complex assembly (GO:0071550)</td>
+      <td>single-stranded 3'-5' DNA helicase activity (GO:199...</td>
+      <td>0.27</td>
+      <td>0.01</td>
+      <td>0.05</td>
+      <td>0.08</td>
+      <td>process</td>
+    </tr>
+    <tr>
+      <th>T14</th>
+      <td>regulation of respiratory burst involved in inflamm...</td>
+      <td>regulation of protein processing in phagocytic vesi...</td>
+      <td>0.51</td>
+      <td>0.09</td>
+      <td>0.23</td>
+      <td>0.23</td>
+      <td>regulation of metabolic process</td>
+    </tr>
+    <tr>
+      <th>T15</th>
+      <td>negative regulation of non-canonical inflammasome c...</td>
+      <td>negative regulation of phosphatidylserine biosynthe...</td>
+      <td>0.43</td>
+      <td>0.05</td>
+      <td>0.15</td>
+      <td>0.26</td>
+      <td>negative regulation of cellular process</td>
+    </tr>
+    <tr>
+      <th>T16</th>
+      <td>symbiont-mediated disruption of host mitochondrion ...</td>
+      <td>spore dispersal (GO:0075325)</td>
+      <td>0.42</td>
+      <td>0.05</td>
+      <td>0.30</td>
+      <td>0.30</td>
+      <td>biological_process</td>
+    </tr>
+    <tr>
+      <th>T17</th>
+      <td>positive regulation of metula development (GO:0070804)</td>
+      <td>Mo(VI)-molybdopterin cytosine dinucleotide biosynth...</td>
+      <td>0.28</td>
+      <td>0.01</td>
+      <td>0.07</td>
+      <td>0.07</td>
+      <td>biological_process</td>
+    </tr>
+    <tr>
+      <th>T18</th>
+      <td>positive regulation of DNA endoreduplication (GO:00...</td>
+      <td>positive regulation of lamellipodium morphogenesis ...</td>
+      <td>0.44</td>
+      <td>0.07</td>
+      <td>0.21</td>
+      <td>0.21</td>
+      <td>positive regulation of cellular process</td>
+    </tr>
+    <tr>
+      <th>T19</th>
+      <td>integrin alpha9-beta1 complex (GO:0034679)</td>
+      <td>anterograde trans-synaptic signaling (GO:0098916)</td>
+      <td>0.24</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>(none)</td>
+    </tr>
+    <tr>
+      <th>T20</th>
+      <td>positive regulation of protein homooligomerization ...</td>
+      <td>negative regulation of eating behavior (GO:1903999)</td>
+      <td>0.39</td>
+      <td>0.05</td>
+      <td>0.19</td>
+      <td>0.19</td>
+      <td>regulation of biological process</td>
     </tr>
   </tbody>
 </table>
@@ -1070,12 +2161,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -1088,65 +2183,201 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th>O1</th>
       <td>olfactory ensheathing cell (CL:0011028)</td>
       <td>Astro-NT NN_1 Slc36a2 astrocyte (Mmus) (CL:4307029)</td>
-      <td>0.65</td>
       <td>0.06</td>
+      <td>0.36</td>
+      <td>0.71</td>
+      <td>0.65</td>
       <td>glial cell</td>
     </tr>
     <tr>
       <th>O2</th>
-      <td>type 1 myenteric plexus glia (CL:4047042)</td>
-      <td>OEC NN_1 Gdpd4 olfactory ensheathing cell (Mmus) (CL:430...</td>
-      <td>0.69</td>
-      <td>0.17</td>
-      <td>glial cell</td>
-    </tr>
-    <tr>
-      <th>O3</th>
-      <td>totipotent stem cell (CL:0000052)</td>
-      <td>airway submucosal gland duct basal cell (CL:4033024)</td>
-      <td>0.64</td>
-      <td>0.14</td>
-      <td>somatic stem cell</td>
-    </tr>
-    <tr>
-      <th>O4</th>
       <td>melanophage (CL:0002060)</td>
-      <td>CD8-alpha-positive plasmacytoid dendritic cell (CL:0002456)</td>
-      <td>0.68</td>
+      <td>CD8-alpha-positive plasmacytoid dendritic cell (CL:...</td>
       <td>0.18</td>
+      <td>0.41</td>
+      <td>0.54</td>
+      <td>0.68</td>
       <td>mononuclear phagocyte</td>
     </tr>
     <tr>
-      <th>O5</th>
-      <td>forebrain radial glial cell (CL:0013000)</td>
-      <td>OEC NN_1 Rasgef1c olfactory ensheathing cell (Mmus) (CL:...</td>
-      <td>0.65</td>
-      <td>0.20</td>
-      <td>glial cell</td>
-    </tr>
-    <tr>
-      <th>O6</th>
+      <th>O3</th>
       <td>cone retinal bipolar cell (CL:0000752)</td>
-      <td>hypothalamic gonadotropin-releasing hormone neuron (Mmus...</td>
-      <td>0.48</td>
+      <td>hypothalamic gonadotropin-releasing hormone neuron ...</td>
       <td>0.08</td>
+      <td>0.23</td>
+      <td>0.40</td>
+      <td>0.48</td>
       <td>glutamatergic neuron</td>
     </tr>
     <tr>
-      <th>O7</th>
-      <td>glycocalyx secreting cell (CL:0000660)</td>
-      <td>prostate stromal cell (CL:0002622)</td>
-      <td>0.77</td>
+      <th>O4</th>
+      <td>superior cervical ganglion VIP neuron (CL:4033106)</td>
+      <td>STRd D2 StrioMat Hybrid MSN indirect pathway medium...</td>
+      <td>0.15</td>
+      <td>0.26</td>
+      <td>0.59</td>
+      <td>0.52</td>
+      <td>neuron</td>
+    </tr>
+    <tr>
+      <th>O5</th>
+      <td>pvalb chandelier GABAergic interneuron (CL:4023036)</td>
+      <td>GPe-NDB-SI LHX6-LHX8-GBX1 GABA GABAergic interneuro...</td>
       <td>0.27</td>
-      <td>stromal cell</td>
+      <td>0.53</td>
+      <td>0.76</td>
+      <td>0.67</td>
+      <td>GABAergic interneuron</td>
+    </tr>
+    <tr>
+      <th>O6</th>
+      <td>M13 retinal ganglion cell (CL:0003046)</td>
+      <td>untufted pyramidal neuron (CL:4023095)</td>
+      <td>0.25</td>
+      <td>0.41</td>
+      <td>0.75</td>
+      <td>0.65</td>
+      <td>central nervous system neuron</td>
+    </tr>
+    <tr>
+      <th>O7</th>
+      <td>H2 horizontal cell (CL:0004218)</td>
+      <td>spinal cord medial motor column neuron (CL:2000024)</td>
+      <td>0.27</td>
+      <td>0.43</td>
+      <td>0.69</td>
+      <td>0.72</td>
+      <td>central nervous system neuron</td>
     </tr>
     <tr>
       <th>O8</th>
-      <td>single fate stem cell (CL:0000035)</td>
+      <td>sacral ganglion TH neuron (CL:4033126)</td>
+      <td>AMY-SLEA-BNST GABA GABAergic interneuron (Primate) ...</td>
+      <td>0.21</td>
+      <td>0.28</td>
+      <td>0.55</td>
+      <td>0.50</td>
+      <td>neuron</td>
+    </tr>
+    <tr>
+      <th>O9</th>
+      <td>totipotent stem cell (CL:0000052)</td>
       <td>airway submucosal gland duct basal cell (CL:4033024)</td>
+      <td>0.14</td>
+      <td>0.18</td>
+      <td>0.29</td>
       <td>0.64</td>
-      <td>0.22</td>
       <td>somatic stem cell</td>
+    </tr>
+    <tr>
+      <th>O10</th>
+      <td>Oriens-Lacunosum Moleculare neuron (CL:0020074)</td>
+      <td>pvalb chandelier GABAergic interneuron (Homo sapien...</td>
+      <td>0.30</td>
+      <td>0.59</td>
+      <td>0.81</td>
+      <td>0.77</td>
+      <td>cerebral cortex GABAergic interneuron</td>
+    </tr>
+    <tr>
+      <th>O11</th>
+      <td>thalamic excitatory neuron (CL:4023068)</td>
+      <td>BF SKOR1 Glut glutamatergic neuron of the basal gan...</td>
+      <td>0.29</td>
+      <td>0.46</td>
+      <td>0.77</td>
+      <td>0.71</td>
+      <td>glutamatergic neuron</td>
+    </tr>
+    <tr>
+      <th>O12</th>
+      <td>ciliated cell (CL:0000064)</td>
+      <td>lumbar ganglion TH/NPY neuron (CL:4033123)</td>
+      <td>0.04</td>
+      <td>0.12</td>
+      <td>0.32</td>
+      <td>0.39</td>
+      <td>eukaryotic cell</td>
+    </tr>
+    <tr>
+      <th>O13</th>
+      <td>mesangial phagocyte (CL:0000777)</td>
+      <td>type II NK T cell (CL:0000922)</td>
+      <td>0.24</td>
+      <td>0.27</td>
+      <td>0.46</td>
+      <td>0.45</td>
+      <td>mononuclear leukocyte</td>
+    </tr>
+    <tr>
+      <th>O14</th>
+      <td>M6 retinal ganglion cell (CL:0003035)</td>
+      <td>cervicothoracic ganglion enkephalin neuron (CL:4033...</td>
+      <td>0.27</td>
+      <td>0.40</td>
+      <td>0.74</td>
+      <td>0.68</td>
+      <td>neuron</td>
+    </tr>
+    <tr>
+      <th>O15</th>
+      <td>anterior lateral line ganglion neuron (CL:0008021)</td>
+      <td>Astro-TE NN_1 Lncpint astrocyte (Mmus) (CL:4307040)</td>
+      <td>0.14</td>
+      <td>0.16</td>
+      <td>0.48</td>
+      <td>0.39</td>
+      <td>neural cell</td>
+    </tr>
+    <tr>
+      <th>O16</th>
+      <td>forebrain radial glial cell (CL:0013000)</td>
+      <td>OEC NN_1 Rasgef1c olfactory ensheathing cell (Mmus)...</td>
+      <td>0.20</td>
+      <td>0.22</td>
+      <td>0.41</td>
+      <td>0.65</td>
+      <td>glial cell</td>
+    </tr>
+    <tr>
+      <th>O17</th>
+      <td>intraepithelial lymphocyte (CL:0002496)</td>
+      <td>dural macrophage (CL:4042006)</td>
+      <td>0.18</td>
+      <td>0.19</td>
+      <td>0.33</td>
+      <td>0.45</td>
+      <td>mononuclear leukocyte</td>
+    </tr>
+    <tr>
+      <th>O18</th>
+      <td>endo-epithelial cell of pharyngotympanic part of vi...</td>
+      <td>Astro-NT NN_2 Fzd2 astrocyte (Mmus) (CL:4307034)</td>
+      <td>0.01</td>
+      <td>0.11</td>
+      <td>0.38</td>
+      <td>0.40</td>
+      <td>eukaryotic cell</td>
+    </tr>
+    <tr>
+      <th>O19</th>
+      <td>spinal cord radial glial cell (CL:1000073)</td>
+      <td>NFOL NN_2 9630013A20Rik newly formed oligodendrocyt...</td>
+      <td>0.21</td>
+      <td>0.22</td>
+      <td>0.49</td>
+      <td>0.50</td>
+      <td>glial cell</td>
+    </tr>
+    <tr>
+      <th>O20</th>
+      <td>CNS neuron (sensu Nematoda and Protostomia) (CL:000...</td>
+      <td>cutaneous/subcutaneous mechanoreceptor cell (CL:000...</td>
+      <td>0.29</td>
+      <td>0.38</td>
+      <td>0.65</td>
+      <td>0.63</td>
+      <td>neuron</td>
     </tr>
   </tbody>
 </table>
@@ -1185,12 +2416,16 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th></th>
       <th>term 1</th>
       <th>term 2</th>
-      <th>ontology sim</th>
-      <th>text sim</th>
-      <th>common ancestor</th>
+      <th>text</th>
+      <th>IC-Jaccard</th>
+      <th>Jaccard is_a+part_of</th>
+      <th>Jaccard is_a</th>
+      <th>MICA</th>
     </tr>
     <tr>
       <th>#</th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -1203,65 +2438,201 @@ cl: 400 pairs scored (0 missing a text embedding)
       <th>T1</th>
       <td>olfactory receptor cell (CL:0000207)</td>
       <td>extraglomerular mesangial cell (CL:0002173)</td>
-      <td>0.21</td>
       <td>0.47</td>
+      <td>0.03</td>
+      <td>0.12</td>
+      <td>0.21</td>
       <td>eukaryotic cell</td>
     </tr>
     <tr>
       <th>T2</th>
-      <td>somatotropin secreting cell (CL:0000295)</td>
-      <td>hypothalamic gonadotropin-releasing hormone neuron (CL:0...</td>
-      <td>0.26</td>
-      <td>0.55</td>
-      <td>secretory cell</td>
+      <td>malignant cell (CL:0001064)</td>
+      <td>inner phalangeal cell (CL:0005015)</td>
+      <td>0.37</td>
+      <td>0.02</td>
+      <td>0.08</td>
+      <td>0.24</td>
+      <td>cell</td>
     </tr>
     <tr>
       <th>T3</th>
-      <td>glandular epithelial cell of endometrium (CL:0009084)</td>
-      <td>type 1 vestibular sensory cell of stato-acoustic epithel...</td>
-      <td>0.23</td>
-      <td>0.37</td>
-      <td>eukaryotic cell</td>
+      <td>epidermal mucus secreting cell (CL:0007019)</td>
+      <td>hypendymal cell (CL:4023181)</td>
+      <td>0.38</td>
+      <td>0.03</td>
+      <td>0.11</td>
+      <td>0.33</td>
+      <td>cell</td>
     </tr>
     <tr>
       <th>T4</th>
-      <td>malignant cell (CL:0001064)</td>
-      <td>inner phalangeal cell (CL:0005015)</td>
-      <td>0.24</td>
-      <td>0.37</td>
+      <td>vagal neural crest cell (CL:0011017)</td>
+      <td>tuft cell of nasal cavity respiratory epithelium (C...</td>
+      <td>0.36</td>
+      <td>0.02</td>
+      <td>0.08</td>
+      <td>0.29</td>
       <td>cell</td>
     </tr>
     <tr>
       <th>T5</th>
-      <td>acidophil cell of pars distalis of adenohypophysis (CL:0...</td>
-      <td>epididymis secretory cell (CL:1001590)</td>
-      <td>0.29</td>
-      <td>0.44</td>
-      <td>secretory epithelial cell</td>
+      <td>somatotropin secreting cell (CL:0000295)</td>
+      <td>hypothalamic gonadotropin-releasing hormone neuron ...</td>
+      <td>0.55</td>
+      <td>0.07</td>
+      <td>0.19</td>
+      <td>0.26</td>
+      <td>secretory cell</td>
     </tr>
     <tr>
       <th>T6</th>
-      <td>glomerular capillary endothelial cell (CL:1001005)</td>
-      <td>kidney loop of Henle thin ascending limb epithelial cell...</td>
-      <td>0.31</td>
-      <td>0.45</td>
-      <td>kidney cortical cell</td>
+      <td>seminiferous tubule epithelial cell (CL:0002625)</td>
+      <td>somatic nurse-like cell (CL:4029003)</td>
+      <td>0.35</td>
+      <td>0.02</td>
+      <td>0.10</td>
+      <td>0.38</td>
+      <td>cell</td>
     </tr>
     <tr>
       <th>T7</th>
-      <td>myoepithelial cell of trachea gland (CL:4033021)</td>
-      <td>stomach smooth muscle circular layer cell (CL:4047036)</td>
-      <td>0.35</td>
-      <td>0.49</td>
-      <td>contractile cell</td>
+      <td>epinephrine secreting cell (CL:0000454)</td>
+      <td>intercalated cell of salivary gland (CL:4052048)</td>
+      <td>0.40</td>
+      <td>0.04</td>
+      <td>0.12</td>
+      <td>0.33</td>
+      <td>secretory cell</td>
     </tr>
     <tr>
       <th>T8</th>
-      <td>thyrotroph (CL:0000476)</td>
-      <td>enterocyte of epithelium of small intestine (CL:1000334)</td>
-      <td>0.24</td>
-      <td>0.33</td>
+      <td>myoepithelial cell of trachea gland (CL:4033021)</td>
+      <td>stomach smooth muscle circular layer cell (CL:4047036)</td>
+      <td>0.49</td>
+      <td>0.07</td>
+      <td>0.20</td>
+      <td>0.35</td>
+      <td>contractile cell</td>
+    </tr>
+    <tr>
+      <th>T9</th>
+      <td>stratified cuboidal epithelial cell (CL:0000241)</td>
+      <td>kidney proximal convoluted tubule epithelial cell (...</td>
+      <td>0.48</td>
+      <td>0.07</td>
+      <td>0.19</td>
+      <td>0.40</td>
       <td>columnar/cuboidal epithelial cell</td>
+    </tr>
+    <tr>
+      <th>T10</th>
+      <td>glandular epithelial cell of endometrium (CL:0009084)</td>
+      <td>type 1 vestibular sensory cell of stato-acoustic ep...</td>
+      <td>0.37</td>
+      <td>0.04</td>
+      <td>0.16</td>
+      <td>0.23</td>
+      <td>epithelium</td>
+    </tr>
+    <tr>
+      <th>T11</th>
+      <td>serous secreting cell (CL:0000313)</td>
+      <td>endothelial cell of uterus (CL:0009095)</td>
+      <td>0.41</td>
+      <td>0.06</td>
+      <td>0.20</td>
+      <td>0.46</td>
+      <td>cell</td>
+    </tr>
+    <tr>
+      <th>T12</th>
+      <td>bladder microvascular endothelial cell (CL:2000040)</td>
+      <td>vascular leptomeningeal cell (Mmus) (CL:4023056)</td>
+      <td>0.38</td>
+      <td>0.05</td>
+      <td>0.18</td>
+      <td>0.35</td>
+      <td>tissue</td>
+    </tr>
+    <tr>
+      <th>T13</th>
+      <td>myeloid cell (CL:0000763)</td>
+      <td>basal cell of epithelium of terminal bronchiole (CL...</td>
+      <td>0.30</td>
+      <td>0.02</td>
+      <td>0.10</td>
+      <td>0.41</td>
+      <td>eukaryotic cell</td>
+    </tr>
+    <tr>
+      <th>T14</th>
+      <td>female germ cell (CL:0000021)</td>
+      <td>type I enteroendocrine cell (CL:0002277)</td>
+      <td>0.31</td>
+      <td>0.03</td>
+      <td>0.11</td>
+      <td>0.28</td>
+      <td>eukaryotic cell</td>
+    </tr>
+    <tr>
+      <th>T15</th>
+      <td>myoblast (CL:0000056)</td>
+      <td>foreskin fibroblast (CL:1001608)</td>
+      <td>0.36</td>
+      <td>0.05</td>
+      <td>0.20</td>
+      <td>0.47</td>
+      <td>eukaryotic cell</td>
+    </tr>
+    <tr>
+      <th>T16</th>
+      <td>brown preadipocyte (CL:0002335)</td>
+      <td>adipose microvascular endothelial cell (CL:2000072)</td>
+      <td>0.52</td>
+      <td>0.10</td>
+      <td>0.26</td>
+      <td>0.50</td>
+      <td>connective tissue cell</td>
+    </tr>
+    <tr>
+      <th>T17</th>
+      <td>nucleate cell (CL:0002242)</td>
+      <td>activated skeletal muscle satellite cell (CL:0008016)</td>
+      <td>0.36</td>
+      <td>0.05</td>
+      <td>0.19</td>
+      <td>0.40</td>
+      <td>cell</td>
+    </tr>
+    <tr>
+      <th>T18</th>
+      <td>lymph node subcapsular sinus macrophage (CL:0000887)</td>
+      <td>stromal cell of lamina propria of colon (CL:0009040)</td>
+      <td>0.35</td>
+      <td>0.05</td>
+      <td>0.19</td>
+      <td>0.27</td>
+      <td>tissue</td>
+    </tr>
+    <tr>
+      <th>T19</th>
+      <td>endothelial cell of efferent lymphatic vessel (CL:4...</td>
+      <td>tuft cell of olfactory epithelium (CL:4052037)</td>
+      <td>0.32</td>
+      <td>0.04</td>
+      <td>0.14</td>
+      <td>0.30</td>
+      <td>non-connected functional system</td>
+    </tr>
+    <tr>
+      <th>T20</th>
+      <td>trophoblast giant cell (CL:0002488)</td>
+      <td>monocytoid B cell (CL:0009114)</td>
+      <td>0.33</td>
+      <td>0.04</td>
+      <td>0.18</td>
+      <td>0.38</td>
+      <td>eukaryotic cell</td>
     </tr>
   </tbody>
 </table>
@@ -1270,29 +2641,30 @@ cl: 400 pairs scored (0 missing a text embedding)
 </section>
 <section id="What-the-corners-show">
 <h2>What the corners show<a class="headerlink" href="#What-the-corners-show" title="Link to this heading"></a></h2>
-<p>The two measures agree on the broad picture (Spearman ρ 0.63 to 0.80). The corners contain three different kinds of disagreement, and only one of them is a failure of the text embeddings.</p>
-<p><strong>1. Artifacts of ancestor-set Jaccard.</strong> Many “ontology-similar, text-dissimilar” pairs sit in <em>shallow</em> parts of an ontology, where two unrelated terms share most of their few ancestors:</p>
+<p><strong>Choice of ontology measure.</strong></p>
 <ul class="simple">
-<li><p>HP clinical modifiers and inheritance qualifiers (<em>Contiguous gene syndrome</em> / <em>Imprinted</em>, Jaccard 0.60);</p></li>
-<li><p>GO cellular components that meet only at <em>cellular anatomical structure</em> (<em>perikaryon</em> / <em>extrahaustorial matrix</em>, 0.80);</p></li>
-<li><p>MONDO diseases grouped only as <em>hereditary disease</em> (<em>monosodium glutamate sensitivity</em> / <em>Lamb-Shaffer syndrome</em>, 0.83).</p></li>
+<li><p>IC weighting improves agreement with text in every ontology (Spearman ρ: HP 0.75 → 0.79, MONDO 0.63 → 0.73, GO 0.71 → 0.76, CL 0.66 → 0.67). Sharing a generic ancestor no longer counts for much, which is also how the text models behave.</p></li>
+<li><p>Adding <code class="docutils literal notranslate"><span class="pre">part_of</span></code> changes nothing for HP and MONDO here (none of the sampled terms gets extra ancestors from it). It helps GO slightly (0.71 → 0.73), where cellular-component structure is mostly <code class="docutils literal notranslate"><span class="pre">part_of</span></code>. It hurts CL (0.66 → 0.60), where <code class="docutils literal notranslate"><span class="pre">part_of</span></code> reaches into anatomy and gives unrelated cells shared ancestors such as <em>tissue</em> and <em>epithelium</em>.</p></li>
+<li><p>The corners are fairly stable: 7 to 17 of the top-20 pairs in each corner are also in the top 20 under plain <code class="docutils literal notranslate"><span class="pre">is_a</span></code> Jaccard. The disagreements are mostly real differences between ontology and text, not artifacts of one measure. IC weighting lowers the scores of pairs that share only a broad ancestor, but some remain. For example, several MONDO pairs are still joined only by <em>hereditary disease</em> (O2, O6, O14), because many MONDO diseases are classified along broad axes only.</p></li>
 </ul>
-<p>In these cases the text model is right that the terms are unrelated. The reverse artifact appears in <em>deep</em> polyhierarchies such as MONDO neoplasms. There, terms with a fairly specific common ancestor still get a low Jaccard because each has many other ancestors; for example, the two sinonasal carcinomas in MONDO T3 (Jaccard 0.30, text 0.73). Using only <code class="docutils literal notranslate"><span class="pre">is_a</span></code> also matters for GO and CL, where much of the structure is in <code class="docutils literal notranslate"><span class="pre">part_of</span></code>.</p>
-<p><strong>2. Knowledge that only the ontology has.</strong> Some pairs are related in a way that their names don’t reveal:</p>
+<p><strong>HP (Phenotypic abnormality only).</strong> The ontology-similar corner is now mostly groupings by physiology or clinical context that the wording doesn’t reveal:</p>
 <ul class="simple">
-<li><p><em>Microscopic hematuria</em> / <em>Waxy casts</em> (both abnormal urine cytology);</p></li>
-<li><p><em>melanophage</em> / <em>CD8-alpha-positive plasmacytoid dendritic cell</em> (both mononuclear phagocytes);</p></li>
-<li><p><em>L-galactose dehydrogenase activity</em> / <em>prostaglandin F synthase activity</em> (both oxidoreductases acting on CH-OH groups);</p></li>
-<li><p>glial cells with taxonomy-style labels such as <em>Astro-NT NN_1 Slc36a2 astrocyte (Mmus)</em>, which give the text model very little to work with.</p></li>
+<li><p><em>Light-chain paraproteinemia</em> / <em>Increased anti-dust mite IgE antibody level</em> (abnormal circulating immunoglobulin concentration);</p></li>
+<li><p><em>Recurrent skin infections</em> / <em>Autoimmune encephalitis</em> (increased inflammatory response);</p></li>
+<li><p><em>Geophagia</em> / <em>Bulimia</em> (abnormal eating behavior);</p></li>
+<li><p><em>Jaw claudication</em> / <em>Absent superficial temporal artery pulse</em> (abnormal arterial physiology; both are signs of giant cell arteritis).</p></li>
 </ul>
-<p><strong>3. Text similarity without meaning.</strong> The clearest text failures are in the “text-similar, ontology-dissimilar” corner:</p>
+<p>A few groupings may be worth a curator’s look, such as <em>Hip pain</em> and <em>Fish odor</em> both sitting under <em>Constitutional symptom</em> (O7).</p>
+<p>The text-similar corner includes pairs that look clinically related but share only a broad ancestor. <em>Periorbital fullness</em> / <em>Lower eyelid edema</em> has a text similarity of 0.84 but meets only at <em>Abnormality of the periorbital region</em>, a candidate for a missing link. Many of the other text-similar pairs are limb terms matched on bone vocabulary (<em>phalanx</em>, <em>radioulnar</em>, <em>forearm</em>) but describing different kinds of abnormality. Similarly, <em>Absent middle phalanx of 4th finger</em> / <em>Patchy sclerosis
+of the middle phalanx of the 4th finger</em> (0.78) share an anatomical site; text weighs that heavily, the ontology weighs the kind of abnormality too.</p>
+<p><strong>GO.</strong></p>
 <ul class="simple">
-<li><p><strong>polarity</strong>: <em>negative regulation of dendritic spine development</em> vs <em>positive regulation of dendritic spine morphogenesis</em> has a text similarity of 0.83, one of the highest in the GO sample;</p></li>
-<li><p><strong>shared vocabulary on a different axis</strong>: tumours that share a histology or a body site but not both (MONDO), and cell types that share words like <em>secreting</em> or <em>epithelial</em> (CL).</p></li>
+<li><p>Text failures: opposite polarity (<em>negative regulation of dendritic spine development</em> / <em>positive regulation of dendritic spine morphogenesis</em>, 0.83); shared chemical words across different activity classes (<em>alcohol O-cinnamoyltransferase</em> / <em>allyl-alcohol dehydrogenase</em>, 0.64, a transferase vs an oxidoreductase); and the shared phrasing of regulation terms.</p></li>
+<li><p>Ontology-only knowledge: <em>late endosome</em> / <em>fusiform vesicle</em> (both cytoplasmic vesicles; IC-weighted 0.65, text 0.37), and pairs of oxidoreductases.</p></li>
+<li><p>Protein complexes still populate the ontology-similar corner (e.g. <em>RecFOR complex</em> / <em>Hpa2 acetyltransferase complex</em>, joined via <code class="docutils literal notranslate"><span class="pre">part_of</span></code> <em>chromosome</em>). Their names say little about what they share.</p></li>
 </ul>
-<p>In HP, the text-similar corner only reaches modest text similarity (at most 0.54), so in this sample HP has few strong conflicts of this kind.</p>
-<p><strong>Using this.</strong> Disagreement corners are a cheap way to find candidates for curation review in either direction: terms whose classification may be missing a link (text-similar but far apart), and labels that may be too cryptic to search for (ontology-similar but text-dissimilar). For a fairer comparison, replace Jaccard with an IC-based measure, add <code class="docutils literal notranslate"><span class="pre">part_of</span></code> to the closure predicates (<code class="docutils literal notranslate"><span class="pre">hp.closure_embedding_predicates</span></code>), or try another text model by changing <code class="docutils literal notranslate"><span class="pre">MODEL</span></code>. Vectors are cached, so
-re-runs only fetch new terms.</p>
+<p><strong>CL.</strong> The ontology-similar corner is dominated by neurons and glia, many with taxonomy-style labels (<em>Astro-NT NN_1 Slc36a2 astrocyte (Mmus)</em>, <em>STRd D2 StrioMat Hybrid MSN …</em>, <em>GPe-NDB-SI LHX6-LHX8-GBX1 GABA …</em>). These are hard to find or match by text and may benefit from more descriptive synonyms. The text-similar corner is mostly shared vocabulary (<em>secreting</em>, <em>epithelial</em>, <em>endothelial</em>) across cells whose closest common ancestor is just <em>cell</em>.</p>
+<p><strong>Caveats.</strong> The disagreement score is rank-based, so every ontology has a top 20 in each corner even where the disagreement is mild. In MONDO, for example, many text-similar picks have text similarity of only about 0.3. Read the tables together with the scores. IC here is computed from ontology structure, not annotation frequency. Vectors are cached, so changing <code class="docutils literal notranslate"><span class="pre">MODEL</span></code>, <code class="docutils literal notranslate"><span class="pre">MEASURES</span></code> or the sample sizes only fetches new terms.</p>
 </section>
 </section>
 

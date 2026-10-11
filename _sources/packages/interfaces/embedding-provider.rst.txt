@@ -18,6 +18,10 @@ Implementations:
   model, in which each term is a multi-hot vector of its reflexive ancestors. This
   puts classic ontology-based similarity on the same footing as learned embeddings;
   e.g. Jaccard over closure vectors is identical to ancestor-set Jaccard.
+  Adapters that can compute information content also provide ``closure_ic``, where
+  each ancestor is weighted by its IC; weighted Jaccard over these vectors is simGIC.
+  Set ``closure_embedding_predicates`` (e.g. ``[IS_A, PART_OF]``) to follow other
+  relations.
 
 .. code-block:: python
 

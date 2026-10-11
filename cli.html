@@ -2566,6 +2566,10 @@ with each other.</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:hp embedding-similarity -m closure –metric jaccard HP:0001159 &#64; HP:0001770</p>
 </div></blockquote>
+<p>IC-weighted closure vectors, compared with weighted Jaccard (simGIC):</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:hp embedding-similarity -m closure_ic HP:0001159 &#64; HP:0001770</p>
+</div></blockquote>
 <p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>embedding-similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2603,13 +2607,10 @@ with each other.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-embedding-similarity-metric">
 <span class="sig-name descname"><span class="pre">--metric</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;metric&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-embedding-similarity-metric" title="Link to this definition"></a></dt>
-<dd><p>Vector similarity metric</p>
+<dd><p>Vector similarity metric. Defaults to weighted_jaccard (simGIC) for the closure_ic model and cosine otherwise. weighted_jaccard requires non-negative vectors.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'cosine'</span></code></p>
-</dd>
-<dt class="field-even">Options<span class="colon">:</span></dt>
-<dd class="field-even"><p>cosine | jaccard</p>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cosine | jaccard | weighted_jaccard</p>
 </dd>
 </dl>
 </dd></dl>

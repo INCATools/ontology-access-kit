@@ -97,8 +97,10 @@
     <span class="n">TermPairwiseSimilarity</span><span class="p">,</span>
     <span class="n">TermSetPairwiseSimilarity</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">IS_A</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.basic_ontology_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.obograph_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.interfaces.semsim_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURIE</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.embeddings.closure_embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">closure_embeddings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.utilities.embeddings.vector_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">similarity_matrix</span>
@@ -106,10 +108,19 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;EmbeddingProviderInterface&quot;</span><span class="p">,</span>
     <span class="s2">&quot;CLOSURE_MODEL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CLOSURE_IC_MODEL&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">CLOSURE_MODEL</span> <span class="o">=</span> <span class="s2">&quot;closure&quot;</span>
 <span class="sd">&quot;&quot;&quot;Pseudo-model that encodes each term as a multi-hot vector of its reflexive ancestors.&quot;&quot;&quot;</span>
+
+<span class="n">CLOSURE_IC_MODEL</span> <span class="o">=</span> <span class="s2">&quot;closure_ic&quot;</span>
+<span class="sd">&quot;&quot;&quot;Pseudo-model like ``closure``, but each ancestor is weighted by its information content.</span>
+
+<span class="sd">Weighted Jaccard over these vectors (the default metric for this model) is the simGIC</span>
+<span class="sd">similarity measure. The weights come from the adapter&#39;s ``information_content_scores``,</span>
+<span class="sd">so their meaning depends on the adapter: e.g. ontology-structure IC for sqlite, but</span>
+<span class="sd">annotation-frequency IC for AmiGO, or a precomputed IC map if one has been loaded.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="EmbeddingProviderInterface">
@@ -129,8 +140,11 @@
 
 <span class="sd">    Any adapter that also implements :class:`OboGraphInterface` additionally supports</span>
 <span class="sd">    the ``closure`` pseudo-model, in which each term is a multi-hot vector of its</span>
-<span class="sd">    reflexive ancestors. This makes classic ontology-based similarity directly</span>
-<span class="sd">    comparable with learned embeddings:</span>
+<span class="sd">    reflexive ancestors. Adapters that can also compute information content support</span>
+<span class="sd">    ``closure_ic``, in which each ancestor is weighted by its IC; weighted Jaccard over</span>
+<span class="sd">    these vectors is the simGIC measure. Set ``closure_embedding_predicates`` to</span>
+<span class="sd">    traverse other relations, e.g. ``[IS_A, PART_OF]``. This makes classic</span>
+<span class="sd">    ontology-based similarity directly comparable with learned embeddings:</span>
 
 <span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">    &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.db&quot;)</span>
@@ -139,6 +153,12 @@
 <span class="sd">    2</span>
 <span class="sd">    &gt;&gt;&gt; round(adapter.embedding_similarity(&quot;GO:0005634&quot;, &quot;GO:0005634&quot;, model=&quot;closure&quot;), 3)</span>
 <span class="sd">    1.0</span>
+
+<span class="sd">    With ``closure_ic``, similarity defaults to weighted Jaccard, i.e. simGIC:</span>
+
+<span class="sd">    &gt;&gt;&gt; s = adapter.embedding_similarity(&quot;GO:0005634&quot;, &quot;GO:0005773&quot;, model=&quot;closure_ic&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; 0 &lt; s &lt; 1</span>
+<span class="sd">    True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">default_embedding_model</span> <span class="o">=</span> <span class="kc">None</span>
@@ -178,9 +198,12 @@
 
 <span class="sd">        :return: list of model names</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">CLOSURE_MODEL</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+            <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CLOSURE_MODEL</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SemanticSimilarityInterface</span><span class="p">):</span>
+                <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CLOSURE_IC_MODEL</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">models</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -192,6 +215,13 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">models</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not provide any embedding models&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">metric</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">metric</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="n">CLOSURE_IC_MODEL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;weighted_jaccard&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;cosine&quot;</span>
 
 <div class="viewcode-block" id="EmbeddingProviderInterface.entity_embeddings">
 <a class="viewcode-back" href="../../../packages/interfaces/embedding-provider.html#oaklib.interfaces.embedding_provider_interface.EmbeddingProviderInterface.entity_embeddings">[docs]</a>
@@ -210,12 +240,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
         <span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">curies</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="n">CLOSURE_MODEL</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">in</span> <span class="p">(</span><span class="n">CLOSURE_MODEL</span><span class="p">,</span> <span class="n">CLOSURE_IC_MODEL</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> cannot compute closures&quot;</span><span class="p">)</span>
-            <span class="n">ids</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">closure_embedding_predicates</span>
-            <span class="p">)</span>
+            <span class="n">predicates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">closure_embedding_predicates</span>
+            <span class="n">ids</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">closure_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="n">CLOSURE_IC_MODEL</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SemanticSimilarityInterface</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> cannot compute IC&quot;</span><span class="p">)</span>
+                <span class="n">ic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">information_content_scores</span><span class="p">(</span>
+                        <span class="n">vocab</span><span class="p">,</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="n">predicates</span> <span class="ow">or</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vocab</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">matrix</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+                <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">*</span> <span class="n">weights</span>
             <span class="k">return</span> <span class="n">ids</span><span class="p">,</span> <span class="n">matrix</span>
         <span class="n">vectors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_embeddings</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies</span> <span class="k">if</span> <span class="n">vectors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
@@ -282,7 +321,7 @@
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">objects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        All-by-all similarity between two sets of entities.</span>
@@ -292,9 +331,11 @@
 <span class="sd">        :param subjects: row entities</span>
 <span class="sd">        :param objects: column entities; defaults to subjects</span>
 <span class="sd">        :param model: model name</span>
-<span class="sd">        :param metric: ``cosine`` (default) or ``jaccard``</span>
+<span class="sd">        :param metric: ``cosine``, ``jaccard`` or ``weighted_jaccard``; defaults to</span>
+<span class="sd">            ``weighted_jaccard`` for ``closure_ic`` and ``cosine`` otherwise</span>
 <span class="sd">        :return: DataFrame indexed by subject, with a column per object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_metric</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
         <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
         <span class="n">objects</span> <span class="o">=</span> <span class="n">subjects</span> <span class="k">if</span> <span class="n">objects</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
         <span class="c1"># embed together so that closure vectors share dimensions</span>
@@ -317,7 +358,7 @@
         <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
         <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Similarity between a pair of entities.</span>
@@ -325,7 +366,8 @@
 <span class="sd">        :param subject: first entity</span>
 <span class="sd">        :param object: second entity</span>
 <span class="sd">        :param model: model name</span>
-<span class="sd">        :param metric: ``cosine`` (default) or ``jaccard``</span>
+<span class="sd">        :param metric: ``cosine``, ``jaccard`` or ``weighted_jaccard``; defaults to</span>
+<span class="sd">            ``weighted_jaccard`` for ``closure_ic`` and ``cosine`` otherwise</span>
 <span class="sd">        :return: similarity score, or None if either entity has no embedding</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_similarity_matrix</span><span class="p">([</span><span class="n">subject</span><span class="p">],</span> <span class="p">[</span><span class="nb">object</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
@@ -364,7 +406,7 @@
         <span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermSetPairwiseSimilarity</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compare two sets of entities using best-match average over vector similarity.</span>
@@ -377,11 +419,15 @@
 <span class="sd">        :param objects: second set of entities (e.g. a disease&#39;s phenotypes)</span>
 <span class="sd">        :param model: model name</span>
 <span class="sd">        :param labels: if True, populate labels</span>
-<span class="sd">        :param metric: ``cosine`` (default) or ``jaccard``</span>
+<span class="sd">        :param metric: ``cosine``, ``jaccard`` or ``weighted_jaccard``; defaults to</span>
+<span class="sd">            ``weighted_jaccard`` for ``closure_ic`` and ``cosine`` otherwise</span>
 <span class="sd">        :return: set-wise similarity, with ``average_score`` as the best-match average</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_metric</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_similarity_matrix</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
-        <span class="n">score_slot</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">_similarity&quot;</span>
+        <span class="c1"># TermPairwiseSimilarity has no slot for some metrics (e.g. weighted_jaccard);</span>
+        <span class="c1"># their scores are still on each BestMatch and in the average</span>
+        <span class="n">score_slot</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;cosine&quot;</span><span class="p">:</span> <span class="s2">&quot;cosine_similarity&quot;</span><span class="p">,</span> <span class="s2">&quot;jaccard&quot;</span><span class="p">:</span> <span class="s2">&quot;jaccard_similarity&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
         <span class="n">sim</span> <span class="o">=</span> <span class="n">TermSetPairwiseSimilarity</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
             <span class="n">sim</span><span class="o">.</span><span class="n">subject_termset</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">TermInfo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -402,7 +448,9 @@
                         <span class="n">match_target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
                         <span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span>
                         <span class="n">similarity</span><span class="o">=</span><span class="n">TermPairwiseSimilarity</span><span class="p">(</span>
-                            <span class="n">subject_id</span><span class="o">=</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">object_id</span><span class="o">=</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="p">{</span><span class="n">score_slot</span><span class="p">:</span> <span class="n">score</span><span class="p">}</span>
+                            <span class="n">subject_id</span><span class="o">=</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">object_id</span><span class="o">=</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="o">**</span><span class="p">({</span><span class="n">score_slot</span><span class="p">:</span> <span class="n">score</span><span class="p">}</span> <span class="k">if</span> <span class="n">score_slot</span> <span class="k">else</span> <span class="p">{}),</span>
                         <span class="p">),</span>
                     <span class="p">)</span>
                     <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
