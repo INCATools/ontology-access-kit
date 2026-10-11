@@ -4450,7 +4450,7 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
 
     Example:
 
-        runoak -i cl.ofn axiom
+        runoak -i cl.ofn axioms
 
     The above will write all axioms.
 
@@ -4458,7 +4458,7 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
 
     Example:
 
-        runoak -i cl.ofn axiom --axiom-type SubClassOf
+        runoak -i cl.ofn axioms --axiom-type SubClassOf
 
     Note this currently only works with the funowl adapter, on functional syntax files
 
