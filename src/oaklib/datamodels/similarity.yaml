@@ -63,6 +63,7 @@ classes:
       - cosine_similarity
       - dice_similarity
       - phenodigm_score
+      - information_content_method
 
   TermSetPairwiseSimilarity:
     is_a: PairwiseSimilarity
@@ -76,6 +77,36 @@ classes:
       - average_score
       - best_score
       - metric
+
+  InformationContentMethod:
+    description: >-
+      Describes how information content (IC) scores were computed. IC scores are only
+      comparable if they were computed using the same method. If absent, IC scores are
+      assumed to be log2 bits computed by OAK using the ontology as the corpus.
+    attributes:
+      scale:
+        range: InformationContentScaleEnum
+        required: true
+        description: The scale or units of the IC scores
+      corpus:
+        range: InformationContentCorpusEnum
+        description: The corpus used to determine term frequencies
+      closure_predicates:
+        range: uriorcurie
+        multivalued: true
+        description: >-
+          The predicates used to compute the reflexive transitive closure when determining
+          term frequencies. If empty, all predicates are used.
+      background_count:
+        range: ItemCount
+        description: >-
+          The number of items (terms or annotated entities) in the background set,
+          i.e. N in Pr(t) = freq(t)/N
+      source:
+        description: >-
+          The system or resource that computed the scores, e.g. oaklib, ubergraph
+        examples:
+          - value: ubergraph
 
   TermInfo:
     attributes:
@@ -104,11 +135,33 @@ classes:
         range: TermPairwiseSimilarity
         required: true
 
+enums:
+  InformationContentScaleEnum:
+    permissible_values:
+      log2_bits:
+        description: >-
+          IC(t) = -log2(Pr(t)), i.e. information measured in bits. This is the default.
+      normalized:
+        description: >-
+          IC(t) = -log(Pr(t)) / log(N) * 100, i.e. IC scaled to 0-100 relative to the
+          maximum possible IC for a background set of size N. Used by Ubergraph.
+
+  InformationContentCorpusEnum:
+    permissible_values:
+      ontology:
+        description: >-
+          Term frequency is the number of terms in the ontology that are descendants of
+          the term (reflexive, using the closure predicates)
+      associations:
+        description: >-
+          Term frequency is the number of entities annotated to the term or any of its
+          descendants (using the closure predicates)
+
 types:
   ZeroToOne:
     typeof: float
     minimum_value: 0
-    maximum_value: 0
+    maximum_value: 1
   NonNegativeFloat:
     typeof: float
     minimum_value: 0
@@ -226,4 +279,8 @@ slots:
   best_score:
     range: float
     required: false
-
+  information_content_method:
+    range: InformationContentMethod
+    inlined: true
+    description: >-
+      How the information content scores in this object were computed

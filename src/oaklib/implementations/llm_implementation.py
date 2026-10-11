@@ -8,6 +8,7 @@ import time
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
+import numpy as np
 import pystow
 from linkml_runtime.dumpers import yaml_dumper
 from sssom_schema import Mapping
@@ -43,10 +44,12 @@ from oaklib.interfaces import (
 from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
+from oaklib.interfaces.embedding_provider_interface import EmbeddingProviderInterface
 from oaklib.interfaces.ontology_generator_interface import OntologyGenerationInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TEXT
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.embeddings.embedding_cache import EmbeddingCache
 from oaklib.utilities.iterator_utils import chunk
 
 if TYPE_CHECKING:
@@ -168,6 +171,7 @@ class LLMImplementation(
     OntologyGenerationInterface,
     SemanticSimilarityInterface,
     ValidatorInterface,
+    EmbeddingProviderInterface,
 ):
     """
     An Ontology Interface that wraps Large Language Models (LLM).
@@ -190,8 +194,19 @@ class LLMImplementation(
 
     default_model_id: str = "gpt-4o"
 
-    _embeddings_collection: Optional["llm.Collection"] = None
-    """The collection used for embeddings."""
+    embedding_model_id: str = "text-embedding-3-small"
+    """The default embedding model; any embedding model known to the llm library."""
+
+    embedding_text_template: str = "{label}"
+    """Template for the text that is embedded for each entity.
+
+    Available fields are ``label``, ``definition`` and ``id``; e.g.
+    ``"{label}: {definition}"``. Entities with no label are not embedded."""
+
+    use_embedding_cache: bool = True
+    """If True, embeddings are stored in a local sqlite cache."""
+
+    _embedding_cache: Optional[EmbeddingCache] = None
 
     ground_using_llm: bool = True
 
@@ -231,15 +246,6 @@ class LLMImplementation(
                 # TODO: openrouter just seems very flaky
                 # but it is too conservative
                 self.throttle_time = 10
-
-    @property
-    def _embeddings_collection_name(self) -> str:
-        name = self.wrapped_adapter.resource.slug
-        if not name:
-            raise ValueError(
-                f"Wrapped adapter must have a slug: {self.wrapped_adapter} // {self.wrapped_adapter.resource}"
-            )
-        return name
 
     def entities(self, **kwargs) -> Iterator[CURIE]:
         """Return all entities in the ontology."""
@@ -295,35 +301,83 @@ class LLMImplementation(
             model = llm.get_model(model_id)
         return model
 
-    def _embed_terms(self):
-        import llm
-        import sqlite_utils
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: EmbeddingProviderInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-        adapter = self.wrapped_adapter
-        name = self._embeddings_collection_name
-        path_to_db = pystow.join("oaklib", "llm", "embeddings")
-        db = sqlite_utils.Database(f"{path_to_db}.db")
-        collection = llm.Collection(name, db=db, model_id="ada-002")
-        tuples = list(adapter.labels(adapter.entities(), allow_none=False))
-        collection.embed_multi(tuples)
-        self._embeddings_collection = collection
-
-    def _term_embedding(self, id: CURIE) -> Optional[tuple]:
+    def _get_embedding_model(self, model_id: str) -> "llm.EmbeddingModel":
         import llm
 
-        db = self._embeddings_collection.db
-        name = self._embeddings_collection_name
-        collection_ids = list(db["collections"].rows_where("name = ?", (name,)))
-        collection_id = collection_ids[0]["id"]
-        matches = list(
-            db["embeddings"].rows_where("collection_id = ? and id = ?", (collection_id, id))
-        )
-        if not matches:
-            logger.debug(f"ID not found: {id} in {collection_id} ({name})")
+        return llm.get_embedding_model(model_id)
+
+    def _embedding_source(self) -> str:
+        slug = self.wrapped_adapter.resource.slug if self.wrapped_adapter.resource else None
+        if not slug:
+            raise ValueError(f"Wrapped adapter must have a slug: {self.wrapped_adapter}")
+        return f"{slug}|{self.embedding_text_template}"
+
+    def _get_embedding_cache(self) -> Optional[EmbeddingCache]:
+        if not self.use_embedding_cache:
             return None
-        embedding = matches[0]["embedding"]
-        comparison_vector = llm.decode(embedding)
-        return comparison_vector
+        if self._embedding_cache is None:
+            name = "llm-embeddings.db"
+            policy = FILE_CACHE._get_policy(name)
+            path = pystow.join("oaklib", "embeddings", name=name)
+            self._embedding_cache = EmbeddingCache(path, is_stale=policy.refresh)
+            if policy.reset:
+                self._embedding_cache.clear()
+                self._embedding_cache.is_stale = None
+        return self._embedding_cache
+
+    def embedding_text(self, curie: CURIE) -> Optional[str]:
+        """
+        The text that is embedded for an entity, using ``embedding_text_template``.
+
+        :param curie: entity
+        :return: text, or None if the entity has no label
+        """
+        label = self.wrapped_adapter.label(curie)
+        if not label:
+            return None
+        fields = {"id": curie, "label": label}
+        if "{definition}" in self.embedding_text_template:
+            fields["definition"] = self.wrapped_adapter.definition(curie) or ""
+        return self.embedding_text_template.format(**fields).strip().rstrip(":").strip()
+
+    def embedding_models(self) -> List[str]:
+        """Embedding models known to the llm library; the default model is first."""
+        import llm
+
+        models = [m.model_id for m in llm.get_embedding_models()]
+        return [self.embedding_model_id] + [m for m in models if m != self.embedding_model_id]
+
+    def _resolve_model(self, model: Optional[str]) -> str:
+        return model or self.embedding_model_id
+
+    def _fetch_embeddings(
+        self, curies: List[CURIE], model: str
+    ) -> Dict[CURIE, Optional[np.ndarray]]:
+        cache = self._get_embedding_cache()
+        source = self._embedding_source()
+        vectors = cache.get(source, model, curies) if cache else {}
+        missing = [c for c in curies if c not in vectors]
+        if missing:
+            texts = {c: self.embedding_text(c) for c in missing}
+            to_embed = [c for c in missing if texts[c]]
+            logger.info(f"Embedding {len(to_embed)} entities using {model}")
+            embedding_model = self._get_embedding_model(model)
+            fetched = {c: None for c in missing}
+            embedded = list(embedding_model.embed_multi(texts[c] for c in to_embed))
+            for c, v in zip(to_embed, embedded, strict=True):
+                fetched[c] = np.asarray(v, dtype=np.float32)
+            if cache:
+                cache.put(source, model, fetched)
+            vectors.update(fetched)
+        return vectors
+
+    def text_embedding(self, text: str, model: Optional[str] = None) -> np.ndarray:
+        model = self._resolve_model(model)
+        return np.asarray(self._get_embedding_model(model).embed(text), dtype=np.float32)
 
     def pairwise_similarity(
         self,
@@ -335,22 +389,12 @@ class LLMImplementation(
         min_jaccard_similarity: Optional[float] = None,
         min_ancestor_information_content: Optional[float] = None,
     ) -> Optional[TermPairwiseSimilarity]:
-        import llm
+        """
+        Cosine similarity of the embeddings of two entities.
 
-        self._embed_terms()
-        subject_embedding = self._term_embedding(subject)
-        if not subject_embedding:
-            return None
-        object_embedding = self._term_embedding(object)
-        if not object_embedding:
-            return None
-        sim = llm.cosine_similarity(subject_embedding, object_embedding)
-        sim = TermPairwiseSimilarity(
-            subject_id=subject,
-            object_id=object,
-            cosine_similarity=sim,
-        )
-        return sim
+        Only ``cosine_similarity`` is populated; see :meth:`embedding_pairwise_similarity`.
+        """
+        return self.embedding_pairwise_similarity(subject, object)
 
     def _ground_term(
         self, term: str, categories: Optional[List[str]] = None
@@ -495,12 +539,8 @@ class LLMImplementation(
         return prompt
 
     def _match_terms(self, text: str) -> Iterator[Tuple[str, float]]:
-        self._embed_terms()
-        collection = self._embeddings_collection
         logger.info(f"Finding similar terms to {text}")
-        for entry in collection.similar(text):
-            logger.debug(f"Similar: {entry}")
-            yield entry.id, entry.score
+        yield from self.nearest_entities_to_text(text, limit=10)
 
     def _suggest_aliases(
         self,

@@ -101,7 +101,11 @@ class StreamingWriter:
             for curie, label in self.ontology_interface.labels(
                 curie_it, lang=self.settings.preferred_language
             ):
-                self.emit(curie, label)
+                if type(self).emit is StreamingWriter.emit:
+                    # pass the label through, to avoid a separate lookup for each entity
+                    self.emit_curie(curie, label)
+                else:
+                    self.emit(curie, label)
 
     def emit_curie(self, curie: CURIE, label=None):
         raise NotImplementedError

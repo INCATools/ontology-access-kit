@@ -5,7 +5,7 @@ import unittest
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
+from oaklib.datamodels.vocabulary import HAS_DBXREF, IS_A, PART_OF, RDF_TYPE
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.resource import OntologyResource
@@ -265,6 +265,132 @@ class TestSparqlImplementation(unittest.TestCase):
     @unittest.skip("node metadata not yet implemented")
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi)
+
+    def test_subsets(self):
+        oi = self.oi
+        subsets = list(oi.subsets())
+        self.assertIn("goslim_generic", subsets)
+        self.assertIn(NUCLEUS, list(oi.subset_members("goslim_generic")))
+        self.assertIn((NUCLEUS, "goslim_generic"), list(oi.terms_subsets([NUCLEUS])))
+        with self.assertRaises(ValueError):
+            list(oi.subset_members("no_such_subset"))
+
+    def test_node_type(self):
+        self.assertEqual("CLASS", self.oi.node(NUCLEUS).type)
+        self.assertEqual("PROPERTY", self.oi.node(PART_OF).type)
+
+    def test_ontology_metadata(self):
+        oi = self.oi
+        ontologies = list(oi.ontologies())
+        self.assertEqual(1, len(ontologies))
+        m = oi.ontology_metadata_map(ontologies[0])
+        self.assertIn("rdf:type", m)
+
+    def test_summary_statistics(self):
+        """
+        Tests summary statistics computed with aggregate queries.
+
+        Expected values were checked against direct counts over the RDF graph.
+        """
+        oi = self.oi
+        stats = oi.branch_summary_statistics()
+        self.assertEqual(204, stats.class_count)
+        self.assertEqual(28, stats.deprecated_class_count)
+        self.assertEqual(176, stats.non_deprecated_class_count)
+        self.assertEqual(98, stats.class_count_with_text_definitions)
+        self.assertEqual(4262, stats.rdf_triple_count)
+        self.assertEqual(336, stats.subclass_of_axiom_count)
+        self.assertEqual(63, stats.equivalent_classes_axiom_count)
+        self.assertEqual(16, stats.subset_count)
+        self.assertEqual(269, stats.synonym_statement_count)
+        self.assertEqual(260, stats.distinct_synonym_count)
+        self.assertEqual(162, stats.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count)
+        self.assertEqual(221, stats.edge_count_by_predicate[IS_A].filtered_count)
+        self.assertEqual(29, stats.edge_count_by_predicate[PART_OF].filtered_count)
+        self.assertIn("goslim_generic", stats.class_count_by_subset)
+        self.assertIn("Wikipedia", stats.mapping_statement_count_by_object_source)
+        cc_classes = set(oi.descendants([CELLULAR_COMPONENT], predicates=[IS_A]))
+        stats_cc = oi.branch_summary_statistics("cc", branch_roots=[CELLULAR_COMPONENT])
+        self.assertEqual(len(cc_classes), stats_cc.class_count)
+        stats_go = oi.branch_summary_statistics("go", prefixes=["GO"])
+        self.assertLess(stats_go.class_count, stats.class_count)
+        self.assertEqual(28, stats_go.deprecated_class_count)
+        grouped = oi.global_summary_statistics(group_by="oio:hasOBONamespace")
+        self.assertEqual(25, grouped.partitions["cellular_component"].class_count)
+
+    def test_query_with_retries(self):
+        """Tests transient errors are retried, and other errors are not."""
+        from unittest.mock import MagicMock, patch
+        from urllib.error import HTTPError
+
+        from oaklib.implementations.sparql.abstract_sparql_implementation import (
+            MAX_QUERY_ATTEMPTS,
+            _query_with_retries,
+        )
+
+        def http_error(code):
+            return HTTPError("http://example.org", code, "error", None, None)
+
+        sw = MagicMock()
+        sw.queryAndConvert.side_effect = [http_error(503), ConnectionResetError(), {"ok": 1}]
+        with patch("time.sleep") as sleep:
+            self.assertEqual({"ok": 1}, _query_with_retries(sw))
+        self.assertEqual(3, sw.queryAndConvert.call_count)
+        self.assertEqual(2, sleep.call_count)
+        sw = MagicMock()
+        sw.queryAndConvert.side_effect = http_error(400)
+        with patch("time.sleep"), self.assertRaises(HTTPError):
+            _query_with_retries(sw)
+        self.assertEqual(1, sw.queryAndConvert.call_count)
+        sw = MagicMock()
+        sw.queryAndConvert.side_effect = http_error(503)
+        with patch("time.sleep"), self.assertRaises(HTTPError):
+            _query_with_retries(sw)
+        self.assertEqual(MAX_QUERY_ATTEMPTS, sw.queryAndConvert.call_count)
+
+    def test_clone_wrapper(self):
+        """Tests connection settings are kept for queries run in parallel."""
+        import SPARQLWrapper
+
+        from oaklib.implementations.sparql.abstract_sparql_implementation import _clone_wrapper
+
+        sw = SPARQLWrapper.SPARQLWrapper("http://example.org/sparql", agent="test-agent")
+        sw.addCustomHttpHeader("X-Test", "1")
+        sw.setCredentials("user", "pw")
+        sw.setTimeout(30)
+        sw.addParameter("default-graph-uri", "http://example.org/g")
+        sw.setQuery("SELECT * WHERE { ?s ?p ?o }")
+        clone = _clone_wrapper(sw)
+        self.assertEqual(["http://example.org/g"], clone.parameters["default-graph-uri"])
+        self.assertNotIn("query", clone.parameters)
+        self.assertEqual("http://example.org/sparql", clone.endpoint)
+        self.assertEqual("test-agent", clone.agent)
+        self.assertEqual({"X-Test": "1"}, clone.customHttpHeaders)
+        self.assertEqual(("user", "pw"), (clone.user, clone.passwd))
+        self.assertEqual(30, clone.timeout)
+
+    def test_statistics_filter_escaping(self):
+        filters = self.oi._statistics_entity_filter(property_values={"rdfs:label": 'a "b"'})
+        self.assertIn('= "a \\"b\\""', filters[0])
+
+    def test_blazegraph_search_clause(self):
+        """Tests the search clause for Blazegraph endpoints honors the search syntax."""
+        oi = self.oi
+
+        def clause(term, **kwargs):
+            return oi._blazegraph_search_clause(term, SearchConfiguration(**kwargs))
+
+        self.assertEqual('?v bds:search "nucleus"', clause("nucleus"))
+        self.assertIn('FILTER(str(?v) = "nucleus")', clause("nucleus", is_partial=False))
+        self.assertIn('bds:search "nucl*"', clause("nucl", syntax=SearchTermSyntax.STARTS_WITH))
+        self.assertIn(
+            'strStarts(str(?v), "nucl")', clause("nucl", syntax=SearchTermSyntax.STARTS_WITH)
+        )
+        partial = clause("ucle", is_partial=True)
+        self.assertIn('contains(str(?v), "ucle")', partial)
+        self.assertNotIn("bds:search", partial)
+        regex = clause('^nucl\\w+ "x"', syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        self.assertEqual('FILTER(regex(str(?v), "^nucl\\\\w+ \\"x\\"", "i"))', regex)
 
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)

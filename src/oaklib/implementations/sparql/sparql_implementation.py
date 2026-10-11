@@ -19,6 +19,7 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 
 
@@ -36,6 +37,7 @@ class SparqlImplementation(
     TextAnnotatorInterface,
     TaxonConstraintInterface,
     MergeInterface,
+    SummaryStatisticsInterface,
 ):
     """
     Wraps any local or remote sparql endpoint

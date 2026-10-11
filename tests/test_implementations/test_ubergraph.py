@@ -1,5 +1,6 @@
 import functools
 import logging
+import math
 import unittest
 from urllib.error import HTTPError, URLError
 
@@ -248,6 +249,94 @@ class TestUbergraphImplementation(unittest.TestCase):
             else:
                 self.assertIn(CELL, ancs)
                 self.assertIn(CELLULAR_COMPONENT, ancs)
+
+    @skip_on_remote_error
+    def test_information_content_scores(self):
+        """
+        Tests that precomputed IC scores are fetched directly, without enumerating all entities.
+        """
+        oi = self.oi
+        ics = dict(oi.information_content_scores([NUCLEUS, CELLULAR_COMPONENT, NEURON]))
+        self.assertCountEqual([NUCLEUS, CELLULAR_COMPONENT, NEURON], ics.keys())
+        self.assertGreater(ics[NUCLEUS], ics[CELLULAR_COMPONENT])
+        self.assertEqual(ics[NUCLEUS], oi.get_information_content(NUCLEUS))
+        isa_ics = dict(oi.information_content_scores([NUCLEUS], object_closure_predicates=[IS_A]))
+        self.assertIn(NUCLEUS, isa_ics)
+        self.assertGreaterEqual(isa_ics[NUCLEUS], ics[NUCLEUS])
+        # scores are log2 bits by default; native normalized scores are 0-100
+        n = oi.information_content_background_count()
+        self.assertLessEqual(ics[NUCLEUS], math.log2(n))
+        oi.normalized_information_content = True
+        normalized_ic = oi.get_information_content(NUCLEUS)
+        self.assertAlmostEqual(normalized_ic / 100 * math.log2(n), ics[NUCLEUS])
+        method = oi.information_content_method()
+        self.assertEqual("normalized", method.scale.code.text)
+        self.assertEqual("ubergraph", method.source)
+        self.assertEqual(n, method.background_count)
+        oi.normalized_information_content = False
+        self.assertEqual("log2_bits", oi.information_content_method().scale.code.text)
+        # custom predicates are computed by counting, consistent with the precomputed scores
+        self.assertEqual(
+            "ubergraph", oi.information_content_method(object_closure_predicates=[PART_OF]).source
+        )
+        counted = dict(oi._information_content_scores_by_counting([NUCLEUS], [IS_A]))
+        self.assertAlmostEqual(isa_ics[NUCLEUS], counted[NUCLEUS])
+        isa_part_of_ics = dict(
+            oi.information_content_scores([NUCLEUS], object_closure_predicates=[IS_A, PART_OF])
+        )
+        self.assertLessEqual(isa_part_of_ics[NUCLEUS], isa_ics[NUCLEUS])
+
+    def test_information_content_scores_uses_cached_map(self):
+        """
+        Tests a preloaded IC map takes precedence over Ubergraph's own scores, for any
+        predicates, consistent with information_content_method. No remote queries are made.
+        """
+        oi = UbergraphImplementation()
+        oi.set_information_content_scores([(NUCLEUS, 1.5)])
+        for preds in [None, [IS_A], [IS_A, PART_OF]]:
+            ics = dict(oi.information_content_scores([NUCLEUS], object_closure_predicates=preds))
+            self.assertEqual({NUCLEUS: 1.5}, ics)
+            method = oi.information_content_method(object_closure_predicates=preds)
+            self.assertEqual("oaklib", method.source)
+
+    def test_information_content_scores_ignores_term_to_entities_map(self):
+        """
+        Tests term_to_entities_map, which no implementation supports, does not divert to the
+        generic implementation, which would enumerate all classes in Ubergraph.
+        """
+        from unittest.mock import patch
+
+        from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+
+        oi = UbergraphImplementation()
+        with (
+            patch.object(SemanticSimilarityInterface, "information_content_scores") as generic,
+            patch.object(oi, "_information_content_scores_by_counting", return_value=iter([])),
+        ):
+            list(
+                oi.information_content_scores(
+                    [NUCLEUS],
+                    object_closure_predicates=[IS_A, PART_OF],
+                    term_to_entities_map={NUCLEUS: ["X:1"]},
+                )
+            )
+            generic.assert_not_called()
+
+    @skip_on_remote_error
+    def test_summary_statistics(self):
+        """
+        Tests summary statistics for a single ontology within Ubergraph.
+        """
+        from oaklib import get_adapter
+
+        oi = get_adapter("ubergraph:go")
+        stats = oi.branch_summary_statistics()
+        self.assertGreater(stats.class_count, 40000)
+        self.assertGreater(stats.class_count_with_text_definitions, 30000)
+        self.assertGreater(stats.edge_count_by_predicate[IS_A].filtered_count, 40000)
+        self.assertGreater(stats.edge_count_by_predicate[PART_OF].filtered_count, 1000)
+        self.assertIn("goslim_generic", stats.class_count_by_subset)
+        self.assertEqual(1, len(stats.ontologies))
 
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):

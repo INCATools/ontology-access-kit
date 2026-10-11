@@ -1,13 +1,18 @@
+import logging
+import time
 from collections import ChainMap
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 from urllib.parse import quote
 
+import numpy as np
+import pystow
 import requests
 from ols_client import Client, EBIClient, TIBClient
 from sssom_schema import Mapping
 
-from oaklib.constants import TIMEOUT_SECONDS
+from oaklib.constants import FILE_CACHE, TIMEOUT_SECONDS
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
@@ -16,11 +21,13 @@ from oaklib.datamodels.vocabulary import IS_A, PART_OF, SEMAPV
 from oaklib.implementations.ols.constants import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP, RELATIONSHIP
+from oaklib.interfaces.embedding_provider_interface import EmbeddingProviderInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, LANGUAGE_TAG, PRED_CURIE
+from oaklib.utilities.embeddings.embedding_cache import EmbeddingCache
 
 __all__ = [
     # Abstract classes
@@ -30,8 +37,16 @@ __all__ = [
     "TIBOlsImplementation",
 ]
 
+logger = logging.getLogger(__name__)
+
 ANNOTATION = Dict[str, Any]
 SEARCH_ROWS = 50
+EMBEDDING_CACHE_NAME = "ols-embeddings.db"
+EMBEDDING_FETCH_WORKERS = 4
+EMBEDDING_FETCH_CHUNK = 100
+EMBEDDING_FETCH_RETRIES = 2
+OBSOLETE_HEADROOM = 10
+"""Extra results requested from OLS so that filtering obsoletes still yields enough."""
 
 
 def _double_quote_iri(iri: str) -> str:
@@ -87,7 +102,9 @@ oxo_pred_mappings = {
 
 
 @dataclass
-class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, SearchInterface):
+class BaseOlsImplementation(
+    MappingProviderInterface, TextAnnotatorInterface, SearchInterface, EmbeddingProviderInterface
+):
     """
     Implementation over OLS and OxO APIs
     """
@@ -99,6 +116,12 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
     _prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
     client: Client = field(init=False)
+    use_embedding_cache: bool = True
+    """If True, embeddings fetched from OLS are stored in a local sqlite cache."""
+    embedding_filter_obsoletes: bool = True
+    """If True, obsolete classes are removed from embedding search results."""
+    _embedding_cache: Optional[EmbeddingCache] = None
+    _embedding_model_info: Optional[List[Dict[str, Any]]] = None
 
     def __post_init__(self):
         self.client = self.ols_client_class()
@@ -622,6 +645,227 @@ class BaseOlsImplementation(MappingProviderInterface, TextAnnotatorInterface, Se
             self.add_prefix(oxo_s.curie, oxo_s.uri)
             self.add_prefix(oxo_o.curie, oxo_o.uri)
             yield mapping
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: EmbeddingProviderInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    #
+    # OLS serves precomputed class embeddings for several models. Note that OLS
+    # reports similarity scores rescaled to [0, 1] as (1 + cosine) / 2; we convert
+    # these back to plain cosine similarity, so that scores are consistent with
+    # those computed locally from the vectors.
+
+    def _embedding_api(self, path: str) -> str:
+        return f"{self.client.base_url}/v2/{path}"
+
+    def _embedding_request(
+        self, method: str, path: str, params: Optional[Dict[str, Any]] = None, **kwargs
+    ) -> requests.Response:
+        return requests.request(
+            method, self._embedding_api(path), params=params, timeout=TIMEOUT_SECONDS, **kwargs
+        )
+
+    def _get_embedding_cache(self) -> Optional[EmbeddingCache]:
+        if not self.use_embedding_cache:
+            return None
+        if self._embedding_cache is None:
+            # honors the OAK cache policy (e.g. `runoak --caching`); default is 1 month
+            policy = FILE_CACHE._get_policy(EMBEDDING_CACHE_NAME)
+            path = pystow.join("oaklib", "embeddings", name=EMBEDDING_CACHE_NAME)
+            cache = EmbeddingCache(path, is_stale=policy.refresh)
+            if policy.reset:
+                cache.clear(source=self.client.base_url)
+                cache.is_stale = None
+            self._embedding_cache = cache
+        return self._embedding_cache
+
+    def clear_embedding_cache(self, model: Optional[str] = None) -> None:
+        """Remove locally cached embeddings for this OLS instance."""
+        cache = self._get_embedding_cache()
+        if cache:
+            cache.clear(source=self.client.base_url, model=model)
+
+    def _embedding_models_info(self) -> List[Dict[str, Any]]:
+        if self._embedding_model_info is None:
+            try:
+                response = self._embedding_request("GET", "llm_models")
+                response.raise_for_status()
+                self._embedding_model_info = response.json()
+            except (requests.RequestException, ValueError) as e:
+                logger.warning(f"Could not retrieve embedding models from OLS: {e}")
+                self._embedding_model_info = []
+        return self._embedding_model_info
+
+    def embedding_models(self) -> List[str]:
+        """
+        Names of the embedding models served by this OLS instance.
+
+        The first model is the OLS default.
+        """
+        return [m["model"] for m in self._embedding_models_info()]
+
+    def _text_embedding_models(self) -> List[str]:
+        return [m["model"] for m in self._embedding_models_info() if m.get("can_embed")]
+
+    def _fetch_embedding(self, curie: CURIE, model: str) -> Optional[np.ndarray]:
+        iri = self.curie_to_uri(curie)
+        if not iri:
+            return None
+        path = f"classes/{_double_quote_iri(iri)}/llm_embedding"
+        for attempt in range(EMBEDDING_FETCH_RETRIES + 1):
+            try:
+                response = self._embedding_request("GET", path, params={"model": model})
+                if response.status_code == requests.codes.not_found:
+                    return None
+                response.raise_for_status()
+                vector = response.json()
+                return np.asarray(vector, dtype=np.float32) if vector else None
+            except requests.RequestException as e:
+                status = e.response.status_code if e.response is not None else None
+                if attempt == EMBEDDING_FETCH_RETRIES or (status is not None and status < 500):
+                    raise
+                logger.info(f"Retrying {curie} after error: {e}")
+                time.sleep(2**attempt)
+
+    def _fetch_embeddings(
+        self, curies: List[CURIE], model: str
+    ) -> Dict[CURIE, Optional[np.ndarray]]:
+        cache = self._get_embedding_cache()
+        source = self.client.base_url
+        vectors = cache.get(source, model, curies) if cache else {}
+        missing = [c for c in curies if c not in vectors]
+        if not missing:
+            return vectors
+        logger.info(f"Fetching {len(missing)} embeddings for {model} from OLS")
+
+        def fetch(curie: CURIE):
+            try:
+                return curie, self._fetch_embedding(curie, model), None
+            except requests.RequestException as e:
+                return curie, None, e
+
+        failures = []
+        with ThreadPoolExecutor(max_workers=EMBEDDING_FETCH_WORKERS) as executor:
+            # cache each chunk as it completes, so an interrupted fetch can be resumed
+            for i in range(0, len(missing), EMBEDDING_FETCH_CHUNK):
+                fetched = {}
+                for curie, vector, error in executor.map(
+                    fetch, missing[i : i + EMBEDDING_FETCH_CHUNK]
+                ):
+                    if error is None:
+                        fetched[curie] = vector
+                    else:
+                        failures.append((curie, error))
+                if cache:
+                    cache.put(source, model, fetched)
+                vectors.update(fetched)
+                logger.info(
+                    f"Fetched {min(i + EMBEDDING_FETCH_CHUNK, len(missing))}/{len(missing)}"
+                )
+        if failures:
+            logger.warning(
+                f"Could not fetch {len(failures)} embeddings from OLS (not cached); "
+                f"first error for {failures[0][0]}: {failures[0][1]}"
+            )
+        return vectors
+
+    def _iter_scored_elements(self, response: requests.Response, limit: int):
+        response.raise_for_status()
+        n = 0
+        for element in response.json().get("elements", []):
+            if n >= limit:
+                break
+            # OLS returns obsolete classes and has no parameter to exclude them
+            if element.get("isObsolete") and self.embedding_filter_obsoletes:
+                continue
+            curie = self.uri_to_curie(element["iri"]) if element.get("iri") else None
+            curie = curie or _scalar(element.get("curie"))
+            label = _scalar(element.get("label"))
+            if curie and label:
+                self.label_cache[curie] = label
+            score = element.get("score")
+            yield curie, None if score is None else 2.0 * float(score) - 1.0
+            n += 1
+
+    def nearest_entities(
+        self,
+        curie: CURIE,
+        limit: int = 10,
+        model: Optional[str] = None,
+        candidates: Optional[Iterable[CURIE]] = None,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Find the classes with the most similar embeddings, using the OLS vector index.
+
+        Results are not restricted to the focus ontology.
+        """
+        if candidates is not None:
+            yield from super().nearest_entities(curie, limit, model, candidates)
+            return
+        model = self._resolve_model(model)
+        iri = self.curie_to_uri(curie)
+        response = self._embedding_request(
+            "GET",
+            f"classes/{_double_quote_iri(iri)}/llm_similar",
+            params={"model": model, "size": limit + 1 + OBSOLETE_HEADROOM},
+        )
+        if response.status_code == requests.codes.not_found:
+            return
+        results = [r for r in self._iter_scored_elements(response, limit + 1) if r[0] != curie]
+        yield from results[:limit]
+
+    def nearest_entities_to_vector(
+        self,
+        vector: np.ndarray,
+        limit: int = 10,
+        model: Optional[str] = None,
+        candidates: Optional[Iterable[CURIE]] = None,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Find the classes closest to a vector, using the OLS vector index.
+
+        If a focus ontology is set, results are restricted to it.
+        """
+        if candidates is not None:
+            yield from super().nearest_entities_to_vector(vector, limit, model, candidates)
+            return
+        model = self._resolve_model(model)
+        params = {"model": model, "size": limit + OBSOLETE_HEADROOM}
+        if self.focus_ontology:
+            params["ontologyId"] = self.focus_ontology
+        response = self._embedding_request(
+            "POST", "classes/llm_embedding", params=params, json=[float(x) for x in vector]
+        )
+        yield from self._iter_scored_elements(response, limit)
+
+    def nearest_entities_to_text(
+        self,
+        text: str,
+        limit: int = 10,
+        model: Optional[str] = None,
+        candidates: Optional[Iterable[CURIE]] = None,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Find the classes closest to some text, embedded server-side by OLS.
+
+        Only some OLS models can embed text; if no model is specified, the first such
+        model is used. If a focus ontology is set, results are restricted to it.
+        """
+        if candidates is not None:
+            yield from super().nearest_entities_to_text(text, limit, model, candidates)
+            return
+        text_models = self._text_embedding_models()
+        if model is None:
+            if not text_models:
+                raise NotImplementedError("This OLS instance has no models that can embed text")
+            model = text_models[0]
+        elif model not in text_models:
+            raise ValueError(f"OLS cannot embed text with {model}; use one of {text_models}")
+        params = {"q": text, "model": model, "size": limit + OBSOLETE_HEADROOM}
+        if self.focus_ontology:
+            params["ontologyId"] = self.focus_ontology
+        response = self._embedding_request("GET", "classes/llm_search", params=params)
+        yield from self._iter_scored_elements(response, limit)
 
     # def fill_gaps(self, msdoc: MappingSetDocument, confidence: float = 1.0) -> int:
     #     curie_map = curie_to_uri_map(msdoc)

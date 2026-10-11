@@ -35,6 +35,15 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
         
       TermPairwiseSimilarity : dice_similarity
         
+      TermPairwiseSimilarity : information_content_method
+        
+          
+    
+    
+    TermPairwiseSimilarity --> "0..1" InformationContentMethod : information_content_method
+    click InformationContentMethod href "../InformationContentMethod"
+
+        
       TermPairwiseSimilarity : jaccard_similarity
         
       TermPairwiseSimilarity : object_id
@@ -88,6 +97,7 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 | [cosine_similarity](cosine_similarity.md) | 0..1 <br/> [Float](Float.md) | the dot product of two node embeddings divided by the product of their length... | direct |
 | [dice_similarity](dice_similarity.md) | 0..1 <br/> [ZeroToOne](ZeroToOne.md) |  | direct |
 | [phenodigm_score](phenodigm_score.md) | 0..1 <br/> [NonNegativeFloat](NonNegativeFloat.md) | the geometric mean of the jaccard similarity and the information content | direct |
+| [information_content_method](information_content_method.md) | 0..1 <br/> [InformationContentMethod](InformationContentMethod.md) | How the information content scores in this object were computed | direct |
 
 
 
@@ -162,6 +172,7 @@ slots:
 - cosine_similarity
 - dice_similarity
 - phenodigm_score
+- information_content_method
 
 ```
 </details>
@@ -354,6 +365,17 @@ attributes:
     - TermPairwiseSimilarity
     range: NonNegativeFloat
     equals_expression: sqrt({jaccard_similarity} * {information_content})
+  information_content_method:
+    name: information_content_method
+    description: How the information content scores in this object were computed
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    alias: information_content_method
+    owner: TermPairwiseSimilarity
+    domain_of:
+    - TermPairwiseSimilarity
+    range: InformationContentMethod
+    inlined: true
 
 ```
 </details>

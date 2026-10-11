@@ -1,15 +1,18 @@
 import logging
+import time
 import typing
 from abc import ABC
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from urllib.error import HTTPError, URLError
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
 import rdflib
 import SPARQLWrapper
 from kgcl_schema.datamodel import kgcl
-from rdflib import RDFS, BNode, Literal, URIRef
+from rdflib import OWL, RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
 from sssom_schema import Mapping
@@ -20,18 +23,31 @@ from oaklib.datamodels.search import (
     search_properties_to_predicates,
 )
 from oaklib.datamodels.search_datamodel import SearchTermSyntax
+from oaklib.datamodels.summary_statistics_datamodel import (
+    FacetedCount,
+    GroupedStatistics,
+    Ontology,
+    UngroupedStatistics,
+)
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEFAULT_PREFIX_MAP,
+    DEPRECATED_PREDICATE,
     HAS_DEFINITION_URI,
+    HAS_OBSOLESCENCE_REASON,
     IDENTIFIER_PREDICATE,
+    IN_SUBSET,
     IS_A,
     IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBO_PURL,
+    OWL_VERSION_INFO,
+    OWL_VERSION_IRI,
+    PREFIX_PREDICATE,
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
+    TERMS_MERGED,
 )
 from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
@@ -47,8 +63,9 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.rdf_interface import RDF_TRIPLE, TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
-from oaklib.types import CURIE, URI
+from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.mapping.sssom_utils import (
     create_sssom_mapping,
     inject_mapping_sources,
@@ -56,6 +73,76 @@ from oaklib.utilities.mapping.sssom_utils import (
 from oaklib.utilities.rate_limiter import check_limit
 
 VAL_VAR = "v"
+
+_OWL_TYPE_TO_NODE_TYPE = {
+    str(OWL.Class): "CLASS",
+    str(OWL.ObjectProperty): "PROPERTY",
+    str(OWL.AnnotationProperty): "PROPERTY",
+    str(OWL.DatatypeProperty): "PROPERTY",
+    str(OWL.NamedIndividual): "INDIVIDUAL",
+}
+
+MAX_GET_QUERY_LENGTH = 1500
+"""Queries longer than this are sent via HTTP POST, as many endpoints reject long URLs."""
+
+MAX_INLINE_VALUES = 1000
+"""Maximum number of values to inline in a query, beyond which a graph pattern is used."""
+
+MAX_QUERY_ATTEMPTS = 4
+"""Maximum number of attempts for a query that fails with a transient error."""
+
+RETRY_HTTP_CODES = {429, 502, 503, 504}
+
+
+def _escape_literal(value: Any) -> str:
+    """Escape a value for use inside a double-quoted SPARQL string literal."""
+    return str(value).replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+
+
+def _clone_wrapper(sw: SPARQLWrapper.SPARQLWrapper) -> SPARQLWrapper.SPARQLWrapper:
+    """
+    A new wrapper for the same endpoint with the same connection settings
+    (agent, credentials, headers, timeout), for use in a separate thread.
+    """
+    clone = SPARQLWrapper.SPARQLWrapper(sw.endpoint, agent=sw.agent)
+    clone.customHttpHeaders = dict(sw.customHttpHeaders)
+    clone.onlyConneg = sw.onlyConneg
+    for name, values in sw.parameters.items():
+        if name != "query":
+            for value in values:
+                clone.addParameter(name, value)
+    if sw.user is not None:
+        clone.setCredentials(sw.user, sw.passwd)
+        clone.setHTTPAuth(sw.http_auth)
+    if sw.timeout is not None:
+        clone.setTimeout(sw.timeout)
+    return clone
+
+
+def _is_transient_error(e: Exception) -> bool:
+    """True if the error is likely transient (overloaded endpoint or dropped connection)."""
+    if isinstance(e, HTTPError):
+        return e.code in RETRY_HTTP_CODES
+    return isinstance(e, (URLError, ConnectionError, TimeoutError))
+
+
+def _query_with_retries(sw: SPARQLWrapper.SPARQLWrapper, convert=True):
+    """
+    Execute the query set on a SPARQLWrapper, retrying transient errors with exponential backoff.
+
+    :param sw: wrapper with the query already set
+    :param convert: if True, return converted results, otherwise the raw QueryResult
+    :return:
+    """
+    for attempt in range(1, MAX_QUERY_ATTEMPTS + 1):
+        try:
+            return sw.queryAndConvert() if convert else sw.query()
+        except Exception as e:
+            if attempt == MAX_QUERY_ATTEMPTS or not _is_transient_error(e):
+                raise
+            delay = 2 ** (attempt - 1)
+            logging.warning(f"Query failed ({e}); retrying in {delay}s (attempt {attempt})")
+            time.sleep(delay)
 
 
 def _sparql_values(var_name: str, vals: List[str]):
@@ -113,6 +200,10 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     sparql_wrapper: SPARQLWrapper = None
     graph: rdflib.Graph = None
     _list_of_named_graphs: List[str] = None
+    _subset_uris: Dict[str, List[str]] = None
+
+    max_concurrent_queries: int = 4
+    """Maximum number of queries to run in parallel, for operations that use parallel queries."""
 
     def __post_init__(self):
         if self.sparql_wrapper is None:
@@ -242,6 +333,427 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
+    def _ontology_uri(self, ontology: CURIE) -> str:
+        """SPARQL IRI for an ontology, as yielded by :meth:`ontologies`."""
+        if ontology.startswith("http"):
+            return f"<{ontology}>"
+        if ":" not in ontology:
+            # uri_to_curie strips the OBO PURL from ontology IRIs, e.g. go/go-base.owl
+            return f"<{OBO_PURL}{ontology}>"
+        return self.curie_to_sparql(ontology)
+
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
+        query = SparqlQuery(select=["?p", "?o"], where=[f"{self._ontology_uri(ontology)} ?p ?o"])
+        m = defaultdict(list)
+        for row in self._sparql_query(query):
+            m[self.uri_to_curie(row["p"]["value"])].append(row["o"]["value"])
+        return dict(m)
+
+    def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
+        m = self.ontology_metadata_map(ontology)
+        for pred in [OWL_VERSION_IRI, OWL_VERSION_INFO]:
+            yield from m.get(pred, [])
+
+    def _subset_short_form(self, subset_uri: str) -> SUBSET_CURIE:
+        """OBO subsets are contracted to the part after the hash, e.g. goslim_generic."""
+        return subset_uri.split("#")[-1] if "#" in subset_uri else self.uri_to_curie(subset_uri)
+
+    def _subset_uri_map(self) -> Dict[SUBSET_CURIE, List[str]]:
+        """Maps subset short forms to the IRIs of subsets with that short form."""
+        if self._subset_uris is None:
+            query = SparqlQuery(
+                select=["?subset"], distinct=True, where=[f"?s {IN_SUBSET} ?subset"]
+            )
+            m = defaultdict(list)
+            for row in self._sparql_query(query):
+                uri = row["subset"]["value"]
+                m[self._subset_short_form(uri)].append(uri)
+            self._subset_uris = dict(m)
+        return self._subset_uris
+
+    def subsets(self) -> Iterable[SUBSET_CURIE]:
+        yield from self._subset_uri_map().keys()
+
+    def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        if subset.startswith("http"):
+            uris = [subset]
+        elif ":" in subset:
+            uris = [self.curie_to_uri(subset)]
+        else:
+            uris = self._subset_uri_map().get(subset, [])
+            if not uris:
+                raise ValueError(f"Subset {subset} not found")
+        query = SparqlQuery(
+            select=["?s"],
+            distinct=True,
+            where=[f"?s {IN_SUBSET} ?subset", _sparql_values("subset", [f"<{u}>" for u in uris])],
+        )
+        for row in self._sparql_query(query):
+            yield self.uri_to_curie(row["s"]["value"])
+
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        for curie_chunk in chunk(curies):
+            query = SparqlQuery(
+                select=["?s", "?subset"],
+                where=[
+                    f"?s {IN_SUBSET} ?subset",
+                    _sparql_values("s", [self.curie_to_sparql(c) for c in curie_chunk]),
+                ],
+            )
+            for row in self._sparql_query(query):
+                yield (
+                    self.uri_to_curie(row["s"]["value"]),
+                    self._subset_short_form(row["subset"]["value"]),
+                )
+
+    def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
+        # these prefixes are not in the default prefix map
+        preds = [
+            "<https://w3id.org/biolink/vocab/category>",
+            "<http://dbpedia.org/ontology/category>",
+        ]
+        for curie_chunk in chunk(curies):
+            query = SparqlQuery(
+                select=["?s", "?c"],
+                where=[
+                    "?s ?p ?c",
+                    _sparql_values("p", preds),
+                    _sparql_values("s", [self.curie_to_sparql(c) for c in curie_chunk]),
+                ],
+            )
+            for row in self._sparql_query(query):
+                yield self.uri_to_curie(row["s"]["value"]), self.uri_to_curie(row["c"]["value"])
+
+    def _sparql_queries_concurrently(
+        self, queries: List[str], tolerate_errors=False
+    ) -> List[Optional[List[dict]]]:
+        """
+        Runs independent queries in parallel, each with its own connection.
+
+        Queries are run as given, i.e. not restricted to the named graph, with the default
+        prefixes added.
+
+        :param queries: SPARQL query strings
+        :param tolerate_errors: if True, a failed query is logged and yields None
+        :return: list of bindings, one per query, in the same order
+        """
+        prefix_lines = "".join(f"PREFIX {k}: <{v}>\n" for k, v in DEFAULT_PREFIX_MAP.items())
+
+        def _run(query: str) -> Optional[List[dict]]:
+            try:
+                if self.graph:
+                    return self._sparql_query(query)
+                sw = _clone_wrapper(self.sparql_wrapper)
+                full_query = prefix_lines + query
+                sw.setQuery(full_query)
+                sw.setReturnFormat(JSON)
+                sw.setMethod(
+                    SPARQLWrapper.POST
+                    if len(full_query) > MAX_GET_QUERY_LENGTH
+                    else SPARQLWrapper.GET
+                )
+                check_limit()
+                return _query_with_retries(sw)["results"]["bindings"]
+            except Exception as e:
+                if not tolerate_errors:
+                    raise
+                message = str(e).splitlines()[0] if str(e) else type(e).__name__
+                logging.warning(f"Query failed, skipping: {message}")
+                logging.info(f"Failed query: {query}")
+                return None
+
+        if len(queries) <= 1 or self.max_concurrent_queries <= 1 or self.graph:
+            return [_run(q) for q in queries]
+        with ThreadPoolExecutor(max_workers=self.max_concurrent_queries) as executor:
+            return list(executor.map(_run, queries))
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: SummaryStatisticsInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def _statistics_graph(self) -> Optional[URI]:
+        """Graph holding the asserted triples counted by summary statistics, if any."""
+        return self.named_graph
+
+    def _descendants_pattern(self, var: str, roots: List[CURIE]) -> str:
+        """Pattern binding var to the reflexive is-a descendants of the roots."""
+        if hasattr(self, "descendants"):
+            # property paths are slow on some stores, so small branches are listed
+            descendants = set(self.descendants(roots, predicates=[IS_A])).union(roots)
+            if len(descendants) <= MAX_INLINE_VALUES:
+                uris = " ".join(self.curie_to_sparql(d) for d in descendants)
+                return f"VALUES {var} {{ {uris} }}"
+        root_uris = " ".join(self.curie_to_sparql(r) for r in roots)
+        return f"VALUES ?_root {{ {root_uris} }} {var} rdfs:subClassOf* ?_root"
+
+    def _statistics_entity_filter(
+        self,
+        branch_roots: List[CURIE] = None,
+        property_values: Dict[CURIE, Any] = None,
+        prefixes: List[CURIE] = None,
+    ) -> List[str]:
+        """Patterns restricting ?s to the entities a statistics partition is about."""
+        patterns = []
+        if branch_roots:
+            patterns.append(self._descendants_pattern("?s", branch_roots))
+        if property_values:
+            for i, (pred, v) in enumerate(property_values.items()):
+                if pred == PREFIX_PREDICATE:
+                    vals = v if isinstance(v, list) else [v]
+                    conds = " || ".join(
+                        f'STRSTARTS(STR(?s), "{_escape_literal(self.curie_to_uri(f"{x}:"))}")'
+                        for x in vals
+                    )
+                    patterns.append(f"FILTER({conds})")
+                    continue
+                pred_uri = self.curie_to_sparql(pred)
+                if v is None:
+                    patterns.append(f"FILTER NOT EXISTS {{ ?s {pred_uri} ?_pv{i} }}")
+                else:
+                    vals = v if isinstance(v, list) else [v]
+                    conds = " || ".join(f'str(?_pv{i}) = "{_escape_literal(x)}"' for x in vals)
+                    patterns.append(f"?s {pred_uri} ?_pv{i} . FILTER({conds})")
+        if prefixes:
+            conds = " || ".join(
+                f'STRSTARTS(STR(?s), "{_escape_literal(self.curie_to_uri(f"{prefix}:"))}")'
+                for prefix in prefixes
+            )
+            patterns.append(f"FILTER({conds})")
+        return patterns
+
+    def _statistics_query(self, select: str, pattern: str, filters: List[str], group_by=None):
+        graph = self._statistics_graph()
+        if graph:
+            pattern = f"GRAPH <{graph}> {{ {pattern} }}"
+        # patterns are joined with a separator, which is also allowed after filters
+        q = f"SELECT {select} WHERE {{ {' . '.join([pattern] + filters)} }}"
+        if group_by:
+            q += f" GROUP BY {group_by}"
+        return q
+
+    def _edge_count_by_predicate_queries(self, filters: List[str]) -> Dict[str, str]:
+        """
+        Queries for counts of direct edges, keyed by name.
+
+        Each query must bind ?p and ?n; edges are named subclass axioms and
+        existential restrictions.
+        """
+        return {
+            "edges_isa": self._statistics_query(
+                "?p (COUNT(*) AS ?n)",
+                "VALUES ?p { rdfs:subClassOf } ?s ?p ?o . FILTER(isIRI(?o))",
+                filters,
+                group_by="?p",
+            ),
+            "edges_some": self._statistics_query(
+                "?p (COUNT(*) AS ?n)",
+                "?s rdfs:subClassOf ?r . ?r owl:onProperty ?p ; owl:someValuesFrom ?o",
+                filters,
+                group_by="?p",
+            ),
+        }
+
+    def _entailed_edge_count_by_predicate_queries(self, filters: List[str]) -> Dict[str, str]:
+        """As :meth:`_edge_count_by_predicate_queries`, for entailed edges, if available."""
+        return {}
+
+    def branch_summary_statistics(
+        self,
+        branch_name: str = None,
+        branch_roots: List[CURIE] = None,
+        property_values: Dict[CURIE, Any] = None,
+        include_entailed=False,
+        parent: GroupedStatistics = None,
+        prefixes: List[CURIE] = None,
+    ) -> UngroupedStatistics:
+        """
+        Summary statistics computed using aggregate queries.
+
+        Each statistic is an independent query, run in parallel; a statistic whose query
+        fails (e.g. times out on a large triplestore) is logged and left unset.
+        """
+        if branch_name is None:
+            branch_name = "AllOntologies"
+        filters = self._statistics_entity_filter(branch_roots, property_values, prefixes)
+        ssc = UngroupedStatistics(branch_name)
+        if not parent:
+            self._add_statistics_metadata(ssc)
+
+        def count(pattern: str, distinct=True) -> str:
+            select = "(COUNT(DISTINCT ?s) AS ?n)" if distinct else "(COUNT(*) AS ?n)"
+            return self._statistics_query(select, pattern, filters)
+
+        u = self.curie_to_sparql
+        in_subset = u(IN_SUBSET)
+        synonym_preds = [u(p) for p in SYNONYM_PREDICATES]
+        match_preds = [u(p) for p in ALL_MATCH_PREDICATES]
+        cls = "?s a owl:Class . FILTER(isIRI(?s))"
+        deprecated = f"?s {u(DEPRECATED_PREDICATE)} true"
+        counts = {
+            "class_count": count(cls),
+            "deprecated_class_count": count(f"{cls} . {deprecated}"),
+            "merged_class_count": count(
+                f"{cls} . ?s {u(HAS_OBSOLESCENCE_REASON)} {u(TERMS_MERGED)}"
+            ),
+            "class_count_with_text_definitions": count(f"{cls} . ?s <{HAS_DEFINITION_URI}> ?_d"),
+            "named_individual_count": count("?s a owl:NamedIndividual"),
+            "object_property_count": count("?s a owl:ObjectProperty"),
+            "deprecated_object_property_count": count(f"?s a owl:ObjectProperty . {deprecated}"),
+            "annotation_property_count": count("?s a owl:AnnotationProperty"),
+            "datatype_property_count": count("?s a owl:DatatypeProperty"),
+            "rdf_triple_count": count("?s ?_p ?_o", distinct=False),
+            "subclass_of_axiom_count": count("?s rdfs:subClassOf ?_o", distinct=False),
+            "equivalent_classes_axiom_count": count("?s owl:equivalentClass ?_o", distinct=False),
+            "distinct_synonym_count": self._statistics_query(
+                "(COUNT(DISTINCT ?v) AS ?n)",
+                f"{_sparql_values('p', synonym_preds)} ?s ?p ?v",
+                filters,
+            ),
+            "subset_count": self._statistics_query(
+                "(COUNT(DISTINCT ?o) AS ?n)", f"?s {in_subset} ?o", filters
+            ),
+        }
+        # the source of a mapping is the prefix of the object; for IRIs, the namespace
+        # is marked with a leading "@" and contracted to a prefix below
+        mapping_source_pattern = (
+            f"{_sparql_values('p', match_preds)} ?s ?p ?o . "
+            'BIND(IF(isIRI(?o), CONCAT("@", REPLACE(STR(?o), "[^/#_]*$", "")), '
+            'STRBEFORE(STR(?o), ":")) AS ?f)'
+        )
+        faceted = {
+            "class_count_by_subset": self._statistics_query(
+                "?f (COUNT(DISTINCT ?s) AS ?n)", f"?s {in_subset} ?f", filters, group_by="?f"
+            ),
+            "synonym_statement_count_by_predicate": self._statistics_query(
+                "?f (COUNT(*) AS ?n)",
+                f"{_sparql_values('f', synonym_preds)} ?s ?f ?v",
+                filters,
+                group_by="?f",
+            ),
+            "mapping_statement_count_by_predicate": self._statistics_query(
+                "?f (COUNT(DISTINCT ?o) AS ?n)",
+                f"{_sparql_values('f', match_preds)} ?s ?f ?o",
+                filters,
+                group_by="?f",
+            ),
+            "mapping_statement_count_by_object_source": self._statistics_query(
+                "?f (COUNT(*) AS ?n)", mapping_source_pattern, filters, group_by="?f"
+            ),
+            "mapping_statement_count_subject_by_object_source": self._statistics_query(
+                "?f (COUNT(DISTINCT ?s) AS ?n)", mapping_source_pattern, filters, group_by="?f"
+            ),
+        }
+        edge_queries = self._edge_count_by_predicate_queries(filters)
+        entailed_queries = (
+            self._entailed_edge_count_by_predicate_queries(filters) if include_entailed else {}
+        )
+        names = list(counts) + list(faceted) + list(edge_queries) + list(entailed_queries)
+        queries = (
+            list(counts.values())
+            + list(faceted.values())
+            + list(edge_queries.values())
+            + list(entailed_queries.values())
+        )
+        results = dict(zip(names, self._sparql_queries_concurrently(queries, True), strict=True))
+        for name in counts:
+            rows = results[name]
+            if rows is not None:
+                setattr(ssc, name, int(rows[0]["n"]["value"]) if rows else 0)
+        for name in faceted:
+            rows = results[name]
+            if rows is None:
+                continue
+            for row in rows:
+                if "f" not in row:
+                    continue
+                facet = row["f"]["value"]
+                if name.startswith("mapping_statement_count") and name.endswith("object_source"):
+                    if facet.startswith("@"):
+                        # contract a namespace to a prefix, e.g. http://purl.obolibrary.org/obo/GO_
+                        facet = self.uri_to_curie(facet[1:] + "0").split(":")[0]
+                elif name == "class_count_by_subset":
+                    facet = self._subset_short_form(facet)
+                else:
+                    facet = self.uri_to_curie(facet)
+                if not facet:
+                    continue
+                getattr(ssc, name)[facet] = FacetedCount(
+                    facet, filtered_count=int(row["n"]["value"])
+                )
+        for queries_by_name, slot in [
+            (edge_queries, "edge_count_by_predicate"),
+            (entailed_queries, "entailed_edge_count_by_predicate"),
+        ]:
+            totals = defaultdict(int)
+            for name in queries_by_name:
+                for row in results[name] or []:
+                    if "p" in row:
+                        totals[self.uri_to_curie(row["p"]["value"])] += int(row["n"]["value"])
+            for pred, n in totals.items():
+                getattr(ssc, slot)[pred] = FacetedCount(pred, filtered_count=n)
+        ssc.synonym_statement_count = sum(
+            fc.filtered_count for fc in ssc.synonym_statement_count_by_predicate.values()
+        )
+        if ssc.class_count is not None:
+            if ssc.deprecated_class_count is not None:
+                ssc.non_deprecated_class_count = ssc.class_count - ssc.deprecated_class_count
+            if ssc.class_count_with_text_definitions is not None:
+                ssc.class_count_without_text_definitions = (
+                    ssc.class_count - ssc.class_count_with_text_definitions
+                )
+        if (
+            ssc.object_property_count is not None
+            and ssc.deprecated_object_property_count is not None
+        ):
+            ssc.non_deprecated_object_property_count = (
+                ssc.object_property_count - ssc.deprecated_object_property_count
+            )
+        return ssc
+
+    def metadata_property_summary_statistics(self, metadata_property: PRED_CURIE) -> Dict[Any, int]:
+        if metadata_property == PREFIX_PREDICATE:
+            # prefixes are derived from namespaces, e.g. http://purl.obolibrary.org/obo/GO_
+            query = (
+                "SELECT ?ns (COUNT(DISTINCT ?s) AS ?n) WHERE { ?s a ?_t . FILTER(isIRI(?s)) "
+                'BIND(REPLACE(STR(?s), "[^/#_]*$", "") AS ?ns) } GROUP BY ?ns'
+            )
+            counts = defaultdict(int)
+            for row in self._sparql_query(query):
+                curie = self.uri_to_curie(row["ns"]["value"] + "0")
+                if ":" not in curie:
+                    # no known prefix for this namespace
+                    continue
+                counts[curie.split(":")[0]] += int(row["n"]["value"])
+            return dict(counts)
+        pred = self.curie_to_sparql(metadata_property)
+        query = SparqlQuery(select=["?v", "(COUNT(DISTINCT ?s) AS ?n)"], where=[f"?s {pred} ?v"])
+        return {
+            row["v"]["value"]: int(row["n"]["value"])
+            for row in self._sparql_query(query.query_str() + " GROUP BY ?v")
+        }
+
+    def _ontologies(self) -> Iterator[Ontology]:
+        """Ontology metadata for statistics reports, fetched in a single query."""
+        props = {
+            "version_info": self.curie_to_sparql(OWL_VERSION_INFO),
+            "version": self.curie_to_sparql(OWL_VERSION_IRI),
+            "title": "<http://purl.org/dc/terms/title>",
+            "description": "<http://purl.org/dc/terms/description>",
+        }
+        optionals = " ".join(f"OPTIONAL {{ ?s {pred} ?{slot} }}" for slot, pred in props.items())
+        query = SparqlQuery(
+            select=["?s"] + [f"?{slot}" for slot in props],
+            where=["?s rdf:type owl:Ontology", optionals],
+        )
+        seen = set()
+        for row in self._sparql_query(query):
+            ontology = self.uri_to_curie(row["s"]["value"])
+            if ontology in seen:
+                continue
+            seen.add(ontology)
+            params = {slot: row[slot]["value"] for slot in props if slot in row}
+            yield Ontology(id=ontology, **params)
+
     def list_of_named_graphs(self) -> List[URI]:
         if self._list_of_named_graphs:
             return self._list_of_named_graphs
@@ -249,8 +761,9 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         sw = self.sparql_wrapper
         sw.setQuery(query)
         sw.setReturnFormat(JSON)
+        sw.setMethod(SPARQLWrapper.GET)
         check_limit()
-        ret = sw.queryAndConvert()
+        ret = _query_with_retries(sw)
         logging.debug(f"RET={ret}")
         self._list_of_named_graphs = [row["g"]["value"] for row in ret["results"]["bindings"]]
         return self._list_of_named_graphs
@@ -290,14 +803,18 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
 
             logging.debug(f"Query={query}")
             for row in self.graph.query(query):
-                rows.append({k: tr(row[k]) for k in row.labels})
+                # unbound variables (e.g. from OPTIONAL) are omitted, as in SPARQL JSON results
+                rows.append({k: tr(row[k]) for k in row.labels if row[k] is not None})
             return rows
         else:
             logging.info(f"QUERY={query} // sw={sw}")
             sw.setQuery(query)
             sw.setReturnFormat(JSON)
+            sw.setMethod(
+                SPARQLWrapper.POST if len(query) > MAX_GET_QUERY_LENGTH else SPARQLWrapper.GET
+            )
             check_limit()
-            ret = sw.queryAndConvert()
+            ret = _query_with_retries(sw)
             logging.debug(f"queryResults={ret}")
             return ret["results"]["bindings"]
 
@@ -820,6 +1337,33 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+    def _blazegraph_search_clause(self, search_term: str, config: SearchConfiguration) -> str:
+        """
+        Generates a search clause using the Blazegraph full text index.
+
+        The index matches whole tokens (or token prefixes), so for exact and starts-with
+        searches it is used to narrow candidates, and a filter applies the exact semantics.
+        Partial (substring) and regular expression searches cannot use the index, and
+        require a scan of all values, which is slow on large triplestores.
+
+        :param search_term:
+        :param config:
+        :return: a where clause binding ?v
+        """
+        escaped = _escape_literal(search_term)
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+            return f'FILTER(regex(str(?v), "{escaped}", "i"))'
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.LUCENE):
+            raise NotImplementedError("Lucene not implemented")
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            return f'?v bds:search "{escaped}*" . FILTER(strStarts(str(?v), "{escaped}"))'
+        if config.is_partial:
+            # substrings may start mid-token, so the index cannot be used
+            return f'FILTER(contains(str(?v), "{escaped}"))'
+        if config.is_partial is False:
+            return f'?v bds:search "{escaped}" . FILTER(str(?v) = "{escaped}")'
+        return f'?v bds:search "{escaped}"'
+
     def basic_search(
         self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
@@ -829,7 +1373,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             search_term = self.curie_to_uri(search_term)
 
         if self._is_blazegraph():
-            filter_clause = f'?v bds:search "{search_term}"'
+            filter_clause = self._blazegraph_search_clause(search_term, config)
         else:
             if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
                 filter_clause = f'strStarts(str(?v), "{search_term}")'
@@ -883,6 +1427,11 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> obograph.Node:
         params = dict(id=curie, lbl=self.label(curie))
+        rdf_types = set(self._get_anns(curie, "rdf:type"))
+        for owl_type, node_type in _OWL_TYPE_TO_NODE_TYPE.items():
+            if owl_type in rdf_types:
+                params["type"] = node_type
+                break
         node = obograph.Node(**params)
         if include_metadata:
             meta = obograph.Meta()

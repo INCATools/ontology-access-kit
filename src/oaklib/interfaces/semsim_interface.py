@@ -7,11 +7,14 @@ from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.similarity import (
     BestMatch,
+    InformationContentCorpusEnum,
+    InformationContentMethod,
+    InformationContentScaleEnum,
     TermInfo,
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
-from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.datamodels.vocabulary import OWL_CLASS, OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -212,6 +215,44 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                 raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
             return pairs[0][1]
 
+    def information_content_method(
+        self,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+    ) -> InformationContentMethod:
+        """
+        Describes how :meth:`information_content_scores` computes IC with the given options.
+
+        IC scores are only comparable if they were computed using the same method.
+        Scores loaded with :meth:`load_information_content_scores` or
+        :meth:`set_information_content_scores` are assumed to be in log2 bits.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.obo")
+        >>> method = adapter.information_content_method(object_closure_predicates=["rdfs:subClassOf"])
+        >>> str(method.scale)
+        'log2_bits'
+        >>> str(method.corpus)
+        'ontology'
+        >>> method.closure_predicates
+        ['rdfs:subClassOf']
+
+        :param object_closure_predicates: predicates used to compute term frequencies
+        :param use_associations: if True, associations are used as the corpus
+        :return: description of the method
+        """
+        corpus = (
+            InformationContentCorpusEnum.associations
+            if use_associations
+            else InformationContentCorpusEnum.ontology
+        )
+        return InformationContentMethod(
+            scale=InformationContentScaleEnum.log2_bits,
+            corpus=corpus,
+            closure_predicates=list(object_closure_predicates or []),
+            source="oaklib",
+        )
+
     def information_content_scores(
         self,
         curies: Optional[Iterable[CURIE]] = None,
@@ -288,14 +329,15 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                     yield curie, self.cached_information_content_map[curie]
             return
         logging.info("Calculating and caching IC map from ontology")
-        all_entities = list(self.entities())
+        # the background set is all classes, consistent with SqlImplementation
+        all_entities = list(self.entities(owl_type=OWL_CLASS))
         num_entities = len(all_entities)
         if not isinstance(self, OboGraphInterface):
             raise NotImplementedError
         yielded_owl_thing = False
         for curie in curies:
             descendants = list(self.descendants([curie], object_closure_predicates))
-            yield curie, -math.log(len(descendants) / num_entities)
+            yield curie, -math.log2(len(descendants) / num_entities)
             if curie == OWL_THING:
                 yielded_owl_thing = True
         # inject owl:Thing, which always has zero information
@@ -360,12 +402,17 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
             if max_ic < min_ancestor_information_content:
                 return None
         logging.debug(f"MRCA = {anc} with {max_ic}")
+        missing = [c for c in (subject, object) if c not in ics]
+        if missing:
+            ics.update(
+                self.information_content_scores(missing, object_closure_predicates=predicates)
+            )
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
             ancestor_id=anc,
-            subject_information_content=ics.get(subject, self.get_information_content(subject)),
-            object_information_content=ics.get(object, self.get_information_content(object)),
+            subject_information_content=ics.get(subject),
+            object_information_content=ics.get(object),
             ancestor_information_content=max_ic,
             jaccard_similarity=jaccard_similarity,
         )
