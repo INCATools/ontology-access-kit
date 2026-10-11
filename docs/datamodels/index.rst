@@ -38,6 +38,7 @@ not need this.
    class-enrichment/index
    item-list/index
    value-set-configuration/index
+   fhir/index
 
 
 

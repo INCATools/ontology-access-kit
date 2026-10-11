@@ -68,7 +68,7 @@ prep-gh-pages-dir:
 RUN_GENDOC = $(RUN) --with 'linkml<1.9' gen-doc --dialect myst
 
 .PHONY: run-all-gendoc-cmds
-run-all-gendoc-cmds: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc gendoc-itemlist gendoc-ce gendoc-vsc
+run-all-gendoc-cmds: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc gendoc-itemlist gendoc-ce gendoc-vsc gendoc-fhir
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/ontology-metadata/
@@ -100,6 +100,8 @@ gendoc-ce: src/oaklib/datamodels/class_enrichment.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/class-enrichment
 gendoc-vsc: src/oaklib/datamodels/value_set_configuration.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/value-set-configuration
+gendoc-fhir: src/oaklib/datamodels/fhir.yaml
+	$(RUN_GENDOC)  $< -d docs/datamodels/fhir
 
 .PHONY: sphinx-cmd
 sphinx-cmd:
