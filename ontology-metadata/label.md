@@ -23,19 +23,19 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [Property](Property.md) |  |  yes  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [Class](Class.md) |  |  yes  |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Image](Image.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Property](Property.md) |  |  yes  |
+| [Class](Class.md) |  |  yes  |
 | [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Image](Image.md) |  |  no  |
+| [Agent](Agent.md) |  |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
