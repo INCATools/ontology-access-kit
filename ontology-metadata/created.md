@@ -28,18 +28,18 @@ URI: [dcterms:created](http://purl.org/dc/terms/created)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [Class](Class.md) |  |  no  |
 | [Property](Property.md) |  |  no  |
-| [Image](Image.md) |  |  no  |
-| [HasProvenance](HasProvenance.md) |  |  no  |
-| [Agent](Agent.md) |  |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
