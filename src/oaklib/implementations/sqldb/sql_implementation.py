@@ -476,6 +476,107 @@ class SqlImplementation(
         for row in q:
             yield row.id
 
+    def roots(
+        self,
+        predicates: Optional[List[PRED_CURIE]] = None,
+        ignore_owl_thing: bool = True,
+        filter_obsoletes: bool = True,
+        annotated_roots: bool = False,
+        id_prefixes: Optional[List[CURIE]] = None,
+    ) -> Iterable[CURIE]:
+        """
+        SQL-backed override of :meth:`BasicOntologyInterface.roots`.
+
+        The interface-level implementation materializes every relationship into
+        Python and filters candidates one by one, which is O(edges) in both time
+        and memory and can take minutes on large databases such as NCBITaxon
+        (~2.7M candidate nodes) -- see issue #881. This override pushes the same
+        computation into the database engine with a single set of queries while
+        returning an identical result set.
+
+        A node is a root when it is typed as an OWL class, is not deprecated, is
+        not ``owl:Thing``/``owl:Nothing``, and is never the subject of a
+        relationship whose object satisfies the ``ignore_owl_thing`` /
+        ``id_prefixes`` filters and whose predicate satisfies the ``predicates``
+        filter. The relationship universe matches
+        :meth:`SqlImplementation.relationships` (``Edge`` plus the relevant
+        ``Statements`` rows).
+        """
+        if annotated_roots:
+            # Annotation-based roots are few and the naive path is cheap; delegate
+            # to keep behaviour exactly aligned with the base implementation.
+            for term in super().roots(
+                predicates=predicates,
+                ignore_owl_thing=ignore_owl_thing,
+                filter_obsoletes=filter_obsoletes,
+                annotated_roots=True,
+                id_prefixes=id_prefixes,
+            ):
+                yield term
+            return
+
+        from sqlalchemy import not_ as sa_not, or_ as sa_or, union_all
+
+        # Relationship universe, mirroring SqlImplementation.relationships():
+        #   Edge rows + Statements with predicate in
+        #   {rdf:type, rdfs:domain, rdfs:range, owl:inverseOf} + Statements whose
+        #   predicate is an object property.
+        rel_edge = select(
+            Edge.subject.label("subject"),
+            Edge.predicate.label("predicate"),
+            Edge.object.label("object"),
+        )
+        rel_stmt_tbox = (
+            select(Statements.subject, Statements.predicate, Statements.object)
+            .filter(Statements.predicate.in_((RDF_TYPE, RDFS_DOMAIN, RDFS_RANGE, INVERSE_OF)))
+        )
+        rel_stmt_op = (
+            select(Statements.subject, Statements.predicate, Statements.object)
+            .filter(Statements.predicate.in_(select(ObjectPropertyNode.id)))
+        )
+        rel = union_all(rel_edge, rel_stmt_tbox, rel_stmt_op).subquery()
+
+        def _prefix(expr):
+            # CURIE prefix == substring before the first ':'
+            return func.substr(expr, 1, func.instr(expr, ":") - 1)
+
+        non_root_cond = and_(
+            rel.c.subject != rel.c.object,
+            sa_or(sa_not(ignore_owl_thing), rel.c.object != OWL_THING),
+        )
+        if predicates:
+            non_root_cond = and_(non_root_cond, rel.c.predicate.in_(predicates))
+        if id_prefixes:
+            non_root_cond = and_(non_root_cond, _prefix(rel.c.object).in_(id_prefixes))
+
+        non_root = select(distinct(rel.c.subject)).where(non_root_cond)
+
+        candidate_nodes = self.session.query(Node.id).filter(
+            Node.id.in_(
+                self.session.query(RdfTypeStatement.subject).filter(
+                    RdfTypeStatement.object == OWL_CLASS
+                )
+            ),
+            Node.id.not_in(self.session.query(DeprecatedNode.id)),
+        )
+        # Mirror BasicOntologyInterface.entities(), which drops blank nodes and
+        # swrl-derived nodes from the candidate set in Python.
+        candidate_nodes = candidate_nodes.filter(
+            func.substr(Node.id, 1, 2) != "_:",
+            Node.id.not_like("<urn:swrl%"),
+        )
+        if id_prefixes:
+            candidate_nodes = candidate_nodes.filter(
+                sa_or(*[_prefix(Node.id) == p for p in id_prefixes])
+            )
+        candidate_nodes = candidate_nodes.filter(
+            Node.id.not_in(non_root),
+            Node.id.not_in([OWL_THING, OWL_NOTHING]),
+        )
+
+        for row in candidate_nodes:
+            yield row.id
+
     def obsoletes_migration_relationships(
         self, entities: Iterable[CURIE]
     ) -> Iterable[RELATIONSHIP]:
