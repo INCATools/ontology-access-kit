@@ -15,6 +15,9 @@ from oaklib.implementations.ncbi.eutils_implementation import (
 
 EMPTY_SET = b"<PubmedArticleSet></PubmedArticleSet>"
 SLEEP = "oaklib.implementations.ncbi.eutils_implementation.time.sleep"
+# On coarse clocks (Windows, Python < 3.13) consecutive monotonic() calls can be equal,
+# so the computed wait is (t + interval) - t, which float rounding can put just above interval
+TOLERANCE = 1e-9
 
 
 def _response(content: bytes = EMPTY_SET, from_cache: bool = False) -> MagicMock:
@@ -61,7 +64,7 @@ class TestEUtilsImplementation(unittest.TestCase):
             self.adapter._efetch(["1"])
             self.adapter._efetch(["2"])
         sleep.assert_called_once()
-        self.assertTrue(0 < sleep.call_args[0][0] <= REQUEST_INTERVAL)
+        self.assertTrue(0 < sleep.call_args[0][0] <= REQUEST_INTERVAL + TOLERANCE)
 
     def test_throttle_interval_with_api_key(self):
         os.environ["NCBI_API_KEY"] = "secret"
@@ -70,7 +73,7 @@ class TestEUtilsImplementation(unittest.TestCase):
             self.adapter._efetch(["1"])
             self.adapter._efetch(["2"])
         sleep.assert_called_once()
-        self.assertTrue(0 < sleep.call_args[0][0] <= REQUEST_INTERVAL_WITH_KEY)
+        self.assertTrue(0 < sleep.call_args[0][0] <= REQUEST_INTERVAL_WITH_KEY + TOLERANCE)
 
     def test_cached_responses_do_not_throttle(self):
         self.session.get.return_value = _response(from_cache=True)
