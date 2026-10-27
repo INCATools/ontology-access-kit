@@ -35,3 +35,4 @@ tests/input/obojson_conf.yaml
 
 poetry.lock
 .panther_requests_cache.sqlite
+.ncbi_requests_cache.sqlite
