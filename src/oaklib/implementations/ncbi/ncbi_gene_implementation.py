@@ -11,7 +11,13 @@ from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.association import Association, NegatedAssociation
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import RDFS_LABEL
-from oaklib.implementations.ncbi.eutils_implementation import EUtilsImplementation
+from oaklib.implementations.ncbi.eutils_implementation import (
+    EFETCH_URL,
+    ELINK_URL,
+    ESEARCH_URL,
+    ESUMMARY_URL,
+    EUtilsImplementation,
+)
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -23,11 +29,6 @@ __all__ = [
 
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG
 from oaklib.types import CURIE, PRED_CURIE
-
-EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
-ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-ELINK_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
-ESUMMARY_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
 
 logger = logging.getLogger(__name__)
 

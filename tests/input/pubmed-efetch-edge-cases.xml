@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">1000001</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue CitedMedium="Print">
+            <PubDate>
+              <MedlineDate>1998 Dec-1999 Jan</MedlineDate>
+            </PubDate>
+          </JournalIssue>
+        </Journal>
+        <ArticleTitle>Role of <i>BRCA1</i> in DNA repair.</ArticleTitle>
+        <Abstract>
+          <AbstractText Label="BACKGROUND">First <sup>2</sup> part.</AbstractText>
+          <AbstractText Label="RESULTS">Second part.</AbstractText>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author><CollectiveName>Gene Ontology Consortium</CollectiveName></Author>
+          <Author><LastName>Smith</LastName></Author>
+          <Author><ForeName>Anonymous</ForeName></Author>
+          <Author><LastName>Doe</LastName><ForeName>Jane</ForeName><Initials>J</Initials></Author>
+        </AuthorList>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">1000002</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue CitedMedium="Print">
+            <PubDate><Year>2020</Year><Month>Jan</Month></PubDate>
+          </JournalIssue>
+        </Journal>
+        <ArticleTitle>No abstract here</ArticleTitle>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+</PubmedArticleSet>
