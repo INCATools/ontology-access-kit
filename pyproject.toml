@@ -67,17 +67,10 @@ dev = [
     "tox",
     "seaborn>=0.12.2,<1",
     "pip>=24.0,<25",
+    # Install these extras with a plain `uv sync`. Replace with `default-extras` under
+    # [tool.uv] once uv supports it: https://github.com/astral-sh/uv/issues/8607
+    "oaklib[gilda,semsimian]",
 ]
-
-gilda = [
-    "scipy", 
-    "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
-    "urllib3<2",
-    "scikit-learn>1.4.2",
-    "nltk",
-]
-
-semsimian = ["semsimian>=0.2.18"]
 
 
 [build-system]
@@ -101,13 +94,20 @@ llm = [
 #    "llm", #This is a regular dependency.
     "html2text",
 ]
+gilda = [
+    "scipy", 
+    "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
+    "scikit-learn>1.4.2",
+    "nltk",
+]
+semsimian = ["semsimian>=0.2.18"]
 seaborn = [
     "seaborn",
     "matplotlib>=3.4",
 ]
 
 [tool.uv]
-default-groups = ["dev", "gilda"]
+default-groups = ["dev"]
 
 [tool.hatch.version]
 source = "uv-dynamic-versioning"
