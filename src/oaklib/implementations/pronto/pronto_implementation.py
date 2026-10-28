@@ -12,10 +12,10 @@ from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
 
 import pronto
 import sssom_schema as sssom
-from deprecated import deprecated
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from pronto import LiteralPropertyValue, Ontology, ResourcePropertyValue, Term
+from typing_extensions import deprecated
 
 from oaklib.converters.obo_graph_to_obo_format_converter import (
     OboGraphToOboFormatConverter,

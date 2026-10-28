@@ -48,6 +48,7 @@ dependencies = [
     "sssom-schema>=1.0.0",
     "numpy>=1.23",
     "pandas>=1.5.1",
+    "typing-extensions>=4.5",
 ]
 
 [dependency-groups]

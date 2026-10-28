@@ -2881,6 +2881,7 @@ dependencies = [
     { name = "sssom" },
     { name = "sssom-schema" },
     { name = "tenacity" },
+    { name = "typing-extensions" },
 ]
 
 [package.optional-dependencies]
@@ -2974,6 +2975,7 @@ requires-dist = [
     { name = "sssom" },
     { name = "sssom-schema", specifier = ">=1.0.0" },
     { name = "tenacity", specifier = ">=8.2.3" },
+    { name = "typing-extensions", specifier = ">=4.5" },
 ]
 provides-extras = ["docs", "llm", "seaborn"]
 

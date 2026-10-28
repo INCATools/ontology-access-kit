@@ -2,8 +2,8 @@ import logging
 from abc import ABC
 from typing import Collection, Dict, Iterable, List, Optional, Union
 
-from deprecation import deprecated
 from sssom_schema import Mapping
+from typing_extensions import deprecated
 
 from oaklib.datamodels.mapping_cluster_datamodel import MappingCluster
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface

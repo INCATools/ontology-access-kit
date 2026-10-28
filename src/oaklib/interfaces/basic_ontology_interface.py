@@ -9,9 +9,9 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import curies
-from deprecation import deprecated
 from prefixmaps.io.parser import load_context
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
+from typing_extensions import deprecated
 
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,

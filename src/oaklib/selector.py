@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import List, Optional, Type, TypeVar, Union
 
 import requests
-from deprecation import deprecated
 from linkml_runtime.loaders import yaml_loader
+from typing_extensions import deprecated
 
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
