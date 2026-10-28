@@ -1741,18 +1741,6 @@ wheels = [
 ]
 
 [[package]]
-name = "jsonlines"
-version = "4.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "attrs" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/35/87/bcda8e46c88d0e34cad2f09ee2d0c7f5957bccdb9791b0b934ec84d84be4/jsonlines-4.0.0.tar.gz", hash = "sha256:0c6d2c09117550c089995247f605ae4cf77dd1533041d366351f6f298822ea74", size = 11359, upload-time = "2023-09-01T12:34:44.187Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f8/62/d9ba6323b9202dd2fe166beab8a86d29465c41a0288cbe229fac60c1ab8d/jsonlines-4.0.0-py3-none-any.whl", hash = "sha256:185b334ff2ca5a91362993f42e83588a360cf95ce4b71a73548502bda52a7c55", size = 8701, upload-time = "2023-09-01T12:34:42.563Z" },
-]
-
-[[package]]
 name = "jsonpointer"
 version = "3.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2843,12 +2831,10 @@ name = "oaklib"
 source = { editable = "." }
 dependencies = [
     { name = "airium" },
-    { name = "appdirs" },
     { name = "class-resolver" },
     { name = "click" },
     { name = "curies" },
     { name = "defusedxml" },
-    { name = "jsonlines" },
     { name = "kgcl-rdflib" },
     { name = "kgcl-schema" },
     { name = "linkml-renderer" },
@@ -2863,6 +2849,7 @@ dependencies = [
     { name = "ontoportal-client" },
     { name = "pandas", version = "2.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "pandas", version = "3.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "platformdirs" },
     { name = "prefixmaps" },
     { name = "pronto" },
     { name = "py-horned-owl" },
@@ -2870,7 +2857,6 @@ dependencies = [
     { name = "pysolr" },
     { name = "pystow" },
     { name = "pyyaml" },
-    { name = "ratelimit" },
     { name = "rdflib" },
     { name = "requests" },
     { name = "requests-cache" },
@@ -2933,13 +2919,11 @@ semsimian = [
 [package.metadata]
 requires-dist = [
     { name = "airium", specifier = ">=0.2.5" },
-    { name = "appdirs", specifier = ">=1.4.4" },
     { name = "class-resolver", specifier = ">=0.4.2" },
     { name = "click" },
     { name = "curies", specifier = ">=0.6.6" },
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "html2text", marker = "extra == 'llm'" },
-    { name = "jsonlines" },
     { name = "kgcl-rdflib", specifier = "==0.5.0" },
     { name = "kgcl-schema", specifier = ">=0.6.9,<1" },
     { name = "linkml-renderer", specifier = ">=0.3.0" },
@@ -2952,6 +2936,7 @@ requires-dist = [
     { name = "ols-client", specifier = ">=0.1.1" },
     { name = "ontoportal-client", specifier = ">=0.0.3" },
     { name = "pandas", specifier = ">=1.5.1" },
+    { name = "platformdirs", specifier = ">=3.0.0" },
     { name = "prefixmaps", specifier = ">=0.1.2" },
     { name = "pronto", specifier = ">=2.5" },
     { name = "py-horned-owl", specifier = ">=1.4.1" },
@@ -2959,7 +2944,6 @@ requires-dist = [
     { name = "pysolr", specifier = ">=3.9.0,<4" },
     { name = "pystow", specifier = ">=0.7.28" },
     { name = "pyyaml", specifier = ">=6.0" },
-    { name = "ratelimit", specifier = ">=2.2.1" },
     { name = "rdflib", specifier = ">=6.1.1" },
     { name = "requests", specifier = ">=2.28" },
     { name = "requests-cache", specifier = ">1.0.1,<2" },
@@ -4093,12 +4077,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a1/cf/f2b3784d536250ffd4be70e049f3b60981235d70c6e8ce7e3ef21e1adb25/pyzmq-27.1.0-pp311-pypy311_pp73-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f605d884e7c8be8fe1aa94e0a783bf3f591b84c24e4bc4f3e7564c82ac25e271", size = 747371, upload-time = "2025-09-08T23:09:54.563Z" },
     { url = "https://files.pythonhosted.org/packages/01/1b/5dbe84eefc86f48473947e2f41711aded97eecef1231f4558f1f02713c12/pyzmq-27.1.0-pp311-pypy311_pp73-win_amd64.whl", hash = "sha256:c9f7f6e13dff2e44a6afeaf2cf54cee5929ad64afaf4d40b50f93c58fc687355", size = 544862, upload-time = "2025-09-08T23:09:56.509Z" },
 ]
-
-[[package]]
-name = "ratelimit"
-version = "2.2.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ab/38/ff60c8fc9e002d50d48822cc5095deb8ebbc5f91a6b8fdd9731c87a147c9/ratelimit-2.2.1.tar.gz", hash = "sha256:af8a9b64b821529aca09ebaf6d8d279100d766f19e90b5059ac6a718ca6dee42", size = 5251, upload-time = "2018-12-17T18:55:49.675Z" }
 
 [[package]]
 name = "rdflib"

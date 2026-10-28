@@ -1,18 +1,33 @@
 """
-https://stackoverflow.com/questions/40748687/python-api-rate-limiting-how-to-limit-api-calls-globally
+Global rate limiting for calls to remote APIs.
+
+All callers share a single fixed window of RATE_LIMIT seconds, within which at most
+CALLS calls are allowed. Once the limit is reached, :func:`check_limit` blocks until
+the window ends.
 """
 
-from ratelimit import limits, sleep_and_retry
+import threading
+import time
 
 # calls per minute
 CALLS = 300
 RATE_LIMIT = 60
-# CALLS = 1
-# RATE_LIMIT = 10
+
+_lock = threading.Lock()
+_window_start = float("-inf")
+_num_calls = 0
 
 
-@sleep_and_retry
-@limits(calls=CALLS, period=RATE_LIMIT)
 def check_limit():
-    """Empty function just to check for calls to API"""
-    return
+    """Block until another call to an API is allowed."""
+    global _window_start, _num_calls
+    with _lock:
+        now = time.monotonic()
+        if now - _window_start >= RATE_LIMIT:
+            _window_start = now
+            _num_calls = 0
+        if _num_calls >= CALLS:
+            time.sleep(RATE_LIMIT - (now - _window_start))
+            _window_start = time.monotonic()
+            _num_calls = 0
+        _num_calls += 1
