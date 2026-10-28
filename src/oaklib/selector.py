@@ -298,14 +298,12 @@ def get_implementation_from_shorthand(
     """
     Gets an adapter (implementation) for a given descriptor.
 
-    .. warning ::
-
-       this is an alias for `get_adapter` - use this instead,
-       get_implementation_from_shorthand will be deprecated in future.
-
     :param descriptor:
     :param format:
     :return:
+
+    .. deprecated:: 0.5.0
+       Use get_adapter instead
     """
     return get_adapter(descriptor, format)
 

@@ -143,6 +143,10 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
     def all_sssom_mappings(
         self, subject_or_object_source: Optional[str] = None
     ) -> Iterable[Mapping]:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by sssom_mappings()
+        """
         return self.sssom_mappings_by_source(subject_or_object_source)
 
     @deprecated("Use sssom_mappings()")
@@ -154,6 +158,9 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
 
         :param kwargs:
         :return:
+
+        .. deprecated:: 0.1.33
+           Use sssom_mappings()
         """
         return self.sssom_mappings(*args, **kwargs)
 

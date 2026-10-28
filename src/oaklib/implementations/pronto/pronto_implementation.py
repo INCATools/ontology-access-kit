@@ -186,6 +186,10 @@ class ProntoImplementation(
     @classmethod
     @deprecated("old style")
     def create(cls, resource: OntologyResource = None) -> "ProntoImplementation":
+        """
+        .. deprecated:: 0.1.0
+           old style
+        """
         return ProntoImplementation(resource=resource)
 
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
@@ -246,6 +250,10 @@ class ProntoImplementation(
 
     @deprecated("Use this when we fix https://github.com/fastobo/fastobo/issues/42")
     def load_graph_using_jsondoc(self, graph: Graph, replace: True) -> None:
+        """
+        .. deprecated:: 0.1.13
+           Use this when we fix https://github.com/fastobo/fastobo/issues/42
+        """
         tf = tempfile.NamedTemporaryFile()
         tf_name = "/tmp/tf.json"  # noqa
         gd = GraphDocument(graphs=[graph])

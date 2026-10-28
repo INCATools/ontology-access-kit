@@ -192,6 +192,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Replaced by prefix_map")
     def get_prefix_map(self) -> PREFIX_MAP:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by prefix_map
+        """
         return self.prefix_map()
 
     @property
@@ -459,10 +463,18 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Replaced by ontologies()")
     def ontology_curies(self) -> Iterable[CURIE]:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by ontologies()
+        """
         return self.ontologies()
 
     @deprecated("Replaced by ontology_curies")
     def all_ontology_curies(self) -> Iterable[CURIE]:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by ontology_curies
+        """
         return self.ontologies()
 
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
@@ -540,6 +552,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Replaced by obsoletes()")
     def all_obsolete_curies(self) -> Iterable[CURIE]:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by obsoletes()
+        """
         return self.obsoletes()
 
     def dangling(self, curies: Optional[Iterable[CURIE]] = None) -> Iterable[CURIE]:
@@ -648,6 +664,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Replaced by entities")
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by entities
+        """
         return self.entities(**kwargs)
 
     def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
@@ -931,10 +951,18 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Replaced by subsets()")
     def subset_curies(self) -> Iterable[SUBSET_CURIE]:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by subsets()
+        """
         return self.subsets()
 
     @deprecated("Replaced by subsets()")
     def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
+        """
+        .. deprecated:: 0.1.36
+           Replaced by subsets()
+        """
         return self.subsets()
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
@@ -996,6 +1024,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Replaced by subset_members(subset)")
     def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by subset_members(subset)
+        """
         return self.subset_members(subset)
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
@@ -1035,8 +1067,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    @deprecated("Use label(curie))")
+    @deprecated("Use label(curie)")
     def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
+        """
+        .. deprecated:: 0.1.33
+           Use label(curie)
+        """
         return self.label(curie)
 
     def labels(
@@ -1090,6 +1126,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Use labels(...)")
     def get_labels_for_curies(self, **kwargs) -> Iterable[Tuple[CURIE, str]]:
+        """
+        .. deprecated:: 0.1.33
+           Use labels(...)
+        """
         return self.labels(**kwargs)
 
     def set_label(self, curie: CURIE, label: str, lang: LANGUAGE_TAG = None) -> bool:
@@ -1117,6 +1157,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Use curies_by_label(label)")
     def get_curies_by_label(self, label: str) -> List[CURIE]:
+        """
+        .. deprecated:: 0.1.33
+           Use curies_by_label(label)
+        """
         return self.curies_by_label(label)
 
     def comments(
@@ -1301,6 +1345,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields all known relationships.
 
         :return:
+
+        .. deprecated:: 0.1.33
+           Use relationships()
         """
         for curie in self.entities():
             for pred, fillers in self.outgoing_relationship_map(curie).items():
@@ -1357,6 +1404,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Use definition()")
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
+        """
+        .. deprecated:: 0.1.33
+           Use definition()
+        """
         return self.definition(curie)
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
@@ -1401,6 +1452,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Use entity_aliases(curie)")
     def aliases_by_curie(self, curie: CURIE) -> List[str]:
+        """
+        .. deprecated:: 0.1.33
+           Use entity_aliases(curie)
+        """
         return self.entity_aliases(curie)
 
     def alias_relationships(
@@ -1427,6 +1482,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Replaced by alias_map(curie)")
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
+        """
+        .. deprecated:: 0.1.33
+           Replaced by alias_map(curie)
+        """
         return self.entity_alias_map(curie)
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
