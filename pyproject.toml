@@ -20,12 +20,11 @@ dependencies = [
     "linkml-renderer>=0.3.0",
     "networkx>=2.7.1",
     "sssom",
-    "ratelimit>=2.2.1",
-    "appdirs>=1.4.4",
+    "platformdirs>=3.0.0",
     "semsql>=0.3.1",
     "kgcl-schema>=0.6.9,<1",
     "py-horned-owl>=1.4.1",
-    "kgcl-rdflib==0.5.0",
+    "kgcl-rdflib>=0.5.0,<1",
     "llm>=0.14,<1",
     "pystow>=0.7.28",
     "class-resolver>=0.4.2",
@@ -38,12 +37,16 @@ dependencies = [
     "requests-cache>1.0.1,<2",
     "click",
     "pydantic",
-    "jsonlines",
     "tenacity>=8.2.3",
     "defusedxml>=0.7.1",
     "ruamel.yaml",
-    "regex", #TODO: regex is usually a python built-in but regex.sub will fail under weird circumstances unless this is imported.
-    "greenlet",
+    "rdflib>=6.1.1",
+    "requests>=2.28",
+    "pyyaml>=6.0",
+    "sssom-schema>=1.0.0",
+    "numpy>=1.23",
+    "pandas>=1.5.1",
+    "typing-extensions>=4.5",
 ]
 
 [dependency-groups]
@@ -53,7 +56,6 @@ dev = [
     "pytest>=7.1.3,<8",
     "pytest-xdist>=3.0.0,<4",
     "Sphinx>=6.1.3",
-    "pandas>=1.5.1",
     "jupyter>=1.0.0",
     "sphinx-rtd-theme>=1.0.0,<2",
     "sphinx-click>=4.4.0",
@@ -65,16 +67,10 @@ dev = [
     "tox",
     "seaborn>=0.12.2,<1",
     "pip>=24.0,<25",
+    # Install these extras with a plain `uv sync`. Replace with `default-extras` under
+    # [tool.uv] once uv supports it: https://github.com/astral-sh/uv/issues/8607
+    "oaklib[gilda,semsimian]",
 ]
-
-gilda = [
-    "scipy", 
-    "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
-    "urllib3<2",
-    "scikit-learn>1.4.2",
-]
-
-semsimian = ["semsimian>=0.2.18"]
 
 
 [build-system]
@@ -96,13 +92,22 @@ docs = [
 
 llm = [
 #    "llm", #This is a regular dependency.
-    "aiohttp",
     "html2text",
 ]
-seaborn = ["seaborn"]
+gilda = [
+    "scipy", 
+    "gilda>=1.0.0,<1.5.0", #TODO: Needs to be downgraded because `from gilda.ner import annotate` returns an object instead of tuples.  
+    "scikit-learn>1.4.2",
+    "nltk",
+]
+semsimian = ["semsimian>=0.2.18"]
+seaborn = [
+    "seaborn",
+    "matplotlib>=3.4",
+]
 
 [tool.uv]
-default-groups = ["dev", "gilda"]
+default-groups = ["dev"]
 
 [tool.hatch.version]
 source = "uv-dynamic-versioning"
