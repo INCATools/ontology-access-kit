@@ -23,8 +23,8 @@ URI: [summary_statistics:was_generated_by](https://w3id.org/oaklib/summary_stati
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
 | [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
+| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
 | [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
