@@ -42,8 +42,6 @@ dependencies = [
     "tenacity>=8.2.3",
     "defusedxml>=0.7.1",
     "ruamel.yaml",
-    "regex", #TODO: regex is usually a python built-in but regex.sub will fail under weird circumstances unless this is imported.
-    "greenlet",
 ]
 
 [dependency-groups]
@@ -96,7 +94,6 @@ docs = [
 
 llm = [
 #    "llm", #This is a regular dependency.
-    "aiohttp",
     "html2text",
 ]
 seaborn = ["seaborn"]
