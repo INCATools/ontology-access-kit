@@ -2924,7 +2924,7 @@ requires-dist = [
     { name = "curies", specifier = ">=0.6.6" },
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "html2text", marker = "extra == 'llm'" },
-    { name = "kgcl-rdflib", specifier = "==0.5.0" },
+    { name = "kgcl-rdflib", specifier = ">=0.5.0,<1" },
     { name = "kgcl-schema", specifier = ">=0.6.9,<1" },
     { name = "linkml-renderer", specifier = ">=0.3.0" },
     { name = "linkml-runtime", specifier = ">=1.5.3" },

@@ -24,7 +24,7 @@ dependencies = [
     "semsql>=0.3.1",
     "kgcl-schema>=0.6.9,<1",
     "py-horned-owl>=1.4.1",
-    "kgcl-rdflib==0.5.0",
+    "kgcl-rdflib>=0.5.0,<1",
     "llm>=0.14,<1",
     "pystow>=0.7.28",
     "class-resolver>=0.4.2",
