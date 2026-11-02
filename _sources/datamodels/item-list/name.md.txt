@@ -18,8 +18,8 @@ URI: [itemList:name](https://w3id.org/linkml/item-list/name)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Thing](Thing.md) |  |  no  |
 | [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [Thing](Thing.md) |  |  no  |
 
 
 

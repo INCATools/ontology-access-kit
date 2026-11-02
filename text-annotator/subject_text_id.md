@@ -18,8 +18,8 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 | [HasSpan](HasSpan.md) |  |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

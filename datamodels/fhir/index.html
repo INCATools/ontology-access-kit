@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FHIR in LinkML &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="How-To Guides" href="../../howtos/index.html" />
+    <link rel="prev" title="Value Set Configuration" href="../value-set-configuration/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Datamodels</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../ontology-metadata/index.html">Ontology Metadata Ontology Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search/index.html">search datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../obograph/index.html">Obographs Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sssom/index.html">SSSOM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funowl/index.html">FunOwl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kgcl/index.html">KGCL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semsql/index.html">SemSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../similarity/index.html">Semantic Similarity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../summary-statistics/index.html">Summary Statistics Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../taxon-constraints/index.html">Taxon Constraints Reporting Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validation/index.html">Validation Results Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lexical-index/index.html">Lexical Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mapping-rules/index.html">Mapping Rules Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../text-annotator/index.html">Text Annotator Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cross-ontology-diff/index.html">Cross-Ontology Diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../association/index.html">OAK Association Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class-enrichment/index.html">Class Enrichment Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../item-list/index.html">Item List Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../value-set-configuration/index.html">Value Set Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FHIR in LinkML</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#types">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subsets">Subsets</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Datamodels</a></li>
+      <li class="breadcrumb-item active">FHIR in LinkML</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/fhir/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fhir-in-linkml">
+<h1>FHIR in LinkML<a class="headerlink" href="#fhir-in-linkml" title="Link to this heading"></a></h1>
+<p>Schema for working with FHIR objects (Partial).</p>
+<p>This is currently intentionally incomplete. The sole
+purpose of this rendering of FHIR is purely for the purposes
+of using OAK to convert native OAK data models into FHIR
+using Python code.</p>
+<p>URI: https://w3id.org/oak/fhir</p>
+<p>Name: fhir</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="CodeSystem.html"><span class="std std-doc">CodeSystem</span></a></p></td>
+<td><p>Declares the existence of and describes a packages system or packages system supplement</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="CodeSystemFilter.html"><span class="std std-doc">CodeSystemFilter</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="CodeSystemProperty.html"><span class="std std-doc">CodeSystemProperty</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Coding.html"><span class="std std-doc">Coding</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Concept.html"><span class="std std-doc">Concept</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ConceptDesignation.html"><span class="std std-doc">ConceptDesignation</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ConceptMap.html"><span class="std std-doc">ConceptMap</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ConceptMapGroup.html"><span class="std std-doc">ConceptMapGroup</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ConceptProperty.html"><span class="std std-doc">ConceptProperty</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Slot</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="code.html"><span class="std std-doc">code</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="concept.html"><span class="std std-doc">concept</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="contact.html"><span class="std std-doc">contact</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="std std-doc">date</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="definition.html"><span class="std std-doc">definition</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="description.html"><span class="std std-doc">description</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="designation.html"><span class="std std-doc">designation</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="display.html"><span class="std std-doc">display</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="element.html"><span class="std std-doc">element</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="experimental.html"><span class="std std-doc">experimental</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="filter.html"><span class="std std-doc">filter</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="group.html"><span class="std std-doc">group</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="identifier.html"><span class="std std-doc">identifier</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="language.html"><span class="std std-doc">language</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="name.html"><span class="std std-doc">name</span></a></p></td>
+<td><p>Name for this packages system (computer friendly)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="operator.html"><span class="std std-doc">operator</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="property.html"><span class="std std-doc">property</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="publisher.html"><span class="std std-doc">publisher</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="resourceType.html"><span class="std std-doc">resourceType</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sourceCanonical.html"><span class="std std-doc">sourceCanonical</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sourceUri.html"><span class="std std-doc">sourceUri</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sourceVersion.html"><span class="std std-doc">sourceVersion</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="status.html"><span class="std std-doc">status</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="system.html"><span class="std std-doc">system</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="target.html"><span class="std std-doc">target</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="targetCanonical.html"><span class="std std-doc">targetCanonical</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="targetUri.html"><span class="std std-doc">targetUri</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="targetVersion.html"><span class="std std-doc">targetVersion</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="title.html"><span class="std std-doc">title</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="uri.html"><span class="std std-doc">uri</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="url.html"><span class="std std-doc">url</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="use.html"><span class="std std-doc">use</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="userSelected.html"><span class="std std-doc">userSelected</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="value.html"><span class="std std-doc">value</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="valueBoolean.html"><span class="std std-doc">valueBoolean</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="valueCode.html"><span class="std std-doc">valueCode</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="valueCoding.html"><span class="std std-doc">valueCoding</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="valueDateTime.html"><span class="std std-doc">valueDateTime</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="valueDecimal.html"><span class="std std-doc">valueDecimal</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="valueInteger.html"><span class="std std-doc">valueInteger</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="valueString.html"><span class="std std-doc">valueString</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="version.html"><span class="std std-doc">version</span></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Enumeration</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="types">
+<h2>Types<a class="headerlink" href="#types" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>A binary (true or false) value</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Curie.html"><span class="std std-doc">Curie</span></a></p></td>
+<td><p>a compact URI</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Date.html"><span class="std std-doc">Date</span></a></p></td>
+<td><p>a date (year, month and day) in an idealized calendar</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="DateOrDatetime.html"><span class="std std-doc">DateOrDatetime</span></a></p></td>
+<td><p>Either a date or a datetime</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Datetime.html"><span class="std std-doc">Datetime</span></a></p></td>
+<td><p>The combination of a date and time</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Decimal.html"><span class="std std-doc">Decimal</span></a></p></td>
+<td><p>A real number with arbitrary precision that conforms to the xsd:decimal speci…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Double.html"><span class="std std-doc">Double</span></a></p></td>
+<td><p>A real number that conforms to the xsd:double specification</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>A real number that conforms to the xsd:float specification</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>An integer</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Jsonpath.html"><span class="std std-doc">Jsonpath</span></a></p></td>
+<td><p>A string encoding a JSON Path</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Jsonpointer.html"><span class="std std-doc">Jsonpointer</span></a></p></td>
+<td><p>A string encoding a JSON Pointer</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Ncname.html"><span class="std std-doc">Ncname</span></a></p></td>
+<td><p>Prefix part of CURIE</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Nodeidentifier.html"><span class="std std-doc">Nodeidentifier</span></a></p></td>
+<td><p>A URI, CURIE or BNODE that represents a node in a model</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Objectidentifier.html"><span class="std std-doc">Objectidentifier</span></a></p></td>
+<td><p>A URI or CURIE that represents an object in the model</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Sparqlpath.html"><span class="std std-doc">Sparqlpath</span></a></p></td>
+<td><p>A string encoding a SPARQL Property Path</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>A character string</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Time.html"><span class="std std-doc">Time</span></a></p></td>
+<td><p>A time object represents a (local) time of day, independent of any particular…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Uri.html"><span class="std std-doc">Uri</span></a></p></td>
+<td><p>a complete URI</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>a URI or a CURIE</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="subsets">
+<h2>Subsets<a class="headerlink" href="#subsets" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Subset</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../value-set-configuration/index.html" class="btn btn-neutral float-left" title="Value Set Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../howtos/index.html" class="btn btn-neutral float-right" title="How-To Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

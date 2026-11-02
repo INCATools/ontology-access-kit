@@ -23,8 +23,8 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |  no  |
 | [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+| [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |  no  |
 
 
 
