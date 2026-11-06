@@ -18,11 +18,11 @@ URI: [fhir:code](https://build.fhir.org/code)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CodeSystemProperty](CodeSystemProperty.md) |  |  no  |
-| [ConceptProperty](ConceptProperty.md) |  |  no  |
+| [Concept](Concept.md) |  |  no  |
 | [Coding](Coding.md) |  |  no  |
 | [CodeSystemFilter](CodeSystemFilter.md) |  |  no  |
-| [Concept](Concept.md) |  |  no  |
+| [ConceptProperty](ConceptProperty.md) |  |  no  |
+| [CodeSystemProperty](CodeSystemProperty.md) |  |  no  |
 
 
 

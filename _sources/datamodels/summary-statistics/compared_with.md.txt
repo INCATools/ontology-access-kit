@@ -23,9 +23,9 @@ URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statisti
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 | [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
 | [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 
 

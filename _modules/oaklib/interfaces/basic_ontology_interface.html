@@ -95,9 +95,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">curies</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">deprecation</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">prefixmaps.io.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_context</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sssom.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_sssom_table</span><span class="p">,</span> <span class="n">to_mapping_set_document</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">oaklib.datamodels.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DEFAULT_PREFIX_MAP</span><span class="p">,</span>
@@ -285,6 +285,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by prefix_map&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by prefix_map</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()</span></div>
 
 
@@ -570,6 +574,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_curies">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by ontologies()&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ontology_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by ontologies()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ontologies</span><span class="p">()</span></div>
 
 
@@ -577,6 +585,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by ontology_curies&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">all_ontology_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by ontology_curies</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ontologies</span><span class="p">()</span></div>
 
 
@@ -663,6 +675,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by obsoletes()&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">all_obsolete_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by obsoletes()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">()</span></div>
 
 
@@ -786,6 +802,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by entities&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">all_entity_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by entities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
@@ -1096,6 +1116,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_curies">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by subsets()&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">subset_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SUBSET_CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by subsets()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets</span><span class="p">()</span></div>
 
 
@@ -1103,6 +1127,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by subsets()&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">all_subset_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SUBSET_CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.36</span>
+<span class="sd">           Replaced by subsets()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets</span><span class="p">()</span></div>
 
 
@@ -1176,6 +1204,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_subset">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by subset_members(subset)&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">curies_by_subset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">SUBSET_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by subset_members(subset)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subset_members</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span></div>
 
 
@@ -1221,8 +1253,12 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.get_label_by_curie">
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use label(curie))&quot;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use label(curie)&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_label_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Use label(curie)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span></div>
 
 
@@ -1285,6 +1321,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use labels(...)&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_labels_for_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Use labels(...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
@@ -1321,6 +1361,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use curies_by_label(label)&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_curies_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Use curies_by_label(label)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">curies_by_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
 
 
@@ -1532,6 +1576,9 @@
 <span class="sd">        Yields all known relationships.</span>
 
 <span class="sd">        :return:</span>
+
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Use relationships()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">fillers</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1597,6 +1644,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use definition()&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_definition_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Use definition()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span></div>
 
 
@@ -1653,6 +1704,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use entity_aliases(curie)&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">aliases_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Use entity_aliases(curie)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span></div>
 
 
@@ -1685,6 +1740,10 @@
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by alias_map(curie)&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">alias_map_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ALIAS_MAP</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 0.1.33</span>
+<span class="sd">           Replaced by alias_map(curie)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_alias_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span></div>
 
 

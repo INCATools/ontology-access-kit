@@ -18,8 +18,8 @@ URI: [summary_statistics:facet](https://w3id.org/oaklib/summary_statistics.facet
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [FacetedCount](FacetedCount.md) | Counts broken down by a facet |  no  |
 | [ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff |  no  |
+| [FacetedCount](FacetedCount.md) | Counts broken down by a facet |  no  |
 
 
 

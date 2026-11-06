@@ -18,8 +18,8 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [HasSpan](HasSpan.md) |  |  no  |
 | [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [HasSpan](HasSpan.md) |  |  no  |
 
 
 

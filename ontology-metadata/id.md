@@ -28,18 +28,18 @@ URI: [omoschema:id](https://w3id.org/oak/ontology-metadata/id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [Property](Property.md) |  |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [Agent](Agent.md) |  |  yes  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  yes  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Ontology](Ontology.md) | An OWL ontology |  no  |
 | [Image](Image.md) |  |  no  |
 | [NamedObject](NamedObject.md) | Anything with an IRI |  no  |
+| [Property](Property.md) |  |  no  |
+| [Agent](Agent.md) |  |  yes  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  yes  |
 | [Class](Class.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Ontology](Ontology.md) | An OWL ontology |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 

@@ -23,9 +23,9 @@ URI: [owl:cardinality](http://www.w3.org/2002/07/owl#cardinality)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [Restriction](Restriction.md) |  |  no  |
 | [Class](Class.md) |  |  no  |
 | [ClassExpression](ClassExpression.md) |  |  no  |
-| [Restriction](Restriction.md) |  |  no  |
 
 
 

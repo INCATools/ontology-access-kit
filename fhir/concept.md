@@ -18,8 +18,8 @@ URI: [fhir:concept](https://build.fhir.org/concept)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CodeSystem](CodeSystem.md) | Declares the existence of and describes a packages system or packages system ... |  no  |
 | [Concept](Concept.md) |  |  no  |
+| [CodeSystem](CodeSystem.md) | Declares the existence of and describes a packages system or packages system ... |  no  |
 
 
 

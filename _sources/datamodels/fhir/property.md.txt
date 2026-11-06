@@ -18,8 +18,8 @@ URI: [fhir:property](https://build.fhir.org/property)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CodeSystem](CodeSystem.md) | Declares the existence of and describes a packages system or packages system ... |  no  |
 | [Concept](Concept.md) |  |  no  |
+| [CodeSystem](CodeSystem.md) | Declares the existence of and describes a packages system or packages system ... |  no  |
 
 
 

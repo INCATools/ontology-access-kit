@@ -18,8 +18,8 @@ URI: [fhir:display](https://build.fhir.org/display)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Coding](Coding.md) |  |  no  |
 | [Concept](Concept.md) |  |  no  |
+| [Coding](Coding.md) |  |  no  |
 
 
 

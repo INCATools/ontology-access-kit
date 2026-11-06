@@ -18,10 +18,10 @@ URI: [fhir:description](https://build.fhir.org/description)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [CodeSystemProperty](CodeSystemProperty.md) |  |  no  |
+| [CodeSystem](CodeSystem.md) | Declares the existence of and describes a packages system or packages system ... |  no  |
 | [CodeSystemFilter](CodeSystemFilter.md) |  |  no  |
 | [ConceptMap](ConceptMap.md) |  |  no  |
-| [CodeSystem](CodeSystem.md) | Declares the existence of and describes a packages system or packages system ... |  no  |
-| [CodeSystemProperty](CodeSystemProperty.md) |  |  no  |
 
 
 
