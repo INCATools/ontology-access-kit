@@ -8,8 +8,8 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from appdirs import user_config_dir
 from click import ParamType
+from platformdirs import user_config_dir
 from pystow.utils import base_from_gzip_name, name_from_url
 
 from oaklib.datamodels.vocabulary import APP_NAME

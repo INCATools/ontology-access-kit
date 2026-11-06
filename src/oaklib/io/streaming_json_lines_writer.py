@@ -1,7 +1,7 @@
+import json
 from dataclasses import dataclass
 from typing import Type, Union
 
-import jsonlines
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
@@ -15,12 +15,10 @@ class StreamingJsonLinesWriter(StreamingWriter):
     """
 
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
-        with jsonlines.Writer(self.file) as writer:
-            if isinstance(obj, dict):
-                writer.write(obj)
-            else:
-                writer.write(json_dumper.dumps(obj))
+        if isinstance(obj, dict):
+            self.emit_dict(obj)
+        else:
+            self.emit_dict(json_dumper.to_dict(obj))
 
     def emit_dict(self, obj: dict, object_type: Type = None):
-        with jsonlines.Writer(self.file) as writer:
-            writer.write(obj)
+        self.file.write(json.dumps(obj, ensure_ascii=False) + "\n")

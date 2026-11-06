@@ -1,14 +1,14 @@
 """
 Functions for managing and accessing API keys
 
-See `<https://github.com/ActiveState/appdirs>`_
+See `<https://github.com/tox-dev/platformdirs>`_
 """
 
 import logging
 import os
 from pathlib import Path
 
-from appdirs import user_config_dir
+from platformdirs import user_config_dir
 
 from oaklib.datamodels.vocabulary import APP_NAME
 

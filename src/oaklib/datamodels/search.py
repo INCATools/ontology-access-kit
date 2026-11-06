@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from typing import List
 
-from deprecated.classic import deprecated
-
 from oaklib.datamodels.search_datamodel import (
     SearchBaseConfiguration,
     SearchProperty,
