@@ -19,6 +19,7 @@ from oaklib.implementations.llm_implementation import LLMImplementation
 from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
 from oaklib.implementations.ncbi.ncbi_gene_implementation import NCBIGeneImplementation
 from oaklib.implementations.ncbi.pubmed_implementation import PubMedImplementation
+from oaklib.implementations.ohi.ohi_implementation import OhiImplementation
 from oaklib.implementations.ols import (
     BaseOlsImplementation,
     OlsImplementation,
@@ -81,6 +82,7 @@ __all__ = [
     "CXImplementation",
     "EcoPortalImplementation",
     "MatPortalImplementation",
+    "OhiImplementation",
     "OlsImplementation",
     "TIBOlsImplementation",
     "MonarchImplementation",

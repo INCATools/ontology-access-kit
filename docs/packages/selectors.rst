@@ -56,6 +56,8 @@ Examples of explicit schemes:
 - :code:`sqlite:tests/input/go-nucleus.db` - local SQLite file
 - :code:`sqlite:tests/input/go-nucleus.owl` - convert OWL to SQLite and query using sql_implementation
 - :code:`sqlite:obo:go` - pre-made SQLite from :term:`Semantic SQL` registry
+- :code:`ohi:obo/pato` - latest PATO release from the `ohi.dev <https://ohi.dev>`_ catalog
+- :code:`ohi:obo/pato@2020-02-06` - a specific PATO release from the ohi.dev catalog
 - :code:`bioportal:` all of bioportal
 - :code:`bioportal:pato` pato in bioportal
 - :code:`ontobee:` all of ontobee
@@ -120,6 +122,15 @@ bioportal
 Implementation: :ref:`bioportal_implementation`
 
 Currently the slug is ignored
+
+ohi
+^^^^
+
+Implementation: :ref:`ohi_implementation`
+
+The slug is a reference to a release in the `ohi.dev <https://ohi.dev>`_ catalog, either
+``NAMESPACE/NAME`` for the latest release or ``NAMESPACE/NAME@VERSION`` for a specific one,
+e.g. ``obo/pato@2020-02-06``. Needs ``pip install oaklib[ohi]``.
 
 owl and funowl
 ^^^^^^^^^^^^^^
