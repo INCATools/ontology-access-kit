@@ -69,7 +69,7 @@ dev = [
     "pip>=24.0,<25",
     # Install these extras with a plain `uv sync`. Replace with `default-extras` under
     # [tool.uv] once uv supports it: https://github.com/astral-sh/uv/issues/8607
-    "oaklib[gilda,semsimian]",
+    "oaklib[gilda,semsimian,ohi]",
 ]
 
 
@@ -101,6 +101,7 @@ gilda = [
     "nltk",
 ]
 semsimian = ["semsimian>=0.2.18"]
+ohi = ["ohi-sdk>=0.18.7"]
 seaborn = [
     "seaborn",
     "matplotlib>=3.4",

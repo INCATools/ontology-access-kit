@@ -21,6 +21,7 @@ Implementations (also known as *adapters*) implement one or more :ref:`interface
    ontobee
    ols
    gilda
+   ohi
    aggregator
    pantherdb
    robot-template
