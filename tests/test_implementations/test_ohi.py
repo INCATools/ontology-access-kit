@@ -15,7 +15,7 @@ from oaklib.selector import get_adapter, get_resource_from_shorthand
 from tests import INPUT_DIR, NUCLEUS
 
 try:
-    from ohi import CatalogException
+    from ohi import CatalogError, CatalogException
 
     HAS_OHI = True
 except ImportError:
@@ -35,6 +35,13 @@ def fake_publication(formats=("owl-turtle",), sha256=None):
         for f in formats
     ]
     return SimpleNamespace(namespace="obo", name="go-nucleus", version="1", artifacts=artifacts)
+
+
+def connection_error():
+    """Make the exception the ohi client raises when ohi.dev cannot be reached."""
+    return CatalogException(
+        CatalogError(code="CONNECTION_ERROR", operation="INSPECT", message="offline")
+    )
 
 
 @unittest.skipUnless(HAS_OHI, "requires ohi-sdk")
@@ -84,15 +91,14 @@ class TestOhiImplementation(unittest.TestCase):
         self.client.inspect.return_value = fake_publication(sha256="0" * 64)
         with self.assertRaises(ValueError):
             get_adapter("ohi:obo/go-nucleus@1")
-        self.assertEqual([], list(self.cache_dir.rglob("*.ttl")))
+        self.assertEqual([], [p for p in self.cache_dir.rglob("*") if p.is_file()])
 
-    def test_rdfs_turtle_fallback(self):
+    def test_no_temporary_files_left(self):
+        get_adapter("ohi:obo/go-nucleus@1")
+        self.assertEqual([], list(self.cache_dir.rglob("*.partial")))
+
+    def test_no_owl_turtle_file(self):
         self.client.inspect.return_value = fake_publication(formats=("owl-rdfxml", "rdfs-turtle"))
-        adapter = get_adapter("ohi:obo/go-nucleus@1")
-        self.assertEqual("nucleus", adapter.label(NUCLEUS))
-
-    def test_no_turtle_file(self):
-        self.client.inspect.return_value = fake_publication(formats=("owl-rdfxml",))
         with self.assertRaises(ValueError):
             get_adapter("ohi:obo/go-nucleus@1")
         self.client.get.assert_not_called()
@@ -101,6 +107,52 @@ class TestOhiImplementation(unittest.TestCase):
         with self.assertRaises(ValueError):
             get_adapter("ohi:")
         self.client.inspect.assert_not_called()
+
+    def test_resource_can_be_reused(self):
+        resource = get_resource_from_shorthand("ohi:obo/go-nucleus@1")
+        OhiImplementation(resource)
+        adapter = OhiImplementation(resource)
+        self.assertEqual("obo/go-nucleus@1", resource.slug)
+        self.assertEqual("nucleus", adapter.label(NUCLEUS))
+
+    def test_read_only(self):
+        adapter = get_adapter("ohi:obo/go-nucleus@1")
+        cached = self.cache_dir / "ohi" / "obo" / "go-nucleus" / "1" / "go-nucleus.owl.ttl"
+        before = cached.read_bytes()
+        with self.assertRaises(NotImplementedError):
+            adapter.save()
+        # This is what apply --overwrite does.
+        with self.assertRaises(NotImplementedError):
+            adapter.dump(adapter.resource.local_path)
+        self.assertEqual(before, cached.read_bytes())
+
+    def test_dump_to_new_file(self):
+        adapter = get_adapter("ohi:obo/go-nucleus@1")
+        out = self.cache_dir / "copy.ttl"
+        adapter.dump(str(out))
+        self.assertTrue(out.exists())
+
+    def test_exact_release_loads_offline(self):
+        get_adapter("ohi:obo/go-nucleus@1-no-revision")
+        self.client.inspect.side_effect = connection_error()
+        adapter = get_adapter("ohi:obo/go-nucleus@1-no-revision")
+        self.assertEqual("nucleus", adapter.label(NUCLEUS))
+        self.client.inspect.assert_called_once_with("obo/go-nucleus@1-no-revision")
+
+    def test_changed_exact_release_is_not_used_offline(self):
+        get_adapter("ohi:obo/go-nucleus@1-no-revision")
+        cached = self.cache_dir / "ohi" / "obo" / "go-nucleus" / "1" / "go-nucleus.owl.ttl"
+        cached.write_text("not the file the catalog lists")
+        self.client.inspect.side_effect = connection_error()
+        with self.assertRaises(CatalogException):
+            get_adapter("ohi:obo/go-nucleus@1-no-revision")
+
+    def test_version_with_possible_revisions_asks_catalog(self):
+        # obo/go-nucleus@1 means the latest revision of version 1, which can change.
+        get_adapter("ohi:obo/go-nucleus@1")
+        self.client.inspect.side_effect = connection_error()
+        with self.assertRaises(CatalogException):
+            get_adapter("ohi:obo/go-nucleus@1")
 
 
 def skip_on_remote_error(fn):
