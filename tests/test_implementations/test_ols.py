@@ -202,6 +202,34 @@ class TestOlsImplementation(unittest.TestCase):
         self.assertIsNone(oi.label("GO:9999999"))
         self.mock_client.get_term.assert_called_once()
 
+    def test_unexpanded_curie_returns_none_without_querying_ols(self):
+        """Unexpandable CURIEs must not hit OLS with iri=None (issue #930)."""
+        mock_client = MagicMock()
+        mock_client.get_term.return_value = {
+            "_embedded": {
+                "terms": [
+                    {
+                        "iri": "http://id.nlm.nih.gov/mesh/C000002",
+                        "label": "bevonium",
+                        "description": ["first term in ontology"],
+                    }
+                ]
+            }
+        }
+        with patch.object(OlsImplementation, "ols_client_class", return_value=mock_client):
+            oi = OlsImplementation(OntologyResource("mesh"))
+
+        self.assertIsNone(oi.curie_to_uri("MESH:D003920"))
+        self.assertIsNone(oi.label("MESH:D003920"))
+        self.assertIsNone(oi.definition("MESH:D003920"))
+        self.assertEqual(list(oi.ancestors("MESH:D003920", reflexive=False)), [])
+        self.assertEqual(list(oi.ancestors("MESH:D003920", reflexive=True)), ["MESH:D003920"])
+        self.assertEqual(list(oi.descendants("MESH:D003920", reflexive=False)), [])
+        self.assertEqual(list(oi.relationships(subjects=["MESH:D003920"])), [])
+        self.assertEqual(list(oi.nearest_entities("MESH:D003920", model="test-model")), [])
+        mock_client.get_term.assert_not_called()
+        mock_client.get_json.assert_not_called()
+
     def test_label_missing_iri_http_error(self):
         """label() should cache a 404 for a non-term IRI as a missing label."""
         response = requests.Response()
