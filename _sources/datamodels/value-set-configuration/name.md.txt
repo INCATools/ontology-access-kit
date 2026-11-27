@@ -18,8 +18,8 @@ URI: [vsconf:name](https://w3id.org/linkml/value-set-configuration/name)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Resolver](Resolver.md) | A mechanism for resolving using an ontology |  no  |
 | [NamedResolver](NamedResolver.md) | A resolver that is associated with a named resource or prefix |  no  |
+| [Resolver](Resolver.md) | A mechanism for resolving using an ontology |  no  |
 
 
 

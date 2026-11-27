@@ -23,8 +23,8 @@ URI: [dcterms:source](http://purl.org/dc/terms/source)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 | [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 

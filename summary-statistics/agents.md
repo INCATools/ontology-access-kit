@@ -23,9 +23,9 @@ URI: [summary_statistics:agents](https://w3id.org/oaklib/summary_statistics.agen
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 | [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
 | [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
-| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 
 
