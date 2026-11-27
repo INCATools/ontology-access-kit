@@ -150,6 +150,8 @@ class BaseOlsImplementation(
 
         ontology = self.focus_ontology
         iri = self.curie_to_uri(curie)
+        if not iri:
+            return None
         try:
             term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
         except requests.HTTPError as error:
@@ -191,6 +193,8 @@ class BaseOlsImplementation(
 
         ontology = self.focus_ontology
         iri = self.curie_to_uri(curie)
+        if not iri:
+            return None
         try:
             term = _first_term(self.client.get_term(ontology=ontology, iri=iri))
         except requests.HTTPError as error:
@@ -267,6 +271,8 @@ class BaseOlsImplementation(
         ontology = self.focus_ontology
         for curie in start_curies:
             iri = self.curie_to_uri(curie)
+            if not iri:
+                continue
             path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/{path_key}"
             for record in self._iter_paged(path):
                 obo_id = record.get("obo_id")
@@ -308,6 +314,8 @@ class BaseOlsImplementation(
         ontology = self.focus_ontology
         for curie in start_curies:
             iri = self.curie_to_uri(curie)
+            if not iri:
+                continue
             path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/{path_key}"
             for record in self._iter_paged(path):
                 obo_id = record.get("obo_id")
@@ -411,6 +419,8 @@ class BaseOlsImplementation(
         """Return direct graph relationships from the OLS term graph endpoint."""
         ontology = self.focus_ontology
         iri = self.curie_to_uri(focus_curie)
+        if not iri:
+            return
         path = f"ontologies/{ontology}/terms/{_double_quote_iri(iri)}/graph"
         response = self.client.get_json(path)
         for edge in (response or {}).get("edges") or []:
@@ -804,6 +814,8 @@ class BaseOlsImplementation(
             return
         model = self._resolve_model(model)
         iri = self.curie_to_uri(curie)
+        if not iri:
+            return
         response = self._embedding_request(
             "GET",
             f"classes/{_double_quote_iri(iri)}/llm_similar",
